@@ -1,0 +1,14 @@
+# builds 
+dist
+build
+
+# env
+.env
+.env.local
+.env.production
+
+# node modules
+node_modules
+
+# config
+config.ts
