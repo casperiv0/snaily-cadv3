@@ -3,20 +3,10 @@ import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { v4 as uuidv4 } from "uuid";
 import { useToken } from "../hooks";
+import { Ranks, Whitelist } from "../lib/constants";
 import IRequest from "../interfaces/IRequest";
 import ICad from "../interfaces/ICad";
 import IUser from "../interfaces/IUser";
-
-const enum Ranks {
-  user = "user",
-  owner = "owner",
-}
-
-const enum Whitelist {
-  accepted = "accepted",
-  pending = "pending",
-  declined = "declined",
-}
 
 const saltRounds = 15;
 const router: Router = Router();

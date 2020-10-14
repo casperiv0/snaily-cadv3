@@ -10,12 +10,11 @@ Work in progress
   - [ ] delete account
   - [ ] user info
 - [ ] admin routes
-- [ ] bleeter routes
+- [x] bleeter routes
   - [x] get all bleets
   - [x] add a bleet
-  - [ ] remove a bleet
-  - [ ] update a bleet
-  - [ ] get an individual bleet
+  - [x] update a bleet
+  - [x] get an individual bleet
   - [ ] delete a bleet
 - [ ] citizen routes
 - [ ] dispatch routes
