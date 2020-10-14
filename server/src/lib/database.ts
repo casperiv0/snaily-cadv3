@@ -18,7 +18,7 @@ export async function connect(): Promise<mysql.Connection> {
 export async function processQuery(
   query: string,
   data?: any
-): Promise<Array<any>> {
+): Promise<any[] | any> {
   const conn = await connect();
   const result = await conn.query(query, data);
   conn.end();
