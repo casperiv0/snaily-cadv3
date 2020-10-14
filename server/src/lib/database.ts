@@ -15,11 +15,14 @@ export async function connect(): Promise<mysql.Connection> {
   return await mysql.createConnection(options);
 }
 
-export async function processQuery(query: string, data?: any): Promise<any> {
+export async function processQuery(
+  query: string,
+  data?: any
+): Promise<Array<any>> {
   const conn = await connect();
-  const [rows] = await conn.query(query, data);
+  const result = await conn.query(query, data);
   conn.end();
-  return rows;
+  return result;
 }
 
 setInterval(() => {

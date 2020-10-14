@@ -1,9 +1,9 @@
 import { NextFunction, Response } from "express";
+import { processQuery } from "../lib/database";
 import jwt from "jsonwebtoken";
 import config from "../../config";
 import IRequest from "../interfaces/IRequest";
 import IUser from "../interfaces/IUser";
-import { processQuery } from "../lib/database";
 
 async function useAuth(
   req: IRequest,
@@ -20,13 +20,20 @@ async function useAuth(
 
   try {
     const vToken = jwt.verify(token, secret) as IUser;
-    const user = await processQuery(
-      "SELECT * FROM `users` WHERE `username` = ?",
-      [vToken.id]
-    );
+    const user = await processQuery("SELECT * FROM `users` WHERE `id` = ?", [
+      vToken.id,
+    ]);
 
-    req.user = user;
-    
+    if (!user[0]) {
+      res.json({
+        server_error: "user does not exist",
+        status: "error",
+      });
+      return;
+    }
+
+    req.user = user[0];
+
     next();
   } catch (e) {
     res.json({ server_error: "invalid token", status: "error" }).status(401);
