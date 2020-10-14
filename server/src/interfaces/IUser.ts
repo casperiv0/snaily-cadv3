@@ -1,6 +1,7 @@
 interface IUser {
   id: string;
   username: string;
+  password: string;
   rank: "owner" | "administrator" | "user";
   leo: boolean;
   ems_fd: boolean;

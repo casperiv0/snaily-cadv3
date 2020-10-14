@@ -4,7 +4,9 @@
 
 - [ ] auth routes
   - [x] register
-  - [ ] login
+  - [x] login
+  - [ ] delete account
+  - [ ] user info
 - [ ] admin routes
 - [ ] bleeter routes
 - [ ] citizen routes

@@ -1,10 +1,11 @@
-import { hashSync } from "bcrypt";
+import { compareSync, hashSync } from "bcrypt";
 import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { v4 as uuidv4 } from "uuid";
 import { useToken } from "../hooks";
 import IRequest from "../interfaces/IRequest";
 import ICad from "../interfaces/ICad";
+import IUser from "../interfaces/IUser";
 
 const enum Ranks {
   user = "user",
@@ -102,6 +103,53 @@ router.post("/register", async (req: IRequest, res: Response) => {
 
       return res.json({ status: "success" });
     }
+  } else {
+    return res.json({ error: "Please fill in all fields", status: "error" });
+  }
+});
+
+router.post("/login", async (req: IRequest, res: Response) => {
+  const { username, password } = req.body;
+
+  if (username && password) {
+    const user: IUser[] = await processQuery(
+      "SELECT * FROM `users` WHERE `username` = ?",
+      [username]
+    );
+
+    if (!user[0]) {
+      return res.json({ error: "User was not found", status: "error" });
+    }
+
+    const isCorrect = compareSync(password, user[0].password);
+
+    if (!isCorrect) {
+      return res.json({
+        error: "Password is incorrect",
+        status: "error",
+      });
+    }
+
+    if (+user[0].banned === 1) {
+      return res.json({
+        status: "error",
+        error: `This account was banned, reason: ${user[0].ban_reason}`,
+      });
+    }
+
+    if (user[0].whitelist_status === Whitelist.pending) {
+      return res.json({
+        error: "This account is still pending access",
+        status: "error",
+      });
+    }
+
+    const token = useToken({ id: user[0].id, username: user[0].username });
+    res.cookie("__token", token, { expires: new Date(Date.now() + 3600000) });
+
+    return res.json({ status: "success" });
+  } else {
+    return res.json({ error: "Please fill in all fields", status: "error" });
   }
 });
 
