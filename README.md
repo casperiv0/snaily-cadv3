@@ -1,5 +1,7 @@
 # SnailyCADv3
 
+Work in progress
+
 ## todos
 
 - [ ] auth routes
@@ -14,7 +16,7 @@
 - [ ] ems fd routes
 - [ ] global routes
 - [ ] officers routes
-- [ ] trucklog routs
+- [x] truck-logs routs
 
 ## License
 
