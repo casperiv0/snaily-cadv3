@@ -15,7 +15,7 @@ Work in progress
   - [x] add a bleet
   - [x] update a bleet
   - [x] get an individual bleet
-  - [ ] delete a bleet
+  - [x] delete a bleet
 - [ ] citizen routes
 - [ ] dispatch routes
 - [ ] ems fd routes

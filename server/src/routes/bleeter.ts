@@ -1,7 +1,7 @@
 import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import IRequest from "../interfaces/IRequest";
-import { useAuth } from "../hooks";
+import { useAuth, useMarkdown } from "../hooks";
 import { RanksArr } from "../lib/constants";
 
 const router = Router();
@@ -30,11 +30,12 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const fileName = file?.name;
   const uploadedAt = Date.now();
   const uploadedBy = req.user?.username;
+  const markdown = useMarkdown(body);
 
   if (title && body) {
     const bleet = await processQuery(
-      "INSERT INTO `bleets` (`title`, `description`, `uploaded_by`, `uploaded_at`, `file_dir`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [title, body, uploadedBy, uploadedAt, fileName || "", false, 0]
+      "INSERT INTO `bleets` (`title`, `body`, `markdown`, `uploaded_by`, `uploaded_at`, `file_dir`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [title, body, markdown, uploadedBy, uploadedAt, fileName || "", false, 0]
     );
 
     if (file) {

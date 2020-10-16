@@ -26,5 +26,8 @@ export async function processQuery(
 }
 
 setInterval(() => {
-  processQuery("SELECT 1").catch((e) => Logger.error("DB_ERROR", e));
+  processQuery("SELECT 1").catch((e) => {
+    Logger.error("DB_ERROR", e);
+    process.exit(1);
+  });
 });

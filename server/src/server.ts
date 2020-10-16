@@ -4,11 +4,14 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import cors from "cors";
 import helmet from "helmet";
+import socketIO from "socket.io";
 import Logger from "./lib/Logger";
 import api from "./api";
 
 const app: Application = express();
 const port = config.port;
+const server = app.listen(port, () => Logger.listening(port));
+const io = socketIO(server);
 
 app.use(json());
 app.use(fileUpload());
@@ -17,4 +20,4 @@ app.use(cookieParser());
 app.use(helmet());
 app.use("/api/v1", api);
 
-app.listen(port, () => Logger.listening(port));
+export { io };

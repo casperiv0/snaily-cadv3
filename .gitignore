@@ -11,4 +11,4 @@ build
 node_modules
 
 # config
-config.ts
+server/config.ts
