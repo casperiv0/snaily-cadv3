@@ -10,7 +10,8 @@ import Navbar from "./components/navbar";
 
 import store from "./lib/store";
 
-const BleetPage = React.lazy(() => import("./pages/bleeter"));
+const BleeterPage = React.lazy(() => import("./pages/bleeter"));
+const BleetPage = React.lazy(() => import("./pages/bleeter/bleet"));
 const Login = React.lazy(() => import("./pages/auth/login"));
 
 ReactDOM.render(
@@ -22,7 +23,8 @@ ReactDOM.render(
           <Switch>
             <Route path="/" exact render={() => <h1>Hello world</h1>} />
             <Route path="/login" exact component={Login} />
-            <AuthRoute path="/bleeter" Component={BleetPage} />
+            <AuthRoute path="/bleeter" Component={BleeterPage} />
+            <AuthRoute path="/bleet/:id" Component={BleetPage} />
           </Switch>
         </React.Suspense>
       </Router>

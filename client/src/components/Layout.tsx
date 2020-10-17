@@ -2,11 +2,21 @@ import * as React from "react";
 
 interface Props {
   fluid?: boolean;
+  classes?: string;
 }
 
-const Layout: React.FC<Props> = ({ children, fluid }) => {
+const Layout: React.FC<Props> = ({ children, fluid, classes }) => {
   return (
-    <div className={fluid ? "container-fluids" : "container"}>{children}</div>
+    <div
+      style={{ width: "100%" }}
+      className={
+        fluid
+          ? `container-fluids ${classes ? classes : ""}`
+          : `container ${classes ? classes : ""}`
+      }
+    >
+      {children}
+    </div>
   );
 };
 

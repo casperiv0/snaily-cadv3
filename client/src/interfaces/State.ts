@@ -10,7 +10,9 @@ interface State {
   };
   bleets: {
     bleets: Bleet[];
+    bleet: Bleet;
     loading: boolean;
+    error: string;
   };
 }
 

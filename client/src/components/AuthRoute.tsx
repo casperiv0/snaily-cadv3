@@ -4,7 +4,7 @@ import State from "../interfaces/State";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
 
 interface Props {
-  Component: React.FC<RouteComponentProps>;
+  Component: any;
   isAuth: boolean;
   loading: boolean;
   path: string;

@@ -14,7 +14,7 @@ async function useAuth(
   const secret = config.jwtSecret;
 
   if (!token) {
-    res.json({ server_error: "Invalid Token", status: "error" }).status(401);
+    res.json({ server_error: "invalid token", status: "error" }).status(401);
     return;
   }
 

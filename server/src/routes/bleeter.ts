@@ -21,7 +21,7 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
     [id]
   );
 
-  return res.json({ status: "success", bleet });
+  return res.json({ status: "success", bleet: bleet[0] });
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
@@ -30,11 +30,11 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const fileName = file?.name;
   const uploadedAt = Date.now();
   const uploadedBy = req.user?.username;
-  const markdown = useMarkdown(body);
 
   if (title && body) {
+    const markdown = useMarkdown(body);
     const bleet = await processQuery(
-      "INSERT INTO `bleets` (`title`, `body`, `markdown`, `uploaded_by`, `uploaded_at`, `file_dir`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO `bleets` (`title`, `body`, `markdown`, `uploaded_by`, `uploaded_at`, `file_dir`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       [title, body, markdown, uploadedBy, uploadedAt, fileName || "", false, 0]
     );
 
@@ -75,18 +75,19 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { title, body } = req.body;
   const file = req.files?.image;
   const fileName = file?.name || "";
+  const markdown = useMarkdown(body);
 
   let query = "";
   let data = [];
 
   if (file) {
     query =
-      "UPDATE `bleets` SET `title` = ?, `description` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
-    data = [title, body, fileName, id];
+      "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
+    data = [title, body, markdown, fileName, id];
   } else {
     query =
-      "UPDATE `bleets` SET `title` = ?, `description` = ? WHERE `bleets`.`id` = ?";
-    data = [title, body, id];
+      "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ? WHERE `bleets`.`id` = ?";
+    data = [title, body, markdown, id];
   }
 
   await processQuery(query, data);
