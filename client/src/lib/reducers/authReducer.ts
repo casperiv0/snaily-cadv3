@@ -1,8 +1,8 @@
-import { AUTHENTICATE, AUTH_ERROR, SET_LOADING } from "../types";
+import { AUTHENTICATE, AUTH_ERROR, SET_LOADING, LOGOUT } from "../types";
 
 const initState = {
   user: null,
-  loading: false,
+  loading: true,
   isAuth: false,
   error: null,
 };
@@ -15,11 +15,14 @@ type Actions =
     }
   | {
       type: typeof AUTH_ERROR;
-      error: string;
+      error: string | null;
     }
   | {
       type: typeof SET_LOADING;
       loading: boolean;
+    }
+  | {
+      type: typeof LOGOUT;
     };
 
 export default function (state = initState, action: Actions) {
@@ -40,7 +43,16 @@ export default function (state = initState, action: Actions) {
       };
     case "SET_LOADING":
       return {
+        ...state,
         loading: action.loading,
+      };
+    case "LOGOUT":
+      return {
+        ...state,
+        user: null,
+        error: null,
+        loading: false,
+        isAuth: false,
       };
     default:
       return {

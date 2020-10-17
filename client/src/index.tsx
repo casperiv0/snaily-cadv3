@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import AuthRoute from "./components/AuthRoute";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Loader from "./components/loader";
+import Navbar from "./components/navbar";
 
 import store from "./lib/store";
 
@@ -15,6 +16,7 @@ const Login = React.lazy(() => import("./pages/auth/login"));
 ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
+      <Navbar />
       <Router>
         <React.Suspense fallback={<Loader fullScreen />}>
           <Switch>

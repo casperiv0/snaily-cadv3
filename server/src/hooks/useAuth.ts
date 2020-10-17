@@ -20,9 +20,10 @@ async function useAuth(
 
   try {
     const vToken = jwt.verify(token, secret) as IUser;
-    const user = await processQuery("SELECT * FROM `users` WHERE `id` = ?", [
-      vToken.id,
-    ]);
+    const user = await processQuery(
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `dispatch_status`  FROM `users` WHERE `id` = ?",
+      [vToken.id]
+    );
 
     if (!user[0]) {
       res.json({

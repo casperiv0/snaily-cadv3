@@ -2,7 +2,7 @@ import { compareSync, hashSync } from "bcrypt";
 import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { v4 as uuidv4 } from "uuid";
-import { useToken } from "../hooks";
+import { useAuth, useToken } from "../hooks";
 import { Ranks, Whitelist } from "../lib/constants";
 import IRequest from "../interfaces/IRequest";
 import ICad from "../interfaces/ICad";
@@ -63,7 +63,10 @@ router.post("/register", async (req: IRequest, res: Response) => {
 
       const token = useToken({ id, username });
 
-      res.cookie("__token", token, { expires: new Date(Date.now() + 3600000) });
+      res.cookie("__token", token, {
+        expires: new Date(Date.now() + 3600000),
+        httpOnly: true,
+      });
 
       return res.json({ status: "success" });
     } else {
@@ -89,7 +92,10 @@ router.post("/register", async (req: IRequest, res: Response) => {
 
       const token = useToken({ id, username });
 
-      res.cookie("__token", token, { expires: new Date(Date.now() + 3600000) });
+      res.cookie("__token", token, {
+        expires: new Date(Date.now() + 3600000),
+        httpOnly: true,
+      });
 
       return res.json({ status: "success" });
     }
@@ -141,6 +147,18 @@ router.post("/login", async (req: IRequest, res: Response) => {
   } else {
     return res.json({ error: "Please fill in all fields", status: "error" });
   }
+});
+
+router.post("/user", useAuth, async (req: IRequest, res: Response) => {
+  const user = req.user;
+
+  return res.json({ user, status: "success" });
+});
+
+router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
+  res.clearCookie("__token", { httpOnly: true });
+
+  return res.json({ status: "success" });
 });
 
 export default router;

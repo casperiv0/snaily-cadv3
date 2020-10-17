@@ -8,8 +8,9 @@ Work in progress
   - [ ] auth routes
     - [x] register
     - [x] login
+    - [x] user info
+    - [x] logout
     - [ ] delete account
-    - [ ] user info
   - [ ] admin routes
   - [x] bleeter routes
     - [x] get all bleets

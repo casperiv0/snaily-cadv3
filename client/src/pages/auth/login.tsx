@@ -1,26 +1,37 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import AlertMessage from "../../components/alert-message";
 import State from "../../interfaces/State";
+import ILoc from "../../interfaces/ILoc";
+import { connect } from "react-redux";
+import { login } from "../../lib/actions/auth";
 
 interface Props {
   error: string;
+  location: ILoc;
+  login: (data: object, requestedPath: string) => void;
 }
 
-const Login: React.FC<Props> = ({ error }) => {
+const Login: React.FC<Props> = ({ error, login, location }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const requestedPath = location?.state?.requestedPath;
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    // TODO: create login functions
+    login(
+      {
+        username,
+        password,
+      },
+      requestedPath
+    );
   }
 
   return (
     <form
       onSubmit={onSubmit}
-      className="container mx-auto"
+      className="mt-5 mx-auto"
       style={{ width: "500px", maxWidth: "95%" }}
     >
       <div className="form-group">
@@ -59,4 +70,4 @@ const mapToProps = (state: State) => ({
   error: state.auth.error,
 });
 
-export default connect(mapToProps)(Login);
+export default connect(mapToProps, { login })(Login);

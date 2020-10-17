@@ -30,4 +30,4 @@ setInterval(() => {
     Logger.error("DB_ERROR", e);
     process.exit(1);
   });
-});
+}, 5000);

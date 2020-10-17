@@ -1,5 +1,4 @@
 import * as React from "react";
-import { checkAuth } from "../lib/actions/auth";
 import { connect } from "react-redux";
 import State from "../interfaces/State";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
@@ -7,16 +6,21 @@ import { Redirect, Route, RouteComponentProps } from "react-router-dom";
 interface Props {
   Component: React.FC<RouteComponentProps>;
   isAuth: boolean;
+  loading: boolean;
   path: string;
 }
 
-const AuthRoute: React.FC<Props> = ({ Component, isAuth, path }) => {
+const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path }) => {
+  if (loading) {
+    return null;
+  }
+
   return (
     <Route
       exact
       path={path}
       render={(props: RouteComponentProps) =>
-        isAuth ? (
+        !loading && isAuth ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -36,6 +40,7 @@ const AuthRoute: React.FC<Props> = ({ Component, isAuth, path }) => {
 
 const mapToProps = (state: State) => ({
   isAuth: state.auth.isAuth,
+  loading: state.auth.loading,
 });
 
-export default connect(mapToProps, { checkAuth })(AuthRoute);
+export default connect(mapToProps)(AuthRoute);
