@@ -42,6 +42,36 @@ export const login = (data: object, requestedPath: string) => async (
   dispatch({ type: SET_LOADING, loading: false });
 };
 
+export const register = (data: object) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  dispatch({ type: SET_LOADING, loading: true });
+
+  try {
+    const res = await handleRequest("/auth/register", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: AUTHENTICATE,
+        isAuth: true,
+        error: null,
+        user: res.data.user,
+      });
+
+      window.location.href = "/citizen";
+    } else {
+      dispatch({
+        type: AUTH_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error("REGISTER", e);
+  }
+
+  dispatch({ type: SET_LOADING, loading: false });
+};
+
 export const checkAuth = () => async (dispatch: Dispatch<IDispatch>) => {
   dispatch({ type: SET_LOADING, loading: true });
 
@@ -73,6 +103,6 @@ export const logout = () => async (dispatch: Dispatch<IDispatch>) => {
       });
     }
   } catch (e) {
-    Logger.error("LOGOUT", e);
+    Logger.error(LOGOUT, e);
   }
 };

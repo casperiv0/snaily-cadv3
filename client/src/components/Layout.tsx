@@ -11,7 +11,7 @@ const Layout: React.FC<Props> = ({ children, fluid, classes }) => {
       style={{ width: "100%" }}
       className={
         fluid
-          ? `container-fluids ${classes ? classes : ""}`
+          ? `container-fluid ${classes ? classes : ""}`
           : `container ${classes ? classes : ""}`
       }
     >

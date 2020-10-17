@@ -2,15 +2,37 @@ import * as React from "react";
 import { connect } from "react-redux";
 import State from "../interfaces/State";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
+import User from "../interfaces/User";
 
 interface Props {
   Component: any;
   isAuth: boolean;
   loading: boolean;
   path: string;
+  requirement?: "admin" | "leo" | "dispatch" | "tow" | "ems_fd";
+  user: User;
 }
 
-const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path }) => {
+const AuthRoute: React.FC<Props> = ({
+  Component,
+  loading,
+  isAuth,
+  path,
+  user,
+  requirement,
+}) => {
+  React.useEffect(() => {
+    if (requirement && !loading) {
+      switch (requirement) {
+        case "leo": {
+          if (user?.leo !== "1") {
+            window.location.href = "/forbidden";
+          }
+        }
+      }
+    }
+  });
+
   if (loading) {
     return null;
   }
@@ -39,6 +61,7 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path }) => {
 };
 
 const mapToProps = (state: State) => ({
+  user: state.auth.user,
   isAuth: state.auth.isAuth,
   loading: state.auth.loading,
 });

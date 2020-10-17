@@ -34,6 +34,7 @@ const Login: React.FC<Props> = ({ error, login, location }) => {
       className="mt-5 mx-auto"
       style={{ width: "500px", maxWidth: "95%" }}
     >
+      <h2>Please login</h2>
       <div className="form-group">
         {error ? <AlertMessage type="warning" message={error} /> : null}
       </div>
@@ -48,7 +49,7 @@ const Login: React.FC<Props> = ({ error, login, location }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="username">Enter password</label>
+        <label htmlFor="password">Enter password</label>
         <input
           type="password"
           value={password}
