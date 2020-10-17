@@ -12,6 +12,7 @@ import store from "./lib/store";
 
 const BleeterPage = React.lazy(() => import("./pages/bleeter"));
 const BleetPage = React.lazy(() => import("./pages/bleeter/bleet"));
+const EditBleet = React.lazy(() => import("./pages/bleeter/edit-bleet"));
 const Login = React.lazy(() => import("./pages/auth/login"));
 
 ReactDOM.render(
@@ -24,6 +25,7 @@ ReactDOM.render(
             <Route path="/" exact render={() => <h1>Hello world</h1>} />
             <Route path="/login" exact component={Login} />
             <AuthRoute path="/bleeter" Component={BleeterPage} />
+            <AuthRoute path="/bleet/edit/:id" Component={EditBleet} />
             <AuthRoute path="/bleet/:id" Component={BleetPage} />
           </Switch>
         </React.Suspense>

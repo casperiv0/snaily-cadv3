@@ -8,26 +8,34 @@ import Match from "../../interfaces/Match";
 import Loader from "../../components/loader";
 import lang from "../../language.json";
 import Markdown from "react-markdown";
+import User from "../../interfaces/User";
 
 interface Props {
   bleet: IBleet;
   loading: boolean;
   isAuth: boolean;
   match: Match;
+  user: User;
   getBleetById: (id: string) => void;
 }
 
 const Bleet: React.FC<Props> = ({
   loading,
   bleet,
-  isAuth,
   match,
+  user,
   getBleetById,
 }) => {
   React.useEffect(() => {
     const id = match.params.id;
     getBleetById(id);
   }, [getBleetById, match]);
+
+  React.useEffect(() => {
+    if (bleet.id) {
+      document.title = `${bleet.title} - ${lang.nav.bleeter}`;
+    }
+  }, [bleet]);
 
   if (loading) {
     return <Loader />;
@@ -42,11 +50,11 @@ const Bleet: React.FC<Props> = ({
       <div className="d-flex justify-content-between border-bottom">
         <h3>{bleet.title}</h3>
         <div>
-          {isAuth ? (
+          {bleet.id && user.id === JSON.parse(bleet.uploaded_by as any).id ? (
             <a
               className="btn btn-success"
               type="button"
-              href={`/bleeter/edit/${bleet.id}`}
+              href={`/bleet/edit/${bleet.id}`}
             >
               Edit bleet
             </a>
@@ -54,14 +62,14 @@ const Bleet: React.FC<Props> = ({
         </div>
       </div>
 
-      <Markdown escapeHtml={false} source={bleet.markdown} />
+      <Markdown className="mt-3" escapeHtml={false} source={bleet.markdown} />
     </Layout>
   );
 };
 
 const mapToProps = (state: State) => ({
   bleet: state.bleets.bleet,
-  isAuth: state.auth.isAuth,
+  user: state.auth.user,
 });
 
 export default connect(mapToProps, { getBleetById })(Bleet);

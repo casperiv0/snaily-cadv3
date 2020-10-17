@@ -3,6 +3,7 @@ import { processQuery } from "../lib/database";
 import IRequest from "../interfaces/IRequest";
 import { useAuth, useMarkdown } from "../hooks";
 import { RanksArr } from "../lib/constants";
+import IUser from "../interfaces/IUser";
 
 const router = Router();
 
@@ -29,7 +30,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const file = req.files?.image;
   const fileName = file?.name;
   const uploadedAt = Date.now();
-  const uploadedBy = req.user?.username;
+  const uploadedBy = JSON.stringify(req.user);
 
   if (title && body) {
     const markdown = useMarkdown(body);
@@ -65,7 +66,9 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  if (bleet[0].uploaded_by !== req.user?.username) {
+  const uploaded_by: IUser = JSON.parse(bleet[0].uploaded_by);
+
+  if (uploaded_by.id !== req.user?.id) {
     return res.json({
       error: "Forbidden",
       status: "error",
