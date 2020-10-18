@@ -16,3 +16,5 @@ export const GET_911_CALLS = "GET_911_CALLS";
 export const GET_CURRENT_OFFICER_STATUS = "GET_CURRENT_OFFICER_STATUS";
 export const SET_STATUS = "SET_STATUS";
 export const SET_ON_DUTY = "SET_ON_DUTY";
+
+export const GET_BOLOS = "GET_BOLOS";

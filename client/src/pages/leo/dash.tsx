@@ -6,6 +6,8 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import ModalButtons from "../../components/leo/ModalButtons";
 import Statuses from "../../components/leo/Statuses";
+import ActiveBolos from "../../components/active-bolos";
+import SelectOfficerModal from "../../components/modals/selectOfficerModal";
 
 interface Props {
   aop: string;
@@ -44,12 +46,14 @@ const LeoDash: React.FC<Props> = ({ aop }) => {
       <div className="row mt-3">
         <div className="col-md-9">
           <Active911Calls />
-          active bolos
-          {/* <ActiveBolos /> */}
+          <ActiveBolos />
         </div>
         create warrant
         {/* <CreateWarrant /> */}
       </div>
+
+      {/* Modals */}
+      <SelectOfficerModal />
     </Layout>
   );
 };

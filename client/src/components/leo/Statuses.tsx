@@ -1,7 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import State from "../../interfaces/State";
-import { getCurrentOfficer } from "../../lib/actions/officer";
+import { getCurrentOfficer, setStatus } from "../../lib/actions/officer";
+import socket from "../../lib/socket";
 
 const statuses: string[] = [
   "10-7",
@@ -19,12 +20,14 @@ interface Props {
   status: string;
   status2: string;
   getCurrentOfficer: (id: string) => void;
+  setStatus: (id: string, status: string) => void;
 }
 
 const Statuses: React.FC<Props> = ({
   status: currentStatus,
   status2,
   getCurrentOfficer,
+  setStatus,
 }) => {
   const officerId = String(localStorage.getItem("on-duty-officer"));
 
@@ -32,10 +35,16 @@ const Statuses: React.FC<Props> = ({
     getCurrentOfficer(officerId);
   }, [getCurrentOfficer, officerId]);
 
+  React.useEffect(() => {
+    socket.on("UPDATE_ACTIVE_UNITS", () => {
+      getCurrentOfficer(officerId);
+    });
+  }, [officerId, getCurrentOfficer]);
+
   function updateStatus(e: any) {
     const value = e.target.value;
 
-    //   setOfficerStatus(officerId, value)
+    setStatus(officerId, value);
   }
 
   return (
@@ -43,7 +52,7 @@ const Statuses: React.FC<Props> = ({
       <button
         type="button"
         data-toggle="modal"
-        date-target="#selectOfficerModal"
+        data-target="#selectOfficerModal"
         className={
           status2 === currentStatus
             ? "btn btn-primary col-sm-1 mr-2 "
@@ -80,4 +89,4 @@ const mapToProps = (state: State) => ({
   status2: state.officers.status2,
 });
 
-export default connect(mapToProps, { getCurrentOfficer })(Statuses);
+export default connect(mapToProps, { getCurrentOfficer, setStatus })(Statuses);
