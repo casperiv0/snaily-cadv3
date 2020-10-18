@@ -1,6 +1,11 @@
 # SnailyCADv3
 
-Work in progress
+SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community! (Work in progress)
+
+## Requirements
+
+- [NodeJS](https://nodejs.org)
+- [MySQL](https://www.apachefriends.org/download.html)
 
 ## todos
 
