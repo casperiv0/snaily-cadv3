@@ -20,7 +20,11 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    props.setStatus(props.id, status.toLowerCase(), status2);
+    props.setStatus(
+      props.id,
+      status.toLowerCase(),
+      status === "off-duty" ? "--------" : status2
+    );
 
     btnRef.current?.click();
   }

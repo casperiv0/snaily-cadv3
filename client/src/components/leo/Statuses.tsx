@@ -68,7 +68,7 @@ const Statuses: React.FC<Props> = ({
       {statuses.map((status: string, idx: number) => {
         return (
           <button
-            disabled={!currentStatus}
+            disabled={currentStatus === "off-duty"}
             className={
               status2 === status
                 ? "btn btn-primary col-sm-1 mr-2 "
