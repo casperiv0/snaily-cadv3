@@ -20,13 +20,6 @@ app.use(cookieParser());
 app.use(helmet());
 app.use("/api/v1", api);
 
-/* socket events */
-io.on("connection", (socket) => {
-  socket.on("UPDATE_ACTIVE_UNITS", () => {
-    console.log("updated units");
-
-    io.sockets.emit("UPDATE_ACTIVE_UNITS");
-  });
-});
-
 export { io };
+
+import("./lib/socket");

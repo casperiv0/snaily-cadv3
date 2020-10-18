@@ -22,7 +22,7 @@ const AuthRoute: React.FC<Props> = ({
   requirement,
 }) => {
   React.useEffect(() => {
-    if (requirement && !loading) {
+    if (requirement && !loading && isAuth) {
       switch (requirement) {
         case "leo": {
           if (user?.leo !== "1") {

@@ -2,6 +2,7 @@ import Bleet from "./Bleet";
 import Call from "./Call";
 import User from "./User";
 import Bolo from "./Bolo";
+import Officer from "./Officer";
 
 interface State {
   auth: {
@@ -26,6 +27,7 @@ interface State {
   officers: {
     status: string;
     status2: string;
+    officers: Officer[];
   };
   bolos: {
     bolos: Bolo[];

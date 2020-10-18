@@ -11,4 +11,10 @@ router.get("/911-calls", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ calls, status: "success" });
 });
 
+router.post("/cad-info", useAuth, async (req: IRequest, res: Response) => {
+  const cadInfo = await processQuery("SELECT * FROM `cad_info`");
+
+  return res.json({ cadInfo: cadInfo[0], status: "success" });
+});
+
 export default router;

@@ -20,7 +20,11 @@ interface Props {
   status: string;
   status2: string;
   getCurrentOfficer: (id: string) => void;
-  setStatus: (id: string, status: string) => void;
+  setStatus: (
+    id: string,
+    status: "on-duty" | "off-duty",
+    status2: string
+  ) => void;
 }
 
 const Statuses: React.FC<Props> = ({
@@ -29,7 +33,7 @@ const Statuses: React.FC<Props> = ({
   getCurrentOfficer,
   setStatus,
 }) => {
-  const officerId = String(localStorage.getItem("on-duty-officer"));
+  const officerId = String(localStorage.getItem("on-duty-officerId"));
 
   React.useEffect(() => {
     getCurrentOfficer(officerId);
@@ -42,9 +46,9 @@ const Statuses: React.FC<Props> = ({
   }, [officerId, getCurrentOfficer]);
 
   function updateStatus(e: any) {
-    const value = e.target.value;
+    const status = e.target.value;
 
-    setStatus(officerId, value);
+    setStatus(officerId, "on-duty", status);
   }
 
   return (
@@ -54,7 +58,7 @@ const Statuses: React.FC<Props> = ({
         data-toggle="modal"
         data-target="#selectOfficerModal"
         className={
-          status2 === currentStatus
+          status2 === "10-8"
             ? "btn btn-primary col-sm-1 mr-2 "
             : "btn btn-secondary col-sm-1 mr-2 "
         }
@@ -66,7 +70,7 @@ const Statuses: React.FC<Props> = ({
           <button
             disabled={!currentStatus}
             className={
-              status2 === currentStatus
+              status2 === status
                 ? "btn btn-primary col-sm-1 mr-2 "
                 : "btn btn-secondary col-sm-1 mr-2 "
             }

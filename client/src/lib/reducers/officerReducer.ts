@@ -1,9 +1,16 @@
-import { GET_CURRENT_OFFICER_STATUS, SET_STATUS, SET_ON_DUTY } from "../types";
+import Officer from "../../interfaces/Officer";
+import {
+  GET_CURRENT_OFFICER_STATUS,
+  SET_STATUS,
+  SET_ON_DUTY,
+  GET_MY_OFFICERS,
+} from "../types";
 
 const initState = {
   status: null /* 'on-duty' or 'off-duty' */,
   status2: "" /* '10-11', '10-5', '10-6', .. */,
   officerName: null,
+  officers: [],
 };
 
 type Actions =
@@ -23,6 +30,10 @@ type Actions =
       status: "on-duty" | "off-duty";
       status2: string;
       officerName: string;
+    }
+  | {
+      type: typeof GET_MY_OFFICERS;
+      officers: Officer[];
     };
 
 export default function (state = initState, action: Actions) {
@@ -46,6 +57,11 @@ export default function (state = initState, action: Actions) {
         ...state,
         status2: action.status2,
         officerName: action.officerName,
+      };
+    case "GET_MY_OFFICERS":
+      return {
+        ...state,
+        officers: action.officers,
       };
     default:
       return {

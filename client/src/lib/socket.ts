@@ -8,4 +8,8 @@ socket.on("connect", () => {
   Logger.log("socket", `Connected to ID ${socket.id}`);
 });
 
+setInterval(() => {
+  socket.emit("CHECK_CONNECTION", true);
+}, 5000);
+
 export default socket;

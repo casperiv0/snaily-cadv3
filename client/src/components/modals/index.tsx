@@ -1,12 +1,10 @@
 import * as React from "react";
 
 interface Props {
-  title: string;
   id: string;
-  footerButtons: React.ReactChildren | any;
 }
 
-const Modal: React.FC<Props> = ({ title, id, children, footerButtons }) => {
+const Modal: React.FC<Props> = ({ id, children }) => {
   return (
     <div
       className="modal fade"
@@ -16,26 +14,25 @@ const Modal: React.FC<Props> = ({ title, id, children, footerButtons }) => {
       aria-hidden="true"
     >
       <div className="modal-dialog">
-        <div className="modal-content bg-dark border-dark">
-          <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalLabel">
-              {title}
-            </h5>
-            <button
-              type="button"
-              className="close text-light"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div className="modal-body">{children}</div>
-          <div className="modal-footer">{footerButtons}</div>
-        </div>
+        <div className="modal-content bg-dark border-dark">{children}</div>
       </div>
     </div>
   );
 };
 
+const XButton = React.forwardRef((_props, ref: React.Ref<HTMLButtonElement>) => {
+  return (
+    <button
+      ref={ref}
+      type="button"
+      data-dismiss="modal"
+      aria-label="Close"
+      className="close text-light"
+    >
+      <span aria-hidden={true}>&times;</span>
+    </button>
+  );
+});
+
+export { XButton };
 export default Modal;
