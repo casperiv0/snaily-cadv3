@@ -8,6 +8,7 @@ import ModalButtons from "../../components/leo/ModalButtons";
 import Statuses from "../../components/leo/Statuses";
 import ActiveBolos from "../../components/active-bolos";
 import SelectOfficerModal from "../../components/modals/selectOfficerModal";
+import CreateWarrant from "../../components/leo/CreateWarrant";
 
 interface Props {
   aop: string;
@@ -48,8 +49,7 @@ const LeoDash: React.FC<Props> = ({ aop }) => {
           <Active911Calls />
           <ActiveBolos />
         </div>
-        create warrant
-        {/* <CreateWarrant /> */}
+        <CreateWarrant />
       </div>
 
       {/* Modals */}

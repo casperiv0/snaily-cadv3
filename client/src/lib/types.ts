@@ -19,3 +19,5 @@ export const SET_STATUS = "SET_STATUS";
 export const SET_ON_DUTY = "SET_ON_DUTY";
 
 export const GET_BOLOS = "GET_BOLOS";
+
+export const CREATE_WARRANT = "CREATE_WARRANT";

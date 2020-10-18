@@ -1,9 +1,21 @@
 import { NextFunction, Response, Router } from "express";
 import { processQuery } from "../lib/database";
-import IRequest from "../interfaces/IRequest";
 import { useAuth } from "../hooks";
-
+import IRequest from "../interfaces/IRequest";
+import fs from "fs";
 const router: Router = Router();
+
+router.get(
+  "/penal-codes",
+  useAuth,
+  useOfficerAuth,
+  (_req: IRequest, res: Response) => {
+    const rawCodes = fs.readFileSync("./src/data/penal-codes.json");
+    const penalCodes = JSON.parse(String(rawCodes));
+
+    return res.json({ penalCodes, status: "success" });
+  }
+);
 
 router.get(
   "/my-officers",
@@ -64,7 +76,7 @@ async function useOfficerAuth(
   req: IRequest,
   res: Response,
   next: NextFunction
-) {
+): Promise<void> {
   const user = await processQuery("SELECT `leo` from `users` WHERE `id` = ?", [
     req.user?.id,
   ]);
@@ -88,4 +100,5 @@ async function useOfficerAuth(
   next();
 }
 
+export { useOfficerAuth };
 export default router;
