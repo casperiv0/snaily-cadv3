@@ -12,9 +12,9 @@ router.post(
   useOfficerAuth,
   async (req: IRequest, res: Response) => {
     const { fullName, status, details } = req.body;
-    const id = uuidv4();
 
     if (fullName && status && details) {
+      const id = uuidv4();
       await processQuery(
         "INSERT INTO `warrants` (`id`, `name`, `reason`, `status`) VALUES (?, ?, ?, ?)",
         [id, fullName, details, status]
