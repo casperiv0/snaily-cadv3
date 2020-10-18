@@ -1,10 +1,6 @@
 import * as React from "react";
 import lang from "../../language.json";
-
-export interface MButton {
-  name: string;
-  target: string;
-}
+import { MButton } from "../leo/ModalButtons";
 
 const modalButtons: MButton[] = [
   {
@@ -20,20 +16,12 @@ const modalButtons: MButton[] = [
     target: "#weaponSearchModal",
   },
   {
-    name: lang.global.create_written_warning,
-    target: "#createWrittenWarningModal",
-  },
-  {
-    name: lang.global.create_ticket,
-    target: "#createTicketModal",
-  },
-  {
-    name: lang.global.create_arrest_report,
-    target: "#createArrestReportModal",
-  },
-  {
     name: lang.global.create_bolo,
     target: "#createBoloModal",
+  },
+  {
+    name: lang.global.create_911_call,
+    target: "#create911CallModal",
   },
   {
     name: lang.global.notepad,
@@ -44,11 +32,6 @@ const modalButtons: MButton[] = [
 const ModalButtons: React.FC = () => {
   return (
     <>
-      <a className="btn btn-primary col-md-2 mt-2 ml-1" href="/leo/my-officers">
-        {lang.officers.my_officers}
-      </a>
-
-      {/* modals */}
       {modalButtons.map((mButton: MButton, idx: number) => {
         return (
           <button
@@ -62,14 +45,6 @@ const ModalButtons: React.FC = () => {
           </button>
         );
       })}
-
-      {/* other links */}
-      <a className="btn btn-secondary col-md-2 mt-2 ml-1" href="/leo/penal-codes">
-        {lang.global.penal_codes}
-      </a>
-      <a className="btn btn-secondary col-md-2 mt-2 ml-1" href="/leo/10-codes">
-        {lang.global.codes_10}
-      </a>
     </>
   );
 };

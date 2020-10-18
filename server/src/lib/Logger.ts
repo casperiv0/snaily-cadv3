@@ -1,8 +1,8 @@
 import dateformat from "dateformat";
-const now = new Date();
 
 class Logger {
   now(): string {
+    const now = new Date();
     return dateformat(now, "HH:MM:ss");
   }
 

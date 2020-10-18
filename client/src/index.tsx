@@ -18,6 +18,12 @@ const Register = React.lazy(() => import("./pages/auth/register"));
 
 const LeoDash = React.lazy(() => import("./pages/leo/dash"));
 const PenalCodesPage = React.lazy(() => import("./pages/leo/penal-codes"));
+const MyOfficersPage = React.lazy(() => import("./pages/leo/my-officers"));
+const CreateOfficerPage = React.lazy(
+  () => import("./pages/leo/create-officer")
+);
+
+const DispatchDash = React.lazy(() => import("./pages/dispatch/dash"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -33,9 +39,28 @@ ReactDOM.render(
             <AuthRoute path="/bleet/edit/:id" Component={EditBleet} />
             <AuthRoute path="/bleet/:id" Component={BleetPage} />
 
-
             <AuthRoute requirement="leo" path="/leo/dash" Component={LeoDash} />
-            <AuthRoute requirement="leo" path="/leo/penal-codes" Component={PenalCodesPage} />
+            <AuthRoute
+              requirement="leo"
+              path="/leo/penal-codes"
+              Component={PenalCodesPage}
+            />
+            <AuthRoute
+              requirement="leo"
+              path="/leo/my-officers"
+              Component={MyOfficersPage}
+            />
+            <AuthRoute
+              requirement="leo"
+              path="/leo/officers/create"
+              Component={CreateOfficerPage}
+            />
+
+            <AuthRoute
+              requirement="dispatch"
+              path="/dispatch"
+              Component={DispatchDash}
+            />
           </Switch>
         </React.Suspense>
       </Router>

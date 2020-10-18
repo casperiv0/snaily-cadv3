@@ -9,23 +9,31 @@ import Statuses from "../../components/leo/Statuses";
 import ActiveBolos from "../../components/active-bolos";
 import SelectOfficerModal from "../../components/modals/selectOfficerModal";
 import CreateWarrant from "../../components/leo/CreateWarrant";
+import socket from "../../lib/socket";
 
 interface Props {
   aop: string;
 }
 
-const LeoDash: React.FC<Props> = ({ aop }) => {
+const LeoDash: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<Date>(new Date());
+  const [aop, setAop] = React.useState<string>(props.aop);
 
   React.useEffect(() => {
     setInterval(() => {
       setTime(new Date());
-    });
+    }, 900);
   }, [time]);
 
   React.useEffect(() => {
     document.title = "LEO Dashboard";
   });
+
+  React.useEffect(() => {
+    socket.on("UPDATE_AOP", (newAop: any) => {
+      setAop(newAop);
+    });
+  }, []);
 
   return (
     <Layout fluid classes="mt-5">
@@ -62,4 +70,4 @@ const mapToProps = (state: State) => ({
   aop: state.global.aop,
 });
 
-export default connect(mapToProps, {})(LeoDash);
+export default connect(mapToProps)(React.memo(LeoDash));

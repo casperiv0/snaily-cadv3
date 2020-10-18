@@ -4,7 +4,7 @@ import State from "../../interfaces/State";
 import { getCurrentOfficer, setStatus } from "../../lib/actions/officer";
 import socket from "../../lib/socket";
 
-const statuses: string[] = [
+export const statuses: string[] = [
   "10-7",
   "10-6",
   "10-5",

@@ -1,4 +1,5 @@
 import { Dispatch } from "react";
+import Department from "../../interfaces/Department";
 import Officer from "../../interfaces/Officer";
 import { handleRequest, isSuccess } from "../functions";
 import Logger from "../Logger";
@@ -6,8 +7,11 @@ import socket from "../socket";
 import {
   GET_CURRENT_OFFICER_STATUS,
   SET_STATUS,
-  SET_ON_DUTY,
   GET_MY_OFFICERS,
+  DELETE_OFFICER_BY_ID,
+  CREATE_OFFICER,
+  CREATE_OFFICER_ERROR,
+  GET_DEPARTMENTS,
 } from "../types";
 
 interface IDispatch {
@@ -16,6 +20,8 @@ interface IDispatch {
   status2?: string;
   officerName?: string;
   officers?: Officer[];
+  departments?: Department[];
+  error?: string;
 }
 
 export const getCurrentOfficer = (id: string) => async (
@@ -39,7 +45,7 @@ export const getCurrentOfficer = (id: string) => async (
 
 export const setStatus = (
   id: string,
-  status: "on-duty" | "off-duty",
+  status: "on-duty" | "off-duty" | string,
   status2: string
 ) => async (dispatch: Dispatch<IDispatch>) => {
   try {
@@ -73,5 +79,54 @@ export const getMyOfficers = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_MY_OFFICERS, e);
+  }
+};
+
+export const createOfficer = (data: object) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest("/officer/my-officers", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({ type: CREATE_OFFICER });
+      window.location.href = "/leo/my-officers";
+    } else {
+      dispatch({ type: CREATE_OFFICER_ERROR, error: res.data.error });
+    }
+  } catch (e) {
+    Logger.error(CREATE_OFFICER, e);
+  }
+};
+
+export const deleteOfficer = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/officer/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_OFFICER_BY_ID,
+        officers: res.data.officers,
+      });
+    }
+  } catch (e) {
+    Logger.error(DELETE_OFFICER_BY_ID, e);
+  }
+};
+
+export const getDepartments = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/officer/departments", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_DEPARTMENTS,
+        departments: res.data.departments,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_DEPARTMENTS, e);
   }
 };

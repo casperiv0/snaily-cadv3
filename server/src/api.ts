@@ -5,6 +5,7 @@ import bleeterRouter from "./routes/bleeter";
 import globalRouter from "./routes/global";
 import officerRouter from "./routes/officer";
 import recordsRouter from "./routes/records";
+import dispatchRouter from "./routes/dispatch";
 const api: Router = Router();
 
 api.use("/auth", authRouter);
@@ -13,5 +14,6 @@ api.use("/bleeter", bleeterRouter);
 api.use("/global", globalRouter);
 api.use("/officer", officerRouter);
 api.use("/records", recordsRouter);
+api.use("/dispatch", dispatchRouter);
 
 export default api;

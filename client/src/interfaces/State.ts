@@ -3,6 +3,8 @@ import Call from "./Call";
 import User from "./User";
 import Bolo from "./Bolo";
 import Officer from "./Officer";
+import Department from "./Department";
+import Deputy from "./Deputy";
 
 interface State {
   auth: {
@@ -28,9 +30,15 @@ interface State {
     status: string;
     status2: string;
     officers: Officer[];
+    departments: Department[];
+    error: string;
   };
   bolos: {
     bolos: Bolo[];
+  };
+  dispatch: {
+    officers: Officer[];
+    ems_fd: Deputy[];
   };
 }
 

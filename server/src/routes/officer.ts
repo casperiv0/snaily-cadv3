@@ -1,6 +1,7 @@
 import { NextFunction, Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { useAuth } from "../hooks";
+import { v4 as uuidv4 } from "uuid";
 import IRequest from "../interfaces/IRequest";
 import fs from "fs";
 const router: Router = Router();
@@ -28,6 +29,47 @@ router.get(
     );
 
     return res.json({ officers, status: "success" });
+  }
+);
+
+router.post(
+  "/my-officers",
+  useAuth,
+  useOfficerAuth,
+  async (req: IRequest, res: Response) => {
+    const { name, department } = req.body;
+    const id = uuidv4();
+
+    if (name && department) {
+      await processQuery(
+        "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`user_id`,`status`,`status2`) VALUES (?, ?, ?, ?, ?, ?)",
+        [id, name, department, req.user?.id, "off-duty", ""]
+      );
+
+      return res.json({ status: "success" });
+    } else {
+      return res.json({
+        error: "Please fill in all fields",
+        status: "error",
+      });
+    }
+  }
+);
+
+router.delete(
+  "/:id",
+  useAuth,
+  useOfficerAuth,
+  async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+    await processQuery("DELETE FROM `officers` WHERE `id` = ?", [id]);
+
+    const officers = await processQuery(
+      "SELECT * FROM `officers` WHERE `user_id` = ?",
+      [req.user?.id]
+    );
+
+    return res.json({ status: "success", officers });
   }
 );
 
@@ -65,6 +107,17 @@ router.put(
     );
 
     return res.json({ status: "success", officer: updatedOfficer });
+  }
+);
+
+router.get(
+  "/departments",
+  useAuth,
+  useOfficerAuth,
+  async (req: IRequest, res: Response) => {
+    const departments = await processQuery("SELECT * FROM `departments`");
+
+    return res.json({ departments, status: "success" });
   }
 );
 

@@ -3,12 +3,14 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { checkAuth, logout } from "../../lib/actions/auth";
+import { getCadInfo } from "../../lib/actions/global";
 
 interface Props {
   isAuth: boolean;
   loading: boolean;
   checkAuth: () => void;
   logout: () => void;
+  getCadInfo: () => void;
 }
 
 interface Path {
@@ -60,12 +62,22 @@ export const paths: Path[] = [
   },
 ];
 
-const Navbar: React.FC<Props> = ({ loading, isAuth, checkAuth, logout }) => {
+const Navbar: React.FC<Props> = ({
+  loading,
+  isAuth,
+  checkAuth,
+  logout,
+  getCadInfo,
+}) => {
   const currentPath = window.location.pathname;
 
   React.useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  React.useEffect(() => {
+    getCadInfo();
+  }, [getCadInfo]);
 
   return (
     <nav
@@ -166,4 +178,4 @@ const mapToProps = (state: State) => ({
   loading: state.auth.loading,
 });
 
-export default connect(mapToProps, { checkAuth, logout })(Navbar);
+export default connect(mapToProps, { checkAuth, logout, getCadInfo })(Navbar);

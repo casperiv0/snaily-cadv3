@@ -1,7 +1,8 @@
-import { Response, Router } from "express";
+import { NextFunction, Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import IRequest from "../interfaces/IRequest";
 import { useAuth } from "../hooks";
+import { RanksArr } from "../lib/constants";
 
 const router: Router = Router();
 
@@ -16,5 +17,50 @@ router.post("/cad-info", useAuth, async (req: IRequest, res: Response) => {
 
   return res.json({ cadInfo: cadInfo[0], status: "success" });
 });
+
+router.post(
+  "/update-aop",
+  useAuth,
+  adminOrDispatchAuth,
+  async (req: IRequest, res: Response) => {
+    const { aop } = req.body;
+
+    await processQuery("UPDATE `cad_info` SET `aop` = ?", [aop]);
+
+    return res.json({ status: "success" });
+  }
+);
+
+export async function adminOrDispatchAuth(
+  req: IRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  const user: {
+    dispatch: string;
+    rank: string;
+  }[] = await processQuery(
+    "SELECT `dispatch`, `rank` from `users` WHERE `id` = ?",
+    [req.user?.id]
+  );
+
+  if (!user[0]) {
+    res.json({
+      error: "user not found",
+      status: "error",
+    });
+    return;
+  }
+
+  if (user[0].dispatch !== "1" || !RanksArr.includes(user[0].rank)) {
+    res.json({
+      error: "Forbidden",
+      status: "error",
+    });
+    return;
+  }
+
+  next();
+}
 
 export default router;
