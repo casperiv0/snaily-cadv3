@@ -53,10 +53,10 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="status">{lang.dispatch.global_status}</label>
+            <label htmlFor="status2">{lang.dispatch.global_status}</label>
             <select
               value={status2}
-              id="status"
+              id="status2"
               className="form-control bg-secondary border-secondary text-light"
               onChange={(e) => setStatus2(e.target.value)}
             >

@@ -48,6 +48,9 @@ const Statuses: React.FC<Props> = ({
   function updateStatus(e: any) {
     const status = e.target.value;
 
+    /* little spam protection */
+    if (status === status2) return;
+
     setStatus(officerId, "on-duty", status);
   }
 

@@ -1,18 +1,23 @@
 import * as React from "react";
-import { connect } from "react-redux";
+import State from "../../interfaces/State";
 import lang from "../../language.json";
+import AlertMessage from "../alert-message";
 import { createWarrant } from "../../lib/actions/records";
+import { connect } from "react-redux";
 
 interface Props {
-  createWarrant: (data: object) => void;
+  error: string;
+  createWarrant: (data: {
+    fullName: string;
+    status: string;
+    details: string;
+  }) => void;
 }
 
-const CreateWarrant: React.FC<Props> = ({ createWarrant }) => {
+const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
   const [name, setName] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>("active");
   const [details, setDetails] = React.useState<string>("");
-
-  //   TODO: create success/error message
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -20,7 +25,7 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant }) => {
     createWarrant({
       fullName: name,
       status: status,
-      details,
+      details: details,
     });
 
     setStatus("");
@@ -34,6 +39,7 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant }) => {
         {lang.global.create_warrant}
       </div>
       <form onSubmit={onSubmit} className="list-group-item bg-dark border-dark">
+        {error ? <AlertMessage type="warning" message={error} /> : null}
         <div className="form-group">
           <label htmlFor="name">{lang.record.enter_full_name}</label>
           <input
@@ -76,4 +82,9 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant }) => {
     </div>
   );
 };
-export default connect(null, { createWarrant })(CreateWarrant);
+
+const mapToProps = (state: State) => ({
+  error: state.officers.error,
+});
+
+export default connect(mapToProps, { createWarrant })(CreateWarrant);

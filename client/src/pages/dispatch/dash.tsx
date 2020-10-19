@@ -7,6 +7,8 @@ import UpdateAOP from "../../components/dispatch/UpdateAOP";
 import ActiveUnits from "../../components/dispatch/ActiveUnits";
 import socket from "../../lib/socket";
 import { connect } from "react-redux";
+import ActiveCalls from "../../components/dispatch/ActiveCalls";
+import ActiveBolos from "../../components/active-bolos";
 
 interface Props {
   aop: string;
@@ -50,6 +52,9 @@ const DispatchDash: React.FC<Props> = (props) => {
           <UpdateAOP />
         </div>
       </div>
+
+      <ActiveCalls />
+      <ActiveBolos />
     </Layout>
   );
 };

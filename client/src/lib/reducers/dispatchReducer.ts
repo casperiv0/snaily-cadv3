@@ -12,7 +12,6 @@ type Actions = {
   officers: Officer[];
   ems_fd: Deputy[];
 };
-
 export default function (state = initState, action: Actions) {
   switch (action.type) {
     case "GET_ACTIVE_UNITS":

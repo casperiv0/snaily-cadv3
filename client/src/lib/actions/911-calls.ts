@@ -1,8 +1,9 @@
-import { Dispatch } from "redux";
 import Call from "../../interfaces/Call";
-import { handleRequest, isSuccess } from "../functions";
 import Logger from "../Logger";
-import { GET_911_CALLS } from "../types";
+import socket from "../socket";
+import { Dispatch } from "redux";
+import { handleRequest, isSuccess } from "../functions";
+import { GET_911_CALLS, END_911_CALL, UPDATE_911_CALL } from "../types";
 
 interface IDispatch {
   type: string;
@@ -23,5 +24,39 @@ export const getActive911Calls = () => async (
     }
   } catch (e) {
     Logger.error("GET_ACTIVE_911_CALLS", e);
+  }
+};
+
+export const update911Call = (
+  id: string,
+  data: { location: string; description: string; assigned_unit: string }
+) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/dispatch/calls/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      socket.emit("UPDATE_911_CALLS");
+      dispatch({
+        type: UPDATE_911_CALL,
+        calls: res.data.calls,
+      });
+    }
+  } catch (e) {
+    Logger.error(UPDATE_911_CALL, e);
+  }
+};
+
+export const end911Call = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/dispatch/calls/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      socket.emit("UPDATE_911_CALLS");
+      dispatch({ type: END_911_CALL, calls: res.data.calls });
+    }
+  } catch (e) {
+    Logger.error(END_911_CALL, e);
   }
 };

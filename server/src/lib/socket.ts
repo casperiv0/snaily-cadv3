@@ -28,4 +28,12 @@ io.on("connection", (socket) => {
       Logger.log("SOCKET_EVENT", `UPDATE_AOP - ${aop}`);
     }
   });
+
+  socket.on("UPDATE_911_CALLS", () => {
+    io.sockets.emit("UPDATE_911_CALLS");
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "UPDATE_911_CALLS");
+    }
+  });
 });

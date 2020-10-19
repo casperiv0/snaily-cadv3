@@ -12,6 +12,8 @@ export const UPDATE_AOP = "UPDATE_AOP";
 export const GET_AOP = "GET_AOP";
 
 export const GET_911_CALLS = "GET_911_CALLS";
+export const END_911_CALL = "END_911_CALL";
+export const UPDATE_911_CALL = "UPDATE_911_CALL";
 
 export const GET_CURRENT_OFFICER_STATUS = "GET_CURRENT_OFFICER_STATUS";
 export const GET_MY_OFFICERS = "GET_MY_OFFICERS";
@@ -23,6 +25,7 @@ export const SET_STATUS = "SET_STATUS";
 export const GET_BOLOS = "GET_BOLOS";
 
 export const CREATE_WARRANT = "CREATE_WARRANT";
+export const CREATE_WARRANT_ERROR = "CREATE_WARRANT_ERROR";
 
 export const GET_DEPARTMENTS = "GET_DEPARTMENTS";
 

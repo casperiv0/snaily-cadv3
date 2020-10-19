@@ -8,6 +8,8 @@ import {
   GET_DEPARTMENTS,
   CREATE_OFFICER,
   CREATE_OFFICER_ERROR,
+  CREATE_WARRANT_ERROR,
+  CREATE_WARRANT,
 } from "../types";
 
 const initState = {
@@ -49,6 +51,14 @@ type Actions =
   | {
       type: typeof CREATE_OFFICER_ERROR;
       error: string;
+    }
+  | {
+      type: typeof CREATE_WARRANT;
+      message: string;
+    }
+  | {
+      type: typeof CREATE_WARRANT_ERROR;
+      error: string;
     };
 
 export default function (state = initState, action: Actions) {
@@ -87,6 +97,17 @@ export default function (state = initState, action: Actions) {
         error: null,
       };
     case "CREATE_OFFICER_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "CREATE_WARRANT":
+      return {
+        ...state,
+        error: null,
+        message: action.message,
+      };
+    case "CREATE_WARRANT_ERROR":
       return {
         ...state,
         error: action.error,

@@ -27,6 +27,47 @@ router.get(
   }
 );
 
+router.delete(
+  "/calls/:id",
+  useAuth,
+  useDispatchAuth,
+  async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+
+    await processQuery("DELETE FROM `911calls` WHERE `id` = ?", [id]);
+
+    const calls = await processQuery("SELECT * FROM `911calls`");
+
+    return res.json({ status: "success", calls });
+  }
+);
+
+router.put(
+  "/calls/:id",
+  useAuth,
+  useDispatchAuth,
+  async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+    const { location, description, assigned_unit } = req.body;
+    let status = "";
+
+    if (assigned_unit) {
+      status = "Assigned";
+    } else {
+      status = "Not Assigned";
+    }
+
+    await processQuery(
+      "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ? WHERE `id` = ?",
+      [location, description, assigned_unit, status, id]
+    );
+
+    const calls = await processQuery("SELECT * FROM `911calls`");
+
+    return res.json({ status: "success", calls });
+  }
+);
+
 async function useDispatchAuth(
   req: IRequest,
   res: Response,

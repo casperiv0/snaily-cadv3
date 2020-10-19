@@ -1,14 +1,16 @@
 import { Dispatch } from "react";
+import Call from "../../interfaces/Call";
 import Deputy from "../../interfaces/Deputy";
 import Officer from "../../interfaces/Officer";
-import { handleRequest, isSuccess } from "../functions";
 import Logger from "../Logger";
+import { handleRequest, isSuccess } from "../functions";
 import { GET_ACTIVE_UNITS } from "../types";
 
 interface IDispatch {
   type: string;
   officers?: Officer[];
   ems_fd?: Deputy[];
+  calls?: Call[];
 }
 
 export const getActiveUnits = () => async (dispatch: Dispatch<IDispatch>) => {
