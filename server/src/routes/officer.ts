@@ -2,8 +2,8 @@ import { NextFunction, Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { useAuth } from "../hooks";
 import { v4 as uuidv4 } from "uuid";
+import penalCodes from "../data/penal-codes";
 import IRequest from "../interfaces/IRequest";
-import fs from "fs";
 const router: Router = Router();
 
 router.get(
@@ -11,9 +11,6 @@ router.get(
   useAuth,
   useOfficerAuth,
   (_req: IRequest, res: Response) => {
-    const rawCodes = fs.readFileSync("./src/data/penal-codes.json");
-    const penalCodes = JSON.parse(String(rawCodes));
-
     return res.json({ penalCodes, status: "success" });
   }
 );
