@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "socket.io": "^2.3.0"
-  },
-  "devDependencies": {
-    "@types/socket.io": "^2.1.11"
-  }
-}

@@ -2,6 +2,13 @@
 
 SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community! (Work in progress)
 
+## Table of contents
+
+- [Requirements](#requirements)
+- [Todos](#todos)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Requirements
 
 - [NodeJS](https://nodejs.org)
@@ -29,6 +36,10 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community! (Work
   - [ ] global routes
   - [ ] officers routes
   - [x] truck-logs routs
+
+## Contributing
+
+[View CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## License
 
