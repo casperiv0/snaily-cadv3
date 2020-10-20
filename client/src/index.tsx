@@ -29,6 +29,8 @@ const CitizensPage = React.lazy(() => import("./pages/citizen/index"));
 
 const TowDash = React.lazy(() => import("./pages/tow/dash"));
 
+const TruckLogsDash = React.lazy(() => import("./pages/truck-logs/dash"));
+
 ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
@@ -69,6 +71,8 @@ ReactDOM.render(
             <AuthRoute path="/citizen" Component={CitizensPage} />
 
             <AuthRoute requirement="tow" path="/tow" Component={TowDash} />
+
+            <AuthRoute path="/truck-logs" Component={TruckLogsDash} />
           </Switch>
         </React.Suspense>
       </Router>

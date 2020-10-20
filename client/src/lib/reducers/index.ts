@@ -7,6 +7,7 @@ import callsReducer from "./callsReducer";
 import officerReducer from "./officerReducer";
 import boloReducer from "./boloReducer";
 import dispatchReducer from "./dispatchReducer";
+import trucklogsReducer from "./trucklogsReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   officers: officerReducer,
   bolos: boloReducer,
   dispatch: dispatchReducer,
+  truck_logs: trucklogsReducer,
 });

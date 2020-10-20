@@ -2,13 +2,14 @@ import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import IRequest from "../interfaces/IRequest";
 import { useAuth } from "../hooks";
+import { v4 } from "uuid";
 
 const router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
   const logs = await processQuery(
-    "SELECT * FROM `truck_logs` WHERE `linked_to` = ?",
-    [req.user?.username]
+    "SELECT * FROM `truck_logs` WHERE `user_id` = ?",
+    [req.user?.id]
   );
 
   return res.json({ status: "success", logs });
@@ -16,11 +17,12 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const { name, date, co_driver, start_time, plate } = req.body;
+  const id = v4();
 
   if (name && date && start_time && plate) {
     await processQuery(
-      "INSERT INTO `truck_logs` (`name`, `timestamp`, `co_driver`, `start_time`, `plate`, `linked_to`) VALUES (?, ?, ?, ?, ?, ?)",
-      [name, date, co_driver ?? "None", start_time, plate, req.user?.username]
+      "INSERT INTO `truck_logs` (`id`, `name`, `timestamp`, `co_driver`, `start_time`, `plate`, `linked_to`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [id, name, date, co_driver ?? "None", start_time, plate, req.user?.id]
     );
 
     return res.json({
@@ -37,15 +39,22 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
 
-  const log = await processQuery("SELECT * FROM `truck_logs` WHERE id = ?", [
+  const log = await processQuery("SELECT * FROM `truck_logs` WHERE `id` = ?", [
     id,
   ]);
 
-  if (log[0].linked_to !== req.user?.username) {
+  if (log[0].user_id !== req.user?.id) {
     return res.json({ error: "Forbidden", status: "error" });
   }
 
-  await processQuery("DELETE * FROM `truck_logs` WHERE id = ?", [id]);
+  await processQuery("DELETE * FROM `truck_logs` WHERE `id` = ?", [id]);
+
+  const logs = await processQuery(
+    "SELECT * FROM `truck_logs` WHERE `user_id` = ?",
+    [req.user?.id]
+  );
+
+  return res.json({ status: "success", logs });
 });
 
 export default router;

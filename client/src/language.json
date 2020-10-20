@@ -117,6 +117,7 @@
         "add_bolo": "Successfully Created BOLO"
     },
     "truck_logs": {
+        "date": "Date",
         "create_log": "Create a truck log",
         "no_logs": "You don't have any truck logs!",
         "enter_trucker_name": "Enter Trucker Name",

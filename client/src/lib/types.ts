@@ -36,3 +36,7 @@ export const GET_TOW_CALLS = "GET_TOW_CALLS";
 export const END_TOW_CALL = "END_TOW_CALL";
 
 export const SET_MESSAGE = "SET_MESSAGE";
+
+export const GET_TRUCK_LOGS = "GET_TRUCK_LOGS";
+export const CREATE_TRUCK_LOG = "CREATE_TRUCK_LOG";
+export const DELETE_TRUCK_LOG = "DELETE_TRUCK_LOG";

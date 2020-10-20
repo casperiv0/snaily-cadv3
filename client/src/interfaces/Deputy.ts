@@ -1,7 +1,7 @@
 interface Deputy {
   id: string;
   name: string;
-  linked_to: string;
+  user_id: string;
   status: "on-duty" | "off-duty";
   status2: string;
 }

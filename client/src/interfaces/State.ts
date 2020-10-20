@@ -6,6 +6,7 @@ import Officer from "./Officer";
 import Department from "./Department";
 import Deputy from "./Deputy";
 import TowCall from "./TowCall";
+import TruckLog from "./TruckLog";
 
 interface State {
   auth: {
@@ -42,6 +43,9 @@ interface State {
   dispatch: {
     officers: Officer[];
     ems_fd: Deputy[];
+  };
+  truck_logs: {
+    logs: TruckLog[];
   };
 }
 
