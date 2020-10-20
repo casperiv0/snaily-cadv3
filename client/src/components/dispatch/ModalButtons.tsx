@@ -25,7 +25,7 @@ const modalButtons: MButton[] = [
   },
   {
     name: lang.global.notepad,
-    target: "#notepadModal",
+    target: "#notepad",
   },
 ];
 

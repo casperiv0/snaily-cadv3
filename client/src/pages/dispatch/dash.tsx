@@ -9,6 +9,7 @@ import socket from "../../lib/socket";
 import { connect } from "react-redux";
 import ActiveCalls from "../../components/dispatch/ActiveCalls";
 import ActiveBolos from "../../components/active-bolos";
+import NotepadModal from "../../components/modals/notepad";
 
 interface Props {
   aop: string;
@@ -55,6 +56,9 @@ const DispatchDash: React.FC<Props> = (props) => {
 
       <ActiveCalls />
       <ActiveBolos />
+
+      {/* modals */}
+      <NotepadModal />
     </Layout>
   );
 };

@@ -1,14 +1,35 @@
 import Logger from "../Logger";
 import lang from "../../language.json";
 import { Dispatch } from "react";
-import { CREATE_TOW_CALL, SET_MESSAGE } from "../types";
+import {
+  CREATE_TOW_CALL,
+  SET_MESSAGE,
+  GET_TOW_CALLS,
+  END_TOW_CALL,
+} from "../types";
 import { handleRequest, isSuccess } from "../functions";
+import socket from "../socket";
 
 interface IDispatch {
   type: string;
   message?: string;
   calls?: object;
 }
+
+export const getTowCalls = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/tow-calls", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_TOW_CALLS,
+        calls: res.data.calls,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_TOW_CALLS, e);
+  }
+};
 
 export const createTowCall = (data: object) => async (
   dispatch: Dispatch<IDispatch>
@@ -17,6 +38,7 @@ export const createTowCall = (data: object) => async (
     const res = await handleRequest("/tow-calls", "POST", data);
 
     if (isSuccess(res)) {
+      socket.emit("UPDATE_TOW_CALLS");
       dispatch({
         type: CREATE_TOW_CALL,
         calls: res.data.calls,
@@ -28,5 +50,26 @@ export const createTowCall = (data: object) => async (
     }
   } catch (e) {
     Logger.error(CREATE_TOW_CALL, e);
+  }
+};
+
+export const endTowCall = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/tow-calls/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: END_TOW_CALL,
+        calls: res.data.calls,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.tow?.end_success,
+      });
+    }
+  } catch (e) {
+    Logger.error(END_TOW_CALL, e);
   }
 };

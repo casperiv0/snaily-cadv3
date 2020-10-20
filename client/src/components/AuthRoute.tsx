@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import State from "../interfaces/State";
 import { Redirect, Route, RouteComponentProps } from "react-router-dom";
 import User from "../interfaces/User";
+import Loader from "./loader";
 
 interface Props {
   Component: any;
@@ -28,13 +29,20 @@ const AuthRoute: React.FC<Props> = ({
           if (user?.leo !== "1") {
             window.location.href = "/forbidden";
           }
+          break;
+        }
+        case "tow": {
+          if (user?.tow !== "1") {
+            window.location.href = "/forbidden";
+          }
+          break;
         }
       }
     }
   });
 
   if (loading) {
-    return null;
+    return <Loader fullScreen />;
   }
 
   return (

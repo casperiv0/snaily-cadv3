@@ -10,6 +10,7 @@ import ActiveBolos from "../../components/active-bolos";
 import SelectOfficerModal from "../../components/modals/officer/selectOfficerModal";
 import CreateWarrant from "../../components/leo/CreateWarrant";
 import socket from "../../lib/socket";
+import NotepadModal from "../../components/modals/notepad";
 
 interface Props {
   aop: string;
@@ -62,6 +63,7 @@ const LeoDash: React.FC<Props> = (props) => {
 
       {/* Modals */}
       <SelectOfficerModal />
+      <NotepadModal />
     </Layout>
   );
 };

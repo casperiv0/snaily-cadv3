@@ -32,5 +32,7 @@ export const GET_DEPARTMENTS = "GET_DEPARTMENTS";
 export const GET_ACTIVE_UNITS = "GET_ACTIVE_UNITS";
 
 export const CREATE_TOW_CALL = "CREATE_TOW_CALL";
+export const GET_TOW_CALLS = "GET_TOW_CALLS";
+export const END_TOW_CALL = "END_TOW_CALL";
 
 export const SET_MESSAGE = "SET_MESSAGE";

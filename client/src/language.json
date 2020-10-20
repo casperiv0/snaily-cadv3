@@ -47,6 +47,8 @@
         "admin": "Admin"
     },
     "global": {
+        "save": "Save",
+        "clear": "Clear",
         "utility_panel": "Utility Panel",
         "name_search": "Name Search",
         "plate_search": "Plate Search",
@@ -132,7 +134,8 @@
         "tow_dashboard": "Tow Dashboard",
         "no_calls": "No active calls",
         "active_tow_calls": "Active Tow Calls",
-        "end_call": "End Call"
+        "end_call": "End Call",
+        "end_success": "Call successfully ended"
     },
     "admin": {
         "management": "Management",

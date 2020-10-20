@@ -36,4 +36,12 @@ io.on("connection", (socket) => {
       Logger.log("SOCKET_EVENT", "UPDATE_911_CALLS");
     }
   });
+
+  socket.on("UPDATE_TOW_CALLS", () => {
+    io.sockets.emit("UPDATE_TOW_CALLS");
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "UPDATE_TOW_CALLS");
+    }
+  });
 });

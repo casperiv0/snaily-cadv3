@@ -24,6 +24,10 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
     });
 
     btnRef.current?.click();
+
+    setDescription("");
+    setLocation("");
+    setCaller("");
   }
 
   return (
