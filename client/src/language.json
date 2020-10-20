@@ -365,6 +365,7 @@
         "call_tow": "Call Tow Service",
         "call_911": "Call Emergency Services",
         "call_created": "Successfully Called 911",
+        "tow_call_created": "Successfully called the Tow Service",
         "more_info": "More Info",
         "created": "Successfully created: ",
         "select_ethnicity": "Select Ethnicity..",

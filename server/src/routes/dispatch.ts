@@ -51,20 +51,24 @@ router.put(
     const { location, description, assigned_unit } = req.body;
     let status = "";
 
-    if (assigned_unit) {
-      status = "Assigned";
+    if (location && description && assigned_unit) {
+      if (assigned_unit) {
+        status = "Assigned";
+      } else {
+        status = "Not Assigned";
+      }
+
+      await processQuery(
+        "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ? WHERE `id` = ?",
+        [location, description, assigned_unit, status, id]
+      );
+
+      const calls = await processQuery("SELECT * FROM `911calls`");
+
+      return res.json({ status: "success", calls });
     } else {
-      status = "Not Assigned";
+      return res.json({ error: "Please fill in all fields", status: "error" });
     }
-
-    await processQuery(
-      "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ? WHERE `id` = ?",
-      [location, description, assigned_unit, status, id]
-    );
-
-    const calls = await processQuery("SELECT * FROM `911calls`");
-
-    return res.json({ status: "success", calls });
   }
 );
 

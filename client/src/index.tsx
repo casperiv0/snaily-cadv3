@@ -25,6 +25,8 @@ const CreateOfficerPage = React.lazy(
 
 const DispatchDash = React.lazy(() => import("./pages/dispatch/dash"));
 
+const CitizensPage = React.lazy(() => import("./pages/citizen/index"));
+
 ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
@@ -61,6 +63,8 @@ ReactDOM.render(
               path="/dispatch"
               Component={DispatchDash}
             />
+
+            <AuthRoute path="/citizen" Component={CitizensPage} />
           </Switch>
         </React.Suspense>
       </Router>

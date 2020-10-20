@@ -6,6 +6,7 @@ import globalRouter from "./routes/global";
 import officerRouter from "./routes/officer";
 import recordsRouter from "./routes/records";
 import dispatchRouter from "./routes/dispatch";
+import towCallsRouter from "./routes/tow";
 const api: Router = Router();
 
 api.use("/auth", authRouter);
@@ -15,5 +16,6 @@ api.use("/global", globalRouter);
 api.use("/officer", officerRouter);
 api.use("/records", recordsRouter);
 api.use("/dispatch", dispatchRouter);
+api.use("/tow-calls", towCallsRouter);
 
 export default api;

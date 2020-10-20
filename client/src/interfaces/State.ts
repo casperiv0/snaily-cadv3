@@ -5,6 +5,7 @@ import Bolo from "./Bolo";
 import Officer from "./Officer";
 import Department from "./Department";
 import Deputy from "./Deputy";
+import TowCall from "./TowCall";
 
 interface State {
   auth: {
@@ -22,9 +23,11 @@ interface State {
   global: {
     cadInfo: object;
     aop: string;
+    message: string;
   };
   calls: {
-    calls: Call[];
+    calls_911: Call[];
+    tow_calls: TowCall[];
   };
   officers: {
     status: string;

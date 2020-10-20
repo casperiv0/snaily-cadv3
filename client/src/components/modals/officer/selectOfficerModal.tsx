@@ -1,10 +1,10 @@
 import * as React from "react";
-import Modal, { XButton } from "./index";
-import lang from "../../language.json";
-import Officer from "../../interfaces/Officer";
-import State from "../../interfaces/State";
+import Modal, { XButton } from "../index";
+import lang from "../../../language.json";
+import Officer from "../../../interfaces/Officer";
+import State from "../../../interfaces/State";
 import { connect } from "react-redux";
-import { getMyOfficers, setStatus } from "../../lib/actions/officer";
+import { getMyOfficers, setStatus } from "../../../lib/actions/officer";
 
 interface Props {
   officers: Officer[];

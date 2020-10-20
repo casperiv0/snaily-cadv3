@@ -15,3 +15,7 @@ body {
   background: #191919;
   color: #fff;
 }
+
+.auth-btn:disabled {
+  cursor: not-allowed;
+}

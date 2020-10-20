@@ -93,17 +93,21 @@ router.put(
     const { id } = req.params;
     const { status, status2 } = req.body;
 
-    await processQuery(
-      "UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?",
-      [status, status2, id]
-    );
+    if (status && status2) {
+      await processQuery(
+        "UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?",
+        [status, status2, id]
+      );
 
-    const updatedOfficer = await processQuery(
-      "SELECT * FROM `officers` WHERE `id` = ?",
-      [id]
-    );
+      const updatedOfficer = await processQuery(
+        "SELECT * FROM `officers` WHERE `id` = ?",
+        [id]
+      );
 
-    return res.json({ status: "success", officer: updatedOfficer });
+      return res.json({ status: "success", officer: updatedOfficer });
+    } else {
+      return res.json({ error: "Please fill in all fields", status: "error" });
+    }
   }
 );
 

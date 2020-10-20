@@ -7,7 +7,7 @@ import lang from "../../language.json";
 import ModalButtons from "../../components/leo/ModalButtons";
 import Statuses from "../../components/leo/Statuses";
 import ActiveBolos from "../../components/active-bolos";
-import SelectOfficerModal from "../../components/modals/selectOfficerModal";
+import SelectOfficerModal from "../../components/modals/officer/selectOfficerModal";
 import CreateWarrant from "../../components/leo/CreateWarrant";
 import socket from "../../lib/socket";
 

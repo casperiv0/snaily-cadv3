@@ -157,12 +157,20 @@ const Navbar: React.FC<Props> = ({
                     </button>
                   </div>
                 ) : (
-                  <a
-                    className="dropdown-item bg-dark border-secondary text-light"
-                    href="/login"
-                  >
-                    {lang.auth.login}
-                  </a>
+                  <>
+                    <a
+                      className="dropdown-item bg-dark border-secondary text-light"
+                      href="/login"
+                    >
+                      {lang.auth.login}
+                    </a>
+                    <a
+                      className="dropdown-item bg-dark border-secondary text-light"
+                      href="/register"
+                    >
+                      {lang.auth.register}
+                    </a>
+                  </>
                 )}
               </div>
             </div>

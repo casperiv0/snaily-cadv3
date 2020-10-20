@@ -1,7 +1,8 @@
-import { UPDATE_AOP, GET_AOP } from "../types";
+import { UPDATE_AOP, GET_AOP, SET_MESSAGE } from "../types";
 
 const initState = {
   aop: null,
+  message: null,
   cadInfo: {},
 };
 
@@ -13,6 +14,10 @@ type Actions =
   | {
       type: typeof GET_AOP;
       aop: string;
+    }
+  | {
+      type: typeof SET_MESSAGE;
+      message: string;
     };
 
 export default function (state = initState, action: Actions) {
@@ -26,6 +31,11 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         aop: action.aop,
+      };
+    case "SET_MESSAGE":
+      return {
+        ...state,
+        message: action.message,
       };
     default:
       return {

@@ -83,7 +83,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
 };
 
 const mapToProps = (state: State) => ({
-  calls: state.calls.calls,
+  calls: state.calls.calls_911,
 });
 
 export default connect(mapToProps, { getActive911Calls })(ActiveCalls);
