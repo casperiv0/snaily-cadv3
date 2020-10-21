@@ -45,6 +45,7 @@ interface State {
     ems_fd: Deputy[];
   };
   truck_logs: {
+    error: string;
     logs: TruckLog[];
   };
 }

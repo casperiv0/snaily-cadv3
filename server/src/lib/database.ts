@@ -1,6 +1,7 @@
 import mysql, { ConnectionConfig } from "promise-mysql";
 import config from "../../config";
 import Logger from "./Logger";
+const INTERVAL_5_SECS = 5000;
 
 const options: ConnectionConfig = {
   host: config.host,
@@ -25,9 +26,11 @@ export async function processQuery(
   return result;
 }
 
-setInterval(() => {
-  processQuery("SELECT 1").catch((e) => {
+const interval = setInterval(select1, INTERVAL_5_SECS);
+
+async function select1() {
+  await processQuery("SELECT 1").catch((e) => {
+    clearInterval(interval);
     Logger.error("DB_ERROR", e);
-    process.exit(1);
   });
-}, 5000);
+}

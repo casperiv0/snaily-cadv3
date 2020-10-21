@@ -64,8 +64,8 @@ const TruckLogsDash: React.FC<Props> = (props) => {
                   <th scope="row">{++idx}</th>
                   <td>{log.name}</td>
                   <td>{log.co_driver}</td>
-                  <td>{new Date(log.timestamp).toLocaleDateString()}</td>
-                  <td>{new Date(log.start_time).toLocaleString()}</td>
+                  <td>{log.timestamp}</td>
+                  <td>{log.start_time}</td>
                   <td>{log.plate}</td>
                   <td>
                     <button

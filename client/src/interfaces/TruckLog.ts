@@ -1,9 +1,9 @@
 interface TruckLog {
   id: string;
   name: string;
-  timestamp: number;
+  timestamp: string;
   co_driver: string;
-  start_time: number;
+  start_time: string;
   plate: string;
   user_id: string;
 }

@@ -21,7 +21,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
   if (name && date && start_time && plate) {
     await processQuery(
-      "INSERT INTO `truck_logs` (`id`, `name`, `timestamp`, `co_driver`, `start_time`, `plate`, `linked_to`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO `truck_logs` (`id`, `name`, `timestamp`, `co_driver`, `start_time`, `plate`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [id, name, date, co_driver ?? "None", start_time, plate, req.user?.id]
     );
 
@@ -47,7 +47,7 @@ router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
     return res.json({ error: "Forbidden", status: "error" });
   }
 
-  await processQuery("DELETE * FROM `truck_logs` WHERE `id` = ?", [id]);
+  await processQuery("DELETE FROM `truck_logs` WHERE `id` = ?", [id]);
 
   const logs = await processQuery(
     "SELECT * FROM `truck_logs` WHERE `user_id` = ?",

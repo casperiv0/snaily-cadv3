@@ -30,6 +30,9 @@ const CitizensPage = React.lazy(() => import("./pages/citizen/index"));
 const TowDash = React.lazy(() => import("./pages/tow/dash"));
 
 const TruckLogsDash = React.lazy(() => import("./pages/truck-logs/dash"));
+const CreateTruckLogPage = React.lazy(
+  () => import("./pages/truck-logs/create-truck-log")
+);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -72,6 +75,10 @@ ReactDOM.render(
 
             <AuthRoute requirement="tow" path="/tow" Component={TowDash} />
 
+            <AuthRoute
+              path="/truck-logs/create"
+              Component={CreateTruckLogPage}
+            />
             <AuthRoute path="/truck-logs" Component={TruckLogsDash} />
           </Switch>
         </React.Suspense>
