@@ -31,7 +31,7 @@ export const paths: Path[] = [
     adminOnly: false,
   },
   {
-    href: "/leo/ems-fd",
+    href: "/ems-fd/dash",
     name: lang.nav.ems_fd,
     adminOnly: false,
   },

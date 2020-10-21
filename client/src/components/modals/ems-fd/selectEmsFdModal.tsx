@@ -1,14 +1,14 @@
 import * as React from "react";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
-import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
 import { connect } from "react-redux";
-import { getMyOfficers, setStatus } from "../../../lib/actions/officer";
+import { getMyDeputies, setStatus } from "../../../lib/actions/ems-fd";
+import Deputy from "../../../interfaces/Deputy";
 
 interface Props {
-  officers: Officer[];
-  getMyOfficers: () => void;
+  deputies: Deputy[];
+  getMyDeputies: () => void;
   setStatus: (
     id: string,
     status: "on-duty" | "off-duty",
@@ -17,16 +17,16 @@ interface Props {
 }
 
 const SelectOfficerModal: React.FC<Props> = ({
-  officers,
-  getMyOfficers,
+  deputies,
+  getMyDeputies,
   setStatus,
 }) => {
   const [selected, setSelected] = React.useState("");
   const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
-    getMyOfficers();
-  }, [getMyOfficers]);
+    getMyDeputies();
+  }, [getMyDeputies]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -37,29 +37,29 @@ const SelectOfficerModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal id="selectOfficerModal">
+    <Modal id="selectEmsFdModal">
       <div className="modal-header">
-        <h5 className="modal-title">{lang.officers.select_officer_msg}</h5>
+        <h5 className="modal-title">{lang.ems_fd.select_dept}</h5>
         <XButton ref={btnRef} />
       </div>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="form-group">
-            <label htmlFor="officer">{lang.officers.select_officer}</label>
+            <label htmlFor="deputy">{lang.ems_fd.select_dept_2}</label>
             <select
               className="form-control bg-secondary border-secondary text-light"
-              id="officer"
+              id="deputy"
               onChange={(e) => setSelected(e.target.value)}
               value={selected}
             >
-              <option value="">{lang.officers.select_officer2}</option>
-              {!officers[0] ? (
-                <option>{lang.officers.no_officers}</option>
+              <option value="">{lang.ems_fd.select_dept_2}...</option>
+              {!deputies[0] ? (
+                <option>{lang.ems_fd.no_dept}</option>
               ) : (
-                officers.map((officer: Officer, idx: number) => {
+                deputies.map((deputy: Deputy, idx: number) => {
                   return (
-                    <option key={idx} value={officer.id}>
-                      {officer.officer_name}
+                    <option key={idx} value={deputy.id}>
+                      {deputy.name}
                     </option>
                   );
                 })
@@ -75,7 +75,11 @@ const SelectOfficerModal: React.FC<Props> = ({
           >
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button
+            disabled={!deputies.length}
+            type="submit"
+            className="btn btn-primary"
+          >
             {lang.global.go_on_duty}
           </button>
         </div>
@@ -85,9 +89,9 @@ const SelectOfficerModal: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  officers: state.officers.officers,
+  deputies: state.ems_fd.deputies,
 });
 
-export default connect(mapToProps, { getMyOfficers, setStatus })(
+export default connect(mapToProps, { getMyDeputies, setStatus })(
   SelectOfficerModal
 );

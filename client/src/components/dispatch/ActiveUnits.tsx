@@ -129,6 +129,7 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
       {officers.map((officer: Officer, idx: number) => {
         return (
           <UpdateStatusModal
+          type="officers"
             key={idx}
             id={officer.id}
             status={officer.status}
@@ -139,6 +140,7 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
       {ems_fd.map((deputy: Deputy, idx: number) => {
         return (
           <UpdateStatusModal
+            type="ems-fd"
             key={idx}
             id={deputy.id}
             status={deputy.status}

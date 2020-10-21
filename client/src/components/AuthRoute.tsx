@@ -37,6 +37,12 @@ const AuthRoute: React.FC<Props> = ({
           }
           break;
         }
+        case "ems_fd": {
+          if (user?.ems_fd !== "1") {
+            window.location.href = "/forbidden";
+          }
+          break;
+        }
       }
     }
   });

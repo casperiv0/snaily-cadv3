@@ -34,6 +34,8 @@ const CreateTruckLogPage = React.lazy(
   () => import("./pages/truck-logs/create-truck-log")
 );
 
+const EmsFdDash = React.lazy(() => import("./pages/ems-fd/dash"));
+
 ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
@@ -80,6 +82,12 @@ ReactDOM.render(
               Component={CreateTruckLogPage}
             />
             <AuthRoute path="/truck-logs" Component={TruckLogsDash} />
+
+            <AuthRoute
+              requirement="ems_fd"
+              path="/ems-fd/dash"
+              Component={EmsFdDash}
+            />
           </Switch>
         </React.Suspense>
       </Router>

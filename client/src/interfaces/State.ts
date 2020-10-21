@@ -48,6 +48,12 @@ interface State {
     error: string;
     logs: TruckLog[];
   };
+  ems_fd: {
+    deputies: Deputy[];
+    error: string;
+    status: string;
+    status2: string;
+  };
 }
 
 export default State;

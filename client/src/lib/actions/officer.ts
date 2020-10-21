@@ -33,9 +33,9 @@ export const getCurrentOfficer = (id: string) => async (
     if (isSuccess(res)) {
       dispatch({
         type: GET_CURRENT_OFFICER_STATUS,
-        status: res.data.officer.status,
-        status2: res.data.officer.status2,
-        officerName: res.data.officer.officerName,
+        status: res.data.officer?.status || "off-duty",
+        status2: res.data.officer?.status2 || "-",
+        officerName: res.data.officer?.officerName || "-",
       });
     }
   } catch (e) {

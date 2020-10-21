@@ -1,6 +1,7 @@
 import * as React from "react";
 import Modal, { XButton } from "..";
 import lang from "../../../language.json";
+import { setStatus as setEmsStatus } from "../../../lib/actions/ems-fd";
 import { statuses } from "../../leo/Statuses";
 import { setStatus } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
@@ -9,7 +10,9 @@ interface Props {
   id: string;
   status: string;
   status2: string;
+  type: "ems-fd" | "officers";
   setStatus: (id: string, status: string, status2: string) => void;
+  setEmsStatus: (id: string, status: string, status2: string) => void;
 }
 
 const UpdateStatusModal: React.FC<Props> = (props) => {
@@ -20,11 +23,17 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    props.setStatus(
-      props.id,
-      status.toLowerCase(),
-      status === "off-duty" ? "--------" : status2
-    );
+    const conf = {
+      id: props.id,
+      status: status.toLowerCase(),
+      status2: status === "off-duty" ? "--------" : status2,
+    };
+
+    if (props.type === "ems-fd") {
+      props.setEmsStatus(conf.id, conf.status, conf.status2);
+    } else if (props.type === "officers") {
+      props.setStatus(conf.id, conf.status, conf.status2);
+    }
 
     btnRef.current?.click();
   }
@@ -91,4 +100,4 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
   );
 };
 
-export default connect(null, { setStatus })(UpdateStatusModal);
+export default connect(null, { setStatus, setEmsStatus })(UpdateStatusModal);
