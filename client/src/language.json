@@ -340,6 +340,7 @@
         "back_to_dash": "Back to dashboard"
     },
     "citizen": {
+        "no_citizens_found": "You don't have any citizens",
         "citizen": "Citizen",
         "linked_to": "Linked To",
         "full_name": "Full Name",

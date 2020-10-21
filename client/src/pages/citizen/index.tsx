@@ -4,13 +4,16 @@ import CallTowModal from "../../components/modals/callTowModal";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import socket from "../../lib/socket";
+import AlertMessage from "../../components/alert-message";
+import Citizen from "../../interfaces/Citizen";
+import Call911Modal from "../../components/modals/call911Modal";
 import { logout } from "../../lib/actions/auth";
 import { connect } from "react-redux";
-import AlertMessage from "../../components/alert-message";
 
 interface Props {
   aop: string;
   message: string;
+  citizens: Citizen[];
   logout: () => void;
 }
 
@@ -79,12 +82,39 @@ const CitizensPage: React.FC<Props> = (props) => {
         </div>
       </div>
 
+      <ul className="list-group mt-3">
+        {!props.citizens[0] ? (
+          <AlertMessage
+            message={lang.citizen.no_citizens_found}
+            type="warning"
+          />
+        ) : (
+          props.citizens.map((citizen: Citizen, idx: number) => {
+            return (
+              <li
+                key={idx}
+                id={`${idx}`}
+                className="list-group-item mb-1 bg-dark border-secondary d-flex justify-content-between"
+              >
+                {citizen.full_name}
+
+                <a className="btn btn-primary" href={`/citizen/${citizen.id}`}>
+                  {lang.citizen.more_info}
+                </a>
+              </li>
+            );
+          })
+        )}
+      </ul>
+
       <CallTowModal />
+      <Call911Modal />
     </Layout>
   );
 };
 
 const mapToProps = (state: State) => ({
+  citizens: state.citizen.citizens,
   aop: state.global.aop,
   message: state.global.message,
 });

@@ -7,6 +7,7 @@ import {
   CREATE_TOW_CALL,
   GET_TOW_CALLS,
   END_TOW_CALL,
+  CREATE_911_CALL,
 } from "../types";
 
 const initState = {
@@ -17,6 +18,10 @@ const initState = {
 type Actions =
   | {
       type: typeof GET_911_CALLS;
+      calls: Call[];
+    }
+  | {
+      type: typeof CREATE_911_CALL;
       calls: Call[];
     }
   | {
@@ -46,6 +51,11 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         calls_911: action.calls,
+      };
+    case "CREATE_911_CALL":
+      return {
+        ...state,
+        calls: action.calls,
       };
     case "UPDATE_911_CALL":
       return {

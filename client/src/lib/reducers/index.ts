@@ -9,6 +9,8 @@ import boloReducer from "./boloReducer";
 import dispatchReducer from "./dispatchReducer";
 import trucklogsReducer from "./trucklogsReducer";
 import emsFdReducer from "./emsFdReducer";
+import citizenReducer from "./citizenReducer";
+import valuesReducer from "./valuesReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -20,4 +22,6 @@ export default combineReducers({
   dispatch: dispatchReducer,
   truck_logs: trucklogsReducer,
   ems_fd: emsFdReducer,
+  citizen: citizenReducer,
+  values: valuesReducer,
 });

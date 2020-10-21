@@ -3,7 +3,12 @@ import Logger from "../Logger";
 import socket from "../socket";
 import { Dispatch } from "redux";
 import { handleRequest, isSuccess } from "../functions";
-import { GET_911_CALLS, END_911_CALL, UPDATE_911_CALL } from "../types";
+import {
+  GET_911_CALLS,
+  END_911_CALL,
+  UPDATE_911_CALL,
+  CREATE_911_CALL,
+} from "../types";
 
 interface IDispatch {
   type: string;
@@ -24,6 +29,24 @@ export const getActive911Calls = () => async (
     }
   } catch (e) {
     Logger.error("GET_ACTIVE_911_CALLS", e);
+  }
+};
+
+export const create911Call = (data: object) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest("/dispatch/calls", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: CREATE_911_CALL,
+        calls: res.data.calls,
+      });
+      socket.emit("UPDATE_911_CALLS");
+    }
+  } catch (e) {
+    Logger.error(CREATE_911_CALL, e);
   }
 };
 

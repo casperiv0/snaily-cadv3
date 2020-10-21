@@ -31,10 +31,10 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community! (Work
     - [x] get an individual bleet
     - [x] delete a bleet
   - [ ] citizen routes
-  - [ ] dispatch routes
-  - [ ] ems fd routes
+  - [x] dispatch routes
+  - [x] ems fd routes
   - [ ] global routes
-  - [ ] officers routes
+  - [x] officers routes
   - [x] truck-logs routs
 
 ## Contributing

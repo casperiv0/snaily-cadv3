@@ -8,6 +8,7 @@ import recordsRouter from "./routes/records";
 import dispatchRouter from "./routes/dispatch";
 import towCallsRouter from "./routes/tow";
 import emsFdRouter from "./routes/ems-fd";
+import valuesRouter from "./routes/values";
 const api: Router = Router();
 
 api.use("/auth", authRouter);
@@ -19,5 +20,6 @@ api.use("/records", recordsRouter);
 api.use("/dispatch", dispatchRouter);
 api.use("/tow-calls", towCallsRouter);
 api.use("/ems-fd", emsFdRouter);
+api.use("/values", valuesRouter);
 
 export default api;

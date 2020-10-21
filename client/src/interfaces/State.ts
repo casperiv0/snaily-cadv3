@@ -8,6 +8,8 @@ import Deputy from "./Deputy";
 import TowCall from "./TowCall";
 import TruckLog from "./TruckLog";
 import MedicalRecord from "./MedicalRecord";
+import Citizen from "./Citizen";
+import Value from "./Value";
 
 interface State {
   auth: {
@@ -55,6 +57,15 @@ interface State {
     error: string;
     status: string;
     status2: string;
+  };
+  citizen: {
+    error: string;
+    citizens: Citizen[];
+  };
+  values: {
+    genders: Value[];
+    legalStatuses: Value[];
+    ethnicities: Value[];
   };
 }
 

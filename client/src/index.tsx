@@ -10,6 +10,8 @@ import Navbar from "./components/navbar";
 
 import store from "./lib/store";
 
+const NotFoundPage = React.lazy(() => import("./pages/not-found"));
+
 const BleeterPage = React.lazy(() => import("./pages/bleeter"));
 const BleetPage = React.lazy(() => import("./pages/bleeter/bleet"));
 const EditBleet = React.lazy(() => import("./pages/bleeter/edit-bleet"));
@@ -26,6 +28,9 @@ const CreateOfficerPage = React.lazy(
 const DispatchDash = React.lazy(() => import("./pages/dispatch/dash"));
 
 const CitizensPage = React.lazy(() => import("./pages/citizen/index"));
+const CreateCitizenPage = React.lazy(
+  () => import("./pages/citizen/create-citizen")
+);
 
 const TowDash = React.lazy(() => import("./pages/tow/dash"));
 
@@ -79,6 +84,7 @@ ReactDOM.render(
               Component={DispatchDash}
             />
 
+            <AuthRoute path="/citizen/create" Component={CreateCitizenPage} />
             <AuthRoute path="/citizen" Component={CitizensPage} />
 
             <AuthRoute requirement="tow" path="/tow" Component={TowDash} />
@@ -104,6 +110,8 @@ ReactDOM.render(
               path="/ems-fd/deputies"
               Component={MyEmsDeputiesPage}
             />
+
+            <Route component={NotFoundPage} />
           </Switch>
         </React.Suspense>
       </Router>

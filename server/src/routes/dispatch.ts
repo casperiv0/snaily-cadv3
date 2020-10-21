@@ -3,6 +3,7 @@ import { processQuery } from "../lib/database";
 import { useAuth } from "../hooks";
 // import { v4 as uuidv4 } from "uuid";
 import IRequest from "../interfaces/IRequest";
+import { v4 } from "uuid";
 const router: Router = Router();
 
 router.get(
@@ -24,6 +25,29 @@ router.get(
       ems_fd: activeEmsFd,
       status: "success",
     });
+  }
+);
+
+router.post(
+  "/calls",
+  useAuth,
+  useDispatchAuth,
+  async (req: IRequest, res: Response) => {
+    const { location, description, caller } = req.body;
+    const id = v4();
+
+    if (location && description && caller) {
+      await processQuery(
+        "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
+        [id, description, caller, location, "Not Assigned", ""]
+      );
+
+      const calls = await processQuery("SELECT * FROM `911calls`");
+
+      return res.json({ status: "success", calls });
+    } else {
+      return res.json({ error: "Please fill in all fields", status: "error" });
+    }
   }
 );
 

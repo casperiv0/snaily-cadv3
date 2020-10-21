@@ -1,5 +1,5 @@
+export const RanksArr = ["owner", "admin", "moderator"];
 
-export const RanksArr = ["owner", "admin", "moderator", "user"];
 export const enum Ranks {
   owner = "owner",
   admin = "admin",
