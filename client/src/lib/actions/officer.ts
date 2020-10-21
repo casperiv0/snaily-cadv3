@@ -53,7 +53,6 @@ export const setStatus = (
     const res = await handleRequest(`/officer/status/${id}`, "PUT", data);
 
     if (isSuccess(res)) {
-      socket.emit("UPDATE_ACTIVE_UNITS");
       localStorage.setItem("on-duty-officerId", id);
       dispatch({
         type: SET_STATUS,
@@ -61,6 +60,7 @@ export const setStatus = (
         status2: res.data.officer.status2,
         officerName: res.data.officer.officerName,
       });
+      socket.emit("UPDATE_ACTIVE_UNITS");
     }
   } catch (e) {
     Logger.error(SET_STATUS, e);

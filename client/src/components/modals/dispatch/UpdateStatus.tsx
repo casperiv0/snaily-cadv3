@@ -1,7 +1,7 @@
 import * as React from "react";
 import Modal, { XButton } from "..";
 import lang from "../../../language.json";
-import { setStatus as setEmsStatus } from "../../../lib/actions/ems-fd";
+import { setEmsStatus } from "../../../lib/actions/ems-fd";
 import { statuses } from "../../leo/Statuses";
 import { setStatus } from "../../../lib/actions/officer";
 import { connect } from "react-redux";

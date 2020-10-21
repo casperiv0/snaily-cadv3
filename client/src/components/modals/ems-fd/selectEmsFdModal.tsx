@@ -3,13 +3,13 @@ import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import { connect } from "react-redux";
-import { getMyDeputies, setStatus } from "../../../lib/actions/ems-fd";
+import { getMyDeputies, setEmsStatus } from "../../../lib/actions/ems-fd";
 import Deputy from "../../../interfaces/Deputy";
 
 interface Props {
   deputies: Deputy[];
   getMyDeputies: () => void;
-  setStatus: (
+  setEmsStatus: (
     id: string,
     status: "on-duty" | "off-duty",
     status2: string
@@ -19,7 +19,7 @@ interface Props {
 const SelectOfficerModal: React.FC<Props> = ({
   deputies,
   getMyDeputies,
-  setStatus,
+  setEmsStatus,
 }) => {
   const [selected, setSelected] = React.useState("");
   const btnRef = React.createRef<HTMLButtonElement>();
@@ -31,7 +31,7 @@ const SelectOfficerModal: React.FC<Props> = ({
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    setStatus(selected, "on-duty", "10-8");
+    setEmsStatus(selected, "on-duty", "10-8");
 
     btnRef.current?.click();
   }
@@ -92,6 +92,6 @@ const mapToProps = (state: State) => ({
   deputies: state.ems_fd.deputies,
 });
 
-export default connect(mapToProps, { getMyDeputies, setStatus })(
+export default connect(mapToProps, { getMyDeputies, setEmsStatus })(
   SelectOfficerModal
 );

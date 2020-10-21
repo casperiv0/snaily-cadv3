@@ -104,7 +104,7 @@ const Navbar: React.FC<Props> = ({
         <ul className="navbar-nav mr-auto">
           {paths.map((path: Path, idx: number) => {
             return (
-              <li id={`${idx}`} key={idx} className="nav-item">
+              <li id={path.name} key={idx} className="nav-item">
                 <a
                   className={
                     currentPath === path.href ? "nav-link active" : "nav-link"

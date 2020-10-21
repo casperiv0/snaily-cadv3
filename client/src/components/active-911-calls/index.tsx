@@ -58,4 +58,6 @@ const mapToProps = (state: State) => ({
   calls: state.calls.calls_911,
 });
 
-export default connect(mapToProps, { getActive911Calls })(Active911Calls);
+const Memoized = React.memo(Active911Calls);
+
+export default connect(mapToProps, { getActive911Calls })(Memoized);

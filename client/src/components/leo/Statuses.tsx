@@ -96,4 +96,6 @@ const mapToProps = (state: State) => ({
   status2: state.officers.status2,
 });
 
-export default connect(mapToProps, { getCurrentOfficer, setStatus })(Statuses);
+const Memoized = React.memo(Statuses);
+
+export default connect(mapToProps, { getCurrentOfficer, setStatus })(Memoized);

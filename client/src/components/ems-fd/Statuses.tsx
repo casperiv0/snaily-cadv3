@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import State from "../../interfaces/State";
-import { setStatus, getCurrentEmsStatus } from "../../lib/actions/ems-fd";
+import { setEmsStatus, getCurrentEmsStatus } from "../../lib/actions/ems-fd";
 import socket from "../../lib/socket";
 
 export const statuses: string[] = ["10-7", "10-6", "10-5", "10-97"];
@@ -9,7 +9,7 @@ export const statuses: string[] = ["10-7", "10-6", "10-5", "10-97"];
 interface Props {
   status: string;
   status2: string;
-  setStatus: (
+  setEmsStatus: (
     id: string,
     status: "on-duty" | "off-duty" | string,
     status2: string
@@ -20,7 +20,7 @@ interface Props {
 const Statuses: React.FC<Props> = ({
   status: currentStatus,
   status2,
-  setStatus,
+  setEmsStatus,
   getCurrentEmsStatus,
 }) => {
   const deputyId = String(localStorage.getItem("on-duty-ems-fd"));
@@ -41,7 +41,7 @@ const Statuses: React.FC<Props> = ({
     /* little spam protection */
     if (currentStatus === status) return;
 
-    setStatus(deputyId, "on-duty", status);
+    setEmsStatus(deputyId, "on-duty", status);
   }
 
   return (
@@ -86,6 +86,8 @@ const mapToProps = (state: State) => ({
   status2: state.ems_fd.status2,
 });
 
-export default connect(mapToProps, { setStatus, getCurrentEmsStatus })(
-  Statuses
+const Memoized = React.memo(Statuses);
+
+export default connect(mapToProps, { setEmsStatus, getCurrentEmsStatus })(
+  Memoized
 );

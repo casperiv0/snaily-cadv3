@@ -6,10 +6,10 @@ import State from "../../interfaces/State";
 import UpdateAOP from "../../components/dispatch/UpdateAOP";
 import ActiveUnits from "../../components/dispatch/ActiveUnits";
 import socket from "../../lib/socket";
-import { connect } from "react-redux";
 import ActiveCalls from "../../components/dispatch/ActiveCalls";
 import ActiveBolos from "../../components/active-bolos";
 import NotepadModal from "../../components/modals/notepad";
+import { connect } from "react-redux";
 
 interface Props {
   aop: string;

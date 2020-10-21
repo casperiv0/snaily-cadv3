@@ -19,6 +19,45 @@ router.get(
   }
 );
 
+router.post(
+  "/my-deputies",
+  useAuth,
+  useEmsAuth,
+  async (req: IRequest, res: Response) => {
+    const { name } = req.body;
+    const id = uuidv4();
+
+    if (name) {
+      await processQuery(
+        "INSERT INTO `ems-fd` (`id`, `name`, `user_id`, `status`, `status2`) VALUES (?, ?, ?, ?, ?)",
+        [id, name, req.user?.id, "off-duty", "--------"]
+      );
+
+      return res.json({ status: "success" });
+    } else {
+      return res.json({ status: "error", error: "Please fill in all fields" });
+    }
+  }
+);
+
+router.delete(
+  "/my-deputies/:id",
+  useAuth,
+  useEmsAuth,
+  async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+
+    await processQuery("DELETE FROM `ems-fd` WHERE `id` = ?", [id]);
+
+    const deputies = await processQuery(
+      "SELECT * FROM `ems-fd` WHERE `user_id` = ?",
+      [req.user?.id]
+    );
+
+    return res.json({ status: "success", deputies });
+  }
+);
+
 router.get(
   "/status/:id",
   useAuth,

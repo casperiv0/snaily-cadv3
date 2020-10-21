@@ -26,7 +26,7 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
   return (
     <>
       {/* Active officers */}
-      <div className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
+      <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
         <li className="list-group-item bg-secondary border-secondary sticky-top">
           <h5>{lang.global.active_officers}</h5>
         </li>
@@ -70,10 +70,10 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
             </tbody>
           </table>
         )}
-      </div>
+      </ul>
 
       {/* Active EMS/FD */}
-      <div
+      <ul
         className="list-group overflow-auto mt-3"
         style={{ maxHeight: "25rem" }}
       >
@@ -123,13 +123,13 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
             </tbody>
           </table>
         )}
-      </div>
+      </ul>
 
       {/* modals */}
       {officers.map((officer: Officer, idx: number) => {
         return (
           <UpdateStatusModal
-          type="officers"
+            type="officers"
             key={idx}
             id={officer.id}
             status={officer.status}
@@ -157,4 +157,6 @@ const mapToProps = (state: State) => ({
   ems_fd: state.dispatch.ems_fd,
 });
 
-export default connect(mapToProps, { getActiveUnits })(ActiveUnits);
+const Memoized = React.memo(ActiveUnits);
+
+export default connect(mapToProps, { getActiveUnits })(Memoized);

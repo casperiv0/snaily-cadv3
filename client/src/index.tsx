@@ -35,6 +35,12 @@ const CreateTruckLogPage = React.lazy(
 );
 
 const EmsFdDash = React.lazy(() => import("./pages/ems-fd/dash"));
+const MyEmsDeputiesPage = React.lazy(
+  () => import("./pages/ems-fd/my-deputies")
+);
+const CreateDeputyPage = React.lazy(
+  () => import("./pages/ems-fd/create-deputy")
+);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -87,6 +93,16 @@ ReactDOM.render(
               requirement="ems_fd"
               path="/ems-fd/dash"
               Component={EmsFdDash}
+            />
+            <AuthRoute
+              requirement="ems_fd"
+              path="/ems-fd/deputies/create"
+              Component={CreateDeputyPage}
+            />
+            <AuthRoute
+              requirement="ems_fd"
+              path="/ems-fd/deputies"
+              Component={MyEmsDeputiesPage}
             />
           </Switch>
         </React.Suspense>
