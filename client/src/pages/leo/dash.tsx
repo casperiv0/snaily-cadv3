@@ -11,9 +11,11 @@ import SelectOfficerModal from "../../components/modals/officer/selectOfficerMod
 import CreateWarrant from "../../components/leo/CreateWarrant";
 import socket from "../../lib/socket";
 import NotepadModal from "../../components/modals/notepad";
+import AlertMessage from "../../components/alert-message";
 
 interface Props {
   aop: string;
+  message: string
 }
 
 const LeoDash: React.FC<Props> = (props) => {
@@ -38,6 +40,7 @@ const LeoDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
+      {props.message ? <AlertMessage type="success" message={props.message} /> : null}
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>
@@ -70,6 +73,7 @@ const LeoDash: React.FC<Props> = (props) => {
 
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
+  message: state.global.message,
 });
 
 export default connect(mapToProps)(React.memo(LeoDash));

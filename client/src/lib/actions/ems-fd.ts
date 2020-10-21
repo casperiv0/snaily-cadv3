@@ -1,4 +1,5 @@
 import Deputy from "../../interfaces/Deputy";
+import MedicalRecord from "../../interfaces/MedicalRecord";
 import Logger from "../Logger";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
@@ -6,6 +7,7 @@ import {
   GET_CURRENT_EMS_STATUS,
   GET_MY_EMS_FD,
   SET_EMS_STATUS,
+  SEARCH_MEDICAL_RECORD,
 } from "../types";
 import socket from "../socket";
 
@@ -14,6 +16,7 @@ interface IDispatch {
   message?: string;
   error?: string;
   deputies?: Deputy[];
+  medicalRecords?: MedicalRecord[];
   status?: string;
   status2?: string;
 }
@@ -71,5 +74,22 @@ export const setStatus = (
     }
   } catch (e) {
     Logger.error(SET_EMS_STATUS, e);
+  }
+};
+
+export const searchMedicalRecord = (name: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/ems-fd/medical-records/${name}`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: SEARCH_MEDICAL_RECORD,
+        medicalRecords: res.data.medicalRecords,
+      });
+    }
+  } catch (e) {
+    Logger.error(SEARCH_MEDICAL_RECORD, e);
   }
 };

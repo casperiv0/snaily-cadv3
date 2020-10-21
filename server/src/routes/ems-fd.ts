@@ -54,6 +54,22 @@ router.put(
   }
 );
 
+router.get(
+  "/medical-records/:name",
+  useAuth,
+  useEmsAuth,
+  async (req: IRequest, res: Response) => {
+    const { name } = req.params;
+
+    const medicalRecords = await processQuery(
+      "SELECT * FROM `medical_records` WHERE `name` = ?",
+      [name]
+    );
+
+    return res.json({ status: "success", medicalRecords });
+  }
+);
+
 async function useEmsAuth(
   req: IRequest,
   res: Response,

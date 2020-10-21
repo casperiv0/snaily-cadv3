@@ -7,6 +7,7 @@ import Department from "./Department";
 import Deputy from "./Deputy";
 import TowCall from "./TowCall";
 import TruckLog from "./TruckLog";
+import MedicalRecord from "./MedicalRecord";
 
 interface State {
   auth: {
@@ -50,6 +51,7 @@ interface State {
   };
   ems_fd: {
     deputies: Deputy[];
+    medicalRecords: MedicalRecord[];
     error: string;
     status: string;
     status2: string;

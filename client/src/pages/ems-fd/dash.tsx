@@ -6,6 +6,7 @@ import lang from "../../language.json";
 import Statuses from "../../components/ems-fd/Statuses";
 import NotepadModal from "../../components/modals/notepad";
 import SelectEmsFdModal from "../../components/modals/ems-fd/selectEmsFdModal";
+import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRecords";
 import { connect } from "react-redux";
 
 interface Props {
@@ -41,7 +42,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
           </a>
           <button
             className="btn btn-secondary mt-2 ml-2"
-            data-target="#searchMedicalRecords"
+            data-target="#searchMedicalRecordsModal"
             data-toggle="modal"
           >
             {lang.global.medical_search}
@@ -62,6 +63,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
       </div>
 
       {/* Modals */}
+      <SearchMedicalRecord />
       <SelectEmsFdModal />
       <NotepadModal />
     </Layout>

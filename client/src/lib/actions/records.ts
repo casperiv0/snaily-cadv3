@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
-import { CREATE_WARRANT, CREATE_WARRANT_ERROR } from "../types";
+import { CREATE_WARRANT, CREATE_WARRANT_ERROR, SET_MESSAGE } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
 
@@ -21,6 +21,9 @@ export const createWarrant = (data: {
     if (isSuccess(res)) {
       dispatch({
         type: CREATE_WARRANT,
+      });
+      dispatch({
+        type: SET_MESSAGE,
         message: `${lang.record.created_warrant} ${data.fullName}`,
       });
     } else {
