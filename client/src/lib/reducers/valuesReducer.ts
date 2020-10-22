@@ -2,10 +2,12 @@ import Value from "../../interfaces/Value";
 import {
   ADD_ETHNICITY,
   ADD_GENDER,
+  ADD_LEGAL_STATUS,
   DELETE_ETHNICITY,
   DELETE_GENDER,
   GET_ETHNICITIES,
   GET_GENDERS,
+  GET_LEGAL_STATUSES,
   UPDATE_ETHNICITY,
   UPDATE_GENDER,
 } from "../types";
@@ -47,6 +49,17 @@ type Actions =
     }
   | {
       type: typeof UPDATE_ETHNICITY;
+    }
+  | {
+      type: typeof GET_LEGAL_STATUSES;
+      legalStatuses: Value[];
+    }
+  | {
+      type: typeof ADD_LEGAL_STATUS;
+    }
+  | {
+      type: typeof DELETE_ETHNICITY;
+      legalStatuses: Value[];
     };
 
 export default function (state = initState, action: Actions) {
@@ -61,6 +74,11 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         ethnicities: action.ethnicities,
+      };
+    case "GET_LEGAL_STATUSES":
+      return {
+        ...state,
+        legalStatuses: action.legalStatuses,
       };
     default:
       return {

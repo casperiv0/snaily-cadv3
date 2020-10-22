@@ -1,7 +1,8 @@
 interface Citizen {
-  id: string;
+  image?: any;
+  id?: string;
+  user_id?: string;
   full_name: string;
-  user_id: string;
   birth: string;
   gender: string;
   ethnicity: string;
@@ -14,12 +15,12 @@ interface Citizen {
   fire_license: string;
   pilot_license: string;
   ccw: string;
-  business: string;
-  rank: "owner" | "manager" | "employee" | "";
-  vehicle_reg: string;
-  posts: string;
-  citizen_picture: string;
-  b_status: string;
+  business?: string;
+  rank?: "owner" | "manager" | "employee" | "";
+  vehicle_reg?: string;
+  posts?: string;
+  image_id?: string;
+  b_status?: string;
 }
 
 export default Citizen;

@@ -9,20 +9,27 @@ import Citizen from "../../interfaces/Citizen";
 import Call911Modal from "../../components/modals/call911Modal";
 import { logout } from "../../lib/actions/auth";
 import { connect } from "react-redux";
+import { getCitizens } from "../../lib/actions/citizen";
 
 interface Props {
   aop: string;
   message: string;
   citizens: Citizen[];
   logout: () => void;
+  getCitizens: () => void;
 }
 
 const CitizensPage: React.FC<Props> = (props) => {
+  const { message, citizens, getCitizens, logout } = props;
   const [aop, setAop] = React.useState(props.aop);
 
   React.useEffect(() => {
     document.title = "Citizen - View and change all your citizens";
   });
+
+  React.useEffect(() => {
+    getCitizens();
+  }, [getCitizens]);
 
   React.useEffect(() => {
     socket.on("UPDATE_AOP", (newAop: string) => {
@@ -33,15 +40,15 @@ const CitizensPage: React.FC<Props> = (props) => {
   return (
     <Layout classes="mt-5">
       <div>
-        {props.message ? (
-          <AlertMessage type="success" message={props.message} />
+        {message ? (
+          <AlertMessage type="success" message={message} />
         ) : null}
         <h3>
           {lang.auth.welcome} - AOP: {aop}
         </h3>
 
         <div className="d-flex">
-          <button onClick={props.logout} className="btn btn-danger col">
+          <button onClick={logout} className="btn btn-danger col">
             {lang.auth.logout}
           </button>
           <a href="/account" className="ml-1 col btn btn-primary">
@@ -83,13 +90,13 @@ const CitizensPage: React.FC<Props> = (props) => {
       </div>
 
       <ul className="list-group mt-3">
-        {!props.citizens[0] ? (
+        {!citizens[0] ? (
           <AlertMessage
             message={lang.citizen.no_citizens_found}
             type="warning"
           />
         ) : (
-          props.citizens.map((citizen: Citizen, idx: number) => {
+          citizens.map((citizen: Citizen, idx: number) => {
             return (
               <li
                 key={idx}
@@ -119,4 +126,4 @@ const mapToProps = (state: State) => ({
   message: state.global.message,
 });
 
-export default connect(mapToProps, { logout })(CitizensPage);
+export default connect(mapToProps, { logout, getCitizens })(CitizensPage);

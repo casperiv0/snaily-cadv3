@@ -7,7 +7,7 @@ import { RanksArr } from "../lib/constants";
 const router: Router = Router();
 
 /* genders */
-router.get("/genders", useAuth, async (req: IRequest, res: Response) => {
+router.get("/genders", useAuth, async (_req: IRequest, res: Response) => {
   const genders = await processQuery("SELECT * FROM `genders`");
 
   return res.json({ status: "success", genders });
@@ -33,11 +33,22 @@ router.post(
 );
 
 /* ethnicities */
-router.get("/ethnicities", useAuth, async (req: IRequest, res: Response) => {
+router.get("/ethnicities", useAuth, async (_req: IRequest, res: Response) => {
   const ethnicities = await processQuery("SELECT * FROM `ethnicities`");
 
   return res.json({ status: "success", ethnicities });
 });
+
+/* Legal statuses */
+router.get(
+  "/legal-statuses",
+  useAuth,
+  async (_req: IRequest, res: Response) => {
+    const legalStatuses = await processQuery("SELECT * FROM `legal_statuses`");
+
+    return res.json({ status: "success", legalStatuses });
+  }
+);
 
 export async function useAdminAuth(
   req: IRequest,
