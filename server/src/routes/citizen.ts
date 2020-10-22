@@ -15,6 +15,16 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ status: "success", citizens });
 });
 
+router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+  const citizen = await processQuery(
+    "SELECT * FROM `citizens` WHERE `id` = ?",
+    [id]
+  );
+
+  return res.json({ citizen: citizen[0], status: "success" });
+});
+
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const {
     full_name,
@@ -97,7 +107,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     }
 
     file?.name &&
-      file.mv("./public/citizen-images/qs" + imageId, (e) => {
+      file.mv("./public/citizen-images/" + imageId, (e) => {
         if (e) {
           Logger.error("MOVE_CITIZEN_IMAGE", e);
         }

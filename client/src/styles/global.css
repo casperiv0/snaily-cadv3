@@ -19,3 +19,10 @@ body {
 .auth-btn:disabled {
   cursor: not-allowed;
 }
+
+.object-fit-center {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  background-position: center;
+}

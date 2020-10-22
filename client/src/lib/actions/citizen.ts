@@ -35,6 +35,14 @@ export const getCitizenById = (id: string) => async (
   dispatch: Dispatch<IDispatch>
 ) => {
   try {
+    const res = await handleRequest(`/citizen/${id}`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_CITIZEN_BY_ID,
+        citizen: res.data.citizen,
+      });
+    }
   } catch (e) {
     Logger.error(GET_CITIZEN_BY_ID, e);
   }

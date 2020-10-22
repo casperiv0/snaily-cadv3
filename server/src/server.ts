@@ -15,6 +15,7 @@ const server = app.listen(port, () => Logger.listening(port));
 const io = socketIO(server);
 const protection = csurf({ cookie: true });
 
+app.use("/static", express.static("public"));
 app.use(json());
 app.use(fileUpload());
 app.use(cors({ origin: config.clientUrl, credentials: true }));

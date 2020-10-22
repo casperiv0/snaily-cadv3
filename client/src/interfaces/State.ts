@@ -61,6 +61,7 @@ interface State {
   citizen: {
     error: string;
     citizens: Citizen[];
+    citizen: Citizen;
   };
   values: {
     genders: Value[];
