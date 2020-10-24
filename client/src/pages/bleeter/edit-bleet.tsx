@@ -3,11 +3,11 @@ import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import Bleet from "../../interfaces/Bleet";
 import Match from "../../interfaces/Match";
-import { connect } from "react-redux";
-import { getBleetById } from "../../lib/actions/bleeter";
 import Loader from "../../components/loader";
 import lang from "../../language.json";
 import User from "../../interfaces/User";
+import { connect } from "react-redux";
+import { getBleetById, updateBleet } from "../../lib/actions/bleeter";
 
 interface Props {
   bleet: Bleet;
@@ -15,6 +15,7 @@ interface Props {
   user: User;
   loading: boolean;
   getBleetById: (id: string) => void;
+  updateBleet: (data: object, id: string) => void;
 }
 
 const EditBleet: React.FC<Props> = ({
@@ -23,6 +24,7 @@ const EditBleet: React.FC<Props> = ({
   loading,
   user,
   getBleetById,
+  updateBleet,
 }) => {
   const id = match.params.id;
   const [title, setTitle] = React.useState<string>("");
@@ -55,6 +57,14 @@ const EditBleet: React.FC<Props> = ({
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    updateBleet(
+      {
+        title,
+        body,
+      },
+      id
+    );
   }
 
   return (
@@ -72,13 +82,14 @@ const EditBleet: React.FC<Props> = ({
         </div>
         <div className="form-group">
           <label htmlFor="body">{lang.bleeter.bleet_body}</label>
-          <input
-            type="text"
+          <textarea
             id="body"
             className="form-control bg-dark text-light border-dark"
             value={body}
             onChange={(e) => setBody(e.target.value)}
-          />
+            rows={10}
+            style={{ resize: "vertical" }}
+          ></textarea>
         </div>
         <div className="form-group float-right">
           <a className="btn btn-danger mr-2" href={`/bleet/${bleet.id}`}>
@@ -99,4 +110,4 @@ const mapToProps = (state: State) => ({
   loading: state.bleets.loading,
 });
 
-export default connect(mapToProps, { getBleetById })(EditBleet);
+export default connect(mapToProps, { getBleetById, updateBleet })(EditBleet);

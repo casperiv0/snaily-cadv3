@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
-import { GET_BLEETS, GET_BLEET_BY_ID, SET_LOADING_BLEETS } from "../types";
+import { GET_BLEETS, GET_BLEET_BY_ID, SET_LOADING_BLEETS, UPDATE_BLEET } from "../types";
 import Bleet from "../../interfaces/Bleet";
 import Logger from "../Logger";
 
@@ -49,4 +49,22 @@ export const getBleetById = (id: string) => async (
   }
 
   dispatch({ type: SET_LOADING_BLEETS, loading: false });
+};
+
+export const updateBleet = (data: object, id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/bleeter/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_BLEET,
+      });
+      return window.location.href = `/bleet/${id}`;
+    }
+  } catch (e) {
+    Logger.error(GET_BLEET_BY_ID, e);
+  }
+
 };
