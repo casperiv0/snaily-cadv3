@@ -7,9 +7,11 @@ import Logger from "../../lib/Logger";
 const router: Router = Router();
 import citizenWeaponRouter from "./weapons";
 import citizenVehicleRouter from "./vehicles";
+import medicalRecordsRouter from "./medical-records";
 
 router.use("/weapons", citizenWeaponRouter);
 router.use("/vehicles", citizenVehicleRouter);
+router.use("/medical-records", medicalRecordsRouter);
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
   const citizens = await processQuery(

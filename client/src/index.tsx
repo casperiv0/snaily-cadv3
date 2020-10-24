@@ -35,6 +35,10 @@ const CitizenInfoPage = React.lazy(
   () => import("./pages/citizen/citizen-info")
 );
 
+const CreateMedicalRecordPage = React.lazy(
+  () => import("./pages/citizen/medical-records/create-medical-record")
+);
+
 const RegisterWeaponPage = React.lazy(
   () => import("./pages/citizen/weapons/register-weapon")
 );
@@ -107,6 +111,11 @@ ReactDOM.render(
             <AuthRoute
               path="/vehicles/register"
               Component={RegisterVehiclePage}
+            />
+
+            <AuthRoute
+              path="/medical-records/create/:id"
+              Component={CreateMedicalRecordPage}
             />
 
             <AuthRoute requirement="tow" path="/tow" Component={TowDash} />

@@ -10,6 +10,7 @@ import RegisteredWeapons from "../../components/citizen/weapons/RegisteredWeapon
 import { connect } from "react-redux";
 import { getCitizenById } from "../../lib/actions/citizen";
 import RegisteredVehicles from "../../components/citizen/vehicles/RegisteredVehicles";
+import MedicalRecords from "../../components/citizen/MedicalRecords";
 
 interface Props {
   citizen: Citizen;
@@ -121,6 +122,8 @@ const CitizenInfoPage: React.FC<Props> = ({
       </div>
 
       <LicenseCard citizen={citizen} />
+
+      <MedicalRecords citizenId={citizenId} />
 
       <RegisteredWeapons citizenId={citizenId} />
 

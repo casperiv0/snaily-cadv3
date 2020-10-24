@@ -13,11 +13,16 @@ import {
   DELETE_REGISTERED_VEHICLE,
   REGISTER_VEHICLE,
   REGISTER_VEHICLE_ERROR,
+  GET_MEDICAL_RECORDS,
+  CREATE_MEDICAL_RECORD,
+  CREATE_MEDICAL_RECORD_ERROR,
+  DELETE_MEDICAL_RECORD,
 } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
 import Weapon from "../../interfaces/Weapon";
 import Vehicle from "../../interfaces/Vehicle";
+import MedicalRecord from "../../interfaces/MedicalRecord";
 
 interface IDispatch {
   type: string;
@@ -26,6 +31,7 @@ interface IDispatch {
   citizens?: Citizen[];
   weapons?: Weapon[];
   vehicles?: Vehicle[];
+  medicalRecords?: MedicalRecord[];
 }
 
 export const getCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -115,6 +121,70 @@ export const createCitizen = (data: Citizen) => async (
   }
 };
 
+export const getMedicalRecords = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/citizen/medical-records/${id}`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_MEDICAL_RECORDS,
+        medicalRecords: res.data.medicalRecords,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_MEDICAL_RECORDS, e);
+  }
+};
+
+export const createMedicalRecord = (data: object, citizenId: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(
+      `/citizen/medical-records/${citizenId}`,
+      "POST",
+      data
+    );
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: CREATE_MEDICAL_RECORD,
+      });
+
+      return (window.location.href = `/citizen/${citizenId}`);
+    } else {
+      dispatch({
+        type: CREATE_MEDICAL_RECORD_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(CREATE_MEDICAL_RECORD, e);
+  }
+};
+
+export const deleteMedicalRecord = (
+  citizenId: string,
+  recordId: string
+) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(
+      `/citizen/medical-records/${citizenId}/${recordId}`,
+      "DELETE"
+    );
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_MEDICAL_RECORD,
+        medicalRecords: res.data.medicalRecords,
+      });
+    }
+  } catch (e) {
+    Logger.error(DELETE_MEDICAL_RECORD, e);
+  }
+};
 export const getRegisteredVehicles = (id: string) => async (
   dispatch: Dispatch<IDispatch>
 ) => {

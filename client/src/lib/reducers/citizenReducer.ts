@@ -1,4 +1,5 @@
 import Citizen from "../../interfaces/Citizen";
+import MedicalRecord from "../../interfaces/MedicalRecord";
 import Vehicle from "../../interfaces/Vehicle";
 import Weapon from "../../interfaces/Weapon";
 import {
@@ -13,6 +14,9 @@ import {
   DELETE_REGISTERED_VEHICLE,
   REGISTER_VEHICLE_ERROR,
   REGISTER_VEHICLE,
+  GET_MEDICAL_RECORDS,
+  CREATE_MEDICAL_RECORD_ERROR,
+  DELETE_MEDICAL_RECORD,
 } from "../types";
 
 const initState = {
@@ -20,6 +24,7 @@ const initState = {
   citizens: [],
   weapons: [],
   vehicles: [],
+  medicalRecords: [],
 };
 
 type Actions =
@@ -64,6 +69,18 @@ type Actions =
   | {
       type: typeof DELETE_REGISTERED_WEAPON;
       weapons: Weapon[];
+    }
+  | {
+      type: typeof GET_MEDICAL_RECORDS;
+      medicalRecords: MedicalRecord[];
+    }
+  | {
+      type: typeof CREATE_MEDICAL_RECORD_ERROR;
+      error: string;
+    }
+  | {
+      type: typeof DELETE_MEDICAL_RECORD;
+      medicalRecords: MedicalRecord[];
     };
 
 export default function (state = initState, action: Actions) {
@@ -120,6 +137,21 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         vehicles: action.vehicles,
+      };
+    case "GET_MEDICAL_RECORDS":
+      return {
+        ...state,
+        medicalRecords: action.medicalRecords,
+      };
+    case "CREATE_MEDICAL_RECORD_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "DELETE_MEDICAL_RECORD":
+      return {
+        ...state,
+        medicalRecords: action.medicalRecords,
       };
     default:
       return {

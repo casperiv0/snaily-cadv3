@@ -66,6 +66,7 @@ interface State {
     citizen: Citizen;
     weapons: Weapon[];
     vehicles: Vehicle[];
+    medicalRecords: MedicalRecord[];
   };
   values: {
     genders: Value[];
