@@ -1,4 +1,4 @@
-import { compareSync, hashSync } from "bcrypt";
+import { compareSync, genSaltSync, hashSync } from "bcryptjs";
 import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { v4 as uuidv4 } from "uuid";
@@ -8,7 +8,7 @@ import IRequest from "../interfaces/IRequest";
 import ICad from "../interfaces/ICad";
 import IUser from "../interfaces/IUser";
 
-const saltRounds = 15;
+const saltRounds = genSaltSync(10);
 const router: Router = Router();
 
 router.post("/register", async (req: IRequest, res: Response) => {
