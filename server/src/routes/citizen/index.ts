@@ -6,8 +6,10 @@ import IRequest from "../../interfaces/IRequest";
 import Logger from "../../lib/Logger";
 const router: Router = Router();
 import citizenWeaponRouter from "./weapons";
+import citizenVehicleRouter from "./vehicles";
 
 router.use("/weapons", citizenWeaponRouter);
+router.use("/vehicles", citizenVehicleRouter);
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
   const citizens = await processQuery(

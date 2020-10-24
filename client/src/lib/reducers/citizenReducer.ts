@@ -10,6 +10,9 @@ import {
   DELETE_REGISTERED_WEAPON,
   REGISTER_WEAPON,
   REGISTER_WEAPON_ERROR,
+  DELETE_REGISTERED_VEHICLE,
+  REGISTER_VEHICLE_ERROR,
+  REGISTER_VEHICLE,
 } from "../types";
 
 const initState = {
@@ -33,7 +36,18 @@ type Actions =
       citizen: Citizen;
     }
   | {
+      type: typeof REGISTER_VEHICLE;
+    }
+  | {
+      type: typeof REGISTER_VEHICLE_ERROR;
+      error: string;
+    }
+  | {
       type: typeof GET_REGISTERED_VEHICLES;
+      vehicles: Vehicle[];
+    }
+  | {
+      type: typeof DELETE_REGISTERED_VEHICLE;
       vehicles: Vehicle[];
     }
   | {
@@ -87,6 +101,25 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         weapons: action.weapons,
+      };
+    case "GET_REGISTERED_VEHICLES":
+      return {
+        ...state,
+        vehicles: action.vehicles,
+      };
+    case "REGISTER_VEHICLE":
+      return {
+        ...state,
+      };
+    case "REGISTER_VEHICLE_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "DELETE_REGISTERED_VEHICLE":
+      return {
+        ...state,
+        vehicles: action.vehicles,
       };
     default:
       return {

@@ -1,5 +1,4 @@
 import Value from "../../interfaces/Value";
-import Weapon from "../../interfaces/Weapon";
 import {
   ADD_ETHNICITY,
   ADD_GENDER,
@@ -10,6 +9,7 @@ import {
   GET_ETHNICITIES,
   GET_GENDERS,
   GET_LEGAL_STATUSES,
+  GET_VEHICLES,
   GET_WEAPONS,
   UPDATE_ETHNICITY,
   UPDATE_GENDER,
@@ -66,11 +66,15 @@ type Actions =
     }
   | {
       type: typeof GET_WEAPONS;
-      weapons: Weapon[];
+      weapons: Value[];
     }
   | {
       type: typeof DELETE_WEAPON;
-      weapons: Weapon[];
+      weapons: Value[];
+    }
+  | {
+      type: typeof GET_VEHICLES;
+      vehicles: Value[];
     };
 
 export default function (state = initState, action: Actions) {
@@ -100,6 +104,11 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         weapons: action.weapons,
+      };
+    case "GET_VEHICLES":
+      return {
+        ...state,
+        vehicles: action.vehicles,
       };
     default:
       return {

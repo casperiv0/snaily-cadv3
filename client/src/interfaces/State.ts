@@ -72,7 +72,7 @@ interface State {
     legalStatuses: Value[];
     ethnicities: Value[];
     weapons: Value[];
-    vehicles: Vehicle[];
+    vehicles: Value[];
   };
 }
 

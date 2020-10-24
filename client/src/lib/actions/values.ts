@@ -8,6 +8,7 @@ import {
   GET_ETHNICITIES,
   GET_GENDERS,
   GET_LEGAL_STATUSES,
+  GET_VEHICLES,
   GET_WEAPONS,
 } from "../types";
 
@@ -81,5 +82,21 @@ export const getWeapons = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_LEGAL_STATUSES, e);
+  }
+};
+
+/* vehicles */
+export const getVehicles = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/values/vehicles", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_VEHICLES,
+        vehicles: res.data.vehicles,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_VEHICLES, e);
   }
 };

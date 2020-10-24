@@ -10,3 +10,7 @@ export function generateSerialNumber(): string {
 
   return result;
 }
+
+export function generateVinNumber(): string {
+  return "FFFFFF";
+}

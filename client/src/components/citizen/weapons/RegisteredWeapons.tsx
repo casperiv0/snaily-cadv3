@@ -55,7 +55,7 @@ const RegisteredWeapons: React.FC<Props> = ({
             <a href="/weapons/register" className="btn btn-primary ml-2">
               {lang.citizen.weapon.reg_a_weapon}
             </a>
-            <ul className="collapse mt-2" id="registered_weapons">
+            <ul className="list-group collapse mt-2" id="registered_weapons">
               {weapons.map((weapon: Weapon, idx: number) => {
                 return (
                   <li

@@ -8,7 +8,11 @@ import {
   GET_REGISTERED_WEAPONS,
   DELETE_REGISTERED_WEAPON,
   REGISTER_WEAPON,
-  REGISTER_WEAPON_ERROR
+  REGISTER_WEAPON_ERROR,
+  GET_REGISTERED_VEHICLES,
+  DELETE_REGISTERED_VEHICLE,
+  REGISTER_VEHICLE,
+  REGISTER_VEHICLE_ERROR,
 } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
@@ -108,6 +112,69 @@ export const createCitizen = (data: Citizen) => async (
     }
   } catch (e) {
     Logger.error(CREATE_CITIZEN, e);
+  }
+};
+
+export const getRegisteredVehicles = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/citizen/vehicles/${id}`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_REGISTERED_VEHICLES,
+        vehicles: res.data.vehicles,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_REGISTERED_VEHICLES, e);
+  }
+};
+
+export const registerVehicle = (data: object) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/citizen/vehicles`, "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: REGISTER_VEHICLE,
+      });
+      return (window.location.href = `/citizen/${res.data.citizenId}`);
+    } else {
+      dispatch({
+        type: REGISTER_VEHICLE_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(REGISTER_VEHICLE, e);
+  }
+};
+
+export const reportAsStolen = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {};
+
+export const deleteVehicle = (citizenId: string, vehicleId: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(
+      `/citizen/vehicles/${citizenId}/${vehicleId}`,
+      "DELETE"
+    );
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_REGISTERED_VEHICLE,
+        vehicles: res.data.vehicles,
+      });
+    }
+  } catch (e) {
+    Logger.error(DELETE_REGISTERED_VEHICLE, e);
   }
 };
 
