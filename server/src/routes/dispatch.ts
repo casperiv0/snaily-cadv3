@@ -28,6 +28,59 @@ router.get(
   }
 );
 
+router.get(
+  "/bolos",
+  useAuth,
+  useDisLeoAuth,
+  async (req: IRequest, res: Response) => {
+    const bolos = await processQuery("SELECT * FROM `bolos`");
+
+    return res.json({ bolos, status: "success" });
+  }
+);
+
+router.post(
+  "/bolos",
+  useAuth,
+  useDisLeoAuth,
+  async (req: IRequest, res: Response) => {
+    const { type, description, name, color, plate } = req.body;
+
+    if (description) {
+      const id = v4();
+
+      await processQuery(
+        "INSERT INTO `bolos` (`id`, `type`, `description`, `name`, `color`, `plate`) VALUES (?, ?, ?, ?, ?, ?)",
+        [id, type, description, name, color, plate]
+      );
+
+      const bolos = await processQuery("SELECT * FROM `bolos`");
+
+      return res.json({ status: "success", bolos });
+    } else {
+      return res.json({
+        error: "Please fill in all fields",
+        status: "error",
+      });
+    }
+  }
+);
+
+router.delete(
+  "/bolos/:id",
+  useAuth,
+  useDisLeoAuth,
+  async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+
+    await processQuery("DELETE FROM `bolos` WHERE `id` = ?", [id]);
+
+    const bolos = await processQuery("SELECT * FROM `bolos`");
+
+    return res.json({ bolos, status: "success" });
+  }
+);
+
 router.post(
   "/calls",
   useAuth,
@@ -115,6 +168,35 @@ async function useDispatchAuth(
   }
 
   if (user[0].dispatch !== "1") {
+    res.json({
+      error: "Forbidden",
+      status: "error",
+    });
+    return;
+  }
+
+  next();
+}
+
+export async function useDisLeoAuth(
+  req: IRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  const user = await processQuery(
+    "SELECT `dispatch`, `leo` from `users` WHERE `id` = ?",
+    [req.user?.id]
+  );
+
+  if (!user[0]) {
+    res.json({
+      error: "user not found",
+      status: "error",
+    });
+    return;
+  }
+
+  if (user[0].leo !== "1" || user[0].dispatch !== "1") {
     res.json({
       error: "Forbidden",
       status: "error",

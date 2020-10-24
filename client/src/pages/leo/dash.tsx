@@ -1,5 +1,4 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import Active911Calls from "../../components/active-911-calls";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
@@ -7,11 +6,14 @@ import lang from "../../language.json";
 import ModalButtons from "../../components/leo/ModalButtons";
 import Statuses from "../../components/leo/Statuses";
 import ActiveBolos from "../../components/active-bolos";
-import SelectOfficerModal from "../../components/modals/officer/selectOfficerModal";
+import SelectOfficerModal from "../../components/modals/leo/selectOfficerModal";
 import CreateWarrant from "../../components/leo/CreateWarrant";
 import socket from "../../lib/socket";
 import NotepadModal from "../../components/modals/notepad";
 import AlertMessage from "../../components/alert-message";
+import CreateBoloModal from "../../components/modals/leo/createBoloModal";
+import { connect } from "react-redux";
+
 
 interface Props {
   aop: string;
@@ -67,6 +69,7 @@ const LeoDash: React.FC<Props> = (props) => {
       {/* Modals */}
       <SelectOfficerModal />
       <NotepadModal />
+      <CreateBoloModal />
     </Layout>
   );
 };

@@ -1,14 +1,32 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import Bolo from "../../interfaces/Bolo";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
+import socket from "../../lib/socket";
+import { getActiveBolos, deleteBolo } from "../../lib/actions/bolos";
+import { connect } from "react-redux";
 
 interface Props {
   bolos: Bolo[];
+  getActiveBolos: () => void;
+  deleteBolo: (id: string) => void;
 }
 
-const ActiveBolos: React.FC<Props> = ({ bolos }) => {
+const ActiveBolos: React.FC<Props> = ({
+  bolos,
+  getActiveBolos,
+  deleteBolo,
+}) => {
+  React.useEffect(() => {
+    getActiveBolos();
+  }, [getActiveBolos]);
+
+  React.useEffect(() => {
+    socket.on("UPDATE_BOLOS", () => {
+      getActiveBolos();
+    });
+  }, [getActiveBolos]);
+
   return (
     <ul
       className="list-group mt-3 overflow-auto"
@@ -60,7 +78,7 @@ const ActiveBolos: React.FC<Props> = ({ bolos }) => {
               <div>
                 <button
                   className="btn btn-danger"
-                  onClick={() => console.log("removed bolo")}
+                  onClick={() => deleteBolo(bolo.id)}
                 >
                   {lang.bolos.remove_bolo}
                 </button>
@@ -77,4 +95,4 @@ const mapToProps = (state: State) => ({
   bolos: state.bolos.bolos,
 });
 
-export default connect(mapToProps, {})(ActiveBolos);
+export default connect(mapToProps, { getActiveBolos, deleteBolo })(ActiveBolos);

@@ -44,4 +44,12 @@ io.on("connection", (socket) => {
       Logger.log("SOCKET_EVENT", "UPDATE_TOW_CALLS");
     }
   });
+  
+  socket.on("UPDATE_BOLOS", () => {
+    io.sockets.emit("UPDATE_BOLOS");
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "UPDATE_BOLOS");
+    }
+  });
 });

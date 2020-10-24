@@ -44,6 +44,7 @@ interface State {
   };
   bolos: {
     bolos: Bolo[];
+    error: string;
   };
   dispatch: {
     officers: Officer[];
