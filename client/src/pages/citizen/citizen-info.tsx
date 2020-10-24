@@ -58,7 +58,6 @@ const CitizenInfoPage: React.FC<Props> = ({
 
         <div className="card-body">
           <div className="row ml-4 mt-2 mb-2">
-            {console.log(citizen.image_id)}
             <img
               className="rounded-circle object-fit-center"
               src={`${SERVER_URL}/static/citizen-images/${citizen.image_id}`}

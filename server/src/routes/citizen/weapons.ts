@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks";
 import { Router, Response } from "express";
 import { processQuery } from "../../lib/database";
 import { v4 as uuidv4 } from "uuid";
+import { generateSerialNumber } from "../../lib/functions";
 
 const router: Router = Router();
 
@@ -25,10 +26,11 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
   if (weapon && citizenId && status) {
     const id = uuidv4();
+    const serial = generateSerialNumber();
 
     await processQuery(
       "INSERT INTO `registered_weapons` (`id`, `owner`, `citizen_id`, `weapon`, `serial_number`, `status`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [id, citizen[0].full_name, citizenId, weapon, "", status, req.user?.id]
+      [id, citizen[0].full_name, citizenId, weapon, serial, status, req.user?.id]
     );
 
     return res.json({ status: "success", citizenId });
