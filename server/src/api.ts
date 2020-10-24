@@ -8,8 +8,8 @@ import recordsRouter from "./routes/records";
 import dispatchRouter from "./routes/dispatch";
 import towCallsRouter from "./routes/tow";
 import emsFdRouter from "./routes/ems-fd";
-import valuesRouter from "./routes/values";
-import citizenRouter from "./routes/citizen";
+import valuesRouter from "./routes/values/index";
+import citizenRouter from "./routes/citizen/index";
 const api: Router = Router();
 
 api.use("/auth", authRouter);

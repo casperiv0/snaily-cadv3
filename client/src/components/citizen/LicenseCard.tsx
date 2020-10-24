@@ -13,9 +13,11 @@ export const LicenseCard: React.FC<Props> = ({ citizen }) => {
       <div className="card-header d-flex justify-content-between">
         <h3>{lang.citizen.licenses}</h3>
 
-        <a className="btn btn-primary" href={`/licenses/edit/${citizen.id}`}>
-          {lang.citizen.license.edit}
-        </a>
+        <div>
+          <a className="btn btn-primary" href={`/licenses/edit/${citizen.id}`}>
+            {lang.citizen.license.edit}
+          </a>
+        </div>
       </div>
 
       <div className="card-body">

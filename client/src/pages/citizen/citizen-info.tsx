@@ -4,10 +4,11 @@ import Citizen from "../../interfaces/Citizen";
 import Match from "../../interfaces/Match";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
-import { connect } from "react-redux";
-import { getCitizenById } from "../../lib/actions/citizen";
 import SERVER_URL from "../../config";
 import LicenseCard from "../../components/citizen/LicenseCard";
+import RegisteredWeapons from "../../components/citizen/weapons/RegisteredWeapons";
+import { connect } from "react-redux";
+import { getCitizenById } from "../../lib/actions/citizen";
 
 interface Props {
   citizen: Citizen;
@@ -120,6 +121,8 @@ const CitizenInfoPage: React.FC<Props> = ({
       </div>
 
       <LicenseCard citizen={citizen} />
+
+      <RegisteredWeapons citizenId={citizenId} />
     </Layout>
   );
 };

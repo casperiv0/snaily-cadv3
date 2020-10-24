@@ -10,6 +10,8 @@ import TruckLog from "./TruckLog";
 import MedicalRecord from "./MedicalRecord";
 import Citizen from "./Citizen";
 import Value from "./Value";
+import Weapon from "./Weapon";
+import Vehicle from "./Vehicle";
 
 interface State {
   auth: {
@@ -62,11 +64,15 @@ interface State {
     error: string;
     citizens: Citizen[];
     citizen: Citizen;
+    weapons: Weapon[];
+    vehicles: Vehicle[];
   };
   values: {
     genders: Value[];
     legalStatuses: Value[];
     ethnicities: Value[];
+    weapons: Value[];
+    vehicles: Vehicle[];
   };
 }
 

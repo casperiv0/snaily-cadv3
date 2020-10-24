@@ -1,14 +1,23 @@
 import { Dispatch } from "react";
 import Value from "../../interfaces/Value";
+import Vehicle from "../../interfaces/Vehicle";
+import Weapon from "../../interfaces/Weapon";
 import { handleRequest, isSuccess } from "../functions";
 import Logger from "../Logger";
-import { GET_ETHNICITIES, GET_GENDERS, GET_LEGAL_STATUSES } from "../types";
+import {
+  GET_ETHNICITIES,
+  GET_GENDERS,
+  GET_LEGAL_STATUSES,
+  GET_WEAPONS,
+} from "../types";
 
 interface IDispatch {
   type: string;
   genders?: Value[];
   ethnicities?: Value[];
   legalStatuses?: Value[];
+  weapons?: Weapon[];
+  vehicles?: Vehicle[];
 }
 
 /* genders */
@@ -52,6 +61,22 @@ export const getLegalStatuses = () => async (dispatch: Dispatch<IDispatch>) => {
       dispatch({
         type: GET_LEGAL_STATUSES,
         legalStatuses: res.data.legalStatuses,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_LEGAL_STATUSES, e);
+  }
+};
+
+/* weapons */
+export const getWeapons = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/values/weapons", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_WEAPONS,
+        weapons: res.data.weapons,
       });
     }
   } catch (e) {

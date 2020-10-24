@@ -4,6 +4,8 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import Value from "../../interfaces/Value";
 import AlertMessage from "../../components/alert-message";
+import Citizen from "../../interfaces/Citizen";
+import Field from "../../interfaces/Field";
 import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
 import {
@@ -11,7 +13,6 @@ import {
   getGenders,
   getLegalStatuses,
 } from "../../lib/actions/values";
-import Citizen from "../../interfaces/Citizen";
 
 interface Props {
   error: string;
@@ -22,17 +23,6 @@ interface Props {
   getEthnicities: () => void;
   getLegalStatuses: () => void;
   createCitizen: (data: Citizen) => void;
-}
-
-interface Field {
-  type: "text" | "email" | "file";
-  value: string;
-  onChange: (e: any) => void;
-  label: string;
-  id: string;
-  select?: boolean;
-  selectLabel?: string;
-  data?: any[];
 }
 
 const CreateCitizenPage: React.FC<Props> = ({

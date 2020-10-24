@@ -5,15 +5,23 @@ import {
   CREATE_CITIZEN_ERROR,
   GET_CITIZENS,
   GET_CITIZEN_BY_ID,
+  GET_REGISTERED_WEAPONS,
+  DELETE_REGISTERED_WEAPON,
+  REGISTER_WEAPON,
+  REGISTER_WEAPON_ERROR
 } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
+import Weapon from "../../interfaces/Weapon";
+import Vehicle from "../../interfaces/Vehicle";
 
 interface IDispatch {
   type: string;
   error?: string;
   citizen?: Citizen;
   citizens?: Citizen[];
+  weapons?: Weapon[];
+  vehicles?: Vehicle[];
 }
 
 export const getCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -100,5 +108,64 @@ export const createCitizen = (data: Citizen) => async (
     }
   } catch (e) {
     Logger.error(CREATE_CITIZEN, e);
+  }
+};
+
+export const getRegisteredWeapons = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/citizen/weapons/${id}`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_REGISTERED_WEAPONS,
+        weapons: res.data.weapons,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_REGISTERED_WEAPONS, e);
+  }
+};
+
+export const registerWeapon = (data: object) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest("/citizen/weapons", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: REGISTER_WEAPON,
+      });
+      return (window.location.href = `/citizen/${res.data.citizenId}`);
+    } else {
+      dispatch({
+        type: REGISTER_WEAPON_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(REGISTER_WEAPON, e);
+  }
+};
+
+export const deleteWeapon = (citizenId: string, weaponId: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(
+      `/citizen/weapons/${citizenId}/${weaponId}`,
+      "DELETE"
+    );
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_REGISTERED_WEAPON,
+        weapons: res.data.weapons,
+      });
+    }
+  } catch (e) {
+    Logger.error(DELETE_REGISTERED_WEAPON, e);
   }
 };

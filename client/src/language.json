@@ -47,6 +47,7 @@
         "admin": "Admin"
     },
     "global": {
+        "select": "Select..",
         "save": "Save",
         "clear": "Clear",
         "utility_panel": "Utility Panel",

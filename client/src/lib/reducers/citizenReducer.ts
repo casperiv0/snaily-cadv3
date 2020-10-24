@@ -1,13 +1,22 @@
 import Citizen from "../../interfaces/Citizen";
+import Vehicle from "../../interfaces/Vehicle";
+import Weapon from "../../interfaces/Weapon";
 import {
   GET_CITIZENS,
   CREATE_CITIZEN_ERROR,
   GET_CITIZEN_BY_ID,
+  GET_REGISTERED_VEHICLES,
+  GET_REGISTERED_WEAPONS,
+  DELETE_REGISTERED_WEAPON,
+  REGISTER_WEAPON,
+  REGISTER_WEAPON_ERROR,
 } from "../types";
 
 const initState = {
   error: null,
   citizens: [],
+  weapons: [],
+  vehicles: [],
 };
 
 type Actions =
@@ -22,6 +31,25 @@ type Actions =
   | {
       type: typeof GET_CITIZEN_BY_ID;
       citizen: Citizen;
+    }
+  | {
+      type: typeof GET_REGISTERED_VEHICLES;
+      vehicles: Vehicle[];
+    }
+  | {
+      type: typeof REGISTER_WEAPON;
+    }
+  | {
+      type: typeof REGISTER_WEAPON_ERROR;
+      error: string;
+    }
+  | {
+      type: typeof GET_REGISTERED_WEAPONS;
+      weapons: Weapon[];
+    }
+  | {
+      type: typeof DELETE_REGISTERED_WEAPON;
+      weapons: Weapon[];
     };
 
 export default function (state = initState, action: Actions) {
@@ -40,6 +68,25 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         citizen: action.citizen,
+      };
+    case "REGISTER_WEAPON":
+      return {
+        ...state,
+      };
+    case "REGISTER_WEAPON_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "GET_REGISTERED_WEAPONS":
+      return {
+        ...state,
+        weapons: action.weapons,
+      };
+    case "DELETE_REGISTERED_WEAPON":
+      return {
+        ...state,
+        weapons: action.weapons,
       };
     default:
       return {
