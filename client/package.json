@@ -6,6 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postserve": "npm install -g serve",
     "serve": "serve -d build -l 80"
   },
   "keywords": [],

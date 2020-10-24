@@ -18,7 +18,14 @@ const protection = csurf({ cookie: true });
 app.use("/static", express.static("public"));
 app.use(json());
 app.use(fileUpload());
-app.use(cors({ origin: config.clientUrl, credentials: true }));
+app.use(
+  cors({
+    origin: config.clientUrl,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+
+  })
+);
 app.use(cookieParser());
 app.use(helmet());
 app.use("/api/v1", api, protection);
