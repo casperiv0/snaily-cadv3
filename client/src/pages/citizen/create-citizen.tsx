@@ -171,7 +171,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     e.preventDefault();
 
     createCitizen({
-      image: image || new Blob(),
+      image: image,
       full_name: name,
       gender,
       ethnicity,

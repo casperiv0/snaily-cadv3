@@ -93,7 +93,9 @@ export const createCitizen = (data: Citizen) => async (
     } = data;
 
     const fd = new FormData();
-    fd.append("image", image, image?.name);
+    if (image) {
+      fd.append("image", image, image?.name);
+    }
     fd.append("full_name", full_name);
     fd.append("gender", gender);
     fd.append("ethnicity", ethnicity);

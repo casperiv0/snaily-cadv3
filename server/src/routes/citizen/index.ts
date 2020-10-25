@@ -49,8 +49,9 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     ccw,
   } = req.body;
 
-  const file = req.files ? req.files.image : null;
-  const index = file && file.name.indexOf(".");
+  const file = req.files?.image ? req.files.image : null;
+  const index = req.files?.image && file?.name.indexOf(".");
+  
   const imageId = file
     ? `${uuidv4()}${file.name.slice(index!)}`
     : "default.svg";
