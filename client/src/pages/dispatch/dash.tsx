@@ -9,6 +9,9 @@ import socket from "../../lib/socket";
 import ActiveCalls from "../../components/dispatch/ActiveCalls";
 import ActiveBolos from "../../components/active-bolos";
 import NotepadModal from "../../components/modals/notepad";
+import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
+import NameSearchModal from "../../components/modals/leo/nameSearchModal";
+import AddressSearchModal from "../../components/modals/dispatch/addressSearchModal";
 import { connect } from "react-redux";
 
 interface Props {
@@ -59,6 +62,9 @@ const DispatchDash: React.FC<Props> = (props) => {
 
       {/* modals */}
       <NotepadModal />
+      <AddressSearchModal />
+      <NameSearchModal />
+      <PlateSearchModal />
     </Layout>
   );
 };

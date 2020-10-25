@@ -50,6 +50,7 @@ interface State {
   dispatch: {
     officers: Officer[];
     ems_fd: Deputy[];
+    search: any;
   };
   truck_logs: {
     error: string;

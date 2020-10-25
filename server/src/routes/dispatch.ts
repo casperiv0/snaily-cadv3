@@ -149,6 +149,22 @@ router.put(
   }
 );
 
+router.post(
+  "/search/address",
+  useAuth,
+  useDispatchAuth,
+  async (req: IRequest, res: Response) => {
+    const { address } = req.body;
+
+    const results = await processQuery(
+      "SELECT * FROM `citizens` WHERE `address` LIKE ?",
+      [`%${address}%`]
+    );
+
+    return res.json({ results, status: "success" });
+  }
+);
+
 async function useDispatchAuth(
   req: IRequest,
   res: Response,

@@ -16,6 +16,10 @@ const modalButtons: MButton[] = [
     target: "#weaponSearchModal",
   },
   {
+    name: lang.global.address_search,
+    target: "#addressSearchModal"
+  },
+  {
     name: lang.global.create_bolo,
     target: "#createBoloModal",
   },
