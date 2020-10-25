@@ -6,11 +6,7 @@ import Match from "../../../interfaces/Match";
 import AlertMessage from "../../../components/alert-message";
 import lang from "../../../language.json";
 import { connect } from "react-redux";
-import {
-  getAllCitizens,
-  getVehicleById,
-  transferVehicle,
-} from "../../../lib/actions/citizen";
+import { getAllCitizens, getVehicleById, transferVehicle } from "../../../lib/actions/citizen";
 import Citizen from "../../../interfaces/Citizen";
 
 interface Props {
@@ -107,10 +103,7 @@ const TransferVehiclePage: React.FC<Props> = ({
         </div>
 
         <div className="form-group float-right">
-          <a
-            className="btn btn-danger mr-2"
-            href={`/citizen/${vehicle?.citizen_id}`}
-          >
+          <a className="btn btn-danger mr-2" href={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
           </a>
           <button type="submit" className="btn btn-primary">

@@ -19,13 +19,7 @@ interface Props {
   getBleetById: (id: string) => void;
 }
 
-const Bleet: React.FC<Props> = ({
-  loading,
-  bleet,
-  match,
-  user,
-  getBleetById,
-}) => {
+const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) => {
   React.useEffect(() => {
     const id = match.params.id;
     getBleetById(id);
@@ -51,11 +45,7 @@ const Bleet: React.FC<Props> = ({
         <h3>{bleet.title}</h3>
         <div>
           {bleet.id && user.id === JSON.parse(bleet.uploaded_by as any).id ? (
-            <a
-              className="btn btn-success"
-              type="button"
-              href={`/bleet/edit/${bleet.id}`}
-            >
+            <a className="btn btn-success" type="button" href={`/bleet/edit/${bleet.id}`}>
               Edit bleet
             </a>
           ) : null}

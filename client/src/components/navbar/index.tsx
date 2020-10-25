@@ -62,13 +62,7 @@ export const paths: Path[] = [
   },
 ];
 
-const Navbar: React.FC<Props> = ({
-  loading,
-  isAuth,
-  checkAuth,
-  logout,
-  getCadInfo,
-}) => {
+const Navbar: React.FC<Props> = ({ loading, isAuth, checkAuth, logout, getCadInfo }) => {
   const currentPath = window.location.pathname;
 
   React.useEffect(() => {
@@ -80,10 +74,7 @@ const Navbar: React.FC<Props> = ({
   }, [getCadInfo]);
 
   return (
-    <nav
-      id="navbar"
-      className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top"
-    >
+    <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
       <a className="navbar navbar-brand" href="/">
         Home
       </a>
@@ -106,9 +97,7 @@ const Navbar: React.FC<Props> = ({
             return (
               <li id={path.name} key={idx} className="nav-item">
                 <a
-                  className={
-                    currentPath === path.href ? "nav-link active" : "nav-link"
-                  }
+                  className={currentPath === path.href ? "nav-link active" : "nav-link"}
                   href={path.href}
                 >
                   {path.name}
@@ -158,10 +147,7 @@ const Navbar: React.FC<Props> = ({
                   </div>
                 ) : (
                   <>
-                    <a
-                      className="dropdown-item bg-dark border-secondary text-light"
-                      href="/login"
-                    >
+                    <a className="dropdown-item bg-dark border-secondary text-light" href="/login">
                       {lang.auth.login}
                     </a>
                     <a

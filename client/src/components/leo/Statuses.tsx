@@ -20,11 +20,7 @@ interface Props {
   status: string;
   status2: string;
   getCurrentOfficer: (id: string) => void;
-  setStatus: (
-    id: string,
-    status: "on-duty" | "off-duty",
-    status2: string
-  ) => void;
+  setStatus: (id: string, status: "on-duty" | "off-duty", status2: string) => void;
 }
 
 const Statuses: React.FC<Props> = ({
@@ -61,9 +57,7 @@ const Statuses: React.FC<Props> = ({
         data-toggle="modal"
         data-target="#selectOfficerModal"
         className={
-          status2 === "10-8"
-            ? "btn btn-primary col-sm-1 mr-2 "
-            : "btn btn-secondary col-sm-1 mr-2 "
+          status2 === "10-8" ? "btn btn-primary col-sm-1 mr-2 " : "btn btn-secondary col-sm-1 mr-2 "
         }
       >
         10-8

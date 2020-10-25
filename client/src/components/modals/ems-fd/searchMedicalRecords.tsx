@@ -12,10 +12,7 @@ interface Props {
   searchMedicalRecord: (name: string) => void;
 }
 
-const SearchMedicalRecords: React.FC<Props> = ({
-  medicalRecords,
-  searchMedicalRecord,
-}) => {
+const SearchMedicalRecords: React.FC<Props> = ({ medicalRecords, searchMedicalRecord }) => {
   const [name, setName] = React.useState<string>("");
   const [hasSubmitted, setHasSubmitted] = React.useState<boolean>(false);
 
@@ -83,12 +80,7 @@ const SearchMedicalRecords: React.FC<Props> = ({
         </div>
 
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-dismiss="modal"
-            onClick={reset}
-          >
+          <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={reset}>
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">
@@ -104,6 +96,4 @@ const mapToProps = (state: State) => ({
   medicalRecords: state.ems_fd.medicalRecords,
 });
 
-export default connect(mapToProps, { searchMedicalRecord })(
-  SearchMedicalRecords
-);
+export default connect(mapToProps, { searchMedicalRecord })(SearchMedicalRecords);

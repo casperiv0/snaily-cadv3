@@ -13,7 +13,7 @@ interface IDispatch {
 }
 
 export const login = (data: object, requestedPath: string) => async (
-  dispatch: Dispatch<IDispatch>
+  dispatch: Dispatch<IDispatch>,
 ) => {
   dispatch({ type: SET_LOADING, loading: true });
 
@@ -42,9 +42,7 @@ export const login = (data: object, requestedPath: string) => async (
   dispatch({ type: SET_LOADING, loading: false });
 };
 
-export const register = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   dispatch({ type: SET_LOADING, loading: true });
 
   try {

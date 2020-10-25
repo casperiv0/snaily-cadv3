@@ -69,6 +69,4 @@ const mapToProps = (state: State) => ({
   message: state.global.message,
 });
 
-export default connect(mapToProps, { getMyDeputies, deleteEmsFdDeputy })(
-  MyDeputiesPage
-);
+export default connect(mapToProps, { getMyDeputies, deleteEmsFdDeputy })(MyDeputiesPage);

@@ -3,10 +3,7 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import MedicalRecord from "../../interfaces/MedicalRecord";
 import { connect } from "react-redux";
-import {
-  getMedicalRecords,
-  deleteMedicalRecord,
-} from "../../lib/actions/citizen";
+import { getMedicalRecords, deleteMedicalRecord } from "../../lib/actions/citizen";
 
 interface Props {
   citizenId: string;
@@ -31,10 +28,7 @@ const MedicalRecordsCard: React.FC<Props> = ({
         <h5>{lang.citizen.medical_records}</h5>
 
         <div>
-          <a
-            href={`/medical-records/create/${citizenId}`}
-            className="btn btn-primary"
-          >
+          <a href={`/medical-records/create/${citizenId}`} className="btn btn-primary">
             {lang.citizen.medical.add}
           </a>
         </div>
@@ -42,9 +36,7 @@ const MedicalRecordsCard: React.FC<Props> = ({
 
       <div className="card-body">
         {!medicalRecords[0] ? (
-          <div className="list-group-item bg-dark border-dark">
-            {lang.citizen.medical.no_med}
-          </div>
+          <div className="list-group-item bg-dark border-dark">{lang.citizen.medical.no_med}</div>
         ) : (
           <table className="table table-dark">
             <thead>
@@ -64,9 +56,7 @@ const MedicalRecordsCard: React.FC<Props> = ({
                     <td>{record.short_info}</td>
                     <td>
                       <button
-                        onClick={() =>
-                          deleteMedicalRecord(citizenId, record.id)
-                        }
+                        onClick={() => deleteMedicalRecord(citizenId, record.id)}
                         className="btn btn-danger"
                       >
                         {lang.global.delete}
@@ -87,6 +77,4 @@ const mapToProps = (state: State) => ({
   medicalRecords: state.citizen.medicalRecords,
 });
 
-export default connect(mapToProps, { getMedicalRecords, deleteMedicalRecord })(
-  MedicalRecordsCard
-);
+export default connect(mapToProps, { getMedicalRecords, deleteMedicalRecord })(MedicalRecordsCard);

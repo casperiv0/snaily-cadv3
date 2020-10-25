@@ -23,7 +23,7 @@ import {
   UPDATE_VEHICLE,
   GET_ALL_CITIZENS,
   TRANSFER_VEHICLE,
-  TRANSFER_VEHICLE_ERROR
+  TRANSFER_VEHICLE_ERROR,
 } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
@@ -57,9 +57,7 @@ export const getCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const getCitizenById = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getCitizenById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/citizen/${id}`, "GET");
 
@@ -74,9 +72,7 @@ export const getCitizenById = (id: string) => async (
   }
 };
 
-export const createCitizen = (data: Citizen) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const createCitizen = (data: Citizen) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const {
       image,
@@ -131,9 +127,7 @@ export const createCitizen = (data: Citizen) => async (
   }
 };
 
-export const deleteCitizen = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const deleteCitizen = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/citizen/${id}`, "DELETE");
 
@@ -148,9 +142,7 @@ export const deleteCitizen = (id: string) => async (
   }
 };
 
-export const getMedicalRecords = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getMedicalRecords = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/citizen/medical-records/${id}`, "GET");
 
@@ -166,14 +158,10 @@ export const getMedicalRecords = (id: string) => async (
 };
 
 export const createMedicalRecord = (data: object, citizenId: string) => async (
-  dispatch: Dispatch<IDispatch>
+  dispatch: Dispatch<IDispatch>,
 ) => {
   try {
-    const res = await handleRequest(
-      `/citizen/medical-records/${citizenId}`,
-      "POST",
-      data
-    );
+    const res = await handleRequest(`/citizen/medical-records/${citizenId}`, "POST", data);
 
     if (isSuccess(res)) {
       dispatch({
@@ -192,15 +180,11 @@ export const createMedicalRecord = (data: object, citizenId: string) => async (
   }
 };
 
-export const deleteMedicalRecord = (
-  citizenId: string,
-  recordId: string
-) => async (dispatch: Dispatch<IDispatch>) => {
+export const deleteMedicalRecord = (citizenId: string, recordId: string) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
   try {
-    const res = await handleRequest(
-      `/citizen/medical-records/${citizenId}/${recordId}`,
-      "DELETE"
-    );
+    const res = await handleRequest(`/citizen/medical-records/${citizenId}/${recordId}`, "DELETE");
 
     if (isSuccess(res)) {
       dispatch({
@@ -212,9 +196,7 @@ export const deleteMedicalRecord = (
     Logger.error(DELETE_MEDICAL_RECORD, e);
   }
 };
-export const getRegisteredVehicles = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getRegisteredVehicles = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/citizen/vehicles/${id}`, "GET");
 
@@ -229,9 +211,7 @@ export const getRegisteredVehicles = (id: string) => async (
   }
 };
 
-export const registerVehicle = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const registerVehicle = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/citizen/vehicles`, "POST", data);
 
@@ -251,18 +231,13 @@ export const registerVehicle = (data: object) => async (
   }
 };
 
-export const reportAsStolen = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {};
+export const reportAsStolen = (id: string) => async (dispatch: Dispatch<IDispatch>) => {};
 
 export const deleteVehicle = (citizenId: string, vehicleId: string) => async (
-  dispatch: Dispatch<IDispatch>
+  dispatch: Dispatch<IDispatch>,
 ) => {
   try {
-    const res = await handleRequest(
-      `/citizen/vehicles/${citizenId}/${vehicleId}`,
-      "DELETE"
-    );
+    const res = await handleRequest(`/citizen/vehicles/${citizenId}/${vehicleId}`, "DELETE");
 
     if (isSuccess(res)) {
       dispatch({
@@ -275,9 +250,7 @@ export const deleteVehicle = (citizenId: string, vehicleId: string) => async (
   }
 };
 
-export const getRegisteredWeapons = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getRegisteredWeapons = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/citizen/weapons/${id}`, "GET");
 
@@ -292,9 +265,7 @@ export const getRegisteredWeapons = (id: string) => async (
   }
 };
 
-export const registerWeapon = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const registerWeapon = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/citizen/weapons", "POST", data);
 
@@ -315,13 +286,10 @@ export const registerWeapon = (data: object) => async (
 };
 
 export const deleteWeapon = (citizenId: string, weaponId: string) => async (
-  dispatch: Dispatch<IDispatch>
+  dispatch: Dispatch<IDispatch>,
 ) => {
   try {
-    const res = await handleRequest(
-      `/citizen/weapons/${citizenId}/${weaponId}`,
-      "DELETE"
-    );
+    const res = await handleRequest(`/citizen/weapons/${citizenId}/${weaponId}`, "DELETE");
 
     if (isSuccess(res)) {
       dispatch({
@@ -335,7 +303,7 @@ export const deleteWeapon = (citizenId: string, weaponId: string) => async (
 };
 
 export const updateLicenses = (id: string, data: object) => async (
-  dispatch: Dispatch<IDispatch>
+  dispatch: Dispatch<IDispatch>,
 ) => {
   try {
     const res = await handleRequest(`/citizen/licenses/${id}`, "PUT", data);
@@ -352,9 +320,7 @@ export const updateLicenses = (id: string, data: object) => async (
   }
 };
 
-export const getVehicleById = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getVehicleById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/citizen/vehicles/i/${id}`, "GET");
 
@@ -369,11 +335,9 @@ export const getVehicleById = (id: string) => async (
   }
 };
 
-export const updateVehicleById = (
-  id: string,
-  citizenId: string,
-  data: object
-) => async (dispatch: Dispatch<IDispatch>) => {
+export const updateVehicleById = (id: string, citizenId: string, data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
   try {
     const res = await handleRequest(`/citizen/vehicles/${id}`, "PUT", data);
 
@@ -390,14 +354,10 @@ export const updateVehicleById = (
 };
 
 export const transferVehicle = (id: string, data: object) => async (
-  dispatch: Dispatch<IDispatch>
+  dispatch: Dispatch<IDispatch>,
 ) => {
   try {
-    const res = await handleRequest(
-      `/citizen/vehicles/transfer/${id}`,
-      "POST",
-      data
-    );
+    const res = await handleRequest(`/citizen/vehicles/transfer/${id}`, "POST", data);
 
     if (isSuccess(res)) {
       dispatch({

@@ -26,16 +26,12 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
         username,
         password,
       },
-      requestedPath
+      requestedPath,
     );
   }
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="mt-5 mx-auto"
-      style={{ width: "500px", maxWidth: "95%" }}
-    >
+    <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
       <h2>{lang.auth.login_2}</h2>
       <div className="form-group">
         {error ? <AlertMessage type="warning" message={error} /> : null}

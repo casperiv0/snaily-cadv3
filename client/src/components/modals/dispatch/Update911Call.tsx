@@ -14,7 +14,7 @@ interface Props {
   end911Call: (id: string) => void;
   update911Call: (
     id: string,
-    data: { location: string; description: string; assigned_unit: string }
+    data: { location: string; description: string; assigned_unit: string },
   ) => void;
 }
 
@@ -27,9 +27,7 @@ const Update911Call: React.FC<Props> = ({
 }) => {
   const [location, setLocation] = React.useState(call.location);
   const [description, setDescription] = React.useState(call.description);
-  const [assignedUnits, setAssignedUnits] = React.useState(
-    call.assigned_unit.split(",")
-  );
+  const [assignedUnits, setAssignedUnits] = React.useState(call.assigned_unit.split(","));
   const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
@@ -81,9 +79,7 @@ const Update911Call: React.FC<Props> = ({
             />
           </div>
           <div className="form-group">
-            <label htmlFor="call_assigned_unit">
-              {lang.dispatch.assigned_unit}
-            </label>
+            <label htmlFor="call_assigned_unit">{lang.dispatch.assigned_unit}</label>
             {!activeOfficers[0] ? (
               <p>{lang.dispatch.no_units}</p>
             ) : (
@@ -105,18 +101,10 @@ const Update911Call: React.FC<Props> = ({
         </div>
 
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-dismiss="modal"
-          >
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button
-            onClick={handleCancelCall}
-            type="button"
-            className="btn btn-danger"
-          >
+          <button onClick={handleCancelCall} type="button" className="btn btn-danger">
             {lang.tow.end_call}
           </button>
           <button type="submit" className="btn btn-success">
@@ -132,6 +120,4 @@ const mapToProps = (state: State) => ({
   officers: state.dispatch.officers,
 });
 
-export default connect(mapToProps, { end911Call, update911Call })(
-  Update911Call
-);
+export default connect(mapToProps, { end911Call, update911Call })(Update911Call);

@@ -1,10 +1,5 @@
 import Bolo from "../../interfaces/Bolo";
-import {
-  CREATE_BOLO,
-  CREATE_BOLO_ERROR,
-  DELETE_BOLO,
-  GET_BOLOS,
-} from "../types";
+import { CREATE_BOLO, CREATE_BOLO_ERROR, DELETE_BOLO, GET_BOLOS } from "../types";
 
 const initState = {
   bolos: [],

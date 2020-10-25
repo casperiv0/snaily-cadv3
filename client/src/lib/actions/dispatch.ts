@@ -30,9 +30,7 @@ export const getActiveUnits = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const searchAddress = (address: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const searchAddress = (address: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/dispatch/search/address", "POST", {
       address,

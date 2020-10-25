@@ -14,12 +14,7 @@ interface Props {
   deleteOfficer: (id: string) => void;
 }
 
-const MyOfficersPage: React.FC<Props> = ({
-  officers,
-  message,
-  deleteOfficer,
-  getMyOfficers,
-}) => {
+const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, getMyOfficers }) => {
   React.useEffect(() => {
     getMyOfficers();
   }, [getMyOfficers]);
@@ -31,10 +26,7 @@ const MyOfficersPage: React.FC<Props> = ({
       <a className="btn btn-primary container" href="/leo/dash">
         {lang.global.back_to_dashboard}
       </a>
-      <a
-        className="btn btn-primary container mt-2 mb-2"
-        href="/leo/officers/create"
-      >
+      <a className="btn btn-primary container mt-2 mb-2" href="/leo/officers/create">
         {lang.officers.create_an_officer}
       </a>
 
@@ -53,10 +45,7 @@ const MyOfficersPage: React.FC<Props> = ({
                   {++idx} | {officer.officer_dept} | {officer.officer_name}
                 </p>
                 <div>
-                  <button
-                    onClick={() => deleteOfficer(officer.id)}
-                    className="btn btn-danger"
-                  >
+                  <button onClick={() => deleteOfficer(officer.id)} className="btn btn-danger">
                     {lang.global.delete}
                   </button>
                 </div>
@@ -74,6 +63,4 @@ const mapToProps = (state: State) => ({
   message: state.global.message,
 });
 
-export default connect(mapToProps, { getMyOfficers, deleteOfficer })(
-  MyOfficersPage
-);
+export default connect(mapToProps, { getMyOfficers, deleteOfficer })(MyOfficersPage);

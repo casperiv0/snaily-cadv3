@@ -9,18 +9,10 @@ import { getMyOfficers, setStatus } from "../../../lib/actions/officer";
 interface Props {
   officers: Officer[];
   getMyOfficers: () => void;
-  setStatus: (
-    id: string,
-    status: "on-duty" | "off-duty",
-    status2: string
-  ) => void;
+  setStatus: (id: string, status: "on-duty" | "off-duty", status2: string) => void;
 }
 
-const SelectOfficerModal: React.FC<Props> = ({
-  officers,
-  getMyOfficers,
-  setStatus,
-}) => {
+const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatus }) => {
   const [selected, setSelected] = React.useState("");
   const btnRef = React.createRef<HTMLButtonElement>();
 
@@ -69,18 +61,10 @@ const SelectOfficerModal: React.FC<Props> = ({
           </div>
         </div>
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-dismiss="modal"
-          >
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button
-            disabled={!officers[0]}
-            type="submit"
-            className="btn btn-primary"
-          >
+          <button disabled={!officers[0]} type="submit" className="btn btn-primary">
             {lang.global.go_on_duty}
           </button>
         </div>
@@ -93,6 +77,4 @@ const mapToProps = (state: State) => ({
   officers: state.officers.officers,
 });
 
-export default connect(mapToProps, { getMyOfficers, setStatus })(
-  SelectOfficerModal
-);
+export default connect(mapToProps, { getMyOfficers, setStatus })(SelectOfficerModal);

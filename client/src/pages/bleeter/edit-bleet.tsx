@@ -18,14 +18,7 @@ interface Props {
   updateBleet: (data: object, id: string) => void;
 }
 
-const EditBleet: React.FC<Props> = ({
-  bleet,
-  match,
-  loading,
-  user,
-  getBleetById,
-  updateBleet,
-}) => {
+const EditBleet: React.FC<Props> = ({ bleet, match, loading, user, getBleetById, updateBleet }) => {
   const id = match.params.id;
   const [title, setTitle] = React.useState<string>("");
   const [body, setBody] = React.useState<string>("");
@@ -63,7 +56,7 @@ const EditBleet: React.FC<Props> = ({
         title,
         body,
       },
-      id
+      id,
     );
   }
 

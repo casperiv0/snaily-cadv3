@@ -65,9 +65,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="start_time">
-            {lang.truck_logs.enter_starting_time}
-          </label>
+          <label htmlFor="start_time">{lang.truck_logs.enter_starting_time}</label>
           <input
             type="text"
             id="start_time"

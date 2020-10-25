@@ -17,7 +17,7 @@ const modalButtons: MButton[] = [
   },
   {
     name: lang.global.address_search,
-    target: "#addressSearchModal"
+    target: "#addressSearchModal",
   },
   {
     name: lang.global.create_bolo,

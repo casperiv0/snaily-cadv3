@@ -16,10 +16,9 @@ import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
 import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import { connect } from "react-redux";
 
-
 interface Props {
   aop: string;
-  message: string
+  message: string;
 }
 
 const LeoDash: React.FC<Props> = (props) => {

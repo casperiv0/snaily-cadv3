@@ -26,9 +26,7 @@ interface IDispatch {
   status2?: string;
 }
 
-export const createEmsFdDeputy = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const createEmsFdDeputy = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/ems-fd/my-deputies", "POST", data);
 
@@ -63,9 +61,7 @@ export const getMyDeputies = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const getCurrentEmsStatus = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getCurrentEmsStatus = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/ems-fd/status/${id}`, "GET");
 
@@ -84,7 +80,7 @@ export const getCurrentEmsStatus = (id: string) => async (
 export const setEmsStatus = (
   id: string,
   status: "on-duty" | "off-duty" | string,
-  status2: string
+  status2: string,
 ) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const data = { id: id, status: status, status2: status2 };
@@ -104,9 +100,7 @@ export const setEmsStatus = (
   }
 };
 
-export const deleteEmsFdDeputy = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const deleteEmsFdDeputy = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/ems-fd/my-deputies/${id}`, "DELETE");
 
@@ -125,9 +119,7 @@ export const deleteEmsFdDeputy = (id: string) => async (
   }
 };
 
-export const searchMedicalRecord = (name: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const searchMedicalRecord = (name: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/ems-fd/medical-records/${name}`, "GET");
 

@@ -9,11 +9,7 @@ export const statuses: string[] = ["10-7", "10-6", "10-5", "10-97"];
 interface Props {
   status: string;
   status2: string;
-  setEmsStatus: (
-    id: string,
-    status: "on-duty" | "off-duty" | string,
-    status2: string
-  ) => void;
+  setEmsStatus: (id: string, status: "on-duty" | "off-duty" | string, status2: string) => void;
   getCurrentEmsStatus: (id: string) => void;
 }
 
@@ -51,9 +47,7 @@ const Statuses: React.FC<Props> = ({
         data-toggle="modal"
         data-target="#selectEmsFdModal"
         className={
-          status2 === "10-8"
-            ? "btn btn-primary col-sm-1 mr-2 "
-            : "btn btn-secondary col-sm-1 mr-2 "
+          status2 === "10-8" ? "btn btn-primary col-sm-1 mr-2 " : "btn btn-secondary col-sm-1 mr-2 "
         }
       >
         10-8
@@ -88,6 +82,4 @@ const mapToProps = (state: State) => ({
 
 const Memoized = React.memo(Statuses);
 
-export default connect(mapToProps, { setEmsStatus, getCurrentEmsStatus })(
-  Memoized
-);
+export default connect(mapToProps, { setEmsStatus, getCurrentEmsStatus })(Memoized);

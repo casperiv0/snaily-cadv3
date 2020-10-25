@@ -3,21 +3,14 @@ import Logger from "../Logger";
 import socket from "../socket";
 import { Dispatch } from "redux";
 import { handleRequest, isSuccess } from "../functions";
-import {
-  GET_911_CALLS,
-  END_911_CALL,
-  UPDATE_911_CALL,
-  CREATE_911_CALL,
-} from "../types";
+import { GET_911_CALLS, END_911_CALL, UPDATE_911_CALL, CREATE_911_CALL } from "../types";
 
 interface IDispatch {
   type: string;
   calls?: Call[];
 }
 
-export const getActive911Calls = () => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getActive911Calls = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/global/911-calls", "GET");
 
@@ -32,9 +25,7 @@ export const getActive911Calls = () => async (
   }
 };
 
-export const create911Call = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const create911Call = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/dispatch/calls", "POST", data);
 
@@ -52,7 +43,7 @@ export const create911Call = (data: object) => async (
 
 export const update911Call = (
   id: string,
-  data: { location: string; description: string; assigned_unit: string }
+  data: { location: string; description: string; assigned_unit: string },
 ) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "PUT", data);
@@ -69,9 +60,7 @@ export const update911Call = (
   }
 };
 
-export const end911Call = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const end911Call = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "DELETE");
 

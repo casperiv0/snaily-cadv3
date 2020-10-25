@@ -40,9 +40,7 @@ const CitizensPage: React.FC<Props> = (props) => {
   return (
     <Layout classes="mt-5">
       <div>
-        {message ? (
-          <AlertMessage type="success" message={message} />
-        ) : null}
+        {message ? <AlertMessage type="success" message={message} /> : null}
         <h3>
           {lang.auth.welcome} - AOP: {aop}
         </h3>
@@ -91,10 +89,7 @@ const CitizensPage: React.FC<Props> = (props) => {
 
       <ul className="list-group mt-3">
         {!citizens[0] ? (
-          <AlertMessage
-            message={lang.citizen.no_citizens_found}
-            type="warning"
-          />
+          <AlertMessage message={lang.citizen.no_citizens_found} type="warning" />
         ) : (
           citizens.map((citizen: Citizen, idx: number) => {
             return (

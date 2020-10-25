@@ -7,11 +7,7 @@ import { connect } from "react-redux";
 
 interface Props {
   error: string;
-  createWarrant: (data: {
-    fullName: string;
-    status: string;
-    details: string;
-  }) => void;
+  createWarrant: (data: { fullName: string; status: string; details: string }) => void;
 }
 
 const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
@@ -74,9 +70,7 @@ const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
           />
         </div>
         <div className="form-group">
-          <button className="btn btn-secondary col">
-            {lang.global.create_warrant}
-          </button>
+          <button className="btn btn-secondary col">{lang.global.create_warrant}</button>
         </div>
       </form>
     </div>

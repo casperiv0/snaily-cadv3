@@ -93,6 +93,4 @@ const mapToProps = (state: State) => ({
   message: state.global.message,
 });
 
-export default connect(mapToProps, { getTruckLogs, deleteTruckLog })(
-  TruckLogsDash
-);
+export default connect(mapToProps, { getTruckLogs, deleteTruckLog })(TruckLogsDash);

@@ -23,18 +23,13 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
 
   return (
     <>
-      <ul
-        className="list-group overflow-auto mt-3"
-        style={{ maxHeight: "25rem" }}
-      >
+      <ul className="list-group overflow-auto mt-3" style={{ maxHeight: "25rem" }}>
         <li className="list-group-item bg-secondary border-secondary">
           {lang.global.active_erm_calls}
         </li>
 
         {!calls[0] ? (
-          <li className="list-group-item bg-dark border-dark">
-            {lang.global.no_calls}
-          </li>
+          <li className="list-group-item bg-dark border-dark">{lang.global.no_calls}</li>
         ) : (
           <table className="table table-dark">
             <thead>

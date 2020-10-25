@@ -21,21 +21,19 @@ const Modal: React.FC<Props> = ({ id, size, children }) => {
   );
 };
 
-const XButton = React.forwardRef(
-  (_props, ref: React.Ref<HTMLButtonElement>) => {
-    return (
-      <button
-        ref={ref}
-        type="button"
-        data-dismiss="modal"
-        aria-label="Close"
-        className="close text-light"
-      >
-        <span aria-hidden={true}>&times;</span>
-      </button>
-    );
-  }
-);
+const XButton = React.forwardRef((_props, ref: React.Ref<HTMLButtonElement>) => {
+  return (
+    <button
+      ref={ref}
+      type="button"
+      data-dismiss="modal"
+      aria-label="Close"
+      className="close text-light"
+    >
+      <span aria-hidden={true}>&times;</span>
+    </button>
+  );
+});
 
 export { XButton };
 export default Modal;

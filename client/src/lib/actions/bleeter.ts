@@ -30,9 +30,7 @@ export const getBleetPosts = () => async (dispatch: Dispatch<IDispatch>) => {
   dispatch({ type: SET_LOADING_BLEETS, loading: false });
 };
 
-export const getBleetById = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getBleetById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   dispatch({ type: SET_LOADING_BLEETS, loading: true });
 
   try {
@@ -51,9 +49,7 @@ export const getBleetById = (id: string) => async (
   dispatch({ type: SET_LOADING_BLEETS, loading: false });
 };
 
-export const updateBleet = (data: object, id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const updateBleet = (data: object, id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/bleeter/${id}`, "PUT", data);
 
@@ -61,10 +57,9 @@ export const updateBleet = (data: object, id: string) => async (
       dispatch({
         type: UPDATE_BLEET,
       });
-      return window.location.href = `/bleet/${id}`;
+      return (window.location.href = `/bleet/${id}`);
     }
   } catch (e) {
     Logger.error(GET_BLEET_BY_ID, e);
   }
-
 };

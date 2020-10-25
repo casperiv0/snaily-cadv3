@@ -13,11 +13,7 @@ interface Props {
   createMedicalRecord: (data: object, id: string) => void;
 }
 
-const CreateMedicalRecordPage: React.FC<Props> = ({
-  match,
-  error,
-  createMedicalRecord,
-}) => {
+const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalRecord }) => {
   const [type, setType] = React.useState("Allergy");
   const [shortInfo, setShortInfo] = React.useState("");
   const citizenId = match.params.id;
@@ -30,7 +26,7 @@ const CreateMedicalRecordPage: React.FC<Props> = ({
         type,
         shortInfo,
       },
-      citizenId
+      citizenId,
     );
   }
 
@@ -81,6 +77,4 @@ const mapToProps = (state: State) => ({
   error: state.citizen.error,
 });
 
-export default connect(mapToProps, { createMedicalRecord })(
-  CreateMedicalRecordPage
-);
+export default connect(mapToProps, { createMedicalRecord })(CreateMedicalRecordPage);

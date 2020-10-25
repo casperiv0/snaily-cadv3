@@ -25,9 +25,7 @@ export const getCadInfo = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const updateAop = (aop: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const updateAop = (aop: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/global/update-aop", "POST", { aop });
 

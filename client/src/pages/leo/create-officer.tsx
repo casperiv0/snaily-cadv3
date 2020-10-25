@@ -91,6 +91,4 @@ const mapToProps = (state: State) => ({
   error: state.officers.error,
 });
 
-export default connect(mapToProps, { createOfficer, getDepartments })(
-  CreateOfficerPage
-);
+export default connect(mapToProps, { createOfficer, getDepartments })(CreateOfficerPage);

@@ -27,7 +27,7 @@ const PenalCodesPage: React.FC = () => {
       });
       if (node) observer.current?.observe(node);
     },
-    [penalCodes, length]
+    [penalCodes, length],
   );
 
   const getPenalCodes = React.useCallback(async () => {
@@ -49,7 +49,7 @@ const PenalCodesPage: React.FC = () => {
 
   function handleSearch(value: string) {
     const filtered = penalCodes.filter((code) =>
-      code.title.toLowerCase().includes(value.toLowerCase())
+      code.title.toLowerCase().includes(value.toLowerCase()),
     );
 
     setFiltered(filtered);

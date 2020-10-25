@@ -8,10 +8,7 @@ import Value from "../../../interfaces/Value";
 import Match from "../../../interfaces/Match";
 import { connect } from "react-redux";
 import { getLegalStatuses } from "../../../lib/actions/values";
-import {
-  getVehicleById,
-  updateVehicleById,
-} from "../../../lib/actions/citizen";
+import { getVehicleById, updateVehicleById } from "../../../lib/actions/citizen";
 
 interface Props {
   error: string;
@@ -121,10 +118,7 @@ const EditVehiclePage: React.FC<Props> = ({
         </div>
 
         <div className="form-group float-right">
-          <a
-            className="btn btn-danger mr-2"
-            href={`/citizen/${vehicle?.citizen_id}`}
-          >
+          <a className="btn btn-danger mr-2" href={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
           </a>
           <button className="btn btn-primary" type="submit">

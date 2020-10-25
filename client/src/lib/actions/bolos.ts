@@ -1,11 +1,6 @@
 import Bolo from "../../interfaces/Bolo";
 import Logger from "../Logger";
-import {
-  CREATE_BOLO,
-  GET_BOLOS,
-  CREATE_BOLO_ERROR,
-  DELETE_BOLO,
-} from "../types";
+import { CREATE_BOLO, GET_BOLOS, CREATE_BOLO_ERROR, DELETE_BOLO } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
 import socket from "../socket";
@@ -31,9 +26,7 @@ export const getActiveBolos = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createBolo = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const createBolo = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/dispatch/bolos", "POST", data);
 
@@ -41,7 +34,7 @@ export const createBolo = (data: object) => async (
       socket.emit("UPDATE_BOLOS");
       dispatch({
         type: CREATE_BOLO,
-        bolos: res.data.bolos
+        bolos: res.data.bolos,
       });
     } else {
       dispatch({
@@ -54,9 +47,7 @@ export const createBolo = (data: object) => async (
   }
 };
 
-export const deleteBolo = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const deleteBolo = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/dispatch/bolos/${id}`, "DELETE");
 

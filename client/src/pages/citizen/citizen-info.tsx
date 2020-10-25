@@ -31,12 +31,7 @@ export const Item: React.FC<{ id: string }> = ({ id, children }) => {
   );
 };
 
-const CitizenInfoPage: React.FC<Props> = ({
-  citizen,
-  match,
-  getCitizenById,
-  deleteCitizen,
-}) => {
+const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, deleteCitizen }) => {
   const citizenId = match.params.id;
 
   React.useEffect(() => {
@@ -58,10 +53,7 @@ const CitizenInfoPage: React.FC<Props> = ({
           <h3>{lang.admin.cad_settings.general_info}</h3>
 
           <div>
-            <a
-              className="btn btn-success mr-2"
-              href={`/citizen/${citizenId}/edit`}
-            >
+            <a className="btn btn-success mr-2" href={`/citizen/${citizenId}/edit`}>
               {lang.citizen.edit_citizen}
             </a>
             <button onClick={handleDelete} className="btn btn-danger">
@@ -121,9 +113,7 @@ const CitizenInfoPage: React.FC<Props> = ({
               <Item id="height">
                 <Span>{lang.citizen.employer}: </Span>
                 {citizen.business !== "none" ? (
-                  <a href={`/company/${citizen.id}/${citizen.business}`}>
-                    {citizen.business}
-                  </a>
+                  <a href={`/company/${citizen.id}/${citizen.business}`}>{citizen.business}</a>
                 ) : (
                   lang.citizen.not_working
                 )}
@@ -148,6 +138,4 @@ const mapToProps = (state: State) => ({
   citizen: state.citizen.citizen,
 });
 
-export default connect(mapToProps, { getCitizenById, deleteCitizen })(
-  CitizenInfoPage
-);
+export default connect(mapToProps, { getCitizenById, deleteCitizen })(CitizenInfoPage);

@@ -8,11 +8,7 @@ import Citizen from "../../interfaces/Citizen";
 import Field from "../../interfaces/Field";
 import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
-import {
-  getEthnicities,
-  getGenders,
-  getLegalStatuses,
-} from "../../lib/actions/values";
+import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
 
 interface Props {
   error: string;

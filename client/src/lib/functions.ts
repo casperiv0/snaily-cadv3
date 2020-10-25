@@ -3,11 +3,7 @@ import SERVER_URL from "../config";
 
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 
-export const handleRequest = (
-  path: string,
-  method: AllowedMethods,
-  data?: object
-) => {
+export const handleRequest = (path: string, method: AllowedMethods, data?: object) => {
   return axios({
     url: `${SERVER_URL}/api/v1${path}`,
     method,

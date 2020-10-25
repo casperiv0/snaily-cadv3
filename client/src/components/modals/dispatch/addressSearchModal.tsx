@@ -45,10 +45,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
           <div className="mt-3">
             {search !== null ? (
               !search[0] ? (
-                <AlertMessage
-                  type="warning"
-                  message={lang.dispatch.add_not_found}
-                />
+                <AlertMessage type="warning" message={lang.dispatch.add_not_found} />
               ) : (
                 search.map((citizen: Citizen, idx: number) => {
                   return (
@@ -75,18 +72,10 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
         </div>
 
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-dismiss="modal"
-          >
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">
             {lang.global.close}
           </button>
-          <button
-            type="submit"
-            disabled={address === ""}
-            className="btn btn-primary"
-          >
+          <button type="submit" disabled={address === ""} className="btn btn-primary">
             {lang.global.search}
           </button>
         </div>

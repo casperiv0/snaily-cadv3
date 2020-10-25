@@ -8,12 +8,7 @@ import Weapon from "../../../interfaces/Weapon";
 import Vehicle from "../../../interfaces/Vehicle";
 import SERVER_URL from "../../../config";
 import { searchName } from "../../../lib/actions/officer";
-import {
-  Warrant,
-  Ticket,
-  ArrestReport,
-  WrittenWarning,
-} from "../../../interfaces/Record";
+import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
@@ -180,51 +175,46 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                       {lang.record.warnings} ({search.writtenWarnings.length})
                     </h5>
 
-                    <ul
-                      style={{ maxHeight: "20rem" }}
-                      className="list-group overflow-auto"
-                    >
+                    <ul style={{ maxHeight: "20rem" }} className="list-group overflow-auto">
                       {!search.writtenWarnings[0] ? (
                         <li className="list-group-item border-dark text-dark">
                           {lang.record.no_war}
                         </li>
                       ) : (
-                        search.writtenWarnings.map(
-                          (warning: WrittenWarning, idx: number) => {
-                            return (
-                              <li
-                                key={idx}
-                                id={`${idx}`}
-                                className="list-group-item border-dark text-dark"
-                              >
-                                <Item id="infractions">
-                                  <Span>{lang.record.infractions}: </Span>
-                                  {warning.infractions}
-                                </Item>
+                        search.writtenWarnings.map((warning: WrittenWarning, idx: number) => {
+                          return (
+                            <li
+                              key={idx}
+                              id={`${idx}`}
+                              className="list-group-item border-dark text-dark"
+                            >
+                              <Item id="infractions">
+                                <Span>{lang.record.infractions}: </Span>
+                                {warning.infractions}
+                              </Item>
 
-                                <Item id="date">
-                                  <Span>{lang.record.given_on}: </Span>
-                                  {warning.date}
-                                </Item>
+                              <Item id="date">
+                                <Span>{lang.record.given_on}: </Span>
+                                {warning.date}
+                              </Item>
 
-                                <Item id="officer_name">
-                                  <Span>{lang.record.given_by}: </Span>
-                                  {warning.officer_name}
-                                </Item>
+                              <Item id="officer_name">
+                                <Span>{lang.record.given_by}: </Span>
+                                {warning.officer_name}
+                              </Item>
 
-                                <Item id="postal">
-                                  <Span>{lang.record.postal}: </Span>
-                                  {warning.postal}
-                                </Item>
+                              <Item id="postal">
+                                <Span>{lang.record.postal}: </Span>
+                                {warning.postal}
+                              </Item>
 
-                                <Item id="notes">
-                                  <Span>{lang.global.notes}: </Span>
-                                  {warning.notes}
-                                </Item>
-                              </li>
-                            );
-                          }
-                        )
+                              <Item id="notes">
+                                <Span>{lang.global.notes}: </Span>
+                                {warning.notes}
+                              </Item>
+                            </li>
+                          );
+                        })
                       )}
                     </ul>
                   </div>
@@ -235,10 +225,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                       {lang.record.tickets} ({search.tickets.length})
                     </h5>
 
-                    <ul
-                      style={{ maxHeight: "20rem" }}
-                      className="list-group overflow-auto"
-                    >
+                    <ul style={{ maxHeight: "20rem" }} className="list-group overflow-auto">
                       {!search.tickets[0] ? (
                         <li className="list-group-item border-dark text-dark">
                           {lang.record.no_tick}
@@ -288,51 +275,46 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                       {lang.record.arr_rep} ({search.arrestReports.length})
                     </h5>
 
-                    <ul
-                      style={{ maxHeight: "20rem" }}
-                      className="list-group overflow-auto"
-                    >
+                    <ul style={{ maxHeight: "20rem" }} className="list-group overflow-auto">
                       {!search.arrestReports[0] ? (
                         <li className="list-group-item border-dark text-dark">
                           {lang.record.no_arr_rep}
                         </li>
                       ) : (
-                        search.arrestReports.map(
-                          (report: ArrestReport, idx: number) => {
-                            return (
-                              <li
-                                className="list-group-item border-dark text-dark"
-                                key={idx}
-                                id={`${idx}`}
-                              >
-                                <Item id="charges">
-                                  <Span>{lang.record.charges}: </Span>
-                                  {report.charges}
-                                </Item>
+                        search.arrestReports.map((report: ArrestReport, idx: number) => {
+                          return (
+                            <li
+                              className="list-group-item border-dark text-dark"
+                              key={idx}
+                              id={`${idx}`}
+                            >
+                              <Item id="charges">
+                                <Span>{lang.record.charges}: </Span>
+                                {report.charges}
+                              </Item>
 
-                                <Item id="date">
-                                  <Span>{lang.record.given_on}: </Span>
-                                  {report.date}
-                                </Item>
+                              <Item id="date">
+                                <Span>{lang.record.given_on}: </Span>
+                                {report.date}
+                              </Item>
 
-                                <Item id="officer_name">
-                                  <Span>{lang.record.given_by}: </Span>
-                                  {report.officer_name}
-                                </Item>
+                              <Item id="officer_name">
+                                <Span>{lang.record.given_by}: </Span>
+                                {report.officer_name}
+                              </Item>
 
-                                <Item id="postal">
-                                  <Span>{lang.record.postal}: </Span>
-                                  {report.postal}
-                                </Item>
+                              <Item id="postal">
+                                <Span>{lang.record.postal}: </Span>
+                                {report.postal}
+                              </Item>
 
-                                <Item id="notes">
-                                  <Span>{lang.global.notes}: </Span>
-                                  {report.notes}
-                                </Item>
-                              </li>
-                            );
-                          }
-                        )
+                              <Item id="notes">
+                                <Span>{lang.global.notes}: </Span>
+                                {report.notes}
+                              </Item>
+                            </li>
+                          );
+                        })
                       )}
                     </ul>
                   </div>
@@ -343,10 +325,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                       {lang.record.warrants} ({search.warrants.length})
                     </h5>
 
-                    <ul
-                      style={{ maxHeight: "20rem" }}
-                      className="list-group overflow-auto"
-                    >
+                    <ul style={{ maxHeight: "20rem" }} className="list-group overflow-auto">
                       {!search.warrants[0] ? (
                         <li className="list-group-item border-dark text-dark">
                           {lang.record.no_arr_rep}
@@ -380,14 +359,10 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                   {/* Vehicles */}
                   <div id="vehicles">
                     <h5>
-                      {lang.citizen.vehicle.reged_vehicle} (
-                      {search.vehicles.length})
+                      {lang.citizen.vehicle.reged_vehicle} ({search.vehicles.length})
                     </h5>
 
-                    <ul
-                      style={{ maxHeight: "20rem" }}
-                      className="list-group overflow-auto"
-                    >
+                    <ul style={{ maxHeight: "20rem" }} className="list-group overflow-auto">
                       {!search.vehicles[0] ? (
                         <li className="list-group-item border-dark text-dark">
                           {lang.record.no_vehicles}
@@ -395,10 +370,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                       ) : (
                         search.vehicles.map((vehicle: Vehicle, idx: number) => {
                           return (
-                            <li
-                              className="list-group-item border-dark text-dark"
-                              key={idx}
-                            >
+                            <li className="list-group-item border-dark text-dark" key={idx}>
                               <Item id="vehicle">
                                 <Span>{lang.record.vehicle}: </Span>
                                 {vehicle.vehicle}
@@ -438,14 +410,10 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                   {/* weapons */}
                   <div className="mt-3" id="weapons">
                     <h5>
-                      {lang.citizen.vehicle.reged_vehicle} (
-                      {search.weapons.length})
+                      {lang.citizen.vehicle.reged_vehicle} ({search.weapons.length})
                     </h5>
 
-                    <ul
-                      style={{ maxHeight: "20rem" }}
-                      className="list-group overflow-auto"
-                    >
+                    <ul style={{ maxHeight: "20rem" }} className="list-group overflow-auto">
                       {!search.weapons[0] ? (
                         <li className="list-group-item border-dark text-dark">
                           {lang.record.no_vehicles}
@@ -453,10 +421,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                       ) : (
                         search.weapons.map((weapon: Weapon, idx: number) => {
                           return (
-                            <li
-                              className="list-group-item border-dark text-dark"
-                              key={idx}
-                            >
+                            <li className="list-group-item border-dark text-dark" key={idx}>
                               <Item id="weapon">
                                 <Span>{lang.record.weapon}: </Span>
                                 {weapon.weapon}
@@ -468,9 +433,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                               </Item>
 
                               <Item id="serial_number">
-                                <Span>
-                                  {lang.citizen.weapon.serial_number}:{" "}
-                                </Span>
+                                <Span>{lang.citizen.weapon.serial_number}: </Span>
                                 {weapon.serial_number}
                               </Item>
 
@@ -493,18 +456,10 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
         </div>
 
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-dismiss="modal"
-          >
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">
             {lang.global.close}
           </button>
-          <button
-            type="submit"
-            disabled={name === ""}
-            className="btn btn-primary"
-          >
+          <button type="submit" disabled={name === ""} className="btn btn-primary">
             {lang.global.search}
           </button>
         </div>

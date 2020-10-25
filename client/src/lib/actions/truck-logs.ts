@@ -30,9 +30,7 @@ export const getTruckLogs = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createTruckLog = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const createTruckLog = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/truck-logs", "POST", data);
 
@@ -52,9 +50,7 @@ export const createTruckLog = (data: object) => async (
   }
 };
 
-export const deleteTruckLog = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const deleteTruckLog = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/truck-logs/${id}`, "DELETE");
 

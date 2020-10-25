@@ -27,11 +27,7 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
   }
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="mt-5 mx-auto"
-      style={{ width: "500px", maxWidth: "95%" }}
-    >
+    <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
       <h2>{lang.auth.register}</h2>
       <div className="form-group">
         {error ? <AlertMessage type="warning" message={error} /> : null}

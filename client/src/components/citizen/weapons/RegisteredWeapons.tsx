@@ -3,10 +3,7 @@ import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import Weapon from "../../../interfaces/Weapon";
 import { connect } from "react-redux";
-import {
-  getRegisteredWeapons,
-  deleteWeapon,
-} from "../../../lib/actions/citizen";
+import { getRegisteredWeapons, deleteWeapon } from "../../../lib/actions/citizen";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
 interface Props {
@@ -100,6 +97,4 @@ const mapToProps = (state: State) => ({
   weapons: state.citizen.weapons,
 });
 
-export default connect(mapToProps, { getRegisteredWeapons, deleteWeapon })(
-  RegisteredWeapons
-);
+export default connect(mapToProps, { getRegisteredWeapons, deleteWeapon })(RegisteredWeapons);

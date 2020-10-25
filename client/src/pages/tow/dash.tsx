@@ -50,18 +50,12 @@ const TowDash: React.FC<Props> = (props) => {
         <li className="list-group-item bg-secondary d-flex justify-content-between">
           <h4>{lang.tow.active_tow_calls}</h4>
 
-          <button
-            data-toggle="modal"
-            data-target="#notepad"
-            className="btn btn-dark"
-          >
+          <button data-toggle="modal" data-target="#notepad" className="btn btn-dark">
             {lang.global.notepad}
           </button>
         </li>
         {!calls[0] ? (
-          <li className="list-group-item bg-dark border-secondary">
-            {lang.tow.no_calls}
-          </li>
+          <li className="list-group-item bg-dark border-secondary">{lang.tow.no_calls}</li>
         ) : (
           <table className="table table-dark">
             <thead>
@@ -82,10 +76,7 @@ const TowDash: React.FC<Props> = (props) => {
                     <td>{call.location}</td>
                     <td>{call.description}</td>
                     <td>
-                      <button
-                        onClick={() => endTowCall(call.id)}
-                        className="btn btn-success"
-                      >
+                      <button onClick={() => endTowCall(call.id)} className="btn btn-success">
                         {lang.tow.end_call}
                       </button>
                     </td>
@@ -96,7 +87,6 @@ const TowDash: React.FC<Props> = (props) => {
           </table>
         )}
       </ul>
-
 
       <NotepadModal />
     </Layout>

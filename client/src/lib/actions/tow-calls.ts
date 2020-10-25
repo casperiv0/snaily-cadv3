@@ -1,12 +1,7 @@
 import Logger from "../Logger";
 import lang from "../../language.json";
 import { Dispatch } from "react";
-import {
-  CREATE_TOW_CALL,
-  SET_MESSAGE,
-  GET_TOW_CALLS,
-  END_TOW_CALL,
-} from "../types";
+import { CREATE_TOW_CALL, SET_MESSAGE, GET_TOW_CALLS, END_TOW_CALL } from "../types";
 import { handleRequest, isSuccess } from "../functions";
 import socket from "../socket";
 
@@ -31,9 +26,7 @@ export const getTowCalls = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createTowCall = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const createTowCall = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/tow-calls", "POST", data);
 
@@ -53,9 +46,7 @@ export const createTowCall = (data: object) => async (
   }
 };
 
-export const endTowCall = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const endTowCall = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/tow-calls/${id}`, "DELETE");
 

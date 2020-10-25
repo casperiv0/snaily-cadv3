@@ -14,14 +14,7 @@ interface Props {
   user: User;
 }
 
-const AuthRoute: React.FC<Props> = ({
-  Component,
-  loading,
-  isAuth,
-  path,
-  user,
-  requirement,
-}) => {
+const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, requirement }) => {
   React.useEffect(() => {
     if (requirement && !loading && isAuth) {
       switch (requirement) {

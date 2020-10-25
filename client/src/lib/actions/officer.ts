@@ -30,9 +30,7 @@ interface IDispatch {
   message?: string;
 }
 
-export const getCurrentOfficer = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const getCurrentOfficer = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/officer/status/${id}`, "GET");
 
@@ -52,7 +50,7 @@ export const getCurrentOfficer = (id: string) => async (
 export const setStatus = (
   id: string,
   status: "on-duty" | "off-duty" | string,
-  status2: string
+  status2: string,
 ) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const data = { status: status, status2: status2 };
@@ -88,9 +86,7 @@ export const getMyOfficers = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createOfficer = (data: object) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const createOfficer = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/officer/my-officers", "POST", data);
 
@@ -105,9 +101,7 @@ export const createOfficer = (data: object) => async (
   }
 };
 
-export const deleteOfficer = (id: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/officer/${id}`, "DELETE");
 
@@ -141,9 +135,7 @@ export const getDepartments = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const searchPlate = (plate: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const searchPlate = (plate: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/officer/search/plate", "POST", { plate });
 
@@ -158,9 +150,7 @@ export const searchPlate = (plate: string) => async (
   }
 };
 
-export const searchName = (name: string) => async (
-  dispatch: Dispatch<IDispatch>
-) => {
+export const searchName = (name: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/officer/search/name", "POST", { name });
 

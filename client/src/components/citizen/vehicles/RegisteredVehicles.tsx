@@ -3,11 +3,7 @@ import State from "../../../interfaces/State";
 import Vehicle from "../../../interfaces/Vehicle";
 import lang from "../../../language.json";
 import { connect } from "react-redux";
-import {
-  getRegisteredVehicles,
-  reportAsStolen,
-  deleteVehicle,
-} from "../../../lib/actions/citizen";
+import { getRegisteredVehicles, reportAsStolen, deleteVehicle } from "../../../lib/actions/citizen";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
 interface Props {
@@ -90,10 +86,7 @@ const RegisteredVehicles: React.FC<Props> = ({
 
                     {/* actions */}
                     <div id="actions">
-                      <a
-                        className="btn btn-dark mr-2"
-                        href={`/vehicles/transfer/${vehicle.id}`}
-                      >
+                      <a className="btn btn-dark mr-2" href={`/vehicles/transfer/${vehicle.id}`}>
                         {lang.citizen.vehicle.transfer}
                       </a>
 
@@ -111,10 +104,7 @@ const RegisteredVehicles: React.FC<Props> = ({
                       >
                         {lang.global.delete}
                       </button>
-                      <a
-                        className="btn btn-success ml-2"
-                        href={`/vehicles/edit/${vehicle.id}`}
-                      >
+                      <a className="btn btn-success ml-2" href={`/vehicles/edit/${vehicle.id}`}>
                         {lang.global.edit}
                       </a>
                     </div>

@@ -98,18 +98,10 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
         </div>
 
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-dismiss="modal"
-          >
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">
             {lang.global.close}
           </button>
-          <button
-            type="submit"
-            disabled={description === ""}
-            className="btn btn-primary"
-          >
+          <button type="submit" disabled={description === ""} className="btn btn-primary">
             {lang.global.create_bolo}
           </button>
         </div>
