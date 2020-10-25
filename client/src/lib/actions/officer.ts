@@ -12,7 +12,8 @@ import {
   CREATE_OFFICER,
   CREATE_OFFICER_ERROR,
   GET_DEPARTMENTS,
-  SEARCH,
+  NAME_SEARCH,
+  PLATE_SEARCH
 } from "../types";
 
 interface IDispatch {
@@ -141,12 +142,12 @@ export const searchPlate = (plate: string) => async (
 
     if (isSuccess(res)) {
       dispatch({
-        type: SEARCH,
+        type: PLATE_SEARCH,
         search: res.data.plate,
       });
     }
   } catch (e) {
-    Logger.error(SEARCH, e);
+    Logger.error(PLATE_SEARCH, e);
   }
 };
 
@@ -158,11 +159,11 @@ export const searchName = (name: string) => async (
 
     if (isSuccess(res)) {
       dispatch({
-        type: SEARCH,
-        search: res.data.citizen,
+        type: NAME_SEARCH,
+        search: res.data,
       });
     }
   } catch (e) {
-    Logger.error(SEARCH, e);
+    Logger.error(NAME_SEARCH, e);
   }
 };

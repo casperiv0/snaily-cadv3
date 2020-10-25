@@ -155,7 +155,7 @@ router.post(
         "SELECT * FROM `citizens` WHERE `full_name` = ?",
         [name]
       );
-      const citizenId = citizen[0].id;
+      const citizenId = citizen[0]?.id || "not_found";
 
       const vehicles = await processQuery(
         "SELECT * FROM `registered_cars` WHERE `citizen_id` = ?",

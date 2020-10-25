@@ -10,7 +10,8 @@ import {
   CREATE_OFFICER_ERROR,
   CREATE_WARRANT_ERROR,
   CREATE_WARRANT,
-  SEARCH,
+  PLATE_SEARCH,
+  NAME_SEARCH,
 } from "../types";
 
 const initState = {
@@ -63,7 +64,11 @@ type Actions =
       error: string;
     }
   | {
-      type: typeof SEARCH;
+      type: typeof NAME_SEARCH;
+      search: object;
+    }
+  | {
+      type: typeof PLATE_SEARCH;
       search: object;
     };
 
@@ -118,7 +123,12 @@ export default function (state = initState, action: Actions) {
         ...state,
         error: action.error,
       };
-    case "SEARCH":
+    case "NAME_SEARCH":
+      return {
+        ...state,
+        search: action.search,
+      };
+    case "PLATE_SEARCH":
       return {
         ...state,
         search: action.search,

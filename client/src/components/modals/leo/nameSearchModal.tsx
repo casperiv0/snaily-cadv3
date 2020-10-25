@@ -15,6 +15,8 @@ import {
 } from "../../../interfaces/Record";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
+import SERVER_URL from "../../../config";
+import citizen from "../../../pages/citizen";
 
 interface NameSearch {
   citizen: Citizen;
@@ -31,7 +33,7 @@ interface Props {
   searchName: (name: string) => void;
 }
 
-const PlateSearchModal: React.FC<Props> = ({ search, searchName }) => {
+const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
   const [name, setName] = React.useState("");
   const btnRef = React.createRef<HTMLButtonElement>();
 
@@ -61,10 +63,71 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchName }) => {
           </div>
 
           {search !== null ? (
-            search.citizen ? (
-              <div className="mt-3"></div>
+            search?.citizen ? (
+              <div className="mt-3">
+                <div className="row">
+                  <div className="col-md-6">
+                    <h5>{lang.admin.cad_settings.general_info}</h5>
+
+                    <div className="list-group" id="general_info">
+                      <Item id="image_id">
+                        <img
+                          className="object-fit-center rounded-circle mb-1"
+                          style={{ width: "100px", height: "100px" }}
+                          src={`${SERVER_URL}/static/citizen-images/${search.citizen.image_id}`}
+                        />
+                      </Item>
+
+                      <Item id="full_name">
+                        <Span>{lang.citizen.full_name}: </Span>
+                        {search.citizen.full_name}
+                      </Item>
+
+                      <Item id="birth">
+                        <Span>{lang.citizen.date_of_birth}: </Span>
+                        {search.citizen.birth}
+                      </Item>
+
+                      <Item id="gender">
+                        <Span>{lang.citizen.gender}: </Span>
+                        {search.citizen.gender}
+                      </Item>
+
+                      <Item id="ethnicity">
+                        <Span>{lang.citizen.ethnicity}: </Span>
+                        {search.citizen.ethnicity}
+                      </Item>
+
+                      <Item id="hair_color">
+                        <Span>{lang.citizen.hair_color}: </Span>
+                        {search.citizen.hair_color}
+                      </Item>
+
+                      <Item id="eye_color">
+                        <Span>{lang.citizen.eye_color}: </Span>
+                        {search.citizen.eye_color}
+                      </Item>
+
+                      <Item id="address">
+                        <Span>{lang.citizen.address}: </Span>
+                        {search.citizen.address}
+                      </Item>
+
+                      <Item id="height_weight">
+                        <Span>{lang.citizen.hei_wei}: </Span>
+                        {search.citizen.height} / {search.citizen.weight}
+                      </Item>
+
+                      <Item id="employer">
+                        <Span>{lang.citizen.employer}: </Span>
+                        {search.citizen.business}
+                      </Item>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ) : (
-              <AlertMessage message={lang.record.no_plate} type="warning" />
+              <AlertMessage message={lang.record.no_citizen} type="warning" />
             )
           ) : null}
         </div>
@@ -94,4 +157,4 @@ const mapToProps = (state: State) => ({
   search: state.officers.search,
 });
 
-export default connect(mapToProps, { searchName })(PlateSearchModal);
+export default connect(mapToProps, { searchName })(NameSearchModal);
