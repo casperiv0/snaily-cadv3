@@ -41,6 +41,7 @@ interface State {
     officers: Officer[];
     departments: Department[];
     error: string;
+    search: any;
   };
   bolos: {
     bolos: Bolo[];

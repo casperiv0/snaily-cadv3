@@ -12,6 +12,7 @@ import {
   CREATE_OFFICER,
   CREATE_OFFICER_ERROR,
   GET_DEPARTMENTS,
+  SEARCH,
 } from "../types";
 
 interface IDispatch {
@@ -22,6 +23,7 @@ interface IDispatch {
   officers?: Officer[];
   departments?: Department[];
   error?: string;
+  search?: object;
 }
 
 export const getCurrentOfficer = (id: string) => async (
@@ -128,5 +130,39 @@ export const getDepartments = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_DEPARTMENTS, e);
+  }
+};
+
+export const searchPlate = (plate: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest("/officer/search/plate", "POST", { plate });
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: SEARCH,
+        search: res.data.plate,
+      });
+    }
+  } catch (e) {
+    Logger.error(SEARCH, e);
+  }
+};
+
+export const searchName = (name: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest("/officer/search/name", "POST", { name });
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: SEARCH,
+        search: res.data.citizen,
+      });
+    }
+  } catch (e) {
+    Logger.error(SEARCH, e);
   }
 };

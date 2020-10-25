@@ -122,6 +122,82 @@ router.get(
   }
 );
 
+/* searches */
+router.post(
+  "/search/plate",
+  useAuth,
+  useOfficerAuth,
+  async (req: IRequest, res: Response) => {
+    const { plate } = req.body;
+
+    if (plate) {
+      const result = await processQuery(
+        "SELECT * FROM `registered_cars` WHERE `plate` = ?",
+        [plate]
+      );
+
+      return res.json({ plate: result[0], status: "success" });
+    } else {
+      return res.json({ error: "Please fill in all fields", status: "error" });
+    }
+  }
+);
+
+router.post(
+  "/search/name",
+  useAuth,
+  useOfficerAuth,
+  async (req: IRequest, res: Response) => {
+    const { name } = req.body;
+
+    if (name) {
+      const citizen = await processQuery(
+        "SELECT * FROM `citizens` WHERE `full_name` = ?",
+        [name]
+      );
+      const citizenId = citizen[0].id;
+
+      const vehicles = await processQuery(
+        "SELECT * FROM `registered_cars` WHERE `citizen_id` = ?",
+        [citizenId]
+      );
+      const weapons = await processQuery(
+        "SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?",
+        [citizenId]
+      );
+      const warnings = await processQuery(
+        "SELECT * FROM `written_warnings` WHERE `citizen_id` = ?",
+        [citizenId]
+      );
+      const arrestReports = await processQuery(
+        "SELECT * FROM `arrest_reports` WHERE `citizen_id` = ?",
+        [citizenId]
+      );
+      const tickets = await processQuery(
+        "SELECT * FROM `leo_tickets` WHERE `citizen_id` = ?",
+        [citizenId]
+      );
+      const warrants = await processQuery(
+        "SELECT * FROM `warrants` WHERE `citizen_id` = ?",
+        [citizenId]
+      );
+
+      return res.json({
+        citizen: citizen[0],
+        writtenWarnings: warnings,
+        vehicles,
+        weapons,
+        arrestReports,
+        tickets,
+        warrants,
+        status: "success",
+      });
+    } else {
+      return res.json({ error: "Please fill in all fields", status: "error" });
+    }
+  }
+);
+
 /**
  *
  * Check if the authenticated user has permission to access '/officer' routes
@@ -131,9 +207,10 @@ async function useOfficerAuth(
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  const user = await processQuery("SELECT `leo` from `users` WHERE `id` = ?", [
-    req.user?.id,
-  ]);
+  const user = await processQuery(
+    "SELECT `leo`, `dispatch` from `users` WHERE `id` = ?",
+    [req.user?.id]
+  );
 
   if (!user[0]) {
     res.json({
@@ -143,7 +220,7 @@ async function useOfficerAuth(
     return;
   }
 
-  if (user[0].leo !== "1") {
+  if (user[0].leo !== "1" || user[0].dispatch !== "1") {
     res.json({
       error: "Forbidden",
       status: "error",

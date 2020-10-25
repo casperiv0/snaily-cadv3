@@ -12,6 +12,8 @@ import socket from "../../lib/socket";
 import NotepadModal from "../../components/modals/notepad";
 import AlertMessage from "../../components/alert-message";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
+import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
+import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import { connect } from "react-redux";
 
 
@@ -70,6 +72,8 @@ const LeoDash: React.FC<Props> = (props) => {
       <SelectOfficerModal />
       <NotepadModal />
       <CreateBoloModal />
+      <PlateSearchModal />
+      <NameSearchModal />
     </Layout>
   );
 };

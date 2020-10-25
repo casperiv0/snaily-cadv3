@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "SnailyCADv3 - Server",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/server.ts",

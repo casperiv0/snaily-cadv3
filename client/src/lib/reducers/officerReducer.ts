@@ -10,6 +10,7 @@ import {
   CREATE_OFFICER_ERROR,
   CREATE_WARRANT_ERROR,
   CREATE_WARRANT,
+  SEARCH,
 } from "../types";
 
 const initState = {
@@ -19,6 +20,7 @@ const initState = {
   officers: [],
   departments: [],
   error: null,
+  search: null,
 };
 
 type Actions =
@@ -59,6 +61,10 @@ type Actions =
   | {
       type: typeof CREATE_WARRANT_ERROR;
       error: string;
+    }
+  | {
+      type: typeof SEARCH;
+      search: object;
     };
 
 export default function (state = initState, action: Actions) {
@@ -111,6 +117,11 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         error: action.error,
+      };
+    case "SEARCH":
+      return {
+        ...state,
+        search: action.search,
       };
     default:
       return {
