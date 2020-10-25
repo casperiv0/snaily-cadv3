@@ -31,7 +31,7 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
   }
 
   return (
-    <Modal id="createBoloModal">
+    <Modal size="lg" id="createBoloModal">
       <div className="modal-header">
         <h5 className="modal-title">{lang.global.create_bolo}</h5>
         <XButton ref={btnRef}></XButton>

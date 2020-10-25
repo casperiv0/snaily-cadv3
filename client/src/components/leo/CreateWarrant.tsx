@@ -41,11 +41,11 @@ const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
       <form onSubmit={onSubmit} className="list-group-item bg-dark border-dark">
         {error ? <AlertMessage type="warning" message={error} /> : null}
         <div className="form-group">
-          <label htmlFor="name">{lang.record.enter_full_name}</label>
+          <label htmlFor="warrant_name">{lang.record.enter_full_name}</label>
           <input
             className="form-control bg-secondary border-secondary text-light"
             type="text"
-            id="name"
+            id="warrant_name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />

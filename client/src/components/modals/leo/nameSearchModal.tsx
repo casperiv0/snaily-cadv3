@@ -16,7 +16,6 @@ import {
 } from "../../../interfaces/Record";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
-import citizen from "../../../pages/citizen";
 
 interface NameSearch {
   citizen: Citizen;
@@ -44,7 +43,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
   }
 
   return (
-    <Modal size="xl" id="nameSearchModal">
+    <Modal size="lg" id="nameSearchModal">
       <div className="modal-header">
         <h5 className="modal-title">{lang.global.name_search}</h5>
         <XButton ref={btnRef}></XButton>

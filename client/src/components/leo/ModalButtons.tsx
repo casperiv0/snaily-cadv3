@@ -52,7 +52,7 @@ const ModalButtons: React.FC = () => {
       {modalButtons.map((mButton: MButton, idx: number) => {
         return (
           <button
-            id={`${idx}`}
+            id={mButton.name}
             key={idx}
             className="btn btn-secondary bg-secondary col-md-2 mt-2 ml-1"
             data-target={mButton.target}

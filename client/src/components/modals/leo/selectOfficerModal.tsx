@@ -46,25 +46,26 @@ const SelectOfficerModal: React.FC<Props> = ({
         <div className="modal-body">
           <div className="form-group">
             <label htmlFor="officer">{lang.officers.select_officer}</label>
-            <select
-              className="form-control bg-secondary border-secondary text-light"
-              id="officer"
-              onChange={(e) => setSelected(e.target.value)}
-              value={selected}
-            >
-              <option value="">{lang.officers.select_officer2}</option>
-              {!officers[0] ? (
-                <option>{lang.officers.no_officers}</option>
-              ) : (
-                officers.map((officer: Officer, idx: number) => {
+
+            {!officers[0] ? (
+              <p className="font-weight-bold">{lang.officers.no_officers}</p>
+            ) : (
+              <select
+                className="form-control bg-secondary border-secondary text-light"
+                id="officer"
+                onChange={(e) => setSelected(e.target.value)}
+                value={selected}
+              >
+                <option value="">{lang.officers.select_officer2}</option>
+                {officers.map((officer: Officer, idx: number) => {
                   return (
                     <option key={idx} value={officer.id}>
                       {officer.officer_name}
                     </option>
                   );
-                })
-              )}
-            </select>
+                })}
+              </select>
+            )}
           </div>
         </div>
         <div className="modal-footer">
@@ -75,7 +76,11 @@ const SelectOfficerModal: React.FC<Props> = ({
           >
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button
+            disabled={!officers[0]}
+            type="submit"
+            className="btn btn-primary"
+          >
             {lang.global.go_on_duty}
           </button>
         </div>

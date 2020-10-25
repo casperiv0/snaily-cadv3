@@ -24,7 +24,7 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
   }
 
   return (
-    <Modal size="xl" id="plateSearchModal">
+    <Modal size="lg" id="plateSearchModal">
       <div className="modal-header">
         <h5 className="modal-title">{lang.global.plate_search}</h5>
         <XButton ref={btnRef}></XButton>
