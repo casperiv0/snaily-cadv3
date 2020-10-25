@@ -18,6 +18,8 @@ import {
   CREATE_MEDICAL_RECORD_ERROR,
   DELETE_MEDICAL_RECORD,
   DELETE_CITIZEN,
+  UPDATE_VEHICLE,
+  GET_VEHICLE_BY_ID,
 } from "../types";
 
 const initState = {
@@ -86,6 +88,14 @@ type Actions =
     }
   | {
       type: typeof DELETE_CITIZEN;
+    }
+  | {
+      type: typeof UPDATE_VEHICLE;
+      vehicle: Vehicle;
+    }
+  | {
+      type: typeof GET_VEHICLE_BY_ID;
+      vehicle: Vehicle;
     };
 
 export default function (state = initState, action: Actions) {
@@ -161,6 +171,16 @@ export default function (state = initState, action: Actions) {
     case "DELETE_CITIZEN":
       return {
         ...state,
+      };
+    case "UPDATE_VEHICLE":
+      return {
+        ...state,
+        vehicle: action.vehicle,
+      };
+    case "GET_VEHICLE_BY_ID":
+      return {
+        ...state,
+        vehicle: action.vehicle,
       };
     default:
       return {

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface Props {
-  type: "warning" | "error" | "success";
+  type: "warning" | "danger" | "success";
   message: string;
 }
 

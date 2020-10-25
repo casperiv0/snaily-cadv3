@@ -5,10 +5,10 @@ import Match from "../../interfaces/Match";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import Value from "../../interfaces/Value";
+import Field from "../../interfaces/Field";
 import { connect } from "react-redux";
 import { getCitizenById, updateLicenses } from "../../lib/actions/citizen";
 import { getLegalStatuses } from "../../lib/actions/values";
-import Field from "../../interfaces/Field";
 
 interface Props {
   citizen: Citizen;
@@ -90,6 +90,7 @@ const EditLicensesPage: React.FC<Props> = ({
       setFireArms(citizen?.fire_license);
       setPilot(citizen?.pilot_license);
       setCcw(citizen?.ccw);
+      return;
     }
   }, [citizen]);
 

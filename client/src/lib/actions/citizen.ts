@@ -19,6 +19,8 @@ import {
   DELETE_MEDICAL_RECORD,
   DELETE_CITIZEN,
   UPDATE_LICENSES,
+  GET_VEHICLE_BY_ID,
+  UPDATE_VEHICLE,
 } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
@@ -33,6 +35,7 @@ interface IDispatch {
   citizens?: Citizen[];
   weapons?: Weapon[];
   vehicles?: Vehicle[];
+  vehicle?: Vehicle;
   medicalRecords?: MedicalRecord[];
 }
 
@@ -341,5 +344,42 @@ export const updateLicenses = (id: string, data: object) => async (
     }
   } catch (e) {
     Logger.error(UPDATE_LICENSES, e);
+  }
+};
+
+export const getVehicleById = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/citizen/vehicles/i/${id}`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_VEHICLE_BY_ID,
+        vehicle: res.data.vehicle,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_VEHICLE_BY_ID, e);
+  }
+};
+
+export const updateVehicleById = (
+  id: string,
+  citizenId: string,
+  data: object
+) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/citizen/vehicles/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_VEHICLE,
+      });
+
+      return (window.location.href = `/citizen/${citizenId}`);
+    }
+  } catch (e) {
+    Logger.error(UPDATE_VEHICLE, e);
   }
 };

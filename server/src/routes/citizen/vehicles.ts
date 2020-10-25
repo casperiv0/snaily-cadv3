@@ -18,6 +18,17 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ vehicles, status: "success" });
 });
 
+router.get("/i/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+
+  const vehicle = await processQuery(
+    "SELECT * FROM `registered_cars` WHERE `id` = ? AND `user_id` = ?",
+    [id, req.user?.id]
+  );
+
+  return res.json({ vehicle: vehicle[0], status: "success" });
+});
+
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const { plate, status, color, vehicle, citizenId } = req.body;
 
@@ -66,6 +77,22 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     );
 
     return res.json({ status: "success", citizenId });
+  } else {
+    return res.json({ status: "error", error: "Please fill in all fields" });
+  }
+});
+
+router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+  const { color, status } = req.body;
+
+  if (color && status) {
+    await processQuery(
+      "UPDATE `registered_cars` SET `color` = ?, `in_status` = ? WHERE `id` = ? AND `user_id` = ?",
+      [color, status, id, req.user?.id]
+    );
+
+    return res.json({ status: "success" });
   } else {
     return res.json({ status: "error", error: "Please fill in all fields" });
   }

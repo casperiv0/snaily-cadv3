@@ -4,41 +4,73 @@ import Layout from "../../../components/Layout";
 import State from "../../../interfaces/State";
 import Vehicle from "../../../interfaces/Vehicle";
 import lang from "../../../language.json";
+import Value from "../../../interfaces/Value";
+import Match from "../../../interfaces/Match";
 import { connect } from "react-redux";
 import { getLegalStatuses } from "../../../lib/actions/values";
-import Value from "../../../interfaces/Value";
+import {
+  getVehicleById,
+  updateVehicleById,
+} from "../../../lib/actions/citizen";
 
 interface Props {
   error: string;
   vehicle: Vehicle;
   legalStatuses: Value[];
+  match: Match;
   getLegalStatuses: () => void;
+  getVehicleById: (id: string) => void;
+  updateVehicleById: (id: string, citizenId: string, data: object) => void;
 }
 
 const EditVehiclePage: React.FC<Props> = ({
   error,
   vehicle,
   legalStatuses,
+  match,
   getLegalStatuses,
+  getVehicleById,
+  updateVehicleById,
 }) => {
-  const [plate, setPlate] = React.useState("QSDD");
+  const vehicleId = match.params.id;
+  const [notFound, setNotFound] = React.useState<boolean>(false);
+  const [plate, setPlate] = React.useState("");
   const [color, setColor] = React.useState("");
   const [status, setStatus] = React.useState("");
 
   React.useEffect(() => {
     getLegalStatuses();
-  }, [getLegalStatuses]);
+    getVehicleById(vehicleId);
+  }, [getLegalStatuses, getVehicleById, vehicleId]);
 
   React.useEffect(() => {
     if (vehicle !== null) {
-      setPlate(vehicle?.plate);
-      setColor(vehicle?.color);
-      setStatus(vehicle?.in_status);
+      setPlate(vehicle?.plate || "");
+      setColor(vehicle?.color || "");
+      setStatus(vehicle?.in_status || "");
+      return;
+    }
+
+    if (vehicle !== null && !vehicle) {
+      setNotFound(true);
     }
   }, [vehicle]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    updateVehicleById(vehicleId, vehicle?.citizen_id, {
+      color,
+      status,
+    });
+  }
+
+  if (notFound) {
+    return (
+      <Layout>
+        <AlertMessage type="danger" message={lang.citizen.vehicle.not_found} />
+      </Layout>
+    );
   }
 
   return (
@@ -87,6 +119,18 @@ const EditVehiclePage: React.FC<Props> = ({
             })}
           </select>
         </div>
+
+        <div className="form-group float-right">
+          <a
+            className="btn btn-danger mr-2"
+            href={`/citizen/${vehicle?.citizen_id}`}
+          >
+            {lang.global.cancel}
+          </a>
+          <button className="btn btn-primary" type="submit">
+            {lang.global.update}
+          </button>
+        </div>
       </form>
     </Layout>
   );
@@ -98,4 +142,8 @@ const mapToProps = (state: State) => ({
   legalStatuses: state.values.legalStatuses,
 });
 
-export default connect(mapToProps, { getLegalStatuses })(EditVehiclePage);
+export default connect(mapToProps, {
+  getLegalStatuses,
+  getVehicleById,
+  updateVehicleById,
+})(EditVehiclePage);

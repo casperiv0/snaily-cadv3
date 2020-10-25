@@ -7,6 +7,7 @@ interface Vehicle {
   plate: string;
   color: string;
   user_id: string;
+  citizen_id: string;
   company: string;
 }
 
