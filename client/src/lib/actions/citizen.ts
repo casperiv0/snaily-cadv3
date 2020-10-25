@@ -18,6 +18,7 @@ import {
   CREATE_MEDICAL_RECORD_ERROR,
   DELETE_MEDICAL_RECORD,
   DELETE_CITIZEN,
+  UPDATE_LICENSES,
 } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
@@ -322,5 +323,23 @@ export const deleteWeapon = (citizenId: string, weaponId: string) => async (
     }
   } catch (e) {
     Logger.error(DELETE_REGISTERED_WEAPON, e);
+  }
+};
+
+export const updateLicenses = (id: string, data: object) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/citizen/licenses/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_LICENSES,
+      });
+
+      return (window.location.href = `/citizen/${id}`);
+    }
+  } catch (e) {
+    Logger.error(UPDATE_LICENSES, e);
   }
 };

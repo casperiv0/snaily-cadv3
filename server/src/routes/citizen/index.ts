@@ -137,4 +137,23 @@ router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ status: "success" });
 });
 
+router.put("/licenses/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+  const { dmv, fire_license, pilot_license, ccw } = req.body;
+
+  if (dmv && fire_license && pilot_license && ccw) {
+    await processQuery(
+      "UPDATE `citizens` SET `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ? WHERE `id` = ?",
+      [dmv, fire_license, pilot_license, ccw, id]
+    );
+
+    return res.json({ status: "success", citizenId: id });
+  } else {
+    return res.json({
+      error: "Please fill in all fields",
+      status: "error",
+    });
+  }
+});
+
 export default router;
