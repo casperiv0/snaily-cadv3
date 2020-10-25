@@ -282,6 +282,7 @@
         "update_bleet_success": "Successfully updated bleet"
     },
     "record": {
+        "warrant": "Warrant",
         "enter_full_name": "Enter Full Name",
         "enter_arrestee_name": "Enter Arrestee Name",
         "select_status": "Select Status",

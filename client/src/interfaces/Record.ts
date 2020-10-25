@@ -1,7 +1,7 @@
 export interface Base {
   id: string;
   name: string;
-  data: string;
+  date: string;
   postal: string;
   notes: string;
   officer_name: string;
@@ -11,7 +11,7 @@ export interface Warrant {
   id: string;
   name: string;
   reason: string;
-  statues: string;
+  status: string;
 }
 
 export interface Ticket extends Base {
