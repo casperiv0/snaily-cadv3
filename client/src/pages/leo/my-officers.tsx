@@ -5,15 +5,18 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { getMyOfficers, deleteOfficer } from "../../lib/actions/officer";
+import AlertMessage from "../../components/alert-message";
 
 interface Props {
   officers: Officer[];
+  message: string;
   getMyOfficers: () => void;
   deleteOfficer: (id: string) => void;
 }
 
 const MyOfficersPage: React.FC<Props> = ({
   officers,
+  message,
   deleteOfficer,
   getMyOfficers,
 }) => {
@@ -23,6 +26,7 @@ const MyOfficersPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
+      {message ? <AlertMessage type="success" message={message} /> : null}
       <h3>{lang.officers.my_officers}</h3>
       <a className="btn btn-primary container" href="/leo/dash">
         {lang.global.back_to_dashboard}
@@ -67,6 +71,7 @@ const MyOfficersPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   officers: state.officers.officers,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { getMyOfficers, deleteOfficer })(

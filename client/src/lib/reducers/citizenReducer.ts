@@ -26,6 +26,7 @@ const initState = {
   weapons: [],
   vehicles: [],
   medicalRecords: [],
+  vehicle: null,
 };
 
 type Actions =

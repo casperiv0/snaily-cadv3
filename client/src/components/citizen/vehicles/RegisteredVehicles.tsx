@@ -111,6 +111,12 @@ const RegisteredVehicles: React.FC<Props> = ({
                       >
                         {lang.global.delete}
                       </button>
+                      <a
+                        className="btn btn-success ml-2"
+                        href={`/vehicles/edit/${vehicle.id}`}
+                      >
+                        {lang.global.edit}
+                      </a>
                     </div>
                   </li>
                 );

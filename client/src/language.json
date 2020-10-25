@@ -334,7 +334,7 @@
         "create_an_officer": "Create An Officer",
         "create_officer": "Create Officer",
         "on_duty_success": "Successfully set status to 10-8",
-        "delete_officer_success": "Successfully deleted:",
+        "delete_officer_success": "Successfully deleted officer",
         "select_department": "Select Department",
         "no_departments": "There are no departments Found.",
         "create_officer_success": "Successfully created: ",

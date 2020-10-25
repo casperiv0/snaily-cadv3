@@ -1,9 +1,10 @@
-import { Dispatch } from "react";
 import Department from "../../interfaces/Department";
 import Officer from "../../interfaces/Officer";
-import { handleRequest, isSuccess } from "../functions";
 import Logger from "../Logger";
 import socket from "../socket";
+import lang from "../../language.json";
+import { Dispatch } from "react";
+import { handleRequest, isSuccess } from "../functions";
 import {
   GET_CURRENT_OFFICER_STATUS,
   SET_STATUS,
@@ -13,7 +14,8 @@ import {
   CREATE_OFFICER_ERROR,
   GET_DEPARTMENTS,
   NAME_SEARCH,
-  PLATE_SEARCH
+  PLATE_SEARCH,
+  SET_MESSAGE,
 } from "../types";
 
 interface IDispatch {
@@ -25,6 +27,7 @@ interface IDispatch {
   departments?: Department[];
   error?: string;
   search?: object;
+  message?: string;
 }
 
 export const getCurrentOfficer = (id: string) => async (
@@ -112,6 +115,10 @@ export const deleteOfficer = (id: string) => async (
       dispatch({
         type: DELETE_OFFICER_BY_ID,
         officers: res.data.officers,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: `${lang.officers.delete_officer_success}`,
       });
     }
   } catch (e) {

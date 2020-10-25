@@ -70,6 +70,7 @@ interface State {
     weapons: Weapon[];
     vehicles: Vehicle[];
     medicalRecords: MedicalRecord[];
+    vehicle: Vehicle;
   };
   values: {
     genders: Value[];
