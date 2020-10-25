@@ -13,4 +13,4 @@ node_modules
 # config
 server/config.ts
 
-# server/public/citizen-images/*
+server/public/citizen-images/*
