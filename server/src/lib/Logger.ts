@@ -21,6 +21,10 @@ class Logger {
   log(type: string, message: string): void {
     return console.log(`[${type}][${this.now()}]: ${message}`);
   }
+
+  throw(type: string, message: string): void {
+    throw Error(`[${type}]: ${message}`);
+  }
 }
 
 export default new Logger();

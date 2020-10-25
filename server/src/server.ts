@@ -1,3 +1,4 @@
+import "./lib/checks";
 import express, { Application, json } from "express";
 import config from "../config";
 import cookieParser from "cookie-parser";
@@ -23,7 +24,6 @@ app.use(
     origin: config.clientUrl,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-
   })
 );
 app.use(cookieParser());

@@ -120,13 +120,21 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
         }
       });
 
-    return res.json({ status: "success" });
+    return res.json({ status: "success", citizenId: id });
   } else {
     return res.json({
       error: "Please fill in all fields",
       status: "error",
     });
   }
+});
+
+router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+
+  await processQuery("DELETE FROM `citizens` WHERE `id` = ?", [id]);
+
+  return res.json({ status: "success" });
 });
 
 export default router;

@@ -17,6 +17,7 @@ import {
   GET_MEDICAL_RECORDS,
   CREATE_MEDICAL_RECORD_ERROR,
   DELETE_MEDICAL_RECORD,
+  DELETE_CITIZEN,
 } from "../types";
 
 const initState = {
@@ -81,6 +82,9 @@ type Actions =
   | {
       type: typeof DELETE_MEDICAL_RECORD;
       medicalRecords: MedicalRecord[];
+    }
+  | {
+      type: typeof DELETE_CITIZEN;
     };
 
 export default function (state = initState, action: Actions) {
@@ -152,6 +156,10 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         medicalRecords: action.medicalRecords,
+      };
+    case "DELETE_CITIZEN":
+      return {
+        ...state,
       };
     default:
       return {

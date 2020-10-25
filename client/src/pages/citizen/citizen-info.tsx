@@ -7,15 +7,16 @@ import lang from "../../language.json";
 import SERVER_URL from "../../config";
 import LicenseCard from "../../components/citizen/LicenseCard";
 import RegisteredWeapons from "../../components/citizen/weapons/RegisteredWeapons";
-import { connect } from "react-redux";
-import { getCitizenById } from "../../lib/actions/citizen";
 import RegisteredVehicles from "../../components/citizen/vehicles/RegisteredVehicles";
 import MedicalRecords from "../../components/citizen/MedicalRecords";
+import { connect } from "react-redux";
+import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
 
 interface Props {
   citizen: Citizen;
-  getCitizenById: (id: string) => void;
   match: Match;
+  getCitizenById: (id: string) => void;
+  deleteCitizen: (id: string) => void;
 }
 
 export const Span: React.FC = ({ children }) => (
@@ -34,6 +35,7 @@ const CitizenInfoPage: React.FC<Props> = ({
   citizen,
   match,
   getCitizenById,
+  deleteCitizen,
 }) => {
   const citizenId = match.params.id;
 
@@ -45,17 +47,27 @@ const CitizenInfoPage: React.FC<Props> = ({
     return null;
   }
 
+  function handleDelete() {
+    deleteCitizen(citizenId);
+  }
+
   return (
     <Layout>
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h3>{lang.admin.cad_settings.general_info}</h3>
-          <a
-            className="btn btn-success mb-2"
-            href={`/citizen/${citizenId}/edit`}
-          >
-            {lang.citizen.edit_citizen}
-          </a>
+
+          <div>
+            <a
+              className="btn btn-success mr-2"
+              href={`/citizen/${citizenId}/edit`}
+            >
+              {lang.citizen.edit_citizen}
+            </a>
+            <button onClick={handleDelete} className="btn btn-danger">
+              {lang.citizen.delete_citizen}
+            </button>
+          </div>
         </div>
 
         <div className="card-body">
@@ -136,4 +148,6 @@ const mapToProps = (state: State) => ({
   citizen: state.citizen.citizen,
 });
 
-export default connect(mapToProps, { getCitizenById })(CitizenInfoPage);
+export default connect(mapToProps, { getCitizenById, deleteCitizen })(
+  CitizenInfoPage
+);

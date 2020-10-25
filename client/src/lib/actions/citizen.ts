@@ -17,6 +17,7 @@ import {
   CREATE_MEDICAL_RECORD,
   CREATE_MEDICAL_RECORD_ERROR,
   DELETE_MEDICAL_RECORD,
+  DELETE_CITIZEN,
 } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
@@ -109,7 +110,7 @@ export const createCitizen = (data: Citizen) => async (
       dispatch({
         type: CREATE_CITIZEN,
       });
-      return (window.location.href = "/citizen");
+      return (window.location.href = `/citizen/${res.data.citizenId}`);
     } else {
       dispatch({
         type: CREATE_CITIZEN_ERROR,
@@ -118,6 +119,23 @@ export const createCitizen = (data: Citizen) => async (
     }
   } catch (e) {
     Logger.error(CREATE_CITIZEN, e);
+  }
+};
+
+export const deleteCitizen = (id: string) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(`/citizen/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_CITIZEN,
+      });
+      return (window.location.href = "/citizen");
+    }
+  } catch (e) {
+    Logger.error(DELETE_CITIZEN, e);
   }
 };
 
