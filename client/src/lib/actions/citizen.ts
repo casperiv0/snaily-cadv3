@@ -21,6 +21,9 @@ import {
   UPDATE_LICENSES,
   GET_VEHICLE_BY_ID,
   UPDATE_VEHICLE,
+  GET_ALL_CITIZENS,
+  TRANSFER_VEHICLE,
+  TRANSFER_VEHICLE_ERROR
 } from "../types";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
@@ -383,5 +386,46 @@ export const updateVehicleById = (
     }
   } catch (e) {
     Logger.error(UPDATE_VEHICLE, e);
+  }
+};
+
+export const transferVehicle = (id: string, data: object) => async (
+  dispatch: Dispatch<IDispatch>
+) => {
+  try {
+    const res = await handleRequest(
+      `/citizen/vehicles/transfer/${id}`,
+      "POST",
+      data
+    );
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: TRANSFER_VEHICLE,
+      });
+      return (window.location.href = "/citizen");
+    } else {
+      dispatch({
+        type: TRANSFER_VEHICLE_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(TRANSFER_VEHICLE, e);
+  }
+};
+
+export const getAllCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/citizen/all", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_ALL_CITIZENS,
+        citizens: res.data.citizens,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_ALL_CITIZENS, e);
   }
 };

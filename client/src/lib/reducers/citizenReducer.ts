@@ -20,6 +20,8 @@ import {
   DELETE_CITIZEN,
   UPDATE_VEHICLE,
   GET_VEHICLE_BY_ID,
+  GET_ALL_CITIZENS,
+  TRANSFER_VEHICLE_ERROR,
 } from "../types";
 
 const initState = {
@@ -96,6 +98,14 @@ type Actions =
   | {
       type: typeof GET_VEHICLE_BY_ID;
       vehicle: Vehicle;
+    }
+  | {
+      type: typeof GET_ALL_CITIZENS;
+      citizens: Citizen[];
+    }
+  | {
+      type: typeof TRANSFER_VEHICLE_ERROR;
+      error: string;
     };
 
 export default function (state = initState, action: Actions) {
@@ -181,6 +191,16 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         vehicle: action.vehicle,
+      };
+    case "GET_ALL_CITIZENS":
+      return {
+        ...state,
+        citizens: action.citizens,
+      };
+    case "TRANSFER_VEHICLE_ERROR":
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return {

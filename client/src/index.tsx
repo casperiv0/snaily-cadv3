@@ -53,6 +53,9 @@ const RegisterVehiclePage = React.lazy(
 const EditVehiclePage = React.lazy(
   () => import("./pages/citizen/vehicles/edit-vehicle")
 );
+const TransferVehiclePage = React.lazy(
+  () => import("./pages/citizen/vehicles/transfer-vehicle")
+);
 
 const TowDash = React.lazy(() => import("./pages/tow/dash"));
 
@@ -124,6 +127,10 @@ ReactDOM.render(
             <AuthRoute
               path="/vehicles/edit/:id"
               Component={EditVehiclePage}
+            />
+            <AuthRoute
+              path="/vehicles/transfer/:id"
+              Component={TransferVehiclePage}
             />
 
             <AuthRoute

@@ -22,6 +22,14 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ status: "success", citizens });
 });
 
+router.get("/all", useAuth, async (req: IRequest, res: Response) => {
+  const citizens = await processQuery(
+    "SELECT `id`, `full_name` FROM `citizens`"
+  );
+
+  return res.json({ citizens, status: "success" });
+});
+
 router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const citizen = await processQuery(
@@ -51,7 +59,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
   const file = req.files?.image ? req.files.image : null;
   const index = req.files?.image && file?.name.indexOf(".");
-  
+
   const imageId = file
     ? `${uuidv4()}${file.name.slice(index!)}`
     : "default.svg";

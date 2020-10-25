@@ -82,6 +82,39 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   }
 });
 
+router.post("/transfer/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+  const { plate, ownerId } = req.body;
+
+  if (plate && ownerId) {
+    const citizen = await processQuery(
+      "SELECT `full_name` FROM `citizens` WHERE `id` = ?",
+      [ownerId]
+    );
+    const vehicle = await processQuery(
+      "SELECT `id` FROM `registered_cars` WHERE `id` = ?",
+      [id]
+    );
+
+    if (!citizen[0]) {
+      return res.json({ error: "Citizen does not exist", status: "error" });
+    }
+
+    if (!vehicle[0]) {
+      return res.json({ error: "Vehicle does not exist", status: "error" });
+    }
+
+    await processQuery(
+      "UPDATE `registered_cars` SET `plate` = ?, `citizen_id` = ?, `owner` = ? WHERE `id` = ?",
+      [plate, ownerId, citizen[0].full_name, id]
+    );
+
+    return res.json({ status: "success" });
+  } else {
+    return res.json({ status: "error", error: "Please fill in all fields" });
+  }
+});
+
 router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const { color, status } = req.body;
