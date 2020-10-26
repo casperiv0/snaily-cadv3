@@ -7,7 +7,10 @@ export const SET_LOADING_BLEETS = "SET_LOADING_BLEETS";
 
 export const GET_BLEETS = "GET_BLEETS";
 export const GET_BLEET_BY_ID = "GET_BLEET_BY_ID";
+export const CREATE_BLEET = "CREATE_BLEET";
+export const CREATE_BLEET_ERROR = "CREATE_BLEET_ERROR";
 export const UPDATE_BLEET = "UPDATE_BLEET";
+export const UPDATE_BLEET_ERROR = "UPDATE_BLEET_ERROR";
 
 export const UPDATE_AOP = "UPDATE_AOP";
 export const GET_AOP = "GET_AOP";

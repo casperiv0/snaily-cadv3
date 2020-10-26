@@ -37,16 +37,26 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     const markdown = useMarkdown(body);
     const id = uuidv4();
 
-    const bleet = await processQuery(
+    await processQuery(
       "INSERT INTO `bleets` (`id`, `title`, `body`, `markdown`, `uploaded_by`, `uploaded_at`, `file_dir`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [id, title, body, markdown, uploadedBy, uploadedAt, fileName || "", false, 0]
+      [
+        id,
+        title,
+        body,
+        markdown,
+        uploadedBy,
+        uploadedAt,
+        fileName || "",
+        false,
+        0,
+      ]
     );
 
     if (file) {
       file.mv(`./public/bleeter/${fileName}`);
     }
 
-    return res.json({ status: "success", id: bleet.insertId });
+    return res.json({ status: "success", id: id });
   } else {
     return res.json({
       error: "Please fill in all fields",
@@ -79,30 +89,35 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   }
 
   const { title, body } = req.body;
-  const file = req.files?.image;
-  const fileName = file?.name || "";
-  const markdown = useMarkdown(body);
 
-  let query = "";
-  let data = [];
+  if (title && body) {
+    const file = req.files?.image;
+    const fileName = file?.name || "";
+    const markdown = useMarkdown(body);
 
-  if (file) {
-    query =
-      "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
-    data = [title, body, markdown, fileName, id];
+    let query = "";
+    let data = [];
+
+    if (file) {
+      query =
+        "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
+      data = [title, body, markdown, fileName, id];
+    } else {
+      query =
+        "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ? WHERE `bleets`.`id` = ?";
+      data = [title, body, markdown, id];
+    }
+
+    await processQuery(query, data);
+
+    if (file) {
+      file.mv(`./public/bleeter/${fileName}`);
+    }
+
+    return res.json({ status: "success", bleet });
   } else {
-    query =
-      "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ? WHERE `bleets`.`id` = ?";
-    data = [title, body, markdown, id];
+    return res.json({ error: "Please fill in all fields", status: "error" });
   }
-
-  await processQuery(query, data);
-
-  if (file) {
-    file.mv(`./public/bleeter/${fileName}`);
-  }
-
-  return res.json({ status: "success", bleet });
 });
 
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {

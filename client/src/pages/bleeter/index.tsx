@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { getBleetPosts } from "../../lib/actions/bleeter";
 import lang from "../../language.json";
 import BleetItem from "../../components/bleeter/bleetItem";
+import Loader from "../../components/loader";
+import AlertMessage from "../../components/alert-message";
 
 interface Props {
   bleets: Bleet[];
@@ -18,8 +20,9 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
   React.useEffect(() => {
     getBleetPosts();
   }, [getBleetPosts]);
+
   if (loading) {
-    return <p>loading...</p>;
+    return <Loader />;
   }
 
   return (
@@ -31,10 +34,14 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
         </a>
       </div>
 
-      {bleets &&
+      {!bleets[0] ? (
+        <AlertMessage type="warning" message={lang.bleeter.no_bleet} />
+      ) : (
+        bleets &&
         bleets.map((bleet: Bleet, idx: number) => {
           return <BleetItem key={idx} bleet={bleet} idx={idx} />;
-        })}
+        })
+      )}
     </Layout>
   );
 };

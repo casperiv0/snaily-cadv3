@@ -8,8 +8,10 @@ import lang from "../../language.json";
 import User from "../../interfaces/User";
 import { connect } from "react-redux";
 import { getBleetById, updateBleet } from "../../lib/actions/bleeter";
+import AlertMessage from "../../components/alert-message";
 
 interface Props {
+  error: string;
   bleet: Bleet;
   match: Match;
   user: User;
@@ -18,7 +20,15 @@ interface Props {
   updateBleet: (data: object, id: string) => void;
 }
 
-const EditBleet: React.FC<Props> = ({ bleet, match, loading, user, getBleetById, updateBleet }) => {
+const EditBleet: React.FC<Props> = ({
+  error,
+  bleet,
+  match,
+  loading,
+  user,
+  getBleetById,
+  updateBleet,
+}) => {
   const id = match.params.id;
   const [title, setTitle] = React.useState<string>("");
   const [body, setBody] = React.useState<string>("");
@@ -62,6 +72,7 @@ const EditBleet: React.FC<Props> = ({ bleet, match, loading, user, getBleetById,
 
   return (
     <Layout classes="mt-5">
+      {error ? <AlertMessage type="warning" message={error} /> : null}
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="title">{lang.bleeter.bleet_title}</label>
@@ -101,6 +112,7 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
   bleet: state.bleets.bleet,
   loading: state.bleets.loading,
+  error: state.bleets.error,
 });
 
 export default connect(mapToProps, { getBleetById, updateBleet })(EditBleet);

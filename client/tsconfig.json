@@ -14,7 +14,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "rootDir": "src/"
+    "rootDir": "src/",
+    "removeComments": true
   },
   "include": ["src"]
 }

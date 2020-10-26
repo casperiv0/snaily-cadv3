@@ -270,6 +270,7 @@
         }
     },
     "bleeter": {
+        "not_found": "Bleet was not found",
         "go_back": "Go Back",
         "create_bleet": "Create bleet",
         "view_bleet": "View Bleet",

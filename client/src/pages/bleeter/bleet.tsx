@@ -9,6 +9,7 @@ import Loader from "../../components/loader";
 import lang from "../../language.json";
 import Markdown from "react-markdown";
 import User from "../../interfaces/User";
+import AlertMessage from "../../components/alert-message";
 
 interface Props {
   bleet: IBleet;
@@ -26,13 +27,21 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) =
   }, [getBleetById, match]);
 
   React.useEffect(() => {
-    if (bleet.id) {
-      document.title = `${bleet.title} - ${lang.nav.bleeter}`;
+    if (bleet?.id) {
+      document.title = `${bleet?.title} - ${lang.nav.bleeter}`;
     }
   }, [bleet]);
 
   if (loading) {
     return <Loader />;
+  }
+
+  if (bleet !== null && !bleet) {
+    return (
+      <Layout>
+        <AlertMessage type="danger" message={lang.bleeter?.not_found} />
+      </Layout>
+    );
   }
 
   return (
