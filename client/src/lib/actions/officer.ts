@@ -17,6 +17,7 @@ import {
   PLATE_SEARCH,
   SET_MESSAGE,
   WEAPON_SEARCH,
+  CREATE_WRITTEN_WARNING,
 } from "../types";
 
 interface IDispatch {
@@ -178,5 +179,21 @@ export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<
     }
   } catch (e) {
     Logger.error(WEAPON_SEARCH, e);
+  }
+};
+
+export const createWrittenWarning = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/officer/create-written-warning", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: CREATE_WRITTEN_WARNING,
+      });
+    } else {
+      // todo: dispatch 'CREATE_WRITTEN_WARNING_ERROR'
+    }
+  } catch (e) {
+    Logger.error(CREATE_WRITTEN_WARNING, e);
   }
 };

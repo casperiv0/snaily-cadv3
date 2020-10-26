@@ -5,7 +5,7 @@ import Markdown from "react-markdown";
 import { handleRequest, isSuccess } from "../../lib/functions";
 import lang from "../../language.json";
 
-interface PenalCode {
+export interface PenalCode {
   title: string;
   des: string;
 }

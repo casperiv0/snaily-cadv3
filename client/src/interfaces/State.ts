@@ -12,6 +12,7 @@ import Citizen from "./Citizen";
 import Value from "./Value";
 import Weapon from "./Weapon";
 import Vehicle from "./Vehicle";
+import { PenalCode } from "../pages/leo/penal-codes";
 
 interface State {
   auth: {

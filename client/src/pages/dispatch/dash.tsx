@@ -12,6 +12,8 @@ import NotepadModal from "../../components/modals/notepad";
 import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
 import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import AddressSearchModal from "../../components/modals/dispatch/addressSearchModal";
+import WeaponSearchModal from "../../components/modals/leo/weaponSearchModal";
+import CreateBoloModal from "../../components/modals/leo/createBoloModal";
 import { connect } from "react-redux";
 
 interface Props {
@@ -65,6 +67,8 @@ const DispatchDash: React.FC<Props> = (props) => {
       <AddressSearchModal />
       <NameSearchModal />
       <PlateSearchModal />
+      <WeaponSearchModal />
+      <CreateBoloModal />
     </Layout>
   );
 };
