@@ -18,24 +18,23 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
   React.useEffect(() => {
     if (requirement && !loading && isAuth) {
       switch (requirement) {
-        case "leo": {
+        case "leo":
           if (user?.leo !== "1") {
             window.location.href = "/forbidden";
           }
           break;
-        }
-        case "tow": {
+        case "tow":
           if (user?.tow !== "1") {
             window.location.href = "/forbidden";
           }
           break;
-        }
-        case "ems_fd": {
+        case "ems_fd":
           if (user?.ems_fd !== "1") {
             window.location.href = "/forbidden";
           }
           break;
-        }
+        default:
+          break;
       }
     }
   });

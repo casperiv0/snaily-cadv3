@@ -34,6 +34,23 @@
     "no-unreachable": ["error"],
     "default-case": ["warn"],
     "default-case-last": ["error"],
-    "no-useless-catch": ["warn"]
-  }
+    "no-useless-catch": ["warn"],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx", "**/*.ts"],
+      "rules": {
+        "quotes": "off",
+        "no-unused-vars": "off",
+        "react/prop-types": "off",
+        "react/display-name": "off"
+      }
+    }
+  ]
 }

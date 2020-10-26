@@ -32,7 +32,7 @@ const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, get
 
       <ul className="list-group">
         {!officers[0] ? (
-          <p>You don't have any officers.</p>
+          <p>You don not have any officers.</p>
         ) : (
           officers.map((officer: Officer, idx: number) => {
             return (
