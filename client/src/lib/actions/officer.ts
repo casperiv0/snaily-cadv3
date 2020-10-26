@@ -16,6 +16,7 @@ import {
   NAME_SEARCH,
   PLATE_SEARCH,
   SET_MESSAGE,
+  WEAPON_SEARCH,
 } from "../types";
 
 interface IDispatch {
@@ -162,5 +163,20 @@ export const searchName = (name: string) => async (dispatch: Dispatch<IDispatch>
     }
   } catch (e) {
     Logger.error(NAME_SEARCH, e);
+  }
+};
+
+export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/officer/search/weapon", "POST", { serialNumber });
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: WEAPON_SEARCH,
+        search: res.data.weapon,
+      });
+    }
+  } catch (e) {
+    Logger.error(WEAPON_SEARCH, e);
   }
 };

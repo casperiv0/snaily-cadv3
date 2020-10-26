@@ -198,6 +198,26 @@ router.post(
   }
 );
 
+router.post(
+  "/search/weapon",
+  useAuth,
+  useOfficerAuth,
+  async (req: IRequest, res: Response) => {
+    const { serialNumber } = req.body;
+
+    if (serialNumber) {
+      const weapon = await processQuery(
+        "SELECT * FROM `registered_weapons` WHERE `serial_number` = ?",
+        [serialNumber]
+      );
+
+      return res.json({ weapon: weapon[0], status: "success" });
+    } else {
+      return res.json({ error: "Please fill in all fields", status: "error" });
+    }
+  }
+);
+
 /**
  *
  * Check if the authenticated user has permission to access '/officer' routes

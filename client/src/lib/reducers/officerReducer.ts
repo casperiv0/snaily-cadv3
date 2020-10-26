@@ -12,6 +12,7 @@ import {
   CREATE_WARRANT,
   PLATE_SEARCH,
   NAME_SEARCH,
+  WEAPON_SEARCH,
 } from "../types";
 
 const initState = {
@@ -70,6 +71,10 @@ type Actions =
   | {
       type: typeof PLATE_SEARCH;
       search: object;
+    }
+  | {
+      type: typeof WEAPON_SEARCH;
+      search: object;
     };
 
 export default function (state = initState, action: Actions) {
@@ -124,6 +129,11 @@ export default function (state = initState, action: Actions) {
         error: action.error,
       };
     case "NAME_SEARCH":
+      return {
+        ...state,
+        search: action.search,
+      };
+    case "WEAPON_SEARCH":
       return {
         ...state,
         search: action.search,
