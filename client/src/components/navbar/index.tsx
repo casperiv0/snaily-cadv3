@@ -96,10 +96,7 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, checkAuth, logout, getCadInf
           {paths.map((path: Path, idx: number) => {
             return (
               <li id={path.name} key={idx} className="nav-item">
-                <a
-                  className={currentPath === path.href ? "nav-link active" : "nav-link"}
-                  href={path.href}
-                >
+                <a className={"nav-link active text-light"} href={path.href}>
                   {path.name}
                 </a>
               </li>

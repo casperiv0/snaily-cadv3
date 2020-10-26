@@ -65,6 +65,7 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
         <div className="card-body">
           <div className="row ml-4 mt-2 mb-2">
             <img
+              style={{ width: "120px", height: "120px" }}
               className="rounded-circle object-fit-center"
               src={`${SERVER_URL}/static/citizen-images/${citizen.image_id}`}
               alt={citizen.image_id}

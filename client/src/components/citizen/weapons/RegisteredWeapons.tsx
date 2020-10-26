@@ -26,17 +26,17 @@ const RegisteredWeapons: React.FC<Props> = ({
   return (
     <div className="card bg-dark border-dark mt-1 text-light">
       <div className="card-header">
-        <h5 className="mb-1">{lang.citizen.weapon.reged_weapons}</h5>
+        <h1 className="h4">{lang.citizen.weapon.reged_weapons}</h1>
       </div>
 
       <div className="card-body">
         {!weapons[0] ? (
-          <li className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
+          <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
             {lang.citizen.weapon.no_weapons}
             <a href="/weapons/register" className="btn btn-primary">
               {lang.citizen.weapon.reg_a_weapon}
             </a>
-          </li>
+          </div>
         ) : (
           <>
             <button

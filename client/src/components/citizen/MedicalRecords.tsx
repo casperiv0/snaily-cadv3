@@ -25,7 +25,7 @@ const MedicalRecordsCard: React.FC<Props> = ({
   return (
     <div className="card bg-dark border-dark mt-1">
       <div className="card-header d-flex justify-content-between">
-        <h5>{lang.citizen.medical_records}</h5>
+        <h1 className="h4">{lang.citizen.medical_records}</h1>
 
         <div>
           <a href={`/medical-records/create/${citizenId}`} className="btn btn-primary">

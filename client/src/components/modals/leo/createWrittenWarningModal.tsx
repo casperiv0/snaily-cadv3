@@ -26,7 +26,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error }) => {
   const fields: Field[] = [
     {
       type: "text",
-      id: "name",
+      id: "written_warning_name",
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,

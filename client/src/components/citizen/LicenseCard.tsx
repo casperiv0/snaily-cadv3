@@ -11,7 +11,7 @@ export const LicenseCard: React.FC<Props> = ({ citizen }) => {
   return (
     <div className="card bg-dark border-dark mt-1">
       <div className="card-header d-flex justify-content-between">
-        <h5>{lang.citizen.licenses}</h5>
+        <h1 className="h4">{lang.citizen.licenses}</h1>
 
         <div>
           <a className="btn btn-primary" href={`/licenses/edit/${citizen.id}`}>

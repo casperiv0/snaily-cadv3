@@ -28,17 +28,17 @@ const RegisteredVehicles: React.FC<Props> = ({
   return (
     <div className="card bg-dark border-dark mt-1 text-light">
       <div className="card-header">
-        <h5 className="mb-1">{lang.citizen.vehicle.reged_vehicle}</h5>
+        <h1 className="h4">{lang.citizen.vehicle.reged_vehicle}</h1>
       </div>
 
       <div className="card-body">
         {!vehicles[0] ? (
-          <li className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
+          <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
             {lang.citizen.vehicle.no_veh}
             <a href="/vehicles/register" className="btn btn-primary">
               {lang.citizen.vehicle.reg_a_vehicle}
             </a>
-          </li>
+          </div>
         ) : (
           <>
             <button
