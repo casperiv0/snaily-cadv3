@@ -15,6 +15,8 @@ import {
   WEAPON_SEARCH,
   CREATE_WRITTEN_WARNING,
   CREATE_WRITTEN_WARNING_ERROR,
+  CREATE_ARREST_REPORT_ERROR,
+  CREATE_ARREST_REPORT,
 } from "../types";
 
 const initState = {
@@ -84,6 +86,13 @@ type Actions =
   | {
       type: typeof CREATE_WRITTEN_WARNING_ERROR;
       error: string;
+    }
+  | {
+      type: typeof CREATE_ARREST_REPORT_ERROR;
+      error: string;
+    }
+  | {
+      type: typeof CREATE_ARREST_REPORT;
     };
 
 export default function (state = initState, action: Actions) {
@@ -155,9 +164,19 @@ export default function (state = initState, action: Actions) {
     case "CREATE_WRITTEN_WARNING":
       return {
         ...state,
-        error: "",
+        error: null,
       };
     case "CREATE_WRITTEN_WARNING_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "CREATE_ARREST_REPORT":
+      return {
+        ...state,
+        error: null,
+      };
+    case "CREATE_ARREST_REPORT_ERROR":
       return {
         ...state,
         error: action.error,

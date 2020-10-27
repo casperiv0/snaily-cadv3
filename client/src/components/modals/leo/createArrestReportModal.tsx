@@ -5,23 +5,23 @@ import Field from "../../../interfaces/Field";
 import AlertMessage from "../../alert-message";
 import { connect } from "react-redux";
 import Modal, { XButton } from "..";
-import { createWrittenWarning } from "../../../lib/actions/records";
+import { creatArrestReport } from "../../../lib/actions/records";
 
 interface Props {
-  error: string;
-  createWrittenWarning: (data: {
+  error: string | null;
+  creatArrestReport: (data: {
     name: string;
     officer_name: string;
-    infractions: string;
+    charges: string;
     postal: string;
     notes: string;
   }) => void;
 }
 
-const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarning }) => {
+const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) => {
   const [name, setName] = React.useState("");
   const [officerName, setOfficerName] = React.useState("");
-  const [infractions, setInfractions] = React.useState("");
+  const [charges, setCharges] = React.useState("");
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
@@ -30,23 +30,22 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createWrittenWarning({
+    creatArrestReport({
       name,
       officer_name: officerName,
-      infractions,
+      charges,
       postal,
       notes,
     });
+
     setSubmit(true);
   }
 
   React.useEffect(() => {
-    console.log(error);
-
     if (submit === true && error !== null) {
       setNotes("");
       setName("");
-      setInfractions("");
+      setCharges("");
       setPostal("");
       setNotes("");
       setOfficerName("");
@@ -59,7 +58,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
   const fields: Field[] = [
     {
       type: "text",
-      id: "written_warning_name",
+      id: "arrest_report_name",
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,
@@ -73,10 +72,10 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
     },
     {
       type: "text",
-      id: "infractions",
-      label: lang.record.infractions,
-      onChange: (e) => setInfractions(e.target.value),
-      value: infractions,
+      id: "charges",
+      label: lang.record.charges,
+      onChange: (e) => setCharges(e.target.value),
+      value: charges,
     },
     {
       type: "text",
@@ -95,9 +94,9 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
   ];
 
   return (
-    <Modal size="lg" id="createWrittenWarningModal">
+    <Modal size="lg" id="createArrestReportModal">
       <div className="modal-header">
-        <h5 className="modal-title">{lang.global.create_written_warning}</h5>
+        <h5 className="modal-title">{lang.global.create_arrest_report}</h5>
         <XButton ref={btnRef} />
       </div>
 
@@ -126,7 +125,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">
-            {lang.global.create_written_warning}
+            {lang.global.create_arrest_report}
           </button>
         </div>
       </form>
@@ -138,4 +137,4 @@ const mapToProps = (state: State) => ({
   error: state.officers.error,
 });
 
-export default connect(mapToProps, { createWrittenWarning })(CreateWrittenWarningModal);
+export default connect(mapToProps, { creatArrestReport })(CreateArrestReportModal);

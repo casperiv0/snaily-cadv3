@@ -245,7 +245,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
 
                               <Item id="date">
                                 <Span>{lang.record.given_on}: </Span>
-                                {new Date(ticket.date).toLocaleDateString()}
+                                {new Date(Number(ticket.date)).toLocaleDateString()}
                               </Item>
 
                               <Item id="officer_name">
@@ -295,7 +295,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
 
                               <Item id="date">
                                 <Span>{lang.record.given_on}: </Span>
-                                {new Date(report.date).toLocaleDateString()}
+                                {new Date(Number(report.date)).toLocaleDateString()}
                               </Item>
 
                               <Item id="officer_name">
