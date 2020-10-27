@@ -9,19 +9,51 @@ import { createWrittenWarning } from "../../../lib/actions/officer";
 
 interface Props {
   error: string;
-  createWrittenWarning: (data: object) => void;
+  createWrittenWarning: (data: {
+    name: string;
+    officer_name: string;
+    infractions: string;
+    postal: string;
+    notes: string;
+  }) => void;
 }
 
-const CreateWrittenWarningModal: React.FC<Props> = ({ error }) => {
+const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarning }) => {
   const [name, setName] = React.useState("");
   const [officerName, setOfficerName] = React.useState("");
   const [infractions, setInfractions] = React.useState("");
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
+  const [submit, setSubmit] = React.useState(false);
+  const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    createWrittenWarning({
+      name,
+      officer_name: officerName,
+      infractions,
+      postal,
+      notes,
+    });
+    setSubmit((o) => !o);
   }
+
+  React.useEffect(() => {
+    console.log(error);
+
+    if (!error) {
+      setNotes("");
+      setName("");
+      setInfractions("");
+      setPostal("");
+      setNotes("");
+      setOfficerName("");
+
+      btnRef.current?.click();
+    }
+  }, [submit]);
 
   const fields: Field[] = [
     {
@@ -65,7 +97,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error }) => {
     <Modal size="lg" id="createWrittenWarningModal">
       <div className="modal-header">
         <h5 className="modal-title">{lang.global.create_written_warning}</h5>
-        <XButton />
+        <XButton ref={btnRef} />
       </div>
 
       <form onSubmit={onSubmit}>

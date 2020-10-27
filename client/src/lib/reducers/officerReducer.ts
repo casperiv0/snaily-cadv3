@@ -13,6 +13,8 @@ import {
   PLATE_SEARCH,
   NAME_SEARCH,
   WEAPON_SEARCH,
+  CREATE_WRITTEN_WARNING,
+  CREATE_WRITTEN_WARNING_ERROR,
 } from "../types";
 
 const initState = {
@@ -75,6 +77,13 @@ type Actions =
   | {
       type: typeof WEAPON_SEARCH;
       search: object;
+    }
+  | {
+      type: typeof CREATE_WRITTEN_WARNING;
+    }
+  | {
+      type: typeof CREATE_WRITTEN_WARNING_ERROR;
+      error: string;
     };
 
 export default function (state = initState, action: Actions) {
@@ -142,6 +151,16 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         search: action.search,
+      };
+    case "CREATE_WRITTEN_WARNING":
+      return {
+        ...state,
+        error: "",
+      };
+    case "CREATE_WRITTEN_WARNING_ERROR":
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return {
