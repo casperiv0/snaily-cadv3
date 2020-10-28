@@ -161,4 +161,62 @@ router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ status: "success" });
 });
 
+router.delete(
+  "/delete-account",
+  useAuth,
+  async (req: IRequest, res: Response) => {
+    const userId = req.user?.id;
+    const citizens = await processQuery(
+      "SELECT * FROM `citizens` WHERE `user_id` = ?",
+      [userId]
+    );
+
+    citizens.forEach(async (citizen: any) => {
+      console.log("here");
+
+      await processQuery(
+        "DELETE FROM `arrest_reports` WHERE `citizen_id` = ?",
+        [citizen.id]
+      );
+      await processQuery("DELETE FROM `businesses` WHERE `citizen_id` = ?", [
+        citizen.id,
+      ]);
+      await processQuery("DELETE FROM `leo_tickets` WHERE `citizen_id` = ?", [
+        citizen.id,
+      ]);
+      await processQuery(
+        "DELETE FROM `medical_records` WHERE `citizen_id` = ?",
+        [citizen.id]
+      );
+      await processQuery(
+        "DELETE FROM `registered_cars` WHERE `citizen_id` = ?",
+        [citizen.id]
+      );
+      await processQuery(
+        "DELETE FROM `registered_weapons` WHERE `citizen_id` = ?",
+        [citizen.id]
+      );
+      await processQuery("DELETE FROM `warrants` WHERE `citizen_id` = ?", [
+        citizen.id,
+      ]);
+      await processQuery(
+        "DELETE FROM `written_warnings` WHERE `citizen_id` = ?",
+        [citizen.id]
+      );
+    });
+
+    await processQuery("DELETE FROM `posts` WHERE `user_id` = ?", [userId]);
+    await processQuery("DELETE FROM `truck_logs` WHERE `user_id` = ?", [
+      userId,
+    ]);
+    await processQuery("DELETE FROM `officers` WHERE `user_id` = ?", [userId]);
+    await processQuery("DELETE FROM `ems-fd` WHERE `user_id` = ?", [userId]);
+    await processQuery("DELETE FROM `bleets` WHERE `user_id` = ?", [userId]);
+    await processQuery("DELETE FROM `citizens` WHERE `user_id` = ?", [userId]);
+    await processQuery("DELETE FROM `users` WHERE `id` = ?", [userId]);
+
+    return res.json({ status: "success" });
+  }
+);
+
 export default router;

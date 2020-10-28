@@ -1,5 +1,5 @@
 import * as React from "react";
-import Modal, { XButton } from "..";
+import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import { setEmsStatus } from "../../../lib/actions/ems-fd";
 import { statuses } from "../../leo/Statuses";

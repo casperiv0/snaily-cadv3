@@ -51,6 +51,8 @@ const EmsFdDash = React.lazy(() => import("./pages/ems-fd/dash"));
 const MyEmsDeputiesPage = React.lazy(() => import("./pages/ems-fd/my-deputies"));
 const CreateDeputyPage = React.lazy(() => import("./pages/ems-fd/create-deputy"));
 
+const AccountPage = React.lazy(() => import("./pages/account/index"));
+
 ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
@@ -103,6 +105,8 @@ ReactDOM.render(
               Component={CreateDeputyPage}
             />
             <AuthRoute requirement="ems_fd" path="/ems-fd/deputies" Component={MyEmsDeputiesPage} />
+
+            <AuthRoute path="/account" Component={AccountPage} />
 
             <Route component={NotFoundPage} />
           </Switch>

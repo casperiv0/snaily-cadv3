@@ -1,4 +1,4 @@
-import { AUTHENTICATE, AUTH_ERROR, SET_LOADING, LOGOUT } from "../types";
+import { AUTHENTICATE, AUTH_ERROR, SET_LOADING, LOGOUT, DELETE_ACCOUNT } from "../types";
 
 const initState = {
   user: null,
@@ -23,6 +23,9 @@ type Actions =
     }
   | {
       type: typeof LOGOUT;
+    }
+  | {
+      type: typeof DELETE_ACCOUNT;
     };
 
 export default function (state = initState, action: Actions) {
@@ -47,6 +50,14 @@ export default function (state = initState, action: Actions) {
         loading: action.loading,
       };
     case "LOGOUT":
+      return {
+        ...state,
+        user: null,
+        error: null,
+        loading: false,
+        isAuth: false,
+      };
+    case "DELETE_ACCOUNT":
       return {
         ...state,
         user: null,

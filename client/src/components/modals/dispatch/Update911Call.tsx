@@ -1,5 +1,5 @@
 import * as React from "react";
-import Modal, { XButton } from "..";
+import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import Call from "../../../interfaces/Call";
 import { connect } from "react-redux";

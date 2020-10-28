@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import User from "../../interfaces/User";
 import { handleRequest, isSuccess } from "../functions";
 import Logger from "../Logger";
-import { AUTHENTICATE, AUTH_ERROR, LOGOUT, SET_LOADING } from "../types";
+import { AUTHENTICATE, AUTH_ERROR, LOGOUT, SET_LOADING, DELETE_ACCOUNT } from "../types";
 
 interface IDispatch {
   type: string;
@@ -103,5 +103,19 @@ export const logout = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(LOGOUT, e);
+  }
+};
+
+export const deleteAccount = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/auth/delete-account", "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_ACCOUNT,
+      });
+    }
+  } catch (e) {
+    Logger.error(DELETE_ACCOUNT, e);
   }
 };

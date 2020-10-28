@@ -1,7 +1,7 @@
 import * as React from "react";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
-import Modal, { XButton } from "..";
+import Modal, { XButton } from "../index";
 import { weaponSearch } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
 import Weapon from "../../../interfaces/Weapon";

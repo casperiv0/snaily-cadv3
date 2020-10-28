@@ -4,7 +4,7 @@ import lang from "../../../language.json";
 import Field from "../../../interfaces/Field";
 import AlertMessage from "../../alert-message";
 import { connect } from "react-redux";
-import Modal, { XButton } from "..";
+import Modal, { XButton } from "../index";
 import { createWrittenWarning } from "../../../lib/actions/records";
 
 interface Props {

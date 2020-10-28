@@ -1,5 +1,5 @@
 import * as React from "react";
-import Modal, { XButton } from "..";
+import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import { searchMedicalRecord } from "../../../lib/actions/ems-fd";
 import { connect } from "react-redux";
