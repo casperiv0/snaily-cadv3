@@ -53,6 +53,8 @@ const CreateDeputyPage = React.lazy(() => import("./pages/ems-fd/create-deputy")
 
 const AccountPage = React.lazy(() => import("./pages/account/index"));
 
+const ValuesPage = React.lazy(() => import("./pages/admin/values/index"));
+
 ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
@@ -107,6 +109,10 @@ ReactDOM.render(
             <AuthRoute requirement="ems_fd" path="/ems-fd/deputies" Component={MyEmsDeputiesPage} />
 
             <AuthRoute path="/account" Component={AccountPage} />
+
+            <AuthRoute path="/admin/values/:path/edit" requirement="admin" Component={ValuesPage} />
+            <AuthRoute path="/admin/values/:path/add" requirement="admin" Component={ValuesPage} />
+            <AuthRoute path="/admin/values/:path" requirement="admin" Component={ValuesPage} />
 
             <Route component={NotFoundPage} />
           </Switch>

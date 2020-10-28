@@ -167,68 +167,68 @@
         "reason": "Reason",
         "values": {
             "values": "Values",
-            "departments": "Departments",
-            "ethnicities": "Ethnicities",
-            "genders": "Genders",
-            "legal_status": "Legal Statuses",
-            "vehicles": "Vehicles",
-            "weapons": "Weapons",
-            "department": {
-                "add_dept": "Add Department",
-                "manage_dept": "Manage Departments",
-                "enter_name": "Enter department name",
-                "no_dept": "There are no departments found",
-                "delete_dept": "Successfully Deleted Department",
-                "update_dept": "Successfully updated department",
-                "added_dept": "Successfully added department"
+            "departments": {
+                "index": "Departments",
+                "add": "Add Department",
+                "manage": "Manage Departments",
+                "name": "Enter department name",
+                "none": "There are no departments found",
+                "deleted": "Successfully Deleted Department",
+                "updated": "Successfully updated department",
+                "added": "Successfully added department"
             },
-            "ethnicity": {
-                "add_eth": "Add Ethnicity",
-                "manage_eth": "Manage Ethnicities",
-                "enter_name": "Enter Ethnicity Name",
-                "no_eth": "There are no ethnicities found",
-                "delete_eth": "Successfully Deleted ethnicity",
-                "update_eth": "Successfully updated ethnicity",
-                "added_eth": "Successfully added ethnicity"
+            "ethnicities": {
+                "index": "Ethnicities",
+                "add": "Add Ethnicity",
+                "manage": "Manage Ethnicities",
+                "name": "Enter Ethnicity Name",
+                "none": "There are no ethnicities found",
+                "deleted": "Successfully Deleted ethnicity",
+                "updated": "Successfully updated ethnicity",
+                "added": "Successfully added ethnicity"
             },
-            "gender": {
-                "add_gen": "Add Gender",
-                "manage_gen": "Manage Genders",
-                "enter_name": "Enter Gender Name",
-                "no_gen": "There are no genders found",
-                "delete_gen": "Successfully Deleted gender",
-                "update_gen": "Successfully updated gender",
-                "added_gen": "Successfully added gender"
+            "genders": {
+                "index": "Genders",
+                "add": "Add Gender",
+                "manage": "Manage Genders",
+                "name": "Enter Gender Name",
+                "none": "There are no genders found",
+                "deleted": "Successfully Deleted gender",
+                "updated": "Successfully updated gender",
+                "added": "Successfully added gender"
             },
-            "legal": {
-                "add_ls": "Add Legal Status",
-                "manage_ls": "Manage Legal Statuses",
-                "enter_name": "Enter Legal Status",
-                "no_ls": "There are no legal statuses found",
-                "delete_ls": "Successfully Deleted legal status",
-                "update_ls": "Successfully updated legal status",
-                "added_ls": "Successfully added legal status"
+            "legal-statuses": {
+                "index": "Legal Statuses",
+                "add": "Add Legal Status",
+                "manage": "Manage Legal Statuses",
+                "name": "Enter Legal Status",
+                "none": "There are no legal statuses found",
+                "deleted": "Successfully Deleted legal status",
+                "updated": "Successfully updated legal status",
+                "added": "Successfully added legal status"
             },
-            "vehicle": {
-                "add_veh": "Add Vehicle",
-                "manage_veh": "Manage Vehicles",
+            "vehicles": {
+                "index": "Vehicles",
+                "add": "Add Vehicle",
+                "manage": "Manage Vehicles",
                 "default_veh": "Default Vehicles",
                 "show_default_veh": "Show default vehicles",
                 "custom_veh": "Custom added vehicles",
-                "enter_name": "Enter vehicle name",
-                "no_veh": "There are no vehicles found",
-                "delete_veh": "Successfully Deleted vehicle",
-                "update_veh": "Successfully updated vehicle",
-                "added_veh": "Successfully added vehicle"
+                "name": "Enter vehicle name",
+                "none": "There are no vehicles found",
+                "deleted": "Successfully Deleted vehicle",
+                "updated": "Successfully updated vehicle",
+                "added": "Successfully added vehicle"
             },
-            "weapon": {
-                "add_wea": "Add weapon",
-                "manage_wea": "Manage weapons",
-                "enter_name": "Enter weapon Name",
-                "no_wea": "There are no weapons found",
-                "delete_wea": "Successfully Deleted weapon",
-                "update_wea": "Successfully updated weapon",
-                "added_wea": "Successfully added weapon"
+            "weapons": {
+                "index": "Weapons",
+                "add": "Add weapon",
+                "manage": "Manage weapons",
+                "name": "Enter weapon Name",
+                "none": "There are no weapons found",
+                "deleted": "Successfully Deleted weapon",
+                "updated": "Successfully updated weapon",
+                "added": "Successfully added weapon"
             }
         },
         "member": {

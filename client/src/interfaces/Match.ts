@@ -7,6 +7,7 @@ interface Match extends match {
     id: string;
     username: string;
     companySlug: string;
+    path: "genders" | "ethnicities" | "departments" | "legal-statuses" | "vehicles" | "weapons";
   };
 }
 
