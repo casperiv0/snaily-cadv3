@@ -1,8 +1,18 @@
-import { Dispatch } from "react";
-import User from "../../interfaces/User";
-import { handleRequest, isSuccess } from "../functions";
 import Logger from "../Logger";
-import { AUTHENTICATE, AUTH_ERROR, LOGOUT, SET_LOADING, DELETE_ACCOUNT } from "../types";
+import User from "../../interfaces/User";
+import lang from "../../language.json";
+import { Dispatch } from "react";
+import { handleRequest, isSuccess } from "../functions";
+import {
+  AUTHENTICATE,
+  AUTH_ERROR,
+  LOGOUT,
+  SET_LOADING,
+  DELETE_ACCOUNT,
+  UPDATE_PASSWORD,
+  UPDATE_PASSWORD_ERROR,
+  SET_MESSAGE,
+} from "../types";
 
 interface IDispatch {
   type: string;
@@ -10,6 +20,7 @@ interface IDispatch {
   user?: User;
   isAuth?: boolean;
   error?: string | null;
+  message?: string;
 }
 
 export const login = (data: object, requestedPath: string) => async (
@@ -117,5 +128,28 @@ export const deleteAccount = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(DELETE_ACCOUNT, e);
+  }
+};
+
+export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/auth/update-pw", "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_PASSWORD,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: "Password updated",
+      });
+    } else {
+      dispatch({
+        type: UPDATE_PASSWORD_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(UPDATE_PASSWORD, e);
   }
 };

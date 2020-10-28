@@ -5,6 +5,7 @@ import User from "../../interfaces/User";
 import AlertMessage from "../../components/alert-message";
 import lang from "../../language.json";
 import DeleteAccountModal from "../../components/modals/account/deleteAccountModal";
+import EditPasswordModal from "../../components/modals/account/editPasswordModal";
 import { connect } from "react-redux";
 import { Item, Span } from "../citizen/citizen-info";
 
@@ -18,14 +19,18 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
     <Layout>
       {message ? <AlertMessage type="success" message={message} /> : null}
 
-      <h4>{lang.auth.account.account_info}</h4>
+      <h3>{lang.auth.account.account_info}</h3>
 
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>{user.username}</h4>
 
           <div>
-            <button data-toggle="modal" data-target="#editPassword" className="btn btn-primary">
+            <button
+              data-toggle="modal"
+              data-target="#editPasswordModal"
+              className="btn btn-primary"
+            >
               {lang.auth.account.edit_password}
             </button>
             <button
@@ -93,6 +98,7 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
         </div>
       </div>
 
+      <EditPasswordModal />
       <DeleteAccountModal />
     </Layout>
   );

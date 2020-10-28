@@ -3,6 +3,9 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGOUT = "LOGOUT";
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
 
+export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
+export const UPDATE_PASSWORD_ERROR = "UPDATE_PASSWORD_ERROR";
+
 export const SET_LOADING = "SET_LOADING";
 export const SET_LOADING_BLEETS = "SET_LOADING_BLEETS";
 

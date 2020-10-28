@@ -1,4 +1,12 @@
-import { AUTHENTICATE, AUTH_ERROR, SET_LOADING, LOGOUT, DELETE_ACCOUNT } from "../types";
+import {
+  AUTHENTICATE,
+  AUTH_ERROR,
+  SET_LOADING,
+  LOGOUT,
+  DELETE_ACCOUNT,
+  UPDATE_PASSWORD,
+  UPDATE_PASSWORD_ERROR,
+} from "../types";
 
 const initState = {
   user: null,
@@ -26,6 +34,13 @@ type Actions =
     }
   | {
       type: typeof DELETE_ACCOUNT;
+    }
+  | {
+      type: typeof UPDATE_PASSWORD;
+    }
+  | {
+      type: typeof UPDATE_PASSWORD_ERROR;
+      error: string;
     };
 
 export default function (state = initState, action: Actions) {
@@ -64,6 +79,16 @@ export default function (state = initState, action: Actions) {
         error: null,
         loading: false,
         isAuth: false,
+      };
+    case "UPDATE_PASSWORD":
+      return {
+        ...state,
+        error: null,
+      };
+    case "UPDATE_PASSWORD_ERROR":
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return {

@@ -1,4 +1,8 @@
-import { compareSync, genSaltSync, hashSync } from "bcryptjs";
+import {
+  compareSync,
+  genSaltSync,
+  hashSync,
+} from "bcryptjs";
 import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { v4 as uuidv4 } from "uuid";
@@ -172,8 +176,6 @@ router.delete(
     );
 
     citizens.forEach(async (citizen: any) => {
-      console.log("here");
-
       await processQuery(
         "DELETE FROM `arrest_reports` WHERE `citizen_id` = ?",
         [citizen.id]
@@ -218,5 +220,40 @@ router.delete(
     return res.json({ status: "success" });
   }
 );
+
+router.put("/update-pw", useAuth, async (req: IRequest, res: Response) => {
+  const userId = req.user?.id;
+  const { oldPassword, newPassword, newPassword2 } = req.body;
+
+  if (oldPassword && newPassword && newPassword2) {
+    const user = await processQuery("SELECT * FROM `users` WHERE `id` = ?", [
+      userId,
+    ]);
+
+    if (!user[0]) {
+      return res.json({ error: "User was not found", status: "error" });
+    }
+
+    if (newPassword !== newPassword2) {
+      return res.json({ error: "New passwords do not match", status: "error" });
+    }
+
+    const isCorrect = compareSync(oldPassword, user[0].password);
+
+    if (!isCorrect) {
+      return res.json({ error: "Old Password does not match!" });
+    }
+
+    const hash = hashSync(newPassword);
+    await processQuery("UPDATE `users` SET `password` = ? WHERE `id` = ?", [
+      hash,
+      userId,
+    ]);
+
+    return res.json({ status: "success" });
+  } else {
+    return res.json({ error: "Please fill in all fields", status: "error" });
+  }
+});
 
 export default router;
