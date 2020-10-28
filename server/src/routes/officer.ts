@@ -77,7 +77,7 @@ router.get(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
     const officer = await processQuery(
-      "SELECT * FROM `officers` WHERE  `officers`.`id` = ?",
+      "SELECT * FROM `officers` WHERE  `id` = ?",
       [id]
     );
 
@@ -104,7 +104,7 @@ router.put(
         [id]
       );
 
-      return res.json({ status: "success", officer: updatedOfficer });
+      return res.json({ status: "success", officer: updatedOfficer[0] });
     } else {
       return res.json({ error: "Please fill in all fields", status: "error" });
     }

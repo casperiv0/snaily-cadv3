@@ -19,7 +19,6 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
       {message ? <AlertMessage type="success" message={message} /> : null}
 
       <h4>{lang.auth.account.account_info}</h4>
-      <p>{lang.auth.account.random_fact}: qskljdhqskljdhlkjsqd</p>
 
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
