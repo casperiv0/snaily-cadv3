@@ -17,6 +17,7 @@ import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import WeaponSearchModal from "../../components/modals/leo/weaponSearchModal";
 import CreateWrittenWarningModal from "../../components/modals/leo/createWrittenWarningModal";
 import CreateArrestReportModal from "../../components/modals/leo/createArrestReportModal";
+import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
 
 interface Props {
@@ -79,6 +80,7 @@ const LeoDash: React.FC<Props> = (props) => {
       <NameSearchModal />
       <CreateWrittenWarningModal />
       <CreateArrestReportModal />
+      <CreateTicketModal />
     </Layout>
   );
 };

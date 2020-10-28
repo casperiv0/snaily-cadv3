@@ -17,6 +17,8 @@ import {
   CREATE_WRITTEN_WARNING_ERROR,
   CREATE_ARREST_REPORT_ERROR,
   CREATE_ARREST_REPORT,
+  CREATE_TICKET,
+  CREATE_TICKET_ERROR,
 } from "../types";
 
 const initState = {
@@ -93,6 +95,13 @@ type Actions =
     }
   | {
       type: typeof CREATE_ARREST_REPORT;
+    }
+  | {
+      type: typeof CREATE_TICKET;
+    }
+  | {
+      type: typeof CREATE_TICKET_ERROR;
+      error: string;
     };
 
 export default function (state = initState, action: Actions) {
@@ -177,6 +186,16 @@ export default function (state = initState, action: Actions) {
         error: null,
       };
     case "CREATE_ARREST_REPORT_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "CREATE_TICKET":
+      return {
+        ...state,
+        error: null,
+      };
+    case "CREATE_TICKET_ERROR":
       return {
         ...state,
         error: action.error,

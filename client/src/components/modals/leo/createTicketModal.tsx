@@ -5,23 +5,23 @@ import Field from "../../../interfaces/Field";
 import AlertMessage from "../../alert-message";
 import { connect } from "react-redux";
 import Modal, { XButton } from "..";
-import { creatArrestReport } from "../../../lib/actions/records";
+import { createTicket } from "../../../lib/actions/records";
 
 interface Props {
-  error: string | null;
-  creatArrestReport: (data: {
+  error: string;
+  createTicket: (data: {
     name: string;
     officer_name: string;
-    charges: string;
+    violations: string;
     postal: string;
     notes: string;
   }) => void;
 }
 
-const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) => {
+const CreateTicketModal: React.FC<Props> = ({ error, createTicket }) => {
   const [name, setName] = React.useState("");
   const [officerName, setOfficerName] = React.useState("");
-  const [charges, setCharges] = React.useState("");
+  const [violations, setViolations] = React.useState("");
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const btnRef = React.createRef<HTMLButtonElement>();
@@ -29,10 +29,10 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    creatArrestReport({
+    createTicket({
       name,
       officer_name: officerName,
-      charges,
+      violations,
       postal,
       notes,
     });
@@ -42,7 +42,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
     if (error === null) {
       setNotes("");
       setName("");
-      setCharges("");
+      setViolations("");
       setPostal("");
       setNotes("");
       setOfficerName("");
@@ -54,35 +54,35 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
   const fields: Field[] = [
     {
       type: "text",
-      id: "arrest_report_name",
+      id: "ticket_name",
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,
     },
     {
       type: "text",
-      id: "arrest_report_officer_name",
+      id: "ticket_officer_name",
       label: lang.record.officer_name,
       onChange: (e) => setOfficerName(e.target.value),
       value: officerName,
     },
     {
       type: "text",
-      id: "arrest_report_charges",
-      label: lang.record.charges,
-      onChange: (e) => setCharges(e.target.value),
-      value: charges,
+      id: "ticket_violations",
+      label: lang.record.violations,
+      onChange: (e) => setViolations(e.target.value),
+      value: violations,
     },
     {
       type: "text",
-      id: "arrest_report_postal",
+      id: "ticket_postal",
       label: lang.record.postal,
       onChange: (e) => setPostal(e.target.value),
       value: postal,
     },
     {
       type: "text",
-      id: "arrest_report_notes",
+      id: "ticket_notes",
       label: lang.global.notes,
       onChange: (e) => setNotes(e.target.value),
       value: notes,
@@ -90,9 +90,9 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
   ];
 
   return (
-    <Modal size="lg" id="createArrestReportModal">
+    <Modal size="lg" id="createTicketModal">
       <div className="modal-header">
-        <h5 className="modal-title">{lang.global.create_arrest_report}</h5>
+        <h5 className="modal-title">{lang.global.create_ticket}</h5>
         <XButton ref={btnRef} />
       </div>
 
@@ -121,7 +121,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">
-            {lang.global.create_arrest_report}
+            {lang.global.create_ticket}
           </button>
         </div>
       </form>
@@ -133,4 +133,4 @@ const mapToProps = (state: State) => ({
   error: state.officers.error,
 });
 
-export default connect(mapToProps, { creatArrestReport })(CreateArrestReportModal);
+export default connect(mapToProps, { createTicket })(CreateTicketModal);

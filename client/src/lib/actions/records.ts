@@ -10,6 +10,8 @@ import {
   CREATE_WRITTEN_WARNING_ERROR,
   CREATE_ARREST_REPORT_ERROR,
   CREATE_ARREST_REPORT,
+  CREATE_TICKET,
+  CREATE_TICKET_ERROR,
 } from "../types";
 
 interface IDispatch {
@@ -101,5 +103,34 @@ export const creatArrestReport = (data: {
     }
   } catch (e) {
     Logger.error(CREATE_ARREST_REPORT, e);
+  }
+};
+
+export const createTicket = (data: {
+  name: string;
+  officer_name: string;
+  violations: string;
+  postal: string;
+  notes: string;
+}) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/records/create-ticket", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: CREATE_TICKET,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: `${lang.record.created_ticket} ${data.name}`,
+      });
+    } else {
+      dispatch({
+        type: CREATE_TICKET_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(CREATE_TICKET, e);
   }
 };

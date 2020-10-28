@@ -113,4 +113,41 @@ router.post(
   }
 );
 
+router.post(
+  "/create-ticket",
+  useAuth,
+  useOfficerAuth,
+  async (req: IRequest, res: Response) => {
+    const { name, officer_name, violations, postal, notes } = req.body;
+    const date = Date.now();
+
+    if (name && officer_name && violations && postal && notes) {
+      const id = uuidv4();
+      const citizen = await processQuery(
+        "SELECT `id` FROM `citizens` WHERE `full_name` = ?",
+        [name]
+      );
+
+      if (!citizen[0]) {
+        return res.json({
+          error: "Citizen was not found",
+          status: "error",
+        });
+      }
+
+      await processQuery(
+        "INSERT INTO `leo_tickets` (`id`, `name`, `citizen_id`, `violations`, `officer_name`, `date`, `notes`, `postal`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [id, name, citizen[0].id, violations, officer_name, date, notes, postal]
+      );
+
+      return res.json({ status: "success" });
+    } else {
+      return res.json({
+        error: "Please fill in all fields",
+        status: "error",
+      });
+    }
+  }
+);
+
 export default router;
