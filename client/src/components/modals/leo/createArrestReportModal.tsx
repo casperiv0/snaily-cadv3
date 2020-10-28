@@ -24,7 +24,6 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
   const [charges, setCharges] = React.useState("");
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const [submit, setSubmit] = React.useState(false);
   const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
@@ -37,23 +36,20 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
       postal,
       notes,
     });
-
-    setSubmit(true);
   }
 
   React.useEffect(() => {
-    if (submit === true && error !== null) {
+    if (error === null) {
       setNotes("");
       setName("");
       setCharges("");
       setPostal("");
       setNotes("");
       setOfficerName("");
-      setSubmit(false);
 
       btnRef.current?.click();
     }
-  }, [submit]);
+  }, [error]);
 
   const fields: Field[] = [
     {

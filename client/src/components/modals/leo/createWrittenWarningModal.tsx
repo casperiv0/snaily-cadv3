@@ -24,7 +24,6 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
   const [infractions, setInfractions] = React.useState("");
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const [submit, setSubmit] = React.useState(false);
   const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
@@ -37,24 +36,20 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
       postal,
       notes,
     });
-    setSubmit(true);
   }
 
   React.useEffect(() => {
-    console.log(error);
-
-    if (submit === true && error !== null) {
+    if (error === null) {
       setNotes("");
       setName("");
       setInfractions("");
       setPostal("");
       setNotes("");
       setOfficerName("");
-      setSubmit(false);
 
       btnRef.current?.click();
     }
-  }, [submit]);
+  }, [error]);
 
   const fields: Field[] = [
     {
