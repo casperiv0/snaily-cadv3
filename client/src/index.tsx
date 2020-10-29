@@ -56,6 +56,8 @@ const AccountPage = React.lazy(() => import("./pages/account/index"));
 const ValuesPage = React.lazy(() => import("./pages/admin/values/index"));
 const AddValuePage = React.lazy(() => import("./pages/admin/values/add-value"));
 const EditValuePage = React.lazy(() => import("./pages/admin/values/edit-value"));
+const AdminPage = React.lazy(() => import("./pages/admin/index"));
+const ManageMembersPage = React.lazy(() => import("./pages/admin/management/members/index"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -111,6 +113,19 @@ ReactDOM.render(
             <AuthRoute requirement="ems_fd" path="/ems-fd/deputies" Component={MyEmsDeputiesPage} />
 
             <AuthRoute path="/account" Component={AccountPage} />
+
+            <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
+
+            <AuthRoute
+              path="/admin/manage/members"
+              requirement="admin"
+              Component={ManageMembersPage}
+            />
+            <AuthRoute
+              path="/admin/manage/citizens"
+              requirement="admin"
+              Component={ManageCitizensPage}
+            />
 
             <AuthRoute
               path="/admin/values/:path/:id/edit"

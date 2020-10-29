@@ -125,6 +125,7 @@ export const deleteAccount = () => async (dispatch: Dispatch<IDispatch>) => {
       dispatch({
         type: DELETE_ACCOUNT,
       });
+      return (window.location.href = "/login");
     }
   } catch (e) {
     Logger.error(DELETE_ACCOUNT, e);
