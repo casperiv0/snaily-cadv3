@@ -94,7 +94,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
           />
           <datalist id="vehicles">
             {vehicles
-              .sort((a, b) => Number(a?.default_car) - Number(b?.default_car))
+              .sort((a, b) => Number(a?.defaults) - Number(b?.defaults))
               .map((vehicle: Value, idx: number) => {
                 return (
                   <option key={idx} id={`${idx}`}>
@@ -166,7 +166,7 @@ const mapToProps = (state: State) => ({
   error: state.citizen.error,
   owners: state.citizen.citizens,
   vehicles: state.values.vehicles,
-  legalStatuses: state.values.legalStatuses,
+  legalStatuses: state.values["legal-statuses"],
 });
 
 export default connect(mapToProps, {

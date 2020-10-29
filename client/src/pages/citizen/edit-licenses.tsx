@@ -149,7 +149,7 @@ const EditLicensesPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   citizen: state.citizen.citizen,
-  legalStatuses: state.values.legalStatuses,
+  legalStatuses: state.values["legal-statuses"],
 });
 
 export default connect(mapToProps, {

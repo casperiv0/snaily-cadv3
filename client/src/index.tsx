@@ -54,6 +54,8 @@ const CreateDeputyPage = React.lazy(() => import("./pages/ems-fd/create-deputy")
 const AccountPage = React.lazy(() => import("./pages/account/index"));
 
 const ValuesPage = React.lazy(() => import("./pages/admin/values/index"));
+const AddValuePage = React.lazy(() => import("./pages/admin/values/add-value"));
+const EditValuePage = React.lazy(() => import("./pages/admin/values/edit-value"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -111,11 +113,15 @@ ReactDOM.render(
             <AuthRoute path="/account" Component={AccountPage} />
 
             <AuthRoute
-              path="/admin/values/:path/edit/:id"
+              path="/admin/values/:path/:id/edit"
               requirement="admin"
-              Component={ValuesPage}
+              Component={EditValuePage}
             />
-            <AuthRoute path="/admin/values/:path/add" requirement="admin" Component={ValuesPage} />
+            <AuthRoute
+              path="/admin/values/:path/add"
+              requirement="admin"
+              Component={AddValuePage}
+            />
             <AuthRoute path="/admin/values/:path" requirement="admin" Component={ValuesPage} />
 
             <Route component={NotFoundPage} />

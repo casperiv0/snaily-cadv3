@@ -1,12 +1,5 @@
 import Value from "../../interfaces/Value";
 import {
-  ADD_ETHNICITY,
-  ADD_GENDER,
-  ADD_LEGAL_STATUS,
-  DELETE_ETHNICITY,
-  DELETE_GENDER,
-  DELETE_WEAPON,
-  GET_DEPARTMENTS,
   GET_ETHNICITIES,
   GET_GENDERS,
   GET_LEGAL_STATUSES,
@@ -15,28 +8,29 @@ import {
   UPDATE_ETHNICITY,
   UPDATE_GENDER,
   GET_ADMIN_DEPARTMENTS,
+  DELETE_VALUE,
+  ADD_VALUE,
+  ADD_VALUE_ERROR,
+  GET_VALUE_BY_ID,
+  UPDATE_VALUE_BY_ID_ERROR,
+  UPDATE_VALUE_BY_ID,
 } from "../types";
 
 const initState = {
   genders: [],
-  legalStatuses: [],
+  "legal-statuses": [],
   ethnicities: [],
   departments: [],
   weapons: [],
   vehicles: [],
+  error: null,
+  value: null,
 };
 
 type Actions =
   | {
       type: typeof GET_GENDERS;
       genders: Value[];
-    }
-  | {
-      type: typeof DELETE_GENDER;
-      genders: Value[];
-    }
-  | {
-      type: typeof ADD_GENDER;
     }
   | {
       type: typeof UPDATE_GENDER;
@@ -46,13 +40,6 @@ type Actions =
       ethnicities: Value[];
     }
   | {
-      type: typeof DELETE_ETHNICITY;
-      ethnicities: Value[];
-    }
-  | {
-      type: typeof ADD_ETHNICITY;
-    }
-  | {
       type: typeof UPDATE_ETHNICITY;
     }
   | {
@@ -60,18 +47,7 @@ type Actions =
       legalStatuses: Value[];
     }
   | {
-      type: typeof ADD_LEGAL_STATUS;
-    }
-  | {
-      type: typeof DELETE_ETHNICITY;
-      legalStatuses: Value[];
-    }
-  | {
       type: typeof GET_WEAPONS;
-      weapons: Value[];
-    }
-  | {
-      type: typeof DELETE_WEAPON;
       weapons: Value[];
     }
   | {
@@ -81,6 +57,29 @@ type Actions =
   | {
       type: typeof GET_ADMIN_DEPARTMENTS;
       departments: Value[];
+    }
+  | {
+      type: typeof DELETE_VALUE;
+      values: Value[];
+      path: string;
+    }
+  | {
+      type: typeof ADD_VALUE;
+    }
+  | {
+      type: typeof ADD_VALUE_ERROR;
+      error: string;
+    }
+  | {
+      type: typeof GET_VALUE_BY_ID;
+      value: Value;
+    }
+  | {
+      type: typeof UPDATE_VALUE_BY_ID;
+    }
+  | {
+      type: typeof UPDATE_VALUE_BY_ID_ERROR;
+      error: string;
     };
 
 export default function (state = initState, action: Actions) {
@@ -99,14 +98,9 @@ export default function (state = initState, action: Actions) {
     case "GET_LEGAL_STATUSES":
       return {
         ...state,
-        legalStatuses: action.legalStatuses,
+        "legal-statuses": action.legalStatuses,
       };
     case "GET_WEAPONS":
-      return {
-        ...state,
-        weapons: action.weapons,
-      };
-    case "DELETE_WEAPON":
       return {
         ...state,
         weapons: action.weapons,
@@ -120,6 +114,30 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         departments: action.departments,
+      };
+    case "DELETE_VALUE":
+      return {
+        ...state,
+        [action.path]: action.values,
+      };
+    case "GET_VALUE_BY_ID":
+      return {
+        ...state,
+        value: action.value,
+      };
+    case "ADD_VALUE_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "UPDATE_VALUE_BY_ID":
+      return {
+        ...state,
+      };
+    case "UPDATE_VALUE_BY_ID_ERROR":
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return {

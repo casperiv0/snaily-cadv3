@@ -10,6 +10,7 @@ import towCallsRouter from "./routes/tow";
 import emsFdRouter from "./routes/ems-fd";
 import valuesRouter from "./routes/values/index";
 import citizenRouter from "./routes/citizen/index";
+
 const api: Router = Router();
 
 api.use("/auth", authRouter);
@@ -22,6 +23,7 @@ api.use("/dispatch", dispatchRouter);
 api.use("/tow-calls", towCallsRouter);
 api.use("/ems-fd", emsFdRouter);
 api.use("/values", valuesRouter);
+
 api.use("/citizen", citizenRouter);
 
 export default api;

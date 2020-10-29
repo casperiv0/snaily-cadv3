@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import State from "../interfaces/State";
-import { Redirect, Route, RouteComponentProps } from "react-router-dom";
+import { Redirect, Route, RouteComponentProps, useHistory } from "react-router-dom";
 import User from "../interfaces/User";
 import Loader from "./loader";
 
@@ -14,23 +14,31 @@ interface Props {
   user: User;
 }
 
+export const adminRanks: string[] = ["owner", "admin", "moderator"];
+
 const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, requirement }) => {
+  const history = useHistory();
   React.useEffect(() => {
     if (requirement && !loading && isAuth) {
       switch (requirement) {
         case "leo":
           if (user?.leo !== "1") {
-            window.location.href = "/forbidden";
+            return history.push("/forbidden");
           }
           break;
         case "tow":
           if (user?.tow !== "1") {
-            window.location.href = "/forbidden";
+            history.push("/forbidden");
           }
           break;
         case "ems_fd":
           if (user?.ems_fd !== "1") {
-            window.location.href = "/forbidden";
+            history.push("/forbidden");
+          }
+          break;
+        case "admin":
+          if (!adminRanks.includes(user.rank)) {
+            history.push("/forbidden");
           }
           break;
         default:

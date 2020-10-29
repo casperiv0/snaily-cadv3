@@ -6,6 +6,7 @@ import State from "../../../interfaces/State";
 import Value from "../../../interfaces/Value";
 import lang from "../../../language.json";
 import AdminLayout from "../../../components/admin/AdminLayout";
+import ValuePaths from "../../../interfaces/ValuePaths";
 import { connect } from "react-redux";
 import { getDepartments } from "../../../lib/actions/officer";
 import {
@@ -14,8 +15,8 @@ import {
   getLegalStatuses,
   getVehicles,
   getWeapons,
+  deleteValue,
 } from "../../../lib/actions/values";
-import { useHistory } from "react-router-dom";
 
 interface Props {
   message: string;
@@ -27,6 +28,7 @@ interface Props {
   getLegalStatuses: () => void;
   getVehicles: () => void;
   getWeapons: () => void;
+  deleteValue: (id: string, path: ValuePaths) => void;
 }
 
 const paths: string[] = [
@@ -48,17 +50,11 @@ const Values: React.FC<Props> = ({
   getLegalStatuses,
   getVehicles,
   getWeapons,
+  deleteValue,
 }) => {
   const [filtered, setFiltered] = React.useState<any>([]);
   const [filter, setFilter] = React.useState<string>("");
-  const history = useHistory();
-  const path:
-    | "genders"
-    | "ethnicities"
-    | "departments"
-    | "legal-statuses"
-    | "vehicles"
-    | "weapons" = match.params.path;
+  const path: ValuePaths = match.params.path;
 
   React.useEffect(() => {
     if (values[path]) {
@@ -96,7 +92,9 @@ const Values: React.FC<Props> = ({
     }
   }, []);
 
-  function handleDelete(id: string) {}
+  function handleDelete(id: string) {
+    deleteValue(id, path);
+  }
 
   function handleFilter(e: any) {
     setFilter(e.target.value);
@@ -137,12 +135,12 @@ const Values: React.FC<Props> = ({
           className="form-control bg-dark border-secondary mb-2 text-light"
           placeholder={lang.global.search}
         />
-        {!values[path] ? (
+        {!values[path]?.[0] ? (
           <AlertMessage type="warning" message={lang.admin.values[path].none} />
         ) : (
           filtered
-            .sort((a: Value, _b: Value) => a?.default_car === "1")
-            .sort((a: Value, _b: Value) => a?.default_weapon === "1")
+            .sort((a: Value, _b: Value) => a?.defaults === "1")
+            .sort((a: Value, _b: Value) => a?.defaults === "1")
             .map((value: Value, idx: number) => {
               return (
                 <li
@@ -155,22 +153,18 @@ const Values: React.FC<Props> = ({
                   </div>
 
                   <div>
-                    {value?.default_car && value.default_car !== "1" ? (
-                      <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
-                        {lang.global.delete}
-                      </button>
-                    ) : null}
-
-                    {value?.default_weapon && value.default_weapon !== "1" ? (
-                      <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
-                        {lang.global.delete}
-                      </button>
-                    ) : null}
-
-                    {!value?.default_weapon && !value.default_car ? (
-                      <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
-                        {lang.global.delete}
-                      </button>
+                    {value?.defaults && value.defaults === "0" ? (
+                      <>
+                        <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
+                          {lang.global.delete}
+                        </button>
+                        <a
+                          className="btn btn-success ml-2"
+                          href={`/admin/values/${path}/${value.id}/edit`}
+                        >
+                          {lang.global.edit}
+                        </a>
+                      </>
                     ) : null}
                   </div>
                 </li>
@@ -194,4 +188,5 @@ export default connect(mapToProps, {
   getLegalStatuses,
   getVehicles,
   getWeapons,
+  deleteValue,
 })(Values);

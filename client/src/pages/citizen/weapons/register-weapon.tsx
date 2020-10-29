@@ -133,7 +133,7 @@ const mapToProps = (state: State) => ({
   error: state.citizen.error,
   owners: state.citizen.citizens,
   weapons: state.values.weapons,
-  legalStatuses: state.values.legalStatuses,
+  legalStatuses: state.values["legal-statuses"],
 });
 
 export default connect(mapToProps, {

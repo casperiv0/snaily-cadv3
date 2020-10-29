@@ -274,7 +274,7 @@ const mapToProps = (state: State) => ({
   error: state.citizen.error,
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
-  legalStatuses: state.values.legalStatuses,
+  legalStatuses: state.values["legal-statuses"],
 });
 
 export default connect(mapToProps, {

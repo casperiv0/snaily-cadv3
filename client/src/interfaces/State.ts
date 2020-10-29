@@ -75,10 +75,12 @@ interface State {
   };
   values: {
     genders: Value[];
-    legalStatuses: Value[];
+    "legal-statuses": Value[];
     ethnicities: Value[];
     weapons: Value[];
     vehicles: Value[];
+    error: string;
+    value: Value;
   };
 }
 

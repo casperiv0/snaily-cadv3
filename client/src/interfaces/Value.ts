@@ -1,8 +1,7 @@
 interface Value {
   id: string;
   name: string;
-  default_weapon?: string;
-  default_car?: string;
+  defaults: "1" | "0" | string;
 }
 
 export default Value;

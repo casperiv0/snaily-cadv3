@@ -1,15 +1,22 @@
-import { Dispatch } from "react";
 import Value from "../../interfaces/Value";
-import Vehicle from "../../interfaces/Vehicle";
-import Weapon from "../../interfaces/Weapon";
-import { handleRequest, isSuccess } from "../functions";
+import lang from "../../language.json";
 import Logger from "../Logger";
+import ValuePaths from "../../interfaces/ValuePaths";
+import { handleRequest, isSuccess } from "../functions";
+import { Dispatch } from "react";
 import {
   GET_ETHNICITIES,
   GET_GENDERS,
   GET_LEGAL_STATUSES,
   GET_VEHICLES,
   GET_WEAPONS,
+  DELETE_VALUE,
+  ADD_VALUE,
+  ADD_VALUE_ERROR,
+  GET_VALUE_BY_ID,
+  UPDATE_VALUE_BY_ID,
+  UPDATE_VALUE_BY_ID_ERROR,
+  SET_MESSAGE,
 } from "../types";
 
 interface IDispatch {
@@ -17,9 +24,95 @@ interface IDispatch {
   genders?: Value[];
   ethnicities?: Value[];
   legalStatuses?: Value[];
-  weapons?: Weapon[];
-  vehicles?: Vehicle[];
+  weapons?: Value[];
+  vehicles?: Value[];
+  values?: Value[];
+  path?: string;
+  error?: string;
+  value?: Value;
+  message?: string;
 }
+
+export const deleteValue = (id: string, path: ValuePaths) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/values/${path}/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_VALUE,
+        path: path,
+        values: res.data.values,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.admin.values[path].deleted,
+      });
+    }
+  } catch (e) {
+    Logger.error(DELETE_VALUE, e);
+  }
+};
+
+export const addValue = (path: string, data: { name: string }) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/values/${path}`, "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: ADD_VALUE,
+      });
+      return (window.location.href = `/admin/values/${path}`);
+    } else {
+      dispatch({
+        type: ADD_VALUE_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(ADD_VALUE, e);
+  }
+};
+
+export const getValueById = (path: string, id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/values/${path}/${id}`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_VALUE_BY_ID,
+        value: res.data.value,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_VALUE_BY_ID, e);
+  }
+};
+
+export const updateValueById = (path: string, id: string, data: { name: string }) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/values/${path}/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_VALUE_BY_ID,
+      });
+      window.location.href = `/admin/values/${path}/`;
+    } else {
+      dispatch({
+        type: UPDATE_VALUE_BY_ID_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(UPDATE_VALUE_BY_ID, e);
+  }
+};
 
 /* genders */
 export const getGenders = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -29,7 +122,7 @@ export const getGenders = () => async (dispatch: Dispatch<IDispatch>) => {
     if (isSuccess(res)) {
       dispatch({
         type: GET_GENDERS,
-        genders: res.data.genders,
+        genders: res.data.values,
       });
     }
   } catch (e) {
@@ -45,7 +138,7 @@ export const getEthnicities = () => async (dispatch: Dispatch<IDispatch>) => {
     if (isSuccess(res)) {
       dispatch({
         type: GET_ETHNICITIES,
-        ethnicities: res.data.ethnicities,
+        ethnicities: res.data.values,
       });
     }
   } catch (e) {
@@ -61,7 +154,7 @@ export const getLegalStatuses = () => async (dispatch: Dispatch<IDispatch>) => {
     if (isSuccess(res)) {
       dispatch({
         type: GET_LEGAL_STATUSES,
-        legalStatuses: res.data.legalStatuses,
+        legalStatuses: res.data.values,
       });
     }
   } catch (e) {
@@ -77,7 +170,7 @@ export const getWeapons = () => async (dispatch: Dispatch<IDispatch>) => {
     if (isSuccess(res)) {
       dispatch({
         type: GET_WEAPONS,
-        weapons: res.data.weapons,
+        weapons: res.data.values,
       });
     }
   } catch (e) {
@@ -93,7 +186,7 @@ export const getVehicles = () => async (dispatch: Dispatch<IDispatch>) => {
     if (isSuccess(res)) {
       dispatch({
         type: GET_VEHICLES,
-        vehicles: res.data.vehicles,
+        vehicles: res.data.values,
       });
     }
   } catch (e) {

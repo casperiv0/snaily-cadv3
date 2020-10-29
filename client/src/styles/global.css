@@ -34,6 +34,7 @@ body {
   font-size: 1.2rem;
   text-align: left;
   color: #dbdbdb;
+  border-radius: 0.2rem;
 }
 
 .admin-link:hover {

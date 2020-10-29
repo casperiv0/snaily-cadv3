@@ -133,7 +133,7 @@ const EditVehiclePage: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   error: state.citizen.error,
   vehicle: state.citizen.vehicle,
-  legalStatuses: state.values.legalStatuses,
+  legalStatuses: state.values["legal-statuses"],
 });
 
 export default connect(mapToProps, {
