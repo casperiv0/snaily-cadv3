@@ -110,7 +110,11 @@ ReactDOM.render(
 
             <AuthRoute path="/account" Component={AccountPage} />
 
-            <AuthRoute path="/admin/values/:path/edit" requirement="admin" Component={ValuesPage} />
+            <AuthRoute
+              path="/admin/values/:path/edit/:id"
+              requirement="admin"
+              Component={ValuesPage}
+            />
             <AuthRoute path="/admin/values/:path/add" requirement="admin" Component={ValuesPage} />
             <AuthRoute path="/admin/values/:path" requirement="admin" Component={ValuesPage} />
 

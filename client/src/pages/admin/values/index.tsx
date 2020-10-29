@@ -5,6 +5,7 @@ import Match from "../../../interfaces/Match";
 import State from "../../../interfaces/State";
 import Value from "../../../interfaces/Value";
 import lang from "../../../language.json";
+import AdminLayout from "../../../components/admin/AdminLayout";
 import { connect } from "react-redux";
 import { getDepartments } from "../../../lib/actions/officer";
 import {
@@ -20,7 +21,7 @@ interface Props {
   message: string;
   values: any;
   match: Match;
-  getDepartments: () => void;
+  getDepartments: (type: "admin" | "leo") => void;
   getEthnicities: () => void;
   getGenders: () => void;
   getLegalStatuses: () => void;
@@ -68,7 +69,7 @@ const Values: React.FC<Props> = ({
   React.useEffect(() => {
     switch (path) {
       case "departments": {
-        getDepartments();
+        getDepartments("admin");
         break;
       }
       case "ethnicities": {
@@ -115,10 +116,18 @@ const Values: React.FC<Props> = ({
   }
 
   return (
-    <Layout>
+    <AdminLayout>
       {message ? <AlertMessage message={message} type="success" /> : null}
 
-      <h4>{lang.admin.values[path].manage}</h4>
+      <header className="d-flex justify-content-between">
+        <h4>{lang.admin.values[path].manage}</h4>
+
+        <div>
+          <a className="btn btn-primary" href={`/admin/values/${path}/add`}>
+            {lang.admin.values[path].add}
+          </a>
+        </div>
+      </header>
 
       <ul className="list-group mt-3">
         <input
@@ -169,7 +178,7 @@ const Values: React.FC<Props> = ({
             })
         )}
       </ul>
-    </Layout>
+    </AdminLayout>
   );
 };
 

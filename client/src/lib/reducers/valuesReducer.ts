@@ -6,6 +6,7 @@ import {
   DELETE_ETHNICITY,
   DELETE_GENDER,
   DELETE_WEAPON,
+  GET_DEPARTMENTS,
   GET_ETHNICITIES,
   GET_GENDERS,
   GET_LEGAL_STATUSES,
@@ -13,6 +14,7 @@ import {
   GET_WEAPONS,
   UPDATE_ETHNICITY,
   UPDATE_GENDER,
+  GET_ADMIN_DEPARTMENTS,
 } from "../types";
 
 const initState = {
@@ -75,6 +77,10 @@ type Actions =
   | {
       type: typeof GET_VEHICLES;
       vehicles: Value[];
+    }
+  | {
+      type: typeof GET_ADMIN_DEPARTMENTS;
+      departments: Value[];
     };
 
 export default function (state = initState, action: Actions) {
@@ -109,6 +115,11 @@ export default function (state = initState, action: Actions) {
       return {
         ...state,
         vehicles: action.vehicles,
+      };
+    case "GET_ADMIN_DEPARTMENTS":
+      return {
+        ...state,
+        departments: action.departments,
       };
     default:
       return {

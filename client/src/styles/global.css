@@ -26,3 +26,17 @@ body {
   object-fit: cover;
   background-position: center;
 }
+
+.admin-link {
+  padding: 10px 0.5rem;
+  text-decoration: none;
+  transition: all 250ms;
+  font-size: 1.2rem;
+  text-align: left;
+  color: #dbdbdb;
+}
+
+.admin-link:hover {
+  background: #6c757d;
+  color: white;
+}

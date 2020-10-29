@@ -17,6 +17,7 @@ import {
   PLATE_SEARCH,
   SET_MESSAGE,
   WEAPON_SEARCH,
+  GET_ADMIN_DEPARTMENTS,
 } from "../types";
 
 interface IDispatch {
@@ -121,13 +122,13 @@ export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IDispatch
   }
 };
 
-export const getDepartments = () => async (dispatch: Dispatch<IDispatch>) => {
+export const getDepartments = (type: "admin" | "leo") => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/officer/departments", "GET");
 
     if (isSuccess(res)) {
       dispatch({
-        type: GET_DEPARTMENTS,
+        type: type === "admin" ? GET_ADMIN_DEPARTMENTS : GET_DEPARTMENTS,
         departments: res.data.departments,
       });
     }

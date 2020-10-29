@@ -11,7 +11,7 @@ interface Props {
   error: string;
   departments: Department[];
   createOfficer: (data: object) => void;
-  getDepartments: () => void;
+  getDepartments: (type: "admin" | "leo") => void;
 }
 
 const CreateOfficerPage: React.FC<Props> = ({
@@ -24,7 +24,7 @@ const CreateOfficerPage: React.FC<Props> = ({
   const [officerDept, setOfficerDept] = React.useState<string>("");
 
   React.useEffect(() => {
-    getDepartments();
+    getDepartments("leo");
   }, [getDepartments]);
 
   function onSubmit(e: React.FormEvent) {
