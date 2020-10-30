@@ -9,12 +9,18 @@ import { deleteCompanyById, getCompanies } from "../../../lib/actions/admin";
 import { Item, Span } from "../../citizen/citizen-info";
 
 interface Props {
+  message: string;
   companies: Company[];
   getCompanies: () => void;
   deleteCompanyById: (id: string) => void;
 }
 
-const CompanyManagementPage: React.FC<Props> = ({ companies, getCompanies, deleteCompanyById }) => {
+const CompanyManagementPage: React.FC<Props> = ({
+  message,
+  companies,
+  getCompanies,
+  deleteCompanyById,
+}) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<any>([]);
 
@@ -26,10 +32,15 @@ const CompanyManagementPage: React.FC<Props> = ({ companies, getCompanies, delet
     if (companies[0]) {
       setFiltered(companies);
     }
-  });
+  }, [companies]);
 
-  function handleSearch(e: any) {
+  function handleFilter(e: any) {
     setFilter(e.target.value);
+
+    const filteredItems = companies.filter((company: Company) =>
+      company.name.toLowerCase().includes(e.target.value.toLowerCase()),
+    );
+    setFiltered(filteredItems);
   }
 
   function handleDelete(id: string) {
@@ -38,13 +49,14 @@ const CompanyManagementPage: React.FC<Props> = ({ companies, getCompanies, delet
 
   return (
     <AdminLayout>
+      {message ? <AlertMessage type="success" message={message} /> : null}
       <ul className="list-group">
         <input
-          type="search"
-          className="list-group-item form-control bg-dark border-secondary text-light mb-2"
+          type="text"
           value={filter}
-          onChange={handleSearch}
-          placeholder={`${lang.global?.search}..`}
+          onChange={handleFilter}
+          className="form-control bg-dark border-secondary mb-2 text-light"
+          placeholder={lang.global.search}
         />
         {!companies[0] ? (
           <AlertMessage type="warning" message={lang.admin.company.no_companies} />
@@ -92,6 +104,7 @@ const CompanyManagementPage: React.FC<Props> = ({ companies, getCompanies, delet
 
 const mapToProps = (state: State) => ({
   companies: state.admin.companies,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { getCompanies, deleteCompanyById })(CompanyManagementPage);

@@ -1,8 +1,9 @@
-import Logger from "../Logger";
 import { handleRequest, isSuccess } from "../functions";
-import { DELETE_COMPANY, GET_COMPANIES } from "../types";
-import Company from "../../interfaces/Company";
+import { DELETE_COMPANY, GET_COMPANIES, SET_MESSAGE } from "../types";
 import { Dispatch } from "react";
+import lang from "../../language.json";
+import Logger from "../Logger";
+import Company from "../../interfaces/Company";
 
 interface IDispatch {
   type: string;
@@ -34,6 +35,10 @@ export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<IDisp
       dispatch({
         type: DELETE_COMPANY,
         companies: res.data.companies,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.admin.company.delete_success,
       });
     }
   } catch (e) {

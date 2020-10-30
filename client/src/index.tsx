@@ -133,7 +133,6 @@ ReactDOM.render(
               requirement="admin"
               Component={CompanyManagementPage}
             />
-            <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
 
             <AuthRoute
               path="/admin/values/:path/:id/edit"
@@ -146,6 +145,7 @@ ReactDOM.render(
               Component={AddValuePage}
             />
             <AuthRoute path="/admin/values/:path" requirement="admin" Component={ValuesPage} />
+            <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
 
             <Route component={NotFoundPage} />
           </Switch>
