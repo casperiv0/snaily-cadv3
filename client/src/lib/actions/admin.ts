@@ -1,5 +1,5 @@
 import { handleRequest, isSuccess } from "../functions";
-import { DELETE_COMPANY, GET_CITIZENS, GET_COMPANIES, SET_MESSAGE } from "../types";
+import { DELETE_CITIZEN, DELETE_COMPANY, GET_CITIZENS, GET_COMPANIES, SET_MESSAGE } from "../types";
 import { Dispatch } from "react";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -28,6 +28,22 @@ export const getAllCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
     Logger.error(GET_CITIZENS, e);
   }
 };
+
+export const deleteCitizen = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/admin/management/citizens/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_CITIZEN,
+        citizens: res.data.citizens,
+      });
+    }
+  } catch (e) {
+    Logger.error(DELETE_CITIZEN, e);
+  }
+};
+
 export const getCompanies = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/admin/management/companies", "GET");

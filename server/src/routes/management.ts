@@ -10,7 +10,22 @@ router.get(
   "/citizens",
   useAuth,
   useAdminAuth,
+  async (_req: IRequest, res: Response) => {
+    const citizens = await processQuery("SELECT * FROM `citizens`");
+
+    return res.json({ citizens, status: "success" });
+  }
+);
+
+router.delete(
+  "/citizens/:id",
+  useAuth,
+  useAdminAuth,
   async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+
+    await processQuery("DELETE FROM `citizens` WHERE `id` = ?", [id]);
+
     const citizens = await processQuery("SELECT * FROM `citizens`");
 
     return res.json({ citizens, status: "success" });
