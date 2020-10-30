@@ -12,7 +12,7 @@ import Citizen from "./Citizen";
 import Value from "./Value";
 import Weapon from "./Weapon";
 import Vehicle from "./Vehicle";
-import { PenalCode } from "../pages/leo/penal-codes";
+import Company from "./Company";
 
 interface State {
   auth: {
@@ -81,6 +81,12 @@ interface State {
     vehicles: Value[];
     error: string;
     value: Value;
+  };
+  admin: {
+    error: string;
+    companies: Company[];
+    citizens: Citizen[];
+    members: User[];
   };
 }
 

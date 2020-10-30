@@ -58,6 +58,10 @@ const AddValuePage = React.lazy(() => import("./pages/admin/values/add-value"));
 const EditValuePage = React.lazy(() => import("./pages/admin/values/edit-value"));
 const AdminPage = React.lazy(() => import("./pages/admin/index"));
 const ManageMembersPage = React.lazy(() => import("./pages/admin/management/members/index"));
+const ManageCitizensPage = React.lazy(() => import("./pages/admin/management/citizens/index"));
+const CompanyManagementPage = React.lazy(
+  () => import("./pages/admin/management/company-management"),
+);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -114,8 +118,6 @@ ReactDOM.render(
 
             <AuthRoute path="/account" Component={AccountPage} />
 
-            <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
-
             <AuthRoute
               path="/admin/manage/members"
               requirement="admin"
@@ -126,6 +128,12 @@ ReactDOM.render(
               requirement="admin"
               Component={ManageCitizensPage}
             />
+            <AuthRoute
+              path="/admin/manage/companies"
+              requirement="admin"
+              Component={CompanyManagementPage}
+            />
+            <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
 
             <AuthRoute
               path="/admin/values/:path/:id/edit"

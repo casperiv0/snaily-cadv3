@@ -99,6 +99,10 @@ export const NAME_SEARCH = "NAME_SEARCH";
 export const ADDRESS_SEARCH = "ADDRESS_SEARCH";
 export const WEAPON_SEARCH = "WEAPON_SEARCH";
 
+/* admin*/
+export const GET_COMPANIES = "GET_COMPANIES";
+export const DELETE_COMPANY = "DELETE_COMPANY";
+
 /* All values */
 export const DELETE_VALUE = "DELETE_VALUE";
 export const ADD_VALUE = "ADD_VALUE";

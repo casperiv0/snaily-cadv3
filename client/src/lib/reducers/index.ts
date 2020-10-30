@@ -11,6 +11,7 @@ import trucklogsReducer from "./trucklogsReducer";
 import emsFdReducer from "./emsFdReducer";
 import citizenReducer from "./citizenReducer";
 import valuesReducer from "./valuesReducer";
+import adminReducer from "./adminReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -24,4 +25,5 @@ export default combineReducers({
   ems_fd: emsFdReducer,
   citizen: citizenReducer,
   values: valuesReducer,
+  admin: adminReducer,
 });
