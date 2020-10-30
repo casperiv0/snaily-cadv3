@@ -1,17 +1,33 @@
 import { handleRequest, isSuccess } from "../functions";
-import { DELETE_COMPANY, GET_COMPANIES, SET_MESSAGE } from "../types";
+import { DELETE_COMPANY, GET_CITIZENS, GET_COMPANIES, SET_MESSAGE } from "../types";
 import { Dispatch } from "react";
 import lang from "../../language.json";
 import Logger from "../Logger";
 import Company from "../../interfaces/Company";
+import Citizen from "../../interfaces/Citizen";
 
 interface IDispatch {
   type: string;
   message?: string;
   error?: string;
   companies?: Company[];
+  citizens?: Citizen[];
 }
 
+export const getAllCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/citizens", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_CITIZENS,
+        citizens: res.data.citizens,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_CITIZENS, e);
+  }
+};
 export const getCompanies = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/admin/management/companies", "GET");

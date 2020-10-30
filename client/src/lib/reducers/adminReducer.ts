@@ -1,5 +1,6 @@
+import Citizen from "../../interfaces/Citizen";
 import Company from "../../interfaces/Company";
-import { DELETE_COMPANY, GET_COMPANIES } from "../types";
+import { DELETE_COMPANY, GET_CITIZENS, GET_COMPANIES } from "../types";
 
 const initState = {
   error: null,
@@ -16,6 +17,10 @@ type Actions =
   | {
       type: typeof DELETE_COMPANY;
       companies: Company[];
+    }
+  | {
+      type: typeof GET_CITIZENS;
+      citizens: Citizen[];
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -29,6 +34,11 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         companies: action.companies,
+      };
+    case "GET_CITIZENS":
+      return {
+        ...state,
+        citizens: action.citizens,
       };
     default:
       return {

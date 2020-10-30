@@ -20,7 +20,7 @@ type Actions =
       message: string;
     };
 
-export default function (state = initState, action: Actions) {
+export default function globalReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_AOP":
       return {

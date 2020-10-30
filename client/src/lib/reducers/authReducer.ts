@@ -43,7 +43,7 @@ type Actions =
       error: string;
     };
 
-export default function (state = initState, action: Actions) {
+export default function authReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "AUTHENTICATE":
       return {

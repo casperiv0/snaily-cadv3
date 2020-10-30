@@ -40,7 +40,7 @@ type Actions =
       type: typeof CREATE_BLEET;
     };
 
-export default function (state = initState, action: Actions) {
+export default function bleetReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_BLEETS":
       return {

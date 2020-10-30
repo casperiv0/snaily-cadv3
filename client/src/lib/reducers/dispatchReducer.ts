@@ -19,7 +19,7 @@ type Actions =
       search: object;
     };
 
-export default function (state = initState, action: Actions) {
+export default function dispatchReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_ACTIVE_UNITS":
       return {

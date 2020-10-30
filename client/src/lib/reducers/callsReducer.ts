@@ -45,7 +45,7 @@ type Actions =
       calls: TowCall[];
     };
 
-export default function (state = initState, action: Actions) {
+export default function callsReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_911_CALLS":
       return {

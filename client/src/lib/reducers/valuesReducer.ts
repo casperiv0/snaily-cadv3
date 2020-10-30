@@ -82,7 +82,7 @@ type Actions =
       error: string;
     };
 
-export default function (state = initState, action: Actions) {
+export default function valuesReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_GENDERS":
       return {

@@ -28,7 +28,7 @@ type Actions =
       logs: TruckLog[];
     };
 
-export default function (state = initState, action: Actions) {
+export default function trucklogsReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_TRUCK_LOGS":
       return {

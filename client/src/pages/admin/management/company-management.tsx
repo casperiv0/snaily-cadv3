@@ -34,7 +34,7 @@ const CompanyManagementPage: React.FC<Props> = ({
     }
   }, [companies]);
 
-  function handleFilter(e: any) {
+  function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
     setFilter(e.target.value);
 
     const filteredItems = companies.filter((company: Company) =>

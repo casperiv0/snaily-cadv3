@@ -96,7 +96,7 @@ const Values: React.FC<Props> = ({
     deleteValue(id, path);
   }
 
-  function handleFilter(e: any) {
+  function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
     setFilter(e.target.value);
 
     const filteredValues = values[path].filter((value: Value) =>

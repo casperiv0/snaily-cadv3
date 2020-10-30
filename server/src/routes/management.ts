@@ -7,6 +7,17 @@ import { useAdminAuth } from "./values";
 const router: Router = Router();
 
 router.get(
+  "/citizens",
+  useAuth,
+  useAdminAuth,
+  async (req: IRequest, res: Response) => {
+    const citizens = await processQuery("SELECT * FROM `citizens`");
+
+    return res.json({ citizens, status: "success" });
+  }
+);
+
+router.get(
   "/companies",
   useAuth,
   useAdminAuth,

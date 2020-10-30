@@ -49,7 +49,7 @@ type Actions =
       medicalRecords: MedicalRecord[];
     };
 
-export default function (state = initState, action: Actions) {
+export default function emsFdReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_CURRENT_EMS_STATUS":
       return {

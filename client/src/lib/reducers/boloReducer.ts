@@ -24,7 +24,7 @@ type Actions =
       bolos: Bolo[];
     };
 
-export default function (state = initState, action: Actions) {
+export default function boloReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_BOLOS":
       return {
