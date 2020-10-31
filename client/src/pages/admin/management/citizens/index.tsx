@@ -40,7 +40,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
 
       <ul className="list-group">
         <input

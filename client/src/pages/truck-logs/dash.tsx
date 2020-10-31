@@ -32,7 +32,7 @@ const TruckLogsDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
       <div className="d-flex justify-content-between mb-3">
         <h3>
           {lang.nav.trucklogs} - AOP: {aop}

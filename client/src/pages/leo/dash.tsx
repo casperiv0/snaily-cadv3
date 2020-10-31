@@ -47,7 +47,7 @@ const LeoDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {props.message ? <AlertMessage type="success" message={props.message} /> : null}
+      {props.message ? <AlertMessage type="success" message={props.message} dismissible /> : null}
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>

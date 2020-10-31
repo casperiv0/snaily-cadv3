@@ -30,7 +30,7 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
     <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
       <h2>{lang.auth.register}</h2>
       <div className="form-group">
-        {error ? <AlertMessage type="warning" message={error} /> : null}
+        {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
       </div>
       <div className="form-group">
         <label htmlFor="username">{lang.auth.enter_username}</label>

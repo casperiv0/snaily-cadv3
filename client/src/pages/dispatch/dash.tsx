@@ -41,7 +41,7 @@ const DispatchDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="pb-5 mt-5">
-      {props.message ? <AlertMessage type="success" message={props.message} /> : null}
+      {props.message ? <AlertMessage type="success" message={props.message} dismissible /> : null}
       <div className="card bg-dark border-dark mt-4">
         <div className="card-header d-flex justify-content-between">
           <h4>

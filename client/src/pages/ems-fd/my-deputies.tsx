@@ -26,7 +26,7 @@ const MyDeputiesPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
 
       <h4 className="card-title mt-3">{lang.ems_fd.my_deputies}</h4>
 

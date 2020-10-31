@@ -21,7 +21,7 @@ const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, get
 
   return (
     <Layout classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
       <h3>{lang.officers.my_officers}</h3>
       <a className="btn btn-primary container" href="/leo/dash">
         {lang.global.back_to_dashboard}

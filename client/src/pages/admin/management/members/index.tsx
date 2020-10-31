@@ -40,7 +40,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
 
       <ul className="list-group">
         <input

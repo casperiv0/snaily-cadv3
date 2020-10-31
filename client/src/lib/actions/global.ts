@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
-import { GET_AOP, UPDATE_AOP, GET_CAD_INFO } from "../types";
+import { GET_AOP, UPDATE_AOP, GET_CAD_INFO, SET_MESSAGE } from "../types";
 import Logger from "../Logger";
 import socket from "../socket";
 
@@ -8,6 +8,7 @@ interface IDispatch {
   type: string;
   aop?: string;
   cadInfo?: string;
+  message?: string | null;
 }
 
 export const getCadInfo = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -43,4 +44,11 @@ export const updateAop = (aop: string) => async (dispatch: Dispatch<IDispatch>) 
   } catch (e) {
     Logger.error(UPDATE_AOP, e);
   }
+};
+
+export const dismissMessage = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({
+    type: SET_MESSAGE,
+    message: null,
+  });
 };

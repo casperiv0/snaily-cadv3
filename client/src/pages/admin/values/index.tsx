@@ -115,7 +115,7 @@ const Values: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} type="success" /> : null}
+      {message ? <AlertMessage message={message} type="success" dismissible /> : null}
 
       <header className="d-flex justify-content-between">
         <h4>{lang.admin.values[path].manage}</h4>

@@ -48,7 +48,7 @@ const EditValuePage: React.FC<Props> = (props) => {
 
   return (
     <AdminLayout>
-      {error ? <AlertMessage type="warning" message={error} /> : null}
+      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="name">{lang.admin.values[path].name}</label>

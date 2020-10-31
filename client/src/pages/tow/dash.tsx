@@ -40,7 +40,7 @@ const TowDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
 
       <h3>
         {lang.tow.tow_dashboard} - AOP: {aop}

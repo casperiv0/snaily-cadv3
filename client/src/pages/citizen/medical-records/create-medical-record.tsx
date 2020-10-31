@@ -32,7 +32,7 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage type="warning" message={error} /> : null}
+      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="type">{lang.citizen.medical.type}</label>

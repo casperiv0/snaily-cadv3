@@ -40,7 +40,7 @@ const CitizensPage: React.FC<Props> = (props) => {
   return (
     <Layout classes="mt-5">
       <div>
-        {message ? <AlertMessage type="success" message={message} /> : null}
+        {message ? <AlertMessage type="success" message={message} dismissible /> : null}
         <h3>
           {lang.auth.welcome} - AOP: {aop}
         </h3>

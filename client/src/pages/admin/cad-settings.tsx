@@ -54,7 +54,7 @@ const CadSettingsPage: React.FC<Props> = ({ message, cadInfo, updateCadSettings 
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
       <h3>{lang.admin.cad_settings.cad_settings}</h3>
 
       <div className="card bg-dark border-dark mt-3">

@@ -17,7 +17,7 @@ interface Props {
 const AccountPage: React.FC<Props> = ({ user, message }) => {
   return (
     <Layout>
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
 
       <h3>{lang.auth.account.account_info}</h3>
 

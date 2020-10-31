@@ -187,7 +187,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        {error ? <AlertMessage type="warning" message={error} /> : null}
+        {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
         <div key="image" id="-1" className="form-group">
           <label htmlFor="image">{lang.global.image}</label>

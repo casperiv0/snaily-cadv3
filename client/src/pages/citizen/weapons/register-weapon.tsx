@@ -52,7 +52,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage type="warning" message={error} /> : null}
+      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
         <div className="form-group">

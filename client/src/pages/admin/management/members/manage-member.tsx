@@ -89,7 +89,7 @@ const ManageMember: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
         <div className="form-group">
