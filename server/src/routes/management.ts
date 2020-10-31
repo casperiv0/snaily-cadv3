@@ -6,6 +6,42 @@ import IRequest from "../interfaces/IRequest";
 import { useAdminAuth } from "./values";
 const router: Router = Router();
 
+/* Cad settings */
+router.put("/cad-settings", useAuth, async (req: IRequest, res: Response) => {
+  const user = await processQuery("SELECT `rank` from `users` WHERE `id` = ?", [
+    req.user?.id,
+  ]);
+
+  if (user[0].rank !== "owner") {
+    return res.json({ error: "Forbidden", status: "error" }).status(403);
+  }
+
+  const {
+    cad_name,
+    aop,
+    tow_whitelisted,
+    whitelisted,
+    company_whitelisted,
+  } = req.body;
+
+  if (
+    cad_name &&
+    aop &&
+    tow_whitelisted &&
+    whitelisted &&
+    company_whitelisted
+  ) {
+    await processQuery(
+      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `company_whitelisted` = ?",
+      [cad_name, aop, tow_whitelisted, whitelisted, company_whitelisted]
+    );
+
+    return res.json({ status: "success" });
+  } else {
+    return res.json({ error: "Please fill in all fields", status: "error" });
+  }
+});
+
 /* members */
 router.get(
   "/members",

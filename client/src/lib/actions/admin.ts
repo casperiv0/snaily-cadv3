@@ -13,6 +13,7 @@ import {
   UN_BAN_MEMBER,
   ACCEPT_USER,
   DECLINE_USER,
+  UPDATE_CAD_SETTINGS,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -227,5 +228,23 @@ export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<IDisp
     }
   } catch (e) {
     Logger.error(DELETE_COMPANY, e);
+  }
+};
+
+export const updateCadSettings = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/cad-settings", "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_CAD_SETTINGS,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.admin.cad_settings?.updated,
+      });
+    }
+  } catch (e) {
+    Logger.error(UPDATE_CAD_SETTINGS, e);
   }
 };

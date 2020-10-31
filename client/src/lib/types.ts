@@ -109,6 +109,8 @@ export const BAN_MEMBER = "BAN_MEMBER";
 export const UN_BAN_MEMBER = "UN_BAN_MEMBER";
 export const ACCEPT_USER = "ACCEPT_USER";
 export const DECLINE_USER = "DECLINE_USER";
+export const UPDATE_CAD_SETTINGS = "UPDATE_CAD_SETTINGS";
+export const GET_CAD_INFO = "GET_CAD_INFO";
 
 /* All values */
 export const DELETE_VALUE = "DELETE_VALUE";

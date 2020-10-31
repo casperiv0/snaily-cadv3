@@ -3,9 +3,9 @@ interface CadInfo {
   cad_name: string;
   owner: string;
   AOP: string;
-  tow_whitelisted: "0" | "1";
-  whitelisted: "0" | "1";
-  company_whitelisted: "0" | "1";
+  tow_whitelisted: "0" | "1" | string;
+  whitelisted: "0" | "1" | string;
+  company_whitelisted: "0" | "1" | string;
 }
 
 export default CadInfo;

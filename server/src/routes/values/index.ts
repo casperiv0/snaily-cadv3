@@ -122,10 +122,12 @@ async function useAdminAuth(
   }
 
   if (!RanksArr.includes(user[0].rank)) {
-    res.json({
-      error: "Forbidden",
-      status: "error",
-    });
+    res
+      .json({
+        error: "Forbidden",
+        status: "error",
+      })
+      .status(403);
     return;
   }
 

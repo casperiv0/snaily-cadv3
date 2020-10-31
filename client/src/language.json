@@ -256,7 +256,8 @@
             "cad_wl": "CAD Whitelist",
             "tow_wl": "Tow Whitelist",
             "company_wl": "Company Whitelist",
-            "update_cad": "Update CAD"
+            "update_cad": "Update CAD",
+            "updated": "Successfully updated CAD settings"
         },
         "info": {
             "tot_mem": "Total members",

@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
-import { GET_AOP, UPDATE_AOP } from "../types";
+import { GET_AOP, UPDATE_AOP, GET_CAD_INFO } from "../types";
 import Logger from "../Logger";
 import socket from "../socket";
 
@@ -15,6 +15,10 @@ export const getCadInfo = () => async (dispatch: Dispatch<IDispatch>) => {
     const res = await handleRequest("/global/cad-info", "POST");
 
     if (isSuccess(res)) {
+      dispatch({
+        type: GET_CAD_INFO,
+        cadInfo: res.data.cadInfo,
+      });
       dispatch({
         type: GET_AOP,
         aop: res.data.cadInfo.AOP,
