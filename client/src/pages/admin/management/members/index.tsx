@@ -6,7 +6,8 @@ import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
 import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
-import { Item, Span } from "../../../citizen/citizen-info";
+import AllMembersTab from "../../../../components/admin/all-members";
+import PendingMembersTab from "../../../../components/admin/pending-members";
 
 interface Props {
   message: string;
@@ -52,73 +53,58 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
 
         {!members[0] ? (
           <AlertMessage type="warning" message={lang.admin.no_members_cad} />
-        ) : !filtered ? (
+        ) : !filtered[0] ? (
           <AlertMessage type="warning" message={lang.admin.no_member_found_by_name} />
         ) : (
-          filtered.map((member: User, idx: number) => {
-            return (
-              <li
-                key={idx}
-                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+          <div>
+            <div className="nav nav-tabs">
+              <a
+                className="nav-item nav-link active bg-dark text-light border-secondary"
+                id="nav-home-tab"
+                data-toggle="tab"
+                href="#members"
+                role="tab"
+                aria-controls="nav-home"
+                aria-selected="true"
               >
-                <div>
-                  {++idx} | {member.username}
-                  <div className="collapse mt-2" id={`member_info_${member.id}`}>
-                    <Item id="rank">
-                      <Span>{lang.global.rank}: </Span>
-                      {member.rank}
-                    </Item>
-                    <Item id="leo">
-                      <Span>{lang.auth.account.police_access}: </Span>
-                      {member.leo}
-                    </Item>
-                    <Item id="dispatch">
-                      <Span>{lang.auth.account.dispatch_access}: </Span>
-                      {member.dispatch}
-                    </Item>
-                    <Item id="ems_fd">
-                      <Span>{lang.auth.account.ems_fd_access}: </Span>
-                      {member.ems_fd}
-                    </Item>
-                    <Item id="tow">
-                      <Span>{lang.auth.account.tow_access}: </Span>
-                      {member.tow}
-                    </Item>
-                    <Item id="rank">
-                      <Span>{lang.auth.account.ems_fd_access}: </Span>
-                      {member.ems_fd}
-                    </Item>
-                    <Item id="rank">
-                      <Span>{lang.auth.account.banned}: </Span>
-                      {member.banned} <br />
-                      {member.banned === "1" && (
-                        <>
-                          <Span>{lang.auth.account.ban_reason}: </Span>
-                          {member.ban_reason}
-                        </>
-                      )}
-                    </Item>
-                  </div>
+                {lang.admin.all_members}
+              </a>
+              <a
+                className="nav-item nav-link bg-dark text-light border-secondary"
+                id="nav-contact-tab"
+                data-toggle="tab"
+                href="#pending"
+                role="tab"
+                aria-controls="nav-contact"
+                aria-selected="false"
+              >
+                {lang.admin.pending_members}
+                <div className="badge badge-primary ml-2">
+                  {members.filter((m) => m.whitelist_status === "pending").length}
                 </div>
+              </a>
+            </div>
 
-                <div>
-                  <button
-                    className="btn btn-primary"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target={`#member_info_${member.id}`}
-                    aria-expanded="false"
-                    aria-controls={`member_info_${member.id}`}
-                  >
-                    {lang.admin.toggle_info}
-                  </button>
-                  <a className="btn btn-success ml-2" href={`/admin/manage/members/${member.id}`}>
-                    {lang.admin.manage_perms}
-                  </a>
-                </div>
-              </li>
-            );
-          })
+            <div className="tab-content">
+              <div
+                className="tab-pane fade show active"
+                id="members"
+                role="tabpanel"
+                aria-labelledby="members-tab"
+              >
+                <AllMembersTab members={filtered} />
+              </div>
+
+              <div
+                className="tab-pane fade active"
+                id="pending"
+                role="tabpanel"
+                aria-labelledby="pending-tab"
+              >
+                <PendingMembersTab members={filtered} />
+              </div>
+            </div>
+          </div>
         )}
       </ul>
     </AdminLayout>
@@ -127,6 +113,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
 
 const mapToProps = (state: State) => ({
   members: state.admin.members,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { getMembers })(ManageMembersPage);

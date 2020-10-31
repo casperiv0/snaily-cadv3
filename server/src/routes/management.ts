@@ -91,17 +91,32 @@ router.put(
         );
         break;
       }
+      case "accept": {
+        await processQuery(
+          "UPDATE `users` SET `whitelist_status` = ? WHERE `id` = ?",
+          ["accepted", id]
+        );
+        break;
+      }
+      case "decline": {
+        await processQuery("DELETE FROM `users` WHERE `id` = ?", [id]);
+        break;
+      }
       default: {
         return res.json({ error: "Invalid path", status: "error" });
       }
     }
+
+    const members = await processQuery(
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`  FROM `users`"
+    );
 
     const updated = await processQuery(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
       [id]
     );
 
-    return res.json({ status: "success", member: updated[0] });
+    return res.json({ status: "success", member: updated[0], members });
   }
 );
 

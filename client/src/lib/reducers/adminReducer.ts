@@ -11,6 +11,8 @@ import {
   GET_MEMBER_BY_ID,
   UN_BAN_MEMBER,
   UPDATE_MEMBER_PERMS,
+  ACCEPT_USER,
+  DECLINE_USER,
 } from "../types";
 
 const initState = {
@@ -57,6 +59,14 @@ type Actions =
   | {
       type: typeof UN_BAN_MEMBER;
       member: User;
+    }
+  | {
+      type: typeof ACCEPT_USER;
+      members: User[];
+    }
+  | {
+      type: typeof DECLINE_USER;
+      members: User[];
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -105,6 +115,16 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         member: action.member,
+      };
+    case "ACCEPT_USER":
+      return {
+        ...state,
+        members: action.members,
+      };
+    case "DECLINE_USER":
+      return {
+        ...state,
+        members: action.members,
       };
     default:
       return {

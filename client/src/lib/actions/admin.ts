@@ -11,6 +11,8 @@ import {
   UPDATE_MEMBER_PERMS,
   BAN_MEMBER,
   UN_BAN_MEMBER,
+  ACCEPT_USER,
+  DECLINE_USER,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -119,6 +121,44 @@ export const unBanMember = (id: string) => async (dispatch: Dispatch<IDispatch>)
     }
   } catch (e) {
     Logger.error(UN_BAN_MEMBER, e);
+  }
+};
+
+export const acceptUser = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/admin/management/members/accept/${id}`, "PUT");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: ACCEPT_USER,
+        members: res.data.members,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: `${lang.admin.accepted_member}`,
+      });
+    }
+  } catch (e) {
+    Logger.error(ACCEPT_USER, e);
+  }
+};
+
+export const declineUser = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/admin/management/members/decline/${id}`, "PUT");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DECLINE_USER,
+        members: res.data.members,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: `${lang.admin.declined_member}`,
+      });
+    }
+  } catch (e) {
+    Logger.error(DECLINE_USER, e);
   }
 };
 
