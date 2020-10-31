@@ -49,7 +49,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
 
       btnRef.current?.click();
     }
-  }, [error]);
+  }, [error, btnRef]);
 
   const fields: Field[] = [
     {

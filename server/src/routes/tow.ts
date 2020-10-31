@@ -11,7 +11,7 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ status: "success", calls });
 });
 
-router.post("/", useAuth, async (req: IRequest, res: Response) => {
+router.post("/", async (req: IRequest, res: Response) => {
   const { description, location, caller } = req.body;
   const id = uuidv4();
 

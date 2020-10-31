@@ -34,7 +34,7 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
       setNewPassword2("");
       btnRef.current?.click();
     }
-  }, [error]);
+  }, [error, btnRef]);
 
   return (
     <Modal id="editPasswordModal">

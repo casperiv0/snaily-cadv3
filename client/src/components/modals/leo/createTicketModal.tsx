@@ -49,7 +49,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, createTicket }) => {
 
       btnRef.current?.click();
     }
-  }, [error]);
+  }, [error, btnRef]);
 
   const fields: Field[] = [
     {

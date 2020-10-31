@@ -60,7 +60,7 @@ const Values: React.FC<Props> = ({
     if (values[path]) {
       setFiltered(values[path]);
     }
-  }, [values]);
+  }, [values, path]);
 
   React.useEffect(() => {
     switch (path) {
@@ -90,7 +90,7 @@ const Values: React.FC<Props> = ({
       }
       default:
     }
-  }, []);
+  }, [path, getDepartments, getEthnicities, getGenders, getLegalStatuses, getVehicles, getWeapons]);
 
   function handleDelete(id: string) {
     deleteValue(id, path);

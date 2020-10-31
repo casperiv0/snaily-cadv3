@@ -45,7 +45,7 @@ const EditBleet: React.FC<Props> = ({
         history.push(`/bleet/${id}`);
       }
     }
-  }, [bleet, user, id]);
+  }, [bleet, user, id, history]);
 
   React.useEffect(() => {
     if (bleet.id) {

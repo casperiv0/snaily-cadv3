@@ -49,7 +49,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
 
       btnRef.current?.click();
     }
-  }, [error]);
+  }, [error, btnRef]);
 
   const fields: Field[] = [
     {
