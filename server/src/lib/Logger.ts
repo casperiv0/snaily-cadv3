@@ -15,7 +15,7 @@ class Logger {
   }
 
   error(type: string, error: string): void {
-    return console.error(`[${type}][${this.now()}]:  ${error}`);
+    return console.error(`[${type}][${this.now()}]: ${error}`);
   }
 
   log(type: string, message: string): void {
