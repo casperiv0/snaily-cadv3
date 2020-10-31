@@ -120,6 +120,14 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
 
 - And a lot more..
 
+## Supporting SnailyCAD
+
+All stars/forks are appreciated! ⚡
+
+Feel free to open a pull request with a new feature.
+
+Made with ❤️ and TypeScript!
+
 ## License
 
 [MIT © Dev-CasperTheGhost](./LICENSE)
