@@ -1,0 +1,25 @@
+{
+  "name": "snaily-cadv3",
+  "version": "0.1.0",
+  "description": "![license](https://img.shields.io/github/license/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)\r ![contributors](https://img.shields.io/github/contributors/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)\r ![issues](https://img.shields.io/github/issues/dev-caspertheghost/snaily-cadv3?style=flat-square)",
+  "main": "index.js",
+  "scripts": {
+    "start:client": "npm run serve --prefix client",
+    "start:server": "npm start --prefix server",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dev-CasperTheGhost/snaily-cadv3.git"
+  },
+  "keywords": [],
+  "author": "Dev-CasperTheGhost",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues"
+  },
+  "homepage": "https://github.com/Dev-CasperTheGhost/snaily-cadv3#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
