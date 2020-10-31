@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import State from "../interfaces/State";
-import { Redirect, Route, RouteComponentProps, useHistory } from "react-router-dom";
+import { Redirect, Route, RouteComponentProps, useHistory, useLocation } from "react-router-dom";
 import User from "../interfaces/User";
 import Loader from "./loader";
 
@@ -18,6 +18,8 @@ export const adminRanks: string[] = ["owner", "admin", "moderator"];
 
 const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, requirement }) => {
   const history = useHistory();
+  const location = useLocation();
+
   React.useEffect(() => {
     if (requirement && !loading && isAuth) {
       switch (requirement) {
@@ -64,7 +66,7 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
               pathname: "/login",
               state: {
                 message: "You need to be logged in to view this page",
-                requestedPath: path,
+                requestedPath: location.pathname,
               },
             }}
           />
