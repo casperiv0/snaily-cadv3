@@ -20,6 +20,7 @@ import Logger from "../Logger";
 import Company from "../../interfaces/Company";
 import Citizen from "../../interfaces/Citizen";
 import User from "../../interfaces/User";
+import socket from "../socket";
 
 interface IDispatch {
   type: string;
@@ -231,11 +232,18 @@ export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<IDisp
   }
 };
 
-export const updateCadSettings = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const updateCadSettings = (data: {
+  aop: string;
+  cad_name: string;
+  whitelisted: string;
+  tow_whitelisted: string;
+  company_whitelisted: string;
+}) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/admin/management/cad-settings", "PUT", data);
 
     if (isSuccess(res)) {
+      socket.emit("UPDATE_AOP", data.aop);
       dispatch({
         type: UPDATE_CAD_SETTINGS,
       });

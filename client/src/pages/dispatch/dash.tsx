@@ -1,4 +1,6 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import Call911Modal from "../../components/modals/call911Modal";
 import Layout from "../../components/Layout";
 import ModalButtons from "../../components/dispatch/ModalButtons";
 import lang from "../../language.json";
@@ -14,10 +16,11 @@ import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import AddressSearchModal from "../../components/modals/dispatch/addressSearchModal";
 import WeaponSearchModal from "../../components/modals/leo/weaponSearchModal";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
-import { connect } from "react-redux";
+import AlertMessage from "../../components/alert-message";
 
 interface Props {
   aop: string;
+  message: string;
 }
 
 const DispatchDash: React.FC<Props> = (props) => {
@@ -38,6 +41,7 @@ const DispatchDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="pb-5 mt-5">
+      {props.message ? <AlertMessage type="success" message={props.message} /> : null}
       <div className="card bg-dark border-dark mt-4">
         <div className="card-header d-flex justify-content-between">
           <h4>
@@ -69,12 +73,14 @@ const DispatchDash: React.FC<Props> = (props) => {
       <PlateSearchModal />
       <WeaponSearchModal />
       <CreateBoloModal />
+      <Call911Modal />
     </Layout>
   );
 };
 
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
+  message: state.global.message,
 });
 
 export default connect(mapToProps)(React.memo(DispatchDash));

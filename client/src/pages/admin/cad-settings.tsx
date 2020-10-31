@@ -10,7 +10,13 @@ import { updateCadSettings } from "../../lib/actions/admin";
 interface Props {
   message: string;
   cadInfo: CadInfo;
-  updateCadSettings: (data: object) => void;
+  updateCadSettings: (data: {
+    aop: string;
+    cad_name: string;
+    whitelisted: string;
+    tow_whitelisted: string;
+    company_whitelisted: string;
+  }) => void;
 }
 
 const CadSettingsPage: React.FC<Props> = ({ message, cadInfo, updateCadSettings }) => {

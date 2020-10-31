@@ -1,13 +1,21 @@
 import Call from "../../interfaces/Call";
 import Logger from "../Logger";
 import socket from "../socket";
+import lang from "../../language.json";
 import { Dispatch } from "redux";
 import { handleRequest, isSuccess } from "../functions";
-import { GET_911_CALLS, END_911_CALL, UPDATE_911_CALL, CREATE_911_CALL } from "../types";
+import {
+  GET_911_CALLS,
+  END_911_CALL,
+  UPDATE_911_CALL,
+  CREATE_911_CALL,
+  SET_MESSAGE,
+} from "../types";
 
 interface IDispatch {
   type: string;
   calls?: Call[];
+  message?: string;
 }
 
 export const getActive911Calls = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -33,6 +41,10 @@ export const create911Call = (data: object) => async (dispatch: Dispatch<IDispat
       dispatch({
         type: CREATE_911_CALL,
         calls: res.data.calls,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.citizen.call_created,
       });
       socket.emit("UPDATE_911_CALLS");
     }

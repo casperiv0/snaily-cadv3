@@ -25,7 +25,7 @@ const modalButtons: MButton[] = [
   },
   {
     name: lang.global.create_911_call,
-    target: "#create911CallModal",
+    target: "#call911Modal",
   },
   {
     name: lang.global.notepad,
