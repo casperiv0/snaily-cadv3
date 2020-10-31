@@ -43,12 +43,12 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
       {message ? <AlertMessage type="success" message={message} /> : null}
 
       <ul className="list-group">
-        <label htmlFor="search">{lang.admin.filter_by_name}</label>
         <input
           className="form-control bg-dark border-secondary text-light mb-2"
           type="search"
           value={filter}
           onChange={handleSearch}
+          placeholder={`${lang.global.search}..`}
         />
 
         {!citizens[0] ? (
@@ -159,6 +159,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
 
 const mapToProps = (state: State) => ({
   citizens: state.admin.citizens,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { getAllCitizens })(ManageCitizensPage);

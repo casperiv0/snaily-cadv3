@@ -9,6 +9,7 @@ import User from "../../interfaces/User";
 import { connect } from "react-redux";
 import { getBleetById, updateBleet } from "../../lib/actions/bleeter";
 import AlertMessage from "../../components/alert-message";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   error: string;
@@ -30,6 +31,7 @@ const EditBleet: React.FC<Props> = ({
   updateBleet,
 }) => {
   const id = match.params.id;
+  const history = useHistory();
   const [title, setTitle] = React.useState<string>("");
   const [body, setBody] = React.useState<string>("");
 
@@ -39,9 +41,8 @@ const EditBleet: React.FC<Props> = ({
 
   React.useEffect(() => {
     if (bleet.id) {
-      const uploaded_by: User = JSON.parse(bleet.uploaded_by as any);
-      if (uploaded_by.id !== user.id) {
-        window.location.href = `/bleet/${id}`;
+      if (bleet.user_id !== user.id) {
+        history.push(`/bleet/${id}`);
       }
     }
   }, [bleet, user, id]);

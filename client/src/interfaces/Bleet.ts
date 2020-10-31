@@ -7,7 +7,8 @@ interface Bleet {
   markdown: string;
   file_dir: string;
   likes: string;
-  uploaded_by: User;
+  user_id: User["id"];
+  uploaded_at: number;
 }
 
 export default Bleet;

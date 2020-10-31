@@ -33,9 +33,6 @@ const AdminSidebar: React.FC = () => {
           <header>
             <h3>{lang.admin.management}</h3>
           </header>
-          <a className="text-decoration-none admin-link" href="/admin/audit-logs">
-            {lang.admin.audit_logs}
-          </a>
           <a className="text-decoration-none admin-link" href="/admin/manage/members">
             {lang.admin.member_management}
           </a>

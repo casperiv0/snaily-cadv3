@@ -186,6 +186,10 @@ export const deleteCitizen = (id: string) => async (dispatch: Dispatch<IDispatch
         type: DELETE_CITIZEN,
         citizens: res.data.citizens,
       });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.citizen.deleted_citizen,
+      });
     }
   } catch (e) {
     Logger.error(DELETE_CITIZEN, e);

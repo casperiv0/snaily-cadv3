@@ -28,6 +28,11 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
             return history.push("/forbidden");
           }
           break;
+        case "dispatch":
+          if (user?.dispatch !== "1") {
+            return history.push("/forbidden");
+          }
+          break;
         case "tow":
           if (user?.tow !== "1") {
             history.push("/forbidden");

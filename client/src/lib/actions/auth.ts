@@ -109,7 +109,7 @@ export const logout = () => async (dispatch: Dispatch<IDispatch>) => {
       dispatch({
         type: LOGOUT,
       });
-      window.location.href = "/login";
+      return (window.location.href = "/login");
     }
   } catch (e) {
     Logger.error(LOGOUT, e);

@@ -11,6 +11,7 @@ import Navbar from "./components/navbar";
 import store from "./lib/store";
 
 const NotFoundPage = React.lazy(() => import("./pages/not-found"));
+const ForbiddenPage = React.lazy(() => import("./pages/forbidden"));
 
 const BleeterPage = React.lazy(() => import("./pages/bleeter"));
 const BleetPage = React.lazy(() => import("./pages/bleeter/bleet"));
@@ -63,6 +64,8 @@ const ManageCitizensPage = React.lazy(() => import("./pages/admin/management/cit
 const CompanyManagementPage = React.lazy(
   () => import("./pages/admin/management/company-management"),
 );
+
+const CadSettingsPage = React.lazy(() => import("./pages/admin/cad-settings"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -151,8 +154,10 @@ ReactDOM.render(
               Component={AddValuePage}
             />
             <AuthRoute path="/admin/values/:path" requirement="admin" Component={ValuesPage} />
+            <AuthRoute path="/admin/cad-settings" requirement="admin" Component={CadSettingsPage} />
             <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
 
+            <Route path="/forbidden" component={ForbiddenPage} />
             <Route component={NotFoundPage} />
           </Switch>
         </React.Suspense>

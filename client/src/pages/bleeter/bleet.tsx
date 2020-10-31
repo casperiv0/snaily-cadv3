@@ -53,7 +53,7 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) =
       <div className="d-flex justify-content-between border-bottom">
         <h3>{bleet.title}</h3>
         <div>
-          {bleet.id && user.id === JSON.parse(bleet.uploaded_by as any).id ? (
+          {bleet.id && user.id === bleet.user_id ? (
             <a className="btn btn-success" type="button" href={`/bleet/edit/${bleet.id}`}>
               Edit bleet
             </a>

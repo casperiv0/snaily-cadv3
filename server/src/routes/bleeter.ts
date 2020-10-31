@@ -4,7 +4,6 @@ import { useAuth, useMarkdown } from "../hooks";
 import { RanksArr } from "../lib/constants";
 import { v4 as uuidv4 } from "uuid";
 import IRequest from "../interfaces/IRequest";
-import IUser from "../interfaces/IUser";
 
 const router = Router();
 
@@ -31,25 +30,15 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const file = req.files?.image;
   const fileName = file?.name;
   const uploadedAt = Date.now();
-  const uploadedBy = JSON.stringify(req.user);
+  const user_id = req.user?.id;
 
   if (title && body) {
     const markdown = useMarkdown(body);
     const id = uuidv4();
 
     await processQuery(
-      "INSERT INTO `bleets` (`id`, `title`, `body`, `markdown`, `uploaded_by`, `uploaded_at`, `file_dir`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [
-        id,
-        title,
-        body,
-        markdown,
-        uploadedBy,
-        uploadedAt,
-        fileName || "",
-        false,
-        0,
-      ]
+      "INSERT INTO `bleets` (`id`, `title`, `body`, `markdown`, `user_id`, `uploaded_at`, `file_dir`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [id, title, body, markdown, user_id, uploadedAt, fileName || "", false, 0]
     );
 
     if (file) {
@@ -79,9 +68,7 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  const uploaded_by: IUser = JSON.parse(bleet[0].uploaded_by);
-
-  if (uploaded_by.id !== req.user?.id) {
+  if (bleet[0].user_id !== req.user?.id) {
     return res.json({
       error: "Forbidden",
       status: "error",

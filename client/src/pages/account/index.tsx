@@ -25,21 +25,25 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
         <div className="card-header d-flex justify-content-between">
           <h4>{user.username}</h4>
 
-          <div>
+          <div className="d-flex">
             <button
               data-toggle="modal"
               data-target="#editPasswordModal"
-              className="btn btn-primary"
+              className="btn btn-primary mr-2"
             >
               {lang.auth.account.edit_password}
             </button>
-            <button
-              data-toggle="modal"
-              data-target="#deleteAccountModal"
-              className="btn btn-danger ml-2"
-            >
-              {lang.auth.account.delete_acc}
-            </button>
+            {user?.rank === "owner" ? (
+              <p>The owner is not able to delete their account.</p>
+            ) : (
+              <button
+                data-toggle="modal"
+                data-target="#deleteAccountModal"
+                className="btn btn-danger"
+              >
+                {lang.auth.account.delete_acc}
+              </button>
+            )}
           </div>
         </div>
 

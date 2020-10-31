@@ -10,7 +10,6 @@ const router: Router = Router();
 router.get(
   "/:path",
   useAuth,
-  useAdminAuth,
   useValidPath,
   async (req: IRequest, res: Response) => {
     const parsedPath = req.parsedPath;

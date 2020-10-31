@@ -13,6 +13,7 @@ import Value from "./Value";
 import Weapon from "./Weapon";
 import Vehicle from "./Vehicle";
 import Company from "./Company";
+import CadInfo from "./CadInfo";
 
 interface State {
   auth: {
@@ -28,7 +29,7 @@ interface State {
     error: string;
   };
   global: {
-    cadInfo: object;
+    cadInfo: CadInfo;
     aop: string;
     message: string;
   };

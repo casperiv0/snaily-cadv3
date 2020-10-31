@@ -1,8 +1,4 @@
-import {
-  compareSync,
-  genSaltSync,
-  hashSync,
-} from "bcryptjs";
+import { compareSync, genSaltSync, hashSync } from "bcryptjs";
 import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { v4 as uuidv4 } from "uuid";
@@ -170,6 +166,18 @@ router.delete(
   useAuth,
   async (req: IRequest, res: Response) => {
     const userId = req.user?.id;
+    const user = await processQuery(
+      "SELECT `rank` FROM `users` WHERE `id` = ?",
+      [userId]
+    );
+
+    if (user[0].rank === "owner") {
+      return res.json({
+        error: "The owner is not able to delete their account!",
+        status: "error",
+      });
+    }
+
     const citizens = await processQuery(
       "SELECT * FROM `citizens` WHERE `user_id` = ?",
       [userId]
