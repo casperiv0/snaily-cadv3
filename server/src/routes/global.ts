@@ -6,7 +6,7 @@ import { RanksArr } from "../lib/constants";
 
 const router: Router = Router();
 
-router.get("/911-calls", useAuth, async (req: IRequest, res: Response) => {
+router.get("/911-calls", async (req: IRequest, res: Response) => {
   const calls = await processQuery("SELECT * FROM `911calls`");
 
   return res.json({ calls, status: "success" });
