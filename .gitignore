@@ -14,3 +14,5 @@ node_modules
 server/config.ts
 
 server/public/citizen-images/*
+
+.DS_Store
