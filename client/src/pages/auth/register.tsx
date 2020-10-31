@@ -63,7 +63,8 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
         />
       </div>
       <div className="form-group">
-        <button type="submit" className="btn btn-primary float-right w-100">
+        <a href="/login">{lang.auth.login}</a>
+        <button type="submit" className="btn btn-primary float-right w-100 mt-2">
           {loading ? (
             <span className="spinner-border primary">
               <span className="sr-only">loading</span>

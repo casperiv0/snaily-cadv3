@@ -57,10 +57,11 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
         />
       </div>
       <div className="form-group">
+        <a href="/register">{lang.auth.register}</a>
         <button
           disabled={loading}
           type="submit"
-          className="btn btn-primary float-right w-100 auth-btn"
+          className="btn btn-primary float-right w-100 auth-btn mt-2"
         >
           {loading ? (
             <span className="spinner-border primary">

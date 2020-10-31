@@ -1,4 +1,5 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import socket from "../../lib/socket";
@@ -7,7 +8,7 @@ import Statuses from "../../components/ems-fd/Statuses";
 import NotepadModal from "../../components/modals/notepad";
 import SelectEmsFdModal from "../../components/modals/ems-fd/selectEmsFdModal";
 import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRecords";
-import { connect } from "react-redux";
+import Active911Calls from "../../components/active-911-calls";
 
 interface Props {
   aop: string;
@@ -61,6 +62,8 @@ const EmsFdDash: React.FC<Props> = (props) => {
           <Statuses />
         </div>
       </div>
+
+      <Active911Calls />
 
       {/* Modals */}
       <SearchMedicalRecord />

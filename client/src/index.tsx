@@ -10,6 +10,7 @@ import Navbar from "./components/navbar";
 
 import store from "./lib/store";
 
+const HomePage = React.lazy(() => import("./pages/index"));
 const NotFoundPage = React.lazy(() => import("./pages/not-found"));
 const ForbiddenPage = React.lazy(() => import("./pages/forbidden"));
 
@@ -74,7 +75,7 @@ ReactDOM.render(
       <Router>
         <React.Suspense fallback={<Loader fullScreen />}>
           <Switch>
-            <Route path="/" exact render={() => <h1>Hello world</h1>} />
+            <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
             <AuthRoute path="/bleeter/create" Component={CreateBleetPage} />
