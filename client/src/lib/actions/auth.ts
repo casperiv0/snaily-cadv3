@@ -1,6 +1,5 @@
 import Logger from "../Logger";
 import User from "../../interfaces/User";
-import lang from "../../language.json";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
 import {

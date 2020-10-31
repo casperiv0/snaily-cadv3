@@ -102,6 +102,11 @@ export const WEAPON_SEARCH = "WEAPON_SEARCH";
 /* admin*/
 export const GET_COMPANIES = "GET_COMPANIES";
 export const DELETE_COMPANY = "DELETE_COMPANY";
+export const GET_MEMBERS = "GET_MEMBERS";
+export const GET_MEMBER_BY_ID = "GET_MEMBER_BY_ID";
+export const UPDATE_MEMBER_PERMS = "UPDATE_MEMBER_PERMS";
+export const BAN_MEMBER = "BAN_MEMBER";
+export const UN_BAN_MEMBER = "UN_BAN_MEMBER";
 
 /* All values */
 export const DELETE_VALUE = "DELETE_VALUE";

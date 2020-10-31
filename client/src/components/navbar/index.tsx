@@ -63,8 +63,6 @@ export const paths: Path[] = [
 ];
 
 const Navbar: React.FC<Props> = ({ loading, isAuth, checkAuth, logout, getCadInfo }) => {
-  const currentPath = window.location.pathname;
-
   React.useEffect(() => {
     checkAuth();
   }, [checkAuth]);

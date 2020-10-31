@@ -87,6 +87,7 @@ interface State {
     companies: Company[];
     citizens: Citizen[];
     members: User[];
+    member: User;
   };
 }
 

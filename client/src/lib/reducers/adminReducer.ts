@@ -1,12 +1,24 @@
 import Citizen from "../../interfaces/Citizen";
 import Company from "../../interfaces/Company";
-import { DELETE_CITIZEN, DELETE_COMPANY, GET_CITIZENS, GET_COMPANIES } from "../types";
+import User from "../../interfaces/User";
+import {
+  BAN_MEMBER,
+  DELETE_CITIZEN,
+  DELETE_COMPANY,
+  GET_CITIZENS,
+  GET_COMPANIES,
+  GET_MEMBERS,
+  GET_MEMBER_BY_ID,
+  UN_BAN_MEMBER,
+  UPDATE_MEMBER_PERMS,
+} from "../types";
 
 const initState = {
   error: null,
   companies: [],
   members: [],
   citizens: [],
+  member: null,
 };
 
 type Actions =
@@ -25,6 +37,26 @@ type Actions =
   | {
       type: typeof DELETE_CITIZEN;
       citizens: Citizen[];
+    }
+  | {
+      type: typeof GET_MEMBERS;
+      members: User[];
+    }
+  | {
+      type: typeof GET_MEMBER_BY_ID;
+      member: User;
+    }
+  | {
+      type: typeof UPDATE_MEMBER_PERMS;
+      member: User;
+    }
+  | {
+      type: typeof BAN_MEMBER;
+      member: User;
+    }
+  | {
+      type: typeof UN_BAN_MEMBER;
+      member: User;
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -48,6 +80,31 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         citizens: action.citizens,
+      };
+    case "GET_MEMBERS":
+      return {
+        ...state,
+        members: action.members,
+      };
+    case "GET_MEMBER_BY_ID":
+      return {
+        ...state,
+        member: action.member,
+      };
+    case "UPDATE_MEMBER_PERMS":
+      return {
+        ...state,
+        member: action.member,
+      };
+    case "BAN_MEMBER":
+      return {
+        ...state,
+        member: action.member,
+      };
+    case "UN_BAN_MEMBER":
+      return {
+        ...state,
+        member: action.member,
       };
     default:
       return {
