@@ -46,7 +46,6 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
   - Manage all companies
   - Manage all citizens
   - Ban users
-  - Audit Logs
   - CAD Settings
   - Assign your own values for departments, ethnicities, genders and more
 
