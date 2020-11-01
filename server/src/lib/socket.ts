@@ -52,4 +52,12 @@ io.on("connection", (socket) => {
       Logger.log("SOCKET_EVENT", "UPDATE_BOLOS");
     }
   });
+
+  socket.on("NEW_911_CALL", () => {
+    io.sockets.emit("NEW_911_CALL");
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "NEW_911_CALL");
+    }
+  });
 });

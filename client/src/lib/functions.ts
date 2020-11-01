@@ -15,3 +15,7 @@ export const handleRequest = (path: string, method: AllowedMethods, data?: objec
 export const isSuccess = (res: AxiosResponse) => {
   return res.data.status && res.data.status === "success";
 };
+
+export const playSound = (dir: string): void => {
+  new Audio(dir).play();
+};

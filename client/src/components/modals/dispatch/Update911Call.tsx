@@ -32,19 +32,19 @@ const Update911Call: React.FC<Props> = ({
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    btnRef.current?.click();
+
     update911Call(call.id, {
       location,
       description,
       assigned_unit: assignedUnits.join(","),
     });
-
-    btnRef.current?.click();
   }
 
   function handleCancelCall() {
-    end911Call(call.id);
-
     btnRef.current?.click();
+
+    end911Call(call.id);
   }
 
   function handleClick(e: any) {

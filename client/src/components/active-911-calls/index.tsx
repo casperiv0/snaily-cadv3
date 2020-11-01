@@ -4,6 +4,8 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { getActive911Calls } from "../../lib/actions/911-calls";
+import socket from "../../lib/socket";
+import { playSound } from "../../lib/functions";
 
 interface Props {
   calls: Call[];
@@ -13,6 +15,15 @@ interface Props {
 const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
   React.useEffect(() => {
     getActive911Calls();
+  }, [getActive911Calls]);
+
+  React.useEffect(() => {
+    socket.on("UPDATE_911_CALLS", () => {
+      getActive911Calls();
+    });
+    socket.on("NEW_911_CALL", () => {
+      playSound("/sounds/new-call.mp3");
+    });
   }, [getActive911Calls]);
 
   return (

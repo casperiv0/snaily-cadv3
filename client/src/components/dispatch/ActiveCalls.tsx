@@ -6,6 +6,7 @@ import Update911Call from "../modals/dispatch/Update911Call";
 import { getActive911Calls } from "../../lib/actions/911-calls";
 import { connect } from "react-redux";
 import socket from "../../lib/socket";
+import { playSound } from "../../lib/functions";
 
 interface Props {
   calls: Call[];
@@ -19,6 +20,10 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
 
   React.useEffect(() => {
     socket.on("UPDATE_911_CALLS", () => getActive911Calls());
+
+    socket.on("NEW_911_CALL", () => {
+      playSound("/sounds/new-call.mp3");
+    });
   }, [getActive911Calls]);
 
   return (
