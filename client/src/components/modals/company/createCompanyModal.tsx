@@ -4,7 +4,7 @@ import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import Citizen from "../../../interfaces/Citizen";
-import { createCompany } from "../../../lib/actions/citizen";
+import { createCompany } from "../../../lib/actions/company";
 import AlertMessage from "../../alert-message";
 
 interface Props {
@@ -110,8 +110,8 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
-  citizens: state.citizen.citizens,
+  error: state.company.error,
+  citizens: state.company.citizens,
 });
 
 export default connect(mapToProps, { createCompany })(CreateCompanyModal);

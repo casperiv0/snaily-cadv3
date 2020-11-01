@@ -7,7 +7,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "postserve": "npm install -g serve",
-    "serve": "serve -s build -l 5000"
+    "serve": "serve -s build -l 5000",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "keywords": [],
   "author": "",
@@ -51,6 +53,12 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "plugin:prettier/recommended"
     ]
   }
 }

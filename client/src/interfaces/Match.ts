@@ -9,6 +9,8 @@ interface Match extends match {
     username: string;
     companySlug: string;
     path: ValuePaths;
+    citizenId: string;
+    companyId: string;
   };
 }
 

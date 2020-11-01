@@ -1,5 +1,4 @@
 import Citizen from "../../interfaces/Citizen";
-import Company from "../../interfaces/Company";
 import MedicalRecord from "../../interfaces/MedicalRecord";
 import Vehicle from "../../interfaces/Vehicle";
 import Weapon from "../../interfaces/Weapon";
@@ -23,11 +22,6 @@ import {
   GET_VEHICLE_BY_ID,
   GET_ALL_CITIZENS,
   TRANSFER_VEHICLE_ERROR,
-  GET_COMPANY_DATA,
-  CREATE_COMPANY_ERROR,
-  CREATE_COMPANY,
-  JOIN_COMPANY,
-  JOIN_COMPANY_ERROR,
 } from "../types";
 
 const initState = {
@@ -36,7 +30,6 @@ const initState = {
   weapons: [],
   vehicles: [],
   medicalRecords: [],
-  companies: [],
   vehicle: null,
 };
 
@@ -112,25 +105,6 @@ type Actions =
     }
   | {
       type: typeof TRANSFER_VEHICLE_ERROR;
-      error: string;
-    }
-  | {
-      type: typeof GET_COMPANY_DATA;
-      companies: Company[];
-      citizens: Citizen[];
-    }
-  | {
-      type: typeof CREATE_COMPANY_ERROR;
-      error: string;
-    }
-  | {
-      type: typeof CREATE_COMPANY;
-    }
-  | {
-      type: typeof JOIN_COMPANY;
-    }
-  | {
-      type: typeof JOIN_COMPANY_ERROR;
       error: string;
     };
 
@@ -224,26 +198,6 @@ export default function citizenReducer(state = initState, action: Actions) {
         citizens: action.citizens,
       };
     case "TRANSFER_VEHICLE_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
-    case "GET_COMPANY_DATA":
-      return {
-        ...state,
-        companies: action.companies,
-        citizens: action.citizens,
-      };
-    case "CREATE_COMPANY_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
-    case "JOIN_COMPANY":
-      return {
-        ...state,
-      };
-    case "JOIN_COMPANY_ERROR":
       return {
         ...state,
         error: action.error,

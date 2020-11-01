@@ -12,6 +12,7 @@ import emsFdReducer from "./emsFdReducer";
 import citizenReducer from "./citizenReducer";
 import valuesReducer from "./valuesReducer";
 import adminReducer from "./adminReducer";
+import companyReducer from "./companyReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -26,4 +27,5 @@ export default combineReducers({
   citizen: citizenReducer,
   values: valuesReducer,
   admin: adminReducer,
+  company: companyReducer,
 });

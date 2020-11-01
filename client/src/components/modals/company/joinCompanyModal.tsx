@@ -6,7 +6,7 @@ import Citizen from "../../../interfaces/Citizen";
 import Company from "../../../interfaces/Company";
 import AlertMessage from "../../alert-message";
 import State from "../../../interfaces/State";
-import { joinCompany } from "../../../lib/actions/citizen";
+import { joinCompany } from "../../../lib/actions/company";
 
 interface Props {
   citizens: Citizen[];
@@ -106,9 +106,9 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
 };
 
 const mapToProps = (state: State) => ({
-  citizens: state.citizen.citizens,
-  companies: state.citizen.companies,
-  error: state.citizen.error,
+  citizens: state.company.citizens,
+  companies: state.company.companies,
+  error: state.company.error,
 });
 
 export default connect(mapToProps, { joinCompany })(JoinCompanyModal);

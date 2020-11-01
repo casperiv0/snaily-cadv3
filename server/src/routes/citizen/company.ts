@@ -15,6 +15,20 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ citizens, companies, status: "success" });
 });
 
+router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+  const company = await processQuery(
+    "SELECT * FROM `businesses` WHERE `id` = ?",
+    [id]
+  );
+  const posts = await processQuery(
+    "SELECT * FROM `posts` WHERE `business_id` = ?",
+    [id]
+  );
+
+  return res.json({ company: company[0], posts, status: "success" });
+});
+
 router.post("/join", useAuth, async (req: IRequest, res: Response) => {
   const { company_id, citizen_id } = req.body;
 

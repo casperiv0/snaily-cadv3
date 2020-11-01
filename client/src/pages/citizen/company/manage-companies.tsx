@@ -5,7 +5,7 @@ import Layout from "../../../components/Layout";
 import JoinCompanyModal from "../../../components/modals/company/joinCompanyModal";
 import CreateCompanyModal from "../../../components/modals/company/createCompanyModal";
 import lang from "../../../language.json";
-import { getCompanyData } from "../../../lib/actions/citizen";
+import { getCompanyData } from "../../../lib/actions/company";
 
 interface Props {
   message: string;

@@ -55,5 +55,13 @@
         "react/display-name": "off"
       }
     }
-  ]
+  ],
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "fragment": "Fragment",
+      "version": "detect"
+    }
+  }
 }
