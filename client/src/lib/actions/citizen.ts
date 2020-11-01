@@ -1,3 +1,4 @@
+import { Dispatch } from "react";
 import Citizen from "../../interfaces/Citizen";
 import Logger from "../Logger";
 import {
@@ -24,12 +25,15 @@ import {
   GET_ALL_CITIZENS,
   TRANSFER_VEHICLE,
   TRANSFER_VEHICLE_ERROR,
+  GET_COMPANY_DATA,
+  JOIN_COMPANY,
+  CREATE_COMPANY,
 } from "../types";
-import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
 import Weapon from "../../interfaces/Weapon";
 import Vehicle from "../../interfaces/Vehicle";
 import MedicalRecord from "../../interfaces/MedicalRecord";
+import Company from "../../interfaces/Company";
 
 interface IDispatch {
   type: string;
@@ -40,6 +44,7 @@ interface IDispatch {
   vehicles?: Vehicle[];
   vehicle?: Vehicle;
   medicalRecords?: MedicalRecord[];
+  companies?: Company[];
 }
 
 export const getCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -387,5 +392,50 @@ export const getAllCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_ALL_CITIZENS, e);
+  }
+};
+
+export const getCompanyData = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/citizen/company", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_COMPANY_DATA,
+        companies: res.data.companies,
+        citizens: res.data.citizens,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_COMPANY_DATA, e);
+  }
+};
+
+export const joinCompany = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/citizen/company/join", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: JOIN_COMPANY,
+      });
+    }
+  } catch (e) {
+    Logger.error(JOIN_COMPANY, e);
+  }
+};
+
+export const createCompany = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/citizen/company/create", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: CREATE_COMPANY,
+      });
+      window.location.href = `/company/${res.data.companyId}`;
+    }
+  } catch (e) {
+    Logger.error(CREATE_COMPANY, e);
   }
 };

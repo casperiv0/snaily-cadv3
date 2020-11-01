@@ -67,7 +67,7 @@ const CitizensPage: React.FC<Props> = (props) => {
         </div>
 
         <div className="d-flex mt-1">
-          <a href="/manage-companies" className="col btn btn-primary">
+          <a href="/citizen/manage-companies" className="col btn btn-primary">
             {lang.citizen.employment_status}
           </a>
           <button

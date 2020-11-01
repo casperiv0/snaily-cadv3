@@ -68,6 +68,7 @@ interface State {
   citizen: {
     error: string;
     citizens: Citizen[];
+    companies: Company[];
     citizen: Citizen;
     weapons: Weapon[];
     vehicles: Vehicle[];
