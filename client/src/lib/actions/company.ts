@@ -10,6 +10,8 @@ import {
   CREATE_COMPANY_ERROR,
   JOIN_COMPANY_ERROR,
   GET_COMPANY_BY_ID,
+  CREATE_COMPANY_POST,
+  CREATE_COMPANY_POST_ERROR,
 } from "../types";
 
 interface IDispatch {
@@ -91,5 +93,25 @@ export const getCompanyById = (id: string) => async (dispatch: Dispatch<IDispatc
     }
   } catch (e) {
     Logger.error(GET_COMPANY_BY_ID, e);
+  }
+};
+
+export const createCompanyPost = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/citizen/company/post", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: CREATE_COMPANY_POST,
+      });
+      window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
+    } else {
+      dispatch({
+        type: CREATE_COMPANY_POST_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(CREATE_COMPANY_POST, e);
   }
 };

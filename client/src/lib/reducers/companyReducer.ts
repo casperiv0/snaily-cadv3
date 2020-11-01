@@ -7,6 +7,7 @@ import {
   JOIN_COMPANY,
   JOIN_COMPANY_ERROR,
   GET_COMPANY_BY_ID,
+  CREATE_COMPANY_POST_ERROR,
 } from "../types";
 
 const initState = {
@@ -41,6 +42,10 @@ type Actions =
       type: typeof GET_COMPANY_BY_ID;
       company: Company;
       posts: CompanyPost[];
+    }
+  | {
+      type: typeof CREATE_COMPANY_POST_ERROR;
+      error: string;
     };
 
 export default function companyReducer(state = initState, action: Actions) {
@@ -70,6 +75,11 @@ export default function companyReducer(state = initState, action: Actions) {
         ...state,
         company: action.company,
         posts: action.posts,
+      };
+    case "CREATE_COMPANY_POST_ERROR":
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return {

@@ -65,14 +65,14 @@ const CompanyPage: React.FC<Props> = ({
       <div className="mt-3">
         {posts.map((post: CompanyPost, idx: number) => {
           return (
-            <div key={idx} id={`${idx}`} className="card bg-dark border-secondary">
+            <div key={idx} id={`${idx}`} className="card bg-dark border-secondary mb-2">
               <div className="card-header">{post.title}</div>
 
               <div className="card-body">{post.description}</div>
 
               <div className="card-footer">
                 <Span>{lang.citizen.company.uploaded_at}: </Span>{" "}
-                {new Date(Number(post.uploaded_at)).toDateString()} |{" "}
+                {new Date(Number(post.uploaded_at)).toLocaleDateString()} |{" "}
                 <Span>{lang.citizen.company.uploaded_by}: </Span> {post.uploaded_by}
               </div>
             </div>

@@ -22,7 +22,7 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
     [id]
   );
   const posts = await processQuery(
-    "SELECT * FROM `posts` WHERE `business_id` = ?",
+    "SELECT * FROM `posts` WHERE `business_id` = ? ORDER BY `uploaded_at` DESC",
     [id]
   );
 
@@ -119,6 +119,70 @@ router.post("/create", useAuth, async (req: IRequest, res: Response) => {
     });
   } else {
     return res.json({ error: "Please fill in all fields", status: "error" });
+  }
+});
+
+router.post("/post", useAuth, async (req: IRequest, res: Response) => {
+  const { title, description, company_id, citizen_id } = req.body;
+
+  if (title && description && company_id && citizen_id) {
+    const citizen = await processQuery(
+      "SELECT `id`, `full_name` FROM `citizens` WHERE `id` = ?",
+      [citizen_id]
+    );
+    const company = await processQuery(
+      "SELECT * FROM `businesses` WHERE `id` = ?",
+      [company_id]
+    );
+
+    if (!citizen[0]) {
+      return res.json({
+        error: "Citizen was not found",
+        status: "error",
+      });
+    }
+
+    if (citizen[0].posts === "0") {
+      return res.json({
+        error: "You are not allowed to create posts for this company",
+        status: "error",
+      });
+    }
+
+    if (!company[0]) {
+      return res.json({
+        error: "Company was not found",
+        status: "error",
+      });
+    }
+
+    const postId = uuidv4();
+    const uploadedAt = Date.now();
+
+    await processQuery(
+      "INSERT INTO `posts` (`id`, `business_id`, `title`, `description`, `citizen_id`, `uploaded_at`, `uploaded_by`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ",
+      [
+        postId,
+        company_id,
+        title,
+        description,
+        citizen[0].id,
+        uploadedAt,
+        citizen[0].full_name,
+        req.user?.id,
+      ]
+    );
+
+    return res.json({
+      status: "success",
+      companyId: company_id,
+      citizenId: citizen_id,
+    });
+  } else {
+    return res.json({
+      error: "Please fill in all fields",
+      status: "error",
+    });
   }
 });
 
