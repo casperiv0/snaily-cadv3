@@ -5,13 +5,15 @@ import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import Citizen from "../../../interfaces/Citizen";
 import { createCompany } from "../../../lib/actions/citizen";
+import AlertMessage from "../../alert-message";
 
 interface Props {
   citizens: Citizen[];
   createCompany: (data: object) => void;
+  error: string;
 }
 
-const CreateCompanyModal: React.FC<Props> = ({ citizens, createCompany }) => {
+const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany }) => {
   const [address, setAddress] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
   const [whitelist, setWhitelist] = React.useState<string>("no");
@@ -38,6 +40,7 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, createCompany }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
+          {error ? <AlertMessage type="warning" message={error} /> : null}
           <div className="form-group">
             <label htmlFor="company_name">{lang.citizen.company.name}</label>
             <input
@@ -107,6 +110,7 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, createCompany }) => {
 };
 
 const mapToProps = (state: State) => ({
+  error: state.citizen.error,
   citizens: state.citizen.citizens,
 });
 

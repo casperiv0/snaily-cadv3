@@ -39,7 +39,7 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+          {error ? <AlertMessage type="warning" message={error} /> : null}
           <div className="form-group">
             <label htmlFor="citizen">{lang.citizen.company.select_cit}</label>
             {!citizens[0] ? (

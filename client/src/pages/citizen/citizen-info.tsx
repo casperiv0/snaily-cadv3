@@ -114,7 +114,7 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
               <Item id="height">
                 <Span>{lang.citizen.employer}: </Span>
                 {citizen.business !== "none" ? (
-                  <a href={`/company/${citizen.id}/${citizen.business}`}>{citizen.business}</a>
+                  <a href={`/company/${citizen.id}/${citizen.business_id}`}>{citizen.business}</a>
                 ) : (
                   lang.citizen.not_working
                 )}

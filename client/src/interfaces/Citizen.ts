@@ -16,6 +16,7 @@ interface Citizen {
   pilot_license: string;
   ccw: string;
   business?: string;
+  business_id?: string;
   rank?: "owner" | "manager" | "employee" | "";
   vehicle_reg?: string;
   posts?: string;

@@ -28,6 +28,8 @@ import {
   GET_COMPANY_DATA,
   JOIN_COMPANY,
   CREATE_COMPANY,
+  CREATE_COMPANY_ERROR,
+  JOIN_COMPANY_ERROR,
 } from "../types";
 import { handleRequest, isSuccess } from "../functions";
 import Weapon from "../../interfaces/Weapon";
@@ -419,6 +421,12 @@ export const joinCompany = (data: object) => async (dispatch: Dispatch<IDispatch
       dispatch({
         type: JOIN_COMPANY,
       });
+      window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
+    } else {
+      dispatch({
+        type: JOIN_COMPANY_ERROR,
+        error: res.data.error,
+      });
     }
   } catch (e) {
     Logger.error(JOIN_COMPANY, e);
@@ -433,7 +441,12 @@ export const createCompany = (data: object) => async (dispatch: Dispatch<IDispat
       dispatch({
         type: CREATE_COMPANY,
       });
-      window.location.href = `/company/${res.data.companyId}`;
+      window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
+    } else {
+      dispatch({
+        type: CREATE_COMPANY_ERROR,
+        error: res.data.error,
+      });
     }
   } catch (e) {
     Logger.error(CREATE_COMPANY, e);
