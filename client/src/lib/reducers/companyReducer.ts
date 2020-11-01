@@ -1,5 +1,6 @@
 import Citizen from "../../interfaces/Citizen";
 import Company, { CompanyPost } from "../../interfaces/Company";
+import Vehicle from "../../interfaces/Vehicle";
 import {
   GET_COMPANY_DATA,
   CREATE_COMPANY_ERROR,
@@ -8,6 +9,7 @@ import {
   JOIN_COMPANY_ERROR,
   GET_COMPANY_BY_ID,
   CREATE_COMPANY_POST_ERROR,
+  UPDATE_COMPANY_ERROR,
 } from "../types";
 
 const initState = {
@@ -16,6 +18,8 @@ const initState = {
   company: null,
   error: null,
   posts: [],
+  employees: [],
+  vehicles: [],
 };
 
 type Actions =
@@ -42,9 +46,15 @@ type Actions =
       type: typeof GET_COMPANY_BY_ID;
       company: Company;
       posts: CompanyPost[];
+      employees: Citizen[];
+      vehicles: Vehicle[];
     }
   | {
       type: typeof CREATE_COMPANY_POST_ERROR;
+      error: string;
+    }
+  | {
+      type: typeof UPDATE_COMPANY_ERROR;
       error: string;
     };
 
@@ -75,8 +85,15 @@ export default function companyReducer(state = initState, action: Actions) {
         ...state,
         company: action.company,
         posts: action.posts,
+        employees: action.employees,
+        vehicles: action.vehicles,
       };
     case "CREATE_COMPANY_POST_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "UPDATE_COMPANY_ERROR":
       return {
         ...state,
         error: action.error,

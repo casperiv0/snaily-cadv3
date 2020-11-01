@@ -30,7 +30,7 @@ router.get("/i/:id", useAuth, async (req: IRequest, res: Response) => {
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
-  const { plate, status, color, vehicle, citizenId } = req.body;
+  const { plate, status, color, vehicle, citizenId, businessId } = req.body;
 
   if (plate && status && color && vehicle && citizenId) {
     const citizen = await processQuery(
@@ -61,7 +61,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     const vin = generateVinNumber();
 
     await processQuery(
-      "INSERT INTO `registered_cars` (`id`, `owner`, `citizen_id`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `user_id`, `company`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO `registered_cars` (`id`, `owner`, `citizen_id`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `user_id`, `business_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         id,
         citizen[0].full_name,
@@ -72,7 +72,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
         plate,
         color,
         req.user?.id,
-        "",
+        businessId,
       ]
     );
 

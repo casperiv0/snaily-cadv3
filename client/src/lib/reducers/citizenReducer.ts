@@ -31,6 +31,7 @@ const initState = {
   vehicles: [],
   medicalRecords: [],
   vehicle: null,
+  citizen: null,
 };
 
 type Actions =

@@ -9,7 +9,12 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:json/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:promise/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -23,7 +28,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "json", "promise"],
   "rules": {
     "quotes": ["error", "double"],
     "semi": ["error", "always"],

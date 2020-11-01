@@ -7,7 +7,7 @@ interface Props {
   citizen: Citizen;
 }
 
-export const LicenseCard: React.FC<Props> = ({ citizen }) => {
+const LicenseCard: React.FC<Props> = ({ citizen }) => {
   return (
     <div className="card bg-dark border-dark mt-1">
       <div className="card-header d-flex justify-content-between">

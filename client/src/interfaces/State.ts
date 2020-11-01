@@ -12,7 +12,7 @@ import Citizen from "./Citizen";
 import Value from "./Value";
 import Weapon from "./Weapon";
 import Vehicle from "./Vehicle";
-import Company from "./Company";
+import Company, { CompanyPost } from "./Company";
 import CadInfo from "./CadInfo";
 
 interface State {
@@ -79,7 +79,9 @@ interface State {
     companies: Company[];
     error: string;
     company: Company;
-    posts: any[];
+    posts: CompanyPost[];
+    employees: Citizen[];
+    vehicles: Vehicle[];
   };
   values: {
     genders: Value[];

@@ -25,8 +25,21 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
     "SELECT * FROM `posts` WHERE `business_id` = ? ORDER BY `uploaded_at` DESC",
     [id]
   );
-
-  return res.json({ company: company[0], posts, status: "success" });
+  const employees = await processQuery(
+    "SELECT * FROM `citizens` WHERE `business_id` = ?",
+    [id]
+  );
+  const vehicles = await processQuery(
+    "SELECT * FROM `registered_cars` WHERE `business_id` = ?",
+    [id]
+  );
+  return res.json({
+    company: company[0],
+    posts,
+    employees,
+    vehicles,
+    status: "success",
+  });
 });
 
 router.post("/join", useAuth, async (req: IRequest, res: Response) => {
@@ -59,8 +72,8 @@ router.post("/join", useAuth, async (req: IRequest, res: Response) => {
     const bStatus = company[0].whitelisted === "0" ? "accepted" : "pending";
 
     await processQuery(
-      "UPDATE `citizens` SET `business` = ?, `business_id` = ?, `b_status` = ? WHERE `id` = ?",
-      [company[0].name, company[0].id, bStatus, citizen[0].id]
+      "UPDATE `citizens` SET `business` = ?, `business_id` = ?, `b_status` = ?, `rank` = ?  WHERE `id` = ?",
+      [company[0].name, company[0].id, bStatus, "employee", citizen[0].id]
     );
 
     return res.json({
@@ -184,6 +197,79 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
       status: "error",
     });
   }
+});
+
+router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { name, whitelisted, address } = req.body;
+  const { id } = req.params;
+
+  if (name && whitelisted && address) {
+    const company = await processQuery(
+      "SELECT * FROM `businesses` WHERE `id` = ?",
+      [id]
+    );
+
+    if (name.toLowerCase() !== company[0].name.toLowerCase()) {
+      const existing = await processQuery(
+        "SELECT * FROM `businesses` WHERE `name` = ?",
+        [name]
+      );
+
+      if (existing[0]) {
+        return res.json({
+          error: "Name is already in use",
+          status: "error",
+        });
+      }
+    }
+
+    await processQuery(
+      "UPDATE `businesses` SET `name` = ?, `address` = ?, `whitelisted` = ? WHERE `id` = ?",
+      [name, address, whitelisted, id]
+    );
+
+    return res.json({ status: "success" });
+  } else {
+    return res.json({
+      error: "Please fill in all fields",
+      status: "error",
+    });
+  }
+});
+
+router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { citizenId } = req.body;
+  const { id } = req.params;
+
+  if (!citizenId) return res.end();
+
+  const citizen = await processQuery(
+    "SELECT * FROM `citizens` WHERE `id` = ?",
+    [citizenId]
+  );
+
+  if (!citizen[0]) {
+    return res.json({
+      error: "Citizen was not found",
+      status: "error",
+    });
+  }
+
+  if (citizen[0].rank !== "owner") {
+    return res.json({
+      error: "Forbidden",
+      status: "error",
+    });
+  }
+
+  await processQuery(
+    "UPDATE `citizens` SET `business` = ?, `business_id` = ?, `rank` = ? WHERE `business_id` = ?",
+    ["none", "", "", id]
+  );
+
+  await processQuery("DELETE FROM `businesses` WHERE `id` = ?", [id]);
+
+  return res.json({ status: "success" });
 });
 
 export default router;
