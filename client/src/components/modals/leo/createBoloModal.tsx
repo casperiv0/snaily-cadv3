@@ -27,6 +27,12 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
       description,
     });
 
+    setType("");
+    setName("");
+    setPlate("");
+    setColor("");
+    setDescription("");
+
     btnRef.current?.click();
   }
 

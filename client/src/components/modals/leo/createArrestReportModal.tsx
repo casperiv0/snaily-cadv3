@@ -1,14 +1,14 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import Field from "../../../interfaces/Field";
 import AlertMessage from "../../alert-message";
-import { connect } from "react-redux";
 import Modal, { XButton } from "../index";
 import { creatArrestReport } from "../../../lib/actions/records";
 
 interface Props {
-  error: string | null;
+  error: string;
   creatArrestReport: (data: {
     name: string;
     officer_name: string;

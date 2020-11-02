@@ -14,8 +14,8 @@ const initState = {
   deputies: [],
   medicalRecords: [],
   error: null,
-  status: null /* 'on-duty' or 'off-duty' */,
-  status2: "" /* '10-11', '10-5', '10-6', .. */,
+  status: null,
+  status2: "",
 };
 
 type Actions =

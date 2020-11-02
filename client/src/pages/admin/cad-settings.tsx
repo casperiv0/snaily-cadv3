@@ -1,13 +1,16 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
 import AlertMessage from "../../components/alert-message";
 import CadInfo from "../../interfaces/CadInfo";
 import State from "../../interfaces/State";
+import User from "../../interfaces/User";
 import lang from "../../language.json";
 import { updateCadSettings } from "../../lib/actions/admin";
 
 interface Props {
+  user: User;
   message: string;
   cadInfo: CadInfo;
   updateCadSettings: (data: {
@@ -19,7 +22,7 @@ interface Props {
   }) => void;
 }
 
-const CadSettingsPage: React.FC<Props> = ({ message, cadInfo, updateCadSettings }) => {
+const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSettings }) => {
   const [cadName, setCadName] = React.useState("");
   const [aop, setAop] = React.useState("");
   const [whitelisted, setWhitelisted] = React.useState("");
@@ -50,6 +53,10 @@ const CadSettingsPage: React.FC<Props> = ({ message, cadInfo, updateCadSettings 
       tow_whitelisted: towWhitelist,
       company_whitelisted: companyWl,
     });
+  }
+
+  if (user?.rank !== "owner") {
+    return <Redirect to="/forbidden" />;
   }
 
   return (
@@ -172,6 +179,7 @@ const CadSettingsPage: React.FC<Props> = ({ message, cadInfo, updateCadSettings 
 const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
   message: state.global.message,
+  user: state.auth.user,
 });
 
 export default connect(mapToProps, { updateCadSettings })(CadSettingsPage);

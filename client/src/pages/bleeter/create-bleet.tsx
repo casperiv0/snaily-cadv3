@@ -35,7 +35,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
             type="text"
             value={title}
             id="title"
-            className="form-control bg-secondary border-secondary text-light"
+            className="form-control bg-dark border-dark text-light"
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
@@ -43,7 +43,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
         <div className="form-group">
           <label htmlFor="body">{lang.bleeter.bleet_body}</label>
           <textarea
-            className="form-control bg-secondary border-secondary text-light"
+            className="form-control bg-dark border-dark text-light"
             title="body"
             value={body}
             rows={10}

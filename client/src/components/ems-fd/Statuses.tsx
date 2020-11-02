@@ -10,7 +10,7 @@ interface Props {
   status: string;
   status2: string;
   setEmsStatus: (id: string, status: "on-duty" | "off-duty" | string, status2: string) => void;
-  getCurrentEmsStatus: (id: string) => void;
+  getCurrentEmsStatus: () => void;
 }
 
 const Statuses: React.FC<Props> = ({
@@ -22,14 +22,14 @@ const Statuses: React.FC<Props> = ({
   const deputyId = String(localStorage.getItem("on-duty-ems-fd"));
 
   React.useEffect(() => {
-    getCurrentEmsStatus(deputyId);
-  }, [getCurrentEmsStatus, deputyId]);
+    getCurrentEmsStatus();
+  }, [getCurrentEmsStatus]);
 
   React.useEffect(() => {
     socket.on("UPDATE_ACTIVE_UNITS", () => {
-      getCurrentEmsStatus(deputyId);
+      getCurrentEmsStatus();
     });
-  }, [getCurrentEmsStatus, deputyId]);
+  }, [getCurrentEmsStatus]);
 
   function updateStatus(e: any) {
     const status = e.target.value;

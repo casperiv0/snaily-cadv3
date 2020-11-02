@@ -73,7 +73,7 @@ const PenalCodesPage: React.FC = () => {
               className="list-group-item bg-dark border-secondary"
             >
               <h4>{code.title}</h4>
-              <Markdown escapeHtml={false} source={code.des} />
+              <Markdown className="mt-4 pl-4" escapeHtml={false} source={code.des} />
             </li>
           );
         })}

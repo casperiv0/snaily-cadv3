@@ -1,4 +1,7 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import State from "../../interfaces/State";
+import User from "../../interfaces/User";
 import lang from "../../language.json";
 
 const styles: React.CSSProperties = {
@@ -25,7 +28,11 @@ const item: React.CSSProperties = {
   marginBottom: "1rem",
 };
 
-const AdminSidebar: React.FC = () => {
+interface Props {
+  user: User;
+}
+
+const AdminSidebar: React.FC<Props> = ({ user }) => {
   return (
     <nav style={styles} className="bg-dark" id="admin-nav">
       <div style={content}>
@@ -42,9 +49,11 @@ const AdminSidebar: React.FC = () => {
           <a className="text-decoration-none admin-link" href="/admin/manage/companies">
             {lang.admin.company_management}
           </a>
-          <a className="text-decoration-none admin-link" href="/admin/cad-settings">
-            {lang.admin.cad_settings.cad_settings}
-          </a>
+          {user?.rank === "owner" ? (
+            <a className="text-decoration-none admin-link" href="/admin/cad-settings">
+              {lang.admin.cad_settings.cad_settings}
+            </a>
+          ) : null}
         </div>
 
         <div style={item}>
@@ -75,4 +84,8 @@ const AdminSidebar: React.FC = () => {
   );
 };
 
-export default AdminSidebar;
+const mapToProps = (state: State) => ({
+  user: state.auth.user,
+});
+
+export default connect(mapToProps)(AdminSidebar);

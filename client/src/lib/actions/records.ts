@@ -20,6 +20,15 @@ interface IDispatch {
   message?: string;
 }
 
+export function resetError(type: string, dispatch: Dispatch<IDispatch>) {
+  setTimeout(() => {
+    dispatch({
+      type: type,
+      error: "",
+    });
+  }, 200);
+}
+
 export const createWarrant = (data: {
   fullName: string;
   status: string;
@@ -41,7 +50,6 @@ export const createWarrant = (data: {
         type: CREATE_WARRANT_ERROR,
         error: res.data.error,
       });
-      Logger.log("CREATE_WARRANT_ERROR", res.data.error);
     }
   } catch (e) {
     Logger.error(CREATE_WARRANT, e);
@@ -66,6 +74,7 @@ export const createWrittenWarning = (data: {
         type: SET_MESSAGE,
         message: `${lang.record.created_warning} ${data.name}`,
       });
+      resetError(CREATE_WRITTEN_WARNING_ERROR, dispatch);
     } else {
       dispatch({
         type: CREATE_WRITTEN_WARNING_ERROR,
@@ -95,6 +104,7 @@ export const creatArrestReport = (data: {
         type: SET_MESSAGE,
         message: `${lang.record.created_arrest_report} ${data.name}`,
       });
+      resetError(CREATE_ARREST_REPORT_ERROR, dispatch);
     } else {
       dispatch({
         type: CREATE_ARREST_REPORT_ERROR,
@@ -124,6 +134,7 @@ export const createTicket = (data: {
         type: SET_MESSAGE,
         message: `${lang.record.created_ticket} ${data.name}`,
       });
+      resetError(CREATE_TICKET_ERROR, dispatch);
     } else {
       dispatch({
         type: CREATE_TICKET_ERROR,

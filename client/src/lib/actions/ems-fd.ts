@@ -61,8 +61,9 @@ export const getMyDeputies = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const getCurrentEmsStatus = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+export const getCurrentEmsStatus = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
+    const id = localStorage.getItem("on-duty-ems-fd");
     const res = await handleRequest(`/ems-fd/status/${id}`, "GET");
 
     if (isSuccess(res)) {
@@ -83,17 +84,18 @@ export const setEmsStatus = (
   status2: string,
 ) => async (dispatch: Dispatch<IDispatch>) => {
   try {
+    localStorage.setItem("on-duty-ems-fd", id);
     const data = { id: id, status: status, status2: status2 };
     const res = await handleRequest(`/ems-fd/status/${id}`, "PUT", data);
 
     if (isSuccess(res)) {
+      socket.emit("UPDATE_ACTIVE_UNITS");
+
       dispatch({
         type: SET_EMS_STATUS,
         status: res.data.deputy.status,
         status2: res.data.deputy.status2,
       });
-      socket.emit("UPDATE_ACTIVE_UNITS");
-      localStorage.setItem("on-duty-ems-fd", id);
     }
   } catch (e) {
     Logger.error(SET_EMS_STATUS, e);

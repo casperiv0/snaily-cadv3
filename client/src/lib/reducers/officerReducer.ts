@@ -27,7 +27,7 @@ const initState = {
   officerName: null,
   officers: [],
   departments: [],
-  error: null,
+  error: "",
   search: null,
 };
 

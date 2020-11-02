@@ -89,7 +89,7 @@ router.put(
       [id]
     );
 
-    return res.json({ status: "success", deputy: updated });
+    return res.json({ status: "success", deputy: updated[0] });
   }
 );
 

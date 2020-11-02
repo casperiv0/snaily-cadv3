@@ -32,8 +32,9 @@ interface IDispatch {
   message?: string;
 }
 
-export const getCurrentOfficer = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+export const getCurrentOfficer = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
+    const id = localStorage.getItem("on-duty-officerId");
     const res = await handleRequest(`/officer/status/${id}`, "GET");
 
     if (isSuccess(res)) {
@@ -55,18 +56,19 @@ export const setStatus = (
   status2: string,
 ) => async (dispatch: Dispatch<IDispatch>) => {
   try {
+    localStorage.setItem("on-duty-officerId", id);
     const data = { status: status, status2: status2 };
     const res = await handleRequest(`/officer/status/${id}`, "PUT", data);
 
     if (isSuccess(res)) {
-      localStorage.setItem("on-duty-officerId", id);
+      socket.emit("UPDATE_ACTIVE_UNITS");
+
       dispatch({
         type: SET_STATUS,
         status: res.data.officer.status,
         status2: res.data.officer.status2,
         officerName: res.data.officer.officerName,
       });
-      socket.emit("UPDATE_ACTIVE_UNITS");
     }
   } catch (e) {
     Logger.error(SET_STATUS, e);
