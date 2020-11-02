@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "proxy": "http://192.168.0.179:5000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
