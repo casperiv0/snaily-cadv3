@@ -8,15 +8,19 @@ import { connect } from "react-redux";
 import { getLegalStatuses, getVehicles } from "../../../lib/actions/values";
 import { getCitizens, registerVehicle } from "../../../lib/actions/citizen";
 import AlertMessage from "../../../components/alert-message";
+import Company from "../../../interfaces/Company";
+import { getCompanies } from "../../../lib/actions/admin";
 
 interface Props {
   error: string;
   owners: Citizen[];
   vehicles: Value[];
   legalStatuses: Value[];
+  companies: Company[];
   getLegalStatuses: () => void;
   getVehicles: () => void;
   getCitizens: () => void;
+  getCompanies: () => void;
   registerVehicle: (data: object) => void;
 }
 
@@ -25,22 +29,26 @@ const RegisterVehiclePage: React.FC<Props> = ({
   owners,
   vehicles,
   legalStatuses,
+  companies,
   getLegalStatuses,
   getVehicles,
   getCitizens,
   registerVehicle,
+  getCompanies,
 }) => {
   const [plate, setPlate] = React.useState("");
   const [status, setStatus] = React.useState("");
   const [color, setColor] = React.useState("");
   const [vehicle, setVehicle] = React.useState("");
   const [citizenId, setCitizenId] = React.useState("");
+  const [companyId, setCompanyId] = React.useState("");
 
   React.useEffect(() => {
     getLegalStatuses();
     getVehicles();
     getCitizens();
-  }, [getVehicles, getLegalStatuses, getCitizens]);
+    getCompanies();
+  }, [getVehicles, getLegalStatuses, getCitizens, getCompanies]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -51,6 +59,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
       color,
       vehicle,
       citizenId,
+      businessId: companyId,
     });
   }
 
@@ -97,7 +106,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
               .sort((a, b) => Number(a?.defaults) - Number(b?.defaults))
               .map((vehicle: Value, idx: number) => {
                 return (
-                  <option key={idx} id={`${idx}`}>
+                  <option value={vehicle.name} key={idx} id={`${idx}`}>
                     {vehicle.name}
                   </option>
                 );
@@ -141,8 +150,30 @@ const RegisterVehiclePage: React.FC<Props> = ({
             </option>
             {legalStatuses.map((status: Value, idx: number) => {
               return (
-                <option key={idx} id={`${idx}`}>
+                <option value={status.name} key={idx} id={`${idx}`}>
                   {status.name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="status">{lang.citizen.vehicle.company}</label>
+          <select
+            id="company"
+            value={companyId}
+            onChange={(e) => setCompanyId(e.target.value)}
+            className="form-control bg-dark border-dark text-light"
+          >
+            <option value="">{lang.global?.select}</option>
+            <option value="" disabled>
+              --------
+            </option>
+            {companies.map((company: Company, idx: number) => {
+              return (
+                <option value={company.id} key={idx} id={`${idx}`}>
+                  {company.name}
                 </option>
               );
             })}
@@ -167,6 +198,7 @@ const mapToProps = (state: State) => ({
   owners: state.citizen.citizens,
   vehicles: state.values.vehicles,
   legalStatuses: state.values["legal-statuses"],
+  companies: state.admin.companies,
 });
 
 export default connect(mapToProps, {
@@ -174,4 +206,5 @@ export default connect(mapToProps, {
   getVehicles,
   getCitizens,
   registerVehicle,
+  getCompanies,
 })(RegisterVehiclePage);

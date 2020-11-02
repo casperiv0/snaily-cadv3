@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
 import Citizen from "../../interfaces/Citizen";
 import Logger from "../Logger";
+import lang from "../../language.json";
 import {
   CREATE_CITIZEN,
   CREATE_CITIZEN_ERROR,
@@ -25,6 +26,8 @@ import {
   GET_ALL_CITIZENS,
   TRANSFER_VEHICLE,
   TRANSFER_VEHICLE_ERROR,
+  REPORT_AS_STOLEN,
+  SET_MESSAGE,
 } from "../types";
 import { handleRequest, isSuccess } from "../functions";
 import Weapon from "../../interfaces/Weapon";
@@ -43,6 +46,7 @@ interface IDispatch {
   medicalRecords?: MedicalRecord[];
   companies?: Company[];
   company?: Company;
+  message?: string;
 }
 
 export const getCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -234,7 +238,23 @@ export const registerVehicle = (data: object) => async (dispatch: Dispatch<IDisp
   }
 };
 
-export const reportAsStolen = (id: string) => async (dispatch: Dispatch<IDispatch>) => {};
+export const reportAsStolen = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/citizen/vehicles/report-stolen/${id}`, "PUT");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: REPORT_AS_STOLEN,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.citizen.vehicle.reported_stolen,
+      });
+    }
+  } catch (e) {
+    Logger.error(REPORT_AS_STOLEN, e);
+  }
+};
 
 export const deleteVehicle = (citizenId: string, vehicleId: string) => async (
   dispatch: Dispatch<IDispatch>,

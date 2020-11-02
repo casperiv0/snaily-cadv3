@@ -184,16 +184,11 @@ router.delete(
 );
 
 /* companies */
-router.get(
-  "/companies",
-  useAuth,
-  useAdminAuth,
-  async (_req: IRequest, res: Response) => {
-    const companies = await processQuery("SELECT * FROM `businesses`");
+router.get("/companies", useAuth, async (_req: IRequest, res: Response) => {
+  const companies = await processQuery("SELECT * FROM `businesses`");
 
-    return res.json({ companies, status: "success" });
-  }
-);
+  return res.json({ companies, status: "success" });
+});
 
 router.delete(
   "/companies/:id",

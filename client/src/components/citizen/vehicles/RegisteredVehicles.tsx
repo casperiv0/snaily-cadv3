@@ -90,7 +90,7 @@ const RegisteredVehicles: React.FC<Props> = ({
                         {lang.citizen.vehicle.transfer}
                       </a>
 
-                      {vehicle.in_status === "Reported as stolen" ? null : (
+                      {vehicle.in_status === "Reported stolen" ? null : (
                         <button
                           className="btn btn-dark mr-2"
                           onClick={() => reportAsStolen(vehicle.id)}

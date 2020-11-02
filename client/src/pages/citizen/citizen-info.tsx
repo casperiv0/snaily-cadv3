@@ -1,4 +1,5 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import Citizen from "../../interfaces/Citizen";
 import Match from "../../interfaces/Match";
@@ -9,12 +10,13 @@ import LicenseCard from "../../components/citizen/LicenseCard";
 import RegisteredWeapons from "../../components/citizen/weapons/RegisteredWeapons";
 import RegisteredVehicles from "../../components/citizen/vehicles/RegisteredVehicles";
 import MedicalRecords from "../../components/citizen/MedicalRecords";
-import { connect } from "react-redux";
+import AlertMessage from "../../components/alert-message";
 import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
 
 interface Props {
   citizen: Citizen;
   match: Match;
+  message: string;
   getCitizenById: (id: string) => void;
   deleteCitizen: (id: string) => void;
 }
@@ -31,7 +33,13 @@ export const Item: React.FC<{ id: string }> = ({ id, children }) => {
   );
 };
 
-const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, deleteCitizen }) => {
+const CitizenInfoPage: React.FC<Props> = ({
+  message,
+  citizen,
+  match,
+  getCitizenById,
+  deleteCitizen,
+}) => {
   const citizenId = match.params.id;
 
   React.useEffect(() => {
@@ -48,6 +56,7 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
 
   return (
     <Layout>
+      {message ? <AlertMessage type="success" message={message} /> : null}
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h3>{lang.admin.cad_settings.general_info}</h3>
@@ -137,6 +146,7 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
 
 const mapToProps = (state: State) => ({
   citizen: state.citizen.citizen,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { getCitizenById, deleteCitizen })(CitizenInfoPage);

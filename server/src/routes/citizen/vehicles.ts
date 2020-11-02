@@ -33,6 +33,8 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const { plate, status, color, vehicle, citizenId, businessId } = req.body;
 
   if (plate && status && color && vehicle && citizenId) {
+    const parsedPlate = plate.replace(/[oO]/g, "0");
+
     const citizen = await processQuery(
       "SELECT `full_name` FROM `citizens` WHERE `id` = ?",
       [citizenId]
@@ -40,7 +42,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
     const existingPlate = await processQuery(
       "SELECT `plate` from `registered_cars` WHERE `plate` = ?",
-      [plate]
+      [parsedPlate]
     );
 
     if (existingPlate[0]) {
@@ -69,7 +71,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
         vehicle,
         vin,
         status,
-        plate,
+        parsedPlate,
         color,
         req.user?.id,
         businessId,
@@ -130,6 +132,23 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
     return res.json({ status: "error", error: "Please fill in all fields" });
   }
 });
+
+router.put(
+  "/report-stolen/:vehicleId",
+  useAuth,
+  async (req: IRequest, res: Response) => {
+    const { vehicleId } = req.params;
+
+    await processQuery(
+      "UPDATE `registered_cars` SET `in_status` = ? WHERE `id` = ?",
+      ["Reported stolen", vehicleId]
+    );
+
+    return res.json({
+      status: "success",
+    });
+  }
+);
 
 router.delete(
   "/:citizenId/:vehicleId",
