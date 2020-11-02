@@ -197,6 +197,18 @@ router.delete(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
 
+    const employees = await processQuery(
+      "SELECT * FROM `citizens` WHERE `business_id` = ?",
+      [id]
+    );
+
+    employees?.forEach(async (em: any) => {
+      await processQuery(
+        "UPDATE `citizens` SET `business_id` = ?, `business` = ?, `rank` = ?, `vehicle_reg` = ?, `posts` = ?, `b_status` = ? WHERE `id` = ?",
+        ["", "none", "", "1", "1", "", em.id]
+      );
+    });
+
     await processQuery("DELETE FROM `businesses` WHERE `id` = ?", [id]);
 
     const companies = await processQuery("SELECT * FROM `businesses`");

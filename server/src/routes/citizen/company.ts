@@ -82,8 +82,8 @@ router.post("/create", useAuth, async (req: IRequest, res: Response) => {
     const businessId = uuidv4();
 
     await processQuery(
-      "UPDATE `citizens` SET `business` = ?, `business_id` = ? WHERE `id` = ?",
-      [name, businessId, citizen[0].id]
+      "UPDATE `citizens` SET `business` = ?, `business_id` = ?, `rank` = ?, `b_status` = ? WHERE `id` = ?",
+      [name, businessId, "owner", "accepted", citizen[0].id]
     );
     await processQuery(
       "INSERT INTO `businesses` (`id`, `name`, `owner`, `user_id`, `citizen_id`, `whitelisted`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -192,6 +192,13 @@ router.post("/:id", useAuth, async (req: IRequest, res: Response) => {
     if (!citizen[0]) {
       return res.json({
         error: "Citizen was not found",
+        status: "error",
+      });
+    }
+
+    if (citizen[0].b_status === "pending") {
+      return res.json({
+        error: "You are still awaiting access to this company",
         status: "error",
       });
     }

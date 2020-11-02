@@ -35,7 +35,7 @@ const Statuses: React.FC<Props> = ({
     const status = e.target.value;
 
     /* little spam protection */
-    if (currentStatus === status) return;
+    if (status2 === status) return;
 
     setEmsStatus(deputyId, "on-duty", status);
   }
