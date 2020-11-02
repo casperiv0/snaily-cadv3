@@ -8,12 +8,13 @@ import { createBleet } from "../../lib/actions/bleeter";
 
 interface Props {
   error: string;
-  createBleet: (data: object) => void;
+  createBleet: (data: { title: string; body: string; image: any }) => void;
 }
 
 const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
+  const [image, setImage] = React.useState<any>(null);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -21,6 +22,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
     createBleet({
       title,
       body,
+      image,
     });
   }
 
@@ -29,6 +31,16 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
       {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
+        <div className="form-group">
+          <label htmlFor="title">{lang.bleeter.bleet_title}</label>
+          <input
+            type="file"
+            id="image"
+            className="form-control form-control-file bg-dark border-dark text-light"
+            onChange={(e) => setImage(e.target.files![0])}
+          />
+        </div>
+
         <div className="form-group">
           <label htmlFor="title">{lang.bleeter.bleet_title}</label>
           <input

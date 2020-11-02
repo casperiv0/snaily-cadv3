@@ -28,21 +28,24 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const { title, body } = req.body;
   const file = req.files?.image;
-  const fileName = file?.name;
   const uploadedAt = Date.now();
   const user_id = req.user?.id;
+  const index = req.files?.image && file?.name.indexOf(".");
+  const imageId = file
+    ? `${uuidv4()}${file.name.slice(index!)}`
+    : "";
 
   if (title && body) {
     const markdown = useMarkdown(body);
     const id = uuidv4();
 
     await processQuery(
-      "INSERT INTO `bleets` (`id`, `title`, `body`, `markdown`, `user_id`, `uploaded_at`, `file_dir`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [id, title, body, markdown, user_id, uploadedAt, fileName || "", false, 0]
+      "INSERT INTO `bleets` (`id`, `title`, `body`, `markdown`, `user_id`, `uploaded_at`, `image_id`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [id, title, body, markdown, user_id, uploadedAt, imageId, false, 0]
     );
 
     if (file) {
-      file.mv(`./public/bleeter/${fileName}`);
+      file.mv(`./public/bleeter-images/${imageId}`);
     }
 
     return res.json({ status: "success", id: id });

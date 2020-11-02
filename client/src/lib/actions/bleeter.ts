@@ -58,9 +58,21 @@ export const getBleetById = (id: string) => async (dispatch: Dispatch<IDispatch>
   dispatch({ type: SET_LOADING_BLEETS, loading: false });
 };
 
-export const createBleet = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const createBleet = (data: { title: string; body: string; image: any }) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
   try {
-    const res = await handleRequest("/bleeter", "POST", data);
+    const { title, body, image } = data;
+
+    const fd = new FormData();
+
+    if (image) {
+      fd.append("image", image, image?.name);
+    }
+    fd.append("title", title);
+    fd.append("body", body);
+
+    const res = await handleRequest("/bleeter", "POST", fd);
 
     if (isSuccess(res)) {
       dispatch({

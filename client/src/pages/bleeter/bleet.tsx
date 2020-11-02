@@ -10,6 +10,7 @@ import lang from "../../language.json";
 import Markdown from "react-markdown";
 import User from "../../interfaces/User";
 import AlertMessage from "../../components/alert-message";
+import SERVER_URL from "../../config";
 
 interface Props {
   bleet: IBleet;
@@ -60,6 +61,13 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) =
           ) : null}
         </div>
       </div>
+
+      <img
+        style={{ width: "100%", height: "100%" }}
+        className="mt-3"
+        src={`${SERVER_URL}/static/bleeter-images/${bleet.image_id}`}
+        alt="bleet-image"
+      />
 
       <Markdown className="mt-3" escapeHtml={false} source={bleet.markdown} />
     </Layout>
