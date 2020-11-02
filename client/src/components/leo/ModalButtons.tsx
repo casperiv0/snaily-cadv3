@@ -67,9 +67,6 @@ const ModalButtons: React.FC = () => {
       <a className="btn btn-secondary col-md-2 mt-2 ml-1" href="/leo/penal-codes">
         {lang.global.penal_codes}
       </a>
-      <a className="btn btn-secondary col-md-2 mt-2 ml-1" href="/leo/10-codes">
-        {lang.global.codes_10}
-      </a>
     </>
   );
 };

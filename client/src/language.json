@@ -63,7 +63,6 @@
         "create_911_call": "Create 911 Call",
         "notepad": "Open Notepad",
         "penal_codes": "Penal Codes",
-        "codes_10": "10 Codes",
         "panic_button": "PANIC BUTTON",
         "active_erm_calls": "Active 911 Calls",
         "active_bolos": "Active Bolos",
@@ -340,7 +339,6 @@
         "select_department": "Select Department",
         "no_departments": "There are no departments Found.",
         "create_officer_success": "Successfully created: ",
-        "codes": "10 Codes",
         "back_to_dash": "Back to dashboard"
     },
     "citizen": {

@@ -83,7 +83,6 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
   - Create Arrest reports
   - Create bolos
   - Penal Codes
-  - 10-codes
   - Manage Status (10-8, 10-7, 10-6, 10-5, ...)
   - Create Warrants
   - See active 911 calls
