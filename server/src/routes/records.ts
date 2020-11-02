@@ -14,10 +14,22 @@ router.post(
     const { fullName, status, details } = req.body;
 
     if (fullName && status && details) {
+      const citizen = await processQuery(
+        "SELECT `id` FROM `citizens` WHERE `full_name` = ?",
+        [fullName]
+      );
+
+      if (!citizen[0]) {
+        return res.json({
+          error: "Citizen was not found",
+          status: "error",
+        });
+      }
+
       const id = uuidv4();
       await processQuery(
-        "INSERT INTO `warrants` (`id`, `name`, `reason`, `status`) VALUES (?, ?, ?, ?)",
-        [id, fullName, details, status]
+        "INSERT INTO `warrants` (`id`, `name`, `citizen_id`, `reason`, `status`) VALUES (?, ?, ?, ?, ?)",
+        [id, fullName, citizen[0].id, details, status]
       );
 
       return res.json({ status: "success" });

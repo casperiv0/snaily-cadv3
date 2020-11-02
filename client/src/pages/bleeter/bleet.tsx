@@ -62,12 +62,14 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) =
         </div>
       </div>
 
-      <img
-        style={{ width: "100%", height: "100%" }}
-        className="mt-3"
-        src={`${SERVER_URL}/static/bleeter-images/${bleet.image_id}`}
-        alt="bleet-image"
-      />
+      {bleet.image_id !== "" ? (
+        <img
+          style={{ width: "100%", height: "100%" }}
+          className="mt-3"
+          src={`${SERVER_URL}/static/bleeter-images/${bleet.image_id}`}
+          alt="bleet-image"
+        />
+      ) : null}
 
       <Markdown className="mt-3" escapeHtml={false} source={bleet.markdown} />
     </Layout>

@@ -46,6 +46,9 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
+          {search?.warrants[0] ? (
+            <AlertMessage type="warning" message={lang.record.has_warrant} />
+          ) : null}
           <div className="form-group">
             <label htmlFor="name">{lang.global.name}</label>
             <input

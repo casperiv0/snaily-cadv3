@@ -130,7 +130,7 @@ const CreateCitizenPage: React.FC<Props> = ({
       value: dmv,
       onChange: (e) => setDmv(e.target.value),
       id: "dmv",
-      label: lang.citizen.firearms_license,
+      label: lang.citizen.drivers_license,
       select: true,
       data: legalStatuses,
     },

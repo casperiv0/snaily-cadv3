@@ -97,7 +97,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
         </div>
 
         <div className="form-group">
-          <label htmlFor="status">{lang.citizen.weapon.enter_owner}</label>
+          <label htmlFor="status">{lang.citizen.weapon.enter_status}</label>
           <select
             id="status"
             value={status}

@@ -34,10 +34,10 @@ router.post("/register", async (req: IRequest, res: Response) => {
 
     const hash = hashSync(password, saltRounds);
     const users = await processQuery("SELECT `username` FROM `users`");
-    const cadInfo: ICad[] = await processQuery("SELECT * FROM `cad_info`");
 
     // There are existing users - create the account at user level
     if (users?.length > 0) {
+      const cadInfo: ICad[] = await processQuery("SELECT * FROM `cad_info`");
       const whitelistStatus =
         +cadInfo[0].whitelisted === 1 ? "pending" : "accepted";
       const towAccess = +cadInfo[0].tow_whitelisted === 1 ? false : true;
@@ -72,6 +72,10 @@ router.post("/register", async (req: IRequest, res: Response) => {
     } else {
       // no users found - create the account at owner level
       const id = uuidv4();
+      await processQuery(
+        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `company_whitelisted`) VALUES (?, ?, ?, ?, ?, ?)",
+        [username, "Change me", "Change me", "0", "0", "0"]
+      );
       await processQuery(
         "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [

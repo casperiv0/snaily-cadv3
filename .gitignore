@@ -14,5 +14,6 @@ node_modules
 server/config.ts
 
 server/public/citizen-images/*
+server/public/bleeter-images/*
 
 .DS_Store

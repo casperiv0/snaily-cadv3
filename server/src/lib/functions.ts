@@ -12,5 +12,12 @@ export function generateSerialNumber(): string {
 }
 
 export function generateVinNumber(): string {
-  return "FFFFFF";
+  let result = "";
+  const length = chars.length;
+
+  for (let i = 0; i < 17; i++) {
+    result += chars.charAt(Math.floor(Math.random() * length));
+  }
+
+  return result;
 }
