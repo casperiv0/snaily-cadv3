@@ -15,33 +15,6 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ citizens, companies, status: "success" });
 });
 
-router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
-  const { id } = req.params;
-  const company = await processQuery(
-    "SELECT * FROM `businesses` WHERE `id` = ?",
-    [id]
-  );
-  const posts = await processQuery(
-    "SELECT * FROM `posts` WHERE `business_id` = ? ORDER BY `uploaded_at` DESC",
-    [id]
-  );
-  const employees = await processQuery(
-    "SELECT * FROM `citizens` WHERE `business_id` = ?",
-    [id]
-  );
-  const vehicles = await processQuery(
-    "SELECT * FROM `registered_cars` WHERE `business_id` = ?",
-    [id]
-  );
-  return res.json({
-    company: company[0],
-    posts,
-    employees,
-    vehicles,
-    status: "success",
-  });
-});
-
 router.post("/join", useAuth, async (req: IRequest, res: Response) => {
   const { company_id, citizen_id } = req.body;
 
@@ -140,7 +113,7 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
 
   if (title && description && company_id && citizen_id) {
     const citizen = await processQuery(
-      "SELECT `id`, `full_name` FROM `citizens` WHERE `id` = ?",
+      "SELECT * FROM `citizens` WHERE `id` = ?",
       [citizen_id]
     );
     const company = await processQuery(
@@ -151,6 +124,13 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
     if (!citizen[0]) {
       return res.json({
         error: "Citizen was not found",
+        status: "error",
+      });
+    }
+
+    if (citizen[0].business_id !== company[0].id) {
+      return res.json({
+        error: "You are not working at this company",
         status: "error",
       });
     }
@@ -199,6 +179,63 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
   }
 });
 
+router.post("/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+  const { citizenId } = req.body;
+
+  if (citizenId) {
+    const citizen = await processQuery(
+      "SELECT * FROM `citizens` WHERE `id` = ?",
+      [citizenId]
+    );
+
+    if (!citizen[0]) {
+      return res.json({
+        error: "Citizen was not found",
+        status: "error",
+      });
+    }
+
+    const company = await processQuery(
+      "SELECT * FROM `businesses` WHERE `id` = ?",
+      [id]
+    );
+
+    if (!company[0]) {
+      return res.json({
+        error: "Company was not found",
+        status: "error",
+      });
+    }
+
+    const posts = await processQuery(
+      "SELECT * FROM `posts` WHERE `business_id` = ? ORDER BY `uploaded_at` DESC",
+      [id]
+    );
+    const employees = await processQuery(
+      "SELECT * FROM `citizens` WHERE `business_id` = ?",
+      [id]
+    );
+    const vehicles = await processQuery(
+      "SELECT * FROM `registered_cars` WHERE `business_id` = ?",
+      [id]
+    );
+
+    return res.json({
+      company: company[0],
+      posts,
+      employees,
+      vehicles,
+      status: "success",
+    });
+  } else {
+    return res.json({
+      error: "Please provide a citizenId",
+      status: "error",
+    });
+  }
+});
+
 router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { name, whitelisted, address } = req.body;
   const { id } = req.params;
@@ -236,6 +273,122 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 });
+
+router.put(
+  "/:companyId/:employeeId/:type",
+  useAuth,
+  async (req: IRequest, res: Response) => {
+    const { companyId, employeeId, type } = req.params;
+    const { rank, citizenId, posts, can_reg_veh } = req.body;
+
+    if (citizenId) {
+      const company = await processQuery(
+        "SELECT * FROM `businesses` WHERE `id` = ?",
+        [companyId]
+      );
+      const citizen = await processQuery(
+        "SELECT * FROM `citizens` WHERE `id` = ?",
+        [citizenId]
+      );
+      const employee = await processQuery(
+        "SELECT * FROM `citizens` WHERE `id` = ?",
+        [employeeId]
+      );
+
+      if (!company[0]) {
+        return res.json({
+          error: "Company was not found",
+          status: "error",
+        });
+      }
+
+      if (!citizen[0]) {
+        return res.json({
+          error: "Citizen was not found",
+          status: "error",
+        });
+      }
+
+      if (!employee[0]) {
+        return res.json({
+          error: "Employee was not found",
+          status: "error",
+        });
+      }
+
+      if (citizen[0].business_id !== company[0].id) {
+        return res.json({
+          error: "Forbidden, you are not working here!",
+          status: "error",
+        });
+      }
+
+      if (!["owner", "manager"].includes(citizen[0].rank)) {
+        return res.json({
+          error: "Forbidden, You need to be manager or up",
+          status: "error",
+        });
+      }
+
+      switch (type) {
+        case "UPDATE": {
+          if (can_reg_veh && posts) {
+            await processQuery(
+              "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ? WHERE `id` = ?",
+              [rank, can_reg_veh, posts, employeeId]
+            );
+          } else {
+            return res.json({
+              error: "Please fill in all fields",
+              status: "error",
+            });
+          }
+          break;
+        }
+        case "FIRE": {
+          await processQuery(
+            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ?, business = ?, `business_id` = ?  WHERE `id` = ?",
+            ["", "1", "1", "none", "", employeeId]
+          );
+          break;
+        }
+        case "ACCEPT":
+          await processQuery(
+            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ?, `b_status` = ?  WHERE `id` = ?",
+            ["employee", "1", "1", "accepted", employeeId]
+          );
+          break;
+        case "DECLINE":
+          await processQuery(
+            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ?, `b_status` = ?, business = ?, `business_id` = ?  WHERE `id` = ?",
+            ["", "1", "1", "declined", "none", "", employeeId]
+          );
+          break;
+        default: {
+          return res.json({
+            error: "type does not exist",
+            status: "error",
+          });
+        }
+      }
+
+      const employees = await processQuery(
+        "SELECT * FROM `citizens` WHERE `business_id` = ?",
+        [companyId]
+      );
+
+      return res.json({
+        status: "success",
+        employees,
+      });
+    } else {
+      return res.json({
+        error: "Please fill in all fields",
+        status: "error",
+      });
+    }
+  }
+);
 
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { citizenId } = req.body;

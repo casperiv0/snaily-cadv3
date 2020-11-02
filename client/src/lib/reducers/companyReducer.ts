@@ -10,12 +10,17 @@ import {
   GET_COMPANY_BY_ID,
   CREATE_COMPANY_POST_ERROR,
   UPDATE_COMPANY_ERROR,
+  GET_COMPANY_BY_ID_ERROR,
+  DECLINE_EMPLOYEE,
+  ACCEPT_EMPLOYEE,
+  FIRE_EMPLOYEE,
 } from "../types";
 
 const initState = {
   citizens: [],
   companies: [],
   company: null,
+  returnError: null,
   error: null,
   posts: [],
   employees: [],
@@ -56,6 +61,22 @@ type Actions =
   | {
       type: typeof UPDATE_COMPANY_ERROR;
       error: string;
+    }
+  | {
+      type: typeof GET_COMPANY_BY_ID_ERROR;
+      error: string;
+    }
+  | {
+      type: typeof DECLINE_EMPLOYEE;
+      employees: Citizen[];
+    }
+  | {
+      type: typeof ACCEPT_EMPLOYEE;
+      employees: Citizen[];
+    }
+  | {
+      type: typeof FIRE_EMPLOYEE;
+      employees: Citizen[];
     };
 
 export default function companyReducer(state = initState, action: Actions) {
@@ -97,6 +118,26 @@ export default function companyReducer(state = initState, action: Actions) {
       return {
         ...state,
         error: action.error,
+      };
+    case "GET_COMPANY_BY_ID_ERROR":
+      return {
+        ...state,
+        returnError: action.error,
+      };
+    case "ACCEPT_EMPLOYEE":
+      return {
+        ...state,
+        employees: action.employees,
+      };
+    case "DECLINE_EMPLOYEE":
+      return {
+        ...state,
+        employees: action.employees,
+      };
+    case "FIRE_EMPLOYEE":
+      return {
+        ...state,
+        employees: action.employees,
       };
     default:
       return {

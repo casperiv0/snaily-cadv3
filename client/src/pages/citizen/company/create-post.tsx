@@ -45,12 +45,12 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
         </div>
         <div className="form-group">
           <label htmlFor="title">{lang.citizen.company.post_desc}</label>
-          <input
-            type="text"
+          <textarea
+            rows={10}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="form-control bg-dark border-dark text-light"
-          />
+          ></textarea>
         </div>
         <div className="form-group float-right">
           <a className="btn btn-danger mr-2" href={`/company/${citizenId}/${companyId}`}>

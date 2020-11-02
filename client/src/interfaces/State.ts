@@ -78,6 +78,7 @@ interface State {
     citizens: Citizen[];
     companies: Company[];
     error: string;
+    returnError: string;
     company: Company;
     posts: CompanyPost[];
     employees: Citizen[];

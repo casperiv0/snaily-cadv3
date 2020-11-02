@@ -16,8 +16,9 @@ interface Props {
   citizen: Citizen;
   match: Match;
   posts: CompanyPost[];
+  returnError: string;
   getCitizenById: (id: string) => void;
-  getCompanyById: (id: string) => void;
+  getCompanyById: (id: string, citizenId: string) => void;
 }
 
 const CompanyPage: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const CompanyPage: React.FC<Props> = ({
   company,
   match,
   posts,
+  returnError,
   getCitizenById,
   getCompanyById,
 }) => {
@@ -32,13 +34,21 @@ const CompanyPage: React.FC<Props> = ({
 
   React.useEffect(() => {
     getCitizenById(citizenId);
-    getCompanyById(companyId);
+    getCompanyById(companyId, citizenId);
   }, [getCitizenById, citizenId, getCompanyById, companyId]);
 
   if (company !== null && !company) {
     return (
       <Layout>
         <AlertMessage type="danger" message="notfound" />
+      </Layout>
+    );
+  }
+
+  if (returnError !== null) {
+    return (
+      <Layout>
+        <AlertMessage type="danger" message={returnError} />
       </Layout>
     );
   }
@@ -87,6 +97,7 @@ const mapToProps = (state: State) => ({
   company: state.company.company,
   posts: state.company.posts,
   citizen: state.citizen.citizen,
+  returnError: state.company.returnError,
 });
 
 export default connect(mapToProps, { getCitizenById, getCompanyById })(CompanyPage);

@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import AlertMessage from "../../../../components/alert-message";
 import EditCompanyTab from "../../../../components/company/EditCompanyTab";
 import EmployeesTab from "../../../../components/company/EmployeesTab";
+import PendingTab from "../../../../components/company/PendingTab";
 import VehiclesTab from "../../../../components/company/VehiclesTab";
 import Layout from "../../../../components/Layout";
 import Citizen from "../../../../interfaces/Citizen";
@@ -17,7 +18,8 @@ interface Props {
   match: Match;
   message: string;
   citizen: Citizen;
-  getCompanyById: (id: string) => void;
+  returnError: string;
+  getCompanyById: (id: string, citizenId: string) => void;
   getCitizenById: (id: string) => void;
 }
 
@@ -25,6 +27,7 @@ const ManageCompanyPage: React.FC<Props> = ({
   match,
   message,
   citizen,
+  returnError,
   getCompanyById,
   getCitizenById,
 }) => {
@@ -32,7 +35,7 @@ const ManageCompanyPage: React.FC<Props> = ({
   const history = useHistory();
 
   React.useEffect(() => {
-    getCompanyById(companyId);
+    getCompanyById(companyId, citizenId);
     getCitizenById(citizenId);
   }, [companyId, getCompanyById, getCitizenById, citizenId]);
 
@@ -43,6 +46,14 @@ const ManageCompanyPage: React.FC<Props> = ({
       }
     }
   }, [citizen, history]);
+
+  if (returnError !== null) {
+    return (
+      <Layout>
+        <AlertMessage type="danger" message={returnError} />
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -123,14 +134,14 @@ const ManageCompanyPage: React.FC<Props> = ({
         >
           <VehiclesTab />
         </div>
-        {/*<div
+        <div
           className="tab-pane fade"
           id="pending_citizens"
           role="tabpanel"
           aria-labelledby="contact-tab"
         >
-          <CompanyPending companyURL={companyURL} />
-        </div>*/}
+          <PendingTab match={match} />
+        </div>
         {citizen?.rank === "owner" ? (
           <div
             className="tab-pane fade"
@@ -150,6 +161,7 @@ const mapToProps = (state: State) => ({
   company: state.company.company,
   message: state.global.message,
   citizen: state.citizen.citizen,
+  returnError: state.company.returnError,
 });
 
 export default connect(mapToProps, { getCompanyById, getCitizenById })(ManageCompanyPage);

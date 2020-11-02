@@ -35,6 +35,9 @@ const ManageCompaniesPage = React.lazy(() => import("./pages/citizen/company/man
 const CompanyPage = React.lazy(() => import("./pages/citizen/company/company"));
 const CreateCompanyPost = React.lazy(() => import("./pages/citizen/company/create-post"));
 const ManageCompanyPage = React.lazy(() => import("./pages/citizen/company/manage/index"));
+const ManageEmployeePage = React.lazy(
+  () => import("./pages/citizen/company/manage/manage-employee"),
+);
 
 const CreateMedicalRecordPage = React.lazy(
   () => import("./pages/citizen/medical-records/create-medical-record"),
@@ -98,6 +101,10 @@ ReactDOM.render(
 
             <AuthRoute requirement="dispatch" path="/dispatch" Component={DispatchDash} />
 
+            <AuthRoute
+              path="/company/:citizenId/:companyId/manage/:id"
+              Component={ManageEmployeePage}
+            />
             <AuthRoute path="/company/:citizenId/:companyId/manage" Component={ManageCompanyPage} />
             <AuthRoute
               path="/company/:citizenId/:companyId/create-post"

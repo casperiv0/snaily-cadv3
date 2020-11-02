@@ -493,7 +493,8 @@
             "awaiting": "You are awaiting access for this company",
             "select_cit": "Select citizen",
             "select_com": "Select Company",
-            "no_com": "There are no companies"
+            "no_com": "There are no companies",
+            "fired_em": "Successfully fired employee"
         }
     },
     "calls": {

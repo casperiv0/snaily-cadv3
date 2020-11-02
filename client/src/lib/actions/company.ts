@@ -12,12 +12,17 @@ import {
   CREATE_COMPANY_ERROR,
   JOIN_COMPANY_ERROR,
   GET_COMPANY_BY_ID,
+  GET_COMPANY_BY_ID_ERROR,
   CREATE_COMPANY_POST,
   CREATE_COMPANY_POST_ERROR,
   DELETE_COMPANY,
   UPDATE_COMPANY,
   UPDATE_COMPANY_ERROR,
   SET_MESSAGE,
+  UPDATE_EMPLOYEE,
+  FIRE_EMPLOYEE,
+  ACCEPT_EMPLOYEE,
+  DECLINE_EMPLOYEE,
 } from "../types";
 
 interface IDispatch {
@@ -88,9 +93,11 @@ export const createCompany = (data: object) => async (dispatch: Dispatch<IDispat
   }
 };
 
-export const getCompanyById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+export const getCompanyById = (id: string, citizenId: string) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
   try {
-    const res = await handleRequest(`/citizen/company/${id}`, "GET");
+    const res = await handleRequest(`/citizen/company/${id}`, "POST", { citizenId });
 
     if (isSuccess(res)) {
       dispatch({
@@ -99,6 +106,11 @@ export const getCompanyById = (id: string) => async (dispatch: Dispatch<IDispatc
         posts: res.data.posts,
         employees: res.data.employees,
         vehicles: res.data.vehicles,
+      });
+    } else {
+      dispatch({
+        type: GET_COMPANY_BY_ID_ERROR,
+        error: res.data.error,
       });
     }
   } catch (e) {
@@ -165,5 +177,78 @@ export const deleteCompany = (id: string, citizenId: string) => async (
     }
   } catch (e) {
     Logger.error(DELETE_COMPANY, e);
+  }
+};
+
+export const updateEmployee = (
+  employeeId: string,
+  companyId: string,
+  data: object,
+  citizenId: string,
+) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/citizen/company/${companyId}/${employeeId}/UPDATE`, "PUT", {
+      ...data,
+      citizenId,
+    });
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_EMPLOYEE,
+        employees: res.data.employees,
+      });
+      window.location.href = `/company/${citizenId}/${companyId}/manage`;
+    }
+  } catch (e) {
+    Logger.error(UPDATE_EMPLOYEE, e);
+  }
+};
+
+export const fireEmployee = (employeeId: string, companyId: string, citizenId: string) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/citizen/company/${companyId}/${employeeId}/FIRE`, "PUT", {
+      citizenId,
+    });
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: FIRE_EMPLOYEE,
+        employees: res.data.employees,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.citizen.company.fired_em,
+      });
+    }
+  } catch (e) {
+    Logger.error(FIRE_EMPLOYEE, e);
+  }
+};
+
+export const updateEmployeeStatus = (
+  employeeId: string,
+  companyId: string,
+  citizenId: string,
+  type: "ACCEPT" | "DECLINE",
+) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/citizen/company/${companyId}/${employeeId}/${type}`, "PUT", {
+      citizenId,
+    });
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: type === "ACCEPT" ? ACCEPT_EMPLOYEE : DECLINE_EMPLOYEE,
+        employees: res.data.employees,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: type === "ACCEPT" ? lang.citizen.company.accepted : lang.citizen.company.declined,
+      });
+    }
+  } catch (e) {
+    Logger.error(`${ACCEPT_EMPLOYEE} | ${DECLINE_EMPLOYEE}`, e);
   }
 };

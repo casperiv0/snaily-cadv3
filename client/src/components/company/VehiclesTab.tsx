@@ -14,7 +14,7 @@ const VehiclesTab: React.FC<Props> = ({ vehicles }) => {
   return (
     <ul className="list-group mt-2">
       {!vehicles[0] ? (
-        <AlertMessage type="danger" message={lang.citizen.company.no_veh} />
+        <AlertMessage type="warning" message={lang.citizen.company.no_veh} />
       ) : (
         vehicles.map((vehicle: Vehicle, idx: number) => {
           return (
