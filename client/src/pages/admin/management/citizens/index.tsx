@@ -56,7 +56,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
         ) : !filtered[0] ? (
           <AlertMessage type="warning" message={lang.citizen.citizen_not_found_by_name} />
         ) : (
-          <>
+          <ul className="list-group">
             {filtered.map((citizen: Citizen, idx: number) => {
               return (
                 <li
@@ -65,9 +65,9 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                   className="list-group-item bg-dark border-secondary d-flex justify-content-between"
                 >
                   <div>
-                    <h5>
+                    <p>
                       {++idx} | {citizen.full_name}
-                    </h5>
+                    </p>
 
                     <div className="collapse" id={`citizen_info_${citizen.id}`}>
                       <Item id="full_name">
@@ -150,7 +150,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                 />
               );
             })}
-          </>
+          </ul>
         )}
       </ul>
     </AdminLayout>

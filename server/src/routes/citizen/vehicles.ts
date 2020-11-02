@@ -59,6 +59,34 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
       });
     }
 
+    if (businessId?.trim() !== "") {
+      const company = await processQuery(
+        "SELECT * FROM `businesses` WHERE `id` = ?",
+        [businessId]
+      );
+
+      if (!company[0]) {
+        return res.json({
+          error: "That company was not found",
+          status: "error",
+        });
+      }
+
+      if (citizen[0].business_id !== company[0].id) {
+        return res.json({
+          error: "You are not working at that company!",
+          status: "error",
+        });
+      }
+
+      if (citizen[0].vehicle_reg === "0") {
+        return res.json({
+          error: "You are not allowed to register vehicles for this company",
+          status: "error",
+        });
+      }
+    }
+
     const id = uuidv4();
     const vin = generateVinNumber();
 

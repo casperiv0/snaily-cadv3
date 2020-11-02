@@ -5,6 +5,7 @@ import Weapon from "../../interfaces/Weapon";
 import {
   GET_CITIZENS,
   CREATE_CITIZEN_ERROR,
+  UPDATE_CITIZEN_ERROR,
   GET_CITIZEN_BY_ID,
   GET_REGISTERED_VEHICLES,
   GET_REGISTERED_WEAPONS,
@@ -41,6 +42,10 @@ type Actions =
     }
   | {
       type: typeof CREATE_CITIZEN_ERROR;
+      error: string;
+    }
+  | {
+      type: typeof UPDATE_CITIZEN_ERROR;
       error: string;
     }
   | {
@@ -117,6 +122,11 @@ export default function citizenReducer(state = initState, action: Actions) {
         citizens: action.citizens,
       };
     case "CREATE_CITIZEN_ERROR":
+      return {
+        ...state,
+        error: action.error,
+      };
+    case "UPDATE_CITIZEN_ERROR":
       return {
         ...state,
         error: action.error,

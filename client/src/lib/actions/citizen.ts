@@ -4,6 +4,8 @@ import Logger from "../Logger";
 import lang from "../../language.json";
 import {
   CREATE_CITIZEN,
+  UPDATE_CITIZEN,
+  UPDATE_CITIZEN_ERROR,
   CREATE_CITIZEN_ERROR,
   GET_CITIZENS,
   GET_CITIZEN_BY_ID,
@@ -131,6 +133,63 @@ export const createCitizen = (data: Citizen) => async (dispatch: Dispatch<IDispa
     }
   } catch (e) {
     Logger.error(CREATE_CITIZEN, e);
+  }
+};
+
+export const updateCitizen = (id: string, data: Citizen) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const {
+      image,
+      full_name,
+      gender,
+      ethnicity,
+      birth,
+      hair_color,
+      eye_color,
+      address,
+      height,
+      weight,
+      dmv,
+      pilot_license,
+      fire_license,
+      ccw,
+    } = data;
+
+    const fd = new FormData();
+    if (image) {
+      fd.append("image", image, image?.name);
+    }
+    fd.append("full_name", full_name);
+    fd.append("gender", gender);
+    fd.append("ethnicity", ethnicity);
+    fd.append("birth", birth);
+    fd.append("hair_color", hair_color);
+    fd.append("eye_color", eye_color);
+    fd.append("address", address);
+    fd.append("height", height);
+    fd.append("weight", weight);
+    fd.append("dmv", dmv);
+    fd.append("pilot_license", pilot_license);
+    fd.append("fire_license", fire_license);
+    fd.append("ccw", ccw);
+
+    const res = await handleRequest(`/citizen/${id}`, "PUT", fd);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_CITIZEN,
+      });
+      return (window.location.href = `/citizen/${res.data.citizenId}`);
+    } else {
+      dispatch({
+        type: UPDATE_CITIZEN_ERROR,
+        error: res.data.error,
+      });
+    }
+  } catch (e) {
+    Logger.error(UPDATE_CITIZEN, e);
   }
 };
 
@@ -267,6 +326,10 @@ export const deleteVehicle = (citizenId: string, vehicleId: string) => async (
         type: DELETE_REGISTERED_VEHICLE,
         vehicles: res.data.vehicles,
       });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.citizen.vehicle.deleted_veh,
+      });
     }
   } catch (e) {
     Logger.error(DELETE_REGISTERED_VEHICLE, e);
@@ -318,6 +381,10 @@ export const deleteWeapon = (citizenId: string, weaponId: string) => async (
       dispatch({
         type: DELETE_REGISTERED_WEAPON,
         weapons: res.data.weapons,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: lang.citizen.weapon.deleted_weapon,
       });
     }
   } catch (e) {

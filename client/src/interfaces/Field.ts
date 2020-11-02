@@ -7,6 +7,7 @@ interface Field {
   select?: boolean;
   selectLabel?: string;
   data?: any[];
+  disabled?: boolean;
 }
 
 export default Field;

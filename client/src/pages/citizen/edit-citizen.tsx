@@ -6,19 +6,23 @@ import Value from "../../interfaces/Value";
 import AlertMessage from "../../components/alert-message";
 import Citizen from "../../interfaces/Citizen";
 import Field from "../../interfaces/Field";
-import { createCitizen } from "../../lib/actions/citizen";
+import { updateCitizen, getCitizenById } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
+import Match from "../../interfaces/Match";
 
 interface Props {
   error: string;
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
+  match: Match;
+  citizen: Citizen;
   getGenders: () => void;
   getEthnicities: () => void;
   getLegalStatuses: () => void;
-  createCitizen: (data: Citizen) => void;
+  updateCitizen: (id: string, data: Citizen) => void;
+  getCitizenById: (id: string) => void;
 }
 
 const CreateCitizenPage: React.FC<Props> = ({
@@ -26,11 +30,15 @@ const CreateCitizenPage: React.FC<Props> = ({
   genders,
   ethnicities,
   legalStatuses,
+  citizen,
+  match,
   getGenders,
   getEthnicities,
   getLegalStatuses,
-  createCitizen,
+  updateCitizen,
+  getCitizenById,
 }) => {
+  const citizenId = match.params.id;
   const [image, setImage] = React.useState<any>(null);
   const [name, setName] = React.useState<string>("");
   const [gender, setGender] = React.useState<string>("");
@@ -50,7 +58,26 @@ const CreateCitizenPage: React.FC<Props> = ({
     getGenders();
     getEthnicities();
     getLegalStatuses();
-  }, [getGenders, getEthnicities, getLegalStatuses]);
+    getCitizenById(citizenId);
+  }, [getGenders, getEthnicities, getLegalStatuses, getCitizenById, citizenId]);
+
+  React.useEffect(() => {
+    if (citizen !== null) {
+      setName(citizen?.full_name!);
+      setGender(citizen?.gender!);
+      setEthnicity(citizen?.ethnicity!);
+      setBirth(citizen?.birth!);
+      setHairColor(citizen?.hair_color!);
+      setEyeColor(citizen?.eye_color!);
+      setAddress(citizen?.address!);
+      setHeight(citizen?.height!);
+      setWeight(citizen?.weight!);
+      setDmv(citizen?.dmv!);
+      setFirearmsLicense(citizen?.fire_license!);
+      setPilotsLicense(citizen?.pilot_license!);
+      setCcw(citizen?.ccw!);
+    }
+  }, [citizen]);
 
   const fields: Field[] = [
     {
@@ -59,6 +86,7 @@ const CreateCitizenPage: React.FC<Props> = ({
       onChange: (e) => setName(e.target.value),
       label: lang.record.enter_full_name,
       id: "full_name",
+      disabled: true,
     },
     {
       type: "text",
@@ -166,7 +194,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createCitizen({
+    updateCitizen(citizenId, {
       image: image,
       full_name: name,
       gender,
@@ -182,6 +210,14 @@ const CreateCitizenPage: React.FC<Props> = ({
       fire_license: firearmsLicense,
       ccw,
     });
+  }
+
+  if (citizen !== null && !citizen) {
+    return (
+      <Layout>
+        <AlertMessage type="danger" message={lang.citizen.citizen_not_found_by_name} />
+      </Layout>
+    );
   }
 
   return (
@@ -204,6 +240,7 @@ const CreateCitizenPage: React.FC<Props> = ({
               <label htmlFor={field.id}>{field.label}</label>
               {field.select ? (
                 <select
+                  disabled={field?.disabled}
                   className="form-control bg-dark border-dark text-light"
                   value={field.value}
                   onChange={field.onChange}
@@ -222,6 +259,7 @@ const CreateCitizenPage: React.FC<Props> = ({
                 </select>
               ) : (
                 <input
+                  disabled={field?.disabled}
                   value={field.value}
                   id={field.id}
                   className="form-control bg-dark border-dark text-light"
@@ -261,12 +299,12 @@ const CreateCitizenPage: React.FC<Props> = ({
         </div>
 
         <div className="form-group float-right">
-          <a href="/citizen" className="btn btn-danger">
+          <a href={`/citizen/${citizenId}`} className="btn btn-danger">
             {lang.global.cancel}
           </a>
 
           <button className="btn btn-primary ml-2" type="submit">
-            {lang.citizen.create_citizen}
+            {lang.citizen.update_citizen}
           </button>
         </div>
       </form>
@@ -279,11 +317,13 @@ const mapToProps = (state: State) => ({
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   legalStatuses: state.values["legal-statuses"],
+  citizen: state.citizen.citizen,
 });
 
 export default connect(mapToProps, {
   getGenders,
   getEthnicities,
   getLegalStatuses,
-  createCitizen,
+  updateCitizen,
+  getCitizenById,
 })(CreateCitizenPage);
