@@ -19,7 +19,7 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community! (Work
 ## Requirements
 
 - [GIT](https://git-scm.com/downloads)
-- [NodeJS](https://nodejs.org)
+- [NodeJS v12+](https://nodejs.org)
 - [MySQL](https://www.apachefriends.org/download.html)
 
 ## Installation
@@ -27,23 +27,25 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community! (Work
 1. Open Command Prompt
 2. Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cadv3`
 3. Run `cd snaily-cadv3`
-4. Open the `server` folder
-5. Make a copy of `config.example` and rename to `config`
-6. Modify that where needed
-7. Go back and open the `client` folder
-8. Open the `src` folder
-9. Open `config` and modify
-10. Go back to your command prompt
-11. Make sure your back in the main folder (snaily-cadv3)
-12. Run `cd server`
-13. Run `npm install` and wait for it to finish
-14. Once finished, run `cd ../client`
-15. Run `npm install --legacy-peer-deps` and wait for it to finish
-16. Once finished, create a new database in XAMPP phpmyadmin, call it `snaily-cad` or whatever you called it in the config file
-17. Import `snaily-cad.sql` into that database
-18. Go back to your command prompt and make sure you are in the main folder (snaily-cadv3)
-19. Run `npm start`
-20. The CAD should be running on <http://localhost> by default
+4. Run `npm install` and wait it to finish
+5. Open the `server` folder
+6. Make a copy of `config.example` and rename to `config`
+7. Modify that where needed
+8. Go back and open the `client` folder
+9. Open the `src` folder
+10. Open `config` and modify
+11. Go back to your command prompt
+12. Make sure your back in the main folder (snaily-cadv3)
+13. Run `cd server`
+14. Run `npm install` and wait for it to finish
+15. Once finished, run `cd ../client`
+16. Run `npm install --legacy-peer-deps` and wait for it to finish
+17. Run `npm run build` and wait for it to finish
+18. Once finished, create a new database in XAMPP phpmyadmin, call it `snaily-cad` or whatever you called it in the config file
+19. Import `snaily-cad.sql` into that database
+20. Go back to your command prompt and make sure you are in the main folder (snaily-cadv3)
+21. Run `npm start`
+22. The CAD should be running on <http://localhost> by default
 
 **If you don't understand any of the steps, add me on Discord CasperTheGhost#4546 (Voice chat or text chat)**
 
