@@ -34,3 +34,14 @@ async function select1() {
     Logger.error("DB_ERROR", e);
   });
 }
+
+async function updateDb() {
+  try {
+    await processQuery(
+      "ALTER TABLE `cad_info` ADD `webhook_url` TEXT NOT NULL AFTER `company_whitelisted`;"
+    );
+    // eslint-disable-next-line no-empty
+  } catch {}
+}
+
+updateDb();

@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 export function generateSerialNumber(): string {
@@ -20,4 +21,69 @@ export function generateVinNumber(): string {
   }
 
   return result;
+}
+
+export interface WebHook {
+  id: string;
+  token: string;
+  avatar: string | null;
+  name: string;
+  channel_id: string;
+  guild_id: string;
+  user?: any;
+  type?: number;
+}
+
+export interface DiscordEmbed {
+  title?: string;
+  description?: string;
+  color?: any;
+  type?: string;
+  footer?: {
+    text: string;
+    icon_url: string;
+  };
+  fields?: Array<{
+    name: string;
+    value: string;
+    inline?: boolean;
+  }>;
+}
+
+export interface WebHookData {
+  content?: string;
+  username: string;
+  avatar_url?: string | null;
+  embeds?: DiscordEmbed[];
+}
+
+export async function getWebhookData(url: string): Promise<WebHook> {
+  const data = await (await fetch(url)).json();
+
+  return {
+    id: data.id,
+    token: data.token,
+    name: data.name,
+    avatar: data?.avatar_url || null,
+    channel_id: data.channel_id,
+    guild_id: data.guild_id,
+  };
+}
+
+export async function postWebhook(
+  webhook: WebHook,
+  data: WebHookData
+): Promise<void> {
+  const discordUrl = "https://discord.com/api";
+  try {
+    await fetch(`${discordUrl}/webhooks/${webhook.id}/${webhook.token}`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }

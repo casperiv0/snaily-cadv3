@@ -1,8 +1,16 @@
 import config from "../../config";
 import Logger from "./Logger";
 import { io } from "../server";
+import { getWebhookData, postWebhook, WebHook } from "./functions";
+import { processQuery } from "./database";
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
+  const cadInfo = await processQuery("SELECT `webhook_url` FROM `cad_info`");
+  let webhook = {} as WebHook;
+  if (cadInfo[0].webhook_url) {
+    webhook = await getWebhookData(cadInfo[0].webhook_url);
+  }
+
   socket.on("UPDATE_ACTIVE_UNITS", () => {
     io.sockets.emit("UPDATE_ACTIVE_UNITS");
 
@@ -44,7 +52,7 @@ io.on("connection", (socket) => {
       Logger.log("SOCKET_EVENT", "UPDATE_TOW_CALLS");
     }
   });
-  
+
   socket.on("UPDATE_BOLOS", () => {
     io.sockets.emit("UPDATE_BOLOS");
 
@@ -53,8 +61,45 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("NEW_911_CALL", () => {
-    io.sockets.emit("NEW_911_CALL");
+  socket.on("NEW_911_CALL", async (callData) => {
+    io.sockets.emit("NEW_911_CALL", callData);
+
+    if (webhook) {
+      await postWebhook(
+        {
+          type: 1,
+          id: webhook.id,
+          token: webhook.token,
+          avatar: null,
+          name: webhook.name,
+          channel_id: webhook.channel_id,
+          guild_id: webhook.guild_id,
+        },
+        {
+          username: webhook.name,
+          embeds: [
+            {
+              title: "New 911 Call",
+              type: "rich",
+              description: callData.description,
+              fields: [
+                {
+                  name: "Caller",
+                  value: callData.caller,
+                  inline: true,
+                },
+                {
+                  name: "Location",
+                  value: callData.location,
+                  inline: true,
+                },
+              ],
+            },
+          ],
+          avatar_url: webhook.avatar,
+        }
+      );
+    }
 
     if (config.env === "dev") {
       Logger.log("SOCKET_EVENT", "NEW_911_CALL");

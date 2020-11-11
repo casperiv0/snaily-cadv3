@@ -19,6 +19,7 @@ interface Props {
     whitelisted: string;
     tow_whitelisted: string;
     company_whitelisted: string;
+    webhook_url: string;
   }) => void;
 }
 
@@ -28,6 +29,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
   const [whitelisted, setWhitelisted] = React.useState("");
   const [towWhitelist, setTowWhitelist] = React.useState("");
   const [companyWl, setCompanyWl] = React.useState("");
+  const [webhookUrl, setWebhookUrl] = React.useState("");
 
   React.useEffect(() => {
     if (cadInfo.id) {
@@ -36,6 +38,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       setWhitelisted(cadInfo.whitelisted);
       setTowWhitelist(cadInfo.tow_whitelisted);
       setCompanyWl(cadInfo.company_whitelisted);
+      setWebhookUrl(cadInfo.webhook_url);
     }
   }, [cadInfo]);
 
@@ -52,6 +55,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       whitelisted,
       tow_whitelisted: towWhitelist,
       company_whitelisted: companyWl,
+      webhook_url: webhookUrl,
     });
   }
 
@@ -108,6 +112,18 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
                 id="aop"
                 value={aop}
                 onChange={(e) => setAop(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="webhook_url">
+                {lang.admin.cad_settings?.update_webhook || "Update webhook URL"}
+              </label>
+              <input
+                type="password"
+                className="form-control bg-secondary border-dark text-light"
+                id="webhook_url"
+                value={webhookUrl}
+                onChange={(e) => setWebhookUrl(e.target.value)}
               />
             </div>
             <div className="form-group">

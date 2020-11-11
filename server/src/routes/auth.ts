@@ -73,7 +73,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       // no users found - create the account at owner level
       const id = uuidv4();
       await processQuery(
-        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `company_whitelisted`) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `company_whitelisted`, `webhook_url`) VALUES (?, ?, ?, ?, ?, ?, ?)",
         [username, "Change me", "Change me", "0", "0", "0"]
       );
       await processQuery(
@@ -91,6 +91,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
           "" /* ban_reason */,
           Whitelist.accepted /* whitelist_status */,
           "" /* dispatch_status */,
+          "" /* webhook_url */,
         ]
       );
 

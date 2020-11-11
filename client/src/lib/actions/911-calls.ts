@@ -47,7 +47,7 @@ export const create911Call = (data: object) => async (dispatch: Dispatch<IDispat
         message: lang.citizen.call_created,
       });
       socket.emit("UPDATE_911_CALLS");
-      socket.emit("NEW_911_CALL");
+      socket.emit("NEW_911_CALL", data);
     }
   } catch (e) {
     Logger.error(CREATE_911_CALL, e);

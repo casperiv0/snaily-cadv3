@@ -6,6 +6,7 @@ interface CadInfo {
   tow_whitelisted: "0" | "1" | string;
   whitelisted: "0" | "1" | string;
   company_whitelisted: "0" | "1" | string;
+  webhook_url: string;
 }
 
 export default CadInfo;

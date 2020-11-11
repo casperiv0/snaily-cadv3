@@ -22,6 +22,7 @@ router.put("/cad-settings", useAuth, async (req: IRequest, res: Response) => {
     tow_whitelisted,
     whitelisted,
     company_whitelisted,
+    webhook_url,
   } = req.body;
 
   if (
@@ -32,8 +33,15 @@ router.put("/cad-settings", useAuth, async (req: IRequest, res: Response) => {
     company_whitelisted
   ) {
     await processQuery(
-      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `company_whitelisted` = ?",
-      [cad_name, aop, tow_whitelisted, whitelisted, company_whitelisted]
+      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `company_whitelisted` = ?, `webhook_url`= ?",
+      [
+        cad_name,
+        aop,
+        tow_whitelisted,
+        whitelisted,
+        company_whitelisted,
+        webhook_url,
+      ]
     );
 
     return res.json({ status: "success" });
