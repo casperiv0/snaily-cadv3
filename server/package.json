@@ -19,7 +19,7 @@
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
     "dateformat": "^3.0.3",
-    "dompurify": "^2.2.0",
+    "dompurify": "^2.2.2",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "helmet": "^4.2.0",
