@@ -43,7 +43,7 @@
     "@types/helmet": "4.0.0",
     "@types/jsdom": "^16.2.5",
     "@types/jsonwebtoken": "^8.5.0",
-    "@types/marked": "^1.1.0",
+    "@types/marked": "^1.2.0",
     "@types/node-fetch": "^2.5.7",
     "@types/socket.io": "^2.1.11",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
