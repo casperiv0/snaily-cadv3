@@ -6,14 +6,14 @@ import csurf from "csurf";
 import fileUpload from "express-fileupload";
 import cors from "cors";
 import helmet from "helmet";
-import socketIO from "socket.io";
+import { Server } from "socket.io";
 import Logger from "./lib/Logger";
 import api from "./api";
 
 const app: Application = express();
 const port = config.port;
 const server = app.listen(port, () => Logger.listening(port));
-const io = socketIO(server);
+const io = new Server(server);
 const protection = csurf({ cookie: true });
 
 app.use("/static", express.static("public"));

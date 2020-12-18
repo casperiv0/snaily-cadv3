@@ -17,3 +17,5 @@ server/public/citizen-images/*
 server/public/bleeter-images/*
 
 .DS_Store
+
+.eslintcache

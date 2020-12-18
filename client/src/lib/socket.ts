@@ -1,8 +1,8 @@
-import socketIO from "socket.io-client";
+import io from "socket.io-client";
 import SERVER_URL from "../config";
 import Logger from "./Logger";
 
-const socket = socketIO(SERVER_URL);
+const socket = io(SERVER_URL);
 const INTERVAL_1_MIN = 60000; /* 1 minute interval */
 
 socket.on("connect", () => {

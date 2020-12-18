@@ -9,6 +9,7 @@ import citizenWeaponRouter from "./weapons";
 import citizenVehicleRouter from "./vehicles";
 import medicalRecordsRouter from "./medical-records";
 import companyRouter from "./company";
+import { UploadedFile } from "express-fileupload";
 
 router.use("/weapons", citizenWeaponRouter);
 router.use("/vehicles", citizenVehicleRouter);
@@ -16,28 +17,22 @@ router.use("/medical-records", medicalRecordsRouter);
 router.use("/company", companyRouter);
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
-  const citizens = await processQuery(
-    "SELECT * FROM `citizens` WHERE `user_id` = ?",
-    [req.user?.id]
-  );
+  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [
+    req.user?.id,
+  ]);
 
   return res.json({ status: "success", citizens });
 });
 
 router.get("/all", useAuth, async (req: IRequest, res: Response) => {
-  const citizens = await processQuery(
-    "SELECT `id`, `full_name` FROM `citizens`"
-  );
+  const citizens = await processQuery("SELECT `id`, `full_name` FROM `citizens`");
 
   return res.json({ citizens, status: "success" });
 });
 
 router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const citizen = await processQuery(
-    "SELECT * FROM `citizens` WHERE `id` = ?",
-    [id]
-  );
+  const citizen = await processQuery("SELECT * FROM `citizens` WHERE `id` = ?", [id]);
 
   return res.json({ citizen: citizen[0], status: "success" });
 });
@@ -59,27 +54,15 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     ccw,
   } = req.body;
 
-  const file = req.files?.image ? req.files.image : null;
+  const file = req.files?.image ? (req.files.image as UploadedFile) : null;
   const index = req.files?.image && file?.name.indexOf(".");
 
-  const imageId = file
-    ? `${uuidv4()}${file.name.slice(index!)}`
-    : "default.svg";
+  const imageId = file ? `${uuidv4()}${file.name.slice(index!)}` : "default.svg";
 
-  if (
-    full_name &&
-    birth &&
-    gender &&
-    ethnicity &&
-    hair_color &&
-    eye_color &&
-    height &&
-    weight
-  ) {
-    const citizen = await processQuery(
-      "SELECT * FROM `citizens` WHERE `full_name` = ?",
-      [full_name]
-    );
+  if (full_name && birth && gender && ethnicity && hair_color && eye_color && height && weight) {
+    const citizen = await processQuery("SELECT * FROM `citizens` WHERE `full_name` = ?", [
+      full_name,
+    ]);
 
     if (citizen[0]) {
       return res.json({
@@ -159,27 +142,13 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
     ccw,
   } = req.body;
 
-  const file = req.files?.image ? req.files.image : null;
+  const file = req.files?.image ? (req.files.image as UploadedFile) : null;
   const index = req.files?.image && file?.name.indexOf(".");
 
-  const imageId = file
-    ? `${uuidv4()}${file.name.slice(index!)}`
-    : "default.svg";
+  const imageId = file ? `${uuidv4()}${file.name.slice(index!)}` : "default.svg";
 
-  if (
-    full_name &&
-    birth &&
-    gender &&
-    ethnicity &&
-    hair_color &&
-    eye_color &&
-    height &&
-    weight
-  ) {
-    const citizen = await processQuery(
-      "SELECT * FROM `citizens` WHERE `id` = ?",
-      [citizenId]
-    );
+  if (full_name && birth && gender && ethnicity && hair_color && eye_color && height && weight) {
+    const citizen = await processQuery("SELECT * FROM `citizens` WHERE `id` = ?", [citizenId]);
 
     if (!citizen[0]) {
       return res.json({

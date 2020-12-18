@@ -3,37 +3,31 @@ import { processQuery } from "../lib/database";
 import { useAuth, useMarkdown } from "../hooks";
 import { RanksArr } from "../lib/constants";
 import { v4 as uuidv4 } from "uuid";
+import { UploadedFile } from "express-fileupload";
 import IRequest from "../interfaces/IRequest";
 
 const router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
-  const bleets = await processQuery(
-    "SELECT * FROM `bleets` ORDER BY `id` DESC"
-  );
+  const bleets = await processQuery("SELECT * FROM `bleets` ORDER BY `id` DESC");
 
   return res.json({ bleets, status: "success" });
 });
 
 router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const bleet = await processQuery(
-    "SELECT * FROM `bleets` WHERE `bleets`.`id` = ?",
-    [id]
-  );
+  const bleet = await processQuery("SELECT * FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
 
   return res.json({ status: "success", bleet: bleet[0] });
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const { title, body } = req.body;
-  const file = req.files?.image;
+  const file = req.files?.image as UploadedFile;
   const uploadedAt = Date.now();
   const user_id = req.user?.id;
   const index = req.files?.image && file?.name.indexOf(".");
-  const imageId = file
-    ? `${uuidv4()}${file.name.slice(index!)}`
-    : "";
+  const imageId = file ? `${uuidv4()}${file.name.slice(index!)}` : "";
 
   if (title && body) {
     const markdown = useMarkdown(body);
@@ -59,10 +53,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
 router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const bleet = await processQuery(
-    "SELECT * FROM `bleets` WHERE `bleets`.`id` = ?",
-    [id]
-  );
+  const bleet = await processQuery("SELECT * FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
 
   if (!bleet[0]) {
     return res.json({
@@ -81,7 +72,7 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { title, body } = req.body;
 
   if (title && body) {
-    const file = req.files?.image;
+    const file = req.files?.image as UploadedFile;
     const fileName = file?.name || "";
     const markdown = useMarkdown(body);
 
@@ -93,8 +84,7 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
         "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
       data = [title, body, markdown, fileName, id];
     } else {
-      query =
-        "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ? WHERE `bleets`.`id` = ?";
+      query = "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ? WHERE `bleets`.`id` = ?";
       data = [title, body, markdown, id];
     }
 
