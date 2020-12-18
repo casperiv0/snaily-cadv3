@@ -8,8 +8,7 @@ import { Socket } from "socket.io";
 io.on("connection", async (socket: Socket) => {
   const cadInfo = await processQuery("SELECT `webhook_url` FROM `cad_info`");
   let webhook = {} as WebHook;
-
-  if (cadInfo[0].webhook_url) {
+  if (cadInfo[0]?.webhook_url) {
     webhook = await getWebhookData(cadInfo[0].webhook_url);
   }
 
