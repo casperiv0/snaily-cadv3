@@ -55,10 +55,10 @@ const LeoDash: React.FC<Props> = (props) => {
           </h4>
           <span>{new Date(time).toLocaleString()}</span>
         </div>
-        <div className="card-body">
+        <div className="card-body row gap-2 px-4">
           <ModalButtons />
         </div>
-        <div className="card-footer">
+        <div className="card-footer row gap-2 pl-2 px-4">
           <Statuses />
         </div>
       </div>

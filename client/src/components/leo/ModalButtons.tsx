@@ -44,7 +44,7 @@ const modalButtons: MButton[] = [
 const ModalButtons: React.FC = () => {
   return (
     <>
-      <a className="btn btn-primary col-md-2 mt-2 ml-1" href="/leo/my-officers">
+      <a className="btn btn-primary col-md-2" href="/leo/my-officers">
         {lang.officers.my_officers}
       </a>
 
@@ -54,7 +54,7 @@ const ModalButtons: React.FC = () => {
           <button
             id={mButton.name}
             key={idx}
-            className="btn btn-secondary bg-secondary col-md-2 mt-2 ml-1"
+            className="btn btn-secondary bg-secondary col-md-2"
             data-target={mButton.target}
             data-toggle="modal"
           >
@@ -64,7 +64,7 @@ const ModalButtons: React.FC = () => {
       })}
 
       {/* other links */}
-      <a className="btn btn-secondary col-md-2 mt-2 ml-1" href="/leo/penal-codes">
+      <a className="btn btn-secondary col-md-2" href="/leo/penal-codes">
         {lang.global.penal_codes}
       </a>
     </>

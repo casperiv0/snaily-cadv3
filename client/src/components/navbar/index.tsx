@@ -73,92 +73,83 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, checkAuth, logout, getCadInf
 
   return (
     <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
-      <a className="navbar navbar-brand" href="/">
-        Home
-      </a>
-
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navContent"
-        aria-controls="navContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      <div className="collapse navbar-collapse" id="navContent">
-        <ul className="navbar-nav mr-auto">
-          {paths.map((path: Path, idx: number) => {
-            return (
-              <li id={path.name} key={idx} className="nav-item">
-                <a className={"nav-link active text-light"} href={path.href}>
-                  {path.name}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-
-        <ul className="nav navbar-nav float-right">
-          <li className="nav-item">
-            <div className="dropdown">
-              <button
-                className="btn btn-secondary"
-                type="button"
-                data-toggle="dropdown"
-                id="authDropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <img
-                  style={{ width: "1.5rem", height: "1.5rem" }}
-                  src="/img/avatar.svg"
-                  alt="open menu"
-                />
-              </button>
-
-              <div
-                className="dropdown-menu dropdown-menu-right bg-dark border-dark"
-                aria-labelledby="authDropdown"
-              >
-                {!loading && isAuth ? (
-                  <div>
-                    <a
-                      className="dropdown-item bg-dark border-secondary text-light"
-                      href="/account"
-                    >
-                      {lang.auth.account.account}
-                    </a>
-                    <div className="dropdown-divider bg-dark border-secondary"></div>
-                    <button
-                      onClick={logout}
-                      className="dropdown-item bg-dark border-secondary text-light"
-                    >
-                      {lang.auth.logout}
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <a className="dropdown-item bg-dark border-secondary text-light" href="/login">
-                      {lang.auth.login}
-                    </a>
-                    <a
-                      className="dropdown-item bg-dark border-secondary text-light"
-                      href="/register"
-                    >
-                      {lang.auth.register}
-                    </a>
-                  </>
-                )}
-              </div>
-            </div>
-          </li>
-        </ul>
+      <div className="container-fluid">
+        <a className="navbar-brand" href="/">
+          Home
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#nav-items"
+          aria-controls="nav-items"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="nav-items">
+          <ul className="navbar-nav">
+            {paths.map((path: Path, idx: number) => {
+              return (
+                <li id={path.name} key={idx} className="nav-item">
+                  <a className={"nav-link active text-light"} href={path.href}>
+                    {path.name}
+                  </a>
+                </li>
+              );
+            })}
+            <NavbarDropdown loading={loading} isAuth={isAuth} />
+          </ul>
+        </div>
       </div>
     </nav>
+  );
+};
+
+const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean }> = ({ loading, isAuth }) => {
+  return (
+    <div className="dropdown dropstart">
+      <button
+        className="btn btn-secondary"
+        type="button"
+        id="navbarDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img style={{ width: "1.5rem", height: "1.5rem" }} src="/img/avatar.svg" alt="open menu" />
+      </button>
+      <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+        {!loading && isAuth ? (
+          <>
+            <li>
+              <a className="dropdown-item" href="/account">
+                {lang.auth.account.account}
+              </a>
+            </li>
+            <li className="dropdown-divider bg-dark border-secondary"></li>
+            <li>
+              <button onClick={logout} className="dropdown-item">
+                {lang.auth.logout}
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <a className="dropdown-item" href="/login">
+                {lang.auth.login}
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="/register">
+                {lang.auth.register}
+              </a>
+            </li>
+          </>
+        )}
+      </ul>
+    </div>
   );
 };
 

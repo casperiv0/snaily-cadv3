@@ -31,8 +31,10 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
       {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">{lang.bleeter.bleet_title}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="title">
+            {lang.bleeter.bleet_title}
+          </label>
           <input
             type="file"
             id="image"
@@ -41,8 +43,10 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="title">{lang.bleeter.bleet_title}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="title">
+            {lang.bleeter.bleet_title}
+          </label>
           <input
             type="text"
             value={title}
@@ -52,8 +56,10 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="body">{lang.bleeter.bleet_body}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="body">
+            {lang.bleeter.bleet_body}
+          </label>
           <textarea
             className="form-control bg-dark border-dark text-light"
             title="body"
@@ -64,7 +70,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
           ></textarea>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger" href="/bleeter">
             {lang.global.cancel}
           </a>

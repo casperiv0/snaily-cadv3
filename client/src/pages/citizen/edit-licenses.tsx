@@ -110,8 +110,8 @@ const EditLicensesPage: React.FC<Props> = ({
       <form onSubmit={onSubmit}>
         {fields.map((field: Field, idx: number) => {
           return (
-            <div key={idx} id={`${idx}`} className="form-group">
-              <label htmlFor={field.id}>{field.label}</label>
+            <div key={idx} id={`${idx}`} className="mb-3">
+              <label className="form-label" htmlFor={field.id}>{field.label}</label>
               <select
                 id="dmv"
                 value={field.value}
@@ -134,7 +134,7 @@ const EditLicensesPage: React.FC<Props> = ({
           );
         })}
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger" href={`/citizen/${citizenId}`}>
             {lang.global.cancel}
           </a>

@@ -55,8 +55,8 @@ const RegisterWeaponPage: React.FC<Props> = ({
       {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="weapon">{lang.citizen.weapon.enter_weapon}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="weapon">{lang.citizen.weapon.enter_weapon}</label>
           <select
             value={weapon}
             onChange={(e) => setWeapon(e.target.value)}
@@ -74,8 +74,8 @@ const RegisterWeaponPage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="owner">{lang.citizen.weapon.enter_owner}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="owner">{lang.citizen.weapon.enter_owner}</label>
           <select
             id="owner"
             value={citizenId}
@@ -96,8 +96,8 @@ const RegisterWeaponPage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="status">{lang.citizen.weapon.enter_status}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">{lang.citizen.weapon.enter_status}</label>
           <select
             id="status"
             value={status}
@@ -116,7 +116,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a href="/citizen" className="btn btn-danger">
             {lang.global.cancel}
           </a>

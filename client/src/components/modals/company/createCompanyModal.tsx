@@ -41,8 +41,8 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           {error ? <AlertMessage type="warning" message={error} /> : null}
-          <div className="form-group">
-            <label htmlFor="company_name">{lang.citizen.company.name}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="company_name">{lang.citizen.company.name}</label>
             <input
               type="text"
               id="company_name"
@@ -51,8 +51,8 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="address">{lang.citizen.company.address}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="address">{lang.citizen.company.address}</label>
             <input
               type="text"
               id="address"
@@ -61,8 +61,8 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="whitelist">{lang.citizen.company.whitelisted}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="whitelist">{lang.citizen.company.whitelisted}</label>
             <select
               id="whitelist"
               value={whitelist}
@@ -73,8 +73,8 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
               <option value="1">{lang.global.yes}</option>
             </select>
           </div>
-          <div className="form-group">
-            <label htmlFor="ownerId">{lang.citizen.company.select_owner}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="ownerId">{lang.citizen.company.select_owner}</label>
             <select
               id="ownerId"
               value={ownerId}

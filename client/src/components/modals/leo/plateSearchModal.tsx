@@ -32,8 +32,8 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="plate">{lang.global.plate}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="plate">{lang.global.plate}</label>
             <input
               type="search"
               className="form-control bg-secondary border-secondary text-light"

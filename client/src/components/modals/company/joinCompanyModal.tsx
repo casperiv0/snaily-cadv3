@@ -40,8 +40,8 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           {error ? <AlertMessage type="warning" message={error} /> : null}
-          <div className="form-group">
-            <label htmlFor="citizen">{lang.citizen.company.select_cit}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="citizen">{lang.citizen.company.select_cit}</label>
             {!citizens[0] ? (
               <p>{lang.citizen.company.no_cit}</p>
             ) : (
@@ -65,8 +65,8 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
               </select>
             )}
           </div>
-          <div className="form-group">
-            <label htmlFor="company">{lang.citizen.company.select_com}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="company">{lang.citizen.company.select_com}</label>
             {!companies[0] ? (
               <p>{lang.citizen.company.no_com}</p>
             ) : (

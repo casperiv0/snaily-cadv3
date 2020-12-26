@@ -34,8 +34,10 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
       {error ? <AlertMessage type="warning" message={error} /> : null}
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">{lang.citizen.company.post_title}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="title">
+            {lang.citizen.company.post_title}
+          </label>
           <input
             type="text"
             value={title}
@@ -43,8 +45,10 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
             className="form-control bg-dark border-dark text-light"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="title">{lang.citizen.company.post_desc}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="title">
+            {lang.citizen.company.post_desc}
+          </label>
           <textarea
             rows={10}
             value={description}
@@ -52,7 +56,7 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
             className="form-control bg-dark border-dark text-light"
           ></textarea>
         </div>
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger mr-2" href={`/company/${citizenId}/${companyId}`}>
             {lang.global.cancel}
           </a>

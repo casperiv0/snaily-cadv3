@@ -75,8 +75,10 @@ const EditBleet: React.FC<Props> = ({
     <Layout classes="mt-5">
       {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">{lang.bleeter.bleet_title}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="title">
+            {lang.bleeter.bleet_title}
+          </label>
           <input
             type="text"
             id="title"
@@ -85,8 +87,10 @@ const EditBleet: React.FC<Props> = ({
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="body">{lang.bleeter.bleet_body}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="body">
+            {lang.bleeter.bleet_body}
+          </label>
           <textarea
             id="body"
             className="form-control bg-dark text-light border-dark"
@@ -96,7 +100,7 @@ const EditBleet: React.FC<Props> = ({
             style={{ resize: "vertical" }}
           ></textarea>
         </div>
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger mr-2" href={`/bleet/${bleet.id}`}>
             {lang.global.cancel}
           </a>

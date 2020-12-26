@@ -67,8 +67,10 @@ const TransferVehiclePage: React.FC<Props> = ({
       {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.global.plate}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">
+            {lang.global.plate}
+          </label>
           <input
             type="text"
             className="form-control bg-dark border-dark text-light"
@@ -78,8 +80,10 @@ const TransferVehiclePage: React.FC<Props> = ({
             maxLength={8}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="owner">{lang.citizen.vehicle.transfer_to}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="owner">
+            {lang.citizen.vehicle.transfer_to}
+          </label>
           <select
             id="owner"
             className="form-control bg-dark border-dark text-light"
@@ -102,7 +106,7 @@ const TransferVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger mr-2" href={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
           </a>

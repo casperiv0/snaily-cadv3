@@ -101,8 +101,8 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
           {error ? <AlertMessage type="warning" message={error} /> : null}
           {fields.map((field: Field, idx: number) => {
             return (
-              <div id={`${idx}`} key={idx} className="form-group">
-                <label htmlFor={field.id}>{field.label}</label>
+              <div id={`${idx}`} key={idx} className="mb-3">
+                <label className="form-label" htmlFor={field.id}>{field.label}</label>
                 <input
                   className="form-control bg-secondary border-secondary text-light"
                   type={field.type}

@@ -36,8 +36,8 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
       </div>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="officer">{lang.officers.select_officer}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="officer">{lang.officers.select_officer}</label>
 
             {!officers[0] ? (
               <p className="font-weight-bold">{lang.officers.no_officers}</p>

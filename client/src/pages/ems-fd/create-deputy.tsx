@@ -27,8 +27,8 @@ const CreateDeputyPage: React.FC<Props> = ({ error, createEmsFdDeputy }) => {
       {error ? <AlertMessage message={error} type="warning" /> : null}
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">{lang.ems_fd.enter_name}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="name">{lang.ems_fd.enter_name}</label>
           <input
             type="text"
             value={name}
@@ -37,7 +37,7 @@ const CreateDeputyPage: React.FC<Props> = ({ error, createEmsFdDeputy }) => {
             className="form-control text-light bg-dark border-secondary"
           />
         </div>
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger" href="/ems-fd/deputies">
             {lang.global.cancel}
           </a>

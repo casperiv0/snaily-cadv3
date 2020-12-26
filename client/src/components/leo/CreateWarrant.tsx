@@ -36,8 +36,10 @@ const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
       </div>
       <form onSubmit={onSubmit} className="list-group-item bg-dark border-dark">
         {error ? <AlertMessage type="warning" message={error} /> : null}
-        <div className="form-group">
-          <label htmlFor="warrant_name">{lang.record.enter_full_name}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="warrant_name">
+            {lang.record.enter_full_name}
+          </label>
           <input
             className="form-control bg-secondary border-secondary text-light"
             type="text"
@@ -46,8 +48,10 @@ const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="status">{lang.record.select_status}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">
+            {lang.record.select_status}
+          </label>
 
           <select
             className="form-control bg-secondary border-secondary text-light"
@@ -59,8 +63,10 @@ const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
             <option value="inactive">{lang.record.inactive}</option>
           </select>
         </div>
-        <div className="form-group">
-          <label htmlFor="details">{lang.record.enter_details}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="details">
+            {lang.record.enter_details}
+          </label>
           <input
             className="form-control bg-secondary border-secondary text-light"
             type="text"
@@ -69,7 +75,7 @@ const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
             onChange={(e) => setDetails(e.target.value)}
           />
         </div>
-        <div className="form-group">
+        <div className="mb-3">
           <button className="btn btn-secondary col">{lang.global.create_warrant}</button>
         </div>
       </form>

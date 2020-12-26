@@ -225,8 +225,8 @@ const CreateCitizenPage: React.FC<Props> = ({
       <form onSubmit={onSubmit}>
         {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
-        <div key="image" id="-1" className="form-group">
-          <label htmlFor="image">{lang.global.image}</label>
+        <div key="image" id="-1" className="mb-3">
+          <label className="form-label" htmlFor="image">{lang.global.image}</label>
           <input
             onChange={(e) => setImage(e.target.files![0])}
             type="file"
@@ -236,8 +236,8 @@ const CreateCitizenPage: React.FC<Props> = ({
 
         {fields.map((field: Field, idx: number) => {
           return (
-            <div key={idx} id={`${idx}`} className="form-group">
-              <label htmlFor={field.id}>{field.label}</label>
+            <div key={idx} id={`${idx}`} className="mb-3">
+              <label className="form-label" htmlFor={field.id}>{field.label}</label>
               {field.select ? (
                 <select
                   disabled={field?.disabled}
@@ -274,8 +274,8 @@ const CreateCitizenPage: React.FC<Props> = ({
         <div className="form-row">
           {licenseFields.map((field: Field, idx: number) => {
             return (
-              <div key={idx} id={`${idx}`} className="form-group col-md-3">
-                <label htmlFor={field.id}>{field.label}</label>
+              <div key={idx} id={`${idx}`} className="mb-3 col-md-3">
+                <label className="form-label" htmlFor={field.id}>{field.label}</label>
                 <select
                   className="form-control bg-dark border-dark text-light"
                   value={field.value}
@@ -298,7 +298,7 @@ const CreateCitizenPage: React.FC<Props> = ({
           })}
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a href={`/citizen/${citizenId}`} className="btn btn-danger">
             {lang.global.cancel}
           </a>

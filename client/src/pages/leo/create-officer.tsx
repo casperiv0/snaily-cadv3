@@ -40,8 +40,8 @@ const CreateOfficerPage: React.FC<Props> = ({
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
         {error ? <AlertMessage message={error} type="warning" /> : null}
-        <div className="form-group">
-          <label htmlFor="officerName">{lang.record.officer_name}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="officerName">{lang.record.officer_name}</label>
           <input
             className="form-control bg-secondary border-secondary text-light"
             type="text"
@@ -50,8 +50,8 @@ const CreateOfficerPage: React.FC<Props> = ({
             onChange={(e) => setOfficerName(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="officerDept">{lang.officers.select_department}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="officerDept">{lang.officers.select_department}</label>
           <select
             className="form-control bg-secondary border-secondary text-light"
             name="department"
@@ -73,7 +73,7 @@ const CreateOfficerPage: React.FC<Props> = ({
             )}
           </select>
         </div>
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger" href="/leo/my-officers">
             {lang.global.cancel}
           </a>

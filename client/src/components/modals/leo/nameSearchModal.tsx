@@ -49,8 +49,8 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
           {search?.warrants[0] ? (
             <AlertMessage type="warning" message={lang.record.has_warrant} />
           ) : null}
-          <div className="form-group">
-            <label htmlFor="name">{lang.global.name}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="name">{lang.global.name}</label>
             <input
               type="search"
               className="form-control bg-secondary border-secondary text-light"

@@ -49,7 +49,7 @@ const SearchMedicalRecords: React.FC<Props> = ({ medicalRecords, searchMedicalRe
           />
 
           {!medicalRecords?.length && hasSubmitted ? (
-            <div className="form-group mt-2">
+            <div className="mb-3 mt-2">
               <AlertMessage type="warning" message="None found" />
             </div>
           ) : hasSubmitted ? (

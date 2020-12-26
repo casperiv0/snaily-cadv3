@@ -32,8 +32,8 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="serialNumber">{lang.citizen.weapon.serial_number}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="serialNumber">{lang.citizen.weapon.serial_number}</label>
             <input
               id="serialNumber"
               type="weapon"

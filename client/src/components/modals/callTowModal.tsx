@@ -39,8 +39,8 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="tow_description">{lang.global.description}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="tow_description">{lang.global.description}</label>
             <textarea
               cols={30}
               rows={5}
@@ -52,8 +52,8 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
             ></textarea>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="tow_caller">{lang.global.caller}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="tow_caller">{lang.global.caller}</label>
             <input
               type="text"
               value={caller}
@@ -63,8 +63,8 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="tow_location">{lang.global.location}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="tow_location">{lang.global.location}</label>
             <input
               type="text"
               value={location}

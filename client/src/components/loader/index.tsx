@@ -29,7 +29,7 @@ const Loader: React.FC<Props> = ({ fullScreen }) => {
   return (
     <div style={fullScreen ? fullScreenStyles : centerStyles}>
       <div className="spinner-border text-primary" role="status">
-        <span className="sr-only">Loading...</span>
+        <span className="visually-hidden">Loading...</span>
       </div>
     </div>
   );

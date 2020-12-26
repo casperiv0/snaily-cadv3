@@ -67,8 +67,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
     <Layout classes="mt-5">
       {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.citizen.vehicle.enter_plate}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">
+            {lang.citizen.vehicle.enter_plate}
+          </label>
           <input
             type="text"
             id="plate"
@@ -80,8 +82,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="color">{lang.citizen.vehicle.enter_color}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="color">
+            {lang.citizen.vehicle.enter_color}
+          </label>
           <input
             type="text"
             id="color"
@@ -91,8 +95,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="vehicle">{lang.citizen.vehicle.enter_vehicle}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="vehicle">
+            {lang.citizen.vehicle.enter_vehicle}
+          </label>
           <input
             type="text"
             id="vehicle"
@@ -114,8 +120,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           </datalist>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="owner">{lang.citizen.vehicle.select_owner}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="owner">
+            {lang.citizen.vehicle.select_owner}
+          </label>
           <select
             id="owner"
             value={citizenId}
@@ -136,8 +144,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="status">{lang.citizen.vehicle.select_status}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">
+            {lang.citizen.vehicle.select_status}
+          </label>
           <select
             id="status"
             value={status}
@@ -158,8 +168,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="status">{lang.citizen.vehicle.company}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">
+            {lang.citizen.vehicle.company}
+          </label>
           <select
             id="company"
             value={companyId}
@@ -180,7 +192,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a href="/citizen" className="btn btn-danger">
             {lang.global.cancel}
           </a>

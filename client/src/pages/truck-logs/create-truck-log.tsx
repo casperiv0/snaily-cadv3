@@ -34,8 +34,8 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
         {error ? <AlertMessage message={error} type="warning" /> : null}
-        <div className="form-group">
-          <label htmlFor="name">{lang.truck_logs.enter_trucker_name}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="name">{lang.truck_logs.enter_trucker_name}</label>
           <input
             type="text"
             id="name"
@@ -44,8 +44,8 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
             className="form-control text-light bg-dark border-dark"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="co_driver">{lang.truck_logs.enter_co_driver}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="co_driver">{lang.truck_logs.enter_co_driver}</label>
           <input
             type="text"
             id="co_driver"
@@ -54,8 +54,8 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
             className="form-control text-light bg-dark border-dark"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="date">{lang.truck_logs.date}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="date">{lang.truck_logs.date}</label>
           <input
             type="date"
             id="date"
@@ -64,8 +64,8 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
             className="form-control text-light bg-dark border-dark"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="start_time">{lang.truck_logs.enter_starting_time}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="start_time">{lang.truck_logs.enter_starting_time}</label>
           <input
             type="text"
             id="start_time"
@@ -74,8 +74,8 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
             className="form-control text-light bg-dark border-dark"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.truck_logs.enter_vehicle_plate}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">{lang.truck_logs.enter_vehicle_plate}</label>
           <input
             type="text"
             id="plate"
@@ -84,7 +84,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
             className="form-control text-light bg-dark border-dark"
           />
         </div>
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a href="/truck-logs" className="btn btn-danger">
             {lang.global.cancel}
           </a>

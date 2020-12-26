@@ -32,8 +32,8 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="address">{lang.dispatch.enter_address}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="address">{lang.dispatch.enter_address}</label>
             <input
               value={address}
               className="form-control bg-secondary border-secondary text-light"

@@ -28,8 +28,8 @@ const AddValuePage: React.FC<Props> = ({ error, match, addValue }) => {
     <AdminLayout>
       {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">{lang.admin.values[path].name}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="name">{lang.admin.values[path].name}</label>
           <input
             id="name"
             value={value}
@@ -39,7 +39,7 @@ const AddValuePage: React.FC<Props> = ({ error, match, addValue }) => {
           />
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger" href={`/admin/values/${path}`}>
             {lang.global.cancel}
           </a>

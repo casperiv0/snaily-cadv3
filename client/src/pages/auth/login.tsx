@@ -33,11 +33,13 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
   return (
     <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
       <h2>{lang.auth.login_2}</h2>
-      <div className="form-group">
+      <div className="mb-3">
         {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
       </div>
-      <div className="form-group">
-        <label htmlFor="username">{lang.auth.enter_username}</label>
+      <div className="mb-3">
+        <label className="form-label" htmlFor="username">
+          {lang.auth.enter_username}
+        </label>
         <input
           type="text"
           value={username}
@@ -46,8 +48,10 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
           className="form-control"
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="password">{lang.auth.enter_password}</label>
+      <div className="mb-3">
+        <label className="form-label" htmlFor="password">
+          {lang.auth.enter_password}
+        </label>
         <input
           type="password"
           value={password}
@@ -56,7 +60,7 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
           className="form-control"
         />
       </div>
-      <div className="form-group">
+      <div className="mb-3">
         <a href="/register">{lang.auth.register}</a>
         <button
           disabled={loading}

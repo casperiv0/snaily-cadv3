@@ -75,8 +75,10 @@ const EditVehiclePage: React.FC<Props> = ({
       {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.citizen.vehicle.enter_plate}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">
+            {lang.citizen.vehicle.enter_plate}
+          </label>
           <input
             type="text"
             id="plate"
@@ -85,8 +87,10 @@ const EditVehiclePage: React.FC<Props> = ({
             defaultValue={plate}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="color">{lang.citizen.vehicle.enter_color}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="color">
+            {lang.citizen.vehicle.enter_color}
+          </label>
           <input
             type="text"
             id="color"
@@ -95,8 +99,10 @@ const EditVehiclePage: React.FC<Props> = ({
             onChange={(e) => setColor(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.citizen.vehicle.select_status}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">
+            {lang.citizen.vehicle.select_status}
+          </label>
           <select
             onChange={(e) => setStatus(e.target.value)}
             value={status}
@@ -117,7 +123,7 @@ const EditVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-right">
           <a className="btn btn-danger mr-2" href={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
           </a>
