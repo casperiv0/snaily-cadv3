@@ -13,7 +13,13 @@ import api from "./api";
 const app: Application = express();
 const port = config.port;
 const server = app.listen(port, () => Logger.listening(port));
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: config.clientUrl,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  },
+});
 const protection = csurf({ cookie: true });
 
 app.use("/static", express.static("public"));
