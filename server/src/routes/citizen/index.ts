@@ -10,6 +10,7 @@ import citizenVehicleRouter from "./vehicles";
 import medicalRecordsRouter from "./medical-records";
 import companyRouter from "./company";
 import { UploadedFile } from "express-fileupload";
+import { SupportedFileTypes } from "../../lib/constants";
 
 router.use("/weapons", citizenWeaponRouter);
 router.use("/vehicles", citizenVehicleRouter);
@@ -56,6 +57,13 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
   const file = req.files?.image ? (req.files.image as UploadedFile) : null;
   const index = req.files?.image && file?.name.indexOf(".");
+
+  if (file && !SupportedFileTypes.includes(String(file.mimetype))) {
+    return res.json({
+      status: "error",
+      error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
+    });
+  }
 
   const imageId = file ? `${uuidv4()}${file.name.slice(index!)}` : "default.svg";
 

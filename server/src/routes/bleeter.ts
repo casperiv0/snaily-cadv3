@@ -1,7 +1,7 @@
 import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { useAuth, useMarkdown } from "../hooks";
-import { RanksArr } from "../lib/constants";
+import { RanksArr, SupportedFileTypes } from "../lib/constants";
 import { v4 as uuidv4 } from "uuid";
 import { UploadedFile } from "express-fileupload";
 import IRequest from "../interfaces/IRequest";
@@ -28,6 +28,13 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const user_id = req.user?.id;
   const index = req.files?.image && file?.name.indexOf(".");
   const imageId = file ? `${uuidv4()}${file.name.slice(index!)}` : "";
+
+  if (file && !SupportedFileTypes.includes(file.mimetype)) {
+    return res.json({
+      status: "error",
+      error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
+    });
+  }
 
   if (title && body) {
     const markdown = useMarkdown(body);
