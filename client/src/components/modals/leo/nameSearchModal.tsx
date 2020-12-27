@@ -154,17 +154,17 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                     className="btn btn-primary col-md-6 mt-3"
                     type="button"
                     data-toggle="collapse"
-                    data-target="#records"
+                    data-bs-target="#records"
                     aria-expanded="false"
                     aria-controls="record"
                   >
                     {lang.citizen.toggle_record}
                   </button>
                   <button
-                    className="btn btn-primary col-md-6 ml-2 mt-3"
+                    className="btn btn-primary col-md-6 ms-2 mt-3"
                     type="button"
                     data-toggle="collapse"
-                    data-target="#registered"
+                    data-bs-target="#registered"
                     aria-expanded="false"
                     aria-controls="registered"
                   >
@@ -459,7 +459,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
           <button type="submit" disabled={name === ""} className="btn btn-primary">

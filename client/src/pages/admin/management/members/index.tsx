@@ -79,7 +79,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
                 aria-selected="false"
               >
                 {lang.admin.pending_members}
-                <div className="badge badge-primary ml-2">
+                <div className="badge bg-primary ms-2">
                   {members.filter((m) => m.whitelist_status === "pending").length}
                 </div>
               </a>
@@ -96,7 +96,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
               </div>
 
               <div
-                className="tab-pane fade active"
+                className="tab-pane fade"
                 id="pending"
                 role="tabpanel"
                 aria-labelledby="pending-tab"

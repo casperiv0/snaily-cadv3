@@ -27,9 +27,9 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
 
           <div className="d-flex">
             <button
-              data-toggle="modal"
-              data-target="#editPasswordModal"
-              className="btn btn-primary mr-2"
+              data-bs-toggle="modal"
+              data-bs-target="#editPasswordModal"
+              className="btn btn-primary me-2"
             >
               {lang.auth.account.edit_password}
             </button>
@@ -37,8 +37,8 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
               <p>The owner is not able to delete their account.</p>
             ) : (
               <button
-                data-toggle="modal"
-                data-target="#deleteAccountModal"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteAccountModal"
                 className="btn btn-danger"
               >
                 {lang.auth.account.delete_acc}
@@ -78,7 +78,7 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary col-md-4 mr-1"
+            className="btn btn-secondary col-md-4 me-1"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/blob/main/CHANGELOG.md"
           >
             {lang.auth.account.changelog}
@@ -86,7 +86,7 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary col-md-4 mr-1"
+            className="btn btn-secondary col-md-4 me-1"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new?assignees=&labels=&template=feature_request.md&title="
           >
             {lang.auth.account.new_feature}

@@ -64,11 +64,11 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
           ></textarea>
         </div>
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a href={`/citizen/${citizenId}`} className="btn btn-danger">
             {lang.global.cancel}
           </a>
-          <button type="submit" className="btn btn-primary ml-2">
+          <button type="submit" className="btn btn-primary ms-2">
             {lang.citizen.medical.add}
           </button>
         </div>

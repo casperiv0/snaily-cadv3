@@ -17,13 +17,10 @@ const AlertMessage: React.FC<Props> = ({ type, message, dismissible, dismissMess
       {dismissible && (
         <button
           type="button"
-          onClick={dismissMessage}
-          className="close"
-          data-dismiss="alert"
+          className="btn-close"
+          data-bs-dismiss="alert"
           aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
+        ></button>
       )}
     </div>
   );

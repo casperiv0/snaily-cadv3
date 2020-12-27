@@ -60,7 +60,7 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
           </div>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button disabled={!deputies.length} type="submit" className="btn btn-primary">

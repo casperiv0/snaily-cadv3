@@ -57,7 +57,7 @@ const PendingTab: React.FC<Props> = ({ employees, match, updateEmployeeStatus })
                   {lang.global.decline}
                 </button>
                 <button
-                  className="btn btn-success ml-2"
+                  className="btn btn-success ms-2"
                   onClick={() => {
                     handleAccept(employee.id!);
                   }}

@@ -190,7 +190,9 @@ const CreateCitizenPage: React.FC<Props> = ({
         {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
 
         <div key="image" id="-1" className="mb-3">
-          <label className="form-label" htmlFor="image">{lang.global.image}</label>
+          <label className="form-label" htmlFor="image">
+            {lang.global.image}
+          </label>
           <input
             onChange={(e) => setImage(e.target.files![0])}
             type="file"
@@ -201,7 +203,9 @@ const CreateCitizenPage: React.FC<Props> = ({
         {fields.map((field: Field, idx: number) => {
           return (
             <div key={idx} id={`${idx}`} className="mb-3">
-              <label className="form-label" htmlFor={field.id}>{field.label}</label>
+              <label className="form-label" htmlFor={field.id}>
+                {field.label}
+              </label>
               {field.select ? (
                 <select
                   className="form-control bg-dark border-dark text-light"
@@ -233,11 +237,13 @@ const CreateCitizenPage: React.FC<Props> = ({
           );
         })}
 
-        <div className="form-row">
+        <div className="row">
           {licenseFields.map((field: Field, idx: number) => {
             return (
               <div key={idx} id={`${idx}`} className="mb-3 col-md-3">
-                <label className="form-label" htmlFor={field.id}>{field.label}</label>
+                <label className="form-label" htmlFor={field.id}>
+                  {field.label}
+                </label>
                 <select
                   className="form-control bg-dark border-dark text-light"
                   value={field.value}
@@ -260,12 +266,12 @@ const CreateCitizenPage: React.FC<Props> = ({
           })}
         </div>
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a href="/citizen" className="btn btn-danger">
             {lang.global.cancel}
           </a>
 
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.citizen.create_citizen}
           </button>
         </div>

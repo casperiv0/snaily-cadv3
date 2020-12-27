@@ -123,8 +123,8 @@ const EditVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="mb-3 float-right">
-          <a className="btn btn-danger mr-2" href={`/citizen/${vehicle?.citizen_id}`}>
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
           </a>
           <button className="btn btn-primary" type="submit">

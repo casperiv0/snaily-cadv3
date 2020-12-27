@@ -79,7 +79,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
           </a>
           <a
             download
-            className="btn btn-primary mt-2 mb-2 ml-2"
+            className="btn btn-primary mt-2 mb-2 ms-2"
             href="/downloads/snailyCADv3-911.zip"
           >
             FiveM Call 911 (/call911)

@@ -8,10 +8,10 @@ interface Props {
 const Modal: React.FC<Props> = ({ id, size, children }) => {
   return (
     <div
-      className="modal fade"
       id={id}
+      className="modal fade"
       tabIndex={-1}
-      aria-labelledby={`${id}Label`}
+      aria-labelledby={`${id}-label`}
       aria-hidden="true"
     >
       <div className={`modal-dialog modal-${size}`}>
@@ -26,12 +26,10 @@ const XButton = React.forwardRef((_props, ref: React.Ref<HTMLButtonElement>) => 
     <button
       ref={ref}
       type="button"
-      data-dismiss="modal"
+      data-bs-dismiss="modal"
       aria-label="Close"
-      className="close text-light"
-    >
-      <span aria-hidden={true}>&times;</span>
-    </button>
+      className="btn-close"
+    ></button>
   );
 });
 

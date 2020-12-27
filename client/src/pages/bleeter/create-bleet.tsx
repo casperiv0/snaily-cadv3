@@ -70,12 +70,12 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
           ></textarea>
         </div>
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href="/bleeter">
             {lang.global.cancel}
           </a>
 
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.bleeter.create_bleet}
           </button>
         </div>

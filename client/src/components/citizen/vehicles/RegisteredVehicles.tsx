@@ -45,13 +45,13 @@ const RegisteredVehicles: React.FC<Props> = ({
               className="btn btn-secondary"
               type="button"
               data-toggle="collapse"
-              data-target="#registered_vehicles"
+              data-bs-target="#registered_vehicles"
               aria-expanded="false"
               aria-controls="collapseExample"
             >
               {lang.citizen.vehicle.toggle_veh}
             </button>
-            <a href="/vehicles/register" className="btn btn-primary ml-2">
+            <a href="/vehicles/register" className="btn btn-primary ms-2">
               {lang.citizen.vehicle.reg_a_vehicle}
             </a>
             <ul className="list-group collapse mt-2" id="registered_vehicles">
@@ -86,13 +86,13 @@ const RegisteredVehicles: React.FC<Props> = ({
 
                     {/* actions */}
                     <div id="actions">
-                      <a className="btn btn-dark mr-2" href={`/vehicles/transfer/${vehicle.id}`}>
+                      <a className="btn btn-dark me-2" href={`/vehicles/transfer/${vehicle.id}`}>
                         {lang.citizen.vehicle.transfer}
                       </a>
 
                       {vehicle.in_status === "Reported stolen" ? null : (
                         <button
-                          className="btn btn-dark mr-2"
+                          className="btn btn-dark me-2"
                           onClick={() => reportAsStolen(vehicle.id)}
                         >
                           {lang.citizen.vehicle.report_stolen}
@@ -104,7 +104,7 @@ const RegisteredVehicles: React.FC<Props> = ({
                       >
                         {lang.global.delete}
                       </button>
-                      <a className="btn btn-success ml-2" href={`/vehicles/edit/${vehicle.id}`}>
+                      <a className="btn btn-success ms-2" href={`/vehicles/edit/${vehicle.id}`}>
                         {lang.global.edit}
                       </a>
                     </div>

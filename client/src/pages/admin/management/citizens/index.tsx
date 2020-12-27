@@ -109,7 +109,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
 
                       <div className="d-flex mt-2">
                         <a
-                          className="btn btn-success mr-2"
+                          className="btn btn-success me-2"
                           href={`/admin/manage/citizens/edit/${citizen.id}`}
                         >
                           {lang.citizen.edit_citizen}
@@ -117,8 +117,8 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                         <button
                           type="button"
                           className="btn btn-danger"
-                          data-toggle="modal"
-                          data-target={`#deleteCitizenModal${citizen.id}`}
+                          data-bs-toggle="modal"
+                          data-bs-target={`#deleteCitizenModal${citizen.id}`}
                         >
                           {lang.citizen.delete_citizen}
                         </button>
@@ -131,7 +131,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                       className="btn btn-primary"
                       type="button"
                       data-toggle="collapse"
-                      data-target={`#citizen_info_${citizen.id}`}
+                      data-bs-target={`#citizen_info_${citizen.id}`}
                       aria-expanded="false"
                       aria-controls={`citizen_info_${citizen.id}`}
                     >

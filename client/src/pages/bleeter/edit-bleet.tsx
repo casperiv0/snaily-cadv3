@@ -100,8 +100,8 @@ const EditBleet: React.FC<Props> = ({
             style={{ resize: "vertical" }}
           ></textarea>
         </div>
-        <div className="mb-3 float-right">
-          <a className="btn btn-danger mr-2" href={`/bleet/${bleet.id}`}>
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href={`/bleet/${bleet.id}`}>
             {lang.global.cancel}
           </a>
           <button className="btn btn-success" type="submit">

@@ -68,7 +68,7 @@ const EmployeesTab: React.FC<Props> = ({ employees, match, fireEmployee }) => {
                   <button
                     onClick={() => handleFire(employee.id!)}
                     type="button"
-                    className="btn btn-danger ml-2"
+                    className="btn btn-danger ms-2"
                   >
                     {lang.citizen.company.fire_em}
                   </button>

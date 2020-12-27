@@ -62,7 +62,7 @@ const CitizenInfoPage: React.FC<Props> = ({
           <h3>{lang.admin.cad_settings.general_info}</h3>
 
           <div>
-            <a className="btn btn-success mr-2" href={`/citizen/${citizenId}/edit`}>
+            <a className="btn btn-success me-2" href={`/citizen/${citizenId}/edit`}>
               {lang.citizen.edit_citizen}
             </a>
             <button onClick={handleDelete} className="btn btn-danger">
@@ -72,7 +72,7 @@ const CitizenInfoPage: React.FC<Props> = ({
         </div>
 
         <div className="card-body">
-          <div className="row ml-4 mt-2 mb-2">
+          <div className="row ms-4 mt-2 mb-2">
             <img
               style={{ width: "120px", height: "120px" }}
               className="rounded-circle object-fit-center"
@@ -80,7 +80,7 @@ const CitizenInfoPage: React.FC<Props> = ({
               alt={citizen.image_id}
             />
 
-            <div className="ml-5">
+            <div className="ms-5">
               <Item id="full_name">
                 <Span>{lang.citizen.full_name}: </Span>
                 {citizen.full_name}
@@ -103,7 +103,7 @@ const CitizenInfoPage: React.FC<Props> = ({
               </Item>
             </div>
 
-            <div className="ml-4">
+            <div className="ms-4">
               <Item id="eye_color">
                 <Span>{lang.citizen.eye_color}: </Span>
                 {citizen.eye_color}

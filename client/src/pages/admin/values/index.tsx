@@ -159,7 +159,7 @@ const Values: React.FC<Props> = ({
                           {lang.global.delete}
                         </button>
                         <a
-                          className="btn btn-success ml-2"
+                          className="btn btn-success ms-2"
                           href={`/admin/values/${path}/${value.id}/edit`}
                         >
                           {lang.global.edit}

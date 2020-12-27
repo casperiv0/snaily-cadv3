@@ -298,12 +298,12 @@ const CreateCitizenPage: React.FC<Props> = ({
           })}
         </div>
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a href={`/citizen/${citizenId}`} className="btn btn-danger">
             {lang.global.cancel}
           </a>
 
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.citizen.update_citizen}
           </button>
         </div>

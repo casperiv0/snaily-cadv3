@@ -86,7 +86,7 @@ const CompanyManagementPage: React.FC<Props> = ({
 
                 <div>
                   <button
-                    className="btn btn-danger ml-2"
+                    className="btn btn-danger ms-2"
                     type="button"
                     onClick={() => handleDelete(company.id)}
                   >

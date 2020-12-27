@@ -14,41 +14,43 @@ const PendingMembersTab: React.FC<Props> = ({ members, acceptUser, declineUser }
   return (
     <>
       <h3 className="mb-2 mt-4">{lang.admin.pending_members}</h3>
-      {members
-        .filter((m) => m.whitelist_status === "pending")
-        .map((member: User, idx: number) => {
-          return (
-            <li
-              key={idx}
-              className="list-group-item bg-dark border-secondary d-flex justify-content-between"
-            >
-              <div>
-                {++idx} | {member.username}
-              </div>
+      <ul className="list-group">
+        {members
+          .filter((m) => m.whitelist_status === "pending")
+          .map((member: User, idx: number) => {
+            return (
+              <li
+                key={idx}
+                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+              >
+                <div>
+                  {++idx} | {member.username}
+                </div>
 
-              <div>
-                <button
-                  className="btn btn-success"
-                  type="button"
-                  onClick={() => {
-                    acceptUser(member.id);
-                  }}
-                >
-                  {lang.global.accept}
-                </button>
-                <button
-                  className="btn btn-danger ml-2"
-                  type="button"
-                  onClick={() => {
-                    declineUser(member.id);
-                  }}
-                >
-                  {lang.global.decline}
-                </button>
-              </div>
-            </li>
-          );
-        })}
+                <div>
+                  <button
+                    className="btn btn-success"
+                    type="button"
+                    onClick={() => {
+                      acceptUser(member.id);
+                    }}
+                  >
+                    {lang.global.accept}
+                  </button>
+                  <button
+                    className="btn btn-danger ms-2"
+                    type="button"
+                    onClick={() => {
+                      declineUser(member.id);
+                    }}
+                  >
+                    {lang.global.decline}
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+      </ul>
     </>
   );
 };

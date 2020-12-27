@@ -134,11 +134,11 @@ const EditLicensesPage: React.FC<Props> = ({
           );
         })}
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href={`/citizen/${citizenId}`}>
             {lang.global.cancel}
           </a>
-          <button type="submit" className="btn btn-primary ml-2">
+          <button type="submit" className="btn btn-primary ms-2">
             {lang.global.update}
           </button>
         </div>

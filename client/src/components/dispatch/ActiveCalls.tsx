@@ -62,8 +62,8 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        data-toggle="modal"
-                        data-target={"#update911Call" + call.id}
+                        data-bs-toggle="modal"
+                        data-bs-target={"#update911Call" + call.id}
                       >
                         {lang.dispatch.update_call}
                       </button>

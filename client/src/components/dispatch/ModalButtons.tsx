@@ -41,9 +41,9 @@ const ModalButtons: React.FC = () => {
           <button
             id={`${idx}`}
             key={idx}
-            className="btn btn-secondary bg-secondary col-md-2 mt-2 ml-1"
-            data-target={mButton.target}
-            data-toggle="modal"
+            className="btn btn-secondary bg-secondary col-md-2 mt-2 ms-1"
+            data-bs-target={mButton.target}
+            data-bs-toggle="modal"
           >
             {mButton.name}
           </button>

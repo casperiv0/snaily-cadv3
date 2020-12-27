@@ -61,7 +61,7 @@ const ManageCompanyPage: React.FC<Props> = ({
 
       <h3>{lang.citizen.company.manage_company}</h3>
       <ul className="nav nav-tabs mt-3" id="manage_tabs" role="tablist">
-        <li className="nav-item mr-1" role="presentation">
+        <li className="nav-item me-1" role="presentation">
           <a
             className="nav-link bg-dark border-dark text-light"
             id="home-tab"
@@ -74,7 +74,7 @@ const ManageCompanyPage: React.FC<Props> = ({
             {lang.citizen.company.employees}
           </a>
         </li>
-        <li className="nav-item mr-1" role="presentation">
+        <li className="nav-item me-1" role="presentation">
           <a
             className="nav-link bg-dark border-dark text-light"
             id="profile-tab"
@@ -87,7 +87,7 @@ const ManageCompanyPage: React.FC<Props> = ({
             {lang.admin.values.vehicles.index}
           </a>
         </li>
-        <li className="nav-item mr-1" role="presentation">
+        <li className="nav-item me-1" role="presentation">
           <a
             className="nav-link bg-dark border-dark text-light"
             id="contact-tab"
@@ -101,7 +101,7 @@ const ManageCompanyPage: React.FC<Props> = ({
           </a>
         </li>
         {citizen?.rank === "owner" ? (
-          <li className="nav-item mr-1" role="presentation">
+          <li className="nav-item me-1" role="presentation">
             <a
               className="nav-link bg-dark border-dark text-light"
               id="contact-tab"

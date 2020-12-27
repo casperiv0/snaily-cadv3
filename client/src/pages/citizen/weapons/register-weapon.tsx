@@ -116,11 +116,11 @@ const RegisterWeaponPage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a href="/citizen" className="btn btn-danger">
             {lang.global.cancel}
           </a>
-          <button type="submit" className="ml-2 btn btn-primary">
+          <button type="submit" className="ms-2 btn btn-primary">
             {lang.citizen.weapon.reg_weapon}
           </button>
         </div>

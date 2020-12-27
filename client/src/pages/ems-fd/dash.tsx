@@ -42,17 +42,17 @@ const EmsFdDash: React.FC<Props> = (props) => {
             {lang.ems_fd.my_ems_fd}
           </a>
           <button
-            className="btn btn-secondary mt-2 ml-2"
-            data-target="#searchMedicalRecordsModal"
-            data-toggle="modal"
+            className="btn btn-secondary mt-2 ms-2"
+            data-bs-target="#searchMedicalRecordsModal"
+            data-bs-toggle="modal"
           >
             {lang.global.medical_search}
           </button>
 
           <button
-            className="btn btn-secondary ml-2 mt-2"
-            data-target="#notepad"
-            data-toggle="modal"
+            className="btn btn-secondary ms-2 mt-2"
+            data-bs-target="#notepad"
+            data-bs-toggle="modal"
           >
             {lang.global.notepad}
           </button>

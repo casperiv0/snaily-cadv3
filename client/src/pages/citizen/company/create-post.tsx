@@ -56,8 +56,8 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
             className="form-control bg-dark border-dark text-light"
           ></textarea>
         </div>
-        <div className="mb-3 float-right">
-          <a className="btn btn-danger mr-2" href={`/company/${citizenId}/${companyId}`}>
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href={`/company/${citizenId}/${companyId}`}>
             {lang.global.cancel}
           </a>
           <button className="btn btn-primary" type="submit">

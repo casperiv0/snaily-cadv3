@@ -49,7 +49,7 @@ const CitizensPage: React.FC<Props> = (props) => {
           <button onClick={logout} className="btn btn-danger col">
             {lang.auth.logout}
           </button>
-          <a href="/account" className="ml-1 col btn btn-primary">
+          <a href="/account" className="ms-1 col btn btn-primary">
             {lang.auth.account.account}
           </a>
         </div>
@@ -58,10 +58,10 @@ const CitizensPage: React.FC<Props> = (props) => {
           <a href="/citizen/create" className="col btn btn-primary">
             {lang.citizen.create_new_citizen}
           </a>
-          <a href="/vehicles/register" className="col ml-1 btn btn-primary">
+          <a href="/vehicles/register" className="col ms-1 btn btn-primary">
             {lang.citizen.reg_new_vehicle}
           </a>
-          <a href="/weapons/register" className="col ml-1 btn btn-primary">
+          <a href="/weapons/register" className="col ms-1 btn btn-primary">
             {lang.citizen.reg_new_weapon}
           </a>
         </div>
@@ -71,16 +71,16 @@ const CitizensPage: React.FC<Props> = (props) => {
             {lang.citizen.employment_status}
           </a>
           <button
-            data-toggle="modal"
-            data-target="#callTowModal"
-            className="col ml-1 btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#callTowModal"
+            className="col ms-1 btn btn-primary"
           >
             {lang.citizen.call_tow}
           </button>
           <button
-            data-toggle="modal"
-            data-target="#call911Modal"
-            className="col ml-1 btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#call911Modal"
+            className="col ms-1 btn btn-primary"
           >
             {lang.citizen.call_911}
           </button>

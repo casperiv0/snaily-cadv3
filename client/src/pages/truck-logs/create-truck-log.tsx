@@ -84,11 +84,11 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
             className="form-control text-light bg-dark border-dark"
           />
         </div>
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a href="/truck-logs" className="btn btn-danger">
             {lang.global.cancel}
           </a>
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.truck_logs.create_truck_log}
           </button>
         </div>

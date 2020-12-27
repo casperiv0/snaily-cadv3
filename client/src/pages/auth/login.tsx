@@ -65,7 +65,7 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
         <button
           disabled={loading}
           type="submit"
-          className="btn btn-primary float-right w-100 auth-btn mt-2"
+          className="btn btn-primary float-end w-100 auth-btn mt-2"
         >
           {loading ? (
             <span className="spinner-border primary">

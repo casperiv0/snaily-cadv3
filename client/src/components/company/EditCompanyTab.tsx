@@ -97,7 +97,7 @@ const EditCompanyTab: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <button className="btn btn-primary" type="submit">
             {lang.citizen.company.update_company}
           </button>

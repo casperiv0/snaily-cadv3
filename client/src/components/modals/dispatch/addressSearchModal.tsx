@@ -72,7 +72,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
           <button type="submit" disabled={address === ""} className="btn btn-primary">

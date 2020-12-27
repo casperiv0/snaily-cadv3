@@ -59,7 +59,7 @@ const CompanyPage: React.FC<Props> = ({
         <h3>{company?.name}</h3>
         <div>
           <a
-            className="btn btn-primary mr-2"
+            className="btn btn-primary me-2"
             href={`/company/${citizenId}/${companyId}/create-post`}
           >
             {lang.citizen.company.create_a_post}

@@ -93,7 +93,9 @@ const ManageMember: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
-          <label className="form-label" htmlFor="rank">{lang.global.rank}</label>
+          <label className="form-label" htmlFor="rank">
+            {lang.global.rank}
+          </label>
           {authenticatedUser.username === member?.username ? (
             <AlertMessage type="warning" message={lang.admin.member.own_rank} />
           ) : (
@@ -113,7 +115,9 @@ const ManageMember: React.FC<Props> = ({
           )}
         </div>
         <div className="mb-3">
-          <label className="form-label" htmlFor="leo">{lang.auth.account.police_access}</label>
+          <label className="form-label" htmlFor="leo">
+            {lang.auth.account.police_access}
+          </label>
           <select
             id="leo"
             onChange={(e) => setLeo(e.target.value)}
@@ -130,7 +134,9 @@ const ManageMember: React.FC<Props> = ({
           </select>
         </div>
         <div className="mb-3">
-          <label className="form-label" htmlFor="dispatch">{lang.auth.account.dispatch_access}</label>
+          <label className="form-label" htmlFor="dispatch">
+            {lang.auth.account.dispatch_access}
+          </label>
           <select
             id="dispatch"
             onChange={(e) => setDispatch(e.target.value)}
@@ -147,7 +153,9 @@ const ManageMember: React.FC<Props> = ({
           </select>
         </div>
         <div className="mb-3">
-          <label className="form-label" htmlFor="ems_fd">{lang.auth.account.ems_fd_access}</label>
+          <label className="form-label" htmlFor="ems_fd">
+            {lang.auth.account.ems_fd_access}
+          </label>
           <select
             id="ems_fd"
             onChange={(e) => setEmsFd(e.target.value)}
@@ -165,7 +173,9 @@ const ManageMember: React.FC<Props> = ({
         </div>
         {cad.tow_whitelisted === "1" ? (
           <div className="mb-3">
-            <label className="form-label" htmlFor="tow">{lang.auth.account.tow_access}</label>
+            <label className="form-label" htmlFor="tow">
+              {lang.auth.account.tow_access}
+            </label>
             <select
               id="tow"
               onChange={(e) => setTow(e.target.value)}
@@ -183,8 +193,8 @@ const ManageMember: React.FC<Props> = ({
           </div>
         ) : null}
 
-        <div className="mb-3 float-right">
-          <a className="btn btn-danger mr-2" href="/admin/manage/members">
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href="/admin/manage/members">
             {lang.global.cancel}
           </a>
           <button type="submit" className="btn btn-primary">

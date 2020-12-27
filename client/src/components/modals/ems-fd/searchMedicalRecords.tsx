@@ -80,7 +80,7 @@ const SearchMedicalRecords: React.FC<Props> = ({ medicalRecords, searchMedicalRe
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={reset}>
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={reset}>
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">

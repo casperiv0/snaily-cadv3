@@ -8,10 +8,6 @@ import { Socket } from "socket.io";
 io.on("connection", async (socket: Socket) => {
   const cadInfo = await processQuery("SELECT `webhook_url` FROM `cad_info`");
   let webhook = {} as WebHook;
-  if (cadInfo[0]?.webhook_url) {
-    if (cadInfo[0]?.webhook_url === "0") return;
-    webhook = await getWebhookData(cadInfo[0].webhook_url);
-  }
 
   socket.on("UPDATE_ACTIVE_UNITS", () => {
     io.sockets.emit("UPDATE_ACTIVE_UNITS");
@@ -62,6 +58,11 @@ io.on("connection", async (socket: Socket) => {
       Logger.log("SOCKET_EVENT", "UPDATE_BOLOS");
     }
   });
+
+  if (cadInfo[0]?.webhook_url) {
+    if (cadInfo[0]?.webhook_url === "0") return;
+    webhook = await getWebhookData(cadInfo[0].webhook_url);
+  }
 
   socket.on(
     "NEW_911_CALL",

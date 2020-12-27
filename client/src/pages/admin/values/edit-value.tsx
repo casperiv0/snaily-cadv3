@@ -61,11 +61,11 @@ const EditValuePage: React.FC<Props> = (props) => {
           />
         </div>
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href={`/admin/values/${path}`}>
             {lang.global.cancel}
           </a>
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.global.update}
           </button>
         </div>

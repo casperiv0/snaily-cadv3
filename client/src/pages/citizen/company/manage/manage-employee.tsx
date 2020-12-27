@@ -131,11 +131,11 @@ const ManageEmployee: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="mb-3 float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href={`/company/${citizenId}/${companyId}/manage`}>
             {lang.global.cancel}
           </a>
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.global.update}
           </button>
         </div>

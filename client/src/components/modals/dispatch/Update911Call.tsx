@@ -101,7 +101,7 @@ const Update911Call: React.FC<Props> = ({
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button onClick={handleCancelCall} type="button" className="btn btn-danger">

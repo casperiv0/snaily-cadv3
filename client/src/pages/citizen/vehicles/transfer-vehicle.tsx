@@ -106,8 +106,8 @@ const TransferVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="mb-3 float-right">
-          <a className="btn btn-danger mr-2" href={`/citizen/${vehicle?.citizen_id}`}>
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
           </a>
           <button type="submit" className="btn btn-primary">

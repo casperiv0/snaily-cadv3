@@ -93,7 +93,7 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">

@@ -83,7 +83,7 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
         </div>
         <div className="modal-footer">
           <div className="mb-3">
-            <button type="button" className="btn btn-secondary mr-2" data-dismiss="modal">
+            <button type="button" className="btn btn-secondary me-2" data-bs-dismiss="modal">
               {lang.global.cancel}
             </button>
             <button type="submit" className="btn btn-primary">
