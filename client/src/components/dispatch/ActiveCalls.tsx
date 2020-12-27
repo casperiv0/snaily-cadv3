@@ -30,7 +30,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
     <>
       <ul className="list-group overflow-auto mt-3" style={{ maxHeight: "25rem" }}>
         <li className="list-group-item bg-secondary border-secondary">
-          {lang.global.active_erm_calls}
+          <h5>{lang.global.active_erm_calls}</h5>
         </li>
 
         {!calls[0] ? (

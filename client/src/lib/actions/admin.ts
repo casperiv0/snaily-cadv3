@@ -48,8 +48,6 @@ export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
 };
 
 export const getMemberById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
-  console.log(id);
-
   try {
     const res = await handleRequest(`/admin/management/members/${id}`, "GET");
 

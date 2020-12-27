@@ -38,7 +38,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       setWhitelisted(cadInfo.whitelisted);
       setTowWhitelist(cadInfo.tow_whitelisted);
       setCompanyWl(cadInfo.company_whitelisted);
-      setWebhookUrl(cadInfo.webhook_url);
+      setWebhookUrl(cadInfo.webhook_url || "");
     }
   }, [cadInfo]);
 
@@ -95,7 +95,9 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
         <div className="card-body">
           <form onSubmit={onSubmit}>
             <div className="mb-3">
-              <label className="form-label" htmlFor="cad_name">{lang.admin.cad_settings.cad_name}</label>
+              <label className="form-label" htmlFor="cad_name">
+                {lang.admin.cad_settings.cad_name}
+              </label>
               <input
                 type="text"
                 className="form-control bg-secondary border-dark text-light"
@@ -105,7 +107,9 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
               />
             </div>
             <div className="mb-3">
-              <label className="form-label" htmlFor="aop">{lang.admin.cad_settings.update_aop}</label>
+              <label className="form-label" htmlFor="aop">
+                {lang.admin.cad_settings.update_aop}
+              </label>
               <input
                 type="text"
                 className="form-control bg-secondary border-dark text-light"
@@ -119,7 +123,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
                 {lang.admin.cad_settings?.update_webhook || "Update webhook URL"}
               </label>
               <input
-                type="password"
+                type="url"
                 className="form-control bg-secondary border-dark text-light"
                 id="webhook_url"
                 value={webhookUrl}
@@ -127,7 +131,9 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
               />
             </div>
             <div className="mb-3">
-              <label className="form-label" htmlFor="whitelisted">{lang.admin.cad_settings.cad_wl}</label>
+              <label className="form-label" htmlFor="whitelisted">
+                {lang.admin.cad_settings.cad_wl}
+              </label>
               <select
                 className="form-control bg-secondary border-dark text-light"
                 id="whitelisted"
@@ -145,7 +151,9 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
               </select>
             </div>
             <div className="mb-3">
-              <label className="form-label" htmlFor="tow_whitelisted">{lang.admin.cad_settings.tow_wl}</label>
+              <label className="form-label" htmlFor="tow_whitelisted">
+                {lang.admin.cad_settings.tow_wl}
+              </label>
               <select
                 className="form-control bg-secondary border-dark text-light"
                 id="tow_whitelisted"
@@ -163,7 +171,9 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
               </select>
             </div>
             <div className="mb-3">
-              <label className="form-label" htmlFor="company_whitelisted">{lang.admin.cad_settings.company_wl}</label>
+              <label className="form-label" htmlFor="company_whitelisted">
+                {lang.admin.cad_settings.company_wl}
+              </label>
               <select
                 className="form-control bg-secondary border-dark text-light"
                 id="company_whitelisted"

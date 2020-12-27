@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `911calls` (
-  `id` int(11) NOT NULL,
+  `id` varchar(255) NOT NULL,
   `description` varchar(1800) NOT NULL,
   `name` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `911calls` (
 --
 
 CREATE TABLE `action_logs` (
-  `id` int(11) NOT NULL,
+  `id` varchar(255) NOT NULL,
   `action_title` varchar(255) NOT NULL,
   `date` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -1046,18 +1046,6 @@ ALTER TABLE `written_warnings`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `911calls`
---
-ALTER TABLE `911calls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `action_logs`
---
-ALTER TABLE `action_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cad_info`

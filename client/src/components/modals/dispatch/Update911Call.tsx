@@ -61,7 +61,9 @@ const Update911Call: React.FC<Props> = ({
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="call_location">{lang.global.location}</label>
+            <label className="form-label" htmlFor="call_location">
+              {lang.global.location}
+            </label>
             <input
               id="call_location"
               className="form-control bg-secondary border-secondary text-light"
@@ -70,7 +72,9 @@ const Update911Call: React.FC<Props> = ({
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="call_description">{lang.global.description}</label>
+            <label className="form-label" htmlFor="call_description">
+              {lang.global.description}
+            </label>
             <input
               id="call_description"
               className="form-control bg-secondary border-secondary text-light"
@@ -79,7 +83,9 @@ const Update911Call: React.FC<Props> = ({
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="call_assigned_unit">{lang.dispatch.assigned_unit}</label>
+            <label className="form-label" htmlFor="call_assigned_unit">
+              {lang.dispatch.assigned_unit}
+            </label>
             {!activeOfficers[0] ? (
               <p>{lang.dispatch.no_units}</p>
             ) : (

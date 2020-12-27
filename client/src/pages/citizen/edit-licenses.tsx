@@ -84,8 +84,6 @@ const EditLicensesPage: React.FC<Props> = ({
 
   React.useEffect(() => {
     if (citizen !== null) {
-      console.log(citizen);
-
       setDmv(citizen?.dmv);
       setFireArms(citizen?.fire_license);
       setPilot(citizen?.pilot_license);
@@ -111,7 +109,9 @@ const EditLicensesPage: React.FC<Props> = ({
         {fields.map((field: Field, idx: number) => {
           return (
             <div key={idx} id={`${idx}`} className="mb-3">
-              <label className="form-label" htmlFor={field.id}>{field.label}</label>
+              <label className="form-label" htmlFor={field.id}>
+                {field.label}
+              </label>
               <select
                 id="dmv"
                 value={field.value}

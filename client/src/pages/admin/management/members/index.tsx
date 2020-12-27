@@ -60,20 +60,20 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
             <div className="nav nav-tabs">
               <a
                 className="nav-item nav-link active bg-dark text-light border-secondary"
-                id="nav-home-tab"
-                data-toggle="tab"
-                href="#members"
+                id="all-members-tab"
+                data-bs-toggle="tab"
+                href="#members_tab"
                 role="tab"
-                aria-controls="nav-home"
+                aria-controls="members-tab"
                 aria-selected="true"
               >
                 {lang.admin.all_members}
               </a>
               <a
                 className="nav-item nav-link bg-dark text-light border-secondary"
-                id="nav-contact-tab"
-                data-toggle="tab"
-                href="#pending"
+                id="pending-members-tab"
+                data-bs-toggle="tab"
+                href="#pending_tab"
                 role="tab"
                 aria-controls="nav-contact"
                 aria-selected="false"
@@ -88,7 +88,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
             <div className="tab-content">
               <div
                 className="tab-pane fade show active"
-                id="members"
+                id="members_tab"
                 role="tabpanel"
                 aria-labelledby="members-tab"
               >
@@ -97,7 +97,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
 
               <div
                 className="tab-pane fade"
-                id="pending"
+                id="pending_tab"
                 role="tabpanel"
                 aria-labelledby="pending-tab"
               >

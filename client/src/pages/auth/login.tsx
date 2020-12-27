@@ -68,9 +68,9 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
           className="btn btn-primary float-end w-100 auth-btn mt-2"
         >
           {loading ? (
-            <span className="spinner-border primary">
-              <span className="sr-only">loading</span>
-            </span>
+            <div className="spinner-border text-light" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
           ) : (
             lang.auth.login
           )}

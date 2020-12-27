@@ -16,7 +16,7 @@ const AdminLayout: React.FC = ({ children }) => {
       <div style={sidebarContainer}>
         <AdminSidebar />
       </div>
-      <div className="mt-5 me-2 ms-2 col">{children}</div>
+      <div className="mt-5 me-3 ms-3 col">{children}</div>
     </div>
   );
 };
