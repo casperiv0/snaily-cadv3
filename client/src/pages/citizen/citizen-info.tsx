@@ -22,7 +22,7 @@ interface Props {
 }
 
 export const Span: React.FC = ({ children }) => (
-  <span className="font-weight-bold">{children}</span>
+  <span style={{ fontWeight: "bold" }}>{children}</span>
 );
 
 export const Item: React.FC<{ id: string }> = ({ id, children }) => {
@@ -71,64 +71,62 @@ const CitizenInfoPage: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="card-body">
-          <div className="row ms-4 mt-2 mb-2">
-            <img
-              style={{ width: "120px", height: "120px" }}
-              className="rounded-circle object-fit-center"
-              src={`${SERVER_URL}/static/citizen-images/${citizen.image_id}`}
-              alt={citizen.image_id}
-            />
+        <div style={{ display: "flex" }} className="card-body">
+          <img
+            style={{ width: "120px", height: "120px" }}
+            className="rounded-circle object-fit-center"
+            src={`${SERVER_URL}/static/citizen-images/${citizen.image_id}`}
+            alt={citizen.image_id}
+          />
 
-            <div className="ms-5">
-              <Item id="full_name">
-                <Span>{lang.citizen.full_name}: </Span>
-                {citizen.full_name}
-              </Item>
-              <Item id="birth">
-                <Span>{lang.citizen.date_of_birth}: </Span>
-                {citizen.birth}
-              </Item>
-              <Item id="gender">
-                <Span>{lang.citizen.gender}: </Span>
-                {citizen.gender}
-              </Item>
-              <Item id="ethnicity">
-                <Span>{lang.citizen.ethnicity}: </Span>
-                {citizen.ethnicity}
-              </Item>
-              <Item id="hair_color">
-                <Span>{lang.citizen.hair_color}: </Span>
-                {citizen.hair_color}
-              </Item>
-            </div>
+          <div className="ms-4">
+            <Item id="full_name">
+              <Span>{lang.citizen.full_name}: </Span>
+              {citizen.full_name}
+            </Item>
+            <Item id="birth">
+              <Span>{lang.citizen.date_of_birth}: </Span>
+              {citizen.birth}
+            </Item>
+            <Item id="gender">
+              <Span>{lang.citizen.gender}: </Span>
+              {citizen.gender}
+            </Item>
+            <Item id="ethnicity">
+              <Span>{lang.citizen.ethnicity}: </Span>
+              {citizen.ethnicity}
+            </Item>
+            <Item id="hair_color">
+              <Span>{lang.citizen.hair_color}: </Span>
+              {citizen.hair_color}
+            </Item>
+          </div>
 
-            <div className="ms-4">
-              <Item id="eye_color">
-                <Span>{lang.citizen.eye_color}: </Span>
-                {citizen.eye_color}
-              </Item>
-              <Item id="address">
-                <Span>{lang.citizen.address}: </Span>
-                {citizen.address}
-              </Item>
-              <Item id="height">
-                <Span>{lang.citizen.height}: </Span>
-                {citizen.height}
-              </Item>
-              <Item id="weight">
-                <Span>{lang.citizen.weight}: </Span>
-                {citizen.weight}
-              </Item>
-              <Item id="height">
-                <Span>{lang.citizen.employer}: </Span>
-                {citizen.business !== "none" ? (
-                  <a href={`/company/${citizen.id}/${citizen.business_id}`}>{citizen.business}</a>
-                ) : (
-                  lang.citizen.not_working
-                )}
-              </Item>
-            </div>
+          <div className="ms-4">
+            <Item id="eye_color">
+              <Span>{lang.citizen.eye_color}: </Span>
+              {citizen.eye_color}
+            </Item>
+            <Item id="address">
+              <Span>{lang.citizen.address}: </Span>
+              {citizen.address}
+            </Item>
+            <Item id="height">
+              <Span>{lang.citizen.height}: </Span>
+              {citizen.height}
+            </Item>
+            <Item id="weight">
+              <Span>{lang.citizen.weight}: </Span>
+              {citizen.weight}
+            </Item>
+            <Item id="height">
+              <Span>{lang.citizen.employer}: </Span>
+              {citizen.business !== "none" ? (
+                <a href={`/company/${citizen.id}/${citizen.business_id}`}>{citizen.business}</a>
+              ) : (
+                lang.citizen.not_working
+              )}
+            </Item>
           </div>
         </div>
       </div>

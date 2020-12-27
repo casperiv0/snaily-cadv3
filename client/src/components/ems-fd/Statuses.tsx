@@ -46,9 +46,7 @@ const Statuses: React.FC<Props> = ({
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#selectEmsFdModal"
-        className={
-          status2 === "10-8" ? "btn btn-primary col-sm-1 me-2 " : "btn btn-secondary col-sm-1 me-2 "
-        }
+        className={status2 === "10-8" ? "btn btn-primary col-md-1" : "btn btn-secondary col-md-1"}
       >
         10-8
       </button>
@@ -57,9 +55,7 @@ const Statuses: React.FC<Props> = ({
           <button
             disabled={currentStatus === "off-duty"}
             className={
-              status2 === status
-                ? "btn btn-primary col-sm-1 me-2 "
-                : "btn btn-secondary col-sm-1 me-2 "
+              status2 === status ? "btn btn-primary col-md-1" : "btn btn-secondary col-md-1"
             }
             type="button"
             id={`${idx}`}

@@ -130,7 +130,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                     <button
                       className="btn btn-primary"
                       type="button"
-                      data-toggle="collapse"
+                      data-bs-toggle="collapse"
                       data-bs-target={`#citizen_info_${citizen.id}`}
                       aria-expanded="false"
                       aria-controls={`citizen_info_${citizen.id}`}

@@ -50,7 +50,9 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
             <AlertMessage type="warning" message={lang.record.has_warrant} />
           ) : null}
           <div className="mb-3">
-            <label className="form-label" htmlFor="name">{lang.global.name}</label>
+            <label className="form-label" htmlFor="name">
+              {lang.global.name}
+            </label>
             <input
               type="search"
               className="form-control bg-secondary border-secondary text-light"
@@ -151,19 +153,19 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                 {/* records & vehicles */}
                 <div className="d-flex justify-content-between">
                   <button
-                    className="btn btn-primary col-md-6 mt-3"
+                    className="btn btn-primary col-sm-6 mt-3"
                     type="button"
-                    data-toggle="collapse"
+                    data-bs-toggle="collapse"
                     data-bs-target="#records"
                     aria-expanded="false"
-                    aria-controls="record"
+                    aria-controls="records"
                   >
                     {lang.citizen.toggle_record}
                   </button>
                   <button
-                    className="btn btn-primary col-md-6 ms-2 mt-3"
+                    className="btn btn-primary col-sm-6 mt-3 ms-2"
                     type="button"
-                    data-toggle="collapse"
+                    data-bs-toggle="collapse"
                     data-bs-target="#registered"
                     aria-expanded="false"
                     aria-controls="registered"

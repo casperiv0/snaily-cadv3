@@ -62,7 +62,7 @@ const AllMembersTab: React.FC<Props> = ({ members }) => {
                 <button
                   className="btn btn-primary"
                   type="button"
-                  data-toggle="collapse"
+                  data-bs-toggle="collapse"
                   data-bs-target={`#member_info_${member.id}`}
                   aria-expanded="false"
                   aria-controls={`member_info_${member.id}`}

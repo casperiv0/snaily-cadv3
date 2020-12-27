@@ -56,7 +56,9 @@ const RegisterWeaponPage: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
-          <label className="form-label" htmlFor="weapon">{lang.citizen.weapon.enter_weapon}</label>
+          <label className="form-label" htmlFor="weapon">
+            {lang.citizen.weapon.enter_weapon}
+          </label>
           <select
             value={weapon}
             onChange={(e) => setWeapon(e.target.value)}
@@ -75,7 +77,9 @@ const RegisterWeaponPage: React.FC<Props> = ({
         </div>
 
         <div className="mb-3">
-          <label className="form-label" htmlFor="owner">{lang.citizen.weapon.enter_owner}</label>
+          <label className="form-label" htmlFor="owner">
+            {lang.citizen.weapon.enter_owner}
+          </label>
           <select
             id="owner"
             value={citizenId}
@@ -97,7 +101,9 @@ const RegisterWeaponPage: React.FC<Props> = ({
         </div>
 
         <div className="mb-3">
-          <label className="form-label" htmlFor="status">{lang.citizen.weapon.enter_status}</label>
+          <label className="form-label" htmlFor="status">
+            {lang.citizen.weapon.enter_status}
+          </label>
           <select
             id="status"
             value={status}

@@ -44,10 +44,10 @@ const RegisteredVehicles: React.FC<Props> = ({
             <button
               className="btn btn-secondary"
               type="button"
-              data-toggle="collapse"
+              data-bs-toggle="collapse"
               data-bs-target="#registered_vehicles"
               aria-expanded="false"
-              aria-controls="collapseExample"
+              aria-controls="registered_vehicles"
             >
               {lang.citizen.vehicle.toggle_veh}
             </button>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { useLocation } from "react-router-dom";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import lang from "../../language.json";
@@ -33,6 +34,12 @@ interface Props {
 }
 
 const AdminSidebar: React.FC<Props> = ({ user }) => {
+  const location = useLocation();
+
+  function isActive(path: string): string {
+    return `/admin${path}` === location.pathname ? "active" : "";
+  }
+
   return (
     <nav style={styles} className="bg-dark" id="admin-nav">
       <div style={content}>
@@ -40,17 +47,29 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
           <header>
             <h3>{lang.admin.management}</h3>
           </header>
-          <a className="text-decoration-none admin-link" href="/admin/manage/members">
+          <a
+            className={`text-decoration-none admin-link ${isActive("/manage/members")}`}
+            href="/admin/manage/members"
+          >
             {lang.admin.member_management}
           </a>
-          <a className="text-decoration-none admin-link" href="/admin/manage/citizens">
+          <a
+            className={`text-decoration-none admin-link ${isActive("/manage/citizens")}`}
+            href="/admin/manage/citizens"
+          >
             {lang.admin.citizen_management}
           </a>
-          <a className="text-decoration-none admin-link" href="/admin/manage/companies">
+          <a
+            className={`text-decoration-none admin-link ${isActive("/manage/companies")} `}
+            href="/admin/manage/companies"
+          >
             {lang.admin.company_management}
           </a>
           {user?.rank === "owner" ? (
-            <a className="text-decoration-none admin-link" href="/admin/cad-settings">
+            <a
+              className={`text-decoration-none admin-link ${isActive("/cad-settings")}`}
+              href="/admin/cad-settings"
+            >
               {lang.admin.cad_settings.cad_settings}
             </a>
           ) : null}

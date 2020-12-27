@@ -42,17 +42,18 @@ const RegisteredWeapons: React.FC<Props> = ({
             <button
               className="btn btn-secondary"
               type="button"
-              data-toggle="collapse"
+              data-bs-toggle="collapse"
               data-bs-target="#registered_weapons"
               aria-expanded="false"
-              aria-controls="collapseExample"
+              aria-controls="registered_weapons"
             >
               {lang.citizen.weapon.toggle_weapon}
             </button>
             <a href="/weapons/register" className="btn btn-primary ms-2">
               {lang.citizen.weapon.reg_a_weapon}
             </a>
-            <ul className="list-group collapse mt-2" id="registered_weapons">
+
+            <ul className="collapse list-group mt-2" id="registered_weapons">
               {weapons.map((weapon: Weapon, idx: number) => {
                 return (
                   <li

@@ -37,12 +37,12 @@ const EmsFdDash: React.FC<Props> = (props) => {
           </h4>
         </div>
 
-        <div className="card-body">
-          <a className="btn btn-primary mt-2" href="/ems-fd/deputies">
+        <div className="card-body row gap-2 px-4">
+          <a className="btn btn-primary col-md-3" href="/ems-fd/deputies">
             {lang.ems_fd.my_ems_fd}
           </a>
           <button
-            className="btn btn-secondary mt-2 ms-2"
+            className="btn btn-secondary col-md-3"
             data-bs-target="#searchMedicalRecordsModal"
             data-bs-toggle="modal"
           >
@@ -50,7 +50,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
           </button>
 
           <button
-            className="btn btn-secondary ms-2 mt-2"
+            className="btn btn-secondary col-md-3"
             data-bs-target="#notepad"
             data-bs-toggle="modal"
           >
@@ -58,7 +58,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
           </button>
         </div>
 
-        <div className="card-footer">
+        <div className="card-footer row gap-2 px-4">
           <Statuses />
         </div>
       </div>
