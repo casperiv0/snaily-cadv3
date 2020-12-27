@@ -45,7 +45,7 @@ export default connect(mapToProps, {})(HomePage);
 
 const Credits: React.FC = () => {
   return (
-    <div className="fixed-bottom text-light bg-dark border-dark pl-2 pt-2">
+    <div className="fixed-bottom text-light bg-dark border-dark px-3 pt-3 d-flex justify-content-between">
       <p>
         Feel Free to support me <a href="https://www.paypal.me/caspertheghosty">here</a>
       </p>

@@ -38,7 +38,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
           <input
             type="file"
             id="image"
-            className="form-control form-control-file bg-dark border-dark text-light"
+            className="form-control bg-dark border-dark text-light"
             onChange={(e) => setImage(e.target.files![0])}
           />
         </div>

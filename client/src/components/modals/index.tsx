@@ -28,7 +28,7 @@ const XButton = React.forwardRef((_props, ref: React.Ref<HTMLButtonElement>) => 
       type="button"
       data-bs-dismiss="modal"
       aria-label="Close"
-      className="btn-close"
+      className="btn-close btn-close-white"
     ></button>
   );
 });

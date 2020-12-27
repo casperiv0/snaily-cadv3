@@ -21,9 +21,7 @@ interface Props {
   deleteCitizen: (id: string) => void;
 }
 
-export const Span: React.FC = ({ children }) => (
-  <span style={{ fontWeight: "bold" }}>{children}</span>
-);
+export const Span: React.FC = ({ children }) => <span className="fw-bold">{children}</span>;
 
 export const Item: React.FC<{ id: string }> = ({ id, children }) => {
   return (

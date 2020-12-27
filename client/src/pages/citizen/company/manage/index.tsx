@@ -65,7 +65,7 @@ const ManageCompanyPage: React.FC<Props> = ({
           <a
             className="nav-link bg-dark border-dark text-light"
             id="home-tab"
-            data-toggle="tab"
+            data-bs-toggle="tab"
             href="#company_employees"
             role="tab"
             aria-controls="home"
@@ -78,7 +78,7 @@ const ManageCompanyPage: React.FC<Props> = ({
           <a
             className="nav-link bg-dark border-dark text-light"
             id="profile-tab"
-            data-toggle="tab"
+            data-bs-toggle="tab"
             href="#company_vehicles"
             role="tab"
             aria-controls="profile"
@@ -91,7 +91,7 @@ const ManageCompanyPage: React.FC<Props> = ({
           <a
             className="nav-link bg-dark border-dark text-light"
             id="contact-tab"
-            data-toggle="tab"
+            data-bs-toggle="tab"
             href="#pending_citizens"
             role="tab"
             aria-controls="contact"
@@ -105,7 +105,7 @@ const ManageCompanyPage: React.FC<Props> = ({
             <a
               className="nav-link bg-dark border-dark text-light"
               id="contact-tab"
-              data-toggle="tab"
+              data-bs-toggle="tab"
               href="#edit_company"
               role="tab"
               aria-controls="contact"

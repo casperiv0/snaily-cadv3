@@ -109,7 +109,7 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, checkAuth, logout, getCadInf
 
 const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean }> = ({ loading, isAuth }) => {
   return (
-    <div className="dropdown dropstart float-end">
+    <li className="dropdown dropstart float-end">
       <button
         className="btn btn-secondary"
         type="button"
@@ -149,7 +149,7 @@ const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean }> = ({ loadi
           </>
         )}
       </ul>
-    </div>
+    </li>
   );
 };
 
