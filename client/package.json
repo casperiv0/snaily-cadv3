@@ -22,6 +22,7 @@
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "redux-thunk": "^2.3.0",
+    "serve": "^11.3.2",
     "socket.io-client": "^3.0.4"
   },
   "devDependencies": {
