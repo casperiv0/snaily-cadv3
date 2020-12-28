@@ -94,8 +94,10 @@ const ManageMember: React.FC<Props> = ({
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="rank">{lang.global.rank}</label>
-          {authenticatedUser.username === member?.username ? (
+          {authenticatedUser?.id === member?.id ? (
             <AlertMessage type="warning" message={lang.admin.member.own_rank} />
+          ) : member?.rank === "owner" ? (
+            <AlertMessage type="warning" message={lang.admin.member.owner} />
           ) : (
             <select
               id="rank"
@@ -200,7 +202,7 @@ const ManageMember: React.FC<Props> = ({
           </div>
 
           <div className="card-body">
-            {authenticatedUser?.username === member?.username ? (
+            {authenticatedUser?.id === member?.id ? (
               <AlertMessage type="warning" message={lang.admin.ban_yourself} />
             ) : member?.rank === "owner" ? (
               <AlertMessage type="warning" message={lang.admin.ban_owner} />
