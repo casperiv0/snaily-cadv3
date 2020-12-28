@@ -40,7 +40,7 @@ const CompanyPage: React.FC<Props> = ({
   if (company !== null && !company) {
     return (
       <Layout>
-        <AlertMessage type="danger" message="notfound" />
+        <AlertMessage message={{ msg: "Company not found", type: "danger" }} />
       </Layout>
     );
   }
@@ -48,7 +48,7 @@ const CompanyPage: React.FC<Props> = ({
   if (returnError !== null) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={returnError} />
+        <AlertMessage message={{ msg: returnError, type: "danger" }} />
       </Layout>
     );
   }

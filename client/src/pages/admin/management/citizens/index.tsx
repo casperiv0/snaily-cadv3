@@ -8,9 +8,10 @@ import DeleteCitizenModal from "../../../../components/modals/admin/deleteCitize
 import { connect } from "react-redux";
 import { getAllCitizens } from "../../../../lib/actions/admin";
 import { Item, Span } from "../../../citizen/citizen-info";
+import Message from "../../../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   citizens: Citizen[];
   getAllCitizens: () => void;
 }
@@ -40,7 +41,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <ul className="list-group">
         <input
@@ -52,9 +53,11 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
         />
 
         {!citizens[0] ? (
-          <AlertMessage type="warning" message={lang.citizen.no_citizens_cad} />
+          <AlertMessage message={{ msg: lang.citizen.no_citizens_cad, type: "warning" }} />
         ) : !filtered[0] ? (
-          <AlertMessage type="warning" message={lang.citizen.citizen_not_found_by_name} />
+          <AlertMessage
+            message={{ msg: lang.citizen.citizen_not_found_by_name, type: "warning" }}
+          />
         ) : (
           <ul className="list-group">
             {filtered.map((citizen: Citizen, idx: number) => {

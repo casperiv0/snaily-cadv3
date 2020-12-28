@@ -31,7 +31,7 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
 
   return (
     <Layout>
-      {error ? <AlertMessage type="warning" message={error} /> : null}
+      {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">

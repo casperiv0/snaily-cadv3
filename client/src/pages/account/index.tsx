@@ -8,16 +8,17 @@ import DeleteAccountModal from "../../components/modals/account/deleteAccountMod
 import EditPasswordModal from "../../components/modals/account/editPasswordModal";
 import { connect } from "react-redux";
 import { Item, Span } from "../citizen/citizen-info";
+import Message from "../../interfaces/Message";
 
 interface Props {
   user: User;
-  message: string;
+  message: Message;
 }
 
 const AccountPage: React.FC<Props> = ({ user, message }) => {
   return (
     <Layout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <h3>{lang.auth.account.account_info}</h3>
 

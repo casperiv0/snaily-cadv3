@@ -28,7 +28,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
 
   return (
     <Layout>
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">

@@ -8,9 +8,10 @@ import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
 import AllMembersTab from "../../../../components/admin/all-members";
 import PendingMembersTab from "../../../../components/admin/pending-members";
+import Message from "../../../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   members: User[];
   getMembers: () => void;
 }
@@ -40,7 +41,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <ul className="list-group">
         <input
@@ -52,9 +53,9 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
         />
 
         {!members[0] ? (
-          <AlertMessage type="warning" message={lang.admin.no_members_cad} />
+          <AlertMessage message={{ msg: lang.admin.no_members_cad, type: "warning" }} />
         ) : !filtered[0] ? (
-          <AlertMessage type="warning" message={lang.admin.no_member_found_by_name} />
+          <AlertMessage message={{ msg: lang.admin.no_member_found_by_name, type: "warning" }} />
         ) : (
           <div>
             <div className="nav nav-tabs">

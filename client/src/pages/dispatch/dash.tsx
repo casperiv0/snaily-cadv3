@@ -17,10 +17,11 @@ import AddressSearchModal from "../../components/modals/dispatch/addressSearchMo
 import WeaponSearchModal from "../../components/modals/leo/weaponSearchModal";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
 import AlertMessage from "../../components/alert-message";
+import Message from "../../interfaces/Message";
 
 interface Props {
   aop: string;
-  message: string;
+  message: Message;
 }
 
 const DispatchDash: React.FC<Props> = (props) => {
@@ -41,7 +42,7 @@ const DispatchDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="pb-5 mt-5">
-      {props.message ? <AlertMessage type="success" message={props.message} dismissible /> : null}
+      {props.message ? <AlertMessage message={props.message} dismissible /> : null}
       <div className="card bg-dark border-dark mt-4">
         <div className="card-header d-flex justify-content-between">
           <h4>

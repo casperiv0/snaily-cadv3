@@ -51,7 +51,7 @@ const EditCompanyTab: React.FC<Props> = ({
   return (
     <>
       <form className="mt-2" onSubmit={onSubmit}>
-        {error ? <AlertMessage type="warning" message={error} /> : null}
+        {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
         <div className="mb-3">
           <label className="form-label" htmlFor="name">
             {lang.citizen.company.name}

@@ -39,7 +39,7 @@ const CreateOfficerPage: React.FC<Props> = ({
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        {error ? <AlertMessage message={error} type="warning" /> : null}
+        {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
         <div className="mb-3">
           <label className="form-label" htmlFor="officerName">
             {lang.record.officer_name}

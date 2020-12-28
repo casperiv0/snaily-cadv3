@@ -11,6 +11,7 @@ import {
   UPDATE_MEMBER_PERMS,
   BAN_MEMBER,
   UN_BAN_MEMBER,
+  BAN_MEMBER_ERROR,
   ACCEPT_USER,
   DECLINE_USER,
   UPDATE_CAD_SETTINGS,
@@ -21,10 +22,11 @@ import Company from "../../interfaces/Company";
 import Citizen from "../../interfaces/Citizen";
 import User from "../../interfaces/User";
 import socket from "../socket";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
-  message?: string;
+  message?: Message;
   error?: string;
   companies?: Company[];
   citizens?: Citizen[];
@@ -75,7 +77,7 @@ export const updateMemberPerms = (id: string, data: object) => async (
       });
       dispatch({
         type: SET_MESSAGE,
-        message: "Successfully updated",
+        message: { msg: "Successfully updated", type: "success" },
       });
     }
   } catch (e) {
@@ -98,7 +100,12 @@ export const banMember = (id: string, banReason: string) => async (
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.admin.ban_success} ${res.data.member?.username}`,
+        message: { msg: `${lang.admin.ban_success} ${res.data.member?.username}`, type: "success" },
+      });
+    } else {
+      dispatch({
+        type: BAN_MEMBER_ERROR,
+        message: res.data.error,
       });
     }
   } catch (e) {
@@ -116,7 +123,10 @@ export const unBanMember = (id: string) => async (dispatch: Dispatch<IDispatch>)
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.admin.un_ban_success} ${res.data.member?.username}`,
+        message: {
+          msg: `${lang.admin.un_ban_success} ${res.data.member?.username}`,
+          type: "success",
+        },
       });
     }
   } catch (e) {
@@ -135,7 +145,7 @@ export const acceptUser = (id: string) => async (dispatch: Dispatch<IDispatch>) 
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.admin.accepted_member}`,
+        message: { msg: `${lang.admin.accepted_member}`, type: "success" },
       });
     }
   } catch (e) {
@@ -154,7 +164,7 @@ export const declineUser = (id: string) => async (dispatch: Dispatch<IDispatch>)
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.admin.declined_member}`,
+        message: { msg: `${lang.admin.declined_member}`, type: "success" },
       });
     }
   } catch (e) {
@@ -188,7 +198,7 @@ export const deleteCitizen = (id: string) => async (dispatch: Dispatch<IDispatch
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.citizen.deleted_citizen,
+        message: { msg: lang.citizen.deleted_citizen, type: "success" },
       });
     }
   } catch (e) {
@@ -222,7 +232,7 @@ export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<IDisp
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.admin.company.delete_success,
+        message: { msg: lang.admin.company.delete_success, type: "success" },
       });
     }
   } catch (e) {
@@ -248,7 +258,7 @@ export const updateCadSettings = (data: {
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.admin.cad_settings?.updated,
+        message: { msg: lang.admin.cad_settings?.updated, type: "success" },
       });
     }
   } catch (e) {

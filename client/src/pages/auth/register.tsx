@@ -4,14 +4,15 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { register } from "../../lib/actions/auth";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   loading: boolean;
   register: (data: object) => void;
 }
 
-const Register: React.FC<Props> = ({ error, loading, register }) => {
+const Register: React.FC<Props> = ({ message, loading, register }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [password2, setPassword2] = React.useState<string>("");
@@ -28,10 +29,8 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
 
   return (
     <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
+      <AlertMessage message={message} dismissible />
       <h2>{lang.auth.register}</h2>
-      <div className="mb-3">
-        {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
-      </div>
       <div className="mb-3">
         <label className="form-label" htmlFor="username">
           {lang.auth.enter_username}
@@ -85,7 +84,7 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.auth.error,
+  message: state.global.message,
   loading: state.auth.loading,
 });
 

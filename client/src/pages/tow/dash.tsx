@@ -8,9 +8,10 @@ import lang from "../../language.json";
 import { connect } from "react-redux";
 import { getTowCalls, endTowCall } from "../../lib/actions/tow-calls";
 import NotepadModal from "../../components/modals/notepad";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   calls: TowCall[];
   aop: string;
   getTowCalls: () => void;
@@ -40,7 +41,7 @@ const TowDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <h3>
         {lang.tow.tow_dashboard} - AOP: {aop}

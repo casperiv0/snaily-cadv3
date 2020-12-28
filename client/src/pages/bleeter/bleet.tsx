@@ -40,7 +40,7 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) =
   if (bleet !== null && !bleet) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={lang.bleeter?.not_found} />
+        <AlertMessage message={{ msg: lang.bleeter?.not_found, type: "danger" }} />
       </Layout>
     );
   }

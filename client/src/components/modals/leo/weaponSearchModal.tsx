@@ -33,7 +33,9 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="serialNumber">{lang.citizen.weapon.serial_number}</label>
+            <label className="form-label" htmlFor="serialNumber">
+              {lang.citizen.weapon.serial_number}
+            </label>
             <input
               id="serialNumber"
               type="weapon"
@@ -68,7 +70,7 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
                 </Item>
               </div>
             ) : (
-              <AlertMessage type="warning" message="not found" />
+              <AlertMessage message={{ msg: "not found", type: "warning" }} />
             )
           ) : null}
         </div>

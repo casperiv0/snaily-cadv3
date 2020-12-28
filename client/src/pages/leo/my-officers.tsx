@@ -6,10 +6,11 @@ import lang from "../../language.json";
 import { connect } from "react-redux";
 import { getMyOfficers, deleteOfficer } from "../../lib/actions/officer";
 import AlertMessage from "../../components/alert-message";
+import Message from "../../interfaces/Message";
 
 interface Props {
   officers: Officer[];
-  message: string;
+  message: Message;
   getMyOfficers: () => void;
   deleteOfficer: (id: string) => void;
 }
@@ -21,7 +22,7 @@ const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, get
 
   return (
     <Layout classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
       <h3>{lang.officers.my_officers}</h3>
       <a className="btn btn-primary container" href="/leo/dash">
         {lang.global.back_to_dashboard}

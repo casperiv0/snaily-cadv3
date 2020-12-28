@@ -6,13 +6,16 @@ import {
   CREATE_TRUCK_LOG_ERROR,
   DELETE_TRUCK_LOG,
   GET_TRUCK_LOGS,
+  SET_MESSAGE,
 } from "../types";
 import { handleRequest, isSuccess } from "../functions";
+import Message from "../../interfaces/Message";
+import lang from "../../language.json";
 
 interface IDispatch {
   type: string;
   logs?: TruckLog[];
-  message?: string;
+  message?: Message;
   error?: string;
 }
 
@@ -58,6 +61,10 @@ export const deleteTruckLog = (id: string) => async (dispatch: Dispatch<IDispatc
       dispatch({
         type: DELETE_TRUCK_LOG,
         logs: res.data.logs,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: { msg: lang.truck_logs.deleted_truck_log, type: "success" },
       });
     }
   } catch (e) {

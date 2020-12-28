@@ -45,9 +45,11 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage message={error} type="warning" /> : null}
+          {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
           <div className="mb-3">
-            <label className="form-label" htmlFor="old_password">{lang.auth.enter_old_password}</label>
+            <label className="form-label" htmlFor="old_password">
+              {lang.auth.enter_old_password}
+            </label>
             <input
               id="old_password"
               type="password"
@@ -57,7 +59,9 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="new_password">{lang.auth.enter_password}</label>
+            <label className="form-label" htmlFor="new_password">
+              {lang.auth.enter_password}
+            </label>
             <input
               id="new_password"
               type="password"
@@ -67,7 +71,9 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="confirm_password">{lang.auth.confirm_password}</label>
+            <label className="form-label" htmlFor="confirm_password">
+              {lang.auth.confirm_password}
+            </label>
             <input
               id="confirm_password"
               type="password"

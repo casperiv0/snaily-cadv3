@@ -35,7 +35,7 @@ router.post(
       return res.json({ status: "success" });
     } else {
       return res.json({
-        error: "Pleas fill in all fields",
+        error: "Please fill in all fields",
         status: "error",
       });
     }

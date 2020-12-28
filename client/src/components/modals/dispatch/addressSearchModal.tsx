@@ -33,7 +33,9 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="address">{lang.dispatch.enter_address}</label>
+            <label className="form-label" htmlFor="address">
+              {lang.dispatch.enter_address}
+            </label>
             <input
               value={address}
               className="form-control bg-secondary border-secondary text-light"
@@ -45,7 +47,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
           <div className="mt-3">
             {search !== null ? (
               !search[0] ? (
-                <AlertMessage type="warning" message={lang.dispatch.add_not_found} />
+                <AlertMessage message={{ msg: lang.dispatch.add_not_found, type: "warning" }} />
               ) : (
                 search.map((citizen: Citizen, idx: number) => {
                   return (

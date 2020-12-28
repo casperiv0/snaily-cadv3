@@ -47,7 +47,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           {search?.warrants[0] ? (
-            <AlertMessage type="warning" message={lang.record.has_warrant} />
+            <AlertMessage message={{ msg: lang.record.has_warrant, type: "warning" }} />
           ) : null}
           <div className="mb-3">
             <label className="form-label" htmlFor="name">
@@ -455,7 +455,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                 </div>
               </div>
             ) : (
-              <AlertMessage message={lang.record.no_citizen} type="warning" />
+              <AlertMessage message={{ msg: lang.record.no_citizen, type: "warning" }} />
             )
           ) : null}
         </div>

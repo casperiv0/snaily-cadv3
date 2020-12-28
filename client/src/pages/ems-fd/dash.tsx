@@ -9,10 +9,11 @@ import NotepadModal from "../../components/modals/notepad";
 import SelectEmsFdModal from "../../components/modals/ems-fd/selectEmsFdModal";
 import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRecords";
 import Active911Calls from "../../components/active-911-calls";
+import Message from "../../interfaces/Message";
 
 interface Props {
   aop: string;
-  message: string;
+  message: Message;
 }
 
 const EmsFdDash: React.FC<Props> = (props) => {

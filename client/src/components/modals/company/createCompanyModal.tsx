@@ -6,14 +6,15 @@ import State from "../../../interfaces/State";
 import Citizen from "../../../interfaces/Citizen";
 import { createCompany } from "../../../lib/actions/company";
 import AlertMessage from "../../alert-message";
+import Message from "../../../interfaces/Message";
 
 interface Props {
   citizens: Citizen[];
   createCompany: (data: object) => void;
-  error: string;
+  message: Message;
 }
 
-const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany }) => {
+const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany }) => {
   const [address, setAddress] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
   const [whitelist, setWhitelist] = React.useState<string>("no");
@@ -40,9 +41,11 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage type="warning" message={error} /> : null}
+          <AlertMessage message={message} dismissible />
           <div className="mb-3">
-            <label className="form-label" htmlFor="company_name">{lang.citizen.company.name}</label>
+            <label className="form-label" htmlFor="company_name">
+              {lang.citizen.company.name}
+            </label>
             <input
               type="text"
               id="company_name"
@@ -52,7 +55,9 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="address">{lang.citizen.company.address}</label>
+            <label className="form-label" htmlFor="address">
+              {lang.citizen.company.address}
+            </label>
             <input
               type="text"
               id="address"
@@ -62,7 +67,9 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="whitelist">{lang.citizen.company.whitelisted}</label>
+            <label className="form-label" htmlFor="whitelist">
+              {lang.citizen.company.whitelisted}
+            </label>
             <select
               id="whitelist"
               value={whitelist}
@@ -74,7 +81,9 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
             </select>
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="ownerId">{lang.citizen.company.select_owner}</label>
+            <label className="form-label" htmlFor="ownerId">
+              {lang.citizen.company.select_owner}
+            </label>
             <select
               id="ownerId"
               value={ownerId}
@@ -110,7 +119,7 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, error, createCompany })
 };
 
 const mapToProps = (state: State) => ({
-  error: state.company.error,
+  message: state.global.message,
   citizens: state.company.citizens,
 });
 

@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
 import AlertMessage from "../../components/alert-message";
 import CadInfo from "../../interfaces/CadInfo";
+import Message from "../../interfaces/Message";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import lang from "../../language.json";
@@ -11,7 +12,7 @@ import { updateCadSettings } from "../../lib/actions/admin";
 
 interface Props {
   user: User;
-  message: string;
+  message: Message;
   cadInfo: CadInfo;
   updateCadSettings: (data: {
     aop: string;
@@ -65,7 +66,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
       <h3>{lang.admin.cad_settings.cad_settings}</h3>
 
       <div className="card bg-dark border-dark mt-3">

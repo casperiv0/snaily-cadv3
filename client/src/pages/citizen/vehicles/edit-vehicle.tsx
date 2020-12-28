@@ -65,14 +65,14 @@ const EditVehiclePage: React.FC<Props> = ({
   if (notFound) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={lang.citizen.vehicle.not_found} />
+        <AlertMessage message={{ msg: lang.citizen.vehicle.not_found, type: "danger" }} />
       </Layout>
     );
   }
 
   return (
     <Layout>
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">

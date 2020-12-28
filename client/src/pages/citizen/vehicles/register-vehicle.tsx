@@ -65,7 +65,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="plate">

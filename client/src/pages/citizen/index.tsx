@@ -10,10 +10,11 @@ import Call911Modal from "../../components/modals/call911Modal";
 import { logout } from "../../lib/actions/auth";
 import { connect } from "react-redux";
 import { getCitizens } from "../../lib/actions/citizen";
+import Message from "../../interfaces/Message";
 
 interface Props {
   aop: string;
-  message: string;
+  message: Message;
   citizens: Citizen[];
   logout: () => void;
   getCitizens: () => void;
@@ -40,7 +41,7 @@ const CitizensPage: React.FC<Props> = (props) => {
   return (
     <Layout classes="mt-5">
       <div>
-        {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+        {message ? <AlertMessage message={message} dismissible /> : null}
         <h3>
           {lang.auth.welcome} - AOP: {aop}
         </h3>
@@ -89,7 +90,7 @@ const CitizensPage: React.FC<Props> = (props) => {
 
       <ul className="list-group mt-3">
         {!citizens[0] ? (
-          <AlertMessage message={lang.citizen.no_citizens_found} type="warning" />
+          <AlertMessage message={{ msg: lang.citizen.no_citizens_found, type: "warning" }} />
         ) : (
           citizens.map((citizen: Citizen, idx: number) => {
             return (

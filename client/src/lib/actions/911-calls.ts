@@ -11,11 +11,12 @@ import {
   CREATE_911_CALL,
   SET_MESSAGE,
 } from "../types";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
   calls?: Call[];
-  message?: string;
+  message?: Message;
 }
 
 export const getActive911Calls = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -44,7 +45,7 @@ export const create911Call = (data: object) => async (dispatch: Dispatch<IDispat
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.citizen.call_created,
+        message: { msg: lang.citizen.call_created, type: "success" },
       });
       socket.emit("UPDATE_911_CALLS");
       socket.emit("NEW_911_CALL", data);

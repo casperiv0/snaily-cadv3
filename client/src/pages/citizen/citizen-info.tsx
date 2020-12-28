@@ -12,11 +12,12 @@ import RegisteredVehicles from "../../components/citizen/vehicles/RegisteredVehi
 import MedicalRecords from "../../components/citizen/MedicalRecords";
 import AlertMessage from "../../components/alert-message";
 import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
+import Message from "../../interfaces/Message";
 
 interface Props {
   citizen: Citizen;
   match: Match;
-  message: string;
+  message: Message;
   getCitizenById: (id: string) => void;
   deleteCitizen: (id: string) => void;
 }
@@ -54,7 +55,7 @@ const CitizenInfoPage: React.FC<Props> = ({
 
   return (
     <Layout>
-      {message ? <AlertMessage type="success" message={message} /> : null}
+      {message ? <AlertMessage message={message} /> : null}
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h3>{lang.admin.cad_settings.general_info}</h3>

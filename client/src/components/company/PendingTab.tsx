@@ -35,7 +35,7 @@ const PendingTab: React.FC<Props> = ({ employees, match, updateEmployeeStatus })
   return (
     <ul className="list-group mt-2">
       {!pending[0] ? (
-        <AlertMessage type="warning" message={lang.citizen.company.no_cit_pen} />
+        <AlertMessage message={{ msg: lang.citizen.company.no_cit_pen, type: "warning" }} />
       ) : (
         pending.map((employee: Citizen, idx: number) => {
           return (

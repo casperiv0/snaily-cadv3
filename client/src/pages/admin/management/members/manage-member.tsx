@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
 import Match from "../../../../interfaces/Match";
+import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
 import lang from "../../../../language.json";
@@ -15,7 +16,7 @@ import {
 import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
-  message: string;
+  message: Message;
   member: User;
   user: User;
   match: Match;
@@ -82,14 +83,14 @@ const ManageMember: React.FC<Props> = ({
   if (member !== null && !member) {
     return (
       <AdminLayout>
-        <AlertMessage type="danger" message="notfound" />
+        <AlertMessage message={{ msg: "Not found", type: "danger" }} />
       </AdminLayout>
     );
   }
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
@@ -97,7 +98,9 @@ const ManageMember: React.FC<Props> = ({
             {lang.global.rank}
           </label>
           {authenticatedUser.username === member?.username ? (
-            <AlertMessage type="warning" message={lang.admin.member.own_rank} />
+            <AlertMessage message={{ type: "warning", msg: lang.admin.member.own_rank }} />
+          ) : member?.rank === "owner" ? (
+            <AlertMessage message={{ msg: lang.admin.member.owner, type: "warning" }} />
           ) : (
             <select
               id="rank"
@@ -210,10 +213,10 @@ const ManageMember: React.FC<Props> = ({
           </div>
 
           <div className="card-body">
-            {authenticatedUser?.username === member?.username ? (
-              <AlertMessage type="warning" message={lang.admin.ban_yourself} />
+            {authenticatedUser?.id === member?.id ? (
+              <AlertMessage message={{ msg: lang.admin.ban_yourself, type: "warning" }} />
             ) : member?.rank === "owner" ? (
-              <AlertMessage type="warning" message={lang.admin.ban_owner} />
+              <AlertMessage message={{ msg: lang.admin.ban_owner, type: "warning" }} />
             ) : member?.banned === "1" ? (
               <>
                 <Item id="ban_reason">

@@ -50,7 +50,7 @@ const SearchMedicalRecords: React.FC<Props> = ({ medicalRecords, searchMedicalRe
 
           {!medicalRecords?.length && hasSubmitted ? (
             <div className="mb-3 mt-2">
-              <AlertMessage type="warning" message="None found" />
+              <AlertMessage message={{ msg: "None found", type: "warning" }} />
             </div>
           ) : hasSubmitted ? (
             <table className="table table-dark mt-2">
@@ -80,7 +80,12 @@ const SearchMedicalRecords: React.FC<Props> = ({ medicalRecords, searchMedicalRe
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={reset}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            data-bs-dismiss="modal"
+            onClick={reset}
+          >
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">

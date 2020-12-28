@@ -19,6 +19,7 @@ import {
   WEAPON_SEARCH,
   GET_ADMIN_DEPARTMENTS,
 } from "../types";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -29,7 +30,7 @@ interface IDispatch {
   departments?: Department[];
   error?: string;
   search?: object;
-  message?: string;
+  message?: Message;
 }
 
 export const getCurrentOfficer = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -116,7 +117,7 @@ export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IDispatch
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.officers.delete_officer_success}`,
+        message: { msg: lang.officers.delete_officer_success, type: "success" },
       });
     }
   } catch (e) {

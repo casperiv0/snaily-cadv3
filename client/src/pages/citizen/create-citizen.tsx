@@ -9,9 +9,10 @@ import Field from "../../interfaces/Field";
 import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
@@ -22,7 +23,7 @@ interface Props {
 }
 
 const CreateCitizenPage: React.FC<Props> = ({
-  error,
+  message,
   genders,
   ethnicities,
   legalStatuses,
@@ -187,7 +188,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+        <AlertMessage message={message} dismissible />
 
         <div key="image" id="-1" className="mb-3">
           <label className="form-label" htmlFor="image">
@@ -281,7 +282,7 @@ const CreateCitizenPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   legalStatuses: state.values["legal-statuses"],

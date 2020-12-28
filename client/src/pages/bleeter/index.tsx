@@ -35,7 +35,7 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
       </div>
 
       {!bleets[0] ? (
-        <AlertMessage type="warning" message={lang.bleeter.no_bleet} />
+        <AlertMessage message={{ msg: lang.bleeter.no_bleet, type: "warning" }} />
       ) : (
         bleets &&
         bleets.map((bleet: Bleet, idx: number) => {

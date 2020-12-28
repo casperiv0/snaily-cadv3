@@ -12,13 +12,13 @@ import {
   DELETE_EMS_DEPUTY,
   CREATE_EMS_FD_DEPUTY,
   SEARCH_MEDICAL_RECORD,
-  CREATE_EMS_FD_DEPUTY_ERROR,
   SET_MESSAGE,
 } from "../types";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
-  message?: string;
+  message?: Message;
   error?: string;
   deputies?: Deputy[];
   medicalRecords?: MedicalRecord[];
@@ -37,8 +37,8 @@ export const createEmsFdDeputy = (data: object) => async (dispatch: Dispatch<IDi
       window.location.href = "/ems-fd/deputies";
     } else {
       dispatch({
-        type: CREATE_EMS_FD_DEPUTY_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -113,7 +113,7 @@ export const deleteEmsFdDeputy = (id: string) => async (dispatch: Dispatch<IDisp
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.ems_fd.deleted_dept,
+        message: { msg: lang.ems_fd.deleted_dept, type: "warning" },
       });
     }
   } catch (e) {

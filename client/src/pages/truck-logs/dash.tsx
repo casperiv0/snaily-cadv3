@@ -7,9 +7,10 @@ import lang from "../../language.json";
 import socket from "../../lib/socket";
 import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   aop: string;
   logs: TruckLog[];
   getTruckLogs: () => void;
@@ -32,7 +33,7 @@ const TruckLogsDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
       <div className="d-flex justify-content-between mb-3">
         <h3>
           {lang.nav.trucklogs} - AOP: {aop}
@@ -43,7 +44,7 @@ const TruckLogsDash: React.FC<Props> = (props) => {
       </div>
 
       {!logs[0] ? (
-        <AlertMessage type="warning" message="You don't have any truck logs" />
+        <AlertMessage message={{ msg: "You don't have any truck logs", type: "warning" }} />
       ) : (
         <table className="table table-dark">
           <thead>

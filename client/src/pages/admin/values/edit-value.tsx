@@ -7,17 +7,18 @@ import AlertMessage from "../../../components/alert-message";
 import lang from "../../../language.json";
 import { getValueById, updateValueById } from "../../../lib/actions/values";
 import { connect } from "react-redux";
+import Message from "../../../interfaces/Message";
 
 interface Props {
   value: Value;
   match: Match;
-  error: string;
+  message: Message;
   getValueById: (path: string, id: string) => void;
   updateValueById: (path: string, id: string, data: { name: string }) => void;
 }
 
 const EditValuePage: React.FC<Props> = (props) => {
-  const { match, error, getValueById, updateValueById } = props;
+  const { match, message, getValueById, updateValueById } = props;
   const [value, setValue] = React.useState<string>("");
   const path = match.params.path;
   const id = match.params.id;
@@ -41,17 +42,19 @@ const EditValuePage: React.FC<Props> = (props) => {
   if (props.value !== null && !props.value) {
     return (
       <AdminLayout>
-        <AlertMessage type="danger" message={lang.admin.values.not_found_id} />
+        <AlertMessage message={{ msg: lang.admin.values.not_found_id, type: "danger" }} />
       </AdminLayout>
     );
   }
 
   return (
     <AdminLayout>
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
         <div className="mb-3">
-          <label className="form-label" htmlFor="name">{lang.admin.values[path].name}</label>
+          <label className="form-label" htmlFor="name">
+            {lang.admin.values[path].name}
+          </label>
           <input
             id="name"
             value={value}
@@ -76,7 +79,7 @@ const EditValuePage: React.FC<Props> = (props) => {
 
 const mapToProps = (state: State) => ({
   value: state.values.value,
-  error: state.values.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { getValueById, updateValueById })(EditValuePage);

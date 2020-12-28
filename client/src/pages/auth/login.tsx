@@ -5,15 +5,16 @@ import ILoc from "../../interfaces/ILoc";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { login } from "../../lib/actions/auth";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   loading: boolean;
   location: ILoc;
   login: (data: object, requestedPath: string) => void;
 }
 
-const Login: React.FC<Props> = ({ error, loading, location, login }) => {
+const Login: React.FC<Props> = ({ message, loading, location, login }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const requestedPath = location?.state?.requestedPath;
@@ -32,10 +33,8 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
 
   return (
     <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
+      <AlertMessage message={message} dismissible />
       <h2>{lang.auth.login_2}</h2>
-      <div className="mb-3">
-        {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
-      </div>
       <div className="mb-3">
         <label className="form-label" htmlFor="username">
           {lang.auth.enter_username}
@@ -81,8 +80,8 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.auth.error,
   loading: state.auth.loading,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { login })(Login);

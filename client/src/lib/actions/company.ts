@@ -9,21 +9,19 @@ import {
   GET_COMPANY_DATA,
   JOIN_COMPANY,
   CREATE_COMPANY,
-  CREATE_COMPANY_ERROR,
-  JOIN_COMPANY_ERROR,
+  CREATE_COMPANY_POST_ERROR,
   GET_COMPANY_BY_ID,
   GET_COMPANY_BY_ID_ERROR,
   CREATE_COMPANY_POST,
-  CREATE_COMPANY_POST_ERROR,
   DELETE_COMPANY,
   UPDATE_COMPANY,
-  UPDATE_COMPANY_ERROR,
   SET_MESSAGE,
   UPDATE_EMPLOYEE,
   FIRE_EMPLOYEE,
   ACCEPT_EMPLOYEE,
   DECLINE_EMPLOYEE,
 } from "../types";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -31,7 +29,7 @@ interface IDispatch {
   company?: Company;
   companies?: Company[];
   error?: string;
-  message?: string;
+  message?: Message;
   posts?: CompanyPost[];
   employees?: Citizen[];
   vehicles?: Vehicle[];
@@ -64,8 +62,8 @@ export const joinCompany = (data: object) => async (dispatch: Dispatch<IDispatch
       window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
     } else {
       dispatch({
-        type: JOIN_COMPANY_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -84,8 +82,8 @@ export const createCompany = (data: object) => async (dispatch: Dispatch<IDispat
       window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
     } else {
       dispatch({
-        type: CREATE_COMPANY_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -150,12 +148,12 @@ export const updateCompany = (id: string, data: object) => async (
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.citizen.company.updated_company,
+        message: { msg: lang.citizen.company.updated_company, type: "success" },
       });
     } else {
       dispatch({
-        type: UPDATE_COMPANY_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -219,7 +217,7 @@ export const fireEmployee = (employeeId: string, companyId: string, citizenId: s
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.citizen.company.fired_em,
+        message: { msg: lang.citizen.company.fired_em, type: "success" },
       });
     }
   } catch (e) {
@@ -245,7 +243,10 @@ export const updateEmployeeStatus = (
       });
       dispatch({
         type: SET_MESSAGE,
-        message: type === "ACCEPT" ? lang.citizen.company.accepted : lang.citizen.company.declined,
+        message: {
+          msg: type === "ACCEPT" ? lang.citizen.company.accepted : lang.citizen.company.declined,
+          type: "success",
+        },
       });
     }
   } catch (e) {

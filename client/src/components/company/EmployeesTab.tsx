@@ -24,7 +24,7 @@ const EmployeesTab: React.FC<Props> = ({ employees, match, fireEmployee }) => {
   return (
     <ul className="list-group mt-2">
       {!employees[0] ? (
-        <AlertMessage type="danger" message={lang.citizen.company.no_em} />
+        <AlertMessage message={{ msg: lang.citizen.company.no_em, type: "danger" }} />
       ) : (
         employees.map((employee: Citizen, idx: number) => {
           return (

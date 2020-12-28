@@ -1,16 +1,13 @@
 import * as React from "react";
-import State from "../../interfaces/State";
 import lang from "../../language.json";
-import AlertMessage from "../alert-message";
 import { createWarrant } from "../../lib/actions/records";
 import { connect } from "react-redux";
 
 interface Props {
-  error: string;
   createWarrant: (data: { fullName: string; status: string; details: string }) => void;
 }
 
-const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
+const CreateWarrant: React.FC<Props> = ({ createWarrant }) => {
   const [name, setName] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>("active");
   const [details, setDetails] = React.useState<string>("");
@@ -35,7 +32,6 @@ const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
         {lang.global.create_warrant}
       </div>
       <form onSubmit={onSubmit} className="list-group-item bg-dark border-dark">
-        {error ? <AlertMessage type="warning" message={error} /> : null}
         <div className="mb-3">
           <label className="form-label" htmlFor="warrant_name">
             {lang.record.enter_full_name}
@@ -83,8 +79,4 @@ const CreateWarrant: React.FC<Props> = ({ error, createWarrant }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  error: state.officers.error,
-});
-
-export default connect(mapToProps, { createWarrant })(CreateWarrant);
+export default connect(null, { createWarrant })(CreateWarrant);

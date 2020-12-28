@@ -19,10 +19,11 @@ import CreateWrittenWarningModal from "../../components/modals/leo/createWritten
 import CreateArrestReportModal from "../../components/modals/leo/createArrestReportModal";
 import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
+import Message from "../../interfaces/Message";
 
 interface Props {
   aop: string;
-  message: string;
+  message: Message;
 }
 
 const LeoDash: React.FC<Props> = (props) => {
@@ -47,7 +48,7 @@ const LeoDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {props.message ? <AlertMessage type="success" message={props.message} dismissible /> : null}
+      {props.message ? <AlertMessage message={props.message} dismissible /> : null}
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>

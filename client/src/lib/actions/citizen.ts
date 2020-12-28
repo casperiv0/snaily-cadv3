@@ -5,8 +5,6 @@ import lang from "../../language.json";
 import {
   CREATE_CITIZEN,
   UPDATE_CITIZEN,
-  UPDATE_CITIZEN_ERROR,
-  CREATE_CITIZEN_ERROR,
   GET_CITIZENS,
   GET_CITIZEN_BY_ID,
   GET_REGISTERED_WEAPONS,
@@ -36,6 +34,7 @@ import Weapon from "../../interfaces/Weapon";
 import Vehicle from "../../interfaces/Vehicle";
 import MedicalRecord from "../../interfaces/MedicalRecord";
 import Company from "../../interfaces/Company";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -48,7 +47,7 @@ interface IDispatch {
   medicalRecords?: MedicalRecord[];
   companies?: Company[];
   company?: Company;
-  message?: string;
+  message?: Message;
 }
 
 export const getCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -127,8 +126,8 @@ export const createCitizen = (data: Citizen) => async (dispatch: Dispatch<IDispa
       return (window.location.href = `/citizen/${res.data.citizenId}`);
     } else {
       dispatch({
-        type: CREATE_CITIZEN_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -184,8 +183,8 @@ export const updateCitizen = (id: string, data: Citizen) => async (
       return (window.location.href = `/citizen/${res.data.citizenId}`);
     } else {
       dispatch({
-        type: UPDATE_CITIZEN_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -307,7 +306,7 @@ export const reportAsStolen = (id: string) => async (dispatch: Dispatch<IDispatc
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.citizen.vehicle.reported_stolen,
+        message: { msg: lang.citizen.vehicle.reported_stolen, type: "success" },
       });
     }
   } catch (e) {
@@ -328,7 +327,7 @@ export const deleteVehicle = (citizenId: string, vehicleId: string) => async (
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.citizen.vehicle.deleted_veh,
+        message: { msg: lang.citizen.vehicle.deleted_veh, type: "success" },
       });
     }
   } catch (e) {
@@ -384,7 +383,7 @@ export const deleteWeapon = (citizenId: string, weaponId: string) => async (
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.citizen.weapon.deleted_weapon,
+        message: { msg: lang.citizen.weapon.deleted_weapon, type: "success" },
       });
     }
   } catch (e) {

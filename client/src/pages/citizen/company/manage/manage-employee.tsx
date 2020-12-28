@@ -59,7 +59,7 @@ const ManageEmployee: React.FC<Props> = ({
   if (returnError !== null) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={returnError} />
+        <AlertMessage message={{ msg: returnError, type: "danger" }} />
       </Layout>
     );
   }
@@ -67,7 +67,7 @@ const ManageEmployee: React.FC<Props> = ({
   if (employee !== null && !employee) {
     return (
       <Layout>
-        <AlertMessage type="danger" message="Citizen not found" />
+        <AlertMessage message={{ msg: "Citizen not found", type: "danger" }} />
       </Layout>
     );
   }

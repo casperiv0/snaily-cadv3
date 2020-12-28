@@ -12,12 +12,11 @@ import {
   GET_WEAPONS,
   DELETE_VALUE,
   ADD_VALUE,
-  ADD_VALUE_ERROR,
   GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
-  UPDATE_VALUE_BY_ID_ERROR,
   SET_MESSAGE,
 } from "../types";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -30,7 +29,7 @@ interface IDispatch {
   path?: string;
   error?: string;
   value?: Value;
-  message?: string;
+  message?: Message;
 }
 
 export const deleteValue = (id: string, path: ValuePaths) => async (
@@ -47,7 +46,7 @@ export const deleteValue = (id: string, path: ValuePaths) => async (
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.admin.values[path].deleted,
+        message: { msg: lang.admin.values[path].deleted, type: "success" },
       });
     }
   } catch (e) {
@@ -68,8 +67,8 @@ export const addValue = (path: string, data: { name: string }) => async (
       return (window.location.href = `/admin/values/${path}`);
     } else {
       dispatch({
-        type: ADD_VALUE_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -105,8 +104,8 @@ export const updateValueById = (path: string, id: string, data: { name: string }
       window.location.href = `/admin/values/${path}/`;
     } else {
       dispatch({
-        type: UPDATE_VALUE_BY_ID_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {

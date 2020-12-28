@@ -3,13 +3,10 @@ import Company, { CompanyPost } from "../../interfaces/Company";
 import Vehicle from "../../interfaces/Vehicle";
 import {
   GET_COMPANY_DATA,
-  CREATE_COMPANY_ERROR,
   CREATE_COMPANY,
   JOIN_COMPANY,
-  JOIN_COMPANY_ERROR,
   GET_COMPANY_BY_ID,
   CREATE_COMPANY_POST_ERROR,
-  UPDATE_COMPANY_ERROR,
   GET_COMPANY_BY_ID_ERROR,
   DECLINE_EMPLOYEE,
   ACCEPT_EMPLOYEE,
@@ -34,18 +31,10 @@ type Actions =
       citizens: Citizen[];
     }
   | {
-      type: typeof CREATE_COMPANY_ERROR;
-      error: string;
-    }
-  | {
       type: typeof CREATE_COMPANY;
     }
   | {
       type: typeof JOIN_COMPANY;
-    }
-  | {
-      type: typeof JOIN_COMPANY_ERROR;
-      error: string;
     }
   | {
       type: typeof GET_COMPANY_BY_ID;
@@ -56,10 +45,6 @@ type Actions =
     }
   | {
       type: typeof CREATE_COMPANY_POST_ERROR;
-      error: string;
-    }
-  | {
-      type: typeof UPDATE_COMPANY_ERROR;
       error: string;
     }
   | {
@@ -87,19 +72,9 @@ export default function companyReducer(state = initState, action: Actions) {
         companies: action.companies,
         citizens: action.citizens,
       };
-    case "CREATE_COMPANY_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
     case "JOIN_COMPANY":
       return {
         ...state,
-      };
-    case "JOIN_COMPANY_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "GET_COMPANY_BY_ID":
       return {
@@ -110,11 +85,6 @@ export default function companyReducer(state = initState, action: Actions) {
         vehicles: action.vehicles,
       };
     case "CREATE_COMPANY_POST_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
-    case "UPDATE_COMPANY_ERROR":
       return {
         ...state,
         error: action.error,

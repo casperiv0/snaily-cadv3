@@ -4,7 +4,6 @@ import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
 import {
   CREATE_WARRANT,
-  CREATE_WARRANT_ERROR,
   SET_MESSAGE,
   CREATE_WRITTEN_WARNING,
   CREATE_WRITTEN_WARNING_ERROR,
@@ -13,11 +12,12 @@ import {
   CREATE_TICKET,
   CREATE_TICKET_ERROR,
 } from "../types";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
   error?: string;
-  message?: string;
+  message?: Message;
 }
 
 export function resetError(type: string, dispatch: Dispatch<IDispatch>) {
@@ -43,12 +43,12 @@ export const createWarrant = (data: {
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.record.created_warrant} ${data.fullName}`,
+        message: { msg: `${lang.record.created_warrant} ${data.fullName}`, type: "success" },
       });
     } else {
       dispatch({
-        type: CREATE_WARRANT_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -72,7 +72,7 @@ export const createWrittenWarning = (data: {
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.record.created_warning} ${data.name}`,
+        message: { msg: `${lang.record.created_warning} ${data.name}`, type: "success" },
       });
       resetError(CREATE_WRITTEN_WARNING_ERROR, dispatch);
     } else {
@@ -102,7 +102,7 @@ export const creatArrestReport = (data: {
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.record.created_arrest_report} ${data.name}`,
+        message: { msg: `${lang.record.created_arrest_report} ${data.name}`, type: "success" },
       });
       resetError(CREATE_ARREST_REPORT_ERROR, dispatch);
     } else {
@@ -132,7 +132,7 @@ export const createTicket = (data: {
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.record.created_ticket} ${data.name}`,
+        message: { msg: `${lang.record.created_ticket} ${data.name}`, type: "success" },
       });
       resetError(CREATE_TICKET_ERROR, dispatch);
     } else {

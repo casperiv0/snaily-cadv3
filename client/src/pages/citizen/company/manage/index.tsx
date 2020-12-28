@@ -9,6 +9,7 @@ import VehiclesTab from "../../../../components/company/VehiclesTab";
 import Layout from "../../../../components/Layout";
 import Citizen from "../../../../interfaces/Citizen";
 import Match from "../../../../interfaces/Match";
+import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
 import lang from "../../../../language.json";
 import { getCitizenById } from "../../../../lib/actions/citizen";
@@ -16,7 +17,7 @@ import { getCompanyById } from "../../../../lib/actions/company";
 
 interface Props {
   match: Match;
-  message: string;
+  message: Message;
   citizen: Citizen;
   returnError: string;
   getCompanyById: (id: string, citizenId: string) => void;
@@ -50,14 +51,14 @@ const ManageCompanyPage: React.FC<Props> = ({
   if (returnError !== null) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={returnError} />
+        <AlertMessage message={{ msg: returnError, type: "danger" }} />
       </Layout>
     );
   }
 
   return (
     <Layout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <h3>{lang.citizen.company.manage_company}</h3>
       <ul className="nav nav-tabs mt-3" id="manage_tabs" role="tablist">

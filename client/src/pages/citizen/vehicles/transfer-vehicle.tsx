@@ -57,14 +57,14 @@ const TransferVehiclePage: React.FC<Props> = ({
   if (notFound) {
     return (
       <Layout>
-        <AlertMessage type="danger" message="Not found" />
+        <AlertMessage message={{ msg: "Not found", type: "danger" }} />
       </Layout>
     );
   }
 
   return (
     <Layout>
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
