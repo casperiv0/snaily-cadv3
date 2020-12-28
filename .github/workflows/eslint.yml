@@ -1,7 +1,7 @@
 name: Lint
 on: [push]
 jobs:
-  eslint_check:
+  eslint_check_server:
     name: ESLINT (Server)
     runs-on: ubuntu-latest
     steps:
@@ -13,10 +13,10 @@ jobs:
       with:
         ghToken: ${{ secrets.GITHUB_TOKEN }}
         eslintFiles: "lib, scripts"
-        eslintConfig: "./server/.eslintrc.json",
+        eslintConfig: "./server/.eslintrc.json"
         eslintExt: "ts, tsx"
         
-  eslint_check:
+  eslint_check_client:
     name: ESLINT (Client)
     runs-on: ubuntu-latest
     steps:
@@ -28,5 +28,5 @@ jobs:
       with:
         ghToken: ${{ secrets.GITHUB_TOKEN }}
         eslintFiles: "lib, scripts"
-        eslintConfig: "./client/.eslintrc.json",
+        eslintConfig: "./client/.eslintrc.json"
         eslintExt: "ts, tsx"
