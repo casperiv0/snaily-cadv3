@@ -21,6 +21,10 @@ const Modal: React.FC<Props> = ({ id, size, children }) => {
   );
 };
 
+function closeModal() {
+  document.body.classList.remove("modal-open");
+}
+
 const XButton = React.forwardRef((_props, ref: React.Ref<HTMLButtonElement>) => {
   return (
     <button
@@ -29,6 +33,7 @@ const XButton = React.forwardRef((_props, ref: React.Ref<HTMLButtonElement>) => 
       data-bs-dismiss="modal"
       aria-label="Close"
       className="btn-close btn-close-white"
+      onClick={closeModal}
     ></button>
   );
 });

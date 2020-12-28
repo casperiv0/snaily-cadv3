@@ -48,7 +48,9 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="status">{lang.dispatch.set_on_off_duty}</label>
+            <label className="form-label" htmlFor="status">
+              {lang.dispatch.set_on_off_duty}
+            </label>
             <select
               value={status}
               id="status"
@@ -62,7 +64,9 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
             </select>
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="status2">{lang.dispatch.global_status}</label>
+            <label className="form-label" htmlFor="status2">
+              {lang.dispatch.global_status}
+            </label>
             <select
               value={status2}
               id="status2"

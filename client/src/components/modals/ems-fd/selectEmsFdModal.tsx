@@ -37,7 +37,9 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="deputy">{lang.ems_fd.select_dept_2}</label>
+            <label className="form-label" htmlFor="deputy">
+              {lang.ems_fd.select_dept_2}
+            </label>
             <select
               className="form-control bg-secondary border-secondary text-light"
               id="deputy"

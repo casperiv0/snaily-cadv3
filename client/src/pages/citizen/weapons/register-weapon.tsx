@@ -8,9 +8,10 @@ import Citizen from "../../../interfaces/Citizen";
 import { getWeapons, getLegalStatuses } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import { getCitizens, registerWeapon } from "../../../lib/actions/citizen";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   weapons: Value[];
   legalStatuses: Value[];
   owners: Citizen[];
@@ -21,7 +22,7 @@ interface Props {
 }
 
 const RegisterWeaponPage: React.FC<Props> = ({
-  error,
+  message,
   weapons,
   legalStatuses,
   owners,
@@ -52,7 +53,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
@@ -136,7 +137,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   owners: state.citizen.citizens,
   weapons: state.values.weapons,
   legalStatuses: state.values["legal-statuses"],

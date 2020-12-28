@@ -132,9 +132,9 @@ const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean; logout: () =
             </li>
             <li className="dropdown-divider bg-dark border-secondary"></li>
             <li>
-              <button onClick={logout} className="dropdown-item">
+              <a className="dropdown-item" href="/logout">
                 {lang.auth.logout}
-              </button>
+              </a>
             </li>
           </>
         ) : (

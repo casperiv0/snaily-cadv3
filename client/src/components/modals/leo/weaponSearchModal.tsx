@@ -8,9 +8,13 @@ import Weapon from "../../../interfaces/Weapon";
 import AlertMessage from "../../alert-message";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
+interface Search extends Weapon {
+  type: "weapon";
+}
+
 interface Props {
   weaponSearch: (serialNumber: string) => void;
-  search: Weapon;
+  search: Search;
 }
 
 const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
@@ -46,7 +50,7 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
             />
           </div>
 
-          {search !== null ? (
+          {search !== null && search?.type === "weapon" ? (
             search?.weapon ? (
               <div className="mt-2">
                 <Item id="weapon">

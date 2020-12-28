@@ -46,7 +46,9 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="type">{lang.citizen.medical.type}</label>
+            <label className="form-label" htmlFor="type">
+              {lang.citizen.medical.type}
+            </label>
             <select
               className="form-control bg-secondary border-secondary text-light"
               id="type"
@@ -59,7 +61,9 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label" htmlFor="description">{lang.global.description}</label>
+            <label className="form-label" htmlFor="description">
+              {lang.global.description}
+            </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -71,7 +75,9 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
 
           {type === "person" ? (
             <div className="mb-3">
-              <label className="form-label" htmlFor="name">{lang.record.enter_per_name}</label>
+              <label className="form-label" htmlFor="name">
+                {lang.record.enter_per_name}
+              </label>
               <input
                 type="text"
                 value={name}
@@ -82,7 +88,9 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
           ) : type === "vehicle" ? (
             <>
               <div className="mb-3">
-                <label className="form-label" htmlFor="plate">{lang.record.enter_plate}</label>
+                <label className="form-label" htmlFor="plate">
+                  {lang.record.enter_plate}
+                </label>
                 <input
                   type="text"
                   value={plate}
@@ -91,7 +99,9 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label" htmlFor="color">{lang.record.enter_color}</label>
+                <label className="form-label" htmlFor="color">
+                  {lang.record.enter_color}
+                </label>
                 <input
                   type="text"
                   value={color}

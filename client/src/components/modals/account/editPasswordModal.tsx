@@ -5,14 +5,14 @@ import Modal, { XButton } from "../index";
 import { connect } from "react-redux";
 import { updatePassword } from "../../../lib/actions/auth";
 import AlertMessage from "../../alert-message";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   updatePassword: (data: object) => void;
 }
 
-const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
-  const btnRef = React.createRef<HTMLButtonElement>();
+const EditPasswordModal: React.FC<Props> = ({ message, updatePassword }) => {
   const [oldPassword, setOldPassword] = React.useState<string>("");
   const [newPassword, setNewPassword] = React.useState<string>("");
   const [newPassword2, setNewPassword2] = React.useState<string>("");
@@ -27,25 +27,16 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
     });
   }
 
-  React.useEffect(() => {
-    if (error === null) {
-      setOldPassword("");
-      setNewPassword("");
-      setNewPassword2("");
-      btnRef.current?.click();
-    }
-  }, [error, btnRef]);
-
   return (
     <Modal id="editPasswordModal">
       <div className="modal-header">
         <h5>{lang.auth.account.edit_password}</h5>
-        <XButton ref={btnRef} />
+        <XButton />
       </div>
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
+          <AlertMessage message={message} />
           <div className="mb-3">
             <label className="form-label" htmlFor="old_password">
               {lang.auth.enter_old_password}
@@ -98,7 +89,7 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.auth.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { updatePassword })(EditPasswordModal);

@@ -136,7 +136,7 @@ router.post(
         [plate]
       );
 
-      return res.json({ plate: result[0], status: "success" });
+      return res.json({ plate: result[0] || {}, status: "success" });
     } else {
       return res.json({ error: "Please fill in all fields", status: "error" });
     }

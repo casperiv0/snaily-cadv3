@@ -11,7 +11,6 @@ import {
   UPDATE_MEMBER_PERMS,
   BAN_MEMBER,
   UN_BAN_MEMBER,
-  BAN_MEMBER_ERROR,
   ACCEPT_USER,
   DECLINE_USER,
   UPDATE_CAD_SETTINGS,
@@ -104,8 +103,8 @@ export const banMember = (id: string, banReason: string) => async (
       });
     } else {
       dispatch({
-        type: BAN_MEMBER_ERROR,
-        message: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {

@@ -95,7 +95,7 @@ router.put("/members/:path/:id", useAuth, useAdminAuth, async (req: IRequest, re
           id,
         ]);
       } else {
-        return res.json({ error: "Please include 'ban_reason'", status: "error" });
+        return res.json({ error: "Please provide a ban reason", status: "error" });
       }
       break;
     }

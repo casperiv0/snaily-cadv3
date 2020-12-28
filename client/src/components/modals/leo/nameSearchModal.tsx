@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
 interface NameSearch {
+  type: "name";
   citizen: Citizen;
   warrants: Warrant[];
   tickets: Ticket[];
@@ -46,7 +47,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {search?.warrants[0] ? (
+          {search !== null && search?.type === "name" && search?.warrants[0] ? (
             <AlertMessage message={{ msg: lang.record.has_warrant, type: "warning" }} />
           ) : null}
           <div className="mb-3">
@@ -61,7 +62,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
             />
           </div>
 
-          {search !== null ? (
+          {search !== null && search?.type === "name" ? (
             search?.citizen ? (
               <div className="mt-3">
                 <div className="col-md-6">

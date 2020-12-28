@@ -27,7 +27,9 @@ const UpdateAOP: React.FC<Props> = ({ updateAop }) => {
       <div className="card-body">
         <form onSubmit={onSubmit}>
           <div className="mb-3">
-            <label className="form-label" htmlFor="aop">{lang.dispatch.enter_new_aop}</label>
+            <label className="form-label" htmlFor="aop">
+              {lang.dispatch.enter_new_aop}
+            </label>
             <input
               type="text"
               onChange={(e) => setAop(e.target.value)}

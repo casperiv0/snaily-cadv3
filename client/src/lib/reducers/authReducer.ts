@@ -5,7 +5,6 @@ import {
   LOGOUT,
   DELETE_ACCOUNT,
   UPDATE_PASSWORD,
-  UPDATE_PASSWORD_ERROR,
 } from "../types";
 
 const initState = {
@@ -37,10 +36,6 @@ type Actions =
     }
   | {
       type: typeof UPDATE_PASSWORD;
-    }
-  | {
-      type: typeof UPDATE_PASSWORD_ERROR;
-      error: string;
     };
 
 export default function authReducer(state = initState, action: Actions) {
@@ -84,11 +79,6 @@ export default function authReducer(state = initState, action: Actions) {
       return {
         ...state,
         error: null,
-      };
-    case "UPDATE_PASSWORD_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     default:
       return {

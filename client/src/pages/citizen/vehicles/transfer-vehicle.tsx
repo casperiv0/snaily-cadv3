@@ -8,9 +8,10 @@ import lang from "../../../language.json";
 import { connect } from "react-redux";
 import { getAllCitizens, getVehicleById, transferVehicle } from "../../../lib/actions/citizen";
 import Citizen from "../../../interfaces/Citizen";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   vehicle: Vehicle;
   match: Match;
   owners: Citizen[];
@@ -21,7 +22,7 @@ interface Props {
 
 const TransferVehiclePage: React.FC<Props> = ({
   match,
-  error,
+  message,
   vehicle,
   owners,
   getVehicleById,
@@ -64,7 +65,7 @@ const TransferVehiclePage: React.FC<Props> = ({
 
   return (
     <Layout>
-      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
@@ -76,7 +77,7 @@ const TransferVehiclePage: React.FC<Props> = ({
             className="form-control bg-dark border-dark text-light"
             id="plate"
             onChange={(e) => setPlate(e.target.value.toUpperCase())}
-            value={plate}
+            value={plate?.toUpperCase()}
             maxLength={8}
           />
         </div>
@@ -120,7 +121,7 @@ const TransferVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   owners: state.citizen.citizens,
   vehicle: state.citizen.vehicle,
 });

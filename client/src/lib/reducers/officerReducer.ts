@@ -158,17 +158,17 @@ export default function officerReducer(state = initState, action: Actions) {
     case "NAME_SEARCH":
       return {
         ...state,
-        search: action.search,
+        search: { type: "name", ...action.search },
       };
     case "WEAPON_SEARCH":
       return {
         ...state,
-        search: action.search,
+        search: { type: "weapon", ...action.search },
       };
     case "PLATE_SEARCH":
       return {
         ...state,
-        search: action.search,
+        search: { type: "plate", ...action.search },
       };
     case "CREATE_WRITTEN_WARNING":
       return {

@@ -8,7 +8,6 @@ import {
   SET_LOADING,
   DELETE_ACCOUNT,
   UPDATE_PASSWORD,
-  UPDATE_PASSWORD_ERROR,
   SET_MESSAGE,
 } from "../types";
 import Message from "../../interfaces/Message";
@@ -145,8 +144,8 @@ export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispa
       });
     } else {
       dispatch({
-        type: UPDATE_PASSWORD_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {

@@ -10,9 +10,10 @@ import { getCitizens, registerVehicle } from "../../../lib/actions/citizen";
 import AlertMessage from "../../../components/alert-message";
 import Company from "../../../interfaces/Company";
 import { getCompanies } from "../../../lib/actions/admin";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   owners: Citizen[];
   vehicles: Value[];
   legalStatuses: Value[];
@@ -25,7 +26,7 @@ interface Props {
 }
 
 const RegisterVehiclePage: React.FC<Props> = ({
-  error,
+  message,
   owners,
   vehicles,
   legalStatuses,
@@ -65,7 +66,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="plate">
@@ -206,7 +207,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   owners: state.citizen.citizens,
   vehicles: state.values.vehicles,
   legalStatuses: state.values["legal-statuses"],

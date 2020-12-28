@@ -8,8 +8,11 @@ import { searchPlate } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
+export interface Search extends Vehicle {
+  type: "plate";
+}
 interface Props {
-  search: Vehicle;
+  search: Search;
   searchPlate: (plate: string) => void;
 }
 
@@ -45,7 +48,7 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
           </div>
 
           {search !== null ? (
-            search?.plate ? (
+            search?.type === "plate" && search?.plate ? (
               <div className="mt-3">
                 <Item id="plate">
                   <Span>{lang.global.plate}: </Span>

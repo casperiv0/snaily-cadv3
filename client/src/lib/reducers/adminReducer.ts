@@ -10,7 +10,6 @@ import {
   GET_MEMBERS,
   GET_MEMBER_BY_ID,
   UN_BAN_MEMBER,
-  BAN_MEMBER_ERROR,
   UPDATE_MEMBER_PERMS,
   ACCEPT_USER,
   DECLINE_USER,
@@ -60,10 +59,6 @@ type Actions =
   | {
       type: typeof UN_BAN_MEMBER;
       member: User;
-    }
-  | {
-      type: typeof BAN_MEMBER_ERROR;
-      error: string;
     }
   | {
       type: typeof ACCEPT_USER;
@@ -120,11 +115,6 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         member: action.member,
-      };
-    case "BAN_MEMBER_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "ACCEPT_USER":
       return {

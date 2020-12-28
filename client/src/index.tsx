@@ -62,6 +62,7 @@ const MyEmsDeputiesPage = React.lazy(() => import("./pages/ems-fd/my-deputies"))
 const CreateDeputyPage = React.lazy(() => import("./pages/ems-fd/create-deputy"));
 
 const AccountPage = React.lazy(() => import("./pages/account/index"));
+const LogoutPage = React.lazy(() => import("./pages/logout"));
 
 const ValuesPage = React.lazy(() => import("./pages/admin/values/index"));
 const AddValuePage = React.lazy(() => import("./pages/admin/values/add-value"));
@@ -178,6 +179,7 @@ ReactDOM.render(
             <AuthRoute path="/admin/cad-settings" requirement="admin" Component={CadSettingsPage} />
             <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
 
+            <Route path="/logout" component={LogoutPage} />
             <Route path="/forbidden" component={ForbiddenPage} />
             <Route component={NotFoundPage} />
           </Switch>
