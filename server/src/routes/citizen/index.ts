@@ -166,7 +166,7 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
     }
 
     const query =
-      "UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ?, `image_id` = ? WHERE `id` = ?";
+      "UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ? WHERE `id` = ?";
 
     try {
       await processQuery(query, [
@@ -182,9 +182,15 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
         fire_license /* fire_license */,
         pilot_license /* pilot_license */,
         ccw /* ccw */,
-        imageId /* image_id */,
         citizenId /* id */,
       ]);
+
+      if (file) {
+        await processQuery("UPDATE `citizens` SET `image_id` = ? WHERE `id` = ?", [
+          imageId,
+          citizenId,
+        ]);
+      }
     } catch (e) {
       Logger.error("CREATE_CITIZEN_ERROR", e);
       return res.json({

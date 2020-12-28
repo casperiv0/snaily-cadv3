@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3
+
+- Fixed 2 minor bugs
+
 ## 0.2.2
 
 - Fixed minor bugs
