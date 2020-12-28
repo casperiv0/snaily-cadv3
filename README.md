@@ -24,6 +24,10 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 
 ## Installation
 
+[Quick Installation guide](https://youtu.be/av_rD_jOJN8)
+
+[How to update the CAD](https://youtu.be/6THGMcHEX48)
+
 1. Open Command Prompt
 2. Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cadv3`
 3. Run `cd snaily-cadv3`
