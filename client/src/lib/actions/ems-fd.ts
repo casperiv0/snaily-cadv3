@@ -113,7 +113,7 @@ export const deleteEmsFdDeputy = (id: string) => async (dispatch: Dispatch<IDisp
       });
       dispatch({
         type: SET_MESSAGE,
-        message: { msg: lang.ems_fd.deleted_dept, type: "warning" },
+        message: { msg: lang.ems_fd.deleted_dept, type: "success" },
       });
     }
   } catch (e) {

@@ -55,7 +55,7 @@ const CitizenInfoPage: React.FC<Props> = ({
 
   return (
     <Layout>
-      {message ? <AlertMessage message={message} /> : null}
+      <AlertMessage message={message} dismissible />
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h3>{lang.admin.cad_settings.general_info}</h3>

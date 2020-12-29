@@ -5,13 +5,14 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { createTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   createTruckLog: (date: object) => void;
 }
 
-const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
+const CreateTruckLogPage: React.FC<Props> = ({ message, createTruckLog }) => {
   const [name, setName] = React.useState<string>("");
   const [date, setDate] = React.useState<string>("");
   const [coDriver, setCoDriver] = React.useState<string>("");
@@ -33,7 +34,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
+        <AlertMessage message={message} dismissible />
         <div className="mb-3">
           <label className="form-label" htmlFor="name">
             {lang.truck_logs.enter_trucker_name}
@@ -108,7 +109,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ error, createTruckLog }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.truck_logs.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { createTruckLog })(CreateTruckLogPage);

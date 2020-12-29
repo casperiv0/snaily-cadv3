@@ -5,6 +5,7 @@
 - Upgraded to bootstrap 5
 - Fixed bug where searching for a weapon/plate it would result in a black screen
 - Added a new message system, you can now dismiss most of the alert-messages
+- A ton more bug fixes and improvements
 
 ## 0.2.3
 

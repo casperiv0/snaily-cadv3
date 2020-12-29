@@ -1,13 +1,7 @@
 import TruckLog from "../../interfaces/TruckLog";
 import Logger from "../Logger";
 import { Dispatch } from "react";
-import {
-  CREATE_TRUCK_LOG,
-  CREATE_TRUCK_LOG_ERROR,
-  DELETE_TRUCK_LOG,
-  GET_TRUCK_LOGS,
-  SET_MESSAGE,
-} from "../types";
+import { CREATE_TRUCK_LOG, DELETE_TRUCK_LOG, GET_TRUCK_LOGS, SET_MESSAGE } from "../types";
 import { handleRequest, isSuccess } from "../functions";
 import Message from "../../interfaces/Message";
 import lang from "../../language.json";
@@ -44,8 +38,8 @@ export const createTruckLog = (data: object) => async (dispatch: Dispatch<IDispa
       return (window.location.href = "/truck-logs");
     } else {
       dispatch({
-        type: CREATE_TRUCK_LOG_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {

@@ -433,6 +433,11 @@ export const updateVehicleById = (id: string, citizenId: string, data: object) =
       });
 
       return (window.location.href = `/citizen/${citizenId}`);
+    } else {
+      dispatch({
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
+      });
     }
   } catch (e) {
     Logger.error(UPDATE_VEHICLE, e);

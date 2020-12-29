@@ -47,8 +47,8 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
             />
           </div>
 
-          {search !== null ? (
-            search?.type === "plate" && search?.plate ? (
+          {search !== null && search?.type === "plate" ? (
+            search?.plate ? (
               <div className="mt-3">
                 <Item id="plate">
                   <Span>{lang.global.plate}: </Span>
