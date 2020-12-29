@@ -4,6 +4,7 @@ import lang from "../../language.json";
 import { connect } from "react-redux";
 import { checkAuth, logout } from "../../lib/actions/auth";
 import { getCadInfo } from "../../lib/actions/global";
+import CadInfo from "../../interfaces/CadInfo";
 
 interface Props {
   isAuth: boolean;
@@ -11,6 +12,7 @@ interface Props {
   checkAuth: () => void;
   logout: () => void;
   getCadInfo: () => void;
+  cadInfo: CadInfo;
 }
 
 interface Path {
@@ -62,7 +64,7 @@ export const paths: Path[] = [
   },
 ];
 
-const Navbar: React.FC<Props> = ({ loading, isAuth, checkAuth, logout, getCadInfo }) => {
+const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, checkAuth, logout, getCadInfo }) => {
   React.useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -75,7 +77,7 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, checkAuth, logout, getCadInf
     <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
-          Home
+          {cadInfo?.cad_name ? cadInfo?.cad_name : "Home"}
         </a>
         <button
           className="navbar-toggler"
@@ -159,6 +161,7 @@ const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean; logout: () =
 const mapToProps = (state: State) => ({
   isAuth: state.auth.isAuth,
   loading: state.auth.loading,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps, { checkAuth, logout, getCadInfo })(Navbar);

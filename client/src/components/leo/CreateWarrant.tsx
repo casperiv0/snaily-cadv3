@@ -27,7 +27,7 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant }) => {
   }
 
   return (
-    <div className="col-md-3 list-group">
+    <div className="list-group">
       <div className="list-group-item bg-secondary border-secondary">
         {lang.global.create_warrant}
       </div>

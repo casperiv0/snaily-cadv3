@@ -4,9 +4,9 @@ interface ICad {
   owner: IUser;
   cad_name: string;
   AOP: string;
-  tow_whitelisted: boolean;
-  whitelisted: boolean;
-  company_whitelisted: boolean;
+  tow_whitelisted: "1" | "0";
+  whitelisted: "1" | "0";
+  company_whitelisted: "1" | "0";
 }
 
 export default ICad;

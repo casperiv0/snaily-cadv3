@@ -111,12 +111,6 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                       </Item>
 
                       <div className="d-flex mt-2">
-                        <a
-                          className="btn btn-success me-2"
-                          href={`/admin/manage/citizens/edit/${citizen.id}`}
-                        >
-                          {lang.citizen.edit_citizen}
-                        </a>
                         <button
                           type="button"
                           className="btn btn-danger"

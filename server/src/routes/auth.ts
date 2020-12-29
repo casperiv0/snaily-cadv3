@@ -35,8 +35,8 @@ router.post("/register", async (req: IRequest, res: Response) => {
     // There are existing users - create the account at user level
     if (users?.length > 0) {
       const cadInfo: ICad[] = await processQuery("SELECT * FROM `cad_info`");
-      const whitelistStatus = +cadInfo[0].whitelisted === 1 ? "pending" : "accepted";
-      const towAccess = +cadInfo[0].tow_whitelisted === 1 ? false : true;
+      const whitelistStatus = cadInfo[0].whitelisted === "1" ? "pending" : "accepted";
+      const towAccess = cadInfo[0].tow_whitelisted === "1" ? false : true;
       const id = uuidv4();
 
       await processQuery(
@@ -64,7 +64,11 @@ router.post("/register", async (req: IRequest, res: Response) => {
         httpOnly: true,
       });
 
-      return res.json({ status: "success" });
+      return res.json({
+        status: "error",
+        error:
+          "Your account was created successfully, this CAD is whitelisted so your account is still pending access",
+      });
     } else {
       // no users found - create the account at owner level
       const id = uuidv4();

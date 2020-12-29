@@ -64,12 +64,14 @@ const LeoDash: React.FC<Props> = (props) => {
         </div>
       </div>
 
-      <div className="row mt-3">
-        <div className="col-md-9">
+      <div className="row">
+        <div className="col-md-9 mt-2">
           <Active911Calls />
           <ActiveBolos />
         </div>
-        <CreateWarrant />
+        <div className="col-md-3 mt-2">
+          <CreateWarrant />
+        </div>
       </div>
 
       {/* Modals */}
