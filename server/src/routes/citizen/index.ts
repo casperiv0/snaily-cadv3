@@ -10,6 +10,7 @@ import citizenVehicleRouter from "./vehicles";
 import medicalRecordsRouter from "./medical-records";
 import companyRouter from "./company";
 import { UploadedFile } from "express-fileupload";
+import { SupportedFileTypes } from "../../lib/constants";
 
 router.use("/weapons", citizenWeaponRouter);
 router.use("/vehicles", citizenVehicleRouter);
@@ -57,7 +58,14 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const file = req.files?.image ? (req.files.image as UploadedFile) : null;
   const index = req.files?.image && file?.name.indexOf(".");
 
-  const imageId = file ? `${uuidv4()}${file.name.slice(index!)}` : "default.svg";
+  if (file && !SupportedFileTypes.includes(String(file.mimetype))) {
+    return res.json({
+      status: "error",
+      error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
+    });
+  }
+
+  const imageId = file ? `${uuidv4()}${file.name.slice(index)}` : "default.svg";
 
   if (full_name && birth && gender && ethnicity && hair_color && eye_color && height && weight) {
     const citizen = await processQuery("SELECT * FROM `citizens` WHERE `full_name` = ?", [
@@ -109,9 +117,9 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     }
 
     file?.name &&
-      file.mv("./public/citizen-images/" + imageId, (e: any) => {
-        if (e) {
-          Logger.error("MOVE_CITIZEN_IMAGE", e);
+      file.mv("./public/citizen-images/" + imageId, (err: string) => {
+        if (err) {
+          Logger.error("MOVE_CITIZEN_IMAGE", err);
         }
       });
 
@@ -145,7 +153,7 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
   const file = req.files?.image ? (req.files.image as UploadedFile) : null;
   const index = req.files?.image && file?.name.indexOf(".");
 
-  const imageId = file ? `${uuidv4()}${file.name.slice(index!)}` : "default.svg";
+  const imageId = file ? `${uuidv4()}${file.name.slice(index)}` : "default.svg";
 
   if (full_name && birth && gender && ethnicity && hair_color && eye_color && height && weight) {
     const citizen = await processQuery("SELECT * FROM `citizens` WHERE `id` = ?", [citizenId]);
@@ -192,9 +200,9 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
     }
 
     file?.name &&
-      file.mv("./public/citizen-images/" + imageId, (e: any) => {
-        if (e) {
-          Logger.error("MOVE_CITIZEN_IMAGE", e);
+      file.mv("./public/citizen-images/" + imageId, (err: string) => {
+        if (err) {
+          Logger.error("MOVE_CITIZEN_IMAGE", err);
         }
       });
 

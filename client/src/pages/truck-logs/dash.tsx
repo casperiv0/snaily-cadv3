@@ -7,18 +7,19 @@ import lang from "../../language.json";
 import socket from "../../lib/socket";
 import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   aop: string;
   logs: TruckLog[];
   getTruckLogs: () => void;
   deleteTruckLog: (id: string) => void;
 }
 
-const TruckLogsDash: React.FC<Props> = (props) => {
+const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
   const [aop, setAop] = React.useState<string>(props.aop);
-  const { logs, message, getTruckLogs, deleteTruckLog } = props;
+  const { logs, getTruckLogs, deleteTruckLog } = props;
 
   React.useEffect(() => {
     socket.on("UPDATE_AOP", (newAop: string) => {
@@ -32,7 +33,7 @@ const TruckLogsDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
       <div className="d-flex justify-content-between mb-3">
         <h3>
           {lang.nav.trucklogs} - AOP: {aop}
@@ -43,7 +44,7 @@ const TruckLogsDash: React.FC<Props> = (props) => {
       </div>
 
       {!logs[0] ? (
-        <AlertMessage type="warning" message="You don't have any truck logs" />
+        <AlertMessage message={{ msg: "You don't have any truck logs", type: "warning" }} />
       ) : (
         <table className="table table-dark">
           <thead>

@@ -84,8 +84,6 @@ const EditLicensesPage: React.FC<Props> = ({
 
   React.useEffect(() => {
     if (citizen !== null) {
-      console.log(citizen);
-
       setDmv(citizen?.dmv);
       setFireArms(citizen?.fire_license);
       setPilot(citizen?.pilot_license);
@@ -110,8 +108,10 @@ const EditLicensesPage: React.FC<Props> = ({
       <form onSubmit={onSubmit}>
         {fields.map((field: Field, idx: number) => {
           return (
-            <div key={idx} id={`${idx}`} className="form-group">
-              <label htmlFor={field.id}>{field.label}</label>
+            <div key={idx} id={`${idx}`} className="mb-3">
+              <label className="form-label" htmlFor={field.id}>
+                {field.label}
+              </label>
               <select
                 id="dmv"
                 value={field.value}
@@ -134,11 +134,11 @@ const EditLicensesPage: React.FC<Props> = ({
           );
         })}
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href={`/citizen/${citizenId}`}>
             {lang.global.cancel}
           </a>
-          <button type="submit" className="btn btn-primary ml-2">
+          <button type="submit" className="btn btn-primary ms-2">
             {lang.global.update}
           </button>
         </div>

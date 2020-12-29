@@ -9,10 +9,11 @@ import NotepadModal from "../../components/modals/notepad";
 import SelectEmsFdModal from "../../components/modals/ems-fd/selectEmsFdModal";
 import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRecords";
 import Active911Calls from "../../components/active-911-calls";
+import Message from "../../interfaces/Message";
 
 interface Props {
   aop: string;
-  message: string;
+  message: Message;
 }
 
 const EmsFdDash: React.FC<Props> = (props) => {
@@ -37,28 +38,28 @@ const EmsFdDash: React.FC<Props> = (props) => {
           </h4>
         </div>
 
-        <div className="card-body">
-          <a className="btn btn-primary mt-2" href="/ems-fd/deputies">
+        <div className="card-body row gap-2 px-4">
+          <a className="btn btn-primary col-md-3" href="/ems-fd/deputies">
             {lang.ems_fd.my_ems_fd}
           </a>
           <button
-            className="btn btn-secondary mt-2 ml-2"
-            data-target="#searchMedicalRecordsModal"
-            data-toggle="modal"
+            className="btn btn-secondary col-md-3"
+            data-bs-target="#searchMedicalRecordsModal"
+            data-bs-toggle="modal"
           >
             {lang.global.medical_search}
           </button>
 
           <button
-            className="btn btn-secondary ml-2 mt-2"
-            data-target="#notepad"
-            data-toggle="modal"
+            className="btn btn-secondary col-md-3"
+            data-bs-target="#notepad"
+            data-bs-toggle="modal"
           >
             {lang.global.notepad}
           </button>
         </div>
 
-        <div className="card-footer">
+        <div className="card-footer row gap-2 px-4">
           <Statuses />
         </div>
       </div>

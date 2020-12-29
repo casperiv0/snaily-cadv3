@@ -60,8 +60,10 @@ const Update911Call: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="call_location">{lang.global.location}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="call_location">
+              {lang.global.location}
+            </label>
             <input
               id="call_location"
               className="form-control bg-secondary border-secondary text-light"
@@ -69,8 +71,10 @@ const Update911Call: React.FC<Props> = ({
               value={location}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="call_description">{lang.global.description}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="call_description">
+              {lang.global.description}
+            </label>
             <input
               id="call_description"
               className="form-control bg-secondary border-secondary text-light"
@@ -78,21 +82,23 @@ const Update911Call: React.FC<Props> = ({
               value={description}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="call_assigned_unit">{lang.dispatch.assigned_unit}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="call_assigned_unit">
+              {lang.dispatch.assigned_unit}
+            </label>
             {!activeOfficers[0] ? (
               <p>{lang.dispatch.no_units}</p>
             ) : (
               activeOfficers.map((officer: Officer, idx: number) => {
                 return (
-                  <div key={idx} id={`${idx}`} className="form-group">
+                  <div key={idx} id={`${idx}`} className="mb-3">
                     <input
                       type="checkbox"
                       className="form-control-input"
                       value={officer.officer_name}
                       onClick={(e) => handleClick(e)}
                     />
-                    <label>{officer.officer_name}</label>
+                    <label className="form-label">{officer.officer_name}</label>
                   </div>
                 );
               })
@@ -101,7 +107,7 @@ const Update911Call: React.FC<Props> = ({
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button onClick={handleCancelCall} type="button" className="btn btn-danger">

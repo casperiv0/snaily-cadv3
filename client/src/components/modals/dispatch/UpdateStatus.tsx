@@ -47,8 +47,10 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="status">{lang.dispatch.set_on_off_duty}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="status">
+              {lang.dispatch.set_on_off_duty}
+            </label>
             <select
               value={status}
               id="status"
@@ -61,8 +63,10 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
               <option value="off-duty">{lang.global.off_duty}</option>
             </select>
           </div>
-          <div className="form-group">
-            <label htmlFor="status2">{lang.dispatch.global_status}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="status2">
+              {lang.dispatch.global_status}
+            </label>
             <select
               value={status2}
               id="status2"
@@ -82,8 +86,8 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
           </div>
         </div>
         <div className="modal-footer">
-          <div className="form-group">
-            <button type="button" className="btn btn-secondary mr-2" data-dismiss="modal">
+          <div className="mb-3">
+            <button type="button" className="btn btn-secondary me-2" data-bs-dismiss="modal">
               {lang.global.cancel}
             </button>
             <button type="submit" className="btn btn-primary">

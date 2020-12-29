@@ -56,8 +56,8 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        data-toggle="modal"
-                        data-target={"#updateStatus" + officer.id}
+                        data-bs-toggle="modal"
+                        data-bs-target={"#updateStatus" + officer.id}
                       >
                         {lang.dispatch.edit_status}
                       </button>
@@ -99,8 +99,8 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        data-toggle="modal"
-                        data-target={"#updateStatus" + deputy.id}
+                        data-bs-toggle="modal"
+                        data-bs-target={"#updateStatus" + deputy.id}
                       >
                         {lang.dispatch.edit_status}
                       </button>

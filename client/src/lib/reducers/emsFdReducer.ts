@@ -2,7 +2,6 @@ import Deputy from "../../interfaces/Deputy";
 import MedicalRecord from "../../interfaces/MedicalRecord";
 import {
   CREATE_EMS_FD_DEPUTY,
-  CREATE_EMS_FD_DEPUTY_ERROR,
   DELETE_EMS_DEPUTY,
   GET_CURRENT_EMS_STATUS,
   GET_MY_EMS_FD,
@@ -41,10 +40,6 @@ type Actions =
       type: typeof CREATE_EMS_FD_DEPUTY;
     }
   | {
-      type: typeof CREATE_EMS_FD_DEPUTY_ERROR;
-      error: string;
-    }
-  | {
       type: typeof SEARCH_MEDICAL_RECORD;
       medicalRecords: MedicalRecord[];
     };
@@ -76,11 +71,6 @@ export default function emsFdReducer(state = initState, action: Actions) {
     case "CREATE_EMS_FD_DEPUTY":
       return {
         ...state,
-      };
-    case "CREATE_EMS_FD_DEPUTY_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "SEARCH_MEDICAL_RECORD":
       return {

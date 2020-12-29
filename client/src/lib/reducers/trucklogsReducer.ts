@@ -1,10 +1,5 @@
 import TruckLog from "../../interfaces/TruckLog";
-import {
-  CREATE_TRUCK_LOG,
-  DELETE_TRUCK_LOG,
-  GET_TRUCK_LOGS,
-  CREATE_TRUCK_LOG_ERROR,
-} from "../types";
+import { CREATE_TRUCK_LOG, DELETE_TRUCK_LOG, GET_TRUCK_LOGS } from "../types";
 
 const initState = {
   logs: [],
@@ -18,10 +13,6 @@ type Actions =
     }
   | {
       type: typeof CREATE_TRUCK_LOG;
-    }
-  | {
-      type: typeof CREATE_TRUCK_LOG_ERROR;
-      error: string;
     }
   | {
       type: typeof DELETE_TRUCK_LOG;
@@ -39,11 +30,6 @@ export default function trucklogsReducer(state = initState, action: Actions) {
       return {
         ...state,
         logs: action.logs,
-      };
-    case "CREATE_TRUCK_LOG_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     default:
       return {

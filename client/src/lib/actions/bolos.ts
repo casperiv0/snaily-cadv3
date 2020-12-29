@@ -5,12 +5,13 @@ import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
 import socket from "../socket";
 import lang from "../../language.json";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
   error?: string;
   bolos?: Bolo[];
-  message?: string;
+  message?: Message;
 }
 
 export const getActiveBolos = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -40,7 +41,7 @@ export const createBolo = (data: object) => async (dispatch: Dispatch<IDispatch>
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.bolos.add_bolo,
+        message: { msg: lang.bolos.add_bolo, type: "success" },
       });
     } else {
       dispatch({
@@ -65,7 +66,7 @@ export const deleteBolo = (id: string) => async (dispatch: Dispatch<IDispatch>) 
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.bolos.removed_bolo,
+        message: { msg: lang.bolos.removed_bolo, type: "success" },
       });
     }
   } catch (e) {

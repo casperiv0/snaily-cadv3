@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
 interface NameSearch {
+  type: "name";
   citizen: Citizen;
   warrants: Warrant[];
   tickets: Ticket[];
@@ -46,11 +47,13 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {search?.warrants[0] ? (
-            <AlertMessage type="warning" message={lang.record.has_warrant} />
+          {search !== null && search?.type === "name" && search?.warrants[0] ? (
+            <AlertMessage message={{ msg: lang.record.has_warrant, type: "warning" }} />
           ) : null}
-          <div className="form-group">
-            <label htmlFor="name">{lang.global.name}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="name">
+              {lang.global.name}
+            </label>
             <input
               type="search"
               className="form-control bg-secondary border-secondary text-light"
@@ -59,7 +62,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
             />
           </div>
 
-          {search !== null ? (
+          {search !== null && search?.type === "name" ? (
             search?.citizen ? (
               <div className="mt-3">
                 <div className="col-md-6">
@@ -151,20 +154,20 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                 {/* records & vehicles */}
                 <div className="d-flex justify-content-between">
                   <button
-                    className="btn btn-primary col-md-6 mt-3"
+                    className="btn btn-primary col-sm-6 mt-3"
                     type="button"
-                    data-toggle="collapse"
-                    data-target="#records"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#records"
                     aria-expanded="false"
-                    aria-controls="record"
+                    aria-controls="records"
                   >
                     {lang.citizen.toggle_record}
                   </button>
                   <button
-                    className="btn btn-primary col-md-6 ml-2 mt-3"
+                    className="btn btn-primary col-sm-6 mt-3 ms-2"
                     type="button"
-                    data-toggle="collapse"
-                    data-target="#registered"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#registered"
                     aria-expanded="false"
                     aria-controls="registered"
                   >
@@ -453,13 +456,13 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                 </div>
               </div>
             ) : (
-              <AlertMessage message={lang.record.no_citizen} type="warning" />
+              <AlertMessage message={{ msg: lang.record.no_citizen, type: "warning" }} />
             )
           ) : null}
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
           <button type="submit" disabled={name === ""} className="btn btn-primary">

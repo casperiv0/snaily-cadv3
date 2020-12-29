@@ -8,9 +8,10 @@ import DeleteCitizenModal from "../../../../components/modals/admin/deleteCitize
 import { connect } from "react-redux";
 import { getAllCitizens } from "../../../../lib/actions/admin";
 import { Item, Span } from "../../../citizen/citizen-info";
+import Message from "../../../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   citizens: Citizen[];
   getAllCitizens: () => void;
 }
@@ -40,7 +41,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <ul className="list-group">
         <input
@@ -52,9 +53,11 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
         />
 
         {!citizens[0] ? (
-          <AlertMessage type="warning" message={lang.citizen.no_citizens_cad} />
+          <AlertMessage message={{ msg: lang.citizen.no_citizens_cad, type: "warning" }} />
         ) : !filtered[0] ? (
-          <AlertMessage type="warning" message={lang.citizen.citizen_not_found_by_name} />
+          <AlertMessage
+            message={{ msg: lang.citizen.citizen_not_found_by_name, type: "warning" }}
+          />
         ) : (
           <ul className="list-group">
             {filtered.map((citizen: Citizen, idx: number) => {
@@ -108,17 +111,11 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                       </Item>
 
                       <div className="d-flex mt-2">
-                        <a
-                          className="btn btn-success mr-2"
-                          href={`/admin/manage/citizens/edit/${citizen.id}`}
-                        >
-                          {lang.citizen.edit_citizen}
-                        </a>
                         <button
                           type="button"
                           className="btn btn-danger"
-                          data-toggle="modal"
-                          data-target={`#deleteCitizenModal${citizen.id}`}
+                          data-bs-toggle="modal"
+                          data-bs-target={`#deleteCitizenModal${citizen.id}`}
                         >
                           {lang.citizen.delete_citizen}
                         </button>
@@ -130,8 +127,8 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                     <button
                       className="btn btn-primary"
                       type="button"
-                      data-toggle="collapse"
-                      data-target={`#citizen_info_${citizen.id}`}
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#citizen_info_${citizen.id}`}
                       aria-expanded="false"
                       aria-controls={`citizen_info_${citizen.id}`}
                     >

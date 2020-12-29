@@ -40,7 +40,7 @@ const CompanyPage: React.FC<Props> = ({
   if (company !== null && !company) {
     return (
       <Layout>
-        <AlertMessage type="danger" message="notfound" />
+        <AlertMessage message={{ msg: "Company not found", type: "danger" }} />
       </Layout>
     );
   }
@@ -48,7 +48,7 @@ const CompanyPage: React.FC<Props> = ({
   if (returnError !== null) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={returnError} />
+        <AlertMessage message={{ msg: returnError, type: "danger" }} />
       </Layout>
     );
   }
@@ -59,7 +59,7 @@ const CompanyPage: React.FC<Props> = ({
         <h3>{company?.name}</h3>
         <div>
           <a
-            className="btn btn-primary mr-2"
+            className="btn btn-primary me-2"
             href={`/company/${citizenId}/${companyId}/create-post`}
           >
             {lang.citizen.company.create_a_post}

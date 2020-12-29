@@ -36,8 +36,10 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
       </div>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="deputy">{lang.ems_fd.select_dept_2}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="deputy">
+              {lang.ems_fd.select_dept_2}
+            </label>
             <select
               className="form-control bg-secondary border-secondary text-light"
               id="deputy"
@@ -60,7 +62,7 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
           </div>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button disabled={!deputies.length} type="submit" className="btn btn-primary">

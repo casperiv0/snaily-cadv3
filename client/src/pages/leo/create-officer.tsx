@@ -6,16 +6,17 @@ import Department from "../../interfaces/Department";
 import { connect } from "react-redux";
 import { createOfficer, getDepartments } from "../../lib/actions/officer";
 import AlertMessage from "../../components/alert-message";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   departments: Department[];
   createOfficer: (data: object) => void;
   getDepartments: (type: "admin" | "leo") => void;
 }
 
 const CreateOfficerPage: React.FC<Props> = ({
-  error,
+  message,
   departments,
   createOfficer,
   getDepartments,
@@ -39,21 +40,25 @@ const CreateOfficerPage: React.FC<Props> = ({
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        {error ? <AlertMessage message={error} type="warning" /> : null}
-        <div className="form-group">
-          <label htmlFor="officerName">{lang.record.officer_name}</label>
+        <AlertMessage message={message} dismissible />
+        <div className="mb-3">
+          <label className="form-label" htmlFor="officerName">
+            {lang.record.officer_name}
+          </label>
           <input
-            className="form-control bg-secondary border-secondary text-light"
+            className="form-control bg-dark border-dark text-light"
             type="text"
             id="officerName"
             value={officerName}
             onChange={(e) => setOfficerName(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="officerDept">{lang.officers.select_department}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="officerDept">
+            {lang.officers.select_department}
+          </label>
           <select
-            className="form-control bg-secondary border-secondary text-light"
+            className="form-control bg-dark border-dark text-light"
             name="department"
             id="department"
             value={officerDept}
@@ -73,11 +78,11 @@ const CreateOfficerPage: React.FC<Props> = ({
             )}
           </select>
         </div>
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href="/leo/my-officers">
             {lang.global.cancel}
           </a>
-          <button type="submit" className="btn btn-primary ml-2">
+          <button disabled={!departments[0]} type="submit" className="btn btn-primary ms-2">
             {lang.officers.create_officer}
           </button>
         </div>
@@ -88,7 +93,7 @@ const CreateOfficerPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   departments: state.officers.departments,
-  error: state.officers.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { createOfficer, getDepartments })(CreateOfficerPage);

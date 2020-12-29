@@ -6,9 +6,10 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { getMyDeputies, deleteEmsFdDeputy } from "../../lib/actions/ems-fd";
 import { connect } from "react-redux";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   deputies: Deputy[];
   getMyDeputies: () => void;
   deleteEmsFdDeputy: (id: string) => void;
@@ -26,7 +27,7 @@ const MyDeputiesPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <h4 className="card-title mt-3">{lang.ems_fd.my_deputies}</h4>
 

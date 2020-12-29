@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
 import Match from "../../../../interfaces/Match";
+import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
 import lang from "../../../../language.json";
@@ -15,7 +16,7 @@ import {
 import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
-  message: string;
+  message: Message;
   member: User;
   user: User;
   match: Match;
@@ -82,22 +83,24 @@ const ManageMember: React.FC<Props> = ({
   if (member !== null && !member) {
     return (
       <AdminLayout>
-        <AlertMessage type="danger" message="notfound" />
+        <AlertMessage message={{ msg: "Not found", type: "danger" }} />
       </AdminLayout>
     );
   }
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="rank">{lang.global.rank}</label>
-          {authenticatedUser?.id === member?.id ? (
-            <AlertMessage type="warning" message={lang.admin.member.own_rank} />
+        <div className="mb-3">
+          <label className="form-label" htmlFor="rank">
+            {lang.global.rank}
+          </label>
+          {authenticatedUser.username === member?.username ? (
+            <AlertMessage message={{ type: "warning", msg: lang.admin.member.own_rank }} />
           ) : member?.rank === "owner" ? (
-            <AlertMessage type="warning" message={lang.admin.member.owner} />
+            <AlertMessage message={{ msg: lang.admin.member.owner, type: "warning" }} />
           ) : (
             <select
               id="rank"
@@ -114,8 +117,10 @@ const ManageMember: React.FC<Props> = ({
             </select>
           )}
         </div>
-        <div className="form-group">
-          <label htmlFor="leo">{lang.auth.account.police_access}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="leo">
+            {lang.auth.account.police_access}
+          </label>
           <select
             id="leo"
             onChange={(e) => setLeo(e.target.value)}
@@ -131,8 +136,10 @@ const ManageMember: React.FC<Props> = ({
             <option value="1">{lang.global.yes}</option>
           </select>
         </div>
-        <div className="form-group">
-          <label htmlFor="dispatch">{lang.auth.account.dispatch_access}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="dispatch">
+            {lang.auth.account.dispatch_access}
+          </label>
           <select
             id="dispatch"
             onChange={(e) => setDispatch(e.target.value)}
@@ -148,8 +155,10 @@ const ManageMember: React.FC<Props> = ({
             <option value="1">{lang.global.yes}</option>
           </select>
         </div>
-        <div className="form-group">
-          <label htmlFor="ems_fd">{lang.auth.account.ems_fd_access}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="ems_fd">
+            {lang.auth.account.ems_fd_access}
+          </label>
           <select
             id="ems_fd"
             onChange={(e) => setEmsFd(e.target.value)}
@@ -166,8 +175,10 @@ const ManageMember: React.FC<Props> = ({
           </select>
         </div>
         {cad.tow_whitelisted === "1" ? (
-          <div className="form-group">
-            <label htmlFor="tow">{lang.auth.account.tow_access}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="tow">
+              {lang.auth.account.tow_access}
+            </label>
             <select
               id="tow"
               onChange={(e) => setTow(e.target.value)}
@@ -185,8 +196,8 @@ const ManageMember: React.FC<Props> = ({
           </div>
         ) : null}
 
-        <div className="form-group float-right">
-          <a className="btn btn-danger mr-2" href="/admin/manage/members">
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href="/admin/manage/members">
             {lang.global.cancel}
           </a>
           <button type="submit" className="btn btn-primary">
@@ -203,9 +214,9 @@ const ManageMember: React.FC<Props> = ({
 
           <div className="card-body">
             {authenticatedUser?.id === member?.id ? (
-              <AlertMessage type="warning" message={lang.admin.ban_yourself} />
+              <AlertMessage message={{ msg: lang.admin.ban_yourself, type: "warning" }} />
             ) : member?.rank === "owner" ? (
-              <AlertMessage type="warning" message={lang.admin.ban_owner} />
+              <AlertMessage message={{ msg: lang.admin.ban_owner, type: "warning" }} />
             ) : member?.banned === "1" ? (
               <>
                 <Item id="ban_reason">

@@ -11,9 +11,7 @@ import {
   GET_REGISTERED_WEAPONS,
   DELETE_REGISTERED_WEAPON,
   REGISTER_WEAPON,
-  REGISTER_WEAPON_ERROR,
   DELETE_REGISTERED_VEHICLE,
-  REGISTER_VEHICLE_ERROR,
   REGISTER_VEHICLE,
   GET_MEDICAL_RECORDS,
   CREATE_MEDICAL_RECORD_ERROR,
@@ -22,7 +20,6 @@ import {
   UPDATE_VEHICLE,
   GET_VEHICLE_BY_ID,
   GET_ALL_CITIZENS,
-  TRANSFER_VEHICLE_ERROR,
 } from "../types";
 
 const initState = {
@@ -56,10 +53,6 @@ type Actions =
       type: typeof REGISTER_VEHICLE;
     }
   | {
-      type: typeof REGISTER_VEHICLE_ERROR;
-      error: string;
-    }
-  | {
       type: typeof GET_REGISTERED_VEHICLES;
       vehicles: Vehicle[];
     }
@@ -69,10 +62,6 @@ type Actions =
     }
   | {
       type: typeof REGISTER_WEAPON;
-    }
-  | {
-      type: typeof REGISTER_WEAPON_ERROR;
-      error: string;
     }
   | {
       type: typeof GET_REGISTERED_WEAPONS;
@@ -108,10 +97,6 @@ type Actions =
   | {
       type: typeof GET_ALL_CITIZENS;
       citizens: Citizen[];
-    }
-  | {
-      type: typeof TRANSFER_VEHICLE_ERROR;
-      error: string;
     };
 
 export default function citizenReducer(state = initState, action: Actions) {
@@ -140,11 +125,6 @@ export default function citizenReducer(state = initState, action: Actions) {
       return {
         ...state,
       };
-    case "REGISTER_WEAPON_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
     case "GET_REGISTERED_WEAPONS":
       return {
         ...state,
@@ -163,11 +143,6 @@ export default function citizenReducer(state = initState, action: Actions) {
     case "REGISTER_VEHICLE":
       return {
         ...state,
-      };
-    case "REGISTER_VEHICLE_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "DELETE_REGISTERED_VEHICLE":
       return {
@@ -207,11 +182,6 @@ export default function citizenReducer(state = initState, action: Actions) {
       return {
         ...state,
         citizens: action.citizens,
-      };
-    case "TRANSFER_VEHICLE_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     default:
       return {

@@ -3,12 +3,13 @@ import { handleRequest, isSuccess } from "../functions";
 import { GET_AOP, UPDATE_AOP, GET_CAD_INFO, SET_MESSAGE } from "../types";
 import Logger from "../Logger";
 import socket from "../socket";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
   aop?: string;
   cadInfo?: string;
-  message?: string | null;
+  message?: Message | null;
 }
 
 export const getCadInfo = () => async (dispatch: Dispatch<IDispatch>) => {

@@ -1,12 +1,4 @@
-import {
-  AUTHENTICATE,
-  AUTH_ERROR,
-  SET_LOADING,
-  LOGOUT,
-  DELETE_ACCOUNT,
-  UPDATE_PASSWORD,
-  UPDATE_PASSWORD_ERROR,
-} from "../types";
+import { AUTHENTICATE, SET_LOADING, LOGOUT, DELETE_ACCOUNT, UPDATE_PASSWORD } from "../types";
 
 const initState = {
   user: null,
@@ -22,10 +14,6 @@ type Actions =
       isAuth: boolean;
     }
   | {
-      type: typeof AUTH_ERROR;
-      error: string | null;
-    }
-  | {
       type: typeof SET_LOADING;
       loading: boolean;
     }
@@ -37,10 +25,6 @@ type Actions =
     }
   | {
       type: typeof UPDATE_PASSWORD;
-    }
-  | {
-      type: typeof UPDATE_PASSWORD_ERROR;
-      error: string;
     };
 
 export default function authReducer(state = initState, action: Actions) {
@@ -51,13 +35,6 @@ export default function authReducer(state = initState, action: Actions) {
         user: action.user,
         isAuth: action.isAuth,
         error: null,
-      };
-    case "AUTH_ERROR":
-      return {
-        ...state,
-        error: action.error,
-        user: null,
-        isAuth: false,
       };
     case "SET_LOADING":
       return {
@@ -84,11 +61,6 @@ export default function authReducer(state = initState, action: Actions) {
       return {
         ...state,
         error: null,
-      };
-    case "UPDATE_PASSWORD_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     default:
       return {

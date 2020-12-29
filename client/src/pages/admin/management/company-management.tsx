@@ -7,9 +7,10 @@ import AlertMessage from "../../../components/alert-message";
 import { connect } from "react-redux";
 import { deleteCompanyById, getCompanies } from "../../../lib/actions/admin";
 import { Item, Span } from "../../citizen/citizen-info";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   companies: Company[];
   getCompanies: () => void;
   deleteCompanyById: (id: string) => void;
@@ -49,7 +50,7 @@ const CompanyManagementPage: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
       <ul className="list-group">
         <input
           type="text"
@@ -59,9 +60,11 @@ const CompanyManagementPage: React.FC<Props> = ({
           placeholder={lang.global.search}
         />
         {!companies[0] ? (
-          <AlertMessage type="warning" message={lang.admin.company.no_companies} />
+          <AlertMessage message={{ msg: lang.admin.company.no_companies, type: "warning" }} />
         ) : !filtered[0] ? (
-          <AlertMessage type="warning" message={lang.admin.company.no_companies_by_name} />
+          <AlertMessage
+            message={{ msg: lang.admin.company.no_companies_by_name, type: "warning" }}
+          />
         ) : (
           filtered.map((company: Company, idx: number) => {
             return (
@@ -86,7 +89,7 @@ const CompanyManagementPage: React.FC<Props> = ({
 
                 <div>
                   <button
-                    className="btn btn-danger ml-2"
+                    className="btn btn-danger ms-2"
                     type="button"
                     onClick={() => handleDelete(company.id)}
                   >

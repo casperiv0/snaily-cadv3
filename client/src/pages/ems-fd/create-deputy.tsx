@@ -5,13 +5,14 @@ import State from "../../interfaces/State";
 import AlertMessage from "../../components/alert-message";
 import { createEmsFdDeputy } from "../../lib/actions/ems-fd";
 import { connect } from "react-redux";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   createEmsFdDeputy: (data: object) => void;
 }
 
-const CreateDeputyPage: React.FC<Props> = ({ error, createEmsFdDeputy }) => {
+const CreateDeputyPage: React.FC<Props> = ({ message, createEmsFdDeputy }) => {
   const [name, setName] = React.useState<string>("");
 
   function onSubmit(e: React.FormEvent) {
@@ -24,11 +25,13 @@ const CreateDeputyPage: React.FC<Props> = ({ error, createEmsFdDeputy }) => {
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage message={error} type="warning" /> : null}
+      <AlertMessage message={message} dismissible />
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">{lang.ems_fd.enter_name}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="name">
+            {lang.ems_fd.enter_name}
+          </label>
           <input
             type="text"
             value={name}
@@ -37,11 +40,11 @@ const CreateDeputyPage: React.FC<Props> = ({ error, createEmsFdDeputy }) => {
             className="form-control text-light bg-dark border-secondary"
           />
         </div>
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href="/ems-fd/deputies">
             {lang.global.cancel}
           </a>
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.ems_fd.create_ems}
           </button>
         </div>
@@ -51,7 +54,7 @@ const CreateDeputyPage: React.FC<Props> = ({ error, createEmsFdDeputy }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.ems_fd.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { createEmsFdDeputy })(CreateDeputyPage);

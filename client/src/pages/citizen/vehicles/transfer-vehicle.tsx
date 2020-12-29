@@ -8,9 +8,10 @@ import lang from "../../../language.json";
 import { connect } from "react-redux";
 import { getAllCitizens, getVehicleById, transferVehicle } from "../../../lib/actions/citizen";
 import Citizen from "../../../interfaces/Citizen";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   vehicle: Vehicle;
   match: Match;
   owners: Citizen[];
@@ -21,7 +22,7 @@ interface Props {
 
 const TransferVehiclePage: React.FC<Props> = ({
   match,
-  error,
+  message,
   vehicle,
   owners,
   getVehicleById,
@@ -57,29 +58,33 @@ const TransferVehiclePage: React.FC<Props> = ({
   if (notFound) {
     return (
       <Layout>
-        <AlertMessage type="danger" message="Not found" />
+        <AlertMessage message={{ msg: "Not found", type: "danger" }} />
       </Layout>
     );
   }
 
   return (
     <Layout>
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.global.plate}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">
+            {lang.global.plate}
+          </label>
           <input
             type="text"
             className="form-control bg-dark border-dark text-light"
             id="plate"
             onChange={(e) => setPlate(e.target.value.toUpperCase())}
-            value={plate}
+            value={plate?.toUpperCase()}
             maxLength={8}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="owner">{lang.citizen.vehicle.transfer_to}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="owner">
+            {lang.citizen.vehicle.transfer_to}
+          </label>
           <select
             id="owner"
             className="form-control bg-dark border-dark text-light"
@@ -102,8 +107,8 @@ const TransferVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
-          <a className="btn btn-danger mr-2" href={`/citizen/${vehicle?.citizen_id}`}>
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
           </a>
           <button type="submit" className="btn btn-primary">
@@ -116,7 +121,7 @@ const TransferVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   owners: state.citizen.citizens,
   vehicle: state.citizen.vehicle,
 });

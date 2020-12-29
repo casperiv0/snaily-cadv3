@@ -8,9 +8,13 @@ import Weapon from "../../../interfaces/Weapon";
 import AlertMessage from "../../alert-message";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
+interface Search extends Weapon {
+  type: "weapon";
+}
+
 interface Props {
   weaponSearch: (serialNumber: string) => void;
-  search: Weapon;
+  search: Search;
 }
 
 const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
@@ -32,8 +36,10 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="serialNumber">{lang.citizen.weapon.serial_number}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="serialNumber">
+              {lang.citizen.weapon.serial_number}
+            </label>
             <input
               id="serialNumber"
               type="weapon"
@@ -44,7 +50,7 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
             />
           </div>
 
-          {search !== null ? (
+          {search !== null && search?.type === "weapon" ? (
             search?.weapon ? (
               <div className="mt-2">
                 <Item id="weapon">
@@ -68,13 +74,13 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
                 </Item>
               </div>
             ) : (
-              <AlertMessage type="warning" message="not found" />
+              <AlertMessage message={{ msg: "not found", type: "warning" }} />
             )
           ) : null}
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
           <button disabled={serialNumber === ""} type="submit" className="btn btn-primary">

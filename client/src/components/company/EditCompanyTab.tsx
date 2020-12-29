@@ -51,9 +51,11 @@ const EditCompanyTab: React.FC<Props> = ({
   return (
     <>
       <form className="mt-2" onSubmit={onSubmit}>
-        {error ? <AlertMessage type="warning" message={error} /> : null}
-        <div className="form-group">
-          <label htmlFor="name">{lang.citizen.company.name}</label>
+        {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
+        <div className="mb-3">
+          <label className="form-label" htmlFor="name">
+            {lang.citizen.company.name}
+          </label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -62,8 +64,10 @@ const EditCompanyTab: React.FC<Props> = ({
             className="form-control bg-dark border-dark text-light"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="address">{lang.citizen.company.address}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="address">
+            {lang.citizen.company.address}
+          </label>
           <input
             value={address}
             onChange={(e) => setAddress(e.target.value)}
@@ -72,8 +76,10 @@ const EditCompanyTab: React.FC<Props> = ({
             className="form-control bg-dark border-dark text-light"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="whitelisted">{lang.citizen.company.whitelisted}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="whitelisted">
+            {lang.citizen.company.whitelisted}
+          </label>
           <select
             value={whitelisted}
             onChange={(e) => setWhitelisted(e.target.value)}
@@ -91,7 +97,7 @@ const EditCompanyTab: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <button className="btn btn-primary" type="submit">
             {lang.citizen.company.update_company}
           </button>

@@ -1,18 +1,15 @@
 import TruckLog from "../../interfaces/TruckLog";
 import Logger from "../Logger";
 import { Dispatch } from "react";
-import {
-  CREATE_TRUCK_LOG,
-  CREATE_TRUCK_LOG_ERROR,
-  DELETE_TRUCK_LOG,
-  GET_TRUCK_LOGS,
-} from "../types";
+import { CREATE_TRUCK_LOG, DELETE_TRUCK_LOG, GET_TRUCK_LOGS, SET_MESSAGE } from "../types";
 import { handleRequest, isSuccess } from "../functions";
+import Message from "../../interfaces/Message";
+import lang from "../../language.json";
 
 interface IDispatch {
   type: string;
   logs?: TruckLog[];
-  message?: string;
+  message?: Message;
   error?: string;
 }
 
@@ -41,8 +38,8 @@ export const createTruckLog = (data: object) => async (dispatch: Dispatch<IDispa
       return (window.location.href = "/truck-logs");
     } else {
       dispatch({
-        type: CREATE_TRUCK_LOG_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -58,6 +55,10 @@ export const deleteTruckLog = (id: string) => async (dispatch: Dispatch<IDispatc
       dispatch({
         type: DELETE_TRUCK_LOG,
         logs: res.data.logs,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: { msg: lang.truck_logs.deleted_truck_log, type: "success" },
       });
     }
   } catch (e) {

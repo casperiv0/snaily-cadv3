@@ -17,9 +17,10 @@ import {
   getWeapons,
   deleteValue,
 } from "../../../lib/actions/values";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   values: any;
   match: Match;
   getDepartments: (type: "admin" | "leo") => void;
@@ -108,14 +109,14 @@ const Values: React.FC<Props> = ({
   if (!paths.includes(path)) {
     return (
       <Layout>
-        <AlertMessage type="danger" message="Value not found" />
+        <AlertMessage message={{ msg: "Value not found", type: "danger" }} />
       </Layout>
     );
   }
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} type="success" dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <header className="d-flex justify-content-between">
         <h4>{lang.admin.values[path].manage}</h4>
@@ -136,7 +137,7 @@ const Values: React.FC<Props> = ({
           placeholder={lang.global.search}
         />
         {!values[path]?.[0] ? (
-          <AlertMessage type="warning" message={lang.admin.values[path].none} />
+          <AlertMessage message={{ msg: lang.admin.values[path].none, type: "warning" }} />
         ) : (
           filtered
             .sort((a: Value, _b: Value) => a?.defaults === "1")
@@ -159,7 +160,7 @@ const Values: React.FC<Props> = ({
                           {lang.global.delete}
                         </button>
                         <a
-                          className="btn btn-success ml-2"
+                          className="btn btn-success ms-2"
                           href={`/admin/values/${path}/${value.id}/edit`}
                         >
                           {lang.global.edit}

@@ -4,10 +4,11 @@ import { Dispatch } from "react";
 import { CREATE_TOW_CALL, SET_MESSAGE, GET_TOW_CALLS, END_TOW_CALL } from "../types";
 import { handleRequest, isSuccess } from "../functions";
 import socket from "../socket";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
-  message?: string;
+  message?: Message;
   calls?: object;
 }
 
@@ -38,7 +39,7 @@ export const createTowCall = (data: object) => async (dispatch: Dispatch<IDispat
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.citizen.tow_call_created,
+        message: { msg: lang.citizen.tow_call_created, type: "success" },
       });
     }
   } catch (e) {
@@ -57,7 +58,7 @@ export const endTowCall = (id: string) => async (dispatch: Dispatch<IDispatch>) 
       });
       dispatch({
         type: SET_MESSAGE,
-        message: lang.tow?.end_success,
+        message: { msg: lang.tow?.end_success, type: "success" },
       });
     }
   } catch (e) {

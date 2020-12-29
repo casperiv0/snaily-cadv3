@@ -34,7 +34,7 @@ const NotepadModal: React.FC = () => {
       </div>
 
       <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-dismiss="modal">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
           {lang.global.close}
         </button>
         <button onClick={clearLocal} type="button" className="btn btn-danger">
@@ -42,8 +42,8 @@ const NotepadModal: React.FC = () => {
         </button>
         <button
           type="button"
-          className="ml-1 btn btn-success"
-          data-dismiss="modal"
+          className="ms-1 btn btn-success"
+          data-bs-dismiss="modal"
           onClick={saveToLocal}
         >
           {lang.global?.save}

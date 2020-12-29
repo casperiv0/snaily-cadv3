@@ -98,11 +98,13 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage type="warning" message={error} /> : null}
+          {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
           {fields.map((field: Field, idx: number) => {
             return (
-              <div id={`${idx}`} key={idx} className="form-group">
-                <label htmlFor={field.id}>{field.label}</label>
+              <div id={`${idx}`} key={idx} className="mb-3">
+                <label className="form-label" htmlFor={field.id}>
+                  {field.label}
+                </label>
                 <input
                   className="form-control bg-secondary border-secondary text-light"
                   type={field.type}
@@ -117,7 +119,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">

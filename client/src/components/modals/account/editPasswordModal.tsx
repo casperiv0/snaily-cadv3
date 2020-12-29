@@ -5,14 +5,14 @@ import Modal, { XButton } from "../index";
 import { connect } from "react-redux";
 import { updatePassword } from "../../../lib/actions/auth";
 import AlertMessage from "../../alert-message";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   updatePassword: (data: object) => void;
 }
 
-const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
-  const btnRef = React.createRef<HTMLButtonElement>();
+const EditPasswordModal: React.FC<Props> = ({ message, updatePassword }) => {
   const [oldPassword, setOldPassword] = React.useState<string>("");
   const [newPassword, setNewPassword] = React.useState<string>("");
   const [newPassword2, setNewPassword2] = React.useState<string>("");
@@ -27,27 +27,20 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
     });
   }
 
-  React.useEffect(() => {
-    if (error === null) {
-      setOldPassword("");
-      setNewPassword("");
-      setNewPassword2("");
-      btnRef.current?.click();
-    }
-  }, [error, btnRef]);
-
   return (
     <Modal id="editPasswordModal">
       <div className="modal-header">
         <h5>{lang.auth.account.edit_password}</h5>
-        <XButton ref={btnRef} />
+        <XButton />
       </div>
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage message={error} type="warning" /> : null}
-          <div className="form-group">
-            <label htmlFor="old_password">{lang.auth.enter_old_password}</label>
+          <AlertMessage message={message} />
+          <div className="mb-3">
+            <label className="form-label" htmlFor="old_password">
+              {lang.auth.enter_old_password}
+            </label>
             <input
               id="old_password"
               type="password"
@@ -56,8 +49,10 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="new_password">{lang.auth.enter_password}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="new_password">
+              {lang.auth.enter_password}
+            </label>
             <input
               id="new_password"
               type="password"
@@ -66,8 +61,10 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="confirm_password">{lang.auth.confirm_password}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="confirm_password">
+              {lang.auth.confirm_password}
+            </label>
             <input
               id="confirm_password"
               type="password"
@@ -79,7 +76,7 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">
@@ -92,7 +89,7 @@ const EditPasswordModal: React.FC<Props> = ({ error, updatePassword }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.auth.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { updatePassword })(EditPasswordModal);

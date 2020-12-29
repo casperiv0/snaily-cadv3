@@ -4,14 +4,15 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { register } from "../../lib/actions/auth";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   loading: boolean;
   register: (data: object) => void;
 }
 
-const Register: React.FC<Props> = ({ error, loading, register }) => {
+const Register: React.FC<Props> = ({ message, loading, register }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [password2, setPassword2] = React.useState<string>("");
@@ -28,12 +29,12 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
 
   return (
     <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
+      <AlertMessage message={message} dismissible />
       <h2>{lang.auth.register}</h2>
-      <div className="form-group">
-        {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
-      </div>
-      <div className="form-group">
-        <label htmlFor="username">{lang.auth.enter_username}</label>
+      <div className="mb-3">
+        <label className="form-label" htmlFor="username">
+          {lang.auth.enter_username}
+        </label>
         <input
           type="text"
           value={username}
@@ -42,8 +43,10 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
           className="form-control"
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="password">{lang.auth.enter_password}</label>
+      <div className="mb-3">
+        <label className="form-label" htmlFor="password">
+          {lang.auth.enter_password}
+        </label>
         <input
           type="password"
           value={password}
@@ -52,8 +55,10 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
           className="form-control"
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="password2">{lang.auth.confirm_password}</label>
+      <div className="mb-3">
+        <label className="form-label" htmlFor="password2">
+          {lang.auth.confirm_password}
+        </label>
         <input
           type="password"
           value={password2}
@@ -62,13 +67,13 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
           className="form-control"
         />
       </div>
-      <div className="form-group">
+      <div className="mb-3">
         <a href="/login">{lang.auth.login}</a>
-        <button type="submit" className="btn btn-primary float-right w-100 mt-2">
+        <button type="submit" className="btn btn-primary float-end w-100 mt-2">
           {loading ? (
-            <span className="spinner-border primary">
-              <span className="sr-only">loading</span>
-            </span>
+            <div className="spinner-border text-light" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
           ) : (
             lang.auth.register
           )}
@@ -79,7 +84,7 @@ const Register: React.FC<Props> = ({ error, loading, register }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.auth.error,
+  message: state.global.message,
   loading: state.auth.loading,
 });
 

@@ -9,9 +9,10 @@ import Match from "../../../interfaces/Match";
 import { connect } from "react-redux";
 import { getLegalStatuses } from "../../../lib/actions/values";
 import { getVehicleById, updateVehicleById } from "../../../lib/actions/citizen";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   vehicle: Vehicle;
   legalStatuses: Value[];
   match: Match;
@@ -21,7 +22,7 @@ interface Props {
 }
 
 const EditVehiclePage: React.FC<Props> = ({
-  error,
+  message,
   vehicle,
   legalStatuses,
   match,
@@ -65,18 +66,20 @@ const EditVehiclePage: React.FC<Props> = ({
   if (notFound) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={lang.citizen.vehicle.not_found} />
+        <AlertMessage message={{ msg: lang.citizen.vehicle.not_found, type: "danger" }} />
       </Layout>
     );
   }
 
   return (
     <Layout>
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.citizen.vehicle.enter_plate}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">
+            {lang.citizen.vehicle.enter_plate}
+          </label>
           <input
             type="text"
             id="plate"
@@ -85,8 +88,10 @@ const EditVehiclePage: React.FC<Props> = ({
             defaultValue={plate}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="color">{lang.citizen.vehicle.enter_color}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="color">
+            {lang.citizen.vehicle.enter_color}
+          </label>
           <input
             type="text"
             id="color"
@@ -95,8 +100,10 @@ const EditVehiclePage: React.FC<Props> = ({
             onChange={(e) => setColor(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.citizen.vehicle.select_status}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">
+            {lang.citizen.vehicle.select_status}
+          </label>
           <select
             onChange={(e) => setStatus(e.target.value)}
             value={status}
@@ -117,8 +124,8 @@ const EditVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
-          <a className="btn btn-danger mr-2" href={`/citizen/${vehicle?.citizen_id}`}>
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
           </a>
           <button className="btn btn-primary" type="submit">
@@ -131,7 +138,7 @@ const EditVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   vehicle: state.citizen.vehicle,
   legalStatuses: state.values["legal-statuses"],
 });

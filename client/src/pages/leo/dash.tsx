@@ -19,10 +19,11 @@ import CreateWrittenWarningModal from "../../components/modals/leo/createWritten
 import CreateArrestReportModal from "../../components/modals/leo/createArrestReportModal";
 import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
+import Message from "../../interfaces/Message";
 
 interface Props {
   aop: string;
-  message: string;
+  message: Message;
 }
 
 const LeoDash: React.FC<Props> = (props) => {
@@ -47,7 +48,7 @@ const LeoDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {props.message ? <AlertMessage type="success" message={props.message} dismissible /> : null}
+      {props.message ? <AlertMessage message={props.message} dismissible /> : null}
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>
@@ -55,20 +56,22 @@ const LeoDash: React.FC<Props> = (props) => {
           </h4>
           <span>{new Date(time).toLocaleString()}</span>
         </div>
-        <div className="card-body">
+        <div className="card-body row gap-2 px-4">
           <ModalButtons />
         </div>
-        <div className="card-footer">
+        <div className="card-footer row gap-2 pl-2 px-4">
           <Statuses />
         </div>
       </div>
 
-      <div className="row mt-3">
-        <div className="col-md-9">
+      <div className="row">
+        <div className="col-md-9 mt-2">
           <Active911Calls />
           <ActiveBolos />
         </div>
-        <CreateWarrant />
+        <div className="col-md-3 mt-2">
+          <CreateWarrant />
+        </div>
       </div>
 
       {/* Modals */}

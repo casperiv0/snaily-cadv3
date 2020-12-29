@@ -20,10 +20,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       return res.json({ status: "error", error: "Passwords do not match" });
     }
 
-    const existing = await processQuery(
-      "SELECT * FROM `users` WHERE `username` = ?",
-      [username]
-    );
+    const existing = await processQuery("SELECT * FROM `users` WHERE `username` = ?", [username]);
 
     if (existing?.length > 0) {
       return res.json({
@@ -38,9 +35,8 @@ router.post("/register", async (req: IRequest, res: Response) => {
     // There are existing users - create the account at user level
     if (users?.length > 0) {
       const cadInfo: ICad[] = await processQuery("SELECT * FROM `cad_info`");
-      const whitelistStatus =
-        +cadInfo[0].whitelisted === 1 ? "pending" : "accepted";
-      const towAccess = +cadInfo[0].tow_whitelisted === 1 ? false : true;
+      const whitelistStatus = cadInfo[0].whitelisted === "1" ? "pending" : "accepted";
+      const towAccess = cadInfo[0].tow_whitelisted === "1" ? false : true;
       const id = uuidv4();
 
       await processQuery(
@@ -61,14 +57,18 @@ router.post("/register", async (req: IRequest, res: Response) => {
         ]
       );
 
-      const token = useToken({ id, username });
+      const token = useToken({ id });
 
       res.cookie("__token", token, {
         expires: new Date(Date.now() + 3600000),
         httpOnly: true,
       });
 
-      return res.json({ status: "success" });
+      return res.json({
+        status: "error",
+        error:
+          "Your account was created successfully, this CAD is whitelisted so your account is still pending access",
+      });
     } else {
       // no users found - create the account at owner level
       const id = uuidv4();
@@ -95,7 +95,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
         ]
       );
 
-      const token = useToken({ id, username });
+      const token = useToken({ id });
 
       res.cookie("__token", token, {
         expires: new Date(Date.now() + 3600000),
@@ -113,10 +113,9 @@ router.post("/login", async (req: IRequest, res: Response) => {
   const { username, password } = req.body;
 
   if (username && password) {
-    const user: IUser[] = await processQuery(
-      "SELECT * FROM `users` WHERE `username` = ?",
-      [username]
-    );
+    const user: IUser[] = await processQuery("SELECT * FROM `users` WHERE `username` = ?", [
+      username,
+    ]);
 
     if (!user[0]) {
       return res.json({ error: "User was not found", status: "error" });
@@ -145,7 +144,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
       });
     }
 
-    const token = useToken({ id: user[0].id, username: user[0].username });
+    const token = useToken({ id: user[0].id });
     res.cookie("__token", token, { expires: new Date(Date.now() + 3600000) });
 
     return res.json({ status: "success" });
@@ -166,82 +165,47 @@ router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ status: "success" });
 });
 
-router.delete(
-  "/delete-account",
-  useAuth,
-  async (req: IRequest, res: Response) => {
-    const userId = req.user?.id;
-    const user = await processQuery(
-      "SELECT `rank` FROM `users` WHERE `id` = ?",
-      [userId]
-    );
+router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) => {
+  const userId = req.user?.id;
+  const user = await processQuery("SELECT `rank` FROM `users` WHERE `id` = ?", [userId]);
 
-    if (user[0].rank === "owner") {
-      return res.json({
-        error: "The owner is not able to delete their account!",
-        status: "error",
-      });
-    }
-
-    const citizens = await processQuery(
-      "SELECT * FROM `citizens` WHERE `user_id` = ?",
-      [userId]
-    );
-
-    citizens.forEach(async (citizen: any) => {
-      await processQuery(
-        "DELETE FROM `arrest_reports` WHERE `citizen_id` = ?",
-        [citizen.id]
-      );
-      await processQuery("DELETE FROM `businesses` WHERE `citizen_id` = ?", [
-        citizen.id,
-      ]);
-      await processQuery("DELETE FROM `leo_tickets` WHERE `citizen_id` = ?", [
-        citizen.id,
-      ]);
-      await processQuery(
-        "DELETE FROM `medical_records` WHERE `citizen_id` = ?",
-        [citizen.id]
-      );
-      await processQuery(
-        "DELETE FROM `registered_cars` WHERE `citizen_id` = ?",
-        [citizen.id]
-      );
-      await processQuery(
-        "DELETE FROM `registered_weapons` WHERE `citizen_id` = ?",
-        [citizen.id]
-      );
-      await processQuery("DELETE FROM `warrants` WHERE `citizen_id` = ?", [
-        citizen.id,
-      ]);
-      await processQuery(
-        "DELETE FROM `written_warnings` WHERE `citizen_id` = ?",
-        [citizen.id]
-      );
+  if (user[0].rank === "owner") {
+    return res.json({
+      error: "The owner is not able to delete their account!",
+      status: "error",
     });
-
-    await processQuery("DELETE FROM `posts` WHERE `user_id` = ?", [userId]);
-    await processQuery("DELETE FROM `truck_logs` WHERE `user_id` = ?", [
-      userId,
-    ]);
-    await processQuery("DELETE FROM `officers` WHERE `user_id` = ?", [userId]);
-    await processQuery("DELETE FROM `ems-fd` WHERE `user_id` = ?", [userId]);
-    await processQuery("DELETE FROM `bleets` WHERE `user_id` = ?", [userId]);
-    await processQuery("DELETE FROM `citizens` WHERE `user_id` = ?", [userId]);
-    await processQuery("DELETE FROM `users` WHERE `id` = ?", [userId]);
-
-    return res.json({ status: "success" });
   }
-);
+
+  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [userId]);
+
+  citizens.forEach(async (citizen: any) => {
+    await processQuery("DELETE FROM `arrest_reports` WHERE `citizen_id` = ?", [citizen.id]);
+    await processQuery("DELETE FROM `businesses` WHERE `citizen_id` = ?", [citizen.id]);
+    await processQuery("DELETE FROM `leo_tickets` WHERE `citizen_id` = ?", [citizen.id]);
+    await processQuery("DELETE FROM `medical_records` WHERE `citizen_id` = ?", [citizen.id]);
+    await processQuery("DELETE FROM `registered_cars` WHERE `citizen_id` = ?", [citizen.id]);
+    await processQuery("DELETE FROM `registered_weapons` WHERE `citizen_id` = ?", [citizen.id]);
+    await processQuery("DELETE FROM `warrants` WHERE `citizen_id` = ?", [citizen.id]);
+    await processQuery("DELETE FROM `written_warnings` WHERE `citizen_id` = ?", [citizen.id]);
+  });
+
+  await processQuery("DELETE FROM `posts` WHERE `user_id` = ?", [userId]);
+  await processQuery("DELETE FROM `truck_logs` WHERE `user_id` = ?", [userId]);
+  await processQuery("DELETE FROM `officers` WHERE `user_id` = ?", [userId]);
+  await processQuery("DELETE FROM `ems-fd` WHERE `user_id` = ?", [userId]);
+  await processQuery("DELETE FROM `bleets` WHERE `user_id` = ?", [userId]);
+  await processQuery("DELETE FROM `citizens` WHERE `user_id` = ?", [userId]);
+  await processQuery("DELETE FROM `users` WHERE `id` = ?", [userId]);
+
+  return res.json({ status: "success" });
+});
 
 router.put("/update-pw", useAuth, async (req: IRequest, res: Response) => {
   const userId = req.user?.id;
   const { oldPassword, newPassword, newPassword2 } = req.body;
 
   if (oldPassword && newPassword && newPassword2) {
-    const user = await processQuery("SELECT * FROM `users` WHERE `id` = ?", [
-      userId,
-    ]);
+    const user = await processQuery("SELECT * FROM `users` WHERE `id` = ?", [userId]);
 
     if (!user[0]) {
       return res.json({ error: "User was not found", status: "error" });
@@ -258,10 +222,7 @@ router.put("/update-pw", useAuth, async (req: IRequest, res: Response) => {
     }
 
     const hash = hashSync(newPassword);
-    await processQuery("UPDATE `users` SET `password` = ? WHERE `id` = ?", [
-      hash,
-      userId,
-    ]);
+    await processQuery("UPDATE `users` SET `password` = ? WHERE `id` = ?", [hash, userId]);
 
     return res.json({ status: "success" });
   } else {

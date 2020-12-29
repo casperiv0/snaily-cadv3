@@ -1,29 +1,29 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import Message from "../../interfaces/Message";
 import { dismissMessage } from "../../lib/actions/global";
 
 interface Props {
-  type: "warning" | "danger" | "success";
-  message: string;
+  message: Message;
   dismissMessage: () => void;
   dismissible?: boolean;
 }
 
-const AlertMessage: React.FC<Props> = ({ type, message, dismissible, dismissMessage }) => {
-  return (
-    <div className={`alert alert-${type} ${dismissible && "alert-dismissible"}`} role="alert">
-      {message}
+const AlertMessage: React.FC<Props> = ({ message, dismissible, dismissMessage }) => {
+  return message === null ? null : (
+    <div
+      className={`alert alert-${message?.type} ${dismissible && "alert-dismissible"}`}
+      role="alert"
+    >
+      {message?.msg}
 
       {dismissible && (
         <button
           type="button"
-          onClick={dismissMessage}
-          className="close"
-          data-dismiss="alert"
+          className="btn-close"
           aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
+          onClick={dismissMessage}
+        ></button>
       )}
     </div>
   );

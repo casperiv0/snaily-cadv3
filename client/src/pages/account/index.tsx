@@ -2,7 +2,6 @@ import * as React from "react";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
-import AlertMessage from "../../components/alert-message";
 import lang from "../../language.json";
 import DeleteAccountModal from "../../components/modals/account/deleteAccountModal";
 import EditPasswordModal from "../../components/modals/account/editPasswordModal";
@@ -11,14 +10,11 @@ import { Item, Span } from "../citizen/citizen-info";
 
 interface Props {
   user: User;
-  message: string;
 }
 
-const AccountPage: React.FC<Props> = ({ user, message }) => {
+const AccountPage: React.FC<Props> = ({ user }) => {
   return (
     <Layout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
-
       <h3>{lang.auth.account.account_info}</h3>
 
       <div className="card bg-dark border-dark">
@@ -27,9 +23,9 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
 
           <div className="d-flex">
             <button
-              data-toggle="modal"
-              data-target="#editPasswordModal"
-              className="btn btn-primary mr-2"
+              data-bs-toggle="modal"
+              data-bs-target="#editPasswordModal"
+              className="btn btn-primary me-2"
             >
               {lang.auth.account.edit_password}
             </button>
@@ -37,8 +33,8 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
               <p>The owner is not able to delete their account.</p>
             ) : (
               <button
-                data-toggle="modal"
-                data-target="#deleteAccountModal"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteAccountModal"
                 className="btn btn-danger"
               >
                 {lang.auth.account.delete_acc}
@@ -78,7 +74,7 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary col-md-4 mr-1"
+            className="btn btn-secondary col-md-4 me-1"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/blob/main/CHANGELOG.md"
           >
             {lang.auth.account.changelog}
@@ -86,7 +82,7 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary col-md-4 mr-1"
+            className="btn btn-secondary col-md-4 me-1"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new?assignees=&labels=&template=feature_request.md&title="
           >
             {lang.auth.account.new_feature}
@@ -110,7 +106,6 @@ const AccountPage: React.FC<Props> = ({ user, message }) => {
 
 const mapToProps = (state: State) => ({
   user: state.auth.user,
-  message: state.global.message,
 });
 
 export default connect(mapToProps)(AccountPage);

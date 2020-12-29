@@ -1,13 +1,13 @@
 import * as React from "react";
+import Markdown from "react-markdown";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
-import { connect } from "react-redux";
 import { getBleetById } from "../../lib/actions/bleeter";
 import IBleet from "../../interfaces/Bleet";
 import Match from "../../interfaces/Match";
 import Loader from "../../components/loader";
 import lang from "../../language.json";
-import Markdown from "react-markdown";
 import User from "../../interfaces/User";
 import AlertMessage from "../../components/alert-message";
 import SERVER_URL from "../../config";
@@ -40,7 +40,7 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) =
   if (bleet !== null && !bleet) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={lang.bleeter?.not_found} />
+        <AlertMessage message={{ msg: lang.bleeter?.not_found, type: "danger" }} />
       </Layout>
     );
   }

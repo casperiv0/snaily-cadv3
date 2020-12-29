@@ -4,14 +4,13 @@ import { Dispatch } from "react";
 import { handleRequest, isSuccess } from "../functions";
 import {
   AUTHENTICATE,
-  AUTH_ERROR,
   LOGOUT,
   SET_LOADING,
   DELETE_ACCOUNT,
   UPDATE_PASSWORD,
-  UPDATE_PASSWORD_ERROR,
   SET_MESSAGE,
 } from "../types";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -19,7 +18,7 @@ interface IDispatch {
   user?: User;
   isAuth?: boolean;
   error?: string | null;
-  message?: string;
+  message?: Message;
 }
 
 export const login = (data: object, requestedPath: string) => async (
@@ -41,8 +40,8 @@ export const login = (data: object, requestedPath: string) => async (
       window.location.href = requestedPath ? `${requestedPath}` : "/citizen";
     } else {
       dispatch({
-        type: AUTH_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -69,8 +68,8 @@ export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) 
       window.location.href = "/citizen";
     } else {
       dispatch({
-        type: AUTH_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -141,12 +140,12 @@ export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispa
       });
       dispatch({
         type: SET_MESSAGE,
-        message: "Password updated",
+        message: { msg: "Password updated", type: "success" },
       });
     } else {
       dispatch({
-        type: UPDATE_PASSWORD_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {

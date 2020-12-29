@@ -10,9 +10,10 @@ import { getCitizens, registerVehicle } from "../../../lib/actions/citizen";
 import AlertMessage from "../../../components/alert-message";
 import Company from "../../../interfaces/Company";
 import { getCompanies } from "../../../lib/actions/admin";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   owners: Citizen[];
   vehicles: Value[];
   legalStatuses: Value[];
@@ -25,7 +26,7 @@ interface Props {
 }
 
 const RegisterVehiclePage: React.FC<Props> = ({
-  error,
+  message,
   owners,
   vehicles,
   legalStatuses,
@@ -65,10 +66,12 @@ const RegisterVehiclePage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="plate">{lang.citizen.vehicle.enter_plate}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="plate">
+            {lang.citizen.vehicle.enter_plate}
+          </label>
           <input
             type="text"
             id="plate"
@@ -80,8 +83,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="color">{lang.citizen.vehicle.enter_color}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="color">
+            {lang.citizen.vehicle.enter_color}
+          </label>
           <input
             type="text"
             id="color"
@@ -91,8 +96,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="vehicle">{lang.citizen.vehicle.enter_vehicle}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="vehicle">
+            {lang.citizen.vehicle.enter_vehicle}
+          </label>
           <input
             type="text"
             id="vehicle"
@@ -114,8 +121,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           </datalist>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="owner">{lang.citizen.vehicle.select_owner}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="owner">
+            {lang.citizen.vehicle.select_owner}
+          </label>
           <select
             id="owner"
             value={citizenId}
@@ -136,8 +145,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="status">{lang.citizen.vehicle.select_status}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">
+            {lang.citizen.vehicle.select_status}
+          </label>
           <select
             id="status"
             value={status}
@@ -158,8 +169,10 @@ const RegisterVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="status">{lang.citizen.vehicle.company}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">
+            {lang.citizen.vehicle.company}
+          </label>
           <select
             id="company"
             value={companyId}
@@ -180,11 +193,11 @@ const RegisterVehiclePage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a href="/citizen" className="btn btn-danger">
             {lang.global.cancel}
           </a>
-          <button type="submit" className="ml-2 btn btn-primary">
+          <button type="submit" className="ms-2 btn btn-primary">
             {lang.citizen.vehicle.reg_vehicle}
           </button>
         </div>
@@ -194,7 +207,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   owners: state.citizen.citizens,
   vehicles: state.values.vehicles,
   legalStatuses: state.values["legal-statuses"],

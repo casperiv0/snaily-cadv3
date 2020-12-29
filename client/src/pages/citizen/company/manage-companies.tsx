@@ -19,21 +19,21 @@ const ManageCompaniesPage: React.FC<Props> = ({ message, getCompanyData }) => {
 
   return (
     <Layout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={{ msg: message, type: "success" }} dismissible /> : null}
 
       <button
         type="button"
         className="btn btn-secondary container mb-2"
-        data-toggle="modal"
-        data-target="#joinCompanyModal"
+        data-bs-toggle="modal"
+        data-bs-target="#joinCompanyModal"
       >
         {lang.citizen.company.join}
       </button>
       <button
         type="button"
         className="btn btn-secondary container"
-        data-toggle="modal"
-        data-target="#createCompanyModal"
+        data-bs-toggle="modal"
+        data-bs-target="#createCompanyModal"
       >
         {lang.citizen.company.create}
       </button>

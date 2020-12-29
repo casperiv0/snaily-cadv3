@@ -9,9 +9,10 @@ import Field from "../../interfaces/Field";
 import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
@@ -22,7 +23,7 @@ interface Props {
 }
 
 const CreateCitizenPage: React.FC<Props> = ({
-  error,
+  message,
   genders,
   ethnicities,
   legalStatuses,
@@ -187,10 +188,12 @@ const CreateCitizenPage: React.FC<Props> = ({
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+        <AlertMessage message={message} dismissible />
 
-        <div key="image" id="-1" className="form-group">
-          <label htmlFor="image">{lang.global.image}</label>
+        <div key="image" id="-1" className="mb-3">
+          <label className="form-label" htmlFor="image">
+            {lang.global.image}
+          </label>
           <input
             onChange={(e) => setImage(e.target.files![0])}
             type="file"
@@ -200,8 +203,10 @@ const CreateCitizenPage: React.FC<Props> = ({
 
         {fields.map((field: Field, idx: number) => {
           return (
-            <div key={idx} id={`${idx}`} className="form-group">
-              <label htmlFor={field.id}>{field.label}</label>
+            <div key={idx} id={`${idx}`} className="mb-3">
+              <label className="form-label" htmlFor={field.id}>
+                {field.label}
+              </label>
               {field.select ? (
                 <select
                   className="form-control bg-dark border-dark text-light"
@@ -233,11 +238,13 @@ const CreateCitizenPage: React.FC<Props> = ({
           );
         })}
 
-        <div className="form-row">
+        <div className="row">
           {licenseFields.map((field: Field, idx: number) => {
             return (
-              <div key={idx} id={`${idx}`} className="form-group col-md-3">
-                <label htmlFor={field.id}>{field.label}</label>
+              <div key={idx} id={`${idx}`} className="mb-3 col-md-3">
+                <label className="form-label" htmlFor={field.id}>
+                  {field.label}
+                </label>
                 <select
                   className="form-control bg-dark border-dark text-light"
                   value={field.value}
@@ -260,12 +267,12 @@ const CreateCitizenPage: React.FC<Props> = ({
           })}
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a href="/citizen" className="btn btn-danger">
             {lang.global.cancel}
           </a>
 
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.citizen.create_citizen}
           </button>
         </div>
@@ -275,7 +282,7 @@ const CreateCitizenPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   legalStatuses: state.values["legal-statuses"],

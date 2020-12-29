@@ -5,15 +5,16 @@ import ILoc from "../../interfaces/ILoc";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { login } from "../../lib/actions/auth";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   loading: boolean;
   location: ILoc;
   login: (data: object, requestedPath: string) => void;
 }
 
-const Login: React.FC<Props> = ({ error, loading, location, login }) => {
+const Login: React.FC<Props> = ({ message, loading, location, login }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const requestedPath = location?.state?.requestedPath;
@@ -32,12 +33,12 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
 
   return (
     <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
+      <AlertMessage message={message} dismissible />
       <h2>{lang.auth.login_2}</h2>
-      <div className="form-group">
-        {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
-      </div>
-      <div className="form-group">
-        <label htmlFor="username">{lang.auth.enter_username}</label>
+      <div className="mb-3">
+        <label className="form-label" htmlFor="username">
+          {lang.auth.enter_username}
+        </label>
         <input
           type="text"
           value={username}
@@ -46,8 +47,10 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
           className="form-control"
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="password">{lang.auth.enter_password}</label>
+      <div className="mb-3">
+        <label className="form-label" htmlFor="password">
+          {lang.auth.enter_password}
+        </label>
         <input
           type="password"
           value={password}
@@ -56,17 +59,17 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
           className="form-control"
         />
       </div>
-      <div className="form-group">
+      <div className="mb-3">
         <a href="/register">{lang.auth.register}</a>
         <button
           disabled={loading}
           type="submit"
-          className="btn btn-primary float-right w-100 auth-btn mt-2"
+          className="btn btn-primary float-end w-100 auth-btn mt-2"
         >
           {loading ? (
-            <span className="spinner-border primary">
-              <span className="sr-only">loading</span>
-            </span>
+            <div className="spinner-border text-light" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
           ) : (
             lang.auth.login
           )}
@@ -77,8 +80,8 @@ const Login: React.FC<Props> = ({ error, loading, location, login }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.auth.error,
   loading: state.auth.loading,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { login })(Login);

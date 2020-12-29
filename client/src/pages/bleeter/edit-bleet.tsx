@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import Bleet from "../../interfaces/Bleet";
@@ -6,13 +8,12 @@ import Match from "../../interfaces/Match";
 import Loader from "../../components/loader";
 import lang from "../../language.json";
 import User from "../../interfaces/User";
-import { connect } from "react-redux";
 import { getBleetById, updateBleet } from "../../lib/actions/bleeter";
 import AlertMessage from "../../components/alert-message";
-import { useHistory } from "react-router-dom";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   bleet: Bleet;
   match: Match;
   user: User;
@@ -22,7 +23,7 @@ interface Props {
 }
 
 const EditBleet: React.FC<Props> = ({
-  error,
+  message,
   bleet,
   match,
   loading,
@@ -73,10 +74,12 @@ const EditBleet: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">{lang.bleeter.bleet_title}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="title">
+            {lang.bleeter.bleet_title}
+          </label>
           <input
             type="text"
             id="title"
@@ -85,8 +88,10 @@ const EditBleet: React.FC<Props> = ({
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="body">{lang.bleeter.bleet_body}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="body">
+            {lang.bleeter.bleet_body}
+          </label>
           <textarea
             id="body"
             className="form-control bg-dark text-light border-dark"
@@ -96,8 +101,8 @@ const EditBleet: React.FC<Props> = ({
             style={{ resize: "vertical" }}
           ></textarea>
         </div>
-        <div className="form-group float-right">
-          <a className="btn btn-danger mr-2" href={`/bleet/${bleet.id}`}>
+        <div className="mb-3 float-end">
+          <a className="btn btn-danger me-2" href={`/bleet/${bleet.id}`}>
             {lang.global.cancel}
           </a>
           <button className="btn btn-success" type="submit">
@@ -113,7 +118,7 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
   bleet: state.bleets.bleet,
   loading: state.bleets.loading,
-  error: state.bleets.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { getBleetById, updateBleet })(EditBleet);

@@ -10,10 +10,11 @@ import Call911Modal from "../../components/modals/call911Modal";
 import { logout } from "../../lib/actions/auth";
 import { connect } from "react-redux";
 import { getCitizens } from "../../lib/actions/citizen";
+import Message from "../../interfaces/Message";
 
 interface Props {
   aop: string;
-  message: string;
+  message: Message;
   citizens: Citizen[];
   logout: () => void;
   getCitizens: () => void;
@@ -40,7 +41,7 @@ const CitizensPage: React.FC<Props> = (props) => {
   return (
     <Layout classes="mt-5">
       <div>
-        {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+        {message ? <AlertMessage message={message} dismissible /> : null}
         <h3>
           {lang.auth.welcome} - AOP: {aop}
         </h3>
@@ -49,7 +50,7 @@ const CitizensPage: React.FC<Props> = (props) => {
           <button onClick={logout} className="btn btn-danger col">
             {lang.auth.logout}
           </button>
-          <a href="/account" className="ml-1 col btn btn-primary">
+          <a href="/account" className="ms-1 col btn btn-primary">
             {lang.auth.account.account}
           </a>
         </div>
@@ -58,10 +59,10 @@ const CitizensPage: React.FC<Props> = (props) => {
           <a href="/citizen/create" className="col btn btn-primary">
             {lang.citizen.create_new_citizen}
           </a>
-          <a href="/vehicles/register" className="col ml-1 btn btn-primary">
+          <a href="/vehicles/register" className="col ms-1 btn btn-primary">
             {lang.citizen.reg_new_vehicle}
           </a>
-          <a href="/weapons/register" className="col ml-1 btn btn-primary">
+          <a href="/weapons/register" className="col ms-1 btn btn-primary">
             {lang.citizen.reg_new_weapon}
           </a>
         </div>
@@ -71,16 +72,16 @@ const CitizensPage: React.FC<Props> = (props) => {
             {lang.citizen.employment_status}
           </a>
           <button
-            data-toggle="modal"
-            data-target="#callTowModal"
-            className="col ml-1 btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#callTowModal"
+            className="col ms-1 btn btn-primary"
           >
             {lang.citizen.call_tow}
           </button>
           <button
-            data-toggle="modal"
-            data-target="#call911Modal"
-            className="col ml-1 btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#call911Modal"
+            className="col ms-1 btn btn-primary"
           >
             {lang.citizen.call_911}
           </button>
@@ -89,7 +90,7 @@ const CitizensPage: React.FC<Props> = (props) => {
 
       <ul className="list-group mt-3">
         {!citizens[0] ? (
-          <AlertMessage message={lang.citizen.no_citizens_found} type="warning" />
+          <AlertMessage message={{ msg: lang.citizen.no_citizens_found, type: "warning" }} />
         ) : (
           citizens.map((citizen: Citizen, idx: number) => {
             return (

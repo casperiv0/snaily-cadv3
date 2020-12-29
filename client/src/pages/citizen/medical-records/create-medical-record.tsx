@@ -32,10 +32,12 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="type">{lang.citizen.medical.type}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="type">
+            {lang.citizen.medical.type}
+          </label>
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -47,8 +49,10 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="short_info">{lang.citizen.medical.short_info}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="short_info">
+            {lang.citizen.medical.short_info}
+          </label>
           <textarea
             id="short_info"
             cols={10}
@@ -60,11 +64,11 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
           ></textarea>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a href={`/citizen/${citizenId}`} className="btn btn-danger">
             {lang.global.cancel}
           </a>
-          <button type="submit" className="btn btn-primary ml-2">
+          <button type="submit" className="btn btn-primary ms-2">
             {lang.citizen.medical.add}
           </button>
         </div>

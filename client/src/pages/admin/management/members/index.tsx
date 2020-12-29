@@ -8,9 +8,10 @@ import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
 import AllMembersTab from "../../../../components/admin/all-members";
 import PendingMembersTab from "../../../../components/admin/pending-members";
+import Message from "../../../../interfaces/Message";
 
 interface Props {
-  message: string;
+  message: Message;
   members: User[];
   getMembers: () => void;
 }
@@ -40,7 +41,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <ul className="list-group">
         <input
@@ -52,34 +53,34 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
         />
 
         {!members[0] ? (
-          <AlertMessage type="warning" message={lang.admin.no_members_cad} />
+          <AlertMessage message={{ msg: lang.admin.no_members_cad, type: "warning" }} />
         ) : !filtered[0] ? (
-          <AlertMessage type="warning" message={lang.admin.no_member_found_by_name} />
+          <AlertMessage message={{ msg: lang.admin.no_member_found_by_name, type: "warning" }} />
         ) : (
           <div>
             <div className="nav nav-tabs">
               <a
                 className="nav-item nav-link active bg-dark text-light border-secondary"
-                id="nav-home-tab"
-                data-toggle="tab"
-                href="#members"
+                id="all-members-tab"
+                data-bs-toggle="tab"
+                href="#members_tab"
                 role="tab"
-                aria-controls="nav-home"
+                aria-controls="members-tab"
                 aria-selected="true"
               >
                 {lang.admin.all_members}
               </a>
               <a
                 className="nav-item nav-link bg-dark text-light border-secondary"
-                id="nav-contact-tab"
-                data-toggle="tab"
-                href="#pending"
+                id="pending-members-tab"
+                data-bs-toggle="tab"
+                href="#pending_tab"
                 role="tab"
                 aria-controls="nav-contact"
                 aria-selected="false"
               >
                 {lang.admin.pending_members}
-                <div className="badge badge-primary ml-2">
+                <div className="badge bg-primary ms-2">
                   {members.filter((m) => m.whitelist_status === "pending").length}
                 </div>
               </a>
@@ -88,7 +89,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
             <div className="tab-content">
               <div
                 className="tab-pane fade show active"
-                id="members"
+                id="members_tab"
                 role="tabpanel"
                 aria-labelledby="members-tab"
               >
@@ -96,8 +97,8 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
               </div>
 
               <div
-                className="tab-pane fade active"
-                id="pending"
+                className="tab-pane fade"
+                id="pending_tab"
                 role="tabpanel"
                 aria-labelledby="pending-tab"
               >

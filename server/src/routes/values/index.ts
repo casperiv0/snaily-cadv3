@@ -7,18 +7,13 @@ import { RanksArr } from "../../lib/constants";
 
 const router: Router = Router();
 
-router.get(
-  "/:path",
-  useAuth,
-  useValidPath,
-  async (req: IRequest, res: Response) => {
-    const parsedPath = req.parsedPath;
+router.get("/:path", useAuth, useValidPath, async (req: IRequest, res: Response) => {
+  const parsedPath = req.parsedPath;
 
-    const values = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+  const values = await processQuery(`SELECT * FROM \`${parsedPath}\``);
 
-    return res.json({ values, status: "success" });
-  }
-);
+  return res.json({ values, status: "success" });
+});
 
 router.get(
   "/:path/:id",
@@ -29,40 +24,31 @@ router.get(
     const { id } = req.params;
     const parsedPath = req.parsedPath;
 
-    const value = await processQuery(
-      `SELECT * FROM \`${parsedPath}\` WHERE \`id\` = ?`,
-      [id]
-    );
+    const value = await processQuery(`SELECT * FROM \`${parsedPath}\` WHERE \`id\` = ?`, [id]);
 
     return res.json({ status: "success", value: value[0] });
   }
 );
 
-router.post(
-  "/:path",
-  useAuth,
-  useAdminAuth,
-  useValidPath,
-  async (req: IRequest, res: Response) => {
-    const { name } = req.body;
-    const parsedPath = req.parsedPath;
-    const id = uuidv4();
+router.post("/:path", useAuth, useAdminAuth, useValidPath, async (req: IRequest, res: Response) => {
+  const { name } = req.body;
+  const parsedPath = req.parsedPath;
+  const id = uuidv4();
 
-    if (name) {
-      await processQuery(
-        `INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`,
-        [id, name, "0"]
-      );
+  if (name) {
+    await processQuery(
+      `INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`,
+      [id, name, "0"]
+    );
 
-      return res.json({ status: "success" });
-    } else {
-      return res.json({
-        error: "Please fill in all all fields",
-        status: "error",
-      });
-    }
+    return res.json({ status: "success" });
+  } else {
+    return res.json({
+      error: "Please fill in all all fields",
+      status: "error",
+    });
   }
-);
+});
 
 router.put(
   "/:path/:id",
@@ -75,10 +61,7 @@ router.put(
     const parsedPath = req.parsedPath;
 
     if (name) {
-      await processQuery(
-        `UPDATE \`${parsedPath}\` SET \`name\` = ? WHERE \`id\` = ?`,
-        [name, id]
-      );
+      await processQuery(`UPDATE \`${parsedPath}\` SET \`name\` = ? WHERE \`id\` = ?`, [name, id]);
 
       return res.json({ status: "success" });
     } else {
@@ -108,27 +91,23 @@ async function useAdminAuth(
   req: IRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
-  const user = await processQuery("SELECT `rank` from `users` WHERE `id` = ?", [
-    req.user?.id,
-  ]);
+): Promise<Response | void> {
+  const user = await processQuery("SELECT `rank` from `users` WHERE `id` = ?", [req.user?.id]);
 
   if (!user[0]) {
-    res.json({
+    return res.json({
       error: "user not found",
       status: "error",
     });
-    return;
   }
 
   if (!RanksArr.includes(user[0].rank)) {
-    res
+    return res
       .json({
         error: "Forbidden",
         status: "error",
       })
       .status(403);
-    return;
   }
 
   next();

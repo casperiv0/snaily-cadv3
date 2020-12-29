@@ -36,8 +36,10 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
       </div>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="officer">{lang.officers.select_officer}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="officer">
+              {lang.officers.select_officer}
+            </label>
 
             {!officers[0] ? (
               <p className="font-weight-bold">{lang.officers.no_officers}</p>
@@ -61,7 +63,7 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
           </div>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button disabled={!officers[0]} type="submit" className="btn btn-primary">

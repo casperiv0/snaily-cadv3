@@ -39,8 +39,10 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="911_description">{lang.dispatch.call_desc}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="911_description">
+              {lang.dispatch.call_desc}
+            </label>
             <textarea
               cols={30}
               rows={5}
@@ -52,8 +54,10 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
             ></textarea>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="911_caller">{lang.dispatch.caller_name}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="911_caller">
+              {lang.dispatch.caller_name}
+            </label>
             <input
               type="text"
               value={caller}
@@ -63,8 +67,10 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="911_location">{lang.dispatch.caller_location}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="911_location">
+              {lang.dispatch.caller_location}
+            </label>
             <input
               type="text"
               value={location}
@@ -76,7 +82,7 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
           <button type="submit" className="btn btn-primary">

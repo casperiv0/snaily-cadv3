@@ -7,15 +7,16 @@ import Company from "../../../interfaces/Company";
 import AlertMessage from "../../alert-message";
 import State from "../../../interfaces/State";
 import { joinCompany } from "../../../lib/actions/company";
+import Message from "../../../interfaces/Message";
 
 interface Props {
   citizens: Citizen[];
-  error: string;
+  message: Message;
   companies: Company[];
   joinCompany: (data: object) => void;
 }
 
-const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCompany }) => {
+const JoinCompanyModal: React.FC<Props> = ({ citizens, message, companies, joinCompany }) => {
   const [citizenId, setCitizenId] = React.useState<string>("");
   const [companyId, setCompanyId] = React.useState<string>("");
 
@@ -39,9 +40,11 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage type="warning" message={error} /> : null}
-          <div className="form-group">
-            <label htmlFor="citizen">{lang.citizen.company.select_cit}</label>
+          <AlertMessage message={message} dismissible />
+          <div className="mb-3">
+            <label className="form-label" htmlFor="citizen">
+              {lang.citizen.company.select_cit}
+            </label>
             {!citizens[0] ? (
               <p>{lang.citizen.company.no_cit}</p>
             ) : (
@@ -65,8 +68,10 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
               </select>
             )}
           </div>
-          <div className="form-group">
-            <label htmlFor="company">{lang.citizen.company.select_com}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="company">
+              {lang.citizen.company.select_com}
+            </label>
             {!companies[0] ? (
               <p>{lang.citizen.company.no_com}</p>
             ) : (
@@ -93,7 +98,7 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">
@@ -108,7 +113,7 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, error, companies, joinCom
 const mapToProps = (state: State) => ({
   citizens: state.company.citizens,
   companies: state.company.companies,
-  error: state.company.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { joinCompany })(JoinCompanyModal);

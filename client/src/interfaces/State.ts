@@ -14,6 +14,7 @@ import Weapon from "./Weapon";
 import Vehicle from "./Vehicle";
 import Company, { CompanyPost } from "./Company";
 import CadInfo from "./CadInfo";
+import Message from "./Message";
 
 interface State {
   auth: {
@@ -31,7 +32,7 @@ interface State {
   global: {
     cadInfo: CadInfo;
     aop: string;
-    message: string;
+    message: Message;
   };
   calls: {
     calls_911: Call[];

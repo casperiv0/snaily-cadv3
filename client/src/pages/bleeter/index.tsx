@@ -1,8 +1,8 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import Bleet from "../../interfaces/Bleet";
 import State from "../../interfaces/State";
-import { connect } from "react-redux";
 import { getBleetPosts } from "../../lib/actions/bleeter";
 import lang from "../../language.json";
 import BleetItem from "../../components/bleeter/bleetItem";
@@ -35,7 +35,7 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
       </div>
 
       {!bleets[0] ? (
-        <AlertMessage type="warning" message={lang.bleeter.no_bleet} />
+        <AlertMessage message={{ msg: lang.bleeter.no_bleet, type: "warning" }} />
       ) : (
         bleets &&
         bleets.map((bleet: Bleet, idx: number) => {

@@ -9,6 +9,7 @@ import VehiclesTab from "../../../../components/company/VehiclesTab";
 import Layout from "../../../../components/Layout";
 import Citizen from "../../../../interfaces/Citizen";
 import Match from "../../../../interfaces/Match";
+import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
 import lang from "../../../../language.json";
 import { getCitizenById } from "../../../../lib/actions/citizen";
@@ -16,7 +17,7 @@ import { getCompanyById } from "../../../../lib/actions/company";
 
 interface Props {
   match: Match;
-  message: string;
+  message: Message;
   citizen: Citizen;
   returnError: string;
   getCompanyById: (id: string, citizenId: string) => void;
@@ -50,22 +51,22 @@ const ManageCompanyPage: React.FC<Props> = ({
   if (returnError !== null) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={returnError} />
+        <AlertMessage message={{ msg: returnError, type: "danger" }} />
       </Layout>
     );
   }
 
   return (
     <Layout>
-      {message ? <AlertMessage type="success" message={message} dismissible /> : null}
+      {message ? <AlertMessage message={message} dismissible /> : null}
 
       <h3>{lang.citizen.company.manage_company}</h3>
       <ul className="nav nav-tabs mt-3" id="manage_tabs" role="tablist">
-        <li className="nav-item mr-1" role="presentation">
+        <li className="nav-item me-1" role="presentation">
           <a
             className="nav-link bg-dark border-dark text-light"
             id="home-tab"
-            data-toggle="tab"
+            data-bs-toggle="tab"
             href="#company_employees"
             role="tab"
             aria-controls="home"
@@ -74,11 +75,11 @@ const ManageCompanyPage: React.FC<Props> = ({
             {lang.citizen.company.employees}
           </a>
         </li>
-        <li className="nav-item mr-1" role="presentation">
+        <li className="nav-item me-1" role="presentation">
           <a
             className="nav-link bg-dark border-dark text-light"
             id="profile-tab"
-            data-toggle="tab"
+            data-bs-toggle="tab"
             href="#company_vehicles"
             role="tab"
             aria-controls="profile"
@@ -87,11 +88,11 @@ const ManageCompanyPage: React.FC<Props> = ({
             {lang.admin.values.vehicles.index}
           </a>
         </li>
-        <li className="nav-item mr-1" role="presentation">
+        <li className="nav-item me-1" role="presentation">
           <a
             className="nav-link bg-dark border-dark text-light"
             id="contact-tab"
-            data-toggle="tab"
+            data-bs-toggle="tab"
             href="#pending_citizens"
             role="tab"
             aria-controls="contact"
@@ -101,11 +102,11 @@ const ManageCompanyPage: React.FC<Props> = ({
           </a>
         </li>
         {citizen?.rank === "owner" ? (
-          <li className="nav-item mr-1" role="presentation">
+          <li className="nav-item me-1" role="presentation">
             <a
               className="nav-link bg-dark border-dark text-light"
               id="contact-tab"
-              data-toggle="tab"
+              data-bs-toggle="tab"
               href="#edit_company"
               role="tab"
               aria-controls="contact"

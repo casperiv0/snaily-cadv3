@@ -11,7 +11,6 @@ import {
   GET_MY_OFFICERS,
   DELETE_OFFICER_BY_ID,
   CREATE_OFFICER,
-  CREATE_OFFICER_ERROR,
   GET_DEPARTMENTS,
   NAME_SEARCH,
   PLATE_SEARCH,
@@ -19,6 +18,7 @@ import {
   WEAPON_SEARCH,
   GET_ADMIN_DEPARTMENTS,
 } from "../types";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -29,7 +29,7 @@ interface IDispatch {
   departments?: Department[];
   error?: string;
   search?: object;
-  message?: string;
+  message?: Message;
 }
 
 export const getCurrentOfficer = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -98,7 +98,7 @@ export const createOfficer = (data: object) => async (dispatch: Dispatch<IDispat
       dispatch({ type: CREATE_OFFICER });
       window.location.href = "/leo/my-officers";
     } else {
-      dispatch({ type: CREATE_OFFICER_ERROR, error: res.data.error });
+      dispatch({ type: SET_MESSAGE, message: { msg: res.data.error, type: "warning" } });
     }
   } catch (e) {
     Logger.error(CREATE_OFFICER, e);
@@ -116,7 +116,7 @@ export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IDispatch
       });
       dispatch({
         type: SET_MESSAGE,
-        message: `${lang.officers.delete_officer_success}`,
+        message: { msg: lang.officers.delete_officer_success, type: "success" },
       });
     }
   } catch (e) {

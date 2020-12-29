@@ -8,9 +8,10 @@ import Citizen from "../../../interfaces/Citizen";
 import { getWeapons, getLegalStatuses } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import { getCitizens, registerWeapon } from "../../../lib/actions/citizen";
+import Message from "../../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   weapons: Value[];
   legalStatuses: Value[];
   owners: Citizen[];
@@ -21,7 +22,7 @@ interface Props {
 }
 
 const RegisterWeaponPage: React.FC<Props> = ({
-  error,
+  message,
   weapons,
   legalStatuses,
   owners,
@@ -52,11 +53,13 @@ const RegisterWeaponPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="weapon">{lang.citizen.weapon.enter_weapon}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="weapon">
+            {lang.citizen.weapon.enter_weapon}
+          </label>
           <select
             value={weapon}
             onChange={(e) => setWeapon(e.target.value)}
@@ -74,8 +77,10 @@ const RegisterWeaponPage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="owner">{lang.citizen.weapon.enter_owner}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="owner">
+            {lang.citizen.weapon.enter_owner}
+          </label>
           <select
             id="owner"
             value={citizenId}
@@ -96,8 +101,10 @@ const RegisterWeaponPage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="status">{lang.citizen.weapon.enter_status}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">
+            {lang.citizen.weapon.enter_status}
+          </label>
           <select
             id="status"
             value={status}
@@ -116,11 +123,11 @@ const RegisterWeaponPage: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a href="/citizen" className="btn btn-danger">
             {lang.global.cancel}
           </a>
-          <button type="submit" className="ml-2 btn btn-primary">
+          <button type="submit" className="ms-2 btn btn-primary">
             {lang.citizen.weapon.reg_weapon}
           </button>
         </div>
@@ -130,7 +137,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.citizen.error,
+  message: state.global.message,
   owners: state.citizen.citizens,
   weapons: state.values.weapons,
   legalStatuses: state.values["legal-statuses"],

@@ -6,14 +6,15 @@ import State from "../../../interfaces/State";
 import AlertMessage from "../../../components/alert-message";
 import { addValue } from "../../../lib/actions/values";
 import { connect } from "react-redux";
+import Message from "../../../interfaces/Message";
 
 interface Props {
   match: Match;
-  error: string;
+  message: Message;
   addValue: (path: string, data: { name: string }) => void;
 }
 
-const AddValuePage: React.FC<Props> = ({ error, match, addValue }) => {
+const AddValuePage: React.FC<Props> = ({ message, match, addValue }) => {
   const path = match.params.path;
   const [value, setValue] = React.useState<string>("");
   function onSubmit(e: React.FormEvent) {
@@ -26,10 +27,12 @@ const AddValuePage: React.FC<Props> = ({ error, match, addValue }) => {
 
   return (
     <AdminLayout>
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">{lang.admin.values[path].name}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="name">
+            {lang.admin.values[path].name}
+          </label>
           <input
             id="name"
             value={value}
@@ -39,11 +42,11 @@ const AddValuePage: React.FC<Props> = ({ error, match, addValue }) => {
           />
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href={`/admin/values/${path}`}>
             {lang.global.cancel}
           </a>
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.admin.values[path].add}
           </button>
         </div>
@@ -53,7 +56,7 @@ const AddValuePage: React.FC<Props> = ({ error, match, addValue }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.values.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { addValue })(AddValuePage);

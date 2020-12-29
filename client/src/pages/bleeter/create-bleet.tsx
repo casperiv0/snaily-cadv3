@@ -1,17 +1,18 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import AlertMessage from "../../components/alert-message";
-import { connect } from "react-redux";
 import { createBleet } from "../../lib/actions/bleeter";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   createBleet: (data: { title: string; body: string; image: any }) => void;
 }
 
-const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
+const CreateBleetPage: React.FC<Props> = ({ message, createBleet }) => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [image, setImage] = React.useState<any>(null);
@@ -28,21 +29,25 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
 
   return (
     <Layout>
-      {error ? <AlertMessage type="warning" message={error} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
 
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">{lang.bleeter.bleet_title}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="title">
+            {lang.bleeter.bleet_title}
+          </label>
           <input
             type="file"
             id="image"
-            className="form-control form-control-file bg-dark border-dark text-light"
+            className="form-control bg-dark border-dark text-light"
             onChange={(e) => setImage(e.target.files![0])}
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="title">{lang.bleeter.bleet_title}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="title">
+            {lang.bleeter.bleet_title}
+          </label>
           <input
             type="text"
             value={title}
@@ -52,8 +57,10 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="body">{lang.bleeter.bleet_body}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="body">
+            {lang.bleeter.bleet_body}
+          </label>
           <textarea
             className="form-control bg-dark border-dark text-light"
             title="body"
@@ -64,12 +71,12 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
           ></textarea>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href="/bleeter">
             {lang.global.cancel}
           </a>
 
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.bleeter.create_bleet}
           </button>
         </div>
@@ -79,7 +86,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.bleets.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { createBleet })(CreateBleetPage);

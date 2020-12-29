@@ -7,7 +7,6 @@ import {
   DELETE_OFFICER_BY_ID,
   GET_DEPARTMENTS,
   CREATE_OFFICER,
-  CREATE_OFFICER_ERROR,
   CREATE_WARRANT_ERROR,
   CREATE_WARRANT,
   PLATE_SEARCH,
@@ -57,10 +56,6 @@ type Actions =
     }
   | {
       type: typeof CREATE_OFFICER;
-    }
-  | {
-      type: typeof CREATE_OFFICER_ERROR;
-      error: string;
     }
   | {
       type: typeof CREATE_WARRANT;
@@ -139,11 +134,6 @@ export default function officerReducer(state = initState, action: Actions) {
         ...state,
         error: null,
       };
-    case "CREATE_OFFICER_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
     case "CREATE_WARRANT":
       return {
         ...state,
@@ -158,17 +148,17 @@ export default function officerReducer(state = initState, action: Actions) {
     case "NAME_SEARCH":
       return {
         ...state,
-        search: action.search,
+        search: { type: "name", ...action.search },
       };
     case "WEAPON_SEARCH":
       return {
         ...state,
-        search: action.search,
+        search: { type: "weapon", ...action.search },
       };
     case "PLATE_SEARCH":
       return {
         ...state,
-        search: action.search,
+        search: { type: "plate", ...action.search },
       };
     case "CREATE_WRITTEN_WARNING":
       return {

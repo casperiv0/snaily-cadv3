@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import Logger from "./Logger";
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 export function generateSerialNumber(): string {
@@ -57,24 +58,31 @@ export interface WebHookData {
   embeds?: DiscordEmbed[];
 }
 
-export async function getWebhookData(url: string): Promise<WebHook> {
-  const data = await (await fetch(url)).json();
+export async function getWebhookData(url: string): Promise<WebHook | undefined> {
+  try {
+    const res = await fetch(url);
 
-  return {
-    id: data.id,
-    token: data.token,
-    name: data.name,
-    avatar: data?.avatar_url || null,
-    channel_id: data.channel_id,
-    guild_id: data.guild_id,
-  };
+    const header = res.headers.get("Content-Type");
+    if (!header) return;
+    if (header !== "application/json") return;
+
+    const data = await res.json();
+
+    return {
+      id: data.id,
+      token: data.token,
+      name: data.name,
+      avatar: data?.avatar_url || null,
+      channel_id: data.channel_id,
+      guild_id: data.guild_id,
+    };
+  } catch (e) {
+    Logger.error("GET_WEBHOOK_DATA", e);
+  }
 }
 
-export async function postWebhook(
-  webhook: WebHook,
-  data: WebHookData
-): Promise<void> {
-  const discordUrl = "https://discord.com/api";
+export async function postWebhook(webhook: WebHook, data: WebHookData): Promise<void> {
+  const discordUrl = "https://discord.com/api/v8";
   try {
     await fetch(`${discordUrl}/webhooks/${webhook.id}/${webhook.token}`, {
       method: "POST",
@@ -84,6 +92,6 @@ export async function postWebhook(
       },
     });
   } catch (e) {
-    console.log(e);
+    Logger.error("POST_WEBHOOK", e);
   }
 }

@@ -8,8 +8,11 @@ import { searchPlate } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 
+export interface Search extends Vehicle {
+  type: "plate";
+}
 interface Props {
-  search: Vehicle;
+  search: Search;
   searchPlate: (plate: string) => void;
 }
 
@@ -32,8 +35,10 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <div className="form-group">
-            <label htmlFor="plate">{lang.global.plate}</label>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="plate">
+              {lang.global.plate}
+            </label>
             <input
               type="search"
               className="form-control bg-secondary border-secondary text-light"
@@ -42,7 +47,7 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
             />
           </div>
 
-          {search !== null ? (
+          {search !== null && search?.type === "plate" ? (
             search?.plate ? (
               <div className="mt-3">
                 <Item id="plate">
@@ -81,13 +86,13 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
                 </Item>
               </div>
             ) : (
-              <AlertMessage message={lang.record.no_plate} type="warning" />
+              <AlertMessage message={{ msg: lang.record.no_plate, type: "warning" }} />
             )
           ) : null}
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
           <button type="submit" disabled={plate === ""} className="btn btn-primary">

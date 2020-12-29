@@ -10,9 +10,7 @@ import {
   GET_ADMIN_DEPARTMENTS,
   DELETE_VALUE,
   ADD_VALUE,
-  ADD_VALUE_ERROR,
   GET_VALUE_BY_ID,
-  UPDATE_VALUE_BY_ID_ERROR,
   UPDATE_VALUE_BY_ID,
 } from "../types";
 
@@ -67,19 +65,11 @@ type Actions =
       type: typeof ADD_VALUE;
     }
   | {
-      type: typeof ADD_VALUE_ERROR;
-      error: string;
-    }
-  | {
       type: typeof GET_VALUE_BY_ID;
       value: Value;
     }
   | {
       type: typeof UPDATE_VALUE_BY_ID;
-    }
-  | {
-      type: typeof UPDATE_VALUE_BY_ID_ERROR;
-      error: string;
     };
 
 export default function valuesReducer(state = initState, action: Actions) {
@@ -125,19 +115,9 @@ export default function valuesReducer(state = initState, action: Actions) {
         ...state,
         value: action.value,
       };
-    case "ADD_VALUE_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
     case "UPDATE_VALUE_BY_ID":
       return {
         ...state,
-      };
-    case "UPDATE_VALUE_BY_ID_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     default:
       return {

@@ -59,7 +59,7 @@ const ManageEmployee: React.FC<Props> = ({
   if (returnError !== null) {
     return (
       <Layout>
-        <AlertMessage type="danger" message={returnError} />
+        <AlertMessage message={{ msg: returnError, type: "danger" }} />
       </Layout>
     );
   }
@@ -67,7 +67,7 @@ const ManageEmployee: React.FC<Props> = ({
   if (employee !== null && !employee) {
     return (
       <Layout>
-        <AlertMessage type="danger" message="Citizen not found" />
+        <AlertMessage message={{ msg: "Citizen not found", type: "danger" }} />
       </Layout>
     );
   }
@@ -75,8 +75,10 @@ const ManageEmployee: React.FC<Props> = ({
   return (
     <Layout>
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="rank">{lang.global.rank}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="rank">
+            {lang.global.rank}
+          </label>
           <select
             className="form-control bg-dark border-dark text-light"
             onChange={(e) => setRank(e.target.value)}
@@ -90,8 +92,10 @@ const ManageEmployee: React.FC<Props> = ({
             <option value="employee">{lang.citizen.company.employee}</option>
           </select>
         </div>
-        <div className="form-group">
-          <label htmlFor="canRegVeh">{lang.citizen.company.can_reg_veh}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="canRegVeh">
+            {lang.citizen.company.can_reg_veh}
+          </label>
           <select
             className="form-control bg-dark border-dark text-light"
             onChange={(e) => setCanRegVeh(e.target.value)}
@@ -107,8 +111,10 @@ const ManageEmployee: React.FC<Props> = ({
             <option value="1">{lang.global.yes}</option>
           </select>
         </div>
-        <div className="form-group">
-          <label htmlFor="canCreatePost">{lang.citizen.company.can_create_post}</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="canCreatePost">
+            {lang.citizen.company.can_create_post}
+          </label>
           <select
             className="form-control bg-dark border-dark text-light"
             onChange={(e) => setCanCreatePost(e.target.value)}
@@ -125,11 +131,11 @@ const ManageEmployee: React.FC<Props> = ({
           </select>
         </div>
 
-        <div className="form-group float-right">
+        <div className="mb-3 float-end">
           <a className="btn btn-danger" href={`/company/${citizenId}/${companyId}/manage`}>
             {lang.global.cancel}
           </a>
-          <button className="btn btn-primary ml-2" type="submit">
+          <button className="btn btn-primary ms-2" type="submit">
             {lang.global.update}
           </button>
         </div>
