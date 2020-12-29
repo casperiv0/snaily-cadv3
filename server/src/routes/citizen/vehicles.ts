@@ -36,7 +36,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     const parsedPlate = plate.replace(/[oO]/g, "0");
 
     const citizen = await processQuery(
-      "SELECT `full_name` FROM `citizens` WHERE `id` = ?",
+      "SELECT `full_name`, `business_id` FROM `citizens` WHERE `id` = ?",
       [citizenId]
     );
 
@@ -60,10 +60,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     }
 
     if (businessId?.trim() !== "") {
-      const company = await processQuery(
-        "SELECT * FROM `businesses` WHERE `id` = ?",
-        [businessId]
-      );
+      const company = await processQuery("SELECT * FROM `businesses` WHERE `id` = ?", [businessId]);
 
       if (!company[0]) {
         return res.json({
@@ -117,14 +114,10 @@ router.post("/transfer/:id", useAuth, async (req: IRequest, res: Response) => {
   const { plate, ownerId } = req.body;
 
   if (plate && ownerId) {
-    const citizen = await processQuery(
-      "SELECT `full_name` FROM `citizens` WHERE `id` = ?",
-      [ownerId]
-    );
-    const vehicle = await processQuery(
-      "SELECT `id` FROM `registered_cars` WHERE `id` = ?",
-      [id]
-    );
+    const citizen = await processQuery("SELECT `full_name` FROM `citizens` WHERE `id` = ?", [
+      ownerId,
+    ]);
+    const vehicle = await processQuery("SELECT `id` FROM `registered_cars` WHERE `id` = ?", [id]);
 
     if (!citizen[0]) {
       return res.json({ error: "Citizen does not exist", status: "error" });
@@ -161,43 +154,33 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   }
 });
 
-router.put(
-  "/report-stolen/:vehicleId",
-  useAuth,
-  async (req: IRequest, res: Response) => {
-    const { vehicleId } = req.params;
+router.put("/report-stolen/:vehicleId", useAuth, async (req: IRequest, res: Response) => {
+  const { vehicleId } = req.params;
 
-    await processQuery(
-      "UPDATE `registered_cars` SET `in_status` = ? WHERE `id` = ?",
-      ["Reported stolen", vehicleId]
-    );
+  await processQuery("UPDATE `registered_cars` SET `in_status` = ? WHERE `id` = ?", [
+    "Reported stolen",
+    vehicleId,
+  ]);
 
-    return res.json({
-      status: "success",
-    });
-  }
-);
+  return res.json({
+    status: "success",
+  });
+});
 
-router.delete(
-  "/:citizenId/:vehicleId",
-  useAuth,
-  async (req: IRequest, res: Response) => {
-    const { citizenId, vehicleId } = req.params;
+router.delete("/:citizenId/:vehicleId", useAuth, async (req: IRequest, res: Response) => {
+  const { citizenId, vehicleId } = req.params;
 
-    await processQuery("DELETE FROM `registered_cars` WHERE `id` = ?", [
-      vehicleId,
-    ]);
+  await processQuery("DELETE FROM `registered_cars` WHERE `id` = ?", [vehicleId]);
 
-    const vehicles = await processQuery(
-      "SELECT * FROM `registered_cars` WHERE `citizen_id` = ? AND `user_id` = ?",
-      [citizenId, req.user?.id]
-    );
+  const vehicles = await processQuery(
+    "SELECT * FROM `registered_cars` WHERE `citizen_id` = ? AND `user_id` = ?",
+    [citizenId, req.user?.id]
+  );
 
-    return res.json({
-      status: "success",
-      vehicles,
-    });
-  }
-);
+  return res.json({
+    status: "success",
+    vehicles,
+  });
+});
 
 export default router;
