@@ -6,16 +6,17 @@ import Department from "../../interfaces/Department";
 import { connect } from "react-redux";
 import { createOfficer, getDepartments } from "../../lib/actions/officer";
 import AlertMessage from "../../components/alert-message";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   departments: Department[];
   createOfficer: (data: object) => void;
   getDepartments: (type: "admin" | "leo") => void;
 }
 
 const CreateOfficerPage: React.FC<Props> = ({
-  error,
+  message,
   departments,
   createOfficer,
   getDepartments,
@@ -39,7 +40,7 @@ const CreateOfficerPage: React.FC<Props> = ({
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
+        <AlertMessage message={message} dismissible />
         <div className="mb-3">
           <label className="form-label" htmlFor="officerName">
             {lang.record.officer_name}
@@ -92,7 +93,7 @@ const CreateOfficerPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   departments: state.officers.departments,
-  error: state.officers.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { createOfficer, getDepartments })(CreateOfficerPage);

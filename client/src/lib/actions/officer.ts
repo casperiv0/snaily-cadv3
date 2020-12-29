@@ -11,7 +11,6 @@ import {
   GET_MY_OFFICERS,
   DELETE_OFFICER_BY_ID,
   CREATE_OFFICER,
-  CREATE_OFFICER_ERROR,
   GET_DEPARTMENTS,
   NAME_SEARCH,
   PLATE_SEARCH,
@@ -99,7 +98,7 @@ export const createOfficer = (data: object) => async (dispatch: Dispatch<IDispat
       dispatch({ type: CREATE_OFFICER });
       window.location.href = "/leo/my-officers";
     } else {
-      dispatch({ type: CREATE_OFFICER_ERROR, error: res.data.error });
+      dispatch({ type: SET_MESSAGE, message: { msg: res.data.error, type: "warning" } });
     }
   } catch (e) {
     Logger.error(CREATE_OFFICER, e);

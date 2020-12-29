@@ -1,11 +1,4 @@
-import {
-  AUTHENTICATE,
-  AUTH_ERROR,
-  SET_LOADING,
-  LOGOUT,
-  DELETE_ACCOUNT,
-  UPDATE_PASSWORD,
-} from "../types";
+import { AUTHENTICATE, SET_LOADING, LOGOUT, DELETE_ACCOUNT, UPDATE_PASSWORD } from "../types";
 
 const initState = {
   user: null,
@@ -19,10 +12,6 @@ type Actions =
       type: typeof AUTHENTICATE;
       user: object;
       isAuth: boolean;
-    }
-  | {
-      type: typeof AUTH_ERROR;
-      error: string | null;
     }
   | {
       type: typeof SET_LOADING;
@@ -46,13 +35,6 @@ export default function authReducer(state = initState, action: Actions) {
         user: action.user,
         isAuth: action.isAuth,
         error: null,
-      };
-    case "AUTH_ERROR":
-      return {
-        ...state,
-        error: action.error,
-        user: null,
-        isAuth: false,
       };
     case "SET_LOADING":
       return {

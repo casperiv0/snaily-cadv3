@@ -6,11 +6,11 @@ import {
   SET_LOADING_BLEETS,
   UPDATE_BLEET,
   CREATE_BLEET,
-  CREATE_BLEET_ERROR,
-  UPDATE_BLEET_ERROR,
+  SET_MESSAGE,
 } from "../types";
 import Bleet from "../../interfaces/Bleet";
 import Logger from "../Logger";
+import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -18,6 +18,7 @@ interface IDispatch {
   bleets?: Bleet[];
   bleet?: Bleet;
   error?: string;
+  message?: Message;
 }
 
 export const getBleetPosts = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -81,8 +82,8 @@ export const createBleet = (data: { title: string; body: string; image: any }) =
       window.location.href = `/bleet/${res.data.id}`;
     } else {
       dispatch({
-        type: CREATE_BLEET_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {
@@ -101,8 +102,8 @@ export const updateBleet = (data: object, id: string) => async (dispatch: Dispat
       return (window.location.href = `/bleet/${id}`);
     } else {
       dispatch({
-        type: UPDATE_BLEET_ERROR,
-        error: res.data.error,
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
       });
     }
   } catch (e) {

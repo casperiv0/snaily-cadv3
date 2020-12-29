@@ -1,17 +1,18 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import AlertMessage from "../../components/alert-message";
-import { connect } from "react-redux";
 import { createBleet } from "../../lib/actions/bleeter";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   createBleet: (data: { title: string; body: string; image: any }) => void;
 }
 
-const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
+const CreateBleetPage: React.FC<Props> = ({ message, createBleet }) => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [image, setImage] = React.useState<any>(null);
@@ -28,7 +29,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
 
   return (
     <Layout>
-      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
@@ -85,7 +86,7 @@ const CreateBleetPage: React.FC<Props> = ({ error, createBleet }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.bleets.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { createBleet })(CreateBleetPage);

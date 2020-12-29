@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import Bleet from "../../interfaces/Bleet";
@@ -6,13 +8,12 @@ import Match from "../../interfaces/Match";
 import Loader from "../../components/loader";
 import lang from "../../language.json";
 import User from "../../interfaces/User";
-import { connect } from "react-redux";
 import { getBleetById, updateBleet } from "../../lib/actions/bleeter";
 import AlertMessage from "../../components/alert-message";
-import { useHistory } from "react-router-dom";
+import Message from "../../interfaces/Message";
 
 interface Props {
-  error: string;
+  message: Message;
   bleet: Bleet;
   match: Match;
   user: User;
@@ -22,7 +23,7 @@ interface Props {
 }
 
 const EditBleet: React.FC<Props> = ({
-  error,
+  message,
   bleet,
   match,
   loading,
@@ -73,7 +74,7 @@ const EditBleet: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
+      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="title">
@@ -117,7 +118,7 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
   bleet: state.bleets.bleet,
   loading: state.bleets.loading,
-  error: state.bleets.error,
+  message: state.global.message,
 });
 
 export default connect(mapToProps, { getBleetById, updateBleet })(EditBleet);

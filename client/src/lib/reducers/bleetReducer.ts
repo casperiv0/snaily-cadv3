@@ -1,12 +1,5 @@
 import Bleet from "../../interfaces/Bleet";
-import {
-  GET_BLEETS,
-  SET_LOADING_BLEETS,
-  GET_BLEET_BY_ID,
-  CREATE_BLEET,
-  CREATE_BLEET_ERROR,
-  UPDATE_BLEET_ERROR,
-} from "../types";
+import { GET_BLEETS, SET_LOADING_BLEETS, GET_BLEET_BY_ID, CREATE_BLEET } from "../types";
 
 const initState = {
   bleets: [],
@@ -29,14 +22,6 @@ type Actions =
       bleet: Bleet;
     }
   | {
-      type: typeof CREATE_BLEET_ERROR;
-      error: string;
-    }
-  | {
-      type: typeof UPDATE_BLEET_ERROR;
-      error: string;
-    }
-  | {
       type: typeof CREATE_BLEET;
     };
 
@@ -56,16 +41,6 @@ export default function bleetReducer(state = initState, action: Actions) {
       return {
         ...state,
         bleet: action.bleet,
-      };
-    case "UPDATE_BLEET_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
-    case "CREATE_BLEET_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "CREATE_BLEET":
       return {

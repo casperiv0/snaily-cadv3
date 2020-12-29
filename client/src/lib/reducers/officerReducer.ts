@@ -7,7 +7,6 @@ import {
   DELETE_OFFICER_BY_ID,
   GET_DEPARTMENTS,
   CREATE_OFFICER,
-  CREATE_OFFICER_ERROR,
   CREATE_WARRANT_ERROR,
   CREATE_WARRANT,
   PLATE_SEARCH,
@@ -57,10 +56,6 @@ type Actions =
     }
   | {
       type: typeof CREATE_OFFICER;
-    }
-  | {
-      type: typeof CREATE_OFFICER_ERROR;
-      error: string;
     }
   | {
       type: typeof CREATE_WARRANT;
@@ -138,11 +133,6 @@ export default function officerReducer(state = initState, action: Actions) {
       return {
         ...state,
         error: null,
-      };
-    case "CREATE_OFFICER_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "CREATE_WARRANT":
       return {
