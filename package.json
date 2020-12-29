@@ -1,6 +1,6 @@
 {
   "name": "snaily-cadv3",
-  "version": "0.2.3",
+  "version": "1.0.0",
   "description": "![license](https://img.shields.io/github/license/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)\r ![contributors](https://img.shields.io/github/contributors/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)\r ![issues](https://img.shields.io/github/issues/dev-caspertheghost/snaily-cadv3?style=flat-square)",
   "main": "index.js",
   "scripts": {
