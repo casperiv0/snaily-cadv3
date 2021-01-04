@@ -7,7 +7,8 @@
     "start:client": "npm run serve --prefix client",
     "start:server": "npm start --prefix server",
     "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
-    "dev": "concurrently \"npm start --prefix server\" \"npm start --prefix client\""
+    "dev": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
+    "auto-install": "node ./scripts/install.js"
   },
   "repository": {
     "type": "git",
