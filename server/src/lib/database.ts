@@ -16,17 +16,14 @@ export async function connect(): Promise<mysql.Connection> {
   return await mysql.createConnection(options);
 }
 
-export async function processQuery(
-  query: string,
-  data?: any
-): Promise<any[] | any> {
+export async function processQuery(query: string, data?: any): Promise<any[] | any> {
   const conn = await connect();
   const result = await conn.query(query, data);
   conn.end();
   return result;
 }
 
-const interval = setInterval(select1, INTERVAL_5_SECS);
+const interval = setInterval(() => setTimeout(() => select1(), 15_000), INTERVAL_5_SECS);
 
 async function select1() {
   await processQuery("SELECT 1").catch((e) => {

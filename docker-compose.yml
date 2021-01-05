@@ -1,0 +1,64 @@
+version: "3.7"
+
+services:
+  client:
+    container_name: "snailycad-client"
+    build: ./client/
+    restart: on-failure
+    image: node:14
+    command: sh -c "cd client && npm install && npm run build && npm run serve"
+    ports:
+      - 80:80
+
+    working_dir: /cad/client
+    volumes:
+      - ./:/cad/client
+    networks:
+      - web
+
+  server:
+    container_name: "snailycad-server"
+    build: ./server/
+    restart: on-failure
+    image: node:14
+    command: sh -c "cd server && npm install && npm start"
+    depends_on:
+      - db
+    ports:
+      - 3030:3030
+
+    working_dir: /cad/server
+    volumes:
+      - ./:/cad/server
+    networks:
+      - web
+
+  db:
+    container_name: database
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql-db:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+    restart: always
+    links:
+      - db
+    ports:
+      - 8080:80
+
+volumes:
+  mysql-db:
+
+networks:
+  web:
+    external: true
