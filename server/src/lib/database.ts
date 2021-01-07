@@ -17,10 +17,14 @@ export async function connect(): Promise<mysql.Connection> {
 }
 
 export async function processQuery(query: string, data?: any): Promise<any[] | any> {
-  const conn = await connect();
-  const result = await conn.query(query, data);
-  conn.end();
-  return result;
+  try {
+    const conn = await connect();
+    const result = await conn.query(query, data);
+    conn.end();
+    return result;
+  } catch (err) {
+    Logger.error("DB_ERROR", err?.stack || err);
+  }
 }
 
 const interval = setInterval(() => setTimeout(() => select1(), 15_000), INTERVAL_5_SECS);
@@ -31,14 +35,3 @@ async function select1() {
     Logger.error("DB_ERROR", e);
   });
 }
-
-async function updateDb() {
-  try {
-    await processQuery(
-      "ALTER TABLE `cad_info` ADD `webhook_url` TEXT NOT NULL AFTER `company_whitelisted`;"
-    );
-    // eslint-disable-next-line no-empty
-  } catch {}
-}
-
-updateDb();

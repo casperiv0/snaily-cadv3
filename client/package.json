@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "postserve": "npm install -g serve",
-    "serve": "serve -s build -l 80",
+    "serve": "serve -s build -l 5000",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },
