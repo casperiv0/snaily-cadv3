@@ -10,7 +10,7 @@ import Loader from "../../components/loader";
 import lang from "../../language.json";
 import User from "../../interfaces/User";
 import AlertMessage from "../../components/alert-message";
-import SERVER_URL from "../../config";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 interface Props {
   bleet: IBleet;

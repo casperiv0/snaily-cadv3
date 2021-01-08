@@ -5,7 +5,6 @@ import Citizen from "../../interfaces/Citizen";
 import Match from "../../interfaces/Match";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
-import SERVER_URL from "../../config";
 import LicenseCard from "../../components/citizen/LicenseCard";
 import RegisteredWeapons from "../../components/citizen/weapons/RegisteredWeapons";
 import RegisteredVehicles from "../../components/citizen/vehicles/RegisteredVehicles";
@@ -13,6 +12,8 @@ import MedicalRecords from "../../components/citizen/MedicalRecords";
 import AlertMessage from "../../components/alert-message";
 import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
 import Message from "../../interfaces/Message";
+
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 interface Props {
   citizen: Citizen;

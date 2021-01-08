@@ -1,6 +1,5 @@
 import "./lib/checks";
 import express, { Application, json } from "express";
-import config from "../config";
 import cookieParser from "cookie-parser";
 import csurf from "csurf";
 import fileUpload from "express-fileupload";
@@ -11,11 +10,11 @@ import Logger from "./lib/Logger";
 import api from "./api";
 
 const app: Application = express();
-const port = config.port;
+const port = Number(process.env.PORT);
 const server = app.listen(port, () => Logger.listening(port));
 const io = new Server(server, {
   cors: {
-    origin: config.clientUrl,
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
@@ -27,7 +26,7 @@ app.use(json());
 app.use(fileUpload());
 app.use(
   cors({
-    origin: config.clientUrl,
+    origin: process.env.CLIENT_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })

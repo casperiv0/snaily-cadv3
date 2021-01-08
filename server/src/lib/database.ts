@@ -1,13 +1,12 @@
 import mysql, { ConnectionConfig } from "promise-mysql";
-import config from "../../config";
 import Logger from "./Logger";
 const INTERVAL_5_SECS = 5000;
 
 const options: ConnectionConfig = {
-  host: config.host,
-  user: config.user,
-  password: config.password,
-  database: config.databaseName,
+  host: "db",
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
   multipleStatements: true,
   timeout: 0,
 };

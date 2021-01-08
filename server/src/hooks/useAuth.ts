@@ -1,17 +1,12 @@
 import { NextFunction, Response } from "express";
 import { processQuery } from "../lib/database";
 import jwt from "jsonwebtoken";
-import config from "../../config";
 import IRequest from "../interfaces/IRequest";
 import IUser from "../interfaces/IUser";
 
-async function useAuth(
-  req: IRequest,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
+async function useAuth(req: IRequest, res: Response, next: NextFunction): Promise<void> {
   const token = req.cookies.__token;
-  const secret = config.jwtSecret;
+  const secret = `${process.env.JWT_SECRET}`;
 
   if (!token) {
     res.json({ server_error: "invalid token", status: "error" }).status(401);

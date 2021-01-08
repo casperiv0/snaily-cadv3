@@ -6,11 +6,12 @@ import AlertMessage from "../../alert-message";
 import Citizen from "../../../interfaces/Citizen";
 import Weapon from "../../../interfaces/Weapon";
 import Vehicle from "../../../interfaces/Vehicle";
-import SERVER_URL from "../../../config";
 import { searchName } from "../../../lib/actions/officer";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
+
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 interface NameSearch {
   type: "name";

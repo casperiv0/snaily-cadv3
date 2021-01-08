@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import config from "../../config";
 
 function useToken(user: { id: string }): string {
-  return jwt.sign(user, config.jwtSecret, { expiresIn: 3600 });
+  const secret = `${process.env.JWT_SECRET}`;
+  return jwt.sign(user, secret, { expiresIn: 3600 });
 }
 
 export default useToken;

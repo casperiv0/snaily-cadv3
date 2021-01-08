@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import SERVER_URL from "../config";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 

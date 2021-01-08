@@ -1,4 +1,3 @@
-import config from "../../config";
 import Logger from "./Logger";
 import { io } from "../server";
 import { getWebhookData, postWebhook } from "./functions";
@@ -7,17 +6,19 @@ import { Socket } from "socket.io";
 
 io.on("connection", async (socket: Socket) => {
   const cadInfo = await processQuery("SELECT `webhook_url` FROM `cad_info`");
+  const isDev = process.env.ENVIRONMENT === "development";
+  console.log(process.env.ENVIRONMENT);
 
   socket.on("UPDATE_ACTIVE_UNITS", () => {
     io.sockets.emit("UPDATE_ACTIVE_UNITS");
 
-    if (config.env === "dev") {
+    if (isDev) {
       Logger.log("SOCKET_EVENT", "UPDATE_ACTIVE_UNITS");
     }
   });
 
   socket.on("CHECK_CONNECTION", (value: boolean) => {
-    if (config.env === "dev") {
+    if (isDev) {
       Logger.log("SOCKET_EVENT", "Checking connections...");
 
       if (value === true) {
@@ -29,7 +30,7 @@ io.on("connection", async (socket: Socket) => {
   socket.on("UPDATE_AOP", (aop: string) => {
     io.sockets.emit("UPDATE_AOP", aop);
 
-    if (config.env === "dev") {
+    if (isDev) {
       Logger.log("SOCKET_EVENT", `UPDATE_AOP - ${aop}`);
     }
   });
@@ -37,7 +38,7 @@ io.on("connection", async (socket: Socket) => {
   socket.on("UPDATE_911_CALLS", () => {
     io.sockets.emit("UPDATE_911_CALLS");
 
-    if (config.env === "dev") {
+    if (isDev) {
       Logger.log("SOCKET_EVENT", "UPDATE_911_CALLS");
     }
   });
@@ -45,7 +46,7 @@ io.on("connection", async (socket: Socket) => {
   socket.on("UPDATE_TOW_CALLS", () => {
     io.sockets.emit("UPDATE_TOW_CALLS");
 
-    if (config.env === "dev") {
+    if (isDev) {
       Logger.log("SOCKET_EVENT", "UPDATE_TOW_CALLS");
     }
   });
@@ -53,7 +54,7 @@ io.on("connection", async (socket: Socket) => {
   socket.on("UPDATE_BOLOS", () => {
     io.sockets.emit("UPDATE_BOLOS");
 
-    if (config.env === "dev") {
+    if (isDev) {
       Logger.log("SOCKET_EVENT", "UPDATE_BOLOS");
     }
   });
@@ -106,7 +107,7 @@ io.on("connection", async (socket: Socket) => {
         }
       }
 
-      if (config.env === "dev") {
+      if (isDev) {
         Logger.log("SOCKET_EVENT", "NEW_911_CALL");
       }
     }
