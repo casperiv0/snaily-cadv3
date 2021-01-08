@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import Logger from "./Logger";
-import pkg from "../../../package.json";
+import pkg from "../../package.json";
 
 (async function checkVersion() {
   const url = "https://dev-caspertheghost.github.io/version.html";
