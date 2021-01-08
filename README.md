@@ -43,10 +43,15 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
    - `INNER_HOST_URL`: The ip of your windows machine (NOT router), `ipconfig` in command prompt to see ip
    - `JWT_SECRET`: The secret for authenticating users, this can be any long string of random characters
 
-6. Run `docker-compose up -d`
-7. CAD should be running after about 1-2minutes
+6. Run `docker network create web`
+7. Run `docker-compose up -d`
+8. CAD should be running after about 1-2minutes
 
-   **If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
+## Installation (Ubuntu)
+
+Soon™
+
+**If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
 
 ## Contributing
 
