@@ -19,7 +19,9 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 ## Requirements
 
 - [GIT](https://git-scm.com/downloads)
-- [Docker Desktop](https://www.docker.com/get-started)
+- Docker:
+  - Windows: [Docker Desktop](https://www.docker.com/get-started)
+  - Linux: [Docker](https://docs.docker.com/engine/install/)
 
 ## Installation (Windows Machine)
 
@@ -49,7 +51,27 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 
 ## Installation (Ubuntu)
 
-Soon™
+I've not 100% tested this, but should work.
+
+1. Open your terminal
+2. Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cadv3`
+3. Run `cd snaily-cadv3`
+4. Copy, paste `.env.example` to `.env` (`mv .env.example .env`)
+5. Modify where needed (`nano .env`)
+
+   - `MYSQL_DATABASE`: The database that will be used for the CAD
+   - `MYSQL_USER`: The user that will connect to the database
+   - `MYSQL_PASSWORD`: The password for the `MYSQL_USER`
+   - `MYSQL_ROOT_PASSWORD`: The root password for the database
+   - `CLIENT_URL`: The URL where you want to run your CAD, this can be an IP or a domain name, EG: `my-cad.com`
+   - `REACT_APP_SERVER_URL`: The URL where you want to run the server of the CAD, this can be an IP or a domain name EG: `server.my-cad.com`
+   - `ENVIRONMENT`: The ENV, please don't change this if you aren't developing for SnailyCAD
+   - `INNER_HOST_URL`: The private ip of your machine (NOT router), use `hostname -I` to see your Private ip
+   - `JWT_SECRET`: The secret for authenticating users, this can be any long string of random characters
+
+6. Run `docker network create web`
+7. Run `docker-compose up -d`
+8. CAD should be running after about 1-2minutes
 
 **If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
 
