@@ -19,8 +19,7 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 ## Requirements
 
 - [GIT](https://git-scm.com/downloads)
-- [NodeJS v12+](https://nodejs.org)
-- [MySQL](https://www.apachefriends.org/download.html)
+- [Docker Desktop](https://www.docker.com/get-started)
 
 ## Installation
 
@@ -31,23 +30,22 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 1. Open Command Prompt
 2. Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cadv3`
 3. Run `cd snaily-cadv3`
-4. Run `npm run auto-install` and wait it to finish
-5. Open the `server` folder
-6. Make a copy of `config.example.ts` and rename to `config.ts`
-7. Modify that where needed
-8. Go back and open the `client` folder
-9. Open the `src` folder
-10. Make a copy of `config.example.ts` and rename to `config.ts`
-11. Go back to your command prompt
-12. run `cd client`
-13. Run `npm run build` and wait for it to finish
-14. Once finished, create a new database in XAMPP phpmyadmin, call it `snaily-cad` or whatever you called it in the config file
-15. Import `snaily-cad.sql` into that database
-16. Go back to your command prompt and make sure you are in the main folder (snaily-cadv3)
-17. Run `npm start`
-18. The CAD should be running on <http://localhost:5000> by default
+4. Copy, paste `.env.example` to `.env`
+5. Modify where needed
 
-**If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
+   - `MYSQL_DATABASE`: The database that will be used for the CAD
+   - `MYSQL_USER`: The user that will connect to the database
+   - `MYSQL_PASSWORD`: The password for the `MYSQL_USER`
+   - `MYSQL_ROOT_PASSWORD`: The root password for the database
+   - `CLIENT_URL`: The URL to the client, this can be an IP like: `192.168.0.100` or a domain name like: `my-cad.com`
+   - `REACT_APP_SERVER_URL`: The url to the server from the CAD
+   - `ENVIRONMENT`: The ENV, please don't change this if you aren't developing for SnailyCAD
+   - `PORT`: The port the CAD server will run on
+   - `JWT_SECRET`: The secret for authenticating users, this can be any long string of random characters
+
+6. Run `docker-compose up -d`
+
+   **If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
 
 ## Contributing
 
