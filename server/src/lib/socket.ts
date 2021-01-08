@@ -7,7 +7,6 @@ import { Socket } from "socket.io";
 io.on("connection", async (socket: Socket) => {
   const cadInfo = await processQuery("SELECT `webhook_url` FROM `cad_info`");
   const isDev = process.env.ENVIRONMENT === "development";
-  console.log(process.env.ENVIRONMENT);
 
   socket.on("UPDATE_ACTIVE_UNITS", () => {
     io.sockets.emit("UPDATE_ACTIVE_UNITS");

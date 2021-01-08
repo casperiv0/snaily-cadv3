@@ -10,7 +10,7 @@ import Logger from "./lib/Logger";
 import api from "./api";
 
 const app: Application = express();
-const port = Number(process.env.PORT);
+const port = 3030;
 const server = app.listen(port, () => Logger.listening(port));
 const io = new Server(server, {
   cors: {

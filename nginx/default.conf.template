@@ -1,0 +1,29 @@
+# CLIENT
+server {
+    listen 80;
+    server_name ${NGINX_CLIENT_URL};
+
+    location / {
+        proxy_pass http://${NGINX_HOST_URL}:5050;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+# SERVER
+server {
+    listen 80;
+    server_name ${NGINX_SERVER_URL};
+
+    location / {
+        proxy_pass http://${NGINX_HOST_URL}:3030;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}

@@ -21,7 +21,7 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 - [GIT](https://git-scm.com/downloads)
 - [Docker Desktop](https://www.docker.com/get-started)
 
-## Installation
+## Installation (Windows Machine)
 
 [Quick Installation guide](https://youtu.be/av_rD_jOJN8)
 
@@ -37,13 +37,14 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
    - `MYSQL_USER`: The user that will connect to the database
    - `MYSQL_PASSWORD`: The password for the `MYSQL_USER`
    - `MYSQL_ROOT_PASSWORD`: The root password for the database
-   - `CLIENT_URL`: The URL to the client, this can be an IP like: `192.168.0.100` or a domain name like: `my-cad.com`
-   - `REACT_APP_SERVER_URL`: The url to the server from the CAD
+   - `CLIENT_URL`: The URL where you want to run your CAD, this can be an IP or a domain name, EG: `my-cad.com`
+   - `REACT_APP_SERVER_URL`: The URL where you want to run the server of the CAD, this can be an IP or a domain name EG: `server.my-cad.com`
    - `ENVIRONMENT`: The ENV, please don't change this if you aren't developing for SnailyCAD
-   - `PORT`: The port the CAD server will run on
+   - `INNER_HOST_URL`: The ip of your windows machine (NOT router), `ipconfig` in command prompt to see ip
    - `JWT_SECRET`: The secret for authenticating users, this can be any long string of random characters
 
 6. Run `docker-compose up -d`
+7. CAD should be running after about 1-2minutes
 
    **If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
 

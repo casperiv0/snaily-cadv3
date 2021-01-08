@@ -7,7 +7,7 @@ services:
     image: node:14
     command: sh -c "cd client && npm install && npm run build && npm run serve"
     ports:
-      - "80:80"
+      - "5050:5050"
     env_file: ./.env
     environment:
       - REACT_APP_SERVER_URL=${REACT_APP_SERVER_URL}
@@ -34,7 +34,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       CLIENT_URL: ${CLIENT_URL}
-      PORT: ${PORT}
       ENVIRONMENT: ${ENVIRONMENT}
     networks:
       - web
@@ -74,6 +73,21 @@ services:
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: root
+    networks:
+      - web
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx:/etc/nginx/templates
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_CLIENT_URL=${CLIENT_URL}
+      - NGINX_SERVER_URL=${REACT_APP_SERVER_URL}
+      - NGINX_HOST_URL=${INNER_HOST_URL}
+      - NGINX_PORT=80
     networks:
       - web
 
