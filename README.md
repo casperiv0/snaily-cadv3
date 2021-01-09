@@ -23,11 +23,14 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
   - Windows: [Docker Desktop](https://www.docker.com/get-started)
   - Linux: [Docker](https://docs.docker.com/engine/install/)
 
-## Installation (Windows Machine)
+## Installation
 
-[Quick Installation guide](https://youtu.be/av_rD_jOJN8)
+- [Windows Installation](#windows-installation)
+- [Linux Installation](#linux-installation)
 
-[How to update the CAD](https://youtu.be/6THGMcHEX48)
+### Windows installation
+
+Why did I decide to use Docker? It's easier for you to setup the CAD, you can simply run `docker-compose up` in the main folder and the CAD works on localhost. The steps below are just a little more information for setting up the CAD to deploy it. Sorry for changing configs so many times, but it was the better thing this time :)! If you're facing issues, [please join our discord server](https://discord.com/invite/eGnrPqEH7U) so I can help out
 
 1. Open Command Prompt
 2. Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cadv3`
@@ -49,7 +52,7 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 7. Run `docker-compose up -d`
 8. CAD should be running after about 1-2minutes
 
-## Installation (Ubuntu)
+### Linux installation
 
 I've not 100% tested this, but should work.
 
