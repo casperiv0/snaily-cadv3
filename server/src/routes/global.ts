@@ -3,6 +3,7 @@ import { processQuery } from "../lib/database";
 import IRequest from "../interfaces/IRequest";
 import { useAuth } from "../hooks";
 import { RanksArr } from "../lib/constants";
+import { v4 } from "uuid";
 
 const router: Router = Router();
 
@@ -10,6 +11,18 @@ router.get("/911-calls", async (req: IRequest, res: Response) => {
   const calls = await processQuery("SELECT * FROM `911calls`");
 
   return res.json({ calls, status: "success" });
+});
+
+router.post("/911-calls", async (req: IRequest, res: Response) => {
+	const id = v4();
+	const { location, caller } = req.body
+    let description = req.body.description || "No description provided"
+	await processQuery(
+        "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
+        [id, description, caller, location, "Not Assigned", ""]
+      );
+
+	return res.json({ status: "success" });
 });
 
 router.post("/cad-info", useAuth, async (req: IRequest, res: Response) => {
