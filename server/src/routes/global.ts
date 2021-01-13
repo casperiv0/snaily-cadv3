@@ -15,7 +15,8 @@ router.get("/911-calls", async (req: IRequest, res: Response) => {
 
 router.post("/911-calls", async (req: IRequest, res: Response) => {
 	const id = v4();
-	const { location, description, caller } = req.body
+	const { location, caller } = req.body
+    let description = req.body.description || "No description provided"
 	await processQuery(
         "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
         [id, description, caller, location, "Not Assigned", ""]
