@@ -380,7 +380,7 @@ CREATE TABLE `users` (
 --
 
 CREATE TABLE `vehicles` (
-  `id` int(255) NOT NULL,
+  `id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `defaults` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
