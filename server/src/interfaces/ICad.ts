@@ -1,12 +1,12 @@
-import IUser from "./IUser";
+import IUser, { Perm } from "./IUser";
 
 interface ICad {
   owner: IUser;
   cad_name: string;
   AOP: string;
-  tow_whitelisted: "1" | "0";
-  whitelisted: "1" | "0";
-  company_whitelisted: "1" | "0";
+  tow_whitelisted: Perm;
+  whitelisted: Perm;
+  company_whitelisted: Perm;
 }
 
 export default ICad;

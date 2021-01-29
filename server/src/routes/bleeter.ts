@@ -80,7 +80,7 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
 
   if (title && body) {
     const file = req.files?.image as UploadedFile;
-    const fileName = file?.name || "";
+    const fileName = file?.name ?? "";
     const markdown = useMarkdown(body);
 
     let query = "";

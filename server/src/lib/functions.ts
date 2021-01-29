@@ -72,7 +72,7 @@ export async function getWebhookData(url: string): Promise<WebHook | undefined> 
       id: data.id,
       token: data.token,
       name: data.name,
-      avatar: data?.avatar_url || null,
+      avatar: data?.avatar_url ?? null,
       channel_id: data.channel_id,
       guild_id: data.guild_id,
     };

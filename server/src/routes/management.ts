@@ -4,11 +4,15 @@ import { useAuth } from "../hooks";
 import IRequest from "../interfaces/IRequest";
 // import { v4 } from "uuid";
 import { useAdminAuth } from "./values";
+import IUser from "../interfaces/IUser";
+import Citizen from "../interfaces/Citizen";
 const router: Router = Router();
 
 /* Cad settings */
 router.put("/cad-settings", useAuth, async (req: IRequest, res: Response) => {
-  const user = await processQuery("SELECT `rank` from `users` WHERE `id` = ?", [req.user?.id]);
+  const user = await processQuery<IUser[]>("SELECT `rank` from `users` WHERE `id` = ?", [
+    req.user?.id,
+  ]);
 
   if (user[0].rank !== "owner") {
     return res.json({ error: "Forbidden", status: "error" }).status(403);
@@ -37,7 +41,7 @@ router.put("/cad-settings", useAuth, async (req: IRequest, res: Response) => {
 
 /* members */
 router.get("/members", useAuth, useAdminAuth, async (_req: IRequest, res: Response) => {
-  const members = await processQuery(
+  const members = await processQuery<IUser[]>(
     "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`  FROM `users` ORDER BY `username` ASC"
   );
 
@@ -46,7 +50,7 @@ router.get("/members", useAuth, useAdminAuth, async (_req: IRequest, res: Respon
 
 router.get("/members/:id", useAuth, useAdminAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const member = await processQuery(
+  const member = await processQuery<IUser[]>(
     "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
     [id]
   );
@@ -64,7 +68,7 @@ router.put("/members/:id", useAuth, useAdminAuth, async (req: IRequest, res: Res
       [rank, leo, dispatch, emsFd, tow, id]
     );
 
-    const updated = await processQuery(
+    const updated = await processQuery<IUser[]>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
       [id]
     );
@@ -123,11 +127,11 @@ router.put("/members/:path/:id", useAuth, useAdminAuth, async (req: IRequest, re
     }
   }
 
-  const members = await processQuery(
+  const members = await processQuery<IUser[]>(
     "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`  FROM `users`"
   );
 
-  const updated = await processQuery(
+  const updated = await processQuery<IUser[]>(
     "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
     [id]
   );
@@ -162,9 +166,12 @@ router.get("/companies", useAuth, async (_req: IRequest, res: Response) => {
 router.delete("/companies/:id", useAuth, useAdminAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
 
-  const employees = await processQuery("SELECT * FROM `citizens` WHERE `business_id` = ?", [id]);
+  const employees = await processQuery<Citizen[]>(
+    "SELECT * FROM `citizens` WHERE `business_id` = ?",
+    [id]
+  );
 
-  employees?.forEach(async (em: any) => {
+  employees?.forEach(async (em: Citizen) => {
     await processQuery(
       "UPDATE `citizens` SET `business_id` = ?, `business` = ?, `rank` = ?, `vehicle_reg` = ?, `posts` = ?, `b_status` = ? WHERE `id` = ?",
       ["", "none", "", "1", "1", "", em.id]

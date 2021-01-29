@@ -1,13 +1,15 @@
+export type Perm = "1" | "0";
+
 interface IUser {
   id: string;
   username: string;
   password: string;
   rank: "owner" | "admin" | "moderator" | "user";
-  leo: boolean;
-  ems_fd: boolean;
-  dispatch: boolean;
-  tow: boolean;
-  banned: boolean;
+  leo: Perm;
+  ems_fd: Perm;
+  dispatch: Perm;
+  tow: Perm;
+  banned: Perm;
   ban_reason: string;
   whitelist_status: "pending" | "accepted";
 }
