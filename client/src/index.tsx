@@ -7,7 +7,6 @@ import AuthRoute from "./components/AuthRoute";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Loader from "./components/loader";
 import Navbar from "./components/navbar";
-
 import store from "./lib/store";
 
 const HomePage = React.lazy(() => import("./pages/index"));
@@ -73,6 +72,12 @@ const ManageMemberPage = React.lazy(() => import("./pages/admin/management/membe
 const ManageCitizensPage = React.lazy(() => import("./pages/admin/management/citizens/index"));
 const CompanyManagementPage = React.lazy(
   () => import("./pages/admin/management/company-management"),
+);
+const OfficersManagementPage = React.lazy(
+  () => import("./pages/admin/management/officers/officers-management"),
+);
+const ManageOfficerPage = React.lazy(
+  () => import("./pages/admin/management/officers/manage-officer"),
 );
 
 const CadSettingsPage = React.lazy(() => import("./pages/admin/cad-settings"));
@@ -163,6 +168,16 @@ ReactDOM.render(
               path="/admin/manage/companies"
               requirement="admin"
               Component={CompanyManagementPage}
+            />
+            <AuthRoute
+              path="/admin/manage/officers/:id"
+              requirement="admin"
+              Component={ManageOfficerPage}
+            />
+            <AuthRoute
+              path="/admin/manage/officers"
+              requirement="admin"
+              Component={OfficersManagementPage}
             />
 
             <AuthRoute

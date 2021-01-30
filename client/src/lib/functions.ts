@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import SERVER_URL from "../config";
-
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 
 export const handleRequest = (path: string, method: AllowedMethods, data?: object) => {

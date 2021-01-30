@@ -17,7 +17,7 @@ import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
   message: Message;
-  member: User;
+  member: User | null;
   user: User;
   match: Match;
   cad: any;
@@ -73,11 +73,11 @@ const ManageMember: React.FC<Props> = ({
   }
 
   function handleBan() {
-    banMember(member?.id, banReason);
+    banMember(member?.id!, banReason);
   }
 
   function handleUnban() {
-    unBanMember(member?.id);
+    unBanMember(member?.id!);
   }
 
   if (member !== null && !member) {

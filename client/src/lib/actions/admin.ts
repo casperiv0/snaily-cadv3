@@ -14,6 +14,9 @@ import {
   ACCEPT_USER,
   DECLINE_USER,
   UPDATE_CAD_SETTINGS,
+  GET_ALL_OFFICERS,
+  GET_OFFICER_BY_ID,
+  ADMIN_UPDATE_OFFICER,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -22,6 +25,7 @@ import Citizen from "../../interfaces/Citizen";
 import User from "../../interfaces/User";
 import socket from "../socket";
 import Message from "../../interfaces/Message";
+import Officer from "../../interfaces/Officer";
 
 interface IDispatch {
   type: string;
@@ -31,6 +35,8 @@ interface IDispatch {
   citizens?: Citizen[];
   members?: User[];
   member?: User;
+  officers?: Officer[];
+  officer?: Officer;
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -262,5 +268,62 @@ export const updateCadSettings = (data: {
     }
   } catch (e) {
     Logger.error(UPDATE_CAD_SETTINGS, e);
+  }
+};
+
+export const getAllOfficers = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/officers", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_ALL_OFFICERS,
+        officers: res.data.officers,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_ALL_OFFICERS, e);
+  }
+};
+
+export const getOfficerById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/admin/management/officers/${id}`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_OFFICER_BY_ID,
+        officer: res.data.officer,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_ALL_OFFICERS, e);
+  }
+};
+
+export interface UpdateOfficerData {
+  callsign: string;
+}
+
+export const updateOfficerById = (id: string, data: UpdateOfficerData) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/management/officers/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: ADMIN_UPDATE_OFFICER,
+      });
+
+      return (window.location.href = "/admin/manage/officers");
+    } else {
+      dispatch({
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_ALL_OFFICERS, e);
   }
 };

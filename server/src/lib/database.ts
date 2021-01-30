@@ -35,7 +35,7 @@ async function select1() {
 async function updateDb() {
   try {
     await processQuery(
-      "ALTER TABLE `cad_info` ADD `webhook_url` TEXT NOT NULL AFTER `company_whitelisted`;"
+      "ALTER TABLE `officers` ADD `callsign` VARCHAR(255) NOT NULL AFTER `officer_dept`;"
     );
     // eslint-disable-next-line no-empty
   } catch {}

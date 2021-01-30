@@ -1,5 +1,7 @@
 import Citizen from "../../interfaces/Citizen";
 import Company from "../../interfaces/Company";
+import Officer from "../../interfaces/Officer";
+import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import {
   BAN_MEMBER,
@@ -13,14 +15,18 @@ import {
   UPDATE_MEMBER_PERMS,
   ACCEPT_USER,
   DECLINE_USER,
+  GET_ALL_OFFICERS,
+  GET_OFFICER_BY_ID,
 } from "../types";
 
-const initState = {
+const initState: State["admin"] = {
   error: null,
   companies: [],
   members: [],
   citizens: [],
+  officers: [],
   member: null,
+  officer: null,
 };
 
 type Actions =
@@ -67,6 +73,14 @@ type Actions =
   | {
       type: typeof DECLINE_USER;
       members: User[];
+    }
+  | {
+      type: typeof GET_ALL_OFFICERS;
+      officers: Officer[];
+    }
+  | {
+      type: typeof GET_OFFICER_BY_ID;
+      officer: Officer;
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -125,6 +139,16 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         members: action.members,
+      };
+    case "GET_ALL_OFFICERS":
+      return {
+        ...state,
+        officers: action.officers,
+      };
+    case "GET_OFFICER_BY_ID":
+      return {
+        ...state,
+        officer: action.officer,
       };
     default:
       return {

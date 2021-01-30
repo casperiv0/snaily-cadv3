@@ -95,11 +95,13 @@ interface State {
     value: Value;
   };
   admin: {
-    error: string;
+    error: string | null;
+    member: User | null;
     companies: Company[];
     citizens: Citizen[];
     members: User[];
-    member: User;
+    officers: Officer[];
+    officer: Officer | null;
   };
 }
 
