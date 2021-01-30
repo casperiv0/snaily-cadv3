@@ -6,6 +6,7 @@ import lang from "../../language.json";
 import { createTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
+import { Link } from "react-router-dom";
 
 interface Props {
   message: Message;
@@ -96,9 +97,9 @@ const CreateTruckLogPage: React.FC<Props> = ({ message, createTruckLog }) => {
           />
         </div>
         <div className="mb-3 float-end">
-          <a href="/truck-logs" className="btn btn-danger">
+          <Link to="/truck-logs" className="btn btn-danger">
             {lang.global.cancel}
-          </a>
+          </Link>
           <button className="btn btn-primary ms-2" type="submit">
             {lang.truck_logs.create_truck_log}
           </button>

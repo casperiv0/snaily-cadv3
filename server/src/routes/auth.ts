@@ -62,9 +62,10 @@ router.post("/register", async (req: IRequest, res: Response) => {
 
       const token = useToken({ id });
 
-      res.cookie("__token", token, {
+      res.cookie("snaily-cad-session", token, {
         expires: new Date(Date.now() + 3600000),
         httpOnly: true,
+        secure: true,
       });
 
       return res.json({
@@ -100,9 +101,10 @@ router.post("/register", async (req: IRequest, res: Response) => {
 
       const token = useToken({ id });
 
-      res.cookie("__token", token, {
+      res.cookie("snaily-cad-session", token, {
         expires: new Date(Date.now() + 3600000),
         httpOnly: true,
+        secure: true,
       });
 
       return res.json({ status: "success" });
@@ -148,7 +150,11 @@ router.post("/login", async (req: IRequest, res: Response) => {
     }
 
     const token = useToken({ id: user[0].id });
-    res.cookie("__token", token, { expires: new Date(Date.now() + 3600000) });
+    res.cookie("snaily-cad-session", token, {
+      expires: new Date(Date.now() + 3600000),
+      httpOnly: true,
+      secure: true,
+    });
 
     return res.json({ status: "success" });
   } else {
@@ -163,7 +169,7 @@ router.post("/user", useAuth, async (req: IRequest, res: Response) => {
 });
 
 router.get("/logout", useAuth, async (_req: IRequest, res: Response) => {
-  res.clearCookie("__token", { httpOnly: true });
+  res.clearCookie("snaily-cad-session", { httpOnly: true });
 
   return res.json({ status: "success" });
 });

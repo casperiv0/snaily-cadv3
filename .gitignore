@@ -20,3 +20,5 @@ server/public/bleeter-images/*
 .DS_Store
 
 .eslintcache
+
+.vscode

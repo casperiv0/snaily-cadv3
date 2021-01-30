@@ -6,6 +6,8 @@ import IRequest from "../interfaces/IRequest";
 import { useAdminAuth } from "./values";
 import IUser from "../interfaces/IUser";
 import Citizen from "../interfaces/Citizen";
+import Logger from "../lib/Logger";
+import Officer from "../interfaces/Officer";
 const router: Router = Router();
 
 /* Cad settings */
@@ -183,6 +185,54 @@ router.delete("/companies/:id", useAuth, useAdminAuth, async (req: IRequest, res
   const companies = await processQuery("SELECT * FROM `businesses`");
 
   return res.json({ companies, status: "success" });
+});
+
+router.get("/officers", useAuth, useAdminAuth, async (_req: IRequest, res: Response) => {
+  try {
+    const officers = await processQuery<Officer[]>("SELECT * FROM `officers`");
+
+    return res.json({ status: "success", officers });
+  } catch (e) {
+    Logger.error("UPDATE_CALLSIGN", e);
+    return res.json({ status: "error", error: "An unexpected error occurred" });
+  }
+});
+
+router.get("/officers/:id", useAuth, useAdminAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const officer = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `id` = ?", [id]);
+
+    return res.json({ status: "success", officer: officer[0] });
+  } catch (e) {
+    Logger.error("GET_OFFICER_BY_ID", e);
+    return res.json({ error: "An unexpected error occurred", status: "error" });
+  }
+});
+
+router.put("/officers/:officerId", useAuth, useAdminAuth, async (req: IRequest, res: Response) => {
+  const { officerId } = req.params;
+  const callsign = req.body.callsign;
+
+  if (!callsign) {
+    return res.json({
+      error: "callsign must be provided",
+      status: "error",
+    });
+  }
+
+  try {
+    await processQuery("UPDATE `officers` SET `callsign` = ? WHERE `id` = ?", [
+      callsign,
+      officerId,
+    ]);
+
+    return res.json({ status: "success" });
+  } catch (e) {
+    Logger.error("UPDATE_CALLSIGN", e);
+    return res.json({ status: "error", error: "An unexpected error occurred" });
+  }
 });
 
 export default router;

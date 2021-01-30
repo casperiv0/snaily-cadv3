@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import State from "../interfaces/State";
 import User from "../interfaces/User";
@@ -16,18 +17,18 @@ const HomePage: React.FC<Props> = ({ isAuth, user }) => {
       {isAuth ? (
         <>
           <h2>Welcome Back {user?.username}!</h2>
-          <a className="btn btn-primary mb-2 w-100" href="/citizen">
+          <Link className="btn btn-primary mb-2 w-100" to="/citizen">
             Citizens Page
-          </a>
+          </Link>
         </>
       ) : (
         <>
-          <a className="btn btn-primary mb-2 w-100" href="/login">
+          <Link className="btn btn-primary mb-2 w-100" to="/login">
             {lang.auth.login}
-          </a>
-          <a className="btn btn-primary w-100" href="/register">
+          </Link>
+          <Link className="btn btn-primary w-100" to="/register">
             {lang.auth.register}
-          </a>
+          </Link>
         </>
       )}
 

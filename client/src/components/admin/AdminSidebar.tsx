@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import lang from "../../language.json";
@@ -47,31 +47,37 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
           <header>
             <h3>{lang.admin.management}</h3>
           </header>
-          <a
+          <Link
             className={`text-decoration-none admin-link ${isActive("/manage/members")}`}
-            href="/admin/manage/members"
+            to="/admin/manage/members"
           >
             {lang.admin.member_management}
-          </a>
-          <a
+          </Link>
+          <Link
             className={`text-decoration-none admin-link ${isActive("/manage/citizens")}`}
-            href="/admin/manage/citizens"
+            to="/admin/manage/citizens"
           >
             {lang.admin.citizen_management}
-          </a>
-          <a
+          </Link>
+          <Link
             className={`text-decoration-none admin-link ${isActive("/manage/companies")} `}
-            href="/admin/manage/companies"
+            to="/admin/manage/companies"
           >
             {lang.admin.company_management}
-          </a>
+          </Link>
+          <Link
+            className={`text-decoration-none admin-link ${isActive("/manage/officers")} `}
+            to="/admin/manage/officers"
+          >
+            Manage Officers
+          </Link>
           {user?.rank === "owner" ? (
-            <a
+            <Link
               className={`text-decoration-none admin-link ${isActive("/cad-settings")}`}
-              href="/admin/cad-settings"
+              to="/admin/cad-settings"
             >
               {lang.admin.cad_settings.cad_settings}
-            </a>
+            </Link>
           ) : null}
         </div>
 
@@ -79,24 +85,24 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
           <header>
             <h3>{lang.admin.values.values}</h3>
           </header>
-          <a className="admin-link text-decoration-none" href="/admin/values/departments">
+          <Link className="admin-link text-decoration-none" to="/admin/values/departments">
             {lang.admin.values.departments.index}
-          </a>
-          <a className="admin-link text-decoration-none" href="/admin/values/ethnicities">
+          </Link>
+          <Link className="admin-link text-decoration-none" to="/admin/values/ethnicities">
             {lang.admin.values.ethnicities.index}
-          </a>
-          <a className="admin-link text-decoration-none" href="/admin/values/genders">
+          </Link>
+          <Link className="admin-link text-decoration-none" to="/admin/values/genders">
             {lang.admin.values.genders.index}
-          </a>
-          <a className="admin-link text-decoration-none" href="/admin/values/legal-statuses">
+          </Link>
+          <Link className="admin-link text-decoration-none" to="/admin/values/legal-statuses">
             {lang.admin.values["legal-statuses"].index}
-          </a>
-          <a className="admin-link text-decoration-none" href="/admin/values/vehicles">
+          </Link>
+          <Link className="admin-link text-decoration-none" to="/admin/values/vehicles">
             {lang.admin.values.vehicles.index}
-          </a>
-          <a className="admin-link text-decoration-none" href="/admin/values/weapons">
+          </Link>
+          <Link className="admin-link text-decoration-none" to="/admin/values/weapons">
             {lang.admin.values.weapons.index}
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

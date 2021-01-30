@@ -1,10 +1,11 @@
 import { NextFunction, Response, Router } from "express";
+import { v4 } from "uuid";
 import { processQuery } from "../lib/database";
 import IRequest from "../interfaces/IRequest";
 import { useAuth } from "../hooks";
 import { RanksArr } from "../lib/constants";
-import { v4 } from "uuid";
 import ICad from "../interfaces/ICad";
+import { io } from "../server";
 
 const router: Router = Router();
 
@@ -23,6 +24,9 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
     "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
     [id, description, caller, location, "Not Assigned", ""]
   );
+
+  io.sockets.send("NEW_911_CALL");
+  io.sockets.send("UPDATE_911_CALLS");
 
   return res.json({ status: "success" });
 });

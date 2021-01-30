@@ -29,9 +29,11 @@ const DispatchDash: React.FC<Props> = (props) => {
   const [aop, setAop] = React.useState<string>(props.aop);
 
   React.useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setTime(new Date());
     }, 900);
+
+    return () => clearInterval(interval);
   }, [time]);
 
   React.useEffect(() => {

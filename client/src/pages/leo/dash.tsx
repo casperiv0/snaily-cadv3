@@ -20,10 +20,12 @@ import CreateArrestReportModal from "../../components/modals/leo/createArrestRep
 import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
+import Officer from "../../interfaces/Officer";
 
 interface Props {
   aop: string;
   message: Message;
+  activeOfficer: Officer | null;
 }
 
 const LeoDash: React.FC<Props> = (props) => {
@@ -31,9 +33,11 @@ const LeoDash: React.FC<Props> = (props) => {
   const [aop, setAop] = React.useState<string>(props.aop);
 
   React.useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setTime(new Date());
     }, 900);
+
+    return () => clearInterval(interval);
   }, [time]);
 
   React.useEffect(() => {
@@ -57,7 +61,7 @@ const LeoDash: React.FC<Props> = (props) => {
           <span>{new Date(time).toLocaleString()}</span>
         </div>
         <div className="card-body row gap-2 px-4">
-          <ModalButtons />
+          <ModalButtons activeOfficer={props.activeOfficer} />
         </div>
         <div className="card-footer row gap-2 pl-2 px-4">
           <Statuses />
@@ -91,6 +95,7 @@ const LeoDash: React.FC<Props> = (props) => {
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
   message: state.global.message,
+  activeOfficer: state.officers.activeOfficer,
 });
 
 export default connect(mapToProps)(React.memo(LeoDash));

@@ -20,7 +20,7 @@ router.get("/active-units", useAuth, useDispatchAuth, async (_req: IRequest, res
   });
 });
 
-router.get("/bolos", useAuth, useDisLeoAuth, async (req: IRequest, res: Response) => {
+router.get("/bolos", useAuth, useDisLeoAuth, async (_req: IRequest, res: Response) => {
   const bolos = await processQuery("SELECT * FROM `bolos`");
 
   return res.json({ bolos, status: "success" });

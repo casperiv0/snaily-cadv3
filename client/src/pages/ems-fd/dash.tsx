@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
@@ -39,9 +40,9 @@ const EmsFdDash: React.FC<Props> = (props) => {
         </div>
 
         <div className="card-body row gap-2 px-4">
-          <a className="btn btn-primary col-md-3" href="/ems-fd/deputies">
+          <Link className="btn btn-primary col-md-3" to="/ems-fd/deputies">
             {lang.ems_fd.my_ems_fd}
-          </a>
+          </Link>
           <button
             className="btn btn-secondary col-md-3"
             data-bs-target="#searchMedicalRecordsModal"

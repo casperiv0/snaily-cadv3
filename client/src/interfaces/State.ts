@@ -39,12 +39,13 @@ interface State {
     tow_calls: TowCall[];
   };
   officers: {
-    status: string;
-    status2: string;
+    status: string | null;
+    status2: string | null;
     officers: Officer[];
     departments: Department[];
     error: string;
     search: any;
+    activeOfficer: Officer | null;
   };
   bolos: {
     bolos: Bolo[];
@@ -95,11 +96,13 @@ interface State {
     value: Value;
   };
   admin: {
-    error: string;
+    error: string | null;
+    member: User | null;
     companies: Company[];
     citizens: Citizen[];
     members: User[];
-    member: User;
+    officers: Officer[];
+    officer: Officer | null;
   };
 }
 

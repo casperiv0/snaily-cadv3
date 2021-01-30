@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
 import Match from "../../../../interfaces/Match";
@@ -17,7 +18,7 @@ import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
   message: Message;
-  member: User;
+  member: User | null;
   user: User;
   match: Match;
   cad: any;
@@ -73,11 +74,11 @@ const ManageMember: React.FC<Props> = ({
   }
 
   function handleBan() {
-    banMember(member?.id, banReason);
+    banMember(member?.id!, banReason);
   }
 
   function handleUnban() {
-    unBanMember(member?.id);
+    unBanMember(member?.id!);
   }
 
   if (member !== null && !member) {
@@ -197,9 +198,9 @@ const ManageMember: React.FC<Props> = ({
         ) : null}
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger me-2" href="/admin/manage/members">
+          <Link className="btn btn-danger me-2" to="/admin/manage/members">
             {lang.global.cancel}
-          </a>
+          </Link>
           <button type="submit" className="btn btn-primary">
             {lang.admin.update_perms}
           </button>

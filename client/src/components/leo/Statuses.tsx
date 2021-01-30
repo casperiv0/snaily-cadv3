@@ -17,8 +17,8 @@ export const statuses: string[] = [
 ];
 
 interface Props {
-  status: string;
-  status2: string;
+  status: string | null;
+  status2: string | null;
   getCurrentOfficer: (id: string) => void;
   setStatus: (id: string, status: "on-duty" | "off-duty", status2: string) => void;
 }

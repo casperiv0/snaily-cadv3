@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { checkAuth, logout } from "../../lib/actions/auth";
 import { getCadInfo } from "../../lib/actions/global";
 import CadInfo from "../../interfaces/CadInfo";
+import { Link } from "react-router-dom";
 
 interface Props {
   isAuth: boolean;
@@ -76,9 +77,9 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, checkAuth, logout, 
   return (
     <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           {cadInfo?.cad_name ? cadInfo?.cad_name : "Home"}
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -95,9 +96,9 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, checkAuth, logout, 
             {paths.map((path: Path, idx: number) => {
               return (
                 <li id={path.name} key={idx} className="nav-item">
-                  <a className={"nav-link active text-light"} href={path.href}>
+                  <Link className={"nav-link active text-light"} to={path.href}>
                     {path.name}
-                  </a>
+                  </Link>
                 </li>
               );
             })}
@@ -128,28 +129,28 @@ const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean; logout: () =
         {!loading && isAuth ? (
           <>
             <li>
-              <a className="dropdown-item" href="/account">
+              <Link className="dropdown-item" to="/account">
                 {lang.auth.account.account}
-              </a>
+              </Link>
             </li>
             <li className="dropdown-divider bg-dark border-secondary"></li>
             <li>
-              <a className="dropdown-item" href="/logout">
+              <Link className="dropdown-item" to="/logout">
                 {lang.auth.logout}
-              </a>
+              </Link>
             </li>
           </>
         ) : (
           <>
             <li>
-              <a className="dropdown-item" href="/login">
+              <Link className="dropdown-item" to="/login">
                 {lang.auth.login}
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="dropdown-item" href="/register">
+              <Link className="dropdown-item" to="/register">
                 {lang.auth.register}
-              </a>
+              </Link>
             </li>
           </>
         )}

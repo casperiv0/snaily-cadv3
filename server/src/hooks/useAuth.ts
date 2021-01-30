@@ -5,17 +5,12 @@ import config from "../../config";
 import IRequest from "../interfaces/IRequest";
 import IUser from "../interfaces/IUser";
 
-async function useAuth(
-  req: IRequest,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
-  const token = req.cookies.__token;
+async function useAuth(req: IRequest, res: Response, next: NextFunction): Promise<void | Response> {
+  const token = req.cookies["snaily-cad-session"];
   const secret = config.jwtSecret;
 
   if (!token) {
-    res.json({ server_error: "invalid token", status: "error" }).status(401);
-    return;
+    return res.json({ server_error: "invalid token", status: "error" }).status(401);
   }
 
   try {
@@ -26,19 +21,17 @@ async function useAuth(
     );
 
     if (!user[0]) {
-      res.json({
+      return res.json({
         server_error: "user does not exist",
         status: "error",
       });
-      return;
     }
 
     req.user = user[0];
 
     next();
   } catch (e) {
-    res.json({ server_error: "invalid token", status: "error" }).status(401);
-    return;
+    return res.json({ server_error: "invalid token", status: "error" }).status(401);
   }
 }
 

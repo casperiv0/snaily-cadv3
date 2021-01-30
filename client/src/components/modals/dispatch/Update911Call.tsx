@@ -6,11 +6,13 @@ import { connect } from "react-redux";
 import { end911Call, update911Call } from "../../../lib/actions/911-calls";
 import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
+import Deputy from "../../../interfaces/Deputy";
 
 interface Props {
   id: string;
   call: Call;
   officers: Officer[];
+  ems_fd: Deputy[];
   end911Call: (id: string) => void;
   update911Call: (
     id: string,
@@ -22,13 +24,19 @@ const Update911Call: React.FC<Props> = ({
   id,
   call,
   officers: activeOfficers,
+  ems_fd: activeEmsFdDeputies,
   end911Call,
   update911Call,
 }) => {
   const [location, setLocation] = React.useState(call.location);
   const [description, setDescription] = React.useState(call.description);
   const [assignedUnits, setAssignedUnits] = React.useState(call.assigned_unit.split(","));
+  const [activeUnits, setActiveUnits] = React.useState<(Officer | Deputy)[]>([]);
   const btnRef = React.createRef<HTMLButtonElement>();
+
+  React.useEffect(() => {
+    setActiveUnits([...activeEmsFdDeputies, ...activeOfficers]);
+  }, [activeOfficers, activeEmsFdDeputies]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -86,19 +94,21 @@ const Update911Call: React.FC<Props> = ({
             <label className="form-label" htmlFor="call_assigned_unit">
               {lang.dispatch.assigned_unit}
             </label>
-            {!activeOfficers[0] ? (
+            {!activeUnits[0] ? (
               <p>{lang.dispatch.no_units}</p>
             ) : (
-              activeOfficers.map((officer: Officer, idx: number) => {
+              activeUnits.map((unit: Officer | Deputy, idx: number) => {
                 return (
                   <div key={idx} id={`${idx}`} className="mb-3">
                     <input
                       type="checkbox"
                       className="form-control-input"
-                      value={officer.officer_name}
+                      value={"officer_name" in unit ? unit.officer_name : unit.name}
                       onClick={(e) => handleClick(e)}
                     />
-                    <label className="form-label">{officer.officer_name}</label>
+                    <label className="form-label">
+                      {"officer_name" in unit ? unit.officer_name : unit.name}
+                    </label>
                   </div>
                 );
               })
@@ -124,6 +134,7 @@ const Update911Call: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   officers: state.dispatch.officers,
+  ems_fd: state.dispatch.ems_fd,
 });
 
 export default connect(mapToProps, { end911Call, update911Call })(Update911Call);
