@@ -19,7 +19,7 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 ## Requirements
 
 - [GIT](https://git-scm.com/downloads)
-- [NodeJS v12+](https://nodejs.org)
+- [NodeJS v14](https://nodejs.org) (**Must be v14 or you'll run into problems!**)
 - [MySQL](https://www.apachefriends.org/download.html)
 
 ## Installation
