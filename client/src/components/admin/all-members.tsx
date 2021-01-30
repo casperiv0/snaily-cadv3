@@ -2,6 +2,7 @@ import * as React from "react";
 import lang from "../../language.json";
 import User from "../../interfaces/User";
 import { Item, Span } from "../../pages/citizen/citizen-info";
+import { Link } from "react-router-dom";
 
 interface Props {
   members: User[];
@@ -69,9 +70,9 @@ const AllMembersTab: React.FC<Props> = ({ members }) => {
                 >
                   {lang.admin.toggle_info}
                 </button>
-                <a className="btn btn-success ms-2" href={`/admin/manage/members/${member.id}`}>
+                <Link className="btn btn-success ms-2" to={`/admin/manage/members/${member.id}`}>
                   {lang.admin.manage_perms}
-                </a>
+                </Link>
               </div>
             </li>
           );

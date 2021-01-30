@@ -85,8 +85,8 @@ const CadSettingsPage = React.lazy(() => import("./pages/admin/cad-settings"));
 ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
-      <Navbar />
       <Router>
+        <Navbar />
         <React.Suspense fallback={<Loader fullScreen />}>
           <Switch>
             <Route path="/" exact component={HomePage} />

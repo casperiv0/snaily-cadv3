@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import lang from "../../language.json";
 import State from "../../interfaces/State";
@@ -79,9 +80,9 @@ const CreateOfficerPage: React.FC<Props> = ({
           </select>
         </div>
         <div className="mb-3 float-end">
-          <a className="btn btn-danger" href="/leo/my-officers">
+          <Link className="btn btn-danger" to="/leo/my-officers">
             {lang.global.cancel}
-          </a>
+          </Link>
           <button disabled={!departments[0]} type="submit" className="btn btn-primary ms-2">
             {lang.officers.create_officer}
           </button>

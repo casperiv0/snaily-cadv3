@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import AlertMessage from "../../components/alert-message";
 import Deputy from "../../interfaces/Deputy";
@@ -32,12 +33,12 @@ const MyDeputiesPage: React.FC<Props> = ({
       <h4 className="card-title mt-3">{lang.ems_fd.my_deputies}</h4>
 
       <ul className="list-group">
-        <a className="btn btn-primary mt-1" href="/ems-fd/dash">
+        <Link className="btn btn-primary mt-1" to="/ems-fd/dash">
           {lang.ems_fd.ems_dash}
-        </a>
-        <a className="btn btn-primary mt-1" href="/ems-fd/deputies/create">
+        </Link>
+        <Link className="btn btn-primary mt-1" to="/ems-fd/deputies/create">
           {lang.ems_fd.create_a_dept}
-        </a>
+        </Link>
 
         {deputies.map((deputy: Deputy, idx: number) => {
           return (

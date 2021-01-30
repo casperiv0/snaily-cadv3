@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
+import Officer from "../../interfaces/Officer";
 import lang from "../../language.json";
 
 export interface MButton {
@@ -41,12 +43,17 @@ const modalButtons: MButton[] = [
   },
 ];
 
-const ModalButtons: React.FC = () => {
+interface Props {
+  activeOfficer: Officer | null;
+}
+
+const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
   return (
     <>
-      <a className="btn btn-primary col-md-2" href="/leo/my-officers">
+      <h5>Currently active as: {`${activeOfficer?.callsign} ${activeOfficer?.officer_name}`}</h5>
+      <Link to="/leo/my-officers" className="btn btn-primary col-md-2">
         {lang.officers.my_officers}
-      </a>
+      </Link>
 
       {/* modals */}
       {modalButtons.map((mButton: MButton, idx: number) => {

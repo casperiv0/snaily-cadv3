@@ -8,6 +8,7 @@ import lang from "../../../language.json";
 import { getValueById, updateValueById } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import Message from "../../../interfaces/Message";
+import { Link } from "react-router-dom";
 
 interface Props {
   value: Value;
@@ -65,9 +66,9 @@ const EditValuePage: React.FC<Props> = (props) => {
         </div>
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger" href={`/admin/values/${path}`}>
+          <Link className="btn btn-danger" to={`/admin/values/${path}`}>
             {lang.global.cancel}
-          </a>
+          </Link>
           <button className="btn btn-primary ms-2" type="submit">
             {lang.global.update}
           </button>

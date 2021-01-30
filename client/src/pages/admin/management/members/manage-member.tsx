@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
 import Match from "../../../../interfaces/Match";
@@ -197,9 +198,9 @@ const ManageMember: React.FC<Props> = ({
         ) : null}
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger me-2" href="/admin/manage/members">
+          <Link className="btn btn-danger me-2" to="/admin/manage/members">
             {lang.global.cancel}
-          </a>
+          </Link>
           <button type="submit" className="btn btn-primary">
             {lang.admin.update_perms}
           </button>

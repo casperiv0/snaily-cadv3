@@ -8,6 +8,7 @@ import socket from "../../lib/socket";
 import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
+import { Link } from "react-router-dom";
 
 interface Props {
   message: Message;
@@ -38,9 +39,9 @@ const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
         <h3>
           {lang.nav.trucklogs} - AOP: {aop}
         </h3>
-        <a className="btn btn-secondary" href="/truck-logs/create">
+        <Link className="btn btn-secondary" to="/truck-logs/create">
           {lang.truck_logs.create_truck_log}
-        </a>
+        </Link>
       </div>
 
       {!logs[0] ? (

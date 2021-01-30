@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import lang from "../../language.json";
 import State from "../../interfaces/State";
@@ -41,9 +42,9 @@ const CreateDeputyPage: React.FC<Props> = ({ message, createEmsFdDeputy }) => {
           />
         </div>
         <div className="mb-3 float-end">
-          <a className="btn btn-danger" href="/ems-fd/deputies">
+          <Link className="btn btn-danger" to="/ems-fd/deputies">
             {lang.global.cancel}
-          </a>
+          </Link>
           <button className="btn btn-primary ms-2" type="submit">
             {lang.ems_fd.create_ems}
           </button>

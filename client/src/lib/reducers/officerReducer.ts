@@ -1,5 +1,6 @@
 import Department from "../../interfaces/Department";
 import Officer from "../../interfaces/Officer";
+import State from "../../interfaces/State";
 import {
   GET_CURRENT_OFFICER_STATUS,
   SET_STATUS,
@@ -20,22 +21,22 @@ import {
   CREATE_TICKET_ERROR,
 } from "../types";
 
-const initState = {
+const initState: State["officers"] = {
   status: null /* 'on-duty' or 'off-duty' */,
   status2: "" /* '10-11', '10-5', '10-6', .. */,
-  officerName: null,
   officers: [],
   departments: [],
   error: "",
   search: null,
+  activeOfficer: null,
 };
 
 type Actions =
   | {
       type: typeof GET_CURRENT_OFFICER_STATUS;
       status: "on-duty" | "off-duty";
-      officerName: string;
       status2: string;
+      activeOfficer: Officer;
     }
   | {
       type: typeof SET_STATUS;
@@ -106,7 +107,7 @@ export default function officerReducer(state = initState, action: Actions) {
         ...state,
         status: action.status,
         status2: action.status2,
-        officerName: action.officerName,
+        activeOfficer: action.activeOfficer,
       };
     case "SET_STATUS":
       return {

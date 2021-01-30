@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import Officer from "../../interfaces/Officer";
 import State from "../../interfaces/State";
@@ -24,12 +25,12 @@ const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, get
     <Layout classes="mt-5">
       {message ? <AlertMessage message={message} dismissible /> : null}
       <h3>{lang.officers.my_officers}</h3>
-      <a className="btn btn-primary container" href="/leo/dash">
+      <Link className="btn btn-primary container" to="/leo/dash">
         {lang.global.back_to_dashboard}
-      </a>
-      <a className="btn btn-primary container mt-2 mb-2" href="/leo/officers/create">
+      </Link>
+      <Link className="btn btn-primary container mt-2 mb-2" to="/leo/officers/create">
         {lang.officers.create_an_officer}
-      </a>
+      </Link>
 
       <ul className="list-group">
         {!officers[0] ? (

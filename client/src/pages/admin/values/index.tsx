@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AlertMessage from "../../../components/alert-message";
 import Layout from "../../../components/Layout";
 import Match from "../../../interfaces/Match";
@@ -122,9 +123,9 @@ const Values: React.FC<Props> = ({
         <h4>{lang.admin.values[path].manage}</h4>
 
         <div>
-          <a className="btn btn-primary" href={`/admin/values/${path}/add`}>
+          <Link className="btn btn-primary" to={`/admin/values/${path}/add`}>
             {lang.admin.values[path].add}
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -159,12 +160,12 @@ const Values: React.FC<Props> = ({
                         <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
                           {lang.global.delete}
                         </button>
-                        <a
+                        <Link
                           className="btn btn-success ms-2"
-                          href={`/admin/values/${path}/${value.id}/edit`}
+                          to={`/admin/values/${path}/${value.id}/edit`}
                         >
                           {lang.global.edit}
-                        </a>
+                        </Link>
                       </>
                     ) : null}
                   </div>

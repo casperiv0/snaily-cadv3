@@ -24,7 +24,7 @@ interface IDispatch {
   type: string;
   status?: string;
   status2?: string;
-  officerName?: string;
+  activeOfficer?: Officer;
   officers?: Officer[];
   departments?: Department[];
   error?: string;
@@ -42,7 +42,7 @@ export const getCurrentOfficer = () => async (dispatch: Dispatch<IDispatch>) => 
         type: GET_CURRENT_OFFICER_STATUS,
         status: res.data.officer?.status || "off-duty",
         status2: res.data.officer?.status2 || "-",
-        officerName: res.data.officer?.officerName || "-",
+        activeOfficer: res.data.officer,
       });
     }
   } catch (e) {
@@ -67,7 +67,6 @@ export const setStatus = (
         type: SET_STATUS,
         status: res.data.officer.status,
         status2: res.data.officer.status2,
-        officerName: res.data.officer.officerName,
       });
     }
   } catch (e) {

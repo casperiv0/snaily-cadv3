@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AlertMessage from "../../components/alert-message";
 import State from "../../interfaces/State";
 import ILoc from "../../interfaces/ILoc";
@@ -60,7 +61,7 @@ const Login: React.FC<Props> = ({ message, loading, location, login }) => {
         />
       </div>
       <div className="mb-3">
-        <a href="/register">{lang.auth.register}</a>
+        <Link to="/register">{lang.auth.register}</Link>
         <button
           disabled={loading}
           type="submit"

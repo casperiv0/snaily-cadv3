@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AlertMessage from "../../components/alert-message";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
@@ -68,7 +69,7 @@ const Register: React.FC<Props> = ({ message, loading, register }) => {
         />
       </div>
       <div className="mb-3">
-        <a href="/login">{lang.auth.login}</a>
+        <Link to="/login">{lang.auth.login}</Link>
         <button type="submit" className="btn btn-primary float-end w-100 mt-2">
           {loading ? (
             <div className="spinner-border text-light" role="status">

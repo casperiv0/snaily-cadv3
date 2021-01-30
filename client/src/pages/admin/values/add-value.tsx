@@ -7,6 +7,7 @@ import AlertMessage from "../../../components/alert-message";
 import { addValue } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import Message from "../../../interfaces/Message";
+import { Link } from "react-router-dom";
 
 interface Props {
   match: Match;
@@ -43,9 +44,9 @@ const AddValuePage: React.FC<Props> = ({ message, match, addValue }) => {
         </div>
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger" href={`/admin/values/${path}`}>
+          <Link className="btn btn-danger" to={`/admin/values/${path}`}>
             {lang.global.cancel}
-          </a>
+          </Link>
           <button className="btn btn-primary ms-2" type="submit">
             {lang.admin.values[path].add}
           </button>
