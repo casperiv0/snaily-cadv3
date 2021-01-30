@@ -50,7 +50,11 @@ interface Props {
 const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
   return (
     <>
-      <h5>Currently active as: {`${activeOfficer?.callsign} ${activeOfficer?.officer_name}`}</h5>
+      {activeOfficer ? (
+        <h5 style={{ marginLeft: "-10px" }}>
+          Currently active as: {`${activeOfficer?.callsign} ${activeOfficer?.officer_name}`}
+        </h5>
+      ) : null}
       <Link to="/leo/my-officers" className="btn btn-primary col-md-2">
         {lang.officers.my_officers}
       </Link>
