@@ -107,6 +107,7 @@ export const PLATE_SEARCH = "PLATE_SEARCH";
 export const NAME_SEARCH = "NAME_SEARCH";
 export const ADDRESS_SEARCH = "ADDRESS_SEARCH";
 export const WEAPON_SEARCH = "WEAPON_SEARCH";
+export const SAVE_NOTE = "SAVE_NOTE";
 
 /* admin*/
 export const GET_COMPANIES = "GET_COMPANIES";

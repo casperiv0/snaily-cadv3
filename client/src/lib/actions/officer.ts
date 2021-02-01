@@ -17,6 +17,7 @@ import {
   SET_MESSAGE,
   WEAPON_SEARCH,
   GET_ADMIN_DEPARTMENTS,
+  SAVE_NOTE,
 } from "../types";
 import Message from "../../interfaces/Message";
 
@@ -165,6 +166,26 @@ export const searchName = (name: string) => async (dispatch: Dispatch<IDispatch>
     }
   } catch (e) {
     Logger.error(NAME_SEARCH, e);
+  }
+};
+
+export const saveNote = (citizenId: string, note: string) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/officer/note/${citizenId}`, "POST", { note });
+
+    if (!isSuccess(res)) {
+      dispatch({
+        type: SAVE_NOTE,
+      });
+      dispatch({
+        type: SET_MESSAGE,
+        message: { type: "success", msg: "Successfully added note" },
+      });
+    }
+  } catch (e) {
+    Logger.error(SAVE_NOTE, e);
   }
 };
 

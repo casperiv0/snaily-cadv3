@@ -22,7 +22,7 @@ interface Props {
   getGenders: () => void;
   getEthnicities: () => void;
   getLegalStatuses: () => void;
-  updateCitizen: (id: string, data: Citizen) => void;
+  updateCitizen: (id: string, data: Partial<Citizen>) => void;
   getCitizenById: (id: string) => void;
 }
 

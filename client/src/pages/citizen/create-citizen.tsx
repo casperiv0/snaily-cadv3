@@ -19,7 +19,7 @@ interface Props {
   getGenders: () => void;
   getEthnicities: () => void;
   getLegalStatuses: () => void;
-  createCitizen: (data: Citizen) => void;
+  createCitizen: (data: Partial<Citizen>) => void;
 }
 
 const CreateCitizenPage: React.FC<Props> = ({

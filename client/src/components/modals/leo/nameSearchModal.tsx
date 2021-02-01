@@ -7,7 +7,7 @@ import Citizen from "../../../interfaces/Citizen";
 import Weapon from "../../../interfaces/Weapon";
 import Vehicle from "../../../interfaces/Vehicle";
 import SERVER_URL from "../../../config";
-import { searchName } from "../../../lib/actions/officer";
+import { searchName, saveNote } from "../../../lib/actions/officer";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
@@ -26,16 +26,26 @@ interface NameSearch {
 interface Props {
   search: NameSearch;
   searchName: (name: string) => void;
+  saveNote: (citizenId: string, note: string) => void;
 }
 
-const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
+const NameSearchModal: React.FC<Props> = ({ search, searchName, saveNote }) => {
   const [name, setName] = React.useState("");
+  const [note, setNote] = React.useState((search && search.citizen.note) || "");
   const btnRef = React.createRef<HTMLButtonElement>();
+
+  React.useEffect(() => {
+    setNote(search?.citizen?.note || "");
+  }, [search?.citizen]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     searchName(name);
+  }
+
+  function addNote() {
+    search.citizen?.id && saveNote(search.citizen.id, note);
   }
 
   return (
@@ -56,7 +66,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
             </label>
             <input
               type="search"
-              className="form-control bg-secondary border-secondary text-light"
+              className="form-control bg-secondary border-secondary text-light col-md-9"
               id="name"
               onChange={(e) => setName(e.target.value)}
             />
@@ -64,7 +74,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
 
           {search !== null && search?.type === "name" ? (
             search?.citizen ? (
-              <div className="mt-3">
+              <div className="mt-3 row">
                 <div className="col-md-6">
                   <h5>{lang.admin.cad_settings.general_info}</h5>
 
@@ -148,6 +158,27 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName }) => {
                       <Span>{lang.citizen.license.ccw}: </Span>
                       {search.citizen.ccw}
                     </Item>
+
+                    <div className="mt-3" id="note">
+                      <label style={{ fontSize: "1.2rem" }} htmlFor="note">
+                        Add Note
+                      </label>
+                      <textarea
+                        id="note"
+                        value={note}
+                        onChange={(e) => setNote(e.currentTarget.value)}
+                        className="form-control bg-secondary border-secondary text-light"
+                        rows={5}
+                      ></textarea>
+                      <button
+                        form="none"
+                        type="button"
+                        onClick={addNote}
+                        className="btn btn-primary mt-2"
+                      >
+                        Save note
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -478,4 +509,4 @@ const mapToProps = (state: State) => ({
   search: state.officers.search,
 });
 
-export default connect(mapToProps, { searchName })(NameSearchModal);
+export default connect(mapToProps, { searchName, saveNote })(NameSearchModal);
