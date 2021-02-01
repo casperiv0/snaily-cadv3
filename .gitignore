@@ -22,3 +22,5 @@ server/public/bleeter-images/*
 .eslintcache
 
 .vscode
+
+map.tsx
