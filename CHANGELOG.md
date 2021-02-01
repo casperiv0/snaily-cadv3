@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.0
+## 1.1.1
 
 - New revamped select input for selecting assigned units in update 911 call
 - Updated dependencies
@@ -8,6 +8,8 @@
 - Added `Currently active as:` to LEO & EMS-FD dashboard
 - Logging out will automatically set your active deputies to off-duty
 - Able to add notes to citizens (NameSearch)
+- Minor bug fixes
+- Taxi jobs (Same as tow but for taxis)
 
 ## 1.1.0
 

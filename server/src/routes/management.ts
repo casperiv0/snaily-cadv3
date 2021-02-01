@@ -44,7 +44,7 @@ router.put("/cad-settings", useAuth, async (req: IRequest, res: Response) => {
 /* members */
 router.get("/members", useAuth, useAdminAuth, async (_req: IRequest, res: Response) => {
   const members = await processQuery<IUser[]>(
-    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`  FROM `users` ORDER BY `username` ASC"
+    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users` ORDER BY `username` ASC"
   );
 
   return res.json({ status: "success", members });
@@ -53,7 +53,7 @@ router.get("/members", useAuth, useAdminAuth, async (_req: IRequest, res: Respon
 router.get("/members/:id", useAuth, useAdminAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const member = await processQuery<IUser[]>(
-    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
+    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
     [id]
   );
 
@@ -71,7 +71,7 @@ router.put("/members/:id", useAuth, useAdminAuth, async (req: IRequest, res: Res
     );
 
     const updated = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
       [id]
     );
 
@@ -130,11 +130,11 @@ router.put("/members/:path/:id", useAuth, useAdminAuth, async (req: IRequest, re
   }
 
   const members = await processQuery<IUser[]>(
-    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`  FROM `users`"
+    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users`"
   );
 
   const updated = await processQuery<IUser[]>(
-    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
+    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
     [id]
   );
 

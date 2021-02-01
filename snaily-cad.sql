@@ -341,6 +341,19 @@ CREATE TABLE `tow_calls` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `taxi_calls`
+--
+
+CREATE TABLE `taxi_calls` (
+  `id` varchar(255) NOT NULL,
+  `description` varchar(1800) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `truck_logs`
 --
 
@@ -372,7 +385,6 @@ CREATE TABLE `users` (
   `banned` varchar(255) NOT NULL,
   `ban_reason` varchar(255) NOT NULL,
   `whitelist_status` varchar(255) NOT NULL,
-  `dispatch_status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -1007,6 +1019,12 @@ ALTER TABLE `registered_weapons`
 -- Indexes for table `tow_calls`
 --
 ALTER TABLE `tow_calls`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `taxi_calls`
+--
+ALTER TABLE `taxi_calls`
   ADD PRIMARY KEY (`id`);
 
 --

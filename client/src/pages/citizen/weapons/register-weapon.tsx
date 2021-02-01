@@ -9,6 +9,7 @@ import { getWeapons, getLegalStatuses } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import { getCitizens, registerWeapon } from "../../../lib/actions/citizen";
 import Message from "../../../interfaces/Message";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   message: Message;
@@ -34,6 +35,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
   const [weapon, setWeapon] = React.useState<string>("");
   const [citizenId, setCitizenId] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>("");
+  const history = useHistory();
 
   React.useEffect(() => {
     getWeapons();
@@ -124,9 +126,9 @@ const RegisterWeaponPage: React.FC<Props> = ({
         </div>
 
         <div className="mb-3 float-end">
-          <a href="/citizen" className="btn btn-danger">
+          <button type="button" onClick={() => history.goBack()} className="btn btn-danger">
             {lang.global.cancel}
-          </a>
+          </button>
           <button type="submit" className="ms-2 btn btn-primary">
             {lang.citizen.weapon.reg_weapon}
           </button>

@@ -75,9 +75,9 @@ const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
       })}
 
       {/* other links */}
-      <a className="btn btn-secondary col-md-2" href="/leo/penal-codes">
+      <Link className="btn btn-secondary col-md-2" to="/leo/penal-codes">
         {lang.global.penal_codes}
-      </a>
+      </Link>
     </>
   );
 };

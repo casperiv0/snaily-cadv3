@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Bleet from "../../interfaces/Bleet";
 import lang from "../../language.json";
 
@@ -17,9 +18,9 @@ const BleetItem: React.FC<Props> = ({ bleet, idx }) => {
     >
       <div className="card-header d-flex justify-content-between">
         {bleet.title}
-        <a className="btn btn-primary" href={"/bleet/" + bleet.id}>
+        <Link className="btn btn-primary" to={"/bleet/" + bleet.id}>
           {lang.bleeter.view_bleet}
-        </a>
+        </Link>
       </div>
 
       <div className="card-body">

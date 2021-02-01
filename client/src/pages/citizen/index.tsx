@@ -11,6 +11,7 @@ import Citizen from "../../interfaces/Citizen";
 import Call911Modal from "../../components/modals/call911Modal";
 import { getCitizens } from "../../lib/actions/citizen";
 import Message from "../../interfaces/Message";
+import CallTaxiModal from "../../components/modals/callTaxiModal";
 
 interface Props {
   aop: string;
@@ -84,6 +85,13 @@ const CitizensPage: React.FC<Props> = (props) => {
           >
             {lang.citizen.call_911}
           </button>
+          {/* <button
+            data-bs-toggle="modal"
+            data-bs-target="#callTaxiModal"
+            className="col ms-1 btn btn-primary"
+          >
+            Create taxi call
+          </button> */}
         </div>
       </div>
 
@@ -111,6 +119,7 @@ const CitizensPage: React.FC<Props> = (props) => {
 
       <CallTowModal />
       <Call911Modal />
+      <CallTaxiModal />
     </Layout>
   );
 };

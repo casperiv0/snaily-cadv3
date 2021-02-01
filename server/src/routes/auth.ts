@@ -46,11 +46,11 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const id = uuidv4();
 
       await processQuery(
-        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           id /* id */,
           username /* username */,
-          hash /* passowrd */,
+          hash /* password */,
           Ranks.user /* rank */,
           false /* leo access */,
           false /* ems_fd access */,
@@ -59,22 +59,26 @@ router.post("/register", async (req: IRequest, res: Response) => {
           false /* banned */,
           "" /* ban_reason */,
           whitelistStatus /* whitelist_status */,
-          "" /* dispatch_status */,
         ]
       );
+
+      if (cadInfo[0].whitelisted === "1") {
+        return res.json({
+          status: "error",
+          error:
+            "Your account was created successfully, this CAD is whitelisted so your account is still pending access",
+        });
+      }
 
       const token = useToken({ id });
 
       res.cookie("snaily-cad-session", token, {
         expires: new Date(Date.now() + COOKIE_EXPIRES),
         httpOnly: true,
-        secure: true,
       });
 
       return res.json({
-        status: "error",
-        error:
-          "Your account was created successfully, this CAD is whitelisted so your account is still pending access",
+        status: "success",
       });
     } else {
       // no users found - create the account at owner level
@@ -84,11 +88,11 @@ router.post("/register", async (req: IRequest, res: Response) => {
         [username, "Change me", "Change me", "0", "0", "0", "0"]
       );
       await processQuery(
-        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           id /* id */,
           username /* username */,
-          hash /* passowrd */,
+          hash /* password */,
           Ranks.owner /* rank */,
           true /* leo access */,
           true /* ems_fd access */,
@@ -97,8 +101,6 @@ router.post("/register", async (req: IRequest, res: Response) => {
           false /* banned */,
           "" /* ban_reason */,
           Whitelist.accepted /* whitelist_status */,
-          "" /* dispatch_status */,
-          "" /* webhook_url */,
         ]
       );
 
@@ -107,7 +109,6 @@ router.post("/register", async (req: IRequest, res: Response) => {
       res.cookie("snaily-cad-session", token, {
         expires: new Date(Date.now() + COOKIE_EXPIRES),
         httpOnly: true,
-        secure: true,
       });
 
       return res.json({ status: "success" });
@@ -124,6 +125,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
     const user = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `username` = ?", [
       username,
     ]);
+    const cadInfo = await processQuery<ICad[]>("SELECT * FROM `cad_info`");
 
     if (!user[0]) {
       return res.json({ error: "User was not found", status: "error" });
@@ -145,7 +147,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
       });
     }
 
-    if (user[0].whitelist_status === Whitelist.pending) {
+    if (cadInfo[0].whitelisted === "1" && user[0].whitelist_status === Whitelist.pending) {
       return res.json({
         error: "This account is still pending access",
         status: "error",
@@ -156,7 +158,6 @@ router.post("/login", async (req: IRequest, res: Response) => {
     res.cookie("snaily-cad-session", token, {
       expires: new Date(Date.now() + COOKIE_EXPIRES),
       httpOnly: true,
-      secure: true,
     });
 
     return res.json({ status: "success" });

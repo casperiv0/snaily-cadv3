@@ -6,6 +6,7 @@ import lang from "../../language.json";
 import AlertMessage from "../../components/alert-message";
 import { createBleet } from "../../lib/actions/bleeter";
 import Message from "../../interfaces/Message";
+import { Link } from "react-router-dom";
 
 interface Props {
   message: Message;
@@ -72,9 +73,9 @@ const CreateBleetPage: React.FC<Props> = ({ message, createBleet }) => {
         </div>
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger" href="/bleeter">
+          <Link className="btn btn-danger" to="/bleeter">
             {lang.global.cancel}
-          </a>
+          </Link>
 
           <button className="btn btn-primary ms-2" type="submit">
             {lang.bleeter.create_bleet}

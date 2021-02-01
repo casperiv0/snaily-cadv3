@@ -5,6 +5,7 @@ import {
   GET_BLEET_BY_ID,
   SET_LOADING_BLEETS,
   UPDATE_BLEET,
+  DELETE_BLEET_BY_ID,
   CREATE_BLEET,
   SET_MESSAGE,
 } from "../types";
@@ -108,5 +109,23 @@ export const updateBleet = (data: object, id: string) => async (dispatch: Dispat
     }
   } catch (e) {
     Logger.error(GET_BLEET_BY_ID, e);
+  }
+};
+
+export const deleteBleet = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/bleeter/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_BLEET_BY_ID,
+      });
+
+      return true;
+    }
+
+    return false;
+  } catch (e) {
+    Logger.error(DELETE_BLEET_BY_ID, e);
   }
 };

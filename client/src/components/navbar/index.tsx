@@ -63,6 +63,11 @@ export const paths: Path[] = [
     name: lang.nav.admin,
     adminOnly: true,
   },
+  // {
+  //   href: "/taxi",
+  //   name: "Taxi",
+  //   adminOnly: false,
+  // },
 ];
 
 const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, checkAuth, logout, getCadInfo }) => {

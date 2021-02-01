@@ -37,6 +37,7 @@ interface State {
   calls: {
     calls_911: Call[];
     tow_calls: TowCall[];
+    taxi_calls: TowCall[];
   };
   officers: {
     status: string | null;

@@ -11,6 +11,7 @@ export const GET_BLEETS = "GET_BLEETS";
 export const GET_BLEET_BY_ID = "GET_BLEET_BY_ID";
 export const CREATE_BLEET = "CREATE_BLEET";
 export const UPDATE_BLEET = "UPDATE_BLEET";
+export const DELETE_BLEET_BY_ID = "DELETE_BLEET_BY_ID";
 
 export const UPDATE_AOP = "UPDATE_AOP";
 export const GET_AOP = "GET_AOP";
@@ -54,6 +55,9 @@ export const GET_ACTIVE_UNITS = "GET_ACTIVE_UNITS";
 export const CREATE_TOW_CALL = "CREATE_TOW_CALL";
 export const GET_TOW_CALLS = "GET_TOW_CALLS";
 export const END_TOW_CALL = "END_TOW_CALL";
+
+export const CREATE_TAXI_CALL = "CREATE_TAXI_CALL";
+export const GET_TAXI_CALLS = "GET_TAXI_CALLS";
 
 export const SET_MESSAGE = "SET_MESSAGE";
 

@@ -16,7 +16,7 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
   try {
     const vToken = jwt.verify(token, secret) as IUser;
     const user = await processQuery(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `dispatch_status`  FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`  FROM `users` WHERE `id` = ?",
       [vToken.id]
     );
 

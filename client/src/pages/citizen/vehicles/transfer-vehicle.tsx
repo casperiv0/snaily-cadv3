@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { getAllCitizens, getVehicleById, transferVehicle } from "../../../lib/actions/citizen";
 import Citizen from "../../../interfaces/Citizen";
 import Message from "../../../interfaces/Message";
+import { Link } from "react-router-dom";
 
 interface Props {
   message: Message;
@@ -108,9 +109,9 @@ const TransferVehiclePage: React.FC<Props> = ({
         </div>
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger me-2" href={`/citizen/${vehicle?.citizen_id}`}>
+          <Link className="btn btn-danger me-2" to={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
-          </a>
+          </Link>
           <button type="submit" className="btn btn-primary">
             {lang.citizen.vehicle.transfer_veh}
           </button>

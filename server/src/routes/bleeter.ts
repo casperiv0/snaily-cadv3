@@ -110,8 +110,13 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const rank = String(req.user?.rank);
+  const bleet = await processQuery("SELECT * FROM `bleets` WHERE `id` = ?", [id]);
 
-  if (!RanksArr.includes(rank)) {
+  if (!bleet[0]) {
+    return res.json({ status: "error", error: "Bleet was not found" });
+  }
+
+  if (bleet[0].user_id !== req.user?.id ?? !RanksArr.includes(rank)) {
     return res.json({ error: "Forbidden", status: "error" });
   }
 

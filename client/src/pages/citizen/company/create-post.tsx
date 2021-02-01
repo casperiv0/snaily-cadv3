@@ -6,6 +6,7 @@ import Layout from "../../../components/Layout";
 import State from "../../../interfaces/State";
 import Match from "../../../interfaces/Match";
 import { createCompanyPost } from "../../../lib/actions/company";
+import { Link } from "react-router-dom";
 
 interface Props {
   error: string;
@@ -57,9 +58,9 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
           ></textarea>
         </div>
         <div className="mb-3 float-end">
-          <a className="btn btn-danger me-2" href={`/company/${citizenId}/${companyId}`}>
+          <Link className="btn btn-danger me-2" to={`/company/${citizenId}/${companyId}`}>
             {lang.global.cancel}
-          </a>
+          </Link>
           <button className="btn btn-primary" type="submit">
             {lang.citizen.company.create_post}
           </button>

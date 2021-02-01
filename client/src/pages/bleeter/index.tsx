@@ -8,6 +8,7 @@ import lang from "../../language.json";
 import BleetItem from "../../components/bleeter/bleetItem";
 import Loader from "../../components/loader";
 import AlertMessage from "../../components/alert-message";
+import { Link } from "react-router-dom";
 
 interface Props {
   bleets: Bleet[];
@@ -29,9 +30,9 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
     <Layout classes="mt-5">
       <div className="pb-3 d-flex justify-content-between">
         <h3>{lang.nav.bleeter}</h3>
-        <a className="btn btn-primary" href="/bleeter/create">
+        <Link className="btn btn-primary" to="/bleeter/create">
           Create bleet
-        </a>
+        </Link>
       </div>
 
       {!bleets[0] ? (

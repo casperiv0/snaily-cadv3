@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import AlertMessage from "../../../components/alert-message";
 import Layout from "../../../components/Layout";
 import Citizen from "../../../interfaces/Citizen";
@@ -65,9 +66,9 @@ const CompanyPage: React.FC<Props> = ({
             {lang.citizen.company.create_a_post}
           </a>
           {citizen?.rank === "manager" || citizen?.rank === "owner" ? (
-            <a className="btn btn-secondary" href={`/company/${citizenId}/${companyId}/manage`}>
+            <Link className="btn btn-secondary" to={`/company/${citizenId}/${companyId}/manage`}>
               {lang.citizen.company.manage_company}
-            </a>
+            </Link>
           ) : null}
         </div>
       </div>
