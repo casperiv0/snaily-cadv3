@@ -54,7 +54,17 @@ const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                   <td>{call.location}</td>
                   <td>{call.description}</td>
                   <td>{call.status}</td>
-                  <td>{call.assigned_unit}</td>
+                  <td>
+                    {call.assigned_unit.map((c, i) => {
+                      const comma = i !== call.assigned_unit.length - 1 ? ", " : " ";
+                      return (
+                        <span key={c.value}>
+                          {c.value}
+                          {comma}
+                        </span>
+                      );
+                    })}
+                  </td>
                 </tr>
               );
             })}

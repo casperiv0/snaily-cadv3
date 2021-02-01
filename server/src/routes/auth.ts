@@ -11,6 +11,7 @@ import Citizen from "../interfaces/Citizen";
 
 const saltRounds = genSaltSync(10);
 const router: Router = Router();
+const COOKIE_EXPIRES = 60 * 60 * 1000 * 2; // 2hours
 
 router.post("/register", async (req: IRequest, res: Response) => {
   const { username, password, password2 } = req.body;
@@ -63,7 +64,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const token = useToken({ id });
 
       res.cookie("snaily-cad-session", token, {
-        expires: new Date(Date.now() + 3600000),
+        expires: new Date(Date.now() + COOKIE_EXPIRES),
         httpOnly: true,
         secure: true,
       });
@@ -102,7 +103,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const token = useToken({ id });
 
       res.cookie("snaily-cad-session", token, {
-        expires: new Date(Date.now() + 3600000),
+        expires: new Date(Date.now() + COOKIE_EXPIRES),
         httpOnly: true,
         secure: true,
       });
@@ -151,7 +152,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
 
     const token = useToken({ id: user[0].id });
     res.cookie("snaily-cad-session", token, {
-      expires: new Date(Date.now() + 3600000),
+      expires: new Date(Date.now() + COOKIE_EXPIRES),
       httpOnly: true,
       secure: true,
     });

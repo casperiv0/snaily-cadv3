@@ -63,9 +63,10 @@ interface State {
   ems_fd: {
     deputies: Deputy[];
     medicalRecords: MedicalRecord[];
-    error: string;
-    status: string;
-    status2: string;
+    error: string | null;
+    status: string | null;
+    status2: string | null;
+    activeDeputy: Deputy | null;
   };
   citizen: {
     error: string;

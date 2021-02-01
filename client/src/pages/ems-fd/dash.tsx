@@ -11,10 +11,12 @@ import SelectEmsFdModal from "../../components/modals/ems-fd/selectEmsFdModal";
 import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRecords";
 import Active911Calls from "../../components/active-911-calls";
 import Message from "../../interfaces/Message";
+import Deputy from "../../interfaces/Deputy";
 
 interface Props {
   aop: string;
   message: Message;
+  activeDeputy: Deputy | null;
 }
 
 const EmsFdDash: React.FC<Props> = (props) => {
@@ -40,6 +42,9 @@ const EmsFdDash: React.FC<Props> = (props) => {
         </div>
 
         <div className="card-body row gap-2 px-4">
+          {props.activeDeputy ? (
+            <h5 style={{ marginLeft: "-10px" }}>Currently active as: {props.activeDeputy?.name}</h5>
+          ) : null}
           <Link className="btn btn-primary col-md-3" to="/ems-fd/deputies">
             {lang.ems_fd.my_ems_fd}
           </Link>
@@ -78,6 +83,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
   message: state.global.message,
+  activeDeputy: state.ems_fd.activeDeputy,
 });
 
 export default connect(mapToProps)(EmsFdDash);

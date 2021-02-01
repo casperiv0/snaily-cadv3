@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+- New revamped select input for selecting assigned units in update 911 call
+- Updated dependencies
+- Upped cookie expire time to 2 hours (Prev: 1 hour)
+
 ## 1.1.0
 
 - Officer callsign
