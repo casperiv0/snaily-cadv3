@@ -10,6 +10,10 @@ interface Props {
 }
 
 const AlertMessage: React.FC<Props> = ({ message, dismissible, dismissMessage }) => {
+  React.useEffect(() => {
+    return () => dismissMessage();
+  }, [dismissMessage]);
+
   return message === null ? null : (
     <div
       className={`alert alert-${message?.type} ${dismissible && "alert-dismissible"}`}

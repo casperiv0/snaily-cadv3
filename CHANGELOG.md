@@ -1,10 +1,12 @@
 # Changelog
 
-## 1.1.1
+## 1.2.0
 
 - New revamped select input for selecting assigned units in update 911 call
 - Updated dependencies
 - Upped cookie expire time to 2 hours (Prev: 1 hour)
+- Added `Currently active as:` to LEO & EMS-FD dashboard
+- Logging out will automatically set your active deputies to off-duty
 
 ## 1.1.0
 

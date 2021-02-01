@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import MedicalRecord from "../../interfaces/MedicalRecord";
@@ -28,9 +29,9 @@ const MedicalRecordsCard: React.FC<Props> = ({
         <h1 className="h4">{lang.citizen.medical_records}</h1>
 
         <div>
-          <a href={`/medical-records/create/${citizenId}`} className="btn btn-primary">
+          <Link to={`/medical-records/create/${citizenId}`} className="btn btn-primary">
             {lang.citizen.medical.add}
-          </a>
+          </Link>
         </div>
       </div>
 
