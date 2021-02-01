@@ -65,7 +65,6 @@ router.post("/register", async (req: IRequest, res: Response) => {
       res.cookie("snaily-cad-session", token, {
         expires: new Date(Date.now() + 3600000),
         httpOnly: true,
-        secure: true,
       });
 
       return res.json({
@@ -104,7 +103,6 @@ router.post("/register", async (req: IRequest, res: Response) => {
       res.cookie("snaily-cad-session", token, {
         expires: new Date(Date.now() + 3600000),
         httpOnly: true,
-        secure: true,
       });
 
       return res.json({ status: "success" });
@@ -153,7 +151,6 @@ router.post("/login", async (req: IRequest, res: Response) => {
     res.cookie("snaily-cad-session", token, {
       expires: new Date(Date.now() + 3600000),
       httpOnly: true,
-      secure: true,
     });
 
     return res.json({ status: "success" });
