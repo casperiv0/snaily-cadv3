@@ -1,12 +1,14 @@
 import * as React from "react";
+import Select from "react-select";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
-import Call from "../../../interfaces/Call";
+import Call, { Unit } from "../../../interfaces/Call";
 import { connect } from "react-redux";
 import { end911Call, update911Call } from "../../../lib/actions/911-calls";
 import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
 import Deputy from "../../../interfaces/Deputy";
+import SelectStyles from "../../SelectStyles";
 
 interface Props {
   id: string;
@@ -16,7 +18,7 @@ interface Props {
   end911Call: (id: string) => void;
   update911Call: (
     id: string,
-    data: { location: string; description: string; assigned_unit: string },
+    data: { location: string; description: string; assigned_unit: Unit[] },
   ) => void;
 }
 
@@ -30,8 +32,9 @@ const Update911Call: React.FC<Props> = ({
 }) => {
   const [location, setLocation] = React.useState(call.location);
   const [description, setDescription] = React.useState(call.description);
-  const [assignedUnits, setAssignedUnits] = React.useState(call.assigned_unit.split(","));
+  const [assignedUnits, setAssignedUnits] = React.useState(call.assigned_unit);
   const [activeUnits, setActiveUnits] = React.useState<(Officer | Deputy)[]>([]);
+  const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
   const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
@@ -45,7 +48,7 @@ const Update911Call: React.FC<Props> = ({
     update911Call(call.id, {
       location,
       description,
-      assigned_unit: assignedUnits.join(","),
+      assigned_unit: assignedUnits,
     });
   }
 
@@ -56,7 +59,7 @@ const Update911Call: React.FC<Props> = ({
   }
 
   function handleClick(e: any) {
-    setAssignedUnits((prev) => [...prev, e.target.value]);
+    setAssignedUnits(e);
   }
 
   return (
@@ -97,21 +100,32 @@ const Update911Call: React.FC<Props> = ({
             {!activeUnits[0] ? (
               <p>{lang.dispatch.no_units}</p>
             ) : (
-              activeUnits.map((unit: Officer | Deputy, idx: number) => {
-                return (
-                  <div key={idx} id={`${idx}`} className="mb-3">
-                    <input
-                      type="checkbox"
-                      className="form-control-input"
-                      value={"officer_name" in unit ? unit.officer_name : unit.name}
-                      onClick={(e) => handleClick(e)}
-                    />
-                    <label className="form-label">
-                      {"officer_name" in unit ? unit.officer_name : unit.name}
-                    </label>
-                  </div>
-                );
-              })
+              <Select
+                defaultValue={assignedUnits}
+                onChange={handleClick}
+                isMulti
+                closeMenuOnSelect={false}
+                menuIsOpen={menuOpen}
+                onMenuClose={() => setMenuOpen(false)}
+                onMenuOpen={() => setMenuOpen(true)}
+                onBlur={() => setMenuOpen(false)}
+                styles={SelectStyles}
+                options={activeUnits.map((unit) => ({
+                  value: "officer_name" in unit ? unit.officer_name : unit.name,
+                  label: "officer_name" in unit ? unit.officer_name : unit.name,
+                }))}
+                components={{
+                  Option: ({ children, innerProps }) => (
+                    <div
+                      className="bg-secondary border-secondary text-light px-2 py-2"
+                      style={{ cursor: "pointer" }}
+                      {...innerProps}
+                    >
+                      {children}
+                    </div>
+                  ),
+                }}
+              />
             )}
           </div>
         </div>

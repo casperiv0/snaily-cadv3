@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0
+
+- Officer callsign
+- Admins can change callsign
+- assign EMS-FD to 911 call
+- fixed permissions bugs in LEO & admin
+
 ## 1.0.1
 
 - Bug fixes
