@@ -81,6 +81,7 @@ const ManageOfficerPage = React.lazy(
 );
 
 const CadSettingsPage = React.lazy(() => import("./pages/admin/cad-settings"));
+const Map = React.lazy(() => import("./pages/dispatch/map"));
 // const TaxiDash = React.lazy(() => import("./pages/taxi/dash"));
 
 ReactDOM.render(
@@ -107,6 +108,7 @@ ReactDOM.render(
               Component={CreateOfficerPage}
             />
 
+            <AuthRoute requirement="dispatch" path="/dispatch/map" Component={Map} />
             <AuthRoute requirement="dispatch" path="/dispatch" Component={DispatchDash} />
 
             <AuthRoute
