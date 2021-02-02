@@ -108,6 +108,7 @@ interface State {
     members: User[];
     officers: Officer[];
     officer: Officer | null;
+    expungementRequests: ExpungementRequest[];
   };
 }
 

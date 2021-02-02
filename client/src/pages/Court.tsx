@@ -33,7 +33,7 @@ const CourthousePage: React.FC<Props> = ({ requests, getExpungementRequests }) =
       </div>
 
       {requests.length <= 0 ? (
-        <p>You don&apos;t have any requests</p>
+        <p>You don&apos;t have any requests. FYI: declined request get deleted</p>
       ) : (
         <table className="table table-dark">
           <thead>

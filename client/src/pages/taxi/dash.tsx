@@ -6,7 +6,7 @@ import socket from "../../lib/socket";
 import AlertMessage from "../../components/alert-message";
 import lang from "../../language.json";
 import { connect } from "react-redux";
-import { getTaxiCalls } from "../../lib/actions/taxi-calls";
+import { endTaxiCall, getTaxiCalls } from "../../lib/actions/taxi-calls";
 import NotepadModal from "../../components/modals/notepad";
 import Message from "../../interfaces/Message";
 
@@ -15,11 +15,11 @@ interface Props {
   calls: TowCall[];
   aop: string;
   getTaxiCalls: () => void;
-  endTowCall: (id: string) => void;
+  endTaxiCall: (id: string) => void;
 }
 
 const TaxiDash: React.FC<Props> = (props) => {
-  const { calls, message, getTaxiCalls } = props;
+  const { calls, message, getTaxiCalls, endTaxiCall } = props;
   const [aop, setAop] = React.useState(props.aop);
 
   React.useEffect(() => {
@@ -33,8 +33,7 @@ const TaxiDash: React.FC<Props> = (props) => {
   }, []);
 
   React.useEffect(() => {
-    socket.on("UPDATE_TOW_CALLS", () => {
-      // todo: play a sound
+    socket.on("UPDATE_TAXI_CALLS", () => {
       getTaxiCalls();
     });
   }, [getTaxiCalls]);
@@ -63,7 +62,7 @@ const TaxiDash: React.FC<Props> = (props) => {
                 <th>{lang.global.location}</th>
                 <th>{lang.global.description}</th>
                 <th>{lang.global.caller}</th>
-                {/* <th>{lang.global.actions}</th> */}
+                <th>{lang.global.actions}</th>
               </tr>
             </thead>
             <tbody>
@@ -74,9 +73,11 @@ const TaxiDash: React.FC<Props> = (props) => {
                     <td>{call.name}</td>
                     <td>{call.location}</td>
                     <td>{call.description}</td>
-                    {/* <td>
-                      Soon
-                    </td> */}
+                    <td>
+                      <button className="btn btn-success" onClick={() => endTaxiCall(call.id)}>
+                        {lang.tow.end_call}
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
@@ -96,4 +97,4 @@ const mapToProps = (state: State) => ({
   message: state.global.message,
 });
 
-export default connect(mapToProps, { getTaxiCalls })(TaxiDash);
+export default connect(mapToProps, { getTaxiCalls, endTaxiCall })(TaxiDash);

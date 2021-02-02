@@ -21,6 +21,9 @@ export interface ExpungementRequest {
   warrants: Item[];
   arrestReports: Item[];
   tickets: Item[];
+  id?: string;
+  user_id?: string;
+  citizenId?: string;
 }
 
 interface IDispatch {

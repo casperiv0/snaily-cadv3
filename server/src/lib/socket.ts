@@ -51,6 +51,14 @@ io.on("connection", async (socket: Socket) => {
     }
   });
 
+  socket.on("UPDATE_TAXI_CALLS", () => {
+    io.sockets.emit("UPDATE_TAXI_CALLS");
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "UPDATE_TAXI_CALLS");
+    }
+  });
+
   socket.on("UPDATE_BOLOS", () => {
     io.sockets.emit("UPDATE_BOLOS");
 

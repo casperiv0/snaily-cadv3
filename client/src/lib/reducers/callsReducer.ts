@@ -9,6 +9,7 @@ import {
   END_TOW_CALL,
   CREATE_911_CALL,
   GET_TAXI_CALLS,
+  END_TAXI_CALL,
 } from "../types";
 
 const initState = {
@@ -48,6 +49,10 @@ type Actions =
     }
   | {
       type: typeof GET_TAXI_CALLS;
+      calls: TowCall[];
+    }
+  | {
+      type: typeof END_TAXI_CALL;
       calls: TowCall[];
     };
 
@@ -94,6 +99,11 @@ export default function callsReducer(state = initState, action: Actions) {
         taxi_calls: action.calls,
       };
     }
+    case "END_TAXI_CALL":
+      return {
+        ...state,
+        taxi_calls: action.calls,
+      };
     default:
       return {
         ...state,

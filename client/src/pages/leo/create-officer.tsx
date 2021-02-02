@@ -24,6 +24,7 @@ const CreateOfficerPage: React.FC<Props> = ({
 }) => {
   const [officerName, setOfficerName] = React.useState<string>("");
   const [officerDept, setOfficerDept] = React.useState<string>("");
+  const [callSign, setCallSign] = React.useState<string>("");
 
   React.useEffect(() => {
     getDepartments("leo");
@@ -35,6 +36,7 @@ const CreateOfficerPage: React.FC<Props> = ({
     createOfficer({
       name: officerName,
       department: officerDept,
+      callsign: callSign,
     });
   }
 
@@ -42,6 +44,18 @@ const CreateOfficerPage: React.FC<Props> = ({
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
         <AlertMessage message={message} dismissible />
+        <div className="mb-3">
+          <label className="form-label" htmlFor="officerName">
+            Callsign
+          </label>
+          <input
+            className="form-control bg-dark border-dark text-light"
+            type="text"
+            id="callsign"
+            value={callSign}
+            onChange={(e) => setCallSign(e.target.value)}
+          />
+        </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="officerName">
             {lang.record.officer_name}

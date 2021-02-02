@@ -8,10 +8,11 @@
 - Added `Currently active as:` to LEO & EMS-FD dashboard
 - Logging out will automatically set your active deputies to off-duty
 - Able to add notes to citizens (NameSearch)
-- Minor bug fixes
 - Taxi jobs (Same as tow but for taxis)
-- Live map (Soon)
 - A sound will be played when your current active officer is assigned to a call
+- Citizens are able to request an expungement
+- Minor bug fixes
+- Small improvements
 
 ## 1.1.0
 

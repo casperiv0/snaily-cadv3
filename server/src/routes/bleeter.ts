@@ -8,7 +8,7 @@ import IRequest from "../interfaces/IRequest";
 
 const router = Router();
 
-router.get("/", useAuth, async (req: IRequest, res: Response) => {
+router.get("/", useAuth, async (_req, res: Response) => {
   const bleets = await processQuery("SELECT * FROM `bleets` ORDER BY `id` DESC");
 
   return res.json({ bleets, status: "success" });
@@ -27,7 +27,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const uploadedAt = Date.now();
   const user_id = req.user?.id;
   const index = req.files?.image && file?.name.indexOf(".");
-  const imageId = file ? `${uuidv4()}${file.name.slice(index!)}` : "";
+  const imageId = file ? `${uuidv4()}${file.name.slice(index)}` : "";
 
   if (file && !SupportedFileTypes.includes(file.mimetype)) {
     return res.json({

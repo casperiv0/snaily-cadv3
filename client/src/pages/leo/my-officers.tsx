@@ -44,7 +44,8 @@ const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, get
                 className="list-group-item bg-dark border-secondary d-flex justify-content-between"
               >
                 <p>
-                  {++idx} | {officer.officer_dept} | {officer.officer_name}
+                  {++idx} | {officer.callsign || "None"} | {officer.officer_dept} |{" "}
+                  {officer.officer_name}
                 </p>
                 <div>
                   <button onClick={() => deleteOfficer(officer.id)} className="btn btn-danger">

@@ -23,13 +23,13 @@ router.get("/my-officers", useAuth, useOfficerAuth, async (req: IRequest, res: R
 });
 
 router.post("/my-officers", useAuth, useOfficerAuth, async (req: IRequest, res: Response) => {
-  const { name, department } = req.body;
+  const { name, department, callsign } = req.body;
   const id = uuidv4();
 
-  if (name && department) {
+  if (name && department && callsign) {
     await processQuery(
-      "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`user_id`,`status`,`status2`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, name, department, req.user?.id, "off-duty", ""]
+      "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [id, name, department, callsign, req.user?.id, "off-duty", ""]
     );
 
     return res.json({ status: "success" });

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import IRequest from "../interfaces/IRequest";
 const router: Router = Router();
 
-router.get("/", useAuth, async (req: IRequest, res: Response) => {
+router.get("/", useAuth, async (_req, res: Response) => {
   const calls = await processQuery("SELECT * FROM `taxi_calls`");
 
   return res.json({ status: "success", calls });

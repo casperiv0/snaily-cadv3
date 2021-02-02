@@ -3,6 +3,7 @@ import Company from "../../interfaces/Company";
 import Officer from "../../interfaces/Officer";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
+import { ExpungementRequest } from "../actions/court";
 import {
   BAN_MEMBER,
   DELETE_CITIZEN,
@@ -17,6 +18,8 @@ import {
   DECLINE_USER,
   GET_ALL_OFFICERS,
   GET_OFFICER_BY_ID,
+  ACCEPT_OR_DECLINE_REQUEST,
+  GET_ALl_EXPUNGEMENT_REQUESTS,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -27,6 +30,7 @@ const initState: State["admin"] = {
   officers: [],
   member: null,
   officer: null,
+  expungementRequests: [],
 };
 
 type Actions =
@@ -81,6 +85,14 @@ type Actions =
   | {
       type: typeof GET_OFFICER_BY_ID;
       officer: Officer;
+    }
+  | {
+      type: typeof GET_ALl_EXPUNGEMENT_REQUESTS;
+      expungementRequests: ExpungementRequest[];
+    }
+  | {
+      type: typeof ACCEPT_OR_DECLINE_REQUEST;
+      expungementRequests: ExpungementRequest[];
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -149,6 +161,16 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         officer: action.officer,
+      };
+    case "GET_ALl_EXPUNGEMENT_REQUESTS":
+      return {
+        ...state,
+        expungementRequests: action.expungementRequests,
+      };
+    case "ACCEPT_OR_DECLINE_REQUEST":
+      return {
+        ...state,
+        expungementRequests: action.expungementRequests,
       };
     default:
       return {

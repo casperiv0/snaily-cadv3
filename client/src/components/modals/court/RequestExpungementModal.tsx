@@ -25,7 +25,17 @@ const RequestExpungementModal: React.FC<Props> = ({
   const [tickets, setTickets] = React.useState([]);
   const [arrReports, setArrReports] = React.useState([]);
   const [warrants, setWarrants] = React.useState([]);
+  const [disabled, setDisabled] = React.useState(true);
   const btnRef = React.createRef<HTMLButtonElement>();
+
+  React.useEffect(() => {
+    if (courtResult !== null) {
+      const isZeroWarrants = courtResult.warrants.length <= 0;
+      const isZeroAp = courtResult.arrestReports.length <= 0;
+      const isZeroTickets = courtResult.tickets.length <= 0;
+      setDisabled(isZeroAp && isZeroWarrants && isZeroTickets);
+    }
+  }, [courtResult]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -60,7 +70,7 @@ const RequestExpungementModal: React.FC<Props> = ({
         <form id="name-form" onSubmit={onSubmit}>
           <div className="mb-3">
             <label className="form-label" htmlFor="name">
-              Enter name
+              Enter your citizen name
             </label>
 
             <div className="row">
@@ -146,7 +156,7 @@ const RequestExpungementModal: React.FC<Props> = ({
         <button type="button" className="btn btn-secondary me-2" data-bs-dismiss="modal">
           {lang.global.cancel}
         </button>
-        <button form="request-form" type="submit" className="btn btn-primary">
+        <button disabled={disabled} form="request-form" type="submit" className="btn btn-primary">
           Request
         </button>
       </div>
