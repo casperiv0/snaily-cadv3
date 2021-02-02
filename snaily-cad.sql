@@ -166,6 +166,21 @@ CREATE TABLE `citizens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `court_requests`
+--
+
+CREATE TABLE `court_requests` (
+  `id` varchar(255) NOT NULL,
+  `warrants` varchar(2500) NOT NULL,
+  `arrest_reports` varchar(2500) NOT NULL,
+  `tickets` varchar(2500) NOT NULL,
+  `citizen_id` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `departments`
 --
 
@@ -947,6 +962,12 @@ ALTER TABLE `cad_info`
 -- Indexes for table `citizens`
 --
 ALTER TABLE `citizens`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `court_requests`
+--
+ALTER TABLE `court_requests`
   ADD PRIMARY KEY (`id`);
 
 --

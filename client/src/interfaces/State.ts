@@ -15,6 +15,7 @@ import Vehicle from "./Vehicle";
 import Company, { CompanyPost } from "./Company";
 import CadInfo from "./CadInfo";
 import Message from "./Message";
+import { ExpungementRequest } from "../lib/actions/court";
 
 interface State {
   auth: {
@@ -70,13 +71,15 @@ interface State {
     activeDeputy: Deputy | null;
   };
   citizen: {
-    error: string;
+    error: string | null;
     citizens: Citizen[];
-    citizen: Citizen;
+    citizen: Citizen | null;
     weapons: Weapon[];
     vehicles: Vehicle[];
     medicalRecords: MedicalRecord[];
-    vehicle: Vehicle;
+    vehicle: Vehicle | null;
+    courtResult: null | any;
+    expungementRequests: ExpungementRequest[];
   };
   company: {
     citizens: Citizen[];

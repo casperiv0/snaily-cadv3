@@ -9,7 +9,7 @@ import { createMedicalRecord } from "../../../lib/actions/citizen";
 import { Link } from "react-router-dom";
 
 interface Props {
-  error: string;
+  error: string | null;
   match: Match;
   createMedicalRecord: (data: object, id: string) => void;
 }

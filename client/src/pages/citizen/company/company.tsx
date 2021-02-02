@@ -13,8 +13,8 @@ import { getCompanyById } from "../../../lib/actions/company";
 import { Span } from "../citizen-info";
 
 interface Props {
-  company: Company;
-  citizen: Citizen;
+  company: Company | null;
+  citizen: Citizen | null;
   match: Match;
   posts: CompanyPost[];
   returnError: string;

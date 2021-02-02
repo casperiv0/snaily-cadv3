@@ -16,7 +16,7 @@ import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  citizen: Citizen;
+  citizen: Citizen | null;
   match: Match;
   message: Message;
   getCitizenById: (id: string) => void;

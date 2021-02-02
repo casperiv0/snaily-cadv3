@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 interface Props {
   message: Message;
-  vehicle: Vehicle;
+  vehicle: Vehicle | null;
   legalStatuses: Value[];
   match: Match;
   getLegalStatuses: () => void;
@@ -58,7 +58,7 @@ const EditVehiclePage: React.FC<Props> = ({
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateVehicleById(vehicleId, vehicle?.citizen_id, {
+    updateVehicleById(vehicleId, vehicle?.citizen_id!, {
       color,
       status,
     });

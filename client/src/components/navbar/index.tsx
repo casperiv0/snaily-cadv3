@@ -56,6 +56,11 @@ export const paths: Path[] = [
     adminOnly: false,
   },
   {
+    href: "/court",
+    name: "Courthouse",
+    adminOnly: false,
+  },
+  {
     href: "/bleeter",
     name: lang.nav.bleeter,
     adminOnly: false,

@@ -19,7 +19,7 @@ interface Props {
   ethnicities: Value[];
   legalStatuses: Value[];
   match: Match;
-  citizen: Citizen;
+  citizen: Citizen | null;
   getGenders: () => void;
   getEthnicities: () => void;
   getLegalStatuses: () => void;

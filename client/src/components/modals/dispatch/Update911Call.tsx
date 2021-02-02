@@ -1,5 +1,4 @@
 import * as React from "react";
-import Select from "react-select";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import Call, { Unit } from "../../../interfaces/Call";
@@ -8,7 +7,7 @@ import { end911Call, update911Call } from "../../../lib/actions/911-calls";
 import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
 import Deputy from "../../../interfaces/Deputy";
-import SelectStyles from "../../SelectStyles";
+import Select from "../../select";
 
 interface Props {
   id: string;
@@ -34,7 +33,6 @@ const Update911Call: React.FC<Props> = ({
   const [description, setDescription] = React.useState(call.description);
   const [assignedUnits, setAssignedUnits] = React.useState(call.assigned_unit);
   const [activeUnits, setActiveUnits] = React.useState<(Officer | Deputy)[]>([]);
-  const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
   const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
@@ -103,28 +101,10 @@ const Update911Call: React.FC<Props> = ({
               <Select
                 defaultValue={assignedUnits}
                 onChange={handleClick}
-                isMulti
-                closeMenuOnSelect={false}
-                menuIsOpen={menuOpen}
-                onMenuClose={() => setMenuOpen(false)}
-                onMenuOpen={() => setMenuOpen(true)}
-                onBlur={() => setMenuOpen(false)}
-                styles={SelectStyles}
                 options={activeUnits.map((unit) => ({
                   value: "officer_name" in unit ? unit.id : unit.id,
                   label: "officer_name" in unit ? unit.officer_name : unit.name,
                 }))}
-                components={{
-                  Option: ({ children, innerProps }) => (
-                    <div
-                      className="bg-secondary border-secondary text-light px-2 py-2"
-                      style={{ cursor: "pointer" }}
-                      {...innerProps}
-                    >
-                      {children}
-                    </div>
-                  ),
-                }}
               />
             )}
           </div>

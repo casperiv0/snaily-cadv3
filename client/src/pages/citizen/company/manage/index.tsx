@@ -18,7 +18,7 @@ import { getCompanyById } from "../../../../lib/actions/company";
 interface Props {
   match: Match;
   message: Message;
-  citizen: Citizen;
+  citizen: Citizen | null;
   returnError: string;
   getCompanyById: (id: string, citizenId: string) => void;
   getCitizenById: (id: string) => void;

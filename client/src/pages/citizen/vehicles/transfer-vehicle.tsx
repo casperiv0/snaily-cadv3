@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 interface Props {
   message: Message;
-  vehicle: Vehicle;
+  vehicle: Vehicle | null;
   match: Match;
   owners: Citizen[];
   getVehicleById: (id: string) => void;

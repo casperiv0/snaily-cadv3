@@ -12,7 +12,7 @@ import { getLegalStatuses } from "../../lib/actions/values";
 import { Link } from "react-router-dom";
 
 interface Props {
-  citizen: Citizen;
+  citizen: Citizen | null;
   match: Match;
   legalStatuses: Value[];
   getCitizenById: (id: string) => void;
