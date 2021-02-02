@@ -10,7 +10,9 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
   const secret = config.jwtSecret;
 
   if (!token) {
-    return res.json({ server_error: "invalid token", status: "error" }).status(401);
+    return res
+      .json({ server_error: "invalid token", status: "error", invalid_token: true })
+      .status(401);
   }
 
   try {
@@ -22,6 +24,7 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
 
     if (!user[0]) {
       return res.json({
+        invalid_token: true,
         server_error: "user does not exist",
         status: "error",
       });
@@ -31,7 +34,9 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
 
     next();
   } catch (e) {
-    return res.json({ server_error: "invalid token", status: "error" }).status(401);
+    return res
+      .json({ invalid_token: true, server_error: "invalid token", status: "error" })
+      .status(401);
   }
 }
 

@@ -384,7 +384,7 @@ CREATE TABLE `users` (
   `tow` varchar(255) NOT NULL,
   `banned` varchar(255) NOT NULL,
   `ban_reason` varchar(255) NOT NULL,
-  `whitelist_status` varchar(255) NOT NULL,
+  `whitelist_status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

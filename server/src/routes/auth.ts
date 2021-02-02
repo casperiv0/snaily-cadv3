@@ -85,7 +85,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const id = uuidv4();
       await processQuery(
         "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `company_whitelisted`, `webhook_url`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [username, "Change me", "Change me", "0", "0", "0", "0"]
+        [username, "Change me", "Change me", "0", "0", "0", ""]
       );
       await processQuery(
         "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
