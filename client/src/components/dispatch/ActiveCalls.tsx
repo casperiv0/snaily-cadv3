@@ -28,7 +28,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
 
   return (
     <>
-      <ul className="list-group overflow-auto mt-3" style={{ maxHeight: "25rem" }}>
+      <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
         <li className="list-group-item bg-secondary border-secondary">
           <h5>{lang.global.active_erm_calls}</h5>
         </li>

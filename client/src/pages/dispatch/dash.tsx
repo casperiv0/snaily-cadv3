@@ -16,8 +16,9 @@ import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import AddressSearchModal from "../../components/modals/dispatch/addressSearchModal";
 import WeaponSearchModal from "../../components/modals/leo/weaponSearchModal";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
-import AlertMessage from "../../components/alert-message";
+import AlertMessage, { DismissAlertBtn } from "../../components/alert-message";
 import Message from "../../interfaces/Message";
+import Officer from "../../interfaces/Officer";
 
 interface Props {
   aop: string;
@@ -27,6 +28,7 @@ interface Props {
 const DispatchDash: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<Date>(new Date());
   const [aop, setAop] = React.useState<string>(props.aop);
+  const [panic, setPanic] = React.useState<Officer | null>(null);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -41,25 +43,36 @@ const DispatchDash: React.FC<Props> = (props) => {
       setAop(newAop);
     });
 
+    socket.on("PANIC_BUTTON", (officer: Officer) => {
+      setPanic(officer);
+    });
+
     document.title = "Dispatch Dashboard";
   }, []);
 
   return (
     <Layout fluid classes="pb-5 mt-5">
+      {panic !== null ? (
+        <div role="alert" className="alert alert-danger alert-dismissible">
+          {panic.officer_name} has activated panic button
+          <DismissAlertBtn onClick={() => setPanic(null)} />
+        </div>
+      ) : null}
       {props.message ? <AlertMessage message={props.message} dismissible /> : null}
-      <div className="card bg-dark border-dark mt-4">
+
+      <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>
             {lang.global.utility_panel} - AOP: {aop}
           </h4>
           <span>{time.toLocaleString()}</span>
         </div>
-        <div className="card-body">
+        <div className="card-body row gap-2 px-4">
           <ModalButtons />
         </div>
       </div>
 
-      <div className="row mt-3">
+      <div className="row mt-2">
         <div className="col-md-8">
           <ActiveUnits />
         </div>

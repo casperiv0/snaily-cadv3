@@ -153,6 +153,13 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
   const file = req.files?.image ? (req.files.image as UploadedFile) : null;
   const index = req.files?.image && file?.name.indexOf(".");
 
+  if (file && !SupportedFileTypes.includes(String(file.mimetype))) {
+    return res.json({
+      status: "error",
+      error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
+    });
+  }
+
   const imageId = file ? `${uuidv4()}${file.name.slice(index)}` : "default.svg";
 
   if (full_name && birth && gender && ethnicity && hair_color && eye_color && height && weight) {

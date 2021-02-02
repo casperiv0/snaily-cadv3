@@ -24,7 +24,7 @@ const ActiveBolos: React.FC<Props> = ({ bolos, getActiveBolos, deleteBolo }) => 
   }, [getActiveBolos]);
 
   return (
-    <ul className="list-group mt-3 overflow-auto" style={{ maxHeight: "25rem" }}>
+    <ul className="list-group mt-2 overflow-auto" style={{ maxHeight: "25rem" }}>
       <li className="list-group-item bg-secondary border-secondary">{lang.global.active_bolos}</li>
 
       {!bolos[0] ? (

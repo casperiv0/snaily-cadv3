@@ -21,16 +21,13 @@ const AlertMessage: React.FC<Props> = ({ message, dismissible, dismissMessage })
     >
       {message?.msg}
 
-      {dismissible && (
-        <button
-          type="button"
-          className="btn-close"
-          aria-label="Close"
-          onClick={dismissMessage}
-        ></button>
-      )}
+      {dismissible && <DismissAlertBtn onClick={dismissMessage} />}
     </div>
   );
+};
+
+export const DismissAlertBtn: React.FC<{ onClick: any }> = ({ onClick }) => {
+  return <button type="button" className="btn-close" aria-label="Close" onClick={onClick}></button>;
 };
 
 export default connect(null, { dismissMessage })(AlertMessage);

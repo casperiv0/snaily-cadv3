@@ -109,23 +109,20 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
                         <Span>{lang.citizen.employer}: </Span>
                         {citizen.business}
                       </Item>
-
-                      <div className="d-flex mt-2">
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          data-bs-toggle="modal"
-                          data-bs-target={`#deleteCitizenModal${citizen.id}`}
-                        >
-                          {lang.citizen.delete_citizen}
-                        </button>
-                      </div>
                     </div>
                   </div>
 
                   <div>
                     <button
-                      className="btn btn-primary"
+                      type="button"
+                      className="btn btn-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#deleteCitizenModal${citizen.id}`}
+                    >
+                      {lang.citizen.delete_citizen}
+                    </button>
+                    <button
+                      className="btn btn-primary mx-2"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target={`#citizen_info_${citizen.id}`}

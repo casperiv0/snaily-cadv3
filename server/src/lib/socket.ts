@@ -4,6 +4,7 @@ import { io } from "../server";
 import { getWebhookData, postWebhook } from "./functions";
 import { processQuery } from "./database";
 import { Socket } from "socket.io";
+import Officer from "../interfaces/Officer";
 
 io.on("connection", async (socket: Socket) => {
   const cadInfo = await processQuery("SELECT `webhook_url` FROM `cad_info`");
@@ -63,6 +64,14 @@ io.on("connection", async (socket: Socket) => {
 
     if (config.env === "dev") {
       Logger.log("SOCKET_EVENT", "UPDATE_ASSIGNED_UNITS");
+    }
+  });
+
+  socket.on("PANIC_BUTTON", (officer: Officer) => {
+    io.sockets.emit("PANIC_BUTTON", officer);
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "PANIC_BUTTON");
     }
   });
 
