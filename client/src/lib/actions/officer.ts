@@ -43,7 +43,7 @@ export const getCurrentOfficer = () => async (dispatch: Dispatch<IDispatch>) => 
         type: GET_CURRENT_OFFICER_STATUS,
         status: res.data.officer?.status || "off-duty",
         status2: res.data.officer?.status2 || "-",
-        activeOfficer: res.data.officer,
+        activeOfficer: res.data.officer?.status !== "off-duty" ? res.data.officer : null,
       });
     }
   } catch (e) {

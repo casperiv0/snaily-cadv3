@@ -32,32 +32,28 @@ const MyDeputiesPage: React.FC<Props> = ({
 
       <h4 className="card-title mt-3">{lang.ems_fd.my_deputies}</h4>
 
-      <ul className="list-group">
-        <Link className="btn btn-primary mt-1" to="/ems-fd/dash">
-          {lang.ems_fd.ems_dash}
-        </Link>
-        <Link className="btn btn-primary mt-1" to="/ems-fd/deputies/create">
-          {lang.ems_fd.create_a_dept}
-        </Link>
-
+      <Link className="btn btn-primary container my-1" to="/ems-fd/dash">
+        {lang.ems_fd.ems_dash}
+      </Link>
+      <Link className="btn btn-primary container" to="/ems-fd/deputies/create">
+        {lang.ems_fd.create_a_dept}
+      </Link>
+      <ul className="list-group mt-1">
         {deputies.map((deputy: Deputy, idx: number) => {
           return (
             <li
               key={idx}
               id={`${idx}`}
-              className="list-group-item mt-2 bg-dark border-dark d-flex justify-content-between"
+              className="list-group-item bg-dark border-secondary d-flex justify-content-between"
             >
               <p>
                 {++idx} | {deputy.name}
               </p>
-
-              <button
-                onClick={() => deleteEmsFdDeputy(deputy.id)}
-                type="button"
-                className="btn btn-danger"
-              >
-                {lang.global.delete}
-              </button>
+              <div>
+                <button onClick={() => deleteEmsFdDeputy(deputy.id)} className="btn btn-danger">
+                  {lang.global.delete}
+                </button>
+              </div>
             </li>
           );
         })}

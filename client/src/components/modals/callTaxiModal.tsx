@@ -31,7 +31,7 @@ const CallTaxiModal: React.FC<Props> = ({ createTaxiCall }) => {
   }
 
   return (
-    <Modal id="callTaxiModal">
+    <Modal size="lg" id="callTaxiModal">
       <div className="modal-header">
         <h5 className="modal-title">Call Taxi Service</h5>
         <XButton ref={btnRef} />
@@ -54,30 +54,32 @@ const CallTaxiModal: React.FC<Props> = ({ createTaxiCall }) => {
             ></textarea>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label" htmlFor="taxi_caller">
-              {lang.global.caller}
-            </label>
-            <input
-              type="text"
-              value={caller}
-              id="taxi_caller"
-              onChange={(e) => setCaller(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-            />
-          </div>
+          <div className="row">
+            <div className="col-6">
+              <label className="form-label" htmlFor="taxi_caller">
+                {lang.global.caller}
+              </label>
+              <input
+                type="text"
+                value={caller}
+                id="taxi_caller"
+                onChange={(e) => setCaller(e.target.value)}
+                className="form-control bg-secondary border-secondary text-light"
+              />
+            </div>
 
-          <div className="mb-3">
-            <label className="form-label" htmlFor="taxi_location">
-              {lang.global.location}
-            </label>
-            <input
-              type="text"
-              value={location}
-              id="taxi_location"
-              onChange={(e) => setLocation(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-            />
+            <div className="col-6">
+              <label className="form-label" htmlFor="taxi_location">
+                {lang.global.location}
+              </label>
+              <input
+                type="text"
+                value={location}
+                id="taxi_location"
+                onChange={(e) => setLocation(e.target.value)}
+                className="form-control bg-secondary border-secondary text-light"
+              />
+            </div>
           </div>
         </div>
 

@@ -111,7 +111,7 @@ const Update911Call: React.FC<Props> = ({
                 onBlur={() => setMenuOpen(false)}
                 styles={SelectStyles}
                 options={activeUnits.map((unit) => ({
-                  value: "officer_name" in unit ? unit.officer_name : unit.name,
+                  value: "officer_name" in unit ? unit.id : unit.id,
                   label: "officer_name" in unit ? unit.officer_name : unit.name,
                 }))}
                 components={{

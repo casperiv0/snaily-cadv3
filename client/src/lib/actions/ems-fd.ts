@@ -35,12 +35,14 @@ export const createEmsFdDeputy = (data: object) => async (dispatch: Dispatch<IDi
       dispatch({
         type: CREATE_EMS_FD_DEPUTY,
       });
-      window.location.href = "/ems-fd/deputies";
+
+      return true;
     } else {
       dispatch({
         type: SET_MESSAGE,
         message: { msg: res.data.error, type: "warning" },
       });
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_EMS_FD_DEPUTY, e);
@@ -72,7 +74,7 @@ export const getCurrentEmsStatus = () => async (dispatch: Dispatch<IDispatch>) =
         type: GET_CURRENT_EMS_STATUS,
         status: res.data.deputy?.status || "off-duty",
         status2: res.data.deputy?.status2 || "-",
-        activeDeputy: res.data.deputy || null,
+        activeDeputy: res.data.deputy?.status !== "off-duty" ? res.data.deputy : null,
       });
     }
   } catch (e) {

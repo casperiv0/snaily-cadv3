@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.1
+## 1.2.0
 
 - New revamped select input for selecting assigned units in update 911 call
 - Updated dependencies
@@ -10,6 +10,8 @@
 - Able to add notes to citizens (NameSearch)
 - Minor bug fixes
 - Taxi jobs (Same as tow but for taxis)
+- Live map (Soon)
+- A sound will be played when your current active officer is assigned to a call
 
 ## 1.1.0
 

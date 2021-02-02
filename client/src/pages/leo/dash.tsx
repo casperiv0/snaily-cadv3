@@ -21,6 +21,7 @@ import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
+import { playSound } from "../../lib/functions";
 
 interface Props {
   aop: string;
@@ -42,13 +43,21 @@ const LeoDash: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     document.title = "LEO Dashboard";
-  });
+  }, []);
 
   React.useEffect(() => {
-    socket.on("UPDATE_AOP", (newAop: any) => {
+    socket.on("UPDATE_AOP", (newAop: string) => {
       setAop(newAop);
     });
   }, []);
+
+  React.useEffect(() => {
+    socket.on("UPDATE_ASSIGNED_UNITS", (unitIds: string[]) => {
+      if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
+        playSound("/sounds/success.mp3");
+      }
+    });
+  }, [props.activeOfficer]);
 
   return (
     <Layout fluid classes="mt-5">

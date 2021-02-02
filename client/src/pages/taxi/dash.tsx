@@ -63,7 +63,7 @@ const TaxiDash: React.FC<Props> = (props) => {
                 <th>{lang.global.location}</th>
                 <th>{lang.global.description}</th>
                 <th>{lang.global.caller}</th>
-                <th>{lang.global.actions}</th>
+                {/* <th>{lang.global.actions}</th> */}
               </tr>
             </thead>
             <tbody>
@@ -74,12 +74,9 @@ const TaxiDash: React.FC<Props> = (props) => {
                     <td>{call.name}</td>
                     <td>{call.location}</td>
                     <td>{call.description}</td>
-                    <td>
-                      {/* <button onClick={() => endTowCall(call.id)} className="btn btn-success">
-                        {lang.tow.end_call}
-                      </button> */}
+                    {/* <td>
                       Soon
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}

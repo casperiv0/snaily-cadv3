@@ -62,7 +62,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                         const comma = i !== call.assigned_unit.length - 1 ? ", " : " ";
                         return (
                           <span key={c.value}>
-                            {c.value}
+                            {c.label}
                             {comma}
                           </span>
                         );

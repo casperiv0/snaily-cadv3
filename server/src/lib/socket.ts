@@ -58,6 +58,14 @@ io.on("connection", async (socket: Socket) => {
     }
   });
 
+  socket.on("UPDATE_ASSIGNED_UNITS", (unitIds) => {
+    io.sockets.emit("UPDATE_ASSIGNED_UNITS", unitIds);
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "UPDATE_ASSIGNED_UNITS");
+    }
+  });
+
   socket.on(
     "NEW_911_CALL",
     async (callData: { description: string; caller: string; location: string }) => {

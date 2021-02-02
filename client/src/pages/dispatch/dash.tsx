@@ -40,6 +40,8 @@ const DispatchDash: React.FC<Props> = (props) => {
     socket.on("UPDATE_AOP", (newAop: any) => {
       setAop(newAop);
     });
+
+    document.title = "Dispatch Dashboard";
   }, []);
 
   return (

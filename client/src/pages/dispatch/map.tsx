@@ -1,111 +1,134 @@
-import L from "leaflet";
-import { useCallback, useEffect, useState } from "react";
+// import L from "leaflet";
+// import "leaflet.markercluster";
+// import { useCallback, useEffect, useMemo, useState } from "react";
+// import {
+//   tileLayers,
+//   getMapBounds,
+//   createMarker,
+//   removeMarker,
+// } from "../../components/dispatch/map/functions";
+// import { Data, Marker, Payload } from "../../components/dispatch/map/interfaces";
+// import Loader from "../../components/loader";
+// import Logger from "../../lib/Logger";
 
-/* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
-/* STATUS: NOT COMPLETE YET */
+// /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
+// /* STATUS: NOT COMPLETE */
 
-// TODO: set map loading
-// Check if map is 'ready'
-// Add blips
-// refactor
+// // TODO:
+// // Add blips
+// // refactor
 
-const TILES_URL = "/tiles/minimap_sea_{y}_{x}.png";
+// export let MarkerStore: Marker[] = [];
+// export const PlayerMarkers = L.markerClusterGroup({
+//   maxClusterRadius: 20,
+//   spiderfyOnMaxZoom: false,
+//   showCoverageOnHover: false,
+//   zoomToBoundsOnClick: false,
+// });
 
-export default function Map() {
-  const [ran, setRan] = useState(false);
-  const [map, setMap] = useState<L.Map | null>(null);
-  const CurrentLayer = tileLayers();
+// export default function Map() {
+//   const socket = useMemo(() => new WebSocket("ws://localhost:30121"), []);
+//   const [ran, setRan] = useState(false);
+//   const [map, setMap] = useState<L.Map | null>(null);
+//   const [ready, setReady] = useState<boolean>(false);
+//   const [marker] = useState<L.Marker | null>(null);
+//   const CurrentLayer = tileLayers();
 
-  const init = useCallback(() => {
-    setRan(true);
-    const map = L.map("map", {
-      crs: L.CRS.Simple,
-      layers: [CurrentLayer],
-    }).setView([0, 0], 0);
+//   const init = useCallback(() => {
+//     setRan(true);
+//     const m = L.map("map", {
+//       crs: L.CRS.Simple,
+//       layers: [CurrentLayer],
+//       minZoom: -2,
+//       maxZoom: 2,
+//       bounceAtZoomLimits: false,
+//       preferCanvas: true,
+//     }).setView([0, 0], 0);
 
-    const bounds = getMapBounds(map);
+//     const bounds = getMapBounds(m);
 
-    map.setMaxBounds(bounds);
-    map.fitBounds(bounds);
+//     m.setMaxBounds(bounds);
+//     m.fitBounds(bounds);
+//     // m.addLayer(PlayerMarkers);
 
-    setMap(map);
-  }, [CurrentLayer]);
+//     m.whenReady(() => {
+//       setReady(true);
+//       setMap(m);
+//     });
+//   }, [CurrentLayer]);
 
-  const doSom = useCallback(() => {
-    const loc = map && convertToMap(2000, 5000, map);
+//   useEffect(() => {
+//     socket.onmessage = async (e) => {
+//       marker && map?.removeLayer(marker!);
 
-    console.log(map);
+//       map && onMessage(e, map);
+//     };
+//   }, [socket, map, marker]);
 
-    console.log(loc);
+//   useEffect(() => {
+//     return () => {
+//       Logger.log("live_map", "Disconnected from LiveMap socket");
+//       socket.close();
+//     };
+//   }, [socket]);
 
-    map &&
-      L.marker(
-        {
-          lat: loc?.lat!,
-          lng: loc?.lng!,
-        },
-        {
-          title: "Hello world",
-        },
-      )
-        .addTo(map!)
-        .bindPopup("<p>Hello from the first pin!</p>");
-  }, [map]);
+//   useEffect(() => {
+//     ran === false && init();
+//   }, [init, ran]);
 
-  useEffect(() => {
-    ran === false && init();
-  }, [init, ran]);
+//   return (
+//     <>
+//       {!ready ? <Loader fullScreen /> : null}
+//       <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
+//     </>
+//   );
+// }
 
-  useEffect(() => {
-    setTimeout(() => {
-      map && doSom();
-    }, 1500);
-  }, [doSom, map]);
+// async function onMessage(e: any, map: L.Map) {
+//   const data: Data = JSON.parse(e.data);
+//   // const loc = convertToMap(data.payload[0].pos.x, data.payload[0].pos.y, map);
+//   console.log(data);
 
-  function getMapBounds(map: L.Map) {
-    const h = 1024 * 3;
-    const w = 1024 * 2;
+//   switch (data.type) {
+//     case "addBlip": {
+//       addBlip(data.payload, map);
+//       return;
+//     }
+//     case "playerData": {
+//       removeBlip(data.payload, map);
+//       addBlip(data.payload, map);
+//       return;
+//     }
+//     case "playerLeft": {
+//       removeBlip(data.payload, map);
+//       return;
+//     }
+//     default: {
+//       return "Not allowed";
+//     }
+//   }
+// }
 
-    const southWest = map.unproject([0, h], 0);
-    const northEast = map.unproject([w, 0], 0);
+// function addBlip(payload: Payload[], map: L.Map) {
+//   payload?.forEach((p) => {
+//     createMarker(p, p?.name, map);
+//   });
+// }
 
-    return new L.LatLngBounds(southWest, northEast);
-  }
+// function removeBlip(payload: Payload[] | string, map: L.Map) {
+//   let nw = MarkerStore;
+//   if (typeof payload === "string") {
+//     nw = removeMarker(payload, map);
+//   } else {
+//     payload.map((p) => {
+//       const newStore = removeMarker(p?.identifier, map);
+//       if (typeof newStore === "object") {
+//         nw = newStore;
+//       }
+//     });
+//   }
 
-  return <div id="map" style={{ height: "calc(100vh - 58px)", width: "100vw" }}></div>;
-}
+//   MarkerStore = nw;
+// }
 
-// Top left corner of the GTA Map
-const GAME_1_X = -4000.0 - 230;
-const GAME_1_Y = 8000.0 + 420;
-
-const GAME_2_X = 400.0 - 30;
-const GAME_2_Y = -300.0 - 340.0;
-
-function convertToMap(x: number, y: number, map: L.Map | null) {
-  const h = 1024 * 3;
-  const w = 1024 * 2;
-
-  const latLng1 = map?.unproject([0, 0], 0);
-  const latLng2 = map?.unproject([w / 2, h - 1024], 0);
-
-  if (!latLng1) return;
-  if (!latLng2) return;
-
-  const rLng = latLng1.lng + ((x - GAME_1_X) * (latLng1.lng - latLng2.lng)) / (GAME_1_X - GAME_2_X);
-  const rLat = latLng1.lat + ((y - GAME_1_Y) * (latLng1.lat - latLng2.lat)) / (GAME_1_Y - GAME_2_Y);
-  return {
-    lat: rLat,
-    lng: rLng,
-  };
-}
-
-function tileLayers() {
-  return L.tileLayer(TILES_URL, {
-    minZoom: -2,
-    maxZoom: 2,
-    tileSize: 1024,
-    maxNativeZoom: 0,
-    minNativeZoom: 0,
-  });
-}
+export {};

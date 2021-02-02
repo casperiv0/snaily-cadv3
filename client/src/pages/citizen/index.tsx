@@ -85,13 +85,13 @@ const CitizensPage: React.FC<Props> = (props) => {
           >
             {lang.citizen.call_911}
           </button>
-          {/* <button
+          <button
             data-bs-toggle="modal"
             data-bs-target="#callTaxiModal"
             className="col ms-1 btn btn-primary"
           >
             Create taxi call
-          </button> */}
+          </button>
         </div>
       </div>
 

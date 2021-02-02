@@ -36,6 +36,9 @@ const modalButtons: MButton[] = [
 const ModalButtons: React.FC = () => {
   return (
     <>
+      {/* <Link to="/dispatch/map" className="btn btn-primary col-md-2 mt-2 ms-1">
+        Live map
+      </Link> */}
       {modalButtons.map((mButton: MButton, idx: number) => {
         return (
           <button

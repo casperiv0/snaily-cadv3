@@ -64,6 +64,10 @@ export const update911Call = (
 
     if (isSuccess(res)) {
       socket.emit("UPDATE_911_CALLS");
+      socket.emit(
+        "UPDATE_ASSIGNED_UNITS",
+        data.assigned_unit.map((u) => u.value),
+      );
       dispatch({
         type: UPDATE_911_CALL,
         calls: res.data.calls,

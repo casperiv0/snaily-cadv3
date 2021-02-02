@@ -81,8 +81,8 @@ const ManageOfficerPage = React.lazy(
 );
 
 const CadSettingsPage = React.lazy(() => import("./pages/admin/cad-settings"));
-const Map = React.lazy(() => import("./pages/dispatch/map"));
-// const TaxiDash = React.lazy(() => import("./pages/taxi/dash"));
+// const Map = React.lazy(() => import("./pages/dispatch/map"));
+const TaxiDash = React.lazy(() => import("./pages/taxi/dash"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -108,7 +108,7 @@ ReactDOM.render(
               Component={CreateOfficerPage}
             />
 
-            <AuthRoute requirement="dispatch" path="/dispatch/map" Component={Map} />
+            {/* <AuthRoute requirement="dispatch" path="/dispatch/map" Component={Map} /> */}
             <AuthRoute requirement="dispatch" path="/dispatch" Component={DispatchDash} />
 
             <AuthRoute
@@ -138,7 +138,7 @@ ReactDOM.render(
             <AuthRoute path="/medical-records/create/:id" Component={CreateMedicalRecordPage} />
 
             <AuthRoute requirement="tow" path="/tow" Component={TowDash} />
-            {/* <AuthRoute path="/taxi" Component={TaxiDash} /> */}
+            <AuthRoute path="/taxi" Component={TaxiDash} />
 
             <AuthRoute path="/truck-logs/create" Component={CreateTruckLogPage} />
             <AuthRoute path="/truck-logs" Component={TruckLogsDash} />

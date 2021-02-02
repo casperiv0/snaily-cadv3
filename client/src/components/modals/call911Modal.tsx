@@ -31,7 +31,7 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
   }
 
   return (
-    <Modal id="call911Modal">
+    <Modal size="lg" id="call911Modal">
       <div className="modal-header">
         <h5 className="modal-title">{lang.citizen.call_911} </h5>
         <XButton ref={btnRef} />
@@ -54,30 +54,32 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
             ></textarea>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label" htmlFor="911_caller">
-              {lang.dispatch.caller_name}
-            </label>
-            <input
-              type="text"
-              value={caller}
-              id="911_caller"
-              onChange={(e) => setCaller(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-            />
-          </div>
+          <div className="row">
+            <div className="col-6">
+              <label className="form-label" htmlFor="911_caller">
+                {lang.dispatch.caller_name}
+              </label>
+              <input
+                type="text"
+                value={caller}
+                id="911_caller"
+                onChange={(e) => setCaller(e.target.value)}
+                className="form-control bg-secondary border-secondary text-light"
+              />
+            </div>
 
-          <div className="mb-3">
-            <label className="form-label" htmlFor="911_location">
-              {lang.dispatch.caller_location}
-            </label>
-            <input
-              type="text"
-              value={location}
-              id="911_location"
-              onChange={(e) => setLocation(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-            />
+            <div className="col-6">
+              <label className="form-label" htmlFor="911_location">
+                {lang.dispatch.caller_location}
+              </label>
+              <input
+                type="text"
+                value={location}
+                id="911_location"
+                onChange={(e) => setLocation(e.target.value)}
+                className="form-control bg-secondary border-secondary text-light"
+              />
+            </div>
           </div>
         </div>
 

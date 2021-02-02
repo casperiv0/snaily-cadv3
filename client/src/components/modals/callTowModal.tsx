@@ -31,7 +31,7 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
   }
 
   return (
-    <Modal id="callTowModal">
+    <Modal size="lg" id="callTowModal">
       <div className="modal-header">
         <h5 className="modal-title">{lang.calls.tow_service} </h5>
         <XButton ref={btnRef} />
@@ -54,30 +54,31 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
             ></textarea>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label" htmlFor="tow_caller">
-              {lang.global.caller}
-            </label>
-            <input
-              type="text"
-              value={caller}
-              id="tow_caller"
-              onChange={(e) => setCaller(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label" htmlFor="tow_location">
-              {lang.global.location}
-            </label>
-            <input
-              type="text"
-              value={location}
-              id="tow_location"
-              onChange={(e) => setLocation(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-            />
+          <div className="row">
+            <div className="col-6">
+              <label className="form-label" htmlFor="tow_caller">
+                {lang.global.caller}
+              </label>
+              <input
+                type="text"
+                value={caller}
+                id="tow_caller"
+                onChange={(e) => setCaller(e.target.value)}
+                className="form-control bg-secondary border-secondary text-light"
+              />
+            </div>
+            <div className="col-6">
+              <label className="form-label" htmlFor="tow_location">
+                {lang.global.location}
+              </label>
+              <input
+                type="text"
+                value={location}
+                id="tow_location"
+                onChange={(e) => setLocation(e.target.value)}
+                className="form-control bg-secondary border-secondary text-light"
+              />
+            </div>
           </div>
         </div>
 

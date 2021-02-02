@@ -66,7 +66,7 @@ router.post("/calls", useAuth, useDispatchAuth, async (req: IRequest, res: Respo
   if (location && description && caller) {
     await processQuery(
       "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, description, caller, location, "Not Assigned", ""]
+      [id, description, caller, location, "Not Assigned", "[]"]
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");
