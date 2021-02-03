@@ -365,7 +365,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName, saveNote }) => {
                     <ul style={{ maxHeight: "20rem" }} className="list-group overflow-auto">
                       {!search.warrants[0] ? (
                         <li className="list-group-item border-dark text-dark">
-                          {lang.record.no_arr_rep}
+                          {lang.record.no_warrants}
                         </li>
                       ) : (
                         search.warrants.map((warrant: Warrant, idx: number) => {
@@ -493,6 +493,14 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName, saveNote }) => {
         </div>
 
         <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-danger"
+            data-bs-target="#createTicketModal"
+            data-bs-toggle="modal"
+          >
+            {lang.global.create_ticket}
+          </button>
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>

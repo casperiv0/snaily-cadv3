@@ -6,9 +6,11 @@ import Field from "../../../interfaces/Field";
 import AlertMessage from "../../alert-message";
 import Modal, { XButton } from "../index";
 import { creatArrestReport } from "../../../lib/actions/records";
+import Officer from "../../../interfaces/Officer";
 
 interface Props {
   error: string;
+  officer: Officer | null;
   creatArrestReport: (data: {
     name: string;
     officer_name: string;
@@ -18,9 +20,8 @@ interface Props {
   }) => void;
 }
 
-const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) => {
+const CreateArrestReportModal: React.FC<Props> = ({ error, officer, creatArrestReport }) => {
   const [name, setName] = React.useState("");
-  const [officerName, setOfficerName] = React.useState("");
   const [charges, setCharges] = React.useState("");
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
@@ -31,7 +32,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
 
     creatArrestReport({
       name,
-      officer_name: officerName,
+      officer_name: officer?.officer_name!,
       charges,
       postal,
       notes,
@@ -45,7 +46,6 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
       setCharges("");
       setPostal("");
       setNotes("");
-      setOfficerName("");
 
       btnRef.current?.click();
     }
@@ -58,13 +58,6 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,
-    },
-    {
-      type: "text",
-      id: "arrest_report_officer_name",
-      label: lang.record.officer_name,
-      onChange: (e) => setOfficerName(e.target.value),
-      value: officerName,
     },
     {
       type: "text",
@@ -133,6 +126,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, creatArrestReport }) 
 
 const mapToProps = (state: State) => ({
   error: state.officers.error,
+  officer: state.officers.activeOfficer,
 });
 
 export default connect(mapToProps, { creatArrestReport })(CreateArrestReportModal);

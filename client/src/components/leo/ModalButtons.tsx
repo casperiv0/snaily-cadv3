@@ -73,6 +73,8 @@ const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
             className="btn btn-secondary col-md-2"
             data-bs-target={mButton.target}
             data-bs-toggle="modal"
+            disabled={activeOfficer === null}
+            title={activeOfficer === null ? "Go on-duty before continuing" : mButton.name}
           >
             {mButton.name}
           </button>

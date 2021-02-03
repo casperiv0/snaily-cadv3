@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+
+- Updated db checker to update tables in database
+- Fixed typo in name search
+- Removed `officer name` from few modals, replaced with current active officer
+
 ## 1.2.0
 
 - New revamped select input for selecting assigned units in update 911 call

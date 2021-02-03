@@ -6,9 +6,11 @@ import AlertMessage from "../../alert-message";
 import { connect } from "react-redux";
 import Modal, { XButton } from "../index";
 import { createTicket } from "../../../lib/actions/records";
+import Officer from "../../../interfaces/Officer";
 
 interface Props {
   error: string;
+  officer: Officer | null;
   createTicket: (data: {
     name: string;
     officer_name: string;
@@ -18,9 +20,8 @@ interface Props {
   }) => void;
 }
 
-const CreateTicketModal: React.FC<Props> = ({ error, createTicket }) => {
+const CreateTicketModal: React.FC<Props> = ({ error, officer, createTicket }) => {
   const [name, setName] = React.useState("");
-  const [officerName, setOfficerName] = React.useState("");
   const [violations, setViolations] = React.useState("");
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
@@ -31,7 +32,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, createTicket }) => {
 
     createTicket({
       name,
-      officer_name: officerName,
+      officer_name: officer?.officer_name!,
       violations,
       postal,
       notes,
@@ -45,7 +46,6 @@ const CreateTicketModal: React.FC<Props> = ({ error, createTicket }) => {
       setViolations("");
       setPostal("");
       setNotes("");
-      setOfficerName("");
 
       btnRef.current?.click();
     }
@@ -58,13 +58,6 @@ const CreateTicketModal: React.FC<Props> = ({ error, createTicket }) => {
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,
-    },
-    {
-      type: "text",
-      id: "ticket_officer_name",
-      label: lang.record.officer_name,
-      onChange: (e) => setOfficerName(e.target.value),
-      value: officerName,
     },
     {
       type: "text",
@@ -133,6 +126,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, createTicket }) => {
 
 const mapToProps = (state: State) => ({
   error: state.officers.error,
+  officer: state.officers.activeOfficer,
 });
 
 export default connect(mapToProps, { createTicket })(CreateTicketModal);

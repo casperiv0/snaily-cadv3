@@ -25,8 +25,6 @@ const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
       getActive911Calls();
     });
 
-    console.log(location);
-
     socket.on("NEW_911_CALL", () => {
       if (["/dispatch", "/leo/dash", "/ems/dash"].includes(location.pathname)) {
         playSound("/sounds/new-call.mp3");

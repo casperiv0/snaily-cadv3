@@ -6,9 +6,11 @@ import AlertMessage from "../../alert-message";
 import { connect } from "react-redux";
 import Modal, { XButton } from "../index";
 import { createWrittenWarning } from "../../../lib/actions/records";
+import Officer from "../../../interfaces/Officer";
 
 interface Props {
   error: string;
+  officer: Officer | null;
   createWrittenWarning: (data: {
     name: string;
     officer_name: string;
@@ -18,9 +20,8 @@ interface Props {
   }) => void;
 }
 
-const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarning }) => {
+const CreateWrittenWarningModal: React.FC<Props> = ({ error, officer, createWrittenWarning }) => {
   const [name, setName] = React.useState("");
-  const [officerName, setOfficerName] = React.useState("");
   const [infractions, setInfractions] = React.useState("");
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
@@ -31,7 +32,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
 
     createWrittenWarning({
       name,
-      officer_name: officerName,
+      officer_name: officer?.officer_name!,
       infractions,
       postal,
       notes,
@@ -45,7 +46,6 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
       setInfractions("");
       setPostal("");
       setNotes("");
-      setOfficerName("");
 
       btnRef.current?.click();
     }
@@ -58,13 +58,6 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,
-    },
-    {
-      type: "text",
-      id: "written_warning_officer_name",
-      label: lang.record.officer_name,
-      onChange: (e) => setOfficerName(e.target.value),
-      value: officerName,
     },
     {
       type: "text",
@@ -133,6 +126,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, createWrittenWarnin
 
 const mapToProps = (state: State) => ({
   error: state.officers.error,
+  officer: state.officers.activeOfficer,
 });
 
 export default connect(mapToProps, { createWrittenWarning })(CreateWrittenWarningModal);

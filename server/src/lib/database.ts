@@ -35,7 +35,24 @@ async function select1() {
 async function updateDb() {
   try {
     await processQuery(
-      "ALTER TABLE `citizens` ADD `note` VARCHAR(255) NOT NULL AFTER `b_status`;ALTER TABLE `officers` ADD `callsign` VARCHAR(255) NOT NULL AFTER `officer_dept`;"
+      `
+      CREATE TABLE \`court_requests\` (
+        \`id\` varchar(255) NOT NULL,
+        \`warrants\` varchar(2500) NOT NULL,
+        \`arrest_reports\` varchar(2500) NOT NULL,
+        \`tickets\` varchar(2500) NOT NULL,
+        \`citizen_id\` varchar(255) NOT NULL,
+        \`user_id\` varchar(255) NOT NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      
+      -- ------------
+      
+      --
+      -- Indexes for table \`court_requests\`
+      --
+      ALTER TABLE \`court_requests\`
+        ADD PRIMARY KEY (\`id\`);
+      ALTER TABLE \`citizens\` ADD \`note\` VARCHAR(255) NOT NULL AFTER \`b_status\`;ALTER TABLE \`officers\` ADD \`callsign\` VARCHAR(255) NOT NULL AFTER \`officer_dept\`;`
     );
 
     // eslint-disable-next-line no-empty
