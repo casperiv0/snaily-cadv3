@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Citizen from "../../interfaces/Citizen";
 import lang from "../../language.json";
 import { Item, Span } from "../../pages/citizen/citizen-info";
@@ -14,9 +15,9 @@ const LicenseCard: React.FC<Props> = ({ citizen }) => {
         <h1 className="h4">{lang.citizen.licenses}</h1>
 
         <div>
-          <a className="btn btn-primary" href={`/licenses/edit/${citizen.id}`}>
+          <Link className="btn btn-primary" to={`/licenses/edit/${citizen.id}`}>
             {lang.citizen.license.edit}
-          </a>
+          </Link>
         </div>
       </div>
 

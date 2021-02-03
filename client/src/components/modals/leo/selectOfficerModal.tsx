@@ -54,7 +54,7 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
                 {officers.map((officer: Officer, idx: number) => {
                   return (
                     <option key={idx} value={officer.id}>
-                      {officer.officer_name}
+                      {`${officer.callsign} ${officer.officer_name} - ${officer.officer_dept}`}
                     </option>
                   );
                 })}

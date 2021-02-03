@@ -77,7 +77,7 @@ export const getCitizenById = (id: string) => async (dispatch: Dispatch<IDispatc
   }
 };
 
-export const createCitizen = (data: Citizen) => async (dispatch: Dispatch<IDispatch>) => {
+export const createCitizen = (data: Partial<Citizen>) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const {
       image,
@@ -100,19 +100,19 @@ export const createCitizen = (data: Citizen) => async (dispatch: Dispatch<IDispa
     if (image) {
       fd.append("image", image, image?.name);
     }
-    fd.append("full_name", full_name);
-    fd.append("gender", gender);
-    fd.append("ethnicity", ethnicity);
-    fd.append("birth", birth);
-    fd.append("hair_color", hair_color);
-    fd.append("eye_color", eye_color);
-    fd.append("address", address);
-    fd.append("height", height);
-    fd.append("weight", weight);
-    fd.append("dmv", dmv);
-    fd.append("pilot_license", pilot_license);
-    fd.append("fire_license", fire_license);
-    fd.append("ccw", ccw);
+    fd.append("full_name", full_name!);
+    fd.append("gender", gender!);
+    fd.append("ethnicity", ethnicity!);
+    fd.append("birth", birth!);
+    fd.append("hair_color", hair_color!);
+    fd.append("eye_color", eye_color!);
+    fd.append("address", address!);
+    fd.append("height", height!);
+    fd.append("weight", weight!);
+    fd.append("dmv", dmv!);
+    fd.append("pilot_license", pilot_license!);
+    fd.append("fire_license", fire_license!);
+    fd.append("ccw", ccw!);
 
     const res = await handleRequest("/citizen", "POST", fd);
 
@@ -132,7 +132,7 @@ export const createCitizen = (data: Citizen) => async (dispatch: Dispatch<IDispa
   }
 };
 
-export const updateCitizen = (id: string, data: Citizen) => async (
+export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
   dispatch: Dispatch<IDispatch>,
 ) => {
   try {
@@ -157,19 +157,19 @@ export const updateCitizen = (id: string, data: Citizen) => async (
     if (image) {
       fd.append("image", image, image?.name);
     }
-    fd.append("full_name", full_name);
-    fd.append("gender", gender);
-    fd.append("ethnicity", ethnicity);
-    fd.append("birth", birth);
-    fd.append("hair_color", hair_color);
-    fd.append("eye_color", eye_color);
-    fd.append("address", address);
-    fd.append("height", height);
-    fd.append("weight", weight);
-    fd.append("dmv", dmv);
-    fd.append("pilot_license", pilot_license);
-    fd.append("fire_license", fire_license);
-    fd.append("ccw", ccw);
+    fd.append("full_name", full_name!);
+    fd.append("gender", gender!);
+    fd.append("ethnicity", ethnicity!);
+    fd.append("birth", birth!);
+    fd.append("hair_color", hair_color!);
+    fd.append("eye_color", eye_color!);
+    fd.append("address", address!);
+    fd.append("height", height!);
+    fd.append("weight", weight!);
+    fd.append("dmv", dmv!);
+    fd.append("pilot_license", pilot_license!);
+    fd.append("fire_license", fire_license!);
+    fd.append("ccw", ccw!);
 
     const res = await handleRequest(`/citizen/${id}`, "PUT", fd);
 

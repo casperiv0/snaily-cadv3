@@ -32,7 +32,7 @@ const DeleteCitizenModal: React.FC<Props> = ({ id, name, deleteCitizen }) => {
 
       <div className="modal-footer">
         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-          {lang.global.close}
+          {lang.global.cancel}
         </button>
         <button type="button" onClick={handleDelete} className="btn btn-danger">
           {lang.citizen.confirm_delete}

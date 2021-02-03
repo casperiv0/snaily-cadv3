@@ -6,6 +6,7 @@ import { checkAuth, logout } from "../../lib/actions/auth";
 import { getCadInfo } from "../../lib/actions/global";
 import CadInfo from "../../interfaces/CadInfo";
 import { Link } from "react-router-dom";
+import User from "../../interfaces/User";
 
 interface Props {
   isAuth: boolean;
@@ -14,6 +15,7 @@ interface Props {
   logout: () => void;
   getCadInfo: () => void;
   cadInfo: CadInfo;
+  user: User | null;
 }
 
 interface Path {
@@ -54,18 +56,31 @@ export const paths: Path[] = [
     adminOnly: false,
   },
   {
+    href: "/court",
+    name: "Courthouse",
+    adminOnly: false,
+  },
+  {
     href: "/bleeter",
     name: lang.nav.bleeter,
     adminOnly: false,
   },
   {
-    href: "/admin",
-    name: lang.nav.admin,
-    adminOnly: true,
+    href: "/taxi",
+    name: "Taxi",
+    adminOnly: false,
   },
 ];
 
-const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, checkAuth, logout, getCadInfo }) => {
+const Navbar: React.FC<Props> = ({
+  loading,
+  isAuth,
+  cadInfo,
+  user,
+  checkAuth,
+  logout,
+  getCadInfo,
+}) => {
   React.useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -102,6 +117,13 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, checkAuth, logout, 
                 </li>
               );
             })}
+            {user && ["admin", "owner", "moderator"].includes(user?.rank) ? (
+              <li id="admin" key={paths.length + 1} className="nav-item">
+                <Link className={"nav-link active text-light"} to="/admin">
+                  {lang.nav.admin}
+                </Link>
+              </li>
+            ) : null}
             <NavbarDropdown loading={loading} isAuth={isAuth} logout={() => logout()} />
           </ul>
         </div>
@@ -163,6 +185,7 @@ const mapToProps = (state: State) => ({
   isAuth: state.auth.isAuth,
   loading: state.auth.loading,
   cadInfo: state.global.cadInfo,
+  user: state.auth.user,
 });
 
 export default connect(mapToProps, { checkAuth, logout, getCadInfo })(Navbar);

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import Call from "../../interfaces/Call";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
@@ -13,6 +14,8 @@ interface Props {
 }
 
 const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
+  const location = useLocation();
+
   React.useEffect(() => {
     getActive911Calls();
   }, [getActive911Calls]);
@@ -21,10 +24,15 @@ const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
     socket.on("UPDATE_911_CALLS", () => {
       getActive911Calls();
     });
+
+    console.log(location);
+
     socket.on("NEW_911_CALL", () => {
-      playSound("/sounds/new-call.mp3");
+      if (["/dispatch", "/leo/dash", "/ems/dash"].includes(location.pathname)) {
+        playSound("/sounds/new-call.mp3");
+      }
     });
-  }, [getActive911Calls]);
+  }, [getActive911Calls, location]);
 
   return (
     <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
@@ -54,7 +62,17 @@ const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                   <td>{call.location}</td>
                   <td>{call.description}</td>
                   <td>{call.status}</td>
-                  <td>{call.assigned_unit}</td>
+                  <td>
+                    {call.assigned_unit.map((c, i) => {
+                      const comma = i !== call.assigned_unit.length - 1 ? ", " : " ";
+                      return (
+                        <span key={c.value}>
+                          {c.label}
+                          {comma}
+                        </span>
+                      );
+                    })}
+                  </td>
                 </tr>
               );
             })}

@@ -11,6 +11,7 @@ export const GET_BLEETS = "GET_BLEETS";
 export const GET_BLEET_BY_ID = "GET_BLEET_BY_ID";
 export const CREATE_BLEET = "CREATE_BLEET";
 export const UPDATE_BLEET = "UPDATE_BLEET";
+export const DELETE_BLEET_BY_ID = "DELETE_BLEET_BY_ID";
 
 export const UPDATE_AOP = "UPDATE_AOP";
 export const GET_AOP = "GET_AOP";
@@ -54,6 +55,10 @@ export const GET_ACTIVE_UNITS = "GET_ACTIVE_UNITS";
 export const CREATE_TOW_CALL = "CREATE_TOW_CALL";
 export const GET_TOW_CALLS = "GET_TOW_CALLS";
 export const END_TOW_CALL = "END_TOW_CALL";
+
+export const CREATE_TAXI_CALL = "CREATE_TAXI_CALL";
+export const GET_TAXI_CALLS = "GET_TAXI_CALLS";
+export const END_TAXI_CALL = "END_TAXI_CALL";
 
 export const SET_MESSAGE = "SET_MESSAGE";
 
@@ -107,6 +112,7 @@ export const PLATE_SEARCH = "PLATE_SEARCH";
 export const NAME_SEARCH = "NAME_SEARCH";
 export const ADDRESS_SEARCH = "ADDRESS_SEARCH";
 export const WEAPON_SEARCH = "WEAPON_SEARCH";
+export const SAVE_NOTE = "SAVE_NOTE";
 
 /* admin*/
 export const GET_COMPANIES = "GET_COMPANIES";
@@ -149,3 +155,8 @@ export const UPDATE_LEGAL_STATUS = "UPDATE_LEGAL_STATUS";
 export const GET_ALL_OFFICERS = "GET_ALL_OFFICERS";
 export const ADMIN_UPDATE_OFFICER = "ADMIN_UPDATE_OFFICER";
 export const GET_OFFICER_BY_ID = "GET_OFFICER_BY_ID";
+
+export const SEARCH_CITIZEN = "SEARCH_CITIZEN";
+
+export const GET_ALl_EXPUNGEMENT_REQUESTS = "GET_ALl_EXPUNGEMENT_REQUESTS";
+export const ACCEPT_OR_DECLINE_REQUEST = "ACCEPT_OR_DECLINE_REQUEST";

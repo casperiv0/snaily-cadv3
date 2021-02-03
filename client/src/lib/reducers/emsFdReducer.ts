@@ -1,5 +1,6 @@
 import Deputy from "../../interfaces/Deputy";
 import MedicalRecord from "../../interfaces/MedicalRecord";
+import State from "../../interfaces/State";
 import {
   CREATE_EMS_FD_DEPUTY,
   DELETE_EMS_DEPUTY,
@@ -9,12 +10,13 @@ import {
   SET_EMS_STATUS,
 } from "../types";
 
-const initState = {
+const initState: State["ems_fd"] = {
   deputies: [],
   medicalRecords: [],
   error: null,
   status: null,
   status2: "",
+  activeDeputy: null,
 };
 
 type Actions =
@@ -22,6 +24,7 @@ type Actions =
       type: typeof GET_CURRENT_EMS_STATUS;
       status: "on-duty" | "off-duty";
       status2: string;
+      activeDeputy: Deputy;
     }
   | {
       type: typeof SET_EMS_STATUS;
@@ -51,6 +54,7 @@ export default function emsFdReducer(state = initState, action: Actions) {
         ...state,
         status: action.status,
         status2: action.status2,
+        activeDeputy: action.activeDeputy,
       };
     case "SET_EMS_STATUS":
       return {

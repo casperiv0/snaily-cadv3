@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import socket from "../../lib/socket";
 import Officer from "../../interfaces/Officer";
 import lang from "../../language.json";
 
@@ -48,6 +49,10 @@ interface Props {
 }
 
 const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
+  function panicButton() {
+    socket.emit("PANIC_BUTTON", activeOfficer);
+  }
+
   return (
     <>
       {activeOfficer ? (
@@ -75,9 +80,12 @@ const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
       })}
 
       {/* other links */}
-      <a className="btn btn-secondary col-md-2" href="/leo/penal-codes">
+      <Link className="btn btn-secondary col-md-2" to="/leo/penal-codes">
         {lang.global.penal_codes}
-      </a>
+      </Link>
+      <button onClick={panicButton} disabled={!activeOfficer} className="btn btn-danger col-md-2">
+        Panic Button
+      </button>
     </>
   );
 };

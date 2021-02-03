@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
 import Match from "../../interfaces/Match";
 import Message from "../../interfaces/Message";
+import { Link } from "react-router-dom";
 
 interface Props {
   message: Message;
@@ -18,11 +19,11 @@ interface Props {
   ethnicities: Value[];
   legalStatuses: Value[];
   match: Match;
-  citizen: Citizen;
+  citizen: Citizen | null;
   getGenders: () => void;
   getEthnicities: () => void;
   getLegalStatuses: () => void;
-  updateCitizen: (id: string, data: Citizen) => void;
+  updateCitizen: (id: string, data: Partial<Citizen>) => void;
   getCitizenById: (id: string) => void;
 }
 
@@ -306,9 +307,9 @@ const CreateCitizenPage: React.FC<Props> = ({
         </div>
 
         <div className="mb-3 float-end">
-          <a href={`/citizen/${citizenId}`} className="btn btn-danger">
+          <Link to={`/citizen/${citizenId}`} className="btn btn-danger">
             {lang.global.cancel}
-          </a>
+          </Link>
 
           <button className="btn btn-primary ms-2" type="submit">
             {lang.citizen.update_citizen}

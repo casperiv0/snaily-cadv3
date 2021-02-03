@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Layout from "../../components/Layout";
 import lang from "../../language.json";
 import State from "../../interfaces/State";
@@ -10,18 +10,23 @@ import Message from "../../interfaces/Message";
 
 interface Props {
   message: Message;
-  createEmsFdDeputy: (data: object) => void;
+  createEmsFdDeputy: (data: object) => Promise<boolean | undefined>;
 }
 
 const CreateDeputyPage: React.FC<Props> = ({ message, createEmsFdDeputy }) => {
   const [name, setName] = React.useState<string>("");
+  const history = useHistory();
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createEmsFdDeputy({
+    const created = await createEmsFdDeputy({
       name,
     });
+
+    if (created) {
+      history.push("/ems-fd/deputies");
+    }
   }
 
   return (

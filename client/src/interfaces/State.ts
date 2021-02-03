@@ -15,6 +15,7 @@ import Vehicle from "./Vehicle";
 import Company, { CompanyPost } from "./Company";
 import CadInfo from "./CadInfo";
 import Message from "./Message";
+import { ExpungementRequest } from "../lib/actions/court";
 
 interface State {
   auth: {
@@ -37,6 +38,7 @@ interface State {
   calls: {
     calls_911: Call[];
     tow_calls: TowCall[];
+    taxi_calls: TowCall[];
   };
   officers: {
     status: string | null;
@@ -63,18 +65,21 @@ interface State {
   ems_fd: {
     deputies: Deputy[];
     medicalRecords: MedicalRecord[];
-    error: string;
-    status: string;
-    status2: string;
+    error: string | null;
+    status: string | null;
+    status2: string | null;
+    activeDeputy: Deputy | null;
   };
   citizen: {
-    error: string;
+    error: string | null;
     citizens: Citizen[];
-    citizen: Citizen;
+    citizen: Citizen | null;
     weapons: Weapon[];
     vehicles: Vehicle[];
     medicalRecords: MedicalRecord[];
-    vehicle: Vehicle;
+    vehicle: Vehicle | null;
+    courtResult: null | any;
+    expungementRequests: ExpungementRequest[];
   };
   company: {
     citizens: Citizen[];
@@ -103,6 +108,7 @@ interface State {
     members: User[];
     officers: Officer[];
     officer: Officer | null;
+    expungementRequests: ExpungementRequest[];
   };
 }
 

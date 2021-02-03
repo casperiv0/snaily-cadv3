@@ -17,6 +17,8 @@ import {
   GET_ALL_OFFICERS,
   GET_OFFICER_BY_ID,
   ADMIN_UPDATE_OFFICER,
+  GET_ALl_EXPUNGEMENT_REQUESTS,
+  ACCEPT_OR_DECLINE_REQUEST,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -26,6 +28,7 @@ import User from "../../interfaces/User";
 import socket from "../socket";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
+import { ExpungementRequest } from "./court";
 
 interface IDispatch {
   type: string;
@@ -37,6 +40,7 @@ interface IDispatch {
   member?: User;
   officers?: Officer[];
   officer?: Officer;
+  expungementRequests?: ExpungementRequest[];
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -325,5 +329,46 @@ export const updateOfficerById = (id: string, data: UpdateOfficerData) => async 
     }
   } catch (e) {
     Logger.error(GET_ALL_OFFICERS, e);
+  }
+};
+
+export const getAllExpungementRequests = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/expungement-requests", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_ALl_EXPUNGEMENT_REQUESTS,
+        expungementRequests: res.data.requests,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_ALl_EXPUNGEMENT_REQUESTS, e);
+  }
+};
+
+export const acceptOrDeclineRequest = (
+  type: "accept" | "decline",
+  request: ExpungementRequest,
+) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(
+      `/admin/management/expungement-requests/${request.id}/${type}`,
+      "PUT",
+      {
+        warrants: request.warrants,
+        arrestReports: request.arrestReports,
+        tickets: request.tickets,
+      },
+    );
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: ACCEPT_OR_DECLINE_REQUEST,
+        expungementRequests: res.data.requests,
+      });
+    }
+  } catch (e) {
+    Logger.error(ACCEPT_OR_DECLINE_REQUEST, e);
   }
 };

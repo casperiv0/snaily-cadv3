@@ -35,8 +35,9 @@ async function select1() {
 async function updateDb() {
   try {
     await processQuery(
-      "ALTER TABLE `officers` ADD `callsign` VARCHAR(255) NOT NULL AFTER `officer_dept`;"
+      "ALTER TABLE `citizens` ADD `note` VARCHAR(255) NOT NULL AFTER `b_status`;ALTER TABLE `officers` ADD `callsign` VARCHAR(255) NOT NULL AFTER `officer_dept`;"
     );
+
     // eslint-disable-next-line no-empty
   } catch {}
 }

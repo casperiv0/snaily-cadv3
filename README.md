@@ -65,6 +65,7 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
 - LEO Dashboard
 - Dispatch Dashboard
 - Tow Dashboard
+- Taxi Dashboard
 - Trucker Logs
 - Bleeter
 - Translate with ease
@@ -88,6 +89,7 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
   - Drivers, pilot, firearms license and CCW
   - Report vehicles as stolen
   - Transfer a vehicle to a new owner
+  - Request expungement
   - Companies
     - Company Blog posts
     - Create posts
@@ -116,6 +118,7 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
   - Create Warrants
   - See active 911 calls
   - See active bolos
+  - Panic button
 
 - Dispatch
 

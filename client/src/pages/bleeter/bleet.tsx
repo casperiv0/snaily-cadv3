@@ -3,7 +3,7 @@ import Markdown from "react-markdown";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
-import { getBleetById } from "../../lib/actions/bleeter";
+import { getBleetById, deleteBleet } from "../../lib/actions/bleeter";
 import IBleet from "../../interfaces/Bleet";
 import Match from "../../interfaces/Match";
 import Loader from "../../components/loader";
@@ -11,6 +11,7 @@ import lang from "../../language.json";
 import User from "../../interfaces/User";
 import AlertMessage from "../../components/alert-message";
 import SERVER_URL from "../../config";
+import { Link, useHistory } from "react-router-dom";
 
 interface Props {
   bleet: IBleet;
@@ -19,19 +20,30 @@ interface Props {
   match: Match;
   user: User;
   getBleetById: (id: string) => void;
+  deleteBleet: (id: string) => Promise<boolean | undefined>;
 }
 
-const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) => {
+const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, deleteBleet }) => {
+  const id = match.params.id;
+  const history = useHistory();
+
   React.useEffect(() => {
-    const id = match.params.id;
     getBleetById(id);
-  }, [getBleetById, match]);
+  }, [getBleetById, id]);
 
   React.useEffect(() => {
     if (bleet?.id) {
       document.title = `${bleet?.title} - ${lang.nav.bleeter}`;
     }
   }, [bleet]);
+
+  async function handleDelete() {
+    const deleted = await deleteBleet(id);
+
+    if (deleted) {
+      history.push("/bleeter");
+    }
+  }
 
   if (loading) {
     return <Loader />;
@@ -47,17 +59,23 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById }) =
 
   return (
     <Layout classes="mt-5 pb-5">
-      <a className="btn btn-secondary mb-3" href="/bleeter">
+      <Link className="btn btn-secondary mb-3" to="/bleeter">
         {lang.bleeter.go_back}
-      </a>
+      </Link>
 
       <div className="d-flex justify-content-between border-bottom">
         <h3>{bleet.title}</h3>
         <div>
           {bleet.id && user.id === bleet.user_id ? (
-            <a className="btn btn-success" type="button" href={`/bleet/edit/${bleet.id}`}>
+            <Link className="btn btn-success mx-2" type="button" to={`/bleet/edit/${bleet.id}`}>
               Edit bleet
-            </a>
+            </Link>
+          ) : null}
+          {(user.id && ["owner", "admin", "moderator"].includes(user.rank)) ||
+          bleet.user_id === user.id ? (
+            <button onClick={handleDelete} className="btn btn-danger">
+              Delete bleet
+            </button>
           ) : null}
         </div>
       </div>
@@ -81,4 +99,4 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
 });
 
-export default connect(mapToProps, { getBleetById })(Bleet);
+export default connect(mapToProps, { getBleetById, deleteBleet })(Bleet);

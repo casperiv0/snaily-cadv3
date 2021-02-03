@@ -10,10 +10,11 @@ import { connect } from "react-redux";
 import { getLegalStatuses } from "../../../lib/actions/values";
 import { getVehicleById, updateVehicleById } from "../../../lib/actions/citizen";
 import Message from "../../../interfaces/Message";
+import { Link } from "react-router-dom";
 
 interface Props {
   message: Message;
-  vehicle: Vehicle;
+  vehicle: Vehicle | null;
   legalStatuses: Value[];
   match: Match;
   getLegalStatuses: () => void;
@@ -57,7 +58,7 @@ const EditVehiclePage: React.FC<Props> = ({
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateVehicleById(vehicleId, vehicle?.citizen_id, {
+    updateVehicleById(vehicleId, vehicle?.citizen_id!, {
       color,
       status,
     });
@@ -125,9 +126,9 @@ const EditVehiclePage: React.FC<Props> = ({
         </div>
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger me-2" href={`/citizen/${vehicle?.citizen_id}`}>
+          <Link className="btn btn-danger me-2" to={`/citizen/${vehicle?.citizen_id}`}>
             {lang.global.cancel}
-          </a>
+          </Link>
           <button className="btn btn-primary" type="submit">
             {lang.global.update}
           </button>

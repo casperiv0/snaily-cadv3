@@ -7,6 +7,7 @@ import IRequest from "../interfaces/IRequest";
 import { RanksArr } from "../lib/constants";
 import IUser from "../interfaces/IUser";
 import Officer from "../interfaces/Officer";
+import { useDisLeoAuth } from "./dispatch";
 const router: Router = Router();
 
 router.get("/penal-codes", useAuth, useOfficerAuth, (_req: IRequest, res: Response) => {
@@ -22,13 +23,13 @@ router.get("/my-officers", useAuth, useOfficerAuth, async (req: IRequest, res: R
 });
 
 router.post("/my-officers", useAuth, useOfficerAuth, async (req: IRequest, res: Response) => {
-  const { name, department } = req.body;
+  const { name, department, callsign } = req.body;
   const id = uuidv4();
 
-  if (name && department) {
+  if (name && department && callsign) {
     await processQuery(
-      "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`user_id`,`status`,`status2`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, name, department, req.user?.id, "off-duty", ""]
+      "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [id, name, department, callsign, req.user?.id, "off-duty", ""]
     );
 
     return res.json({ status: "success" });
@@ -64,8 +65,8 @@ router.put("/status/:id", useAuth, useOfficerAuth, async (req: IRequest, res: Re
 
   if (status && status2) {
     await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
-      status,
-      status2,
+      status2 === "10-7" ? "off-duty" : status,
+      status2 === "10-7" ? "--------" : status2,
       id,
     ]);
 
@@ -152,6 +153,19 @@ router.post("/search/weapon", useAuth, useOfficerAuth, async (req: IRequest, res
     );
 
     return res.json({ weapon: weapon[0], status: "success" });
+  } else {
+    return res.json({ error: "Please fill in all fields", status: "error" });
+  }
+});
+
+router.post("/note/:citizenId", useAuth, useDisLeoAuth, async (req: IRequest, res: Response) => {
+  const { citizenId } = req.params;
+  const { note } = req.body;
+
+  if (citizenId && note) {
+    await processQuery("UPDATE `citizens` SET `note` = ? WHERE `id` = ?", [note, citizenId]);
+
+    return res.json({ status: "success" });
   } else {
     return res.json({ error: "Please fill in all fields", status: "error" });
   }

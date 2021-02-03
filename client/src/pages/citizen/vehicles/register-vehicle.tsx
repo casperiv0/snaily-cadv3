@@ -11,6 +11,7 @@ import AlertMessage from "../../../components/alert-message";
 import Company from "../../../interfaces/Company";
 import { getCompanies } from "../../../lib/actions/admin";
 import Message from "../../../interfaces/Message";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   message: Message;
@@ -43,6 +44,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
   const [vehicle, setVehicle] = React.useState("");
   const [citizenId, setCitizenId] = React.useState("");
   const [companyId, setCompanyId] = React.useState("");
+  const history = useHistory();
 
   React.useEffect(() => {
     getLegalStatuses();
@@ -194,9 +196,9 @@ const RegisterVehiclePage: React.FC<Props> = ({
         </div>
 
         <div className="mb-3 float-end">
-          <a href="/citizen" className="btn btn-danger">
+          <button onClick={() => history.goBack()} type="button" className="btn btn-danger">
             {lang.global.cancel}
-          </a>
+          </button>
           <button type="submit" className="ms-2 btn btn-primary">
             {lang.citizen.vehicle.reg_vehicle}
           </button>

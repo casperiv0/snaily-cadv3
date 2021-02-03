@@ -8,9 +8,12 @@ import IRequest from "../interfaces/IRequest";
 import ICad from "../interfaces/ICad";
 import IUser from "../interfaces/IUser";
 import Citizen from "../interfaces/Citizen";
+import Officer from "../interfaces/Officer";
+import { io } from "../server";
 
 const saltRounds = genSaltSync(10);
 const router: Router = Router();
+const COOKIE_EXPIRES = 60 * 60 * 1000 * 2; // 2hours
 
 router.post("/register", async (req: IRequest, res: Response) => {
   const { username, password, password2 } = req.body;
@@ -43,11 +46,11 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const id = uuidv4();
 
       await processQuery(
-        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           id /* id */,
           username /* username */,
-          hash /* passowrd */,
+          hash /* password */,
           Ranks.user /* rank */,
           false /* leo access */,
           false /* ems_fd access */,
@@ -56,35 +59,40 @@ router.post("/register", async (req: IRequest, res: Response) => {
           false /* banned */,
           "" /* ban_reason */,
           whitelistStatus /* whitelist_status */,
-          "" /* dispatch_status */,
         ]
       );
+
+      if (cadInfo[0].whitelisted === "1") {
+        return res.json({
+          status: "error",
+          error:
+            "Your account was created successfully, this CAD is whitelisted so your account is still pending access",
+        });
+      }
 
       const token = useToken({ id });
 
       res.cookie("snaily-cad-session", token, {
-        expires: new Date(Date.now() + 3600000),
+        expires: new Date(Date.now() + COOKIE_EXPIRES),
         httpOnly: true,
       });
 
       return res.json({
-        status: "error",
-        error:
-          "Your account was created successfully, this CAD is whitelisted so your account is still pending access",
+        status: "success",
       });
     } else {
       // no users found - create the account at owner level
       const id = uuidv4();
       await processQuery(
         "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `company_whitelisted`, `webhook_url`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [username, "Change me", "Change me", "0", "0", "0", "0"]
+        [username, "Change me", "Change me", "0", "0", "0", ""]
       );
       await processQuery(
-        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           id /* id */,
           username /* username */,
-          hash /* passowrd */,
+          hash /* password */,
           Ranks.owner /* rank */,
           true /* leo access */,
           true /* ems_fd access */,
@@ -93,15 +101,13 @@ router.post("/register", async (req: IRequest, res: Response) => {
           false /* banned */,
           "" /* ban_reason */,
           Whitelist.accepted /* whitelist_status */,
-          "" /* dispatch_status */,
-          "" /* webhook_url */,
         ]
       );
 
       const token = useToken({ id });
 
       res.cookie("snaily-cad-session", token, {
-        expires: new Date(Date.now() + 3600000),
+        expires: new Date(Date.now() + COOKIE_EXPIRES),
         httpOnly: true,
       });
 
@@ -119,6 +125,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
     const user = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `username` = ?", [
       username,
     ]);
+    const cadInfo = await processQuery<ICad[]>("SELECT * FROM `cad_info`");
 
     if (!user[0]) {
       return res.json({ error: "User was not found", status: "error" });
@@ -140,7 +147,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
       });
     }
 
-    if (user[0].whitelist_status === Whitelist.pending) {
+    if (cadInfo[0].whitelisted === "1" && user[0].whitelist_status === Whitelist.pending) {
       return res.json({
         error: "This account is still pending access",
         status: "error",
@@ -149,7 +156,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
 
     const token = useToken({ id: user[0].id });
     res.cookie("snaily-cad-session", token, {
-      expires: new Date(Date.now() + 3600000),
+      expires: new Date(Date.now() + COOKIE_EXPIRES),
       httpOnly: true,
     });
 
@@ -165,7 +172,23 @@ router.post("/user", useAuth, async (req: IRequest, res: Response) => {
   return res.json({ user, status: "success" });
 });
 
-router.get("/logout", useAuth, async (_req: IRequest, res: Response) => {
+router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
+  const officers = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `user_id` = ?", [
+    req.user?.id,
+  ]);
+
+  officers
+    .filter((o) => o.status === "on-duty")
+    .forEach(async (officer) => {
+      processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
+        "off-duty",
+        "--------",
+        officer.id,
+      ]);
+    });
+
+  io.sockets.emit("UPDATE_ACTIVE_UNITS");
+
   res.clearCookie("snaily-cad-session", { httpOnly: true });
 
   return res.json({ status: "success" });

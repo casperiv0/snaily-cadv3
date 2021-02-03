@@ -6,13 +6,30 @@ import { useAuth } from "../hooks";
 import { RanksArr } from "../lib/constants";
 import ICad from "../interfaces/ICad";
 import { io } from "../server";
+import Call from "../interfaces/Call";
 
 const router: Router = Router();
 
-router.get("/911-calls", async (_req: IRequest, res: Response) => {
-  const calls = await processQuery("SELECT * FROM `911calls`");
+export function mapCalls(calls: Call[]): Call[] {
+  return calls.map((call) => {
+    try {
+      call.assigned_unit = JSON.parse(
+        (typeof call.assigned_unit === "string" && call.assigned_unit) || "[]"
+      );
+    } catch {
+      call.assigned_unit = [];
+    }
 
-  return res.json({ calls, status: "success" });
+    return call;
+  });
+}
+
+router.get("/911-calls", async (_req: IRequest, res: Response) => {
+  const calls = await processQuery<Call[]>("SELECT * FROM `911calls`");
+
+  const mappedCalls = mapCalls(calls);
+
+  return res.json({ calls: mappedCalls, status: "success" });
 });
 
 router.post("/911-calls", async (req: IRequest, res: Response) => {
@@ -20,9 +37,9 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
   const { location, caller } = req.body;
   const description = req.body.description ?? "No description provided";
 
-  await processQuery(
+  await processQuery<Call[]>(
     "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
-    [id, description, caller, location, "Not Assigned", ""]
+    [id, description, caller, location, "Not assigned", JSON.stringify("[]")]
   );
 
   io.sockets.send("NEW_911_CALL");

@@ -10,7 +10,7 @@ import SelectOfficerModal from "../../components/modals/leo/selectOfficerModal";
 import CreateWarrant from "../../components/leo/CreateWarrant";
 import socket from "../../lib/socket";
 import NotepadModal from "../../components/modals/notepad";
-import AlertMessage from "../../components/alert-message";
+import AlertMessage, { DismissAlertBtn } from "../../components/alert-message";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
 import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
 import NameSearchModal from "../../components/modals/leo/nameSearchModal";
@@ -21,6 +21,7 @@ import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
+import { playSound } from "../../lib/functions";
 
 interface Props {
   aop: string;
@@ -31,6 +32,7 @@ interface Props {
 const LeoDash: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<Date>(new Date());
   const [aop, setAop] = React.useState<string>(props.aop);
+  const [panic, setPanic] = React.useState<Officer | null>(null);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -42,17 +44,36 @@ const LeoDash: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     document.title = "LEO Dashboard";
-  });
+  }, []);
 
   React.useEffect(() => {
-    socket.on("UPDATE_AOP", (newAop: any) => {
+    socket.on("UPDATE_AOP", (newAop: string) => {
       setAop(newAop);
+    });
+
+    socket.on("PANIC_BUTTON", (officer: Officer) => {
+      setPanic(officer);
     });
   }, []);
 
+  React.useEffect(() => {
+    socket.on("UPDATE_ASSIGNED_UNITS", (unitIds: string[]) => {
+      if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
+        playSound("/sounds/success.mp3");
+      }
+    });
+  }, [props.activeOfficer]);
+
   return (
     <Layout fluid classes="mt-5">
+      {panic !== null ? (
+        <div role="alert" className="alert alert-danger alert-dismissible">
+          {panic.officer_name} has activated panic button
+          <DismissAlertBtn onClick={() => setPanic(null)} />
+        </div>
+      ) : null}
       {props.message ? <AlertMessage message={props.message} dismissible /> : null}
+
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>

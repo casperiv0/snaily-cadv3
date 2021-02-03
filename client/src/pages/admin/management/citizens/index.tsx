@@ -4,25 +4,35 @@ import Citizen from "../../../../interfaces/Citizen";
 import AlertMessage from "../../../../components/alert-message";
 import lang from "../../../../language.json";
 import State from "../../../../interfaces/State";
-import DeleteCitizenModal from "../../../../components/modals/admin/deleteCitizenModal";
 import { connect } from "react-redux";
-import { getAllCitizens } from "../../../../lib/actions/admin";
-import { Item, Span } from "../../../citizen/citizen-info";
+import { getAllCitizens, getAllExpungementRequests } from "../../../../lib/actions/admin";
 import Message from "../../../../interfaces/Message";
+import AllCitizensTab from "../../../../components/admin/all-citizens";
+import ExpungementRequestsTab from "../../../../components/admin/expungement-requests";
+import { ExpungementRequest } from "../../../../lib/actions/court";
 
 interface Props {
   message: Message;
+  requests: ExpungementRequest[];
   citizens: Citizen[];
   getAllCitizens: () => void;
+  getAllExpungementRequests: () => void;
 }
 
-const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens }) => {
+const ManageCitizensPage: React.FC<Props> = ({
+  message,
+  citizens,
+  requests,
+  getAllCitizens,
+  getAllExpungementRequests,
+}) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<any>([]);
 
   React.useEffect(() => {
     getAllCitizens();
-  }, [getAllCitizens]);
+    getAllExpungementRequests();
+  }, [getAllCitizens, getAllExpungementRequests]);
 
   React.useEffect(() => {
     if (citizens[0]) {
@@ -43,7 +53,7 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
     <AdminLayout>
       {message ? <AlertMessage message={message} dismissible /> : null}
 
-      <ul className="list-group">
+      <div className="list-group">
         <input
           className="form-control bg-dark border-secondary text-light mb-2"
           type="search"
@@ -52,104 +62,55 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
           placeholder={`${lang.global.search}..`}
         />
 
-        {!citizens[0] ? (
-          <AlertMessage message={{ msg: lang.citizen.no_citizens_cad, type: "warning" }} />
-        ) : !filtered[0] ? (
-          <AlertMessage
-            message={{ msg: lang.citizen.citizen_not_found_by_name, type: "warning" }}
-          />
-        ) : (
-          <ul className="list-group">
-            {filtered.map((citizen: Citizen, idx: number) => {
-              return (
-                <li
-                  key={idx}
-                  id={`${idx}`}
-                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
-                >
-                  <div>
-                    <p>
-                      {++idx} | {citizen.full_name}
-                    </p>
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
+            <a
+              id="all-citizens-tab"
+              className="nav-link active bg-dark text-light border-dark"
+              data-bs-toggle="tab"
+              href="#citizens_tab"
+              role="tab"
+              aria-controls="citizens_tab"
+              aria-selected="true"
+            >
+              {lang.admin.all_citizens}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              id="expungement-requests-tab"
+              className="nav-link bg-dark text-light border-dark mx-1"
+              data-bs-toggle="tab"
+              href="#expungement-requests"
+              role="tab"
+              aria-controls="expungement-requests"
+              aria-selected="false"
+            >
+              Expungement Requests
+            </a>
+          </li>
+        </ul>
 
-                    <div className="collapse" id={`citizen_info_${citizen.id}`}>
-                      <Item id="full_name">
-                        <Span>{lang.citizen.full_name}: </Span>
-                        {citizen.full_name}
-                      </Item>
-                      <Item id="gender">
-                        <Span>{lang.citizen.gender}: </Span>
-                        {citizen.gender}
-                      </Item>
-                      <Item id="ethnicity">
-                        <Span>{lang.citizen.ethnicity}: </Span>
-                        {citizen.ethnicity}
-                      </Item>
-                      <Item id="hair_color">
-                        <Span>{lang.citizen.hair_color}: </Span>
-                        {citizen.hair_color}
-                      </Item>
-                      <Item id="eye_color">
-                        <Span>{lang.citizen.eye_color}: </Span>
-                        {citizen.eye_color}
-                      </Item>
-                      <Item id="address">
-                        <Span>{lang.citizen.address}: </Span>
-                        {citizen.address}
-                      </Item>
-                      <Item id="height">
-                        <Span>{lang.citizen.height}: </Span>
-                        {citizen.height}
-                      </Item>
-                      <Item id="weight">
-                        <Span>{lang.citizen.weight}: </Span>
-                        {citizen.weight}
-                      </Item>
-                      <Item id="business">
-                        <Span>{lang.citizen.employer}: </Span>
-                        {citizen.business}
-                      </Item>
+        <div className="tab-content mt-1" id="citizen-tabs">
+          <div
+            className="tab-pane fade show active"
+            id="citizens_tab"
+            role="tabpanel"
+            aria-labelledby="all-citizens-tab"
+          >
+            <AllCitizensTab citizens={filtered} />
+          </div>
 
-                      <div className="d-flex mt-2">
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          data-bs-toggle="modal"
-                          data-bs-target={`#deleteCitizenModal${citizen.id}`}
-                        >
-                          {lang.citizen.delete_citizen}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <button
-                      className="btn btn-primary"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#citizen_info_${citizen.id}`}
-                      aria-expanded="false"
-                      aria-controls={`citizen_info_${citizen.id}`}
-                    >
-                      {lang.admin.toggle_info}
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-            {filtered.map((citizen: Citizen) => {
-              return (
-                <DeleteCitizenModal
-                  key={citizen.id}
-                  name={citizen.full_name}
-                  id={citizen.id || ""}
-                />
-              );
-            })}
-          </ul>
-        )}
-      </ul>
+          <div
+            className="tab-pane fade"
+            id="expungement-requests"
+            role="tabpanel"
+            aria-labelledby="expungement-requests-tab"
+          >
+            <ExpungementRequestsTab requests={requests} />
+          </div>
+        </div>
+      </div>
     </AdminLayout>
   );
 };
@@ -157,6 +118,9 @@ const ManageCitizensPage: React.FC<Props> = ({ message, citizens, getAllCitizens
 const mapToProps = (state: State) => ({
   citizens: state.admin.citizens,
   message: state.global.message,
+  requests: state.admin.expungementRequests,
 });
 
-export default connect(mapToProps, { getAllCitizens })(ManageCitizensPage);
+export default connect(mapToProps, { getAllCitizens, getAllExpungementRequests })(
+  ManageCitizensPage,
+);

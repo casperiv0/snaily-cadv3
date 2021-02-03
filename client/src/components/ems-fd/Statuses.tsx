@@ -7,8 +7,8 @@ import socket from "../../lib/socket";
 export const statuses: string[] = ["10-7", "10-6", "10-5", "10-97"];
 
 interface Props {
-  status: string;
-  status2: string;
+  status: string | null;
+  status2: string | null;
   setEmsStatus: (id: string, status: "on-duty" | "off-duty" | string, status2: string) => void;
   getCurrentEmsStatus: () => void;
 }

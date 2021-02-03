@@ -4,7 +4,12 @@ interface Call {
   name: string;
   location: string;
   status: string;
-  assigned_unit: string;
+  assigned_unit: Unit[];
+}
+
+export interface Unit {
+  value: string;
+  label: string;
 }
 
 export default Call;

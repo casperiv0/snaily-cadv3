@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
@@ -102,9 +102,9 @@ const EditBleet: React.FC<Props> = ({
           ></textarea>
         </div>
         <div className="mb-3 float-end">
-          <a className="btn btn-danger me-2" href={`/bleet/${bleet.id}`}>
+          <Link className="btn btn-danger me-2" to={`/bleet/${bleet.id}`}>
             {lang.global.cancel}
-          </a>
+          </Link>
           <button className="btn btn-success" type="submit">
             {lang.bleeter.update_bleet}
           </button>

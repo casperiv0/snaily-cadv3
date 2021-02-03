@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import Citizen from "../../interfaces/Citizen";
@@ -15,7 +16,7 @@ import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  citizen: Citizen;
+  citizen: Citizen | null;
   match: Match;
   message: Message;
   getCitizenById: (id: string) => void;
@@ -54,16 +55,16 @@ const CitizenInfoPage: React.FC<Props> = ({
   }
 
   return (
-    <Layout>
+    <Layout fluid>
       <AlertMessage message={message} dismissible />
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h3>{lang.admin.cad_settings.general_info}</h3>
 
           <div>
-            <a className="btn btn-success me-2" href={`/citizen/${citizenId}/edit`}>
+            <Link className="btn btn-success me-2" to={`/citizen/${citizenId}/edit`}>
               {lang.citizen.edit_citizen}
-            </a>
+            </Link>
             <button onClick={handleDelete} className="btn btn-danger">
               {lang.citizen.delete_citizen}
             </button>
@@ -121,7 +122,7 @@ const CitizenInfoPage: React.FC<Props> = ({
             <Item id="height">
               <Span>{lang.citizen.employer}: </Span>
               {citizen.business !== "none" ? (
-                <a href={`/company/${citizen.id}/${citizen.business_id}`}>{citizen.business}</a>
+                <Link to={`/company/${citizen.id}/${citizen.business_id}`}>{citizen.business}</Link>
               ) : (
                 lang.citizen.not_working
               )}

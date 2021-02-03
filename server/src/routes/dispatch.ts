@@ -5,6 +5,7 @@ import IRequest from "../interfaces/IRequest";
 import { v4 } from "uuid";
 import { RanksArr } from "../lib/constants";
 import IUser from "../interfaces/IUser";
+import { mapCalls } from "./global";
 const router: Router = Router();
 
 router.get("/active-units", useAuth, useDispatchAuth, async (_req: IRequest, res: Response) => {
@@ -65,12 +66,13 @@ router.post("/calls", useAuth, useDispatchAuth, async (req: IRequest, res: Respo
   if (location && description && caller) {
     await processQuery(
       "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, description, caller, location, "Not Assigned", ""]
+      [id, description, caller, location, "Not Assigned", "[]"]
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");
+    const mappedCalls = mapCalls(calls);
 
-    return res.json({ status: "success", calls });
+    return res.json({ status: "success", calls: mappedCalls });
   } else {
     return res.json({ error: "Please fill in all fields", status: "error" });
   }
@@ -82,8 +84,9 @@ router.delete("/calls/:id", useAuth, useDispatchAuth, async (req: IRequest, res:
   await processQuery("DELETE FROM `911calls` WHERE `id` = ?", [id]);
 
   const calls = await processQuery("SELECT * FROM `911calls`");
+  const mappedCalls = mapCalls(calls);
 
-  return res.json({ status: "success", calls });
+  return res.json({ status: "success", calls: mappedCalls });
 });
 
 router.put("/calls/:id", useAuth, useDispatchAuth, async (req: IRequest, res: Response) => {
@@ -92,7 +95,7 @@ router.put("/calls/:id", useAuth, useDispatchAuth, async (req: IRequest, res: Re
   let status = "";
 
   if (location && description && assigned_unit) {
-    if (assigned_unit) {
+    if (assigned_unit.length > 0) {
       status = "Assigned";
     } else {
       status = "Not Assigned";
@@ -100,12 +103,13 @@ router.put("/calls/:id", useAuth, useDispatchAuth, async (req: IRequest, res: Re
 
     await processQuery(
       "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ? WHERE `id` = ?",
-      [location, description, assigned_unit, status, id]
+      [location, description, JSON.stringify(assigned_unit), status, id]
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");
+    const mappedCalls = mapCalls(calls);
 
-    return res.json({ status: "success", calls });
+    return res.json({ status: "success", calls: mappedCalls });
   } else {
     return res.json({ error: "Please fill in all fields", status: "error" });
   }

@@ -10,6 +10,11 @@ import Logger from "../lib/Logger";
 import Officer from "../interfaces/Officer";
 const router: Router = Router();
 
+interface Item {
+  value: string;
+  label: string;
+}
+
 /* Cad settings */
 router.put("/cad-settings", useAuth, async (req: IRequest, res: Response) => {
   const user = await processQuery<IUser[]>("SELECT `rank` from `users` WHERE `id` = ?", [
@@ -44,7 +49,7 @@ router.put("/cad-settings", useAuth, async (req: IRequest, res: Response) => {
 /* members */
 router.get("/members", useAuth, useAdminAuth, async (_req: IRequest, res: Response) => {
   const members = await processQuery<IUser[]>(
-    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`  FROM `users` ORDER BY `username` ASC"
+    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users` ORDER BY `username` ASC"
   );
 
   return res.json({ status: "success", members });
@@ -53,7 +58,7 @@ router.get("/members", useAuth, useAdminAuth, async (_req: IRequest, res: Respon
 router.get("/members/:id", useAuth, useAdminAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const member = await processQuery<IUser[]>(
-    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
+    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
     [id]
   );
 
@@ -71,7 +76,7 @@ router.put("/members/:id", useAuth, useAdminAuth, async (req: IRequest, res: Res
     );
 
     const updated = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
       [id]
     );
 
@@ -130,11 +135,11 @@ router.put("/members/:path/:id", useAuth, useAdminAuth, async (req: IRequest, re
   }
 
   const members = await processQuery<IUser[]>(
-    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status`  FROM `users`"
+    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users`"
   );
 
   const updated = await processQuery<IUser[]>(
-    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `dispatch_status` FROM `users` WHERE `id` = ?",
+    "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
     [id]
   );
 
@@ -147,6 +152,71 @@ router.get("/citizens", useAuth, useAdminAuth, async (_req: IRequest, res: Respo
 
   return res.json({ citizens, status: "success" });
 });
+
+router.get("/expungement-requests", useAuth, useAdminAuth, async (_req, res: Response) => {
+  const requests = await processQuery("SELECT * FROM `court_requests`");
+
+  return res.json({
+    status: "success",
+    requests: requests.map((request: any) => {
+      request.warrants = JSON.parse(request.warrants);
+      request.arrestReports = JSON.parse(request.arrest_reports);
+      request.tickets = JSON.parse(request.tickets);
+      return request;
+    }),
+  });
+});
+
+router.put(
+  "/expungement-requests/:requestId/:type",
+  useAuth,
+  useAdminAuth,
+  async (req: IRequest, res: Response) => {
+    const { requestId, type } = req.params;
+
+    switch (type) {
+      case "accept": {
+        // value to remove from the citizen
+        const { warrants, arrestReports, tickets } = req.body;
+
+        warrants.forEach(async (warrant: Item) => {
+          await processQuery("DELETE FROM `warrants` WHERE `id` = ?", [warrant.value]);
+        });
+        arrestReports.forEach(async (arr: Item) => {
+          await processQuery("DELETE FROM `arrest_reports` WHERE `id` = ?", [arr.value]);
+        });
+        tickets.forEach(async (ticket: Item) => {
+          await processQuery("DELETE FROM `leo_tickets` WHERE `id` = ?", [ticket.value]);
+        });
+
+        await processQuery("DELETE FROM `court_requests` WHERE `id` = ?", [requestId]);
+        break;
+      }
+      case "decline": {
+        await processQuery("DELETE FROM `court_requests` WHERE `id` = ?", [requestId]);
+        break;
+      }
+      default: {
+        return res.json({
+          error: "invalid type",
+          status: "error",
+        });
+      }
+    }
+
+    const updated = await processQuery("SELECT * FROM `court_requests`");
+
+    return res.json({
+      status: "success",
+      requests: updated.map((request: any) => {
+        request.warrants = JSON.parse(request.warrants);
+        request.arrestReports = JSON.parse(request.arrest_reports);
+        request.tickets = JSON.parse(request.tickets);
+        return request;
+      }),
+    });
+  }
+);
 
 router.delete("/citizens/:id", useAuth, useAdminAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;

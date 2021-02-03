@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import Weapon from "../../../interfaces/Weapon";
@@ -33,9 +34,9 @@ const RegisteredWeapons: React.FC<Props> = ({
         {!weapons[0] ? (
           <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
             {lang.citizen.weapon.no_weapons}
-            <a href="/weapons/register" className="btn btn-primary">
+            <Link to="/weapons/register" className="btn btn-primary">
               {lang.citizen.weapon.reg_a_weapon}
-            </a>
+            </Link>
           </div>
         ) : (
           <>
@@ -49,9 +50,9 @@ const RegisteredWeapons: React.FC<Props> = ({
             >
               {lang.citizen.weapon.toggle_weapon}
             </button>
-            <a href="/weapons/register" className="btn btn-primary ms-2">
+            <Link to="/weapons/register" className="btn btn-primary ms-2">
               {lang.citizen.weapon.reg_a_weapon}
-            </a>
+            </Link>
 
             <ul className="collapse list-group mt-2" id="registered_weapons">
               {weapons.map((weapon: Weapon, idx: number) => {

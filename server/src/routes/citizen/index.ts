@@ -1,7 +1,7 @@
 import { Response, Router } from "express";
 import { processQuery } from "../../lib/database";
 import { useAuth } from "../../hooks";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, v4 } from "uuid";
 import IRequest from "../../interfaces/IRequest";
 import Logger from "../../lib/Logger";
 const router: Router = Router();
@@ -11,6 +11,7 @@ import medicalRecordsRouter from "./medical-records";
 import companyRouter from "./company";
 import { UploadedFile } from "express-fileupload";
 import { SupportedFileTypes } from "../../lib/constants";
+import Citizen from "../../interfaces/Citizen";
 
 router.use("/weapons", citizenWeaponRouter);
 router.use("/vehicles", citizenVehicleRouter);
@@ -29,13 +30,6 @@ router.get("/all", useAuth, async (req: IRequest, res: Response) => {
   const citizens = await processQuery("SELECT `id`, `full_name` FROM `citizens`");
 
   return res.json({ citizens, status: "success" });
-});
-
-router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
-  const { id } = req.params;
-  const citizen = await processQuery("SELECT * FROM `citizens` WHERE `id` = ?", [id]);
-
-  return res.json({ citizen: citizen[0], status: "success" });
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
@@ -153,6 +147,13 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
   const file = req.files?.image ? (req.files.image as UploadedFile) : null;
   const index = req.files?.image && file?.name.indexOf(".");
 
+  if (file && !SupportedFileTypes.includes(String(file.mimetype))) {
+    return res.json({
+      status: "error",
+      error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
+    });
+  }
+
   const imageId = file ? `${uuidv4()}${file.name.slice(index)}` : "default.svg";
 
   if (full_name && birth && gender && ethnicity && hair_color && eye_color && height && weight) {
@@ -213,6 +214,104 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
       status: "error",
     });
   }
+});
+
+router.post("/info", useAuth, async (req: IRequest, res: Response) => {
+  const { name } = req.body;
+
+  if (!name) {
+    return res.json({
+      error: "Please fill in all fields",
+      status: "error",
+    });
+  }
+
+  const citizen = await processQuery<Citizen[]>("SELECT * FROM `citizens` WHERE `full_name` = ?", [
+    name,
+  ]);
+
+  if (!citizen[0]) {
+    return res.json({
+      error: "Citizen not found",
+      status: "error",
+    });
+  }
+
+  if (citizen[0].user_id !== req.user?.id) {
+    return res.json({
+      error: "This citizen is not connected to your account",
+      status: "error",
+    });
+  }
+
+  const citizenId = citizen[0]?.id ?? "not_found";
+
+  const arrestReports = await processQuery(
+    "SELECT * FROM `arrest_reports` WHERE `citizen_id` = ?",
+    [citizenId]
+  );
+  const tickets = await processQuery("SELECT * FROM `leo_tickets` WHERE `citizen_id` = ?", [
+    citizenId,
+  ]);
+  const warrants = await processQuery("SELECT * FROM `warrants` WHERE `citizen_id` = ?", [
+    citizenId,
+  ]);
+
+  return res.json({ status: "success", tickets, warrants, arrestReports, citizenId });
+});
+
+router.post("/expungement-request/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+  // The requested options to be removed
+  const { warrants, arrest_reports, tickets } = req.body;
+
+  const citizen = await processQuery<Citizen[]>("SELECT * FROM `citizens` WHERE `id` = ?", [id]);
+
+  if (!citizen) {
+    return res.json({
+      error: "That citizen was not found",
+      status: "error",
+    });
+  }
+
+  await processQuery(
+    "INSERT INTO `court_requests` (`id`, `warrants`, `arrest_reports`, `tickets`, `citizen_id`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
+    [
+      v4(),
+      JSON.stringify(warrants),
+      JSON.stringify(arrest_reports),
+      JSON.stringify(tickets),
+      id,
+      req.user?.id,
+    ]
+  );
+
+  return res.json({
+    status: "success",
+  });
+});
+
+router.get("/expungement-requests", useAuth, async (req: IRequest, res: Response) => {
+  const requests = await processQuery("SELECT * FROM `court_requests` WHERE `user_id` = ?", [
+    req.user?.id,
+  ]);
+
+  return res.json({
+    status: "success",
+    requests: requests.map((re: any) => {
+      re.warrants = JSON.parse(re.warrants);
+      re.arrestReports = JSON.parse(re.arrest_reports);
+      re.tickets = JSON.parse(re.tickets);
+      return re;
+    }),
+  });
+});
+
+router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
+  const { id } = req.params;
+  const citizen = await processQuery("SELECT * FROM `citizens` WHERE `id` = ?", [id]);
+
+  return res.json({ citizen: citizen[0], status: "success" });
 });
 
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {

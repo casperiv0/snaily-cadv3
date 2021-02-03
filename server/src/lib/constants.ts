@@ -12,5 +12,4 @@ export const enum Whitelist {
   pending = "pending",
   declined = "declined",
 }
-
 export const SupportedFileTypes = ["image/png", "image/gif", "image/jpeg", "image/svg+xml"];

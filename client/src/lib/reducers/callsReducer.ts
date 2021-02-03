@@ -8,11 +8,14 @@ import {
   GET_TOW_CALLS,
   END_TOW_CALL,
   CREATE_911_CALL,
+  GET_TAXI_CALLS,
+  END_TAXI_CALL,
 } from "../types";
 
 const initState = {
   calls_911: [],
   tow_calls: [],
+  taxi_calls: [],
 };
 
 type Actions =
@@ -42,6 +45,14 @@ type Actions =
     }
   | {
       type: typeof END_TOW_CALL;
+      calls: TowCall[];
+    }
+  | {
+      type: typeof GET_TAXI_CALLS;
+      calls: TowCall[];
+    }
+  | {
+      type: typeof END_TAXI_CALL;
       calls: TowCall[];
     };
 
@@ -81,6 +92,17 @@ export default function callsReducer(state = initState, action: Actions) {
       return {
         ...state,
         tow_calls: action.calls,
+      };
+    case "GET_TAXI_CALLS": {
+      return {
+        ...state,
+        taxi_calls: action.calls,
+      };
+    }
+    case "END_TAXI_CALL":
+      return {
+        ...state,
+        taxi_calls: action.calls,
       };
     default:
       return {

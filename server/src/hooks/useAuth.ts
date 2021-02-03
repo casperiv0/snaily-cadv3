@@ -10,18 +10,21 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
   const secret = config.jwtSecret;
 
   if (!token) {
-    return res.json({ server_error: "invalid token", status: "error" }).status(401);
+    return res
+      .json({ server_error: "invalid token", status: "error", invalid_token: true })
+      .status(401);
   }
 
   try {
     const vToken = jwt.verify(token, secret) as IUser;
     const user = await processQuery(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `dispatch_status`  FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users` WHERE `id` = ?",
       [vToken.id]
     );
 
     if (!user[0]) {
       return res.json({
+        invalid_token: true,
         server_error: "user does not exist",
         status: "error",
       });
@@ -31,7 +34,9 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
 
     next();
   } catch (e) {
-    return res.json({ server_error: "invalid token", status: "error" }).status(401);
+    return res
+      .json({ invalid_token: true, server_error: "invalid token", status: "error" })
+      .status(401);
   }
 }
 

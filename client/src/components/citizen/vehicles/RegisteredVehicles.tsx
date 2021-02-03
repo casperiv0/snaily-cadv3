@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import State from "../../../interfaces/State";
 import Vehicle from "../../../interfaces/Vehicle";
 import lang from "../../../language.json";
@@ -35,9 +36,9 @@ const RegisteredVehicles: React.FC<Props> = ({
         {!vehicles[0] ? (
           <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
             {lang.citizen.vehicle.no_veh}
-            <a href="/vehicles/register" className="btn btn-primary">
+            <Link to="/vehicles/register" className="btn btn-primary">
               {lang.citizen.vehicle.reg_a_vehicle}
-            </a>
+            </Link>
           </div>
         ) : (
           <>
@@ -51,9 +52,9 @@ const RegisteredVehicles: React.FC<Props> = ({
             >
               {lang.citizen.vehicle.toggle_veh}
             </button>
-            <a href="/vehicles/register" className="btn btn-primary ms-2">
+            <Link to="/vehicles/register" className="btn btn-primary ms-2">
               {lang.citizen.vehicle.reg_a_vehicle}
-            </a>
+            </Link>
             <ul className="list-group collapse mt-2" id="registered_vehicles">
               {vehicles.map((vehicle: Vehicle, idx: number) => {
                 return (
@@ -86,9 +87,9 @@ const RegisteredVehicles: React.FC<Props> = ({
 
                     {/* actions */}
                     <div id="actions">
-                      <a className="btn btn-dark me-2" href={`/vehicles/transfer/${vehicle.id}`}>
+                      <Link className="btn btn-dark me-2" to={`/vehicles/transfer/${vehicle.id}`}>
                         {lang.citizen.vehicle.transfer}
-                      </a>
+                      </Link>
 
                       {vehicle.in_status === "Reported stolen" ? null : (
                         <button
@@ -104,9 +105,9 @@ const RegisteredVehicles: React.FC<Props> = ({
                       >
                         {lang.global.delete}
                       </button>
-                      <a className="btn btn-success ms-2" href={`/vehicles/edit/${vehicle.id}`}>
+                      <Link className="btn btn-success ms-2" to={`/vehicles/edit/${vehicle.id}`}>
                         {lang.global.edit}
-                      </a>
+                      </Link>
                     </div>
                   </li>
                 );

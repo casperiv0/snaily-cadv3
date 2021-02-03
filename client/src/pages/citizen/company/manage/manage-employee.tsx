@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import AlertMessage from "../../../../components/alert-message";
 import Layout from "../../../../components/Layout";
 import Citizen from "../../../../interfaces/Citizen";
@@ -10,7 +11,7 @@ import { getCitizenById } from "../../../../lib/actions/citizen";
 import { updateEmployee } from "../../../../lib/actions/company";
 
 interface Props {
-  employee: Citizen;
+  employee: Citizen | null;
   match: Match;
   returnError: string;
   getCitizenById: (id: string) => void;
@@ -132,9 +133,9 @@ const ManageEmployee: React.FC<Props> = ({
         </div>
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger" href={`/company/${citizenId}/${companyId}/manage`}>
+          <Link className="btn btn-danger" to={`/company/${citizenId}/${companyId}/manage`}>
             {lang.global.cancel}
-          </a>
+          </Link>
           <button className="btn btn-primary ms-2" type="submit">
             {lang.global.update}
           </button>

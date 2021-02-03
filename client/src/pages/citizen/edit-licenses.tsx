@@ -9,9 +9,10 @@ import Field from "../../interfaces/Field";
 import { connect } from "react-redux";
 import { getCitizenById, updateLicenses } from "../../lib/actions/citizen";
 import { getLegalStatuses } from "../../lib/actions/values";
+import { Link } from "react-router-dom";
 
 interface Props {
-  citizen: Citizen;
+  citizen: Citizen | null;
   match: Match;
   legalStatuses: Value[];
   getCitizenById: (id: string) => void;
@@ -135,9 +136,9 @@ const EditLicensesPage: React.FC<Props> = ({
         })}
 
         <div className="mb-3 float-end">
-          <a className="btn btn-danger" href={`/citizen/${citizenId}`}>
+          <Link className="btn btn-danger" to={`/citizen/${citizenId}`}>
             {lang.global.cancel}
-          </a>
+          </Link>
           <button type="submit" className="btn btn-primary ms-2">
             {lang.global.update}
           </button>

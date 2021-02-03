@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.2.0
+
+- New revamped select input for selecting assigned units in update 911 call
+- Updated dependencies
+- Upped cookie expire time to 2 hours (Prev: 1 hour)
+- Added `Currently active as:` to LEO & EMS-FD dashboard
+- Logging out will automatically set your active deputies to off-duty
+- Able to add notes to citizens (NameSearch)
+- Taxi jobs (Same as tow but for taxis)
+- A sound will be played when your current active officer is assigned to a call
+- Citizens are able to request an expungement
+- Minor bug fixes
+- Small improvements
+
+#### If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)
+
 ## 1.1.0
 
 - Officer callsign

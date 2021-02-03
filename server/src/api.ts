@@ -11,6 +11,7 @@ import emsFdRouter from "./routes/ems-fd";
 import valuesRouter from "./routes/values/index";
 import citizenRouter from "./routes/citizen/index";
 import managementRouter from "./routes/management";
+import taxiCallsRouter from "./routes/taxi";
 
 const api: Router = Router();
 
@@ -22,6 +23,7 @@ api.use("/officer", officerRouter);
 api.use("/records", recordsRouter);
 api.use("/dispatch", dispatchRouter);
 api.use("/tow-calls", towCallsRouter);
+api.use("/taxi-calls", taxiCallsRouter);
 api.use("/ems-fd", emsFdRouter);
 api.use("/values", valuesRouter);
 api.use("/admin/management", managementRouter);

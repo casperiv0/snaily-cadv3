@@ -6,9 +6,10 @@ import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import { connect } from "react-redux";
 import { createMedicalRecord } from "../../../lib/actions/citizen";
+import { Link } from "react-router-dom";
 
 interface Props {
-  error: string;
+  error: string | null;
   match: Match;
   createMedicalRecord: (data: object, id: string) => void;
 }
@@ -65,9 +66,9 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
         </div>
 
         <div className="mb-3 float-end">
-          <a href={`/citizen/${citizenId}`} className="btn btn-danger">
+          <Link to={`/citizen/${citizenId}`} className="btn btn-danger">
             {lang.global.cancel}
-          </a>
+          </Link>
           <button type="submit" className="btn btn-primary ms-2">
             {lang.citizen.medical.add}
           </button>

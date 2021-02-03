@@ -21,6 +21,7 @@ interface Citizen {
   posts: string;
   image_id: string;
   b_status: string;
+  note: string;
 }
 
 export default Citizen;

@@ -12,6 +12,13 @@ export const handleRequest = (path: string, method: AllowedMethods, data?: objec
 };
 
 export const isSuccess = (res: AxiosResponse) => {
+  const isNotLogin = !["/login", "/logout", "/register"].includes(window.location.pathname);
+  if (isNotLogin && res.data?.invalid_token) {
+    console.clear();
+    window.location.href = "/login";
+    return false;
+  }
+
   return res.data.status && res.data.status === "success";
 };
 
