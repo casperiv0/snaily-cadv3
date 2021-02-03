@@ -11,9 +11,6 @@
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
     "plugin:json/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
     "plugin:promise/recommended"
   ],
   "globals": {
