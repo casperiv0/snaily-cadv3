@@ -4,16 +4,17 @@ import Call from "../../interfaces/Call";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
-import { getActive911Calls } from "../../lib/actions/911-calls";
+import { end911Call, getActive911Calls } from "../../lib/actions/911-calls";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
 
 interface Props {
   calls: Call[];
   getActive911Calls: () => void;
+  end911Call: (id: string) => void;
 }
 
-const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
+const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls, end911Call }) => {
   const location = useLocation();
 
   React.useEffect(() => {
@@ -49,6 +50,7 @@ const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
               <th scope="col">{lang.dispatch.call_desc}</th>
               <th scope="col">{lang.dispatch.status}</th>
               <th scope="col">{lang.dispatch.assigned_unit}</th>
+              <th scope="col">{lang.global.actions}</th>
             </tr>
           </thead>
           <tbody>
@@ -71,6 +73,16 @@ const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                       );
                     })}
                   </td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        end911Call(call.id);
+                      }}
+                      className="btn btn-success"
+                    >
+                      Mark as Code 4
+                    </button>
+                  </td>
                 </tr>
               );
             })}
@@ -87,4 +99,4 @@ const mapToProps = (state: State) => ({
 
 const Memoized = React.memo(Active911Calls);
 
-export default connect(mapToProps, { getActive911Calls })(Memoized);
+export default connect(mapToProps, { getActive911Calls, end911Call })(Memoized);

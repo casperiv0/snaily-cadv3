@@ -65,8 +65,8 @@ router.put("/status/:id", useAuth, useOfficerAuth, async (req: IRequest, res: Re
 
   if (status && status2) {
     await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
-      status2 === "10-7" ? "off-duty" : status,
-      status2 === "10-7" ? "--------" : status2,
+      status2 === "10-42" ? "off-duty" : status,
+      status2 === "10-42" ? "--------" : status2,
       id,
     ]);
 
@@ -98,6 +98,15 @@ router.post("/search/plate", useAuth, useOfficerAuth, async (req: IRequest, res:
   } else {
     return res.json({ error: "Please fill in all fields", status: "error" });
   }
+});
+
+router.get("/search/names", useAuth, useDisLeoAuth, async (_req, res: Response) => {
+  const found = await processQuery("SELECT `full_name` FROM `citizens`", []);
+
+  return res.json({
+    names: found,
+    status: "success",
+  });
 });
 
 router.post("/search/name", useAuth, useOfficerAuth, async (req: IRequest, res: Response) => {

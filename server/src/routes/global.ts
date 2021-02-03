@@ -39,11 +39,11 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
 
   await processQuery<Call[]>(
     "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
-    [id, description, caller, location, "Not assigned", JSON.stringify("[]")]
+    [id, description, caller, location, "Not assigned", "[]"]
   );
 
-  io.sockets.send("NEW_911_CALL");
-  io.sockets.send("UPDATE_911_CALLS");
+  io.sockets.emit("NEW_911_CALL");
+  io.sockets.emit("UPDATE_911_CALLS");
 
   return res.json({ status: "success" });
 });

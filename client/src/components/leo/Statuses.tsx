@@ -5,6 +5,7 @@ import { getCurrentOfficer, setStatus } from "../../lib/actions/officer";
 import socket from "../../lib/socket";
 
 export const statuses: string[] = [
+  "10-42",
   "10-7",
   "10-6",
   "10-5",
@@ -65,7 +66,11 @@ const Statuses: React.FC<Props> = ({
           <button
             disabled={currentStatus === "off-duty"}
             className={
-              status2 === status ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"
+              status2 === status
+                ? "btn btn-primary col-sm-1"
+                : status === "10-42"
+                ? "btn btn-danger col-sm-1"
+                : "btn btn-secondary col-sm-1"
             }
             type="button"
             id={`${idx}`}

@@ -3,6 +3,7 @@ import { processQuery } from "../lib/database";
 import { useAuth } from "../hooks";
 import { v4 as uuidv4 } from "uuid";
 import IRequest from "../interfaces/IRequest";
+import { io } from "../server";
 const router: Router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
@@ -19,6 +20,8 @@ router.post("/", async (req: IRequest, res: Response) => {
     "INSERT INTO `tow_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
     [id, description, caller, location]
   );
+
+  io.sockets.emit("UPDATE_TOW_CALLS");
 
   const calls = await processQuery("SELECT * FROM `tow_calls`");
 

@@ -48,8 +48,8 @@ router.put("/status/:id", useAuth, useEmsAuth, async (req: IRequest, res: Respon
   const { id } = req.params;
   const { status2, status } = req.body;
   await processQuery("UPDATE `ems-fd` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
-    status2 === "10-7" ? "off-duty" : status,
-    status2 === "10-7" ? "--------" : status2,
+    status2 === "10-42" ? "off-duty" : status,
+    status2 === "10-42" ? "--------" : status2,
     id,
   ]);
 

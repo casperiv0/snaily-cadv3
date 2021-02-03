@@ -7,10 +7,13 @@ import { connect } from "react-redux";
 import Modal, { XButton } from "../index";
 import { createWrittenWarning } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
+import PenalCode from "../../../interfaces/PenalCode";
+import Select from "../../select";
 
 interface Props {
   error: string;
   officer: Officer | null;
+  penalCodes: PenalCode[];
   createWrittenWarning: (data: {
     name: string;
     officer_name: string;
@@ -20,9 +23,14 @@ interface Props {
   }) => void;
 }
 
-const CreateWrittenWarningModal: React.FC<Props> = ({ error, officer, createWrittenWarning }) => {
+const CreateWrittenWarningModal: React.FC<Props> = ({
+  error,
+  officer,
+  penalCodes,
+  createWrittenWarning,
+}) => {
   const [name, setName] = React.useState("");
-  const [infractions, setInfractions] = React.useState("");
+  const [infractions, setInfractions] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const btnRef = React.createRef<HTMLButtonElement>();
@@ -33,7 +41,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, officer, createWrit
     createWrittenWarning({
       name,
       officer_name: officer?.officer_name!,
-      infractions,
+      infractions: infractions.map((v: any) => v.value).join(", "),
       postal,
       notes,
     });
@@ -43,7 +51,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, officer, createWrit
     if (error === null) {
       setNotes("");
       setName("");
-      setInfractions("");
+      setInfractions([]);
       setPostal("");
       setNotes("");
 
@@ -58,13 +66,6 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, officer, createWrit
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,
-    },
-    {
-      type: "text",
-      id: "written_warning_infractions",
-      label: lang.record.infractions,
-      onChange: (e) => setInfractions(e.target.value),
-      value: infractions,
     },
     {
       type: "text",
@@ -109,6 +110,17 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, officer, createWrit
               </div>
             );
           })}
+          <div className="mb-3">
+            <label className="form-label">{lang.record.infractions}</label>
+            <Select
+              value={infractions}
+              onChange={(v: any) => setInfractions(v)}
+              options={penalCodes.map((code) => ({
+                value: code.title,
+                label: code.title,
+              }))}
+            />
+          </div>
         </div>
 
         <div className="modal-footer">
@@ -127,6 +139,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({ error, officer, createWrit
 const mapToProps = (state: State) => ({
   error: state.officers.error,
   officer: state.officers.activeOfficer,
+  penalCodes: state.officers.penalCodes,
 });
 
 export default connect(mapToProps, { createWrittenWarning })(CreateWrittenWarningModal);

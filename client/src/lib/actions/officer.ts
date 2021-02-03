@@ -20,6 +20,7 @@ import {
   SAVE_NOTE,
 } from "../types";
 import Message from "../../interfaces/Message";
+import PenalCode from "../../interfaces/PenalCode";
 
 interface IDispatch {
   type: string;
@@ -31,6 +32,8 @@ interface IDispatch {
   error?: string;
   search?: object;
   message?: Message;
+  penalCodes?: PenalCode[];
+  names?: string[];
 }
 
 export const getCurrentOfficer = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -201,5 +204,35 @@ export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<
     }
   } catch (e) {
     Logger.error(WEAPON_SEARCH, e);
+  }
+};
+
+export const getPenalCodes = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/officer/penal-codes", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: "GET_PENAL_CODES",
+        penalCodes: res.data.penalCodes,
+      });
+    }
+  } catch (e) {
+    Logger.error("GET_PENAL_CODES", e);
+  }
+};
+
+export const searchNames = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/officer/search/names`, "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: "SEARCH_NAMES",
+        names: res.data.names,
+      });
+    }
+  } catch (e) {
+    Logger.error("SEARCH_NAMES", e);
   }
 };

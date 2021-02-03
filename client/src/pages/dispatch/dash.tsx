@@ -19,6 +19,7 @@ import CreateBoloModal from "../../components/modals/leo/createBoloModal";
 import AlertMessage, { DismissAlertBtn } from "../../components/alert-message";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
+import { playSound } from "../../lib/functions";
 
 interface Props {
   aop: string;
@@ -44,6 +45,7 @@ const DispatchDash: React.FC<Props> = (props) => {
     });
 
     socket.on("PANIC_BUTTON", (officer: Officer) => {
+      playSound("/sounds/signal-100.mp3");
       setPanic(officer);
     });
 

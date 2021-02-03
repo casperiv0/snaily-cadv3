@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.2
+
+- Added 10-42 status code
+- Added auto-fill penal codes for creating a ticket, arrest report and written warning
+- LEO and EMS-fd can now mark a call as code 4
+- Panic button will now play a sound to alert active LEO/dispatch
+- Auto complete name search
+- Fixed bug with /call911 & /calltow not updating the CAD in realtime
+
 ## 1.2.1
 
 - Updated db checker to update tables in database

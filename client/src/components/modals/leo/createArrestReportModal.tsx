@@ -7,10 +7,14 @@ import AlertMessage from "../../alert-message";
 import Modal, { XButton } from "../index";
 import { creatArrestReport } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
+import Select from "../../select";
+import PenalCode from "../../../interfaces/PenalCode";
 
 interface Props {
   error: string;
   officer: Officer | null;
+  penalCodes: PenalCode[];
+
   creatArrestReport: (data: {
     name: string;
     officer_name: string;
@@ -20,9 +24,14 @@ interface Props {
   }) => void;
 }
 
-const CreateArrestReportModal: React.FC<Props> = ({ error, officer, creatArrestReport }) => {
+const CreateArrestReportModal: React.FC<Props> = ({
+  error,
+  officer,
+  penalCodes,
+  creatArrestReport,
+}) => {
   const [name, setName] = React.useState("");
-  const [charges, setCharges] = React.useState("");
+  const [charges, setCharges] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const btnRef = React.createRef<HTMLButtonElement>();
@@ -33,7 +42,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, officer, creatArrestR
     creatArrestReport({
       name,
       officer_name: officer?.officer_name!,
-      charges,
+      charges: charges.map((v: any) => v.value).join(", "),
       postal,
       notes,
     });
@@ -43,7 +52,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, officer, creatArrestR
     if (error === null) {
       setNotes("");
       setName("");
-      setCharges("");
+      setCharges([]);
       setPostal("");
       setNotes("");
 
@@ -58,13 +67,6 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, officer, creatArrestR
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,
-    },
-    {
-      type: "text",
-      id: "arrest_report_charges",
-      label: lang.record.charges,
-      onChange: (e) => setCharges(e.target.value),
-      value: charges,
     },
     {
       type: "text",
@@ -109,6 +111,17 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, officer, creatArrestR
               </div>
             );
           })}
+          <div className="mb-3">
+            <label className="form-label">{lang.record.charges}</label>
+            <Select
+              value={charges}
+              onChange={(v: any) => setCharges(v)}
+              options={penalCodes.map((code) => ({
+                value: code.title,
+                label: code.title,
+              }))}
+            />
+          </div>
         </div>
 
         <div className="modal-footer">
@@ -127,6 +140,7 @@ const CreateArrestReportModal: React.FC<Props> = ({ error, officer, creatArrestR
 const mapToProps = (state: State) => ({
   error: state.officers.error,
   officer: state.officers.activeOfficer,
+  penalCodes: state.officers.penalCodes,
 });
 
 export default connect(mapToProps, { creatArrestReport })(CreateArrestReportModal);

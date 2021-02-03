@@ -176,8 +176,11 @@ router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
   const officers = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `user_id` = ?", [
     req.user?.id,
   ]);
+  const emsFd = await processQuery<any[]>("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [
+    req.user?.id,
+  ]);
 
-  officers
+  [...officers, ...emsFd]
     .filter((o) => o.status === "on-duty")
     .forEach(async (officer) => {
       processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [

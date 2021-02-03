@@ -7,10 +7,11 @@ import Citizen from "../../../interfaces/Citizen";
 import Weapon from "../../../interfaces/Weapon";
 import Vehicle from "../../../interfaces/Vehicle";
 import SERVER_URL from "../../../config";
-import { searchName, saveNote } from "../../../lib/actions/officer";
+import { searchName, saveNote, searchNames } from "../../../lib/actions/officer";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
+import Select from "../../select";
 
 interface NameSearch {
   type: "name";
@@ -25,23 +26,26 @@ interface NameSearch {
 
 interface Props {
   search: NameSearch;
+  names: string[];
   searchName: (name: string) => void;
   saveNote: (citizenId: string, note: string) => void;
+  searchNames: () => void;
 }
 
-const NameSearchModal: React.FC<Props> = ({ search, searchName, saveNote }) => {
-  const [name, setName] = React.useState("");
+const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote, searchNames }) => {
+  const [name, setName] = React.useState<any>({});
   const [note, setNote] = React.useState((search && search.citizen.note) || "");
   const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
+    name !== "" && searchNames();
     setNote(search?.citizen?.note || "");
-  }, [search?.citizen]);
+  }, [search?.citizen, name, searchNames]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    searchName(name);
+    searchName(name.value);
   }
 
   function addNote() {
@@ -64,11 +68,15 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName, saveNote }) => {
             <label className="form-label" htmlFor="name">
               {lang.global.name}
             </label>
-            <input
-              type="search"
-              className="form-control bg-secondary border-secondary text-light col-md-9"
-              id="name"
-              onChange={(e) => setName(e.target.value)}
+            <Select
+              isMulti={false}
+              onFocus={() => searchNames()}
+              value={name.value && name}
+              onChange={(v: any) => setName(v)}
+              options={names.map(({ full_name }: any) => ({
+                value: full_name,
+                label: full_name,
+              }))}
             />
           </div>
 
@@ -515,6 +523,7 @@ const NameSearchModal: React.FC<Props> = ({ search, searchName, saveNote }) => {
 
 const mapToProps = (state: State) => ({
   search: state.officers.search,
+  names: state.officers.names,
 });
 
-export default connect(mapToProps, { searchName, saveNote })(NameSearchModal);
+export default connect(mapToProps, { searchName, saveNote, searchNames })(NameSearchModal);

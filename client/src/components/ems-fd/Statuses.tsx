@@ -4,7 +4,7 @@ import State from "../../interfaces/State";
 import { setEmsStatus, getCurrentEmsStatus } from "../../lib/actions/ems-fd";
 import socket from "../../lib/socket";
 
-export const statuses: string[] = ["10-7", "10-6", "10-5", "10-97"];
+export const statuses: string[] = ["10-42", "10-7", "10-6", "10-5", "10-97"];
 
 interface Props {
   status: string | null;
@@ -55,7 +55,11 @@ const Statuses: React.FC<Props> = ({
           <button
             disabled={currentStatus === "off-duty"}
             className={
-              status2 === status ? "btn btn-primary col-md-1" : "btn btn-secondary col-md-1"
+              status2 === status
+                ? "btn btn-primary col-sm-1"
+                : status === "10-42"
+                ? "btn btn-danger col-sm-1"
+                : "btn btn-secondary col-sm-1"
             }
             type="button"
             id={`${idx}`}
