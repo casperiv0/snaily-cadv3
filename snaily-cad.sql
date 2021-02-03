@@ -250,7 +250,7 @@ CREATE TABLE `leo_tickets` (
   `id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `citizen_id` varchar(255) NOT NULL,
-  `violations` varchar(255) NOT NULL,
+  `violations` text NOT NULL,
   `officer_name` varchar(255) NOT NULL,
   `date` varchar(255) NOT NULL,
   `postal` varchar(255) NOT NULL,

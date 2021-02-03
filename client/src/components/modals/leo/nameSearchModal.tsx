@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
@@ -36,6 +37,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
   const [name, setName] = React.useState<any>({});
   const [note, setNote] = React.useState((search && search.citizen.note) || "");
   const btnRef = React.createRef<HTMLButtonElement>();
+  const location = useLocation();
 
   React.useEffect(() => {
     name !== "" && searchNames();
@@ -501,14 +503,27 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
         </div>
 
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-danger"
-            data-bs-target="#createTicketModal"
-            data-bs-toggle="modal"
-          >
-            {lang.global.create_ticket}
-          </button>
+          {location.pathname === "/leo/dash" ? (
+            <>
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-bs-target="#createTicketModal"
+                data-bs-toggle="modal"
+              >
+                {lang.global.create_ticket}
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-bs-target="#createArrestReportModal"
+                data-bs-toggle="modal"
+              >
+                {lang.global.create_arrest_report}
+              </button>
+            </>
+          ) : null}
+
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>

@@ -21,6 +21,14 @@ const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | undefined =
     padding: "0.2rem",
     backgroundColor: "#6C757D",
   }),
+  multiValue: (base) => ({
+    ...base,
+    color: "#fff",
+  }),
+  noOptionsMessage: (base) => ({
+    ...base,
+    color: "#fff",
+  }),
   multiValueLabel: (base) => ({
     ...base,
     backgroundColor: "#2f2f2F",
@@ -61,6 +69,14 @@ const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | undefined =
     ...base,
     color: "#fff",
     opacity: "0.4",
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: "#fff",
+  }),
+  input: (base) => ({
+    ...base,
+    color: "#fff",
   }),
 };
 
