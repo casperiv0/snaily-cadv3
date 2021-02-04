@@ -1,18 +1,19 @@
 import * as React from "react";
 import Layout from "../../components/Layout";
-import Logger from "../../lib/Logger";
 import Markdown from "react-markdown";
-import { handleRequest, isSuccess } from "../../lib/functions";
 import lang from "../../language.json";
+import PenalCode from "../../interfaces/PenalCode";
+import { getPenalCodes } from "../../lib/actions/officer";
+import { connect } from "react-redux";
+import State from "../../interfaces/State";
 
-export interface PenalCode {
-  title: string;
-  des: string;
+interface Props {
+  penalCodes: PenalCode[];
+  getPenalCodes: () => void;
 }
 
-const PenalCodesPage: React.FC = () => {
-  const [penalCodes, setPenalCodes] = React.useState<PenalCode[]>([]);
-  const [filtered, setFiltered] = React.useState<PenalCode[]>([]);
+const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
+  const [filtered, setFiltered] = React.useState<PenalCode[]>(penalCodes);
   const [length, setLength] = React.useState<number>(15);
 
   const observer = React.useRef<any>(null);
@@ -29,19 +30,6 @@ const PenalCodesPage: React.FC = () => {
     },
     [penalCodes, length],
   );
-
-  const getPenalCodes = React.useCallback(async () => {
-    try {
-      const res = await handleRequest("/officer/penal-codes", "GET");
-
-      if (isSuccess(res)) {
-        setPenalCodes(res.data.penalCodes);
-        setFiltered(res.data.penalCodes);
-      }
-    } catch (e) {
-      Logger.error("GET_PENAL_CODES", e);
-    }
-  }, []);
 
   React.useEffect(() => {
     getPenalCodes();
@@ -82,4 +70,8 @@ const PenalCodesPage: React.FC = () => {
   );
 };
 
-export default React.memo(PenalCodesPage);
+const mapToProps = (state: State) => ({
+  penalCodes: state.officers.penalCodes,
+});
+
+export default connect(mapToProps, { getPenalCodes })(React.memo(PenalCodesPage));

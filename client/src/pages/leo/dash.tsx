@@ -22,14 +22,18 @@ import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
 import { playSound } from "../../lib/functions";
+import { getPenalCodes } from "../../lib/actions/officer";
+import { useLocation } from "react-router-dom";
 
 interface Props {
   aop: string;
   message: Message;
   activeOfficer: Officer | null;
+  getPenalCodes: () => void;
 }
 
 const LeoDash: React.FC<Props> = (props) => {
+  const location = useLocation();
   const [time, setTime] = React.useState<Date>(new Date());
   const [aop, setAop] = React.useState<string>(props.aop);
   const [panic, setPanic] = React.useState<Officer | null>(null);
@@ -44,7 +48,8 @@ const LeoDash: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     document.title = "LEO Dashboard";
-  }, []);
+    props.getPenalCodes();
+  }, [props]);
 
   React.useEffect(() => {
     socket.on("UPDATE_AOP", (newAop: string) => {
@@ -53,16 +58,18 @@ const LeoDash: React.FC<Props> = (props) => {
 
     socket.on("PANIC_BUTTON", (officer: Officer) => {
       setPanic(officer);
+      playSound("/sounds/signal-100.mp3");
     });
   }, []);
 
   React.useEffect(() => {
     socket.on("UPDATE_ASSIGNED_UNITS", (unitIds: string[]) => {
+      if (location.pathname !== "/leo/dash") return;
       if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
         playSound("/sounds/success.mp3");
       }
     });
-  }, [props.activeOfficer]);
+  }, [props.activeOfficer, location]);
 
   return (
     <Layout fluid classes="mt-5">
@@ -119,4 +126,4 @@ const mapToProps = (state: State) => ({
   activeOfficer: state.officers.activeOfficer,
 });
 
-export default connect(mapToProps)(React.memo(LeoDash));
+export default connect(mapToProps, { getPenalCodes })(React.memo(LeoDash));

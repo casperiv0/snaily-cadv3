@@ -78,7 +78,7 @@ router.post("/calls", useAuth, useDispatchAuth, async (req: IRequest, res: Respo
   }
 });
 
-router.delete("/calls/:id", useAuth, useDispatchAuth, async (req: IRequest, res: Response) => {
+router.delete("/calls/:id", useAuth, useDisLeoAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
 
   await processQuery("DELETE FROM `911calls` WHERE `id` = ?", [id]);
@@ -167,7 +167,7 @@ export async function useDisLeoAuth(
     });
   }
 
-  if (user[0].leo === "0" ?? user[0].dispatch === "0") {
+  if (user[0].leo === "0" ?? user[0].dispatch === "0" ?? user[0].ems_fd === "0") {
     return res.json({
       error: "Forbidden",
       status: "error",

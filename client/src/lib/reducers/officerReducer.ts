@@ -1,5 +1,6 @@
 import Department from "../../interfaces/Department";
 import Officer from "../../interfaces/Officer";
+import PenalCode from "../../interfaces/PenalCode";
 import State from "../../interfaces/State";
 import {
   GET_CURRENT_OFFICER_STATUS,
@@ -29,6 +30,8 @@ const initState: State["officers"] = {
   error: "",
   search: null,
   activeOfficer: null,
+  penalCodes: [],
+  names: [],
 };
 
 type Actions =
@@ -98,6 +101,14 @@ type Actions =
   | {
       type: typeof CREATE_TICKET_ERROR;
       error: string;
+    }
+  | {
+      type: "GET_PENAL_CODES";
+      penalCodes: PenalCode[];
+    }
+  | {
+      type: "SEARCH_NAMES";
+      names: string[];
     };
 
 export default function officerReducer(state = initState, action: Actions) {
@@ -190,6 +201,16 @@ export default function officerReducer(state = initState, action: Actions) {
       return {
         ...state,
         error: action.error,
+      };
+    case "GET_PENAL_CODES":
+      return {
+        ...state,
+        penalCodes: action.penalCodes,
+      };
+    case "SEARCH_NAMES":
+      return {
+        ...state,
+        names: action.names,
       };
     default:
       return {

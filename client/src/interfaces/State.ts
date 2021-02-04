@@ -16,6 +16,7 @@ import Company, { CompanyPost } from "./Company";
 import CadInfo from "./CadInfo";
 import Message from "./Message";
 import { ExpungementRequest } from "../lib/actions/court";
+import PenalCode from "./PenalCode";
 
 interface State {
   auth: {
@@ -48,6 +49,8 @@ interface State {
     error: string;
     search: any;
     activeOfficer: Officer | null;
+    penalCodes: PenalCode[];
+    names: [];
   };
   bolos: {
     bolos: Bolo[];

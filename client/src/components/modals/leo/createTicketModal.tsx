@@ -7,10 +7,13 @@ import { connect } from "react-redux";
 import Modal, { XButton } from "../index";
 import { createTicket } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
+import PenalCode from "../../../interfaces/PenalCode";
+import Select from "../../select";
 
 interface Props {
   error: string;
   officer: Officer | null;
+  penalCodes: PenalCode[];
   createTicket: (data: {
     name: string;
     officer_name: string;
@@ -20,9 +23,9 @@ interface Props {
   }) => void;
 }
 
-const CreateTicketModal: React.FC<Props> = ({ error, officer, createTicket }) => {
+const CreateTicketModal: React.FC<Props> = ({ error, officer, penalCodes, createTicket }) => {
   const [name, setName] = React.useState("");
-  const [violations, setViolations] = React.useState("");
+  const [violations, setViolations] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const btnRef = React.createRef<HTMLButtonElement>();
@@ -33,7 +36,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, createTicket }) =>
     createTicket({
       name,
       officer_name: officer?.officer_name!,
-      violations,
+      violations: violations.map((v: any) => v.value).join(", "),
       postal,
       notes,
     });
@@ -43,7 +46,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, createTicket }) =>
     if (error === null) {
       setNotes("");
       setName("");
-      setViolations("");
+      setViolations([]);
       setPostal("");
       setNotes("");
 
@@ -58,13 +61,6 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, createTicket }) =>
       label: lang.record.enter_full_name,
       onChange: (e) => setName(e.target.value),
       value: name,
-    },
-    {
-      type: "text",
-      id: "ticket_violations",
-      label: lang.record.violations,
-      onChange: (e) => setViolations(e.target.value),
-      value: violations,
     },
     {
       type: "text",
@@ -109,6 +105,17 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, createTicket }) =>
               </div>
             );
           })}
+          <div className="mb-3">
+            <label className="form-label">{lang.record.violations}</label>
+            <Select
+              value={violations}
+              onChange={(v: any) => setViolations(v)}
+              options={penalCodes.map((code) => ({
+                value: code.title,
+                label: code.title,
+              }))}
+            />
+          </div>
         </div>
 
         <div className="modal-footer">
@@ -127,6 +134,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, createTicket }) =>
 const mapToProps = (state: State) => ({
   error: state.officers.error,
   officer: state.officers.activeOfficer,
+  penalCodes: state.officers.penalCodes,
 });
 
 export default connect(mapToProps, { createTicket })(CreateTicketModal);
