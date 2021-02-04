@@ -35,12 +35,11 @@ interface Props {
 
 const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote, searchNames }) => {
   const [name, setName] = React.useState<any>({});
-  const [note, setNote] = React.useState((search && search.citizen.note) || "");
+  const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const btnRef = React.createRef<HTMLButtonElement>();
   const location = useLocation();
 
   React.useEffect(() => {
-    name !== "" && searchNames();
     setNote(search?.citizen?.note || "");
   }, [search?.citizen, name, searchNames]);
 
@@ -71,6 +70,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
               {lang.global.name}
             </label>
             <Select
+              closeMenuOnSelect={true}
               isMulti={false}
               onFocus={() => searchNames()}
               value={name.value && name}

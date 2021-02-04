@@ -8,6 +8,7 @@
 - Panic button will now play a sound to alert active LEO/dispatch
 - Auto complete name search
 - Fixed bug with /call911 & /calltow not updating the CAD in realtime
+- Fixed weapon search returning a blank screen
 
 ## 1.2.1
 

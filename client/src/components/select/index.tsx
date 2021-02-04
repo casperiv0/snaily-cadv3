@@ -9,9 +9,18 @@ interface Props {
   value?: SelectProps["value"];
   onFocus?: SelectProps["onFocus"];
   isMulti?: boolean;
+  closeMenuOnSelect?: boolean;
 }
 
-const Select: React.FC<Props> = ({ onChange, onFocus, isMulti, options, defaultValue, value }) => {
+const Select: React.FC<Props> = ({
+  onChange,
+  onFocus,
+  isMulti,
+  closeMenuOnSelect,
+  options,
+  defaultValue,
+  value,
+}) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
@@ -24,7 +33,7 @@ const Select: React.FC<Props> = ({ onChange, onFocus, isMulti, options, defaultV
       onChange={onChange}
       options={options}
       defaultValue={defaultValue}
-      closeMenuOnSelect={false}
+      closeMenuOnSelect={closeMenuOnSelect}
       menuIsOpen={menuOpen}
       onMenuClose={() => setMenuOpen(false)}
       onMenuOpen={() => setMenuOpen(true)}
