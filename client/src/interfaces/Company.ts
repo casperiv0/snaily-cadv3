@@ -8,6 +8,9 @@ interface Company {
   citizen_id: string;
   whitelisted: Perm;
   address: string;
+  user?: {
+    username: string;
+  };
 }
 
 export interface CompanyPost {

@@ -150,6 +150,18 @@ router.put("/members/:path/:id", useAuth, useAdminAuth, async (req: IRequest, re
 router.get("/citizens", useAuth, useAdminAuth, async (_req: IRequest, res: Response) => {
   const citizens = await processQuery("SELECT * FROM `citizens`");
 
+  await citizens.forEach(async (citizen: Citizen & { user: { username: string } }) => {
+    const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+      citizen.user_id,
+    ]);
+
+    citizen.user = user[0];
+
+    return citizen;
+  });
+
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   return res.json({ citizens, status: "success" });
 });
 
@@ -231,6 +243,18 @@ router.delete("/citizens/:id", useAuth, useAdminAuth, async (req: IRequest, res:
 /* companies */
 router.get("/companies", useAuth, async (_req: IRequest, res: Response) => {
   const companies = await processQuery("SELECT * FROM `businesses`");
+
+  await companies.forEach(async (company: any) => {
+    const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+      company.user_id,
+    ]);
+
+    company.user = user[0];
+
+    return company;
+  });
+
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   return res.json({ companies, status: "success" });
 });

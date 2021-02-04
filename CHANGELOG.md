@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.3
+
+- Show accounts username for company and citizen management
+- `calltaxi` in game command
+
 ## 1.2.2
 
 - Added 10-42 status code
