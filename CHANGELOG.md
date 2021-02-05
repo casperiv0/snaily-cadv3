@@ -4,6 +4,9 @@
 
 - Show accounts username for company and citizen management
 - `calltaxi` in game command
+- Fixed bug in address search
+- Add `10-8` to updateStatus modal in dispatch
+- Added `10-11` and `10-23` to LEO statuses
 
 ## 1.2.2
 

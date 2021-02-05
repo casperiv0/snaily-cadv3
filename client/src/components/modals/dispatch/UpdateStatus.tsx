@@ -75,7 +75,7 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
             >
               <option value={status2}>{status2}</option>
               <option disabled>--------</option>
-              {statuses.map((stat: string, idx: number) => {
+              {["10-8", ...statuses].map((stat: string, idx: number) => {
                 return (
                   <option value={stat} key={idx} id={`${idx}`}>
                     {stat}

@@ -10,8 +10,10 @@ export const statuses: string[] = [
   "10-6",
   "10-5",
   "10-4",
+  "10-11",
   "10-15",
   "10-17",
+  "10-23",
   "10-97",
   "code 5",
   "code 6",
@@ -57,7 +59,7 @@ const Statuses: React.FC<Props> = ({
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#selectOfficerModal"
-        className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
+        className={status2 === "10-8" ? "btn btn-primary col-sm-" : "btn btn-secondary col-sm-1"}
       >
         10-8
       </button>
