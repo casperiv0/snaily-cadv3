@@ -98,6 +98,10 @@ const usePermission = (perms: Permissions[]) => async (
     next();
   } catch (e) {
     Logger.error("USE_PERMISSION", e);
+    return res.json({
+      error: "An error occurred checking the user's permission",
+      status: "error",
+    });
   }
 };
 
