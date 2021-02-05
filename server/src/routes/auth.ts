@@ -23,9 +23,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       return res.json({ status: "error", error: "Passwords do not match" });
     }
 
-    const existing = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `username` = ?", [
-      username,
-    ]);
+    const existing = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `username` = ?", [username]);
 
     if (existing?.length > 0) {
       return res.json({
@@ -58,7 +56,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
           false /* banned */,
           "" /* ban_reason */,
           whitelistStatus /* whitelist_status */,
-        ]
+        ],
       );
 
       if (cadInfo[0].whitelisted === "1") {
@@ -84,7 +82,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const id = uuidv4();
       await processQuery(
         "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `company_whitelisted`, `webhook_url`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [username, "Change me", "Change me", "0", "0", "0", ""]
+        [username, "Change me", "Change me", "0", "0", "0", ""],
       );
       await processQuery(
         "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -100,7 +98,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
           false /* banned */,
           "" /* ban_reason */,
           Whitelist.accepted /* whitelist_status */,
-        ]
+        ],
       );
 
       const token = useToken({ id });
@@ -121,9 +119,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
   const { username, password } = req.body;
 
   if (username && password) {
-    const user = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `username` = ?", [
-      username,
-    ]);
+    const user = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `username` = ?", [username]);
     const cadInfo = await processQuery<ICad[]>("SELECT * FROM `cad_info`");
 
     if (!user[0]) {
@@ -190,9 +186,7 @@ router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) =
     });
   }
 
-  const citizens = await processQuery<Citizen[]>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
-    userId,
-  ]);
+  const citizens = await processQuery<Citizen[]>("SELECT * FROM `citizens` WHERE `user_id` = ?", [userId]);
 
   citizens.forEach(async (citizen: Citizen) => {
     await processQuery("DELETE FROM `arrest_reports` WHERE `citizen_id` = ?", [citizen.id]);

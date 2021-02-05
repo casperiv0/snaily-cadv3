@@ -5,23 +5,11 @@ import Logger from "./Logger";
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 import { io } from "../server";
 
-export function generateSerialNumber(): string {
+export function generateString(length: number): string {
   let result = "";
-  const length = chars.length;
 
-  for (let i = 0; i < 10; i++) {
-    result += chars.charAt(Math.floor(Math.random() * length));
-  }
-
-  return result;
-}
-
-export function generateVinNumber(): string {
-  let result = "";
-  const length = chars.length;
-
-  for (let i = 0; i < 17; i++) {
-    result += chars.charAt(Math.floor(Math.random() * length));
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
 
   return result;
@@ -100,9 +88,7 @@ export async function postWebhook(webhook: WebHook, data: WebHookData): Promise<
 }
 
 export async function logoutActiveUnits(userId: string | undefined): Promise<void> {
-  const officers = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `user_id` = ?", [
-    userId,
-  ]);
+  const officers = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `user_id` = ?", [userId]);
   const emsFd = await processQuery<any[]>("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [userId]);
 
   [...officers, ...emsFd]

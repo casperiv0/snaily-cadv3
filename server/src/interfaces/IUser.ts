@@ -1,10 +1,11 @@
+import { RanksType } from "../lib/constants";
 export type Perm = "1" | "0";
 
 interface IUser {
   id: string;
   username: string;
   password: string;
-  rank: "owner" | "admin" | "moderator" | "user";
+  rank: RanksType;
   leo: Perm;
   ems_fd: Perm;
   dispatch: Perm;

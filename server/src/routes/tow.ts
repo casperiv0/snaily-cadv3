@@ -6,7 +6,7 @@ import IRequest from "../interfaces/IRequest";
 import { io } from "../server";
 const router: Router = Router();
 
-router.get("/", useAuth, async (req: IRequest, res: Response) => {
+router.get("/", useAuth, async (_, res: Response) => {
   const calls = await processQuery("SELECT * FROM `tow_calls`");
 
   return res.json({ status: "success", calls });
@@ -16,10 +16,12 @@ router.post("/", async (req: IRequest, res: Response) => {
   const { description, location, caller } = req.body;
   const id = uuidv4();
 
-  await processQuery(
-    "INSERT INTO `tow_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
-    [id, description, caller, location]
-  );
+  await processQuery("INSERT INTO `tow_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)", [
+    id,
+    description,
+    caller,
+    location,
+  ]);
 
   io.sockets.emit("UPDATE_TOW_CALLS");
 

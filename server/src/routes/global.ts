@@ -13,9 +13,7 @@ const router: Router = Router();
 export function mapCalls(calls: Call[]): Call[] {
   return calls.map((call) => {
     try {
-      call.assigned_unit = JSON.parse(
-        (typeof call.assigned_unit === "string" && call.assigned_unit) || "[]"
-      );
+      call.assigned_unit = JSON.parse((typeof call.assigned_unit === "string" && call.assigned_unit) || "[]");
     } catch {
       call.assigned_unit = [];
     }
@@ -39,7 +37,7 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
 
   await processQuery<Call[]>(
     "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
-    [id, description, caller, location, "Not assigned", "[]"]
+    [id, description, caller, location, "Not assigned", "[]"],
   );
 
   io.sockets.emit("NEW_911_CALL");
@@ -62,11 +60,7 @@ router.post("/update-aop", useAuth, adminOrDispatchAuth, async (req: IRequest, r
   return res.json({ status: "success" });
 });
 
-export async function adminOrDispatchAuth(
-  req: IRequest,
-  res: Response,
-  next: NextFunction
-): Promise<void | Response> {
+export async function adminOrDispatchAuth(req: IRequest, res: Response, next: NextFunction): Promise<void | Response> {
   const user: {
     dispatch: string;
     rank: string;

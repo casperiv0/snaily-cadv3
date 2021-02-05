@@ -10,6 +10,7 @@
 - Add `10-8` to updateStatus modal in dispatch
 - Added `10-11` and `10-23` to LEO statuses
 - Add callsign to dispatch active units
+- Added `usePermission` hook for backend
 
 ## 1.2.2
 
