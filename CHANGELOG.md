@@ -1,5 +1,7 @@
 # Changelog
 
+**If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
+
 ## 1.2.3
 
 - Show accounts username for company and citizen management
@@ -7,6 +9,7 @@
 - Fixed bug in address search
 - Add `10-8` to updateStatus modal in dispatch
 - Added `10-11` and `10-23` to LEO statuses
+- Add callsign to dispatch active units
 
 ## 1.2.2
 
@@ -37,8 +40,6 @@
 - Citizens are able to request an expungement
 - Minor bug fixes
 - Small improvements
-
-#### If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)
 
 ## 1.1.0
 

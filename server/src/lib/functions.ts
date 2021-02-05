@@ -1,6 +1,9 @@
 import fetch from "node-fetch";
+import Officer from "../interfaces/Officer";
+import { processQuery } from "./database";
 import Logger from "./Logger";
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+import { io } from "../server";
 
 export function generateSerialNumber(): string {
   let result = "";
@@ -94,4 +97,23 @@ export async function postWebhook(webhook: WebHook, data: WebHookData): Promise<
   } catch (e) {
     Logger.error("POST_WEBHOOK", e);
   }
+}
+
+export async function logoutActiveUnits(userId: string | undefined): Promise<void> {
+  const officers = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `user_id` = ?", [
+    userId,
+  ]);
+  const emsFd = await processQuery<any[]>("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [userId]);
+
+  [...officers, ...emsFd]
+    .filter((o) => o.status === "on-duty")
+    .forEach(async (officer) => {
+      processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
+        "off-duty",
+        "--------",
+        officer.id,
+      ]);
+    });
+
+  io.sockets.emit("UPDATE_ACTIVE_UNITS");
 }

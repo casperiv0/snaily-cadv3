@@ -49,7 +49,7 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
                 return (
                   <tr key={idx} id={`${idx}`}>
                     <th scope="row">{++idx}</th>
-                    <td>{officer.officer_name}</td>
+                    <td>{`${officer.callsign} ${officer.officer_name}`}</td>
                     <td>{officer.officer_dept}</td>
                     <td>{officer.status2}</td>
                     <td>

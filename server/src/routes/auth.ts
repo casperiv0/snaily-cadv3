@@ -8,8 +8,7 @@ import IRequest from "../interfaces/IRequest";
 import ICad from "../interfaces/ICad";
 import IUser from "../interfaces/IUser";
 import Citizen from "../interfaces/Citizen";
-import Officer from "../interfaces/Officer";
-import { io } from "../server";
+import { logoutActiveUnits } from "../lib/functions";
 
 const saltRounds = genSaltSync(10);
 const router: Router = Router();
@@ -173,24 +172,7 @@ router.post("/user", useAuth, async (req: IRequest, res: Response) => {
 });
 
 router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
-  const officers = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `user_id` = ?", [
-    req.user?.id,
-  ]);
-  const emsFd = await processQuery<any[]>("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [
-    req.user?.id,
-  ]);
-
-  [...officers, ...emsFd]
-    .filter((o) => o.status === "on-duty")
-    .forEach(async (officer) => {
-      processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
-        "off-duty",
-        "--------",
-        officer.id,
-      ]);
-    });
-
-  io.sockets.emit("UPDATE_ACTIVE_UNITS");
+  logoutActiveUnits(req.user?.id);
 
   res.clearCookie("snaily-cad-session", { httpOnly: true });
 

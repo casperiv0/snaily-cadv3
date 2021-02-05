@@ -59,7 +59,7 @@ const Statuses: React.FC<Props> = ({
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#selectOfficerModal"
-        className={status2 === "10-8" ? "btn btn-primary col-sm-" : "btn btn-secondary col-sm-1"}
+        className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
       >
         10-8
       </button>
