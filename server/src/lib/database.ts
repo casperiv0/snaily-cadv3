@@ -34,7 +34,9 @@ async function select1() {
 
 async function updateDb() {
   try {
-    await processQuery(`--
+    await processQuery(`
+    ALTER TABLE \`911calls\` CHANGE \`assigned_unit\` \`assigned_unit\` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL; 
+    --
     -- Table structure for table \`notifications\`
     --
     

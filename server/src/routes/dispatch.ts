@@ -5,6 +5,7 @@ import IRequest from "../interfaces/IRequest";
 import { v4 } from "uuid";
 import { mapCalls } from "./global";
 import usePermission from "../hooks/usePermission";
+import { io } from "../server";
 const router: Router = Router();
 
 router.get("/active-units", useAuth, usePermission(["dispatch"]), async (_req: IRequest, res: Response) => {
@@ -94,9 +95,15 @@ router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequ
   if (location && description && assigned_unit) {
     if (assigned_unit.length > 0) {
       status = "Assigned";
+
+      assigned_unit?.forEach(async (unit: { value: string; label: string }) => {
+        await processQuery("UPDATE `officers` SET `status2` = ? WHERE `id` = ?", ["10-97", unit.value]);
+      });
     } else {
       status = "Not Assigned";
     }
+
+    io.sockets.emit("UPDATE_ACTIVE_UNITS");
 
     await processQuery(
       "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ? WHERE `id` = ?",
