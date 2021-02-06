@@ -11,6 +11,7 @@
 - Added `10-11` and `10-23` to LEO statuses
 - Add callsign to dispatch active units
 - Added `usePermission` hook for backend
+- Fixed needing to reload page to update permissions/cad settings
 
 ## 1.2.2
 
