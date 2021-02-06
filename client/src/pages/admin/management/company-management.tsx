@@ -84,6 +84,11 @@ const CompanyManagementPage: React.FC<Props> = ({
                       <Span>{lang.admin.company.owner}: </Span>
                       {company.owner}
                     </Item>
+
+                    <Item id="username">
+                      <Span>Account&apos;s username: </Span>
+                      {company.user?.username}
+                    </Item>
                   </div>
                 </div>
 

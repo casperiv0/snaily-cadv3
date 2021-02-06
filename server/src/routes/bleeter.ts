@@ -42,7 +42,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
     await processQuery(
       "INSERT INTO `bleets` (`id`, `title`, `body`, `markdown`, `user_id`, `uploaded_at`, `image_id`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [id, title, body, markdown, user_id, uploadedAt, imageId, false, 0]
+      [id, title, body, markdown, user_id, uploadedAt, imageId, false, 0],
     );
 
     if (file) {
@@ -87,8 +87,7 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
     let data = [];
 
     if (file) {
-      query =
-        "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
+      query = "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
       data = [title, body, markdown, fileName, id];
     } else {
       query = "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ? WHERE `bleets`.`id` = ?";

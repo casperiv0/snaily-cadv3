@@ -26,11 +26,15 @@ const AllCitizensTab: React.FC<Props> = ({ citizens }) => {
                 className="list-group-item bg-dark border-secondary d-flex justify-content-between"
               >
                 <div>
-                  <p>
+                  <div>
                     {++idx} | {citizen.full_name}
-                  </p>
+                    <Item id="username">
+                      <Span>Account&apos;s username: </Span>
+                      {citizen.user?.username}
+                    </Item>
+                  </div>
 
-                  <div className="collapse" id={`citizen_info_${citizen.id}`}>
+                  <div className="collapse mt-2" id={`citizen_info_${citizen.id}`}>
                     <Item id="full_name">
                       <Span>{lang.citizen.full_name}: </Span>
                       {citizen.full_name}

@@ -1,17 +1,14 @@
-import { NextFunction, Response, Router } from "express";
+import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { useAuth } from "../hooks";
 import IRequest from "../interfaces/IRequest";
 import { v4 } from "uuid";
-import { RanksArr } from "../lib/constants";
-import IUser from "../interfaces/IUser";
 import { mapCalls } from "./global";
+import usePermission from "../hooks/usePermission";
 const router: Router = Router();
 
-router.get("/active-units", useAuth, useDispatchAuth, async (_req: IRequest, res: Response) => {
-  const activeOfficers = await processQuery("SELECT * FROM `officers` WHERE `status` = ?", [
-    "on-duty",
-  ]);
+router.get("/active-units", useAuth, usePermission(["dispatch"]), async (_req: IRequest, res: Response) => {
+  const activeOfficers = await processQuery("SELECT * FROM `officers` WHERE `status` = ?", ["on-duty"]);
   const activeEmsFd = await processQuery("SELECT * FROM `ems-fd` WHERE `status` = ?", ["on-duty"]);
 
   return res.json({
@@ -21,13 +18,13 @@ router.get("/active-units", useAuth, useDispatchAuth, async (_req: IRequest, res
   });
 });
 
-router.get("/bolos", useAuth, useDisLeoAuth, async (_req: IRequest, res: Response) => {
+router.get("/bolos", useAuth, usePermission(["leo", "dispatch"]), async (_req: IRequest, res: Response) => {
   const bolos = await processQuery("SELECT * FROM `bolos`");
 
   return res.json({ bolos, status: "success" });
 });
 
-router.post("/bolos", useAuth, useDisLeoAuth, async (req: IRequest, res: Response) => {
+router.post("/bolos", useAuth, usePermission(["leo", "dispatch"]), async (req: IRequest, res: Response) => {
   const { type, description, name, color, plate } = req.body;
 
   if (description) {
@@ -35,7 +32,7 @@ router.post("/bolos", useAuth, useDisLeoAuth, async (req: IRequest, res: Respons
 
     await processQuery(
       "INSERT INTO `bolos` (`id`, `type`, `description`, `name`, `color`, `plate`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, type, description, name, color, plate]
+      [id, type, description, name, color, plate],
     );
 
     const bolos = await processQuery("SELECT * FROM `bolos`");
@@ -49,7 +46,7 @@ router.post("/bolos", useAuth, useDisLeoAuth, async (req: IRequest, res: Respons
   }
 });
 
-router.delete("/bolos/:id", useAuth, useDisLeoAuth, async (req: IRequest, res: Response) => {
+router.delete("/bolos/:id", useAuth, usePermission(["leo", "dispatch"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
 
   await processQuery("DELETE FROM `bolos` WHERE `id` = ?", [id]);
@@ -59,14 +56,14 @@ router.delete("/bolos/:id", useAuth, useDisLeoAuth, async (req: IRequest, res: R
   return res.json({ bolos, status: "success" });
 });
 
-router.post("/calls", useAuth, useDispatchAuth, async (req: IRequest, res: Response) => {
+router.post("/calls", useAuth, usePermission(["leo", "dispatch"]), async (req: IRequest, res: Response) => {
   const { location, description, caller } = req.body;
   const id = v4();
 
   if (location && description && caller) {
     await processQuery(
       "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, description, caller, location, "Not Assigned", "[]"]
+      [id, description, caller, location, "Not Assigned", "[]"],
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");
@@ -78,7 +75,7 @@ router.post("/calls", useAuth, useDispatchAuth, async (req: IRequest, res: Respo
   }
 });
 
-router.delete("/calls/:id", useAuth, useDisLeoAuth, async (req: IRequest, res: Response) => {
+router.delete("/calls/:id", useAuth, usePermission(["leo", "dispatch"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
 
   await processQuery("DELETE FROM `911calls` WHERE `id` = ?", [id]);
@@ -89,7 +86,7 @@ router.delete("/calls/:id", useAuth, useDisLeoAuth, async (req: IRequest, res: R
   return res.json({ status: "success", calls: mappedCalls });
 });
 
-router.put("/calls/:id", useAuth, useDispatchAuth, async (req: IRequest, res: Response) => {
+router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const { location, description, assigned_unit } = req.body;
   let status = "";
@@ -103,7 +100,7 @@ router.put("/calls/:id", useAuth, useDispatchAuth, async (req: IRequest, res: Re
 
     await processQuery(
       "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ? WHERE `id` = ?",
-      [location, description, JSON.stringify(assigned_unit), status, id]
+      [location, description, JSON.stringify(assigned_unit), status, id],
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");
@@ -115,66 +112,12 @@ router.put("/calls/:id", useAuth, useDispatchAuth, async (req: IRequest, res: Re
   }
 });
 
-router.post("/search/address", useAuth, useDispatchAuth, async (req: IRequest, res: Response) => {
+router.post("/search/address", useAuth, usePermission(["dispatch"]), async (req: IRequest, res: Response) => {
   const { address } = req.body;
 
-  const results = await processQuery("SELECT * FROM `citizens` WHERE `address` LIKE ?", [
-    `%${address}%`,
-  ]);
+  const results = await processQuery("SELECT * FROM `citizens` WHERE `address` LIKE ?", [`%${address}%`]);
 
   return res.json({ results, status: "success" });
 });
-
-async function useDispatchAuth(
-  req: IRequest,
-  res: Response,
-  next: NextFunction
-): Promise<void | Response> {
-  const user: IUser[] = await processQuery("SELECT `dispatch` from `users` WHERE `id` = ?", [
-    req.user?.id,
-  ]);
-
-  if (!user[0]) {
-    return res.json({
-      error: "user not found",
-      status: "error",
-    });
-  }
-
-  if (user[0].dispatch === "0" ?? !RanksArr.includes(user[0].rank)) {
-    return res.json({
-      error: "Forbidden",
-      status: "error",
-    });
-  }
-
-  next();
-}
-
-export async function useDisLeoAuth(
-  req: IRequest,
-  res: Response,
-  next: NextFunction
-): Promise<void | Response> {
-  const user = await processQuery<IUser[]>("SELECT `dispatch`, `leo` from `users` WHERE `id` = ?", [
-    req.user?.id,
-  ]);
-
-  if (!user[0]) {
-    return res.json({
-      error: "user not found",
-      status: "error",
-    });
-  }
-
-  if (user[0].leo === "0" ?? user[0].dispatch === "0" ?? user[0].ems_fd === "0") {
-    return res.json({
-      error: "Forbidden",
-      status: "error",
-    });
-  }
-
-  next();
-}
 
 export default router;

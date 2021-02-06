@@ -1,4 +1,5 @@
-export const RanksArr = ["owner", "admin", "moderator"];
+export const RanksArr = ["owner", "admin", "moderator", "user"];
+export type RanksType = "owner" | "admin" | "moderator" | "user";
 
 export const enum Ranks {
   owner = "owner",

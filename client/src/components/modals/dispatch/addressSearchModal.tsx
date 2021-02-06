@@ -49,7 +49,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
               !search[0] ? (
                 <AlertMessage message={{ msg: lang.dispatch.add_not_found, type: "warning" }} />
               ) : (
-                search.map((citizen: Citizen, idx: number) => {
+                search?.map((citizen: Citizen, idx: number) => {
                   return (
                     <li
                       key={idx}
@@ -64,6 +64,16 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
                           <Span>{lang.record.owner}: </Span>
                           {citizen.full_name}
                         </Item>
+                      </div>
+
+                      <div>
+                        <button
+                          data-bs-toggle="modal"
+                          data-bs-target="#nameSearchModal"
+                          className="btn btn-primary"
+                        >
+                          Open name search
+                        </button>
                       </div>
                     </li>
                   );

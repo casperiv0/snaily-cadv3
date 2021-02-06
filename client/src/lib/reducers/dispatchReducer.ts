@@ -30,7 +30,7 @@ export default function dispatchReducer(state = initState, action: Actions) {
     case "ADDRESS_SEARCH":
       return {
         ...state,
-        search: { type: "address", ...action.search },
+        search: action.search,
       };
     default:
       return {

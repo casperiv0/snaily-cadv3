@@ -1,24 +1,30 @@
 import IRequest from "../../interfaces/IRequest";
 import { v4 as uuidv4 } from "uuid";
-import { NextFunction, Response, Router } from "express";
+import { Response, Router } from "express";
 import { useAuth, useValidPath } from "../../hooks";
 import { processQuery } from "../../lib/database";
-import { RanksArr } from "../../lib/constants";
+import usePermission from "../../hooks/usePermission";
 
 const router: Router = Router();
 
-router.get("/:path", useAuth, useValidPath, async (req: IRequest, res: Response) => {
-  const parsedPath = req.parsedPath;
+router.get(
+  "/:path",
+  useAuth,
+  usePermission(["admin", "moderator", "owner"]),
+  useValidPath,
+  async (req: IRequest, res: Response) => {
+    const parsedPath = req.parsedPath;
 
-  const values = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+    const values = await processQuery(`SELECT * FROM \`${parsedPath}\``);
 
-  return res.json({ values, status: "success" });
-});
+    return res.json({ values, status: "success" });
+  },
+);
 
 router.get(
   "/:path/:id",
   useAuth,
-  useAdminAuth,
+  usePermission(["admin", "owner", "moderator"]),
   useValidPath,
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
@@ -27,33 +33,40 @@ router.get(
     const value = await processQuery(`SELECT * FROM \`${parsedPath}\` WHERE \`id\` = ?`, [id]);
 
     return res.json({ status: "success", value: value[0] });
-  }
+  },
 );
 
-router.post("/:path", useAuth, useAdminAuth, useValidPath, async (req: IRequest, res: Response) => {
-  const { name } = req.body;
-  const parsedPath = req.parsedPath;
-  const id = uuidv4();
+router.post(
+  "/:path",
+  useAuth,
+  usePermission(["admin", "owner", "moderator"]),
+  useValidPath,
+  async (req: IRequest, res: Response) => {
+    const { name } = req.body;
+    const parsedPath = req.parsedPath;
+    const id = uuidv4();
 
-  if (name) {
-    await processQuery(
-      `INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`,
-      [id, name, "0"]
-    );
+    if (name) {
+      await processQuery(`INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`, [
+        id,
+        name,
+        "0",
+      ]);
 
-    return res.json({ status: "success" });
-  } else {
-    return res.json({
-      error: "Please fill in all all fields",
-      status: "error",
-    });
-  }
-});
+      return res.json({ status: "success" });
+    } else {
+      return res.json({
+        error: "Please fill in all all fields",
+        status: "error",
+      });
+    }
+  },
+);
 
 router.put(
   "/:path/:id",
   useAuth,
-  useAdminAuth,
+  usePermission(["admin", "owner", "moderator"]),
   useValidPath,
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
@@ -67,13 +80,13 @@ router.put(
     } else {
       return res.json({ error: "Please fill in all fields", status: "error" });
     }
-  }
+  },
 );
 
 router.delete(
   "/:path/:id",
   useAuth,
-  useAdminAuth,
+  usePermission(["admin", "owner", "moderator"]),
   useValidPath,
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
@@ -84,34 +97,7 @@ router.delete(
     const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
 
     return res.json({ status: "success", values: updated });
-  }
+  },
 );
 
-async function useAdminAuth(
-  req: IRequest,
-  res: Response,
-  next: NextFunction
-): Promise<Response | void> {
-  const user = await processQuery("SELECT `rank` from `users` WHERE `id` = ?", [req.user?.id]);
-
-  if (!user[0]) {
-    return res.json({
-      error: "user not found",
-      status: "error",
-    });
-  }
-
-  if (!RanksArr.includes(user[0].rank)) {
-    return res
-      .json({
-        error: "Forbidden",
-        status: "error",
-      })
-      .status(403);
-  }
-
-  next();
-}
-
-export { useAdminAuth };
 export default router;

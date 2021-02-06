@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { checkAuth, logout } from "../../lib/actions/auth";
 import { getCadInfo } from "../../lib/actions/global";
 import CadInfo from "../../interfaces/CadInfo";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import User from "../../interfaces/User";
 
 interface Props {
@@ -81,13 +81,12 @@ const Navbar: React.FC<Props> = ({
   logout,
   getCadInfo,
 }) => {
-  React.useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+  const location = useLocation();
 
   React.useEffect(() => {
+    checkAuth();
     getCadInfo();
-  }, [getCadInfo]);
+  }, [location, checkAuth, getCadInfo]);
 
   return (
     <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">

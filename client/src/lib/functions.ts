@@ -16,6 +16,7 @@ export const isSuccess = (res: AxiosResponse) => {
   if (isNotLogin && res.data?.invalid_token) {
     console.clear();
     window.location.href = "/login";
+
     return false;
   }
 

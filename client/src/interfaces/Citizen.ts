@@ -23,6 +23,9 @@ interface Citizen {
   image_id: string;
   b_status: string;
   note: string;
+  user?: {
+    username: string;
+  };
 }
 
 export default Citizen;
