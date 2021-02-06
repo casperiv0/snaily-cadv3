@@ -8,6 +8,7 @@ import Citizen from "../interfaces/Citizen";
 import Logger from "../lib/Logger";
 import Officer from "../interfaces/Officer";
 import usePermission from "../hooks/usePermission";
+import { createNotification } from "./notifications";
 const router: Router = Router();
 
 interface Item {
@@ -193,6 +194,7 @@ router.put(
   usePermission(["admin", "owner", "moderator"]),
   async (req: IRequest, res: Response) => {
     const { requestId, type } = req.params;
+    const request = await processQuery("SELECT * FROM `court_requests` WHERE `id` = ?", [requestId]);
 
     switch (type) {
       case "accept": {
@@ -210,10 +212,23 @@ router.put(
         });
 
         await processQuery("DELETE FROM `court_requests` WHERE `id` = ?", [requestId]);
+        await createNotification(
+          "Expungement request accepted",
+          `Your expungement was accepted for citizen with id: ${request[0].citizen_id}`,
+          "/court",
+          request[0].user_id,
+        );
+
         break;
       }
       case "decline": {
         await processQuery("DELETE FROM `court_requests` WHERE `id` = ?", [requestId]);
+        await createNotification(
+          "Expungement request declined",
+          `Your expungement was declined for citizen with id: ${request[0].citizen_id}`,
+          "/court",
+          request[0].user_id,
+        );
         break;
       }
       default: {

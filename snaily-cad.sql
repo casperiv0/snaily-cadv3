@@ -275,6 +275,20 @@ CREATE TABLE `medical_records` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `text` text NOT NULL,
+  `href` text NOT NULL,
+  `user_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `officers`
 --
 
@@ -1010,6 +1024,12 @@ ALTER TABLE `leo_tickets`
 -- Indexes for table `medical_records`
 --
 ALTER TABLE `medical_records`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`);
 
 --
