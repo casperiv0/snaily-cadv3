@@ -6,7 +6,7 @@ const GIT_PULL_STRING = "git pull origin main";
 function autoUpdate() {
   console.log("Trying to auto update");
 
-  exec(GIT_PULL_STRING, (err) => {
+  exec(GIT_PULL_STRING, (err, out) => {
     if (err) {
       console.error("Tried to auto-update but didn't work, please manually update the CAD");
       return;
