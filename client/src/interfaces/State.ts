@@ -17,6 +17,7 @@ import CadInfo from "./CadInfo";
 import Message from "./Message";
 import { ExpungementRequest } from "../lib/actions/court";
 import PenalCode from "./PenalCode";
+import Notification from "./Notification";
 
 interface State {
   auth: {
@@ -112,6 +113,9 @@ interface State {
     officers: Officer[];
     officer: Officer | null;
     expungementRequests: ExpungementRequest[];
+  };
+  notifications: {
+    items: Notification[];
   };
 }
 

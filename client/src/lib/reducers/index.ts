@@ -13,6 +13,7 @@ import citizenReducer from "./citizenReducer";
 import valuesReducer from "./valuesReducer";
 import adminReducer from "./adminReducer";
 import companyReducer from "./companyReducer";
+import notificationReducer from "./notificationReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -28,4 +29,5 @@ export default combineReducers({
   values: valuesReducer,
   admin: adminReducer,
   company: companyReducer,
+  notifications: notificationReducer,
 });

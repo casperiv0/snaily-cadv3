@@ -51,7 +51,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
             <tbody>
               {calls.map((call: Call, idx: number) => {
                 return (
-                  <tr id={`${idx}`} key={idx}>
+                  <tr id={`${idx}`} key={call.id}>
                     <th scope="row">{++idx}</th>
                     <td>{call.name}</td>
                     <td>{call.location}</td>
@@ -73,7 +73,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                         type="button"
                         className="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target={"#update911Call" + call.id}
+                        data-bs-target={`#update911Call${call.id}`}
                       >
                         {lang.dispatch.update_call}
                       </button>
@@ -85,8 +85,8 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
           </table>
         )}
       </ul>
-      {calls.map((call: Call, idx: number) => {
-        return <Update911Call key={idx} id={call.id} call={call} />;
+      {calls.map((call: Call) => {
+        return <Update911Call key={call.id} id={call.id} call={call} />;
       })}
     </>
   );

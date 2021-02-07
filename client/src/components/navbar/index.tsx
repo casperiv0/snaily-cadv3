@@ -7,6 +7,7 @@ import { getCadInfo } from "../../lib/actions/global";
 import CadInfo from "../../interfaces/CadInfo";
 import { Link, useLocation } from "react-router-dom";
 import User from "../../interfaces/User";
+import NotificationsCenter from "../notifications";
 
 interface Props {
   isAuth: boolean;
@@ -81,6 +82,7 @@ const Navbar: React.FC<Props> = ({
   logout,
   getCadInfo,
 }) => {
+  const [showNotis, setShowNotis] = React.useState(false);
   const location = useLocation();
 
   React.useEffect(() => {
@@ -106,7 +108,7 @@ const Navbar: React.FC<Props> = ({
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="nav-items">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav w-100">
             {paths.map((path: Path, idx: number) => {
               return (
                 <li id={path.name} key={idx} className="nav-item">
@@ -124,6 +126,22 @@ const Navbar: React.FC<Props> = ({
               </li>
             ) : null}
             <NavbarDropdown loading={loading} isAuth={isAuth} logout={() => logout()} />
+            <div className="nc-container">
+              <button
+                onClick={() => setShowNotis((v) => !v)}
+                className="btn btn-secondary mx-1"
+                type="button"
+              >
+                <img
+                  style={{ width: "1.3rem", height: "1.3rem" }}
+                  src="/img/notifications.svg"
+                  alt="open menu"
+                />
+              </button>
+              {showNotis ? (
+                <NotificationsCenter closeNotifications={() => setShowNotis(false)} />
+              ) : null}
+            </div>
           </ul>
         </div>
       </div>

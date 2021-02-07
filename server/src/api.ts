@@ -12,6 +12,7 @@ import valuesRouter from "./routes/values/index";
 import citizenRouter from "./routes/citizen/index";
 import managementRouter from "./routes/management";
 import taxiCallsRouter from "./routes/taxi";
+import notificationsRouter from "./routes/notifications";
 
 const api: Router = Router();
 
@@ -27,6 +28,7 @@ api.use("/taxi-calls", taxiCallsRouter);
 api.use("/ems-fd", emsFdRouter);
 api.use("/values", valuesRouter);
 api.use("/admin/management", managementRouter);
+api.use("/notifications", notificationsRouter);
 
 api.use("/citizen", citizenRouter);
 

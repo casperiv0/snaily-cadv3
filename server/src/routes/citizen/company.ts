@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks";
 import { Router, Response } from "express";
 import { processQuery } from "../../lib/database";
 import { v4 as uuidv4 } from "uuid";
+import { createNotification } from "../notifications";
 const router: Router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
@@ -39,6 +40,15 @@ router.post("/join", useAuth, async (req: IRequest, res: Response) => {
       "UPDATE `citizens` SET `business` = ?, `business_id` = ?, `b_status` = ?, `rank` = ?  WHERE `id` = ?",
       [company[0].name, company[0].id, bStatus, "employee", citizen[0].id],
     );
+
+    if (company[0].whitelisted === "1") {
+      await createNotification(
+        "Company request",
+        `Citizen: ${citizen[0].full_name} would like to join your company!`,
+        `/company/${company[0].citizen_id}/${company[0].id}/manage#pending_citizens`,
+        req.user?.id,
+      );
+    }
 
     return res.json({
       status: "success",

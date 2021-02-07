@@ -1,0 +1,38 @@
+.nc-container {
+  position: relative;
+}
+
+.nc-content {
+  position: absolute;
+  right: 1rem;
+  top: 2.5rem;
+  width: 450px;
+  background-color: var(--bs-dark);
+
+  padding: 1rem;
+  border-radius: 0.5rem;
+  max-height: 30rem;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 0 8px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nc-item {
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  transition: filter 200ms;
+  text-decoration: none;
+  width: 100%;
+
+  color: var(--bs-light);
+  transition: 150ms;
+  margin: 0.2rem 0;
+}
+
+.nc-item:hover {
+  color: var(--bs-light);
+  background-color: var(--bs-gray-dark);
+}

@@ -2,6 +2,13 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.2.4
+
+- New notifications system (Beta)
+- Automatically change unit status to `10-97` when assigned to a call
+- Fixed length for assigning units to a call
+- Added callsign to update 911 call "assign unit"
+
 ## 1.2.3
 
 - Show accounts username for company and citizen management

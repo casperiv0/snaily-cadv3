@@ -33,7 +33,7 @@ CREATE TABLE `911calls` (
   `name` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `assigned_unit` varchar(255) NOT NULL
+  `assigned_unit` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -269,6 +269,20 @@ CREATE TABLE `medical_records` (
   `short_info` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `citizen_id` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `text` text NOT NULL,
+  `href` text NOT NULL,
   `user_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -1010,6 +1024,12 @@ ALTER TABLE `leo_tickets`
 -- Indexes for table `medical_records`
 --
 ALTER TABLE `medical_records`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`);
 
 --

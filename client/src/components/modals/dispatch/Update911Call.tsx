@@ -103,7 +103,8 @@ const Update911Call: React.FC<Props> = ({
                 onChange={handleClick}
                 options={activeUnits.map((unit) => ({
                   value: "officer_name" in unit ? unit.id : unit.id,
-                  label: "officer_name" in unit ? unit.officer_name : unit.name,
+                  label:
+                    "officer_name" in unit ? `${unit.callsign} ${unit.officer_name}` : unit.name,
                 }))}
               />
             )}

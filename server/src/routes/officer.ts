@@ -58,6 +58,12 @@ router.put("/status/:id", useAuth, usePermission(["leo", "dispatch"]), async (re
   const { status, status2 } = req.body;
 
   if (status && status2) {
+    await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `user_id` = ?", [
+      "off-duty",
+      "--------",
+      req.user?.id,
+    ]);
+
     await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
       status2 === "10-42" ? "off-duty" : status,
       status2 === "10-42" ? "--------" : status2,
