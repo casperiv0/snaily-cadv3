@@ -4,7 +4,7 @@
 
 ## 1.2.4
 
-- New notifications system
+- New notifications system (Beta)
 - Automatically change unit status to `10-97` when assigned to a call
 - Fixed length for assigning units to a call
 - Added callsign to update 911 call "assign unit"
