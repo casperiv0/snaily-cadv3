@@ -2,6 +2,10 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.2.5
+
+- Add version check in client side
+
 ## 1.2.4
 
 - New notifications system (Beta)

@@ -105,11 +105,6 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
                         {lang.dispatch.edit_status}
                       </button>
                     </td>
-                    {/* <EditEmsFdStatusModal
-                        id={ems_fd.id}
-                        status={ems_fd.status}
-                        status2={ems_fd.status2}
-                      /> */}
                   </tr>
                 );
               })}

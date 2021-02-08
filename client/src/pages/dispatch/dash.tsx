@@ -45,7 +45,7 @@ const DispatchDash: React.FC<Props> = (props) => {
     });
 
     socket.on("PANIC_BUTTON", (officer: Officer) => {
-      playSound("/sounds/signal-100.mp3");
+      playSound("/sounds/signal-100.wav");
       setPanic(officer);
     });
 
