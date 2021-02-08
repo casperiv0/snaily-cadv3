@@ -4,9 +4,9 @@
   "description": "![license](https://img.shields.io/github/license/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)\r ![contributors](https://img.shields.io/github/contributors/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)\r ![issues](https://img.shields.io/github/issues/dev-caspertheghost/snaily-cadv3?style=flat-square)",
   "main": "index.js",
   "scripts": {
-    "start:client": "npm run serve --prefix client",
+    "start:client": "npm run build --prefix client",
     "start:server": "npm start --prefix server",
-    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start": "npm run start:client && npm run start:server",
     "dev": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
     "auto-install": "node ./scripts/install.js",
     "update": "node ./scripts/auto-update.js"

@@ -1,4 +1,9 @@
-import { Router } from "express";
+import { Router, json } from "express";
+import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
+import cors from "cors";
+import helmet from "helmet";
+
 import authRouter from "./routes/auth";
 import truckLogs from "./routes/trucklogs";
 import bleeterRouter from "./routes/bleeter";
@@ -16,6 +21,18 @@ import notificationsRouter from "./routes/notifications";
 
 const api: Router = Router();
 
+api.use(json());
+api.use(fileUpload());
+api.use(
+  cors({
+    origin: "same-site",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  }),
+);
+api.use(cookieParser());
+api.use(helmet());
+
 api.use("/auth", authRouter);
 api.use("/truck-logs", truckLogs);
 api.use("/bleeter", bleeterRouter);
@@ -29,7 +46,6 @@ api.use("/ems-fd", emsFdRouter);
 api.use("/values", valuesRouter);
 api.use("/admin/management", managementRouter);
 api.use("/notifications", notificationsRouter);
-
 api.use("/citizen", citizenRouter);
 
 export default api;

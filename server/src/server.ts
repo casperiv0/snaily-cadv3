@@ -1,40 +1,31 @@
 import "./lib/checks";
-import express, { Application, json } from "express";
-import config from "../config";
-import cookieParser from "cookie-parser";
+import express, { Application, Response } from "express";
+import path from "path";
+
 import csurf from "csurf";
-import fileUpload from "express-fileupload";
-import cors from "cors";
-import helmet from "helmet";
 import { Server } from "socket.io";
 import Logger from "./lib/Logger";
 import api from "./api";
+import config from "../config";
 
 const app: Application = express();
 const port = config.port;
 const server = app.listen(port, () => Logger.listening(port));
 const io = new Server(server, {
   cors: {
-    origin: config.clientUrl,
+    origin: "same-site",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });
 const protection = csurf({ cookie: true });
+app.use("/api/v1", api, protection);
 
 app.use("/static", express.static("public"));
-app.use(json());
-app.use(fileUpload());
-app.use(
-  cors({
-    origin: config.clientUrl,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  }),
-);
-app.use(cookieParser());
-app.use(helmet());
-app.use("/api/v1", api, protection);
+app.use(express.static(path.join(__dirname, "../../client/build")));
+app.get("/*", (_, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
+});
 
 export { io };
 

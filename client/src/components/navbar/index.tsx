@@ -86,6 +86,7 @@ const Navbar: React.FC<Props> = ({
   const location = useLocation();
 
   React.useEffect(() => {
+    console.clear();
     checkAuth();
     getCadInfo();
   }, [location, checkAuth, getCadInfo]);

@@ -17,16 +17,16 @@ const HomePage: React.FC<Props> = ({ isAuth, user }) => {
       {isAuth ? (
         <>
           <h2>Welcome Back {user?.username}!</h2>
-          <Link className="btn btn-primary mb-2 w-100" to="/citizen">
+          <Link className="btn btn-dark mb-2 w-100 p-2" to="/citizen">
             Citizens Page
           </Link>
         </>
       ) : (
         <>
-          <Link className="btn btn-primary mb-2 w-100" to="/login">
+          <Link className="btn btn-dark mb-2 w-100 p-2" to="/login">
             {lang.auth.login}
           </Link>
-          <Link className="btn btn-primary w-100" to="/register">
+          <Link className="btn btn-dark w-100 p-2" to="/register">
             {lang.auth.register}
           </Link>
         </>

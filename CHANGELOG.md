@@ -5,6 +5,7 @@
 ## 1.2.5
 
 - Add version check in client side
+- Server side rendering (No more CORS errors!)
 
 ## 1.2.4
 

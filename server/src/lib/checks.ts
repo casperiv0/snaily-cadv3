@@ -1,16 +1,7 @@
 import fetch from "node-fetch";
 import Logger from "./Logger";
-import config from "../../config";
 import pkg from "../../../package.json";
 import { io } from "../server";
-
-if (!config.port) {
-  Logger.throw("ERROR", "'port' is required!");
-}
-
-if (!config.clientUrl) {
-  Logger.throw("ERROR", "'clientUrl' is required!");
-}
 
 checkVersion();
 

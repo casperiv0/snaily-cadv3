@@ -1,6 +1,5 @@
 const config = {
   port: 3030,
-  clientUrl: "http://localhost:5000",
   host: "localhost",
   user: "root",
   password: "admin",

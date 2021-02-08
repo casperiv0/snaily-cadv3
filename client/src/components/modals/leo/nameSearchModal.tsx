@@ -7,7 +7,6 @@ import AlertMessage from "../../alert-message";
 import Citizen from "../../../interfaces/Citizen";
 import Weapon from "../../../interfaces/Weapon";
 import Vehicle from "../../../interfaces/Vehicle";
-import SERVER_URL from "../../../config";
 import { searchName, saveNote, searchNames } from "../../../lib/actions/officer";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
 import { connect } from "react-redux";
@@ -93,7 +92,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
                       <img
                         className="object-fit-center rounded-circle mb-1"
                         style={{ width: "100px", height: "100px" }}
-                        src={`${SERVER_URL}/static/citizen-images/${search.citizen.image_id}`}
+                        src={`/static/citizen-images/${search.citizen.image_id}`}
                         alt={search.citizen.full_name}
                       />
                     </Item>
