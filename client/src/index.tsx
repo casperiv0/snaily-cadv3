@@ -85,6 +85,9 @@ const CadSettingsPage = React.lazy(() => import("./pages/admin/cad-settings"));
 const TaxiDash = React.lazy(() => import("./pages/taxi/dash"));
 const CourthousePage = React.lazy(() => import("./pages/Court"));
 
+const Codes10Management = React.lazy(() => import("./pages/admin/management/10-codes"));
+const Add10Code = React.lazy(() => import("./pages/admin/management/10-codes/add-code"));
+
 ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
@@ -185,6 +188,17 @@ ReactDOM.render(
               path="/admin/manage/officers"
               requirement="admin"
               Component={OfficersManagementPage}
+            />
+
+            <AuthRoute
+              path="/admin/manage/10-codes/add"
+              requirement="admin"
+              Component={Add10Code}
+            />
+            <AuthRoute
+              path="/admin/manage/10-codes"
+              requirement="admin"
+              Component={Codes10Management}
             />
 
             <AuthRoute

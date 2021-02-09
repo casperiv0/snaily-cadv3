@@ -31,6 +31,8 @@ const initState: State["admin"] = {
   member: null,
   officer: null,
   expungementRequests: [],
+  codes: [],
+  penalCodes: [],
 };
 
 type Actions =

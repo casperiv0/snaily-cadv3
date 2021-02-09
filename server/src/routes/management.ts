@@ -9,6 +9,7 @@ import Logger from "../lib/Logger";
 import Officer from "../interfaces/Officer";
 import usePermission from "../hooks/usePermission";
 import { createNotification } from "./notifications";
+import { v4 } from "uuid";
 const router: Router = Router();
 
 interface Item {
@@ -366,6 +367,128 @@ router.put(
       Logger.error("UPDATE_CALLSIGN", e);
       return res.json({ status: "error", error: "An unexpected error occurred" });
     }
+  },
+);
+
+router.get(
+  "/penal-codes",
+  useAuth,
+  usePermission(["admin", "moderator", "owner", "leo", "dispatch"]),
+  async (_, res: Response) => {
+    const penalCodes = await processQuery("SELECT * FROM `penal_codes`");
+
+    return res.json({
+      status: "success",
+      penalCodes,
+    });
+  },
+);
+
+router.post(
+  "/penal-codes",
+  useAuth,
+  usePermission(["admin", "moderator", "owner"]),
+  async (req: IRequest, res: Response) => {
+    const { title, text } = req.body;
+
+    if (!title || !text) {
+      return res.json({
+        error: "Please fill in all fields",
+        status: "error",
+      });
+    }
+
+    await processQuery("INSERT INTO `penal_codes` (`id`, `title`, `des`) VALUES (?, ?, ?)", [v4(), title, text]);
+
+    const updated = await processQuery("SELECT * FROM `penal_codes`");
+
+    return res.json({
+      status: "success",
+      penalCodes: updated,
+    });
+  },
+);
+
+router.put(
+  "/penal-codes/:id",
+  useAuth,
+  usePermission(["admin", "moderator", "owner"]),
+  async (req: IRequest, res: Response) => {
+    const { title, text } = req.body;
+    const { id } = req.params;
+
+    if (!title || !text) {
+      return res.json({
+        error: "Please fill in all fields",
+        status: "error",
+      });
+    }
+
+    await processQuery("UPDATE `penal_codes` SET `title` = ?, `des` = ? WHERE `id` = ?", [title, text, id]);
+
+    return res.json({
+      status: "success",
+    });
+  },
+);
+
+router.delete(
+  "/penal-codes/:id",
+  useAuth,
+  usePermission(["admin", "moderator", "owner"]),
+  async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+
+    await processQuery("DELETE FROM `penal_codes` WHERE `id` = ?", [id]);
+
+    const updated = await processQuery("SELECT * FROM `penal_codes`");
+
+    return res.json({
+      status: "success",
+      penalCodes: updated,
+    });
+  },
+);
+
+router.get(
+  "/10-codes",
+  useAuth,
+  usePermission(["admin", "moderator", "owner", "leo", "dispatch"]),
+  async (_, res: Response) => {
+    const codes = await processQuery("SELECT * FROM `10_codes`");
+
+    // TODO: JSON.parse `what_pages`
+
+    return res.json({
+      status: "success",
+      codes,
+    });
+  },
+);
+
+router.post(
+  "/10-codes",
+  useAuth,
+  usePermission(["admin", "moderator", "owner"]),
+  async (req: IRequest, res: Response) => {
+    const { code, what_pages } = req.body;
+
+    if (!code || what_pages?.length <= 0) {
+      return res.json({
+        status: "error",
+        error: "Please fill in all fields",
+      });
+    }
+
+    await processQuery("INSERT INTO `10_codes` (`id`, `code`, `what_pages`) VALUES (?, ?, ?)", [
+      v4(),
+      code,
+      JSON.stringify(what_pages),
+    ]);
+
+    return res.json({
+      status: "success",
+    });
   },
 );
 

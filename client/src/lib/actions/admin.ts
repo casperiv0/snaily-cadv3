@@ -19,6 +19,8 @@ import {
   ADMIN_UPDATE_OFFICER,
   GET_ALl_EXPUNGEMENT_REQUESTS,
   ACCEPT_OR_DECLINE_REQUEST,
+  GET_10_CODES,
+  GET_PENAL_CODES,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -29,6 +31,8 @@ import socket from "../socket";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
 import { ExpungementRequest } from "./court";
+import PenalCode from "../../interfaces/PenalCode";
+import Code10 from "../../interfaces/Code10";
 
 interface IDispatch {
   type: string;
@@ -41,6 +45,8 @@ interface IDispatch {
   officers?: Officer[];
   officer?: Officer;
   expungementRequests?: ExpungementRequest[];
+  codes?: Code10[];
+  penalCodes?: PenalCode[];
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -370,5 +376,58 @@ export const acceptOrDeclineRequest = (
     }
   } catch (e) {
     Logger.error(ACCEPT_OR_DECLINE_REQUEST, e);
+  }
+};
+
+export const getPenalCodes = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/penal_code", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_PENAL_CODES,
+        penalCodes: res.data.penalCodes,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_PENAL_CODES, e);
+  }
+};
+
+export const get10Codes = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/10-codes", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_10_CODES,
+        codes: res.data.codes,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const add10Code = (data: Partial<Code10>) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/10-codes", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_10_CODES,
+        codes: res.data.codes,
+      });
+    } else {
+      dispatch({
+        type: SET_MESSAGE,
+        message: {
+          type: "warning",
+          msg: res.data.error,
+        },
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
   }
 };

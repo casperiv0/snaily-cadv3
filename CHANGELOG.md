@@ -6,6 +6,7 @@
 
 - Add version check in client side
 - Server side rendering (No more CORS errors!)
+- Customize penal codes and 10 codes
 
 ## 1.2.4
 

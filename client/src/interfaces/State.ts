@@ -18,6 +18,7 @@ import Message from "./Message";
 import { ExpungementRequest } from "../lib/actions/court";
 import PenalCode from "./PenalCode";
 import Notification from "./Notification";
+import Code10 from "./Code10";
 
 interface State {
   auth: {
@@ -113,6 +114,8 @@ interface State {
     officers: Officer[];
     officer: Officer | null;
     expungementRequests: ExpungementRequest[];
+    codes: Code10[];
+    penalCodes: PenalCode[];
   };
   notifications: {
     items: Notification[];
