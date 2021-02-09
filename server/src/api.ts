@@ -25,7 +25,7 @@ api.use(json());
 api.use(fileUpload());
 api.use(
   cors({
-    origin: "same-site",
+    origin: process.env.IS_DEV === "true" ? process.env.CLIENT_URL : "same-site",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   }),

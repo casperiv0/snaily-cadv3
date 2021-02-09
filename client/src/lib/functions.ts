@@ -1,9 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
+let url: string | undefined = "/";
+
+if (process.env.REACT_APP_IS_DEV) {
+  url = process.env.REACT_APP_SERVER_URL;
+}
 
 export const handleRequest = (path: string, method: AllowedMethods, data?: object) => {
   return axios({
-    url: `/api/v1${path}`,
+    url: `${url}api/v1${path}`,
     method,
     data,
     withCredentials: true,

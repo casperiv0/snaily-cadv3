@@ -1,4 +1,5 @@
 import "./lib/checks";
+import "dotenv/config";
 import express, { Application, Response } from "express";
 import path from "path";
 
@@ -11,9 +12,10 @@ import config from "../config";
 const app: Application = express();
 const port = config.port;
 const server = app.listen(port, () => Logger.listening(port));
+
 const io = new Server(server, {
   cors: {
-    origin: "same-site",
+    origin: process.env.IS_DEV === "true" ? process.env.CLIENT_URL : "same-site",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },

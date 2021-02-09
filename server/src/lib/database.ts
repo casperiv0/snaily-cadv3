@@ -34,12 +34,11 @@ async function select1() {
 
 async function updateDb() {
   try {
-    // TODO: insert default penal codes & 10 codes
-
     await processQuery(`
     CREATE TABLE \`10_codes\` (
       \`id\` varchar(64) NOT NULL,
       \`code\` varchar(255) NOT NULL,
+      \`color\` varchar(255) NOT NULL,
       \`what_pages\` text,
       PRIMARY KEY (\`id\`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

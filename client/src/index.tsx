@@ -87,6 +87,7 @@ const CourthousePage = React.lazy(() => import("./pages/Court"));
 
 const Codes10Management = React.lazy(() => import("./pages/admin/management/10-codes"));
 const Add10Code = React.lazy(() => import("./pages/admin/management/10-codes/add-code"));
+const Edit10Code = React.lazy(() => import("./pages/admin/management/10-codes/edit-code"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -190,6 +191,11 @@ ReactDOM.render(
               Component={OfficersManagementPage}
             />
 
+            <AuthRoute
+              path="/admin/manage/10-codes/edit/:id"
+              requirement="admin"
+              Component={Edit10Code}
+            />
             <AuthRoute
               path="/admin/manage/10-codes/add"
               requirement="admin"

@@ -1,29 +1,19 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import Code10 from "../../interfaces/Code10";
 import State from "../../interfaces/State";
+import { get10Codes } from "../../lib/actions/admin";
 import { getCurrentOfficer, setStatus } from "../../lib/actions/officer";
 import socket from "../../lib/socket";
-
-export const statuses: string[] = [
-  "10-42",
-  "10-7",
-  "10-6",
-  "10-5",
-  "10-4",
-  "10-11",
-  "10-15",
-  "10-17",
-  "10-23",
-  "10-97",
-  "code 5",
-  "code 6",
-];
 
 interface Props {
   status: string | null;
   status2: string | null;
   getCurrentOfficer: (id: string) => void;
   setStatus: (id: string, status: "on-duty" | "off-duty", status2: string) => void;
+  statuses: Code10[];
+  get10Codes: () => void;
 }
 
 const Statuses: React.FC<Props> = ({
@@ -31,8 +21,14 @@ const Statuses: React.FC<Props> = ({
   status2,
   getCurrentOfficer,
   setStatus,
+  statuses,
+  get10Codes,
 }) => {
   const officerId = String(localStorage.getItem("on-duty-officerId"));
+
+  React.useEffect(() => {
+    get10Codes();
+  }, [get10Codes]);
 
   React.useEffect(() => {
     getCurrentOfficer(officerId);
@@ -63,27 +59,42 @@ const Statuses: React.FC<Props> = ({
       >
         10-8
       </button>
-      {statuses.map((status: string, idx: number) => {
-        return (
-          <button
-            disabled={currentStatus === "off-duty"}
-            className={
-              status2 === status
-                ? "btn btn-primary col-sm-1"
-                : status === "10-42"
-                ? "btn btn-danger col-sm-1"
-                : "btn btn-secondary col-sm-1"
-            }
-            type="button"
-            id={`${idx}`}
-            key={idx}
-            onClick={updateStatus}
-            value={status}
-          >
-            {status}
-          </button>
-        );
-      })}
+      {statuses.length <= 0 ? (
+        <p>
+          You can now have custom 10 codes for your CAD!{" "}
+          <Link to="/admin/manage/10-codes">If you&apos;re an admin, please add them here</Link>
+        </p>
+      ) : (
+        <>
+          {statuses
+            .filter((code) => {
+              const values = code.what_pages.map((page) => {
+                return page.value;
+              });
+
+              return values.includes("leo");
+            })
+            .map((code: Code10, idx: number) => {
+              return (
+                <button
+                  disabled={currentStatus === "off-duty"}
+                  className={
+                    status2 === code.code
+                      ? "btn btn-primary col-sm-1"
+                      : `btn ${code.color} col-sm-1`
+                  }
+                  type="button"
+                  id={`${idx}`}
+                  key={idx}
+                  onClick={updateStatus}
+                  value={code.code}
+                >
+                  {code.code}
+                </button>
+              );
+            })}
+        </>
+      )}
     </>
   );
 };
@@ -91,8 +102,9 @@ const Statuses: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   status: state.officers.status,
   status2: state.officers.status2,
+  statuses: state.admin.codes,
 });
 
 const Memoized = React.memo(Statuses);
 
-export default connect(mapToProps, { getCurrentOfficer, setStatus })(Memoized);
+export default connect(mapToProps, { getCurrentOfficer, setStatus, get10Codes })(Memoized);

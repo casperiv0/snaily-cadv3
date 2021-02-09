@@ -1,4 +1,5 @@
 import Citizen from "../../interfaces/Citizen";
+import Code10 from "../../interfaces/Code10";
 import Company from "../../interfaces/Company";
 import Officer from "../../interfaces/Officer";
 import State from "../../interfaces/State";
@@ -20,6 +21,9 @@ import {
   GET_OFFICER_BY_ID,
   ACCEPT_OR_DECLINE_REQUEST,
   GET_ALl_EXPUNGEMENT_REQUESTS,
+  GET_10_CODES,
+  CREATE_10_CODE,
+  DELETE_10_CODE,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -95,6 +99,17 @@ type Actions =
   | {
       type: typeof ACCEPT_OR_DECLINE_REQUEST;
       expungementRequests: ExpungementRequest[];
+    }
+  | {
+      type: typeof GET_10_CODES;
+      codes: Code10[];
+    }
+  | {
+      type: typeof CREATE_10_CODE;
+    }
+  | {
+      type: typeof DELETE_10_CODE;
+      codes: Code10[];
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -173,6 +188,16 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         expungementRequests: action.expungementRequests,
+      };
+    case "GET_10_CODES":
+      return {
+        ...state,
+        codes: action.codes,
+      };
+    case "DELETE_10_CODE":
+      return {
+        ...state,
+        codes: action.codes,
       };
     default:
       return {

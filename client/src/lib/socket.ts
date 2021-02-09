@@ -1,7 +1,9 @@
 import { io } from "socket.io-client";
 import Logger from "./Logger";
 
-const socket = io();
+const url = process.env.REACT_APP_IS_DEV === "true" ? process.env.REACT_APP_SERVER_URL! : "";
+
+const socket = io(url);
 const INTERVAL_1_MIN = 60_000; /* 1 minute interval */
 
 socket.on("connect", () => {

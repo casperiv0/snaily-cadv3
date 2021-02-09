@@ -10,11 +10,20 @@ import Officer from "../interfaces/Officer";
 import usePermission from "../hooks/usePermission";
 import { createNotification } from "./notifications";
 import { v4 } from "uuid";
+import Code10 from "../interfaces/Code10";
 const router: Router = Router();
 
-interface Item {
+export interface Item {
   value: string;
   label: string;
+}
+
+export function parse10Codes(codes: Code10[]): Code10[] {
+  return codes.map((code) => {
+    code.what_pages = JSON.parse(`${code.what_pages}`);
+
+    return code;
+  });
 }
 
 /* Cad settings */
@@ -453,15 +462,15 @@ router.delete(
 router.get(
   "/10-codes",
   useAuth,
-  usePermission(["admin", "moderator", "owner", "leo", "dispatch"]),
+  usePermission(["admin", "moderator", "owner", "leo", "dispatch", "ems_fd"]),
   async (_, res: Response) => {
     const codes = await processQuery("SELECT * FROM `10_codes`");
 
-    // TODO: JSON.parse `what_pages`
+    const parsed = parse10Codes(codes);
 
     return res.json({
       status: "success",
-      codes,
+      codes: parsed,
     });
   },
 );
@@ -471,7 +480,7 @@ router.post(
   useAuth,
   usePermission(["admin", "moderator", "owner"]),
   async (req: IRequest, res: Response) => {
-    const { code, what_pages } = req.body;
+    const { code, what_pages, color } = req.body;
 
     if (!code || what_pages?.length <= 0) {
       return res.json({
@@ -480,14 +489,64 @@ router.post(
       });
     }
 
-    await processQuery("INSERT INTO `10_codes` (`id`, `code`, `what_pages`) VALUES (?, ?, ?)", [
+    const exists = await processQuery("SELECT * FROM `10_codes` WHERE `code` = ?", [code]);
+
+    if (exists[0]) {
+      return res.json({
+        error: "Code already exists",
+        status: "error",
+      });
+    }
+
+    await processQuery("INSERT INTO `10_codes` (`id`, `code`, `what_pages`, `color`) VALUES (?, ?, ?, ?)", [
       v4(),
       code,
       JSON.stringify(what_pages),
+      color,
     ]);
 
     return res.json({
       status: "success",
+    });
+  },
+);
+
+router.put(
+  "/10-codes/:id",
+  useAuth,
+  usePermission(["admin", "moderator", "owner"]),
+  async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+    const { code, what_pages, color } = req.body;
+
+    await processQuery("UPDATE `10_codes` SET `code` = ?, `color` = ?, `what_pages` = ? WHERE `id` = ?", [
+      code,
+      color,
+      JSON.stringify(what_pages),
+      id,
+    ]);
+
+    return res.json({
+      status: "success",
+    });
+  },
+);
+
+router.delete(
+  "/10-codes/:id",
+  useAuth,
+  usePermission(["admin", "moderator", "owner"]),
+  async (req: IRequest, res: Response) => {
+    const { id } = req.params;
+
+    await processQuery("DELETE FROM `10_codes` WHERE `id` = ?", [id]);
+
+    const updated = await processQuery("SELECT * FROM `10_codes`");
+    const parsed = parse10Codes(updated);
+
+    return res.json({
+      status: "success",
+      codes: parsed,
     });
   },
 );
