@@ -8,7 +8,7 @@ import Code10 from "../../../../interfaces/Code10";
 import { Link, useParams } from "react-router-dom";
 import Message from "../../../../interfaces/Message";
 import AlertMessage from "../../../../components/alert-message";
-import { colorOptions, options } from "./add-code";
+import { colorOptions, options, shouldDoOptions } from "./add-code";
 
 interface Props {
   message: Message;
@@ -22,10 +22,15 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
   const [code, setCode] = React.useState("");
   const [whatPages, setWhatPages] = React.useState<Code10["what_pages"]>([]);
   const [color, setColor] = React.useState("");
+  const [shouldDo, setShouldDo] = React.useState("");
 
   const value = {
     value: colorOptions.find((clr) => clr.value === color)?.value,
     label: colorOptions.find((clr) => clr.value === color)?.label,
+  };
+  const shouldDoValue = {
+    value: shouldDoOptions.find((option) => option.value === shouldDo)?.value,
+    label: shouldDoOptions.find((option) => option.value === shouldDo)?.label,
   };
 
   React.useEffect(() => {
@@ -39,6 +44,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
     setCode(code?.code);
     setWhatPages(code.what_pages);
     setColor(code.color);
+    setShouldDo(code.should_do);
   }, [codes, id]);
 
   if (codes?.length > 0) {
@@ -54,6 +60,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
       code,
       what_pages: whatPages,
       color: color,
+      should_do: shouldDo,
     });
   }
 
@@ -95,6 +102,18 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
             options={colorOptions}
             onChange={(v: any) => setColor(v.value)}
             value={value as any}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="should_do">
+            What should this code do?
+          </label>
+          <Select
+            closeMenuOnSelect
+            isMulti={false}
+            options={shouldDoOptions}
+            onChange={(v: any) => setShouldDo(v.value)}
+            value={shouldDoValue as any}
           />
         </div>
         <div className="mb-3 float-end">

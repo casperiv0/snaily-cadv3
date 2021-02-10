@@ -935,6 +935,7 @@ CREATE TABLE `10_codes` (
   `code` varchar(255) NOT NULL,
   `color` varchar(255) NOT NULL,
   `what_pages` text,
+  `should_do` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

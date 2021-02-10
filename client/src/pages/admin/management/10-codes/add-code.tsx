@@ -24,6 +24,17 @@ export const options = [
   },
 ];
 
+export const shouldDoOptions = [
+  {
+    value: "set_status",
+    label: "Should set the status",
+  },
+  {
+    value: "set_off_duty",
+    label: "Should set the officer to off-duty",
+  },
+];
+
 export const colorOptions = [
   {
     value: "btn-danger",
@@ -44,14 +55,16 @@ const Add10CodePage: React.FC<Props> = ({ add10Code, message }) => {
   const [code, setCode] = React.useState("");
   const [whatPages, setWhatPages] = React.useState([]);
   const [color, setColor] = React.useState("");
+  const [shouldDo, setShouldDo] = React.useState("");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     add10Code({
       code,
-      what_pages: whatPages,
       color: color,
+      what_pages: whatPages,
+      should_do: shouldDo,
     });
   }
 
@@ -92,6 +105,17 @@ const Add10CodePage: React.FC<Props> = ({ add10Code, message }) => {
             isMulti={false}
             options={colorOptions}
             onChange={(v: any) => setColor(v.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="should_do">
+            What should this code do?
+          </label>
+          <Select
+            closeMenuOnSelect
+            isMulti={false}
+            options={shouldDoOptions}
+            onChange={(v: any) => setShouldDo(v.value)}
           />
         </div>
         <div className="mb-3 float-end">

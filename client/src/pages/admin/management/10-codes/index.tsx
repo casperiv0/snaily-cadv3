@@ -7,7 +7,7 @@ import State from "../../../../interfaces/State";
 import AlertMessage from "../../../../components/alert-message";
 import { Link } from "react-router-dom";
 import { Item, Span } from "../../../citizen/citizen-info";
-import { colorOptions } from "./add-code";
+import { colorOptions, shouldDoOptions } from "./add-code";
 
 interface Props {
   codes: Code10[];
@@ -63,6 +63,10 @@ const Codes10Management: React.FC<Props> = ({ codes, get10Codes, delete10Code })
                   <Item id="color">
                     <Span>Color: </Span>
                     {colorOptions.find((clr) => clr.value === code.color)?.label}
+                  </Item>
+                  <Item id="should_do">
+                    <Span>Should do: </Span>
+                    {shouldDoOptions.find((option) => option.value === code.should_do)?.label}
                   </Item>
                 </div>
 
