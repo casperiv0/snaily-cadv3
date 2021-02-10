@@ -1,6 +1,8 @@
 import Citizen from "../../interfaces/Citizen";
+import Code10 from "../../interfaces/Code10";
 import Company from "../../interfaces/Company";
 import Officer from "../../interfaces/Officer";
+import PenalCode from "../../interfaces/PenalCode";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import { ExpungementRequest } from "../actions/court";
@@ -20,6 +22,11 @@ import {
   GET_OFFICER_BY_ID,
   ACCEPT_OR_DECLINE_REQUEST,
   GET_ALl_EXPUNGEMENT_REQUESTS,
+  GET_10_CODES,
+  CREATE_10_CODE,
+  DELETE_10_CODE,
+  DELETE_PENAL_CODE,
+  GET_PENAL_CODES,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -31,6 +38,8 @@ const initState: State["admin"] = {
   member: null,
   officer: null,
   expungementRequests: [],
+  codes: [],
+  penalCodes: [],
 };
 
 type Actions =
@@ -93,6 +102,25 @@ type Actions =
   | {
       type: typeof ACCEPT_OR_DECLINE_REQUEST;
       expungementRequests: ExpungementRequest[];
+    }
+  | {
+      type: typeof GET_10_CODES;
+      codes: Code10[];
+    }
+  | {
+      type: typeof CREATE_10_CODE;
+    }
+  | {
+      type: typeof DELETE_10_CODE;
+      codes: Code10[];
+    }
+  | {
+      type: typeof DELETE_PENAL_CODE;
+      penalCodes: PenalCode[];
+    }
+  | {
+      type: typeof GET_PENAL_CODES;
+      penalCodes: PenalCode[];
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -171,6 +199,26 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         expungementRequests: action.expungementRequests,
+      };
+    case "GET_10_CODES":
+      return {
+        ...state,
+        codes: action.codes,
+      };
+    case "DELETE_10_CODE":
+      return {
+        ...state,
+        codes: action.codes,
+      };
+    case "GET_PENAL_CODES":
+      return {
+        ...state,
+        penalCodes: action.penalCodes,
+      };
+    case "DELETE_PENAL_CODE":
+      return {
+        ...state,
+        penalCodes: action.penalCodes,
       };
     default:
       return {

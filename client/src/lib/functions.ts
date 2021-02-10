@@ -1,10 +1,14 @@
 import axios, { AxiosResponse } from "axios";
-import SERVER_URL from "../config";
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
+let url: string | undefined = "/";
+
+if (process.env.REACT_APP_IS_DEV) {
+  url = process.env.REACT_APP_SERVER_URL;
+}
 
 export const handleRequest = (path: string, method: AllowedMethods, data?: object) => {
   return axios({
-    url: `${SERVER_URL}/api/v1${path}`,
+    url: `${url}api/v1${path}`,
     method,
     data,
     withCredentials: true,
@@ -12,7 +16,7 @@ export const handleRequest = (path: string, method: AllowedMethods, data?: objec
 };
 
 export const isSuccess = (res: AxiosResponse) => {
-  const isNotLogin = !["/login", "/logout", "/register"].includes(window.location.pathname);
+  const isNotLogin = !["/login", "/logout", "/register", "/"].includes(window.location.pathname);
   if (isNotLogin && res.data?.invalid_token) {
     console.clear();
     window.location.href = "/login";

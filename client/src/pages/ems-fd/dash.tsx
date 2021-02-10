@@ -12,14 +12,17 @@ import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRec
 import Active911Calls from "../../components/active-911-calls";
 import Message from "../../interfaces/Message";
 import Deputy from "../../interfaces/Deputy";
+import { get10Codes } from "../../lib/actions/admin";
 
 interface Props {
   aop: string;
   message: Message;
   activeDeputy: Deputy | null;
+  get10Codes: () => void;
 }
 
 const EmsFdDash: React.FC<Props> = (props) => {
+  const { get10Codes } = props;
   const [aop, setAop] = React.useState<string>(props.aop);
 
   React.useEffect(() => {
@@ -30,7 +33,8 @@ const EmsFdDash: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     document.title = "EMS-FD Dashboard";
-  }, []);
+    get10Codes();
+  }, [get10Codes]);
 
   return (
     <Layout fluid classes="mt-5">
@@ -86,4 +90,4 @@ const mapToProps = (state: State) => ({
   activeDeputy: state.ems_fd.activeDeputy,
 });
 
-export default connect(mapToProps)(EmsFdDash);
+export default connect(mapToProps, { get10Codes })(EmsFdDash);

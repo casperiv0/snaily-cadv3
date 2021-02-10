@@ -24,9 +24,9 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 
 ## Installation
 
-[Quick Installation guide](https://youtu.be/av_rD_jOJN8)
+<!-- [Quick Installation guide](https://youtu.be/av_rD_jOJN8)
 
-[How to update the CAD](https://youtu.be/6THGMcHEX48)
+[How to update the CAD](https://youtu.be/6THGMcHEX48) -->
 
 1. Open Command Prompt
 2. Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cadv3`
@@ -35,17 +35,13 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 5. Open the `server` folder
 6. Make a copy of `config.example.ts` and rename to `config.ts`
 7. Modify that where needed
-8. Go back and open the `client` folder
-9. Open the `src` folder
-10. Make a copy of `config.example.ts` and rename to `config.ts`
-11. Go back to your command prompt
-12. run `cd client`
-13. Run `npm run build` and wait for it to finish
-14. Once finished, create a new database in XAMPP phpmyadmin, call it `snaily-cad` or whatever you called it in the config file
-15. Import `snaily-cad.sql` into that database
-16. Go back to your command prompt and make sure you are in the main folder (snaily-cadv3)
-17. Run `npm start`
-18. The CAD should be running on <http://localhost:5000> by default
+8. Go back to your command prompt
+9. Once done modifying, create a new database in XAMPP phpmyadmin, call it `snaily-cad` or whatever you called it in the config file
+10. Import `snaily-cad.sql` into that database
+11. Go back to your command prompt and make sure you are in the main folder (snaily-cadv3/)
+12. Run `npm start`, this will start both client and server
+13. Wait a few seconds until it logs "CAD IS RUNNING ON \<port\>"
+14. The CAD should be running on <http://localhost:3030> by default
 
 **If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
 
@@ -79,6 +75,7 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
   - Ban users
   - CAD Settings
   - Assign your own values for departments, ethnicities, genders and more
+  - Manage penal codes and 10 codes
 
 - Citizen
 

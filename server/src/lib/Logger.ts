@@ -7,7 +7,7 @@ class Logger {
   }
 
   listening(port: number): void {
-    return console.log(`[MAIN][${this.now()}]: SERVER RUNNING ON ${port}`);
+    return console.log(`[MAIN][${this.now()}]: CAD IS RUNNING ON ${port}`);
   }
 
   connected(): void {

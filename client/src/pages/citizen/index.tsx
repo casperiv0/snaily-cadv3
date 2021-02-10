@@ -104,7 +104,7 @@ const CitizensPage: React.FC<Props> = (props) => {
               <li
                 key={idx}
                 id={`${idx}`}
-                className="list-group-item mb-1 bg-dark border-secondary d-flex justify-content-between"
+                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
               >
                 {citizen.full_name}
 

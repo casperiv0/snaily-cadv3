@@ -2,9 +2,11 @@ import * as React from "react";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import { setEmsStatus } from "../../../lib/actions/ems-fd";
-import { statuses } from "../../leo/Statuses";
 import { setStatus } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
+import Code10 from "../../../interfaces/Code10";
+import State from "../../../interfaces/State";
+import { get10Codes } from "../../../lib/actions/admin";
 
 interface Props {
   id: string;
@@ -13,12 +15,19 @@ interface Props {
   type: "ems-fd" | "officers";
   setStatus: (id: string, status: string, status2: string) => void;
   setEmsStatus: (id: string, status: string, status2: string) => void;
+  statuses: Code10[];
+  get10Codes: () => void;
 }
 
 const UpdateStatusModal: React.FC<Props> = (props) => {
+  const { get10Codes } = props;
   const [status, setStatus] = React.useState<string>(props.status);
   const [status2, setStatus2] = React.useState<string>(props.status2);
   const btnRef = React.createRef<HTMLButtonElement>();
+
+  React.useEffect(() => {
+    get10Codes();
+  }, [get10Codes]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -75,10 +84,10 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
             >
               <option value={status2}>{status2}</option>
               <option disabled>--------</option>
-              {["10-8", ...statuses].map((stat: string, idx: number) => {
+              {[{ code: "10-8" }, ...props.statuses].map((stat, idx: number) => {
                 return (
-                  <option value={stat} key={idx} id={`${idx}`}>
-                    {stat}
+                  <option value={stat.code} key={idx} id={`${idx}`}>
+                    {stat.code}
                   </option>
                 );
               })}
@@ -100,4 +109,8 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
   );
 };
 
-export default connect(null, { setStatus, setEmsStatus })(UpdateStatusModal);
+const mapToProps = (state: State) => ({
+  statuses: state.admin.codes,
+});
+
+export default connect(mapToProps, { setStatus, setEmsStatus, get10Codes })(UpdateStatusModal);

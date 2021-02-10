@@ -6,7 +6,6 @@ import Citizen from "../../interfaces/Citizen";
 import Match from "../../interfaces/Match";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
-import SERVER_URL from "../../config";
 import LicenseCard from "../../components/citizen/LicenseCard";
 import RegisteredWeapons from "../../components/citizen/weapons/RegisteredWeapons";
 import RegisteredVehicles from "../../components/citizen/vehicles/RegisteredVehicles";
@@ -75,7 +74,7 @@ const CitizenInfoPage: React.FC<Props> = ({
           <img
             style={{ width: "120px", height: "120px" }}
             className="rounded-circle object-fit-center"
-            src={`${SERVER_URL}/static/citizen-images/${citizen.image_id}`}
+            src={`/static/citizen-images/${citizen.image_id}`}
             alt={citizen.image_id}
           />
 

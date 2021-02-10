@@ -22,7 +22,7 @@ import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
 import { playSound } from "../../lib/functions";
-import { getPenalCodes } from "../../lib/actions/officer";
+import { getPenalCodes } from "../../lib/actions/admin";
 import { useLocation } from "react-router-dom";
 
 interface Props {
@@ -34,6 +34,7 @@ interface Props {
 
 const LeoDash: React.FC<Props> = (props) => {
   const location = useLocation();
+  const { getPenalCodes } = props;
   const [time, setTime] = React.useState<Date>(new Date());
   const [aop, setAop] = React.useState<string>(props.aop);
   const [panic, setPanic] = React.useState<Officer | null>(null);
@@ -48,8 +49,8 @@ const LeoDash: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     document.title = "LEO Dashboard";
-    props.getPenalCodes();
-  }, [props]);
+    getPenalCodes();
+  }, [getPenalCodes]);
 
   React.useEffect(() => {
     socket.on("UPDATE_AOP", (newAop: string) => {

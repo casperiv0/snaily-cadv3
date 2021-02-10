@@ -19,6 +19,11 @@ import {
   ADMIN_UPDATE_OFFICER,
   GET_ALl_EXPUNGEMENT_REQUESTS,
   ACCEPT_OR_DECLINE_REQUEST,
+  GET_10_CODES,
+  GET_PENAL_CODES,
+  DELETE_10_CODE,
+  UPDATE_10_CODE,
+  DELETE_PENAL_CODE,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -29,6 +34,8 @@ import socket from "../socket";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
 import { ExpungementRequest } from "./court";
+import PenalCode from "../../interfaces/PenalCode";
+import Code10 from "../../interfaces/Code10";
 
 interface IDispatch {
   type: string;
@@ -41,6 +48,8 @@ interface IDispatch {
   officers?: Officer[];
   officer?: Officer;
   expungementRequests?: ExpungementRequest[];
+  codes?: Code10[];
+  penalCodes?: PenalCode[];
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -370,5 +379,152 @@ export const acceptOrDeclineRequest = (
     }
   } catch (e) {
     Logger.error(ACCEPT_OR_DECLINE_REQUEST, e);
+  }
+};
+
+export const getPenalCodes = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/penal-codes", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_PENAL_CODES,
+        penalCodes: res.data.penalCodes,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_PENAL_CODES, e);
+  }
+};
+
+export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/penal-codes", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_10_CODES,
+        penalCodes: res.data.penalCodes,
+      });
+
+      return (window.location.href = "/admin/manage/penal-codes");
+    } else {
+      dispatch({
+        type: SET_MESSAGE,
+        message: {
+          type: "warning",
+          msg: res.data.error,
+        },
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const deletePenalCode = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/admin/management/penal-codes/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_PENAL_CODE,
+        penalCodes: res.data.penalCodes,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/management/penal-codes/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_PENAL_CODE,
+        penalCodes: res.data.penalCodes,
+      });
+
+      return (window.location.href = "/admin/manage/penal-codes");
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const get10Codes = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/10-codes", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_10_CODES,
+        codes: res.data.codes,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const add10Code = (data: Partial<Code10>) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/10-codes", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_10_CODES,
+        codes: res.data.codes,
+      });
+
+      return (window.location.href = "/admin/manage/10-codes");
+    } else {
+      dispatch({
+        type: SET_MESSAGE,
+        message: {
+          type: "warning",
+          msg: res.data.error,
+        },
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const update10Code = (id: string, data: Partial<Code10>) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/management/10-codes/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UPDATE_10_CODE,
+        codes: res.data.codes,
+      });
+      return (window.location.href = "/admin/manage/10-codes");
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const delete10Code = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/admin/management/10-codes/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_10_CODE,
+        codes: res.data.codes,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
   }
 };
