@@ -22,7 +22,7 @@ import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
 import { playSound } from "../../lib/functions";
-import { getPenalCodes } from "../../lib/actions/officer";
+import { getPenalCodes } from "../../lib/actions/admin";
 import { useLocation } from "react-router-dom";
 
 interface Props {

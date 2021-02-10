@@ -207,21 +207,6 @@ export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<
   }
 };
 
-export const getPenalCodes = () => async (dispatch: Dispatch<IDispatch>) => {
-  try {
-    const res = await handleRequest("/officer/penal-codes", "GET");
-
-    if (isSuccess(res)) {
-      dispatch({
-        type: "GET_PENAL_CODES",
-        penalCodes: res.data.penalCodes,
-      });
-    }
-  } catch (e) {
-    Logger.error("GET_PENAL_CODES", e);
-  }
-};
-
 export const searchNames = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/officer/search/names`, "GET");

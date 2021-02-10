@@ -24,9 +24,9 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 
 ## Installation
 
-[Quick Installation guide](https://youtu.be/av_rD_jOJN8)
+<!-- [Quick Installation guide](https://youtu.be/av_rD_jOJN8)
 
-[How to update the CAD](https://youtu.be/6THGMcHEX48)
+[How to update the CAD](https://youtu.be/6THGMcHEX48) -->
 
 1. Open Command Prompt
 2. Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cadv3`
@@ -75,6 +75,7 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
   - Ban users
   - CAD Settings
   - Assign your own values for departments, ethnicities, genders and more
+  - Manage penal codes and 10 codes
 
 - Citizen
 

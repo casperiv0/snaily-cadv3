@@ -2,6 +2,7 @@ import Citizen from "../../interfaces/Citizen";
 import Code10 from "../../interfaces/Code10";
 import Company from "../../interfaces/Company";
 import Officer from "../../interfaces/Officer";
+import PenalCode from "../../interfaces/PenalCode";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import { ExpungementRequest } from "../actions/court";
@@ -24,6 +25,8 @@ import {
   GET_10_CODES,
   CREATE_10_CODE,
   DELETE_10_CODE,
+  DELETE_PENAL_CODE,
+  GET_PENAL_CODES,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -110,6 +113,14 @@ type Actions =
   | {
       type: typeof DELETE_10_CODE;
       codes: Code10[];
+    }
+  | {
+      type: typeof DELETE_PENAL_CODE;
+      penalCodes: PenalCode[];
+    }
+  | {
+      type: typeof GET_PENAL_CODES;
+      penalCodes: PenalCode[];
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -198,6 +209,16 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         codes: action.codes,
+      };
+    case "GET_PENAL_CODES":
+      return {
+        ...state,
+        penalCodes: action.penalCodes,
+      };
+    case "DELETE_PENAL_CODE":
+      return {
+        ...state,
+        penalCodes: action.penalCodes,
       };
     default:
       return {

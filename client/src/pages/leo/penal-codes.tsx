@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import Markdown from "react-markdown";
 import lang from "../../language.json";
 import PenalCode from "../../interfaces/PenalCode";
-import { getPenalCodes } from "../../lib/actions/officer";
+import { getPenalCodes } from "../../lib/actions/admin";
 import { connect } from "react-redux";
 import State from "../../interfaces/State";
 

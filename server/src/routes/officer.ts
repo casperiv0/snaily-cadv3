@@ -2,15 +2,10 @@ import { Response, Router } from "express";
 import { processQuery } from "../lib/database";
 import { useAuth } from "../hooks";
 import { v4 as uuidv4 } from "uuid";
-import penalCodes from "../data/penal-codes";
 import IRequest from "../interfaces/IRequest";
 import Officer from "../interfaces/Officer";
 import usePermission from "../hooks/usePermission";
 const router: Router = Router();
-
-router.get("/penal-codes", useAuth, usePermission(["leo", "dispatch"]), (_req: IRequest, res: Response) => {
-  return res.json({ penalCodes, status: "success" });
-});
 
 router.get("/my-officers", useAuth, usePermission(["leo"]), async (req: IRequest, res: Response) => {
   const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [req.user?.id]);

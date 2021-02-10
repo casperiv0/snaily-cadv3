@@ -398,16 +398,16 @@ router.post(
   useAuth,
   usePermission(["admin", "moderator", "owner"]),
   async (req: IRequest, res: Response) => {
-    const { title, text } = req.body;
+    const { title, des } = req.body;
 
-    if (!title || !text) {
+    if (!title || !des) {
       return res.json({
         error: "Please fill in all fields",
         status: "error",
       });
     }
 
-    await processQuery("INSERT INTO `penal_codes` (`id`, `title`, `des`) VALUES (?, ?, ?)", [v4(), title, text]);
+    await processQuery("INSERT INTO `penal_codes` (`id`, `title`, `des`) VALUES (?, ?, ?)", [v4(), title, des]);
 
     const updated = await processQuery("SELECT * FROM `penal_codes`");
 
@@ -423,17 +423,17 @@ router.put(
   useAuth,
   usePermission(["admin", "moderator", "owner"]),
   async (req: IRequest, res: Response) => {
-    const { title, text } = req.body;
+    const { title, des } = req.body;
     const { id } = req.params;
 
-    if (!title || !text) {
+    if (!title || !des) {
       return res.json({
         error: "Please fill in all fields",
         status: "error",
       });
     }
 
-    await processQuery("UPDATE `penal_codes` SET `title` = ?, `des` = ? WHERE `id` = ?", [title, text, id]);
+    await processQuery("UPDATE `penal_codes` SET `title` = ?, `des` = ? WHERE `id` = ?", [title, des, id]);
 
     return res.json({
       status: "success",

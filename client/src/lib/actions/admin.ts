@@ -23,6 +23,7 @@ import {
   GET_PENAL_CODES,
   DELETE_10_CODE,
   UPDATE_10_CODE,
+  DELETE_PENAL_CODE,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -383,7 +384,7 @@ export const acceptOrDeclineRequest = (
 
 export const getPenalCodes = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
-    const res = await handleRequest("/admin/management/penal_code", "GET");
+    const res = await handleRequest("/admin/management/penal-codes", "GET");
 
     if (isSuccess(res)) {
       dispatch({
@@ -393,6 +394,65 @@ export const getPenalCodes = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_PENAL_CODES, e);
+  }
+};
+
+export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/admin/management/penal-codes", "POST", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_10_CODES,
+        penalCodes: res.data.penalCodes,
+      });
+
+      return (window.location.href = "/admin/manage/penal-codes");
+    } else {
+      dispatch({
+        type: SET_MESSAGE,
+        message: {
+          type: "warning",
+          msg: res.data.error,
+        },
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const deletePenalCode = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/admin/management/penal-codes/${id}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_PENAL_CODE,
+        penalCodes: res.data.penalCodes,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
+  }
+};
+
+export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/management/penal-codes/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: DELETE_PENAL_CODE,
+        penalCodes: res.data.penalCodes,
+      });
+
+      return (window.location.href = "/admin/manage/penal-codes");
+    }
+  } catch (e) {
+    Logger.error(GET_10_CODES, e);
   }
 };
 
