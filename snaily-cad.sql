@@ -943,20 +943,19 @@ CREATE TABLE `10_codes` (
 -- Dumping data for table `10_codes`
 --
 
-INSERT INTO `10_codes` (`id`, `code`, `what_pages`, `color`) VALUES
-('ab4f8a59-5485-4995-b800-0a96d6d28fb8', '10-42', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-danger'),
-('e431013d-cdff-4d6f-9968-b3963986fb99', '10-7', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary');
-('1014d770-5e87-4438-9fcf-a037e82c7ff1', '10-15', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary'),
-('17a0efa6-d635-4bd9-bafe-0efab8818849', '10-97', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"}]', 'btn-secondary'),
-('6c7a2705-58bc-4131-8190-75383c9b6b97', '10-17', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary'),
-('7c005300-c846-4d17-88fc-6f70840c3e0a', '10-11', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary'),
-('8bde82d0-2e31-4380-89f7-4be532cf58d9', '10-23', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary'),
-('9ae5afd5-8219-4108-9e76-26e54bfac1b8', '10-6', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"}]', 'btn-secondary'),
-('9dd81d0a-1e1d-48ca-bd69-ce9d6b10855e', '10-5', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"}]', 'btn-secondary'),
-('c04f9b07-4c73-46dc-b996-677a3154263a', '10-4', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"}]', 'btn-secondary'),
-('7db84c66-76a5-46fd-bab0-b20e52389271', 'Code 6', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary'),
-('cce2f6ec-da78-41fe-a722-ba3db4c6eed5', 'Code 5', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary'),
-
+INSERT INTO `10_codes` (`id`, `code`, `what_pages`, `color`, `should_do`) VALUES
+('ab4f8a59-5485-4995-b800-0a96d6d28fb8', '10-42', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-danger', 'set_off_duty'),
+('e431013d-cdff-4d6f-9968-b3963986fb99', '10-7', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary', 'set_status'),
+('1014d770-5e87-4438-9fcf-a037e82c7ff1', '10-15', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary', 'set_status'),
+('17a0efa6-d635-4bd9-bafe-0efab8818849', '10-97', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"}]', 'btn-secondary', 'set_status'),
+('6c7a2705-58bc-4131-8190-75383c9b6b97', '10-17', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary', 'set_status'),
+('7c005300-c846-4d17-88fc-6f70840c3e0a', '10-11', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary', 'set_status'),
+('8bde82d0-2e31-4380-89f7-4be532cf58d9', '10-23', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary', 'set_status'),
+('9ae5afd5-8219-4108-9e76-26e54bfac1b8', '10-6', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"}]', 'btn-secondary', 'set_status'),
+('9dd81d0a-1e1d-48ca-bd69-ce9d6b10855e', '10-5', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"}]', 'btn-secondary', 'set_status'),
+('c04f9b07-4c73-46dc-b996-677a3154263a', '10-4', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"},{\"value\":\"ems_fd\",\"label\":\"EMS-FD\"}]', 'btn-secondary', 'set_status'),
+('7db84c66-76a5-46fd-bab0-b20e52389271', 'Code 6', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary', 'set_status'),
+('cce2f6ec-da78-41fe-a722-ba3db4c6eed5', 'Code 5', '[{\"value\":\"leo\",\"label\":\"LEO\"},{\"value\":\"dispatch\",\"label\":\"Dispatch\"}]', 'btn-secondary', 'set_status');
 
 --
 -- Table structure for table `penal_codes`
