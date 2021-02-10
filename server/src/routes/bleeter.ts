@@ -17,8 +17,9 @@ router.get("/", useAuth, async (_req, res: Response) => {
 router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const bleet = await processQuery("SELECT * FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
+  const uploadedBy = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [bleet[0].user_id]);
 
-  return res.json({ status: "success", bleet: bleet[0] });
+  return res.json({ status: "success", bleet: { ...bleet[0], uploadedBy: uploadedBy[0].username } });
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
@@ -115,13 +116,13 @@ router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
     return res.json({ status: "error", error: "Bleet was not found" });
   }
 
-  if (bleet[0].user_id !== req.user?.id ?? !RanksArr.includes(rank)) {
+  if (RanksArr.includes(rank) || bleet[0].user_id === req.user?.id) {
+    await processQuery("DELETE FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
+
+    return res.json({ status: "success" });
+  } else {
     return res.json({ error: "Forbidden", status: "error" });
   }
-
-  await processQuery("DELETE FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
-
-  return res.json({ status: "success" });
 });
 
 export default router;

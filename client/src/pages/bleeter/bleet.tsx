@@ -63,7 +63,13 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
       </Link>
 
       <div className="d-flex justify-content-between border-bottom">
-        <h3>{bleet.title}</h3>
+        <div>
+          <h3 className="mb-2">{bleet.title}</h3>
+          <p className="mt-1 mb-1">
+            <strong>Uploaded By: </strong>
+            {bleet.uploadedBy}
+          </p>
+        </div>
         <div>
           {bleet.id && user.id === bleet.user_id ? (
             <Link className="btn btn-success mx-2" type="button" to={`/bleet/edit/${bleet.id}`}>

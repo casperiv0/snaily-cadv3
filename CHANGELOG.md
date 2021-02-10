@@ -5,6 +5,8 @@
 ## 1.3.1
 
 - Able to delete users from the CAD (At the bottom of manage member page)
+- Fixed bug admins not able to delete a bleet
+- A bleet now shows the username of who created the bleet
 
 ## 1.3.0
 

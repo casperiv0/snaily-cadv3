@@ -9,6 +9,7 @@ interface Bleet {
   likes: string;
   user_id: User["id"];
   uploaded_at: number;
+  uploadedBy: string;
 }
 
 export default Bleet;

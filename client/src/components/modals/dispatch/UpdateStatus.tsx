@@ -19,6 +19,18 @@ interface Props {
   get10Codes: () => void;
 }
 
+export function filterCodes(codes: Code10[]) {
+  return codes.sort(function (a, b) {
+    if (a.code < b.code) {
+      return -1;
+    }
+    if (a.code > b.code) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
 const UpdateStatusModal: React.FC<Props> = (props) => {
   const { get10Codes } = props;
   const [status, setStatus] = React.useState<string>(props.status);
@@ -84,13 +96,15 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
             >
               <option value={status2}>{status2}</option>
               <option disabled>--------</option>
-              {[{ code: "10-8" }, ...props.statuses].map((stat, idx: number) => {
-                return (
-                  <option value={stat.code} key={idx} id={`${idx}`}>
-                    {stat.code}
-                  </option>
-                );
-              })}
+              {filterCodes([{ code: "10-8" } as any, ...props.statuses]).map(
+                (stat, idx: number) => {
+                  return (
+                    <option value={stat.code} key={idx} id={`${idx}`}>
+                      {stat.code}
+                    </option>
+                  );
+                },
+              )}
             </select>
           </div>
         </div>
