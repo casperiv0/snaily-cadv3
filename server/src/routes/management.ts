@@ -139,6 +139,10 @@ router.put(
         await processQuery("DELETE FROM `users` WHERE `id` = ?", [id]);
         break;
       }
+      case "remove": {
+        await processQuery("DELETE FROM `users` WHERE `id` = ?", [id]);
+        break;
+      }
       default: {
         return res.json({ error: "Invalid path", status: "error" });
       }
@@ -147,7 +151,6 @@ router.put(
     const members = await processQuery<IUser[]>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users`",
     );
-
     const updated = await processQuery<IUser[]>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
       [id],

@@ -24,6 +24,7 @@ import {
   DELETE_10_CODE,
   UPDATE_10_CODE,
   DELETE_PENAL_CODE,
+  REMOVE_USER,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -146,6 +147,21 @@ export const unBanMember = (id: string) => async (dispatch: Dispatch<IDispatch>)
           type: "success",
         },
       });
+    }
+  } catch (e) {
+    Logger.error(UN_BAN_MEMBER, e);
+  }
+};
+
+export const removeUser = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest(`/admin/management/members/remove/${id}`, "PUT");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: REMOVE_USER,
+      });
+      return (window.location.href = "/admin/manage/members");
     }
   } catch (e) {
     Logger.error(UN_BAN_MEMBER, e);
