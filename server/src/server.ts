@@ -23,11 +23,15 @@ const io = new Server(server, {
 const protection = csurf({ cookie: true });
 app.use("/api/v1", api, protection);
 
-app.use("/static", express.static("public"));
+app.use("/static", express.static("public"), protection);
 app.use(express.static(path.join(__dirname, "../../client/build")));
-app.get("/*", (_, res: Response) => {
-  res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
-});
+app.get(
+  "/*",
+  (_, res: Response) => {
+    res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
+  },
+  protection,
+);
 
 export { io };
 

@@ -33,6 +33,7 @@ async function select1() {
 }
 
 async function updateDb() {
+  import("./insert");
   try {
     await processQuery(`
     CREATE TABLE \`10_codes\` (
