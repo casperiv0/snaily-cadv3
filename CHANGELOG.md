@@ -8,11 +8,11 @@
 - Minor: Fixed bug admins not able to delete a bleet
 - Minor: A bleet now shows the username of who created the bleet
 - Minor: Upgraded to [bootstrap v5 beta 2](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
-- Minor: bug fixes
 - Minor: Updated screenshots
 - Minor: Signal 100
 - Minor: Able to change length of plate (Default: 8)
 - Minor: Fixed issue with creating a new citizen
+- Minor: Fixed duplicate naming in NameSearchModal
 
 ## 1.3.0
 

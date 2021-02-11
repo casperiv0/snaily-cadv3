@@ -53,11 +53,6 @@ const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
     socket.emit("PANIC_BUTTON", activeOfficer);
   }
 
-  function signal100() {
-    // todo: add functionality for this
-    socket.emit("SIGNAL_100");
-  }
-
   return (
     <>
       {activeOfficer ? (
@@ -92,9 +87,6 @@ const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
       </Link>
       <button onClick={panicButton} disabled={!activeOfficer} className="btn btn-danger col-md-2">
         Panic Button
-      </button>
-      <button onClick={signal100} disabled={!activeOfficer} className="btn btn-danger col-md-2">
-        Signal 100
       </button>
     </>
   );

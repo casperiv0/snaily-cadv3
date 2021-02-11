@@ -24,11 +24,14 @@ import Officer from "../../interfaces/Officer";
 import { playSound } from "../../lib/functions";
 import { getPenalCodes } from "../../lib/actions/admin";
 import { useLocation } from "react-router-dom";
+import { Perm } from "../../interfaces/User";
+import CadInfo from "../../interfaces/CadInfo";
 
 interface Props {
   aop: string;
   message: Message;
   activeOfficer: Officer | null;
+  cadInfo: CadInfo;
   getPenalCodes: () => void;
 }
 
@@ -38,6 +41,11 @@ const LeoDash: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<Date>(new Date());
   const [aop, setAop] = React.useState<string>(props.aop);
   const [panic, setPanic] = React.useState<Officer | null>(null);
+  const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100);
+
+  React.useEffect(() => {
+    setSignal100(props.cadInfo.signal_100);
+  }, [props.cadInfo]);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -61,6 +69,10 @@ const LeoDash: React.FC<Props> = (props) => {
       setPanic(officer);
       playSound("/sounds/signal-100.wav");
     });
+
+    socket.on("SIGNAL_100", (value: Perm) => {
+      setSignal100(value);
+    });
   }, []);
 
   React.useEffect(() => {
@@ -78,6 +90,12 @@ const LeoDash: React.FC<Props> = (props) => {
         <div role="alert" className="alert alert-danger alert-dismissible">
           {panic.officer_name} has activated panic button
           <DismissAlertBtn onClick={() => setPanic(null)} />
+        </div>
+      ) : null}
+      {signal100 === "1" ? (
+        <div role="alert" className="alert alert-danger alert-dismissible">
+          Signal 100 is in effect
+          <DismissAlertBtn onClick={() => setSignal100("0")} />
         </div>
       ) : null}
       {props.message ? <AlertMessage message={props.message} dismissible /> : null}
@@ -125,6 +143,7 @@ const mapToProps = (state: State) => ({
   aop: state.global.aop,
   message: state.global.message,
   activeOfficer: state.officers.activeOfficer,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps, { getPenalCodes })(React.memo(LeoDash));

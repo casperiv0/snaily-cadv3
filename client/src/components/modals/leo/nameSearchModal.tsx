@@ -456,13 +456,13 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
                   {/* weapons */}
                   <div className="mt-3" id="weapons">
                     <h5>
-                      {lang.citizen.vehicle.reged_vehicle} ({search.weapons.length})
+                      {lang.citizen.weapon.reged_weapons} ({search.weapons.length})
                     </h5>
 
                     <ul style={{ maxHeight: "20rem" }} className="list-group overflow-auto">
                       {!search.weapons[0] ? (
                         <li className="list-group-item border-dark text-dark">
-                          {lang.record.no_vehicles}
+                          {lang.record.no_weapons}
                         </li>
                       ) : (
                         search.weapons.map((weapon: Weapon, idx: number) => {
