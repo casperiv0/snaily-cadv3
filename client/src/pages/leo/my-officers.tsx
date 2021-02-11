@@ -25,14 +25,14 @@ const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, get
     <Layout classes="mt-5">
       {message ? <AlertMessage message={message} dismissible /> : null}
       <h3>{lang.officers.my_officers}</h3>
-      <Link className="btn btn-primary container my-1" to="/leo/dash">
+      <Link className="btn btn-primary bg-primary text-light list-group-item my-2" to="/leo/dash">
         {lang.global.back_to_dashboard}
       </Link>
-      <Link className="btn btn-primary container" to="/leo/officers/create">
+      <Link className="btn btn-dark bg-dark text-light list-group-item" to="/leo/officers/create">
         {lang.officers.create_an_officer}
       </Link>
 
-      <ul className="list-group mt-1">
+      <ul className="list-group mt-2">
         {!officers[0] ? (
           <p>You don not have any officers.</p>
         ) : (

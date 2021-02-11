@@ -36,6 +36,9 @@ async function updateDb() {
   import("./insert");
   try {
     await processQuery(`
+    ALTER TABLE \`cad_info\` ADD \`plate_length\` int(255) NOT NULL AFTER \`webhook_url\`
+    `);
+    await processQuery(`
     CREATE TABLE \`10_codes\` (
       \`id\` varchar(64) NOT NULL,
       \`code\` varchar(255) NOT NULL,

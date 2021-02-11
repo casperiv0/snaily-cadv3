@@ -1,5 +1,6 @@
 import * as React from "react";
 import lang from "../../language.json";
+import socket from "../../lib/socket";
 import { MButton } from "../leo/ModalButtons";
 
 const modalButtons: MButton[] = [
@@ -34,6 +35,10 @@ const modalButtons: MButton[] = [
 ];
 
 const ModalButtons: React.FC = () => {
+  function signal100() {
+    socket.emit("SIGNAL_100");
+  }
+
   return (
     <>
       {/* <Link to="/dispatch/map" className="btn btn-primary col-md-2 mt-2 ms-1">
@@ -52,6 +57,9 @@ const ModalButtons: React.FC = () => {
           </button>
         );
       })}
+      <button onClick={signal100} className="btn btn-danger col-md-2">
+        Signal 100
+      </button>
     </>
   );
 };

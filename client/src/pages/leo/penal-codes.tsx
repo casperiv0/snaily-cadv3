@@ -6,6 +6,7 @@ import PenalCode from "../../interfaces/PenalCode";
 import { getPenalCodes } from "../../lib/actions/admin";
 import { connect } from "react-redux";
 import State from "../../interfaces/State";
+import { Link } from "react-router-dom";
 
 interface Props {
   penalCodes: PenalCode[];
@@ -49,6 +50,10 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
 
   return (
     <Layout classes="mt-5 pb-5">
+      <Link className="btn btn-secondary mb-2" to="/leo/dash">
+        Go back
+      </Link>
+
       <ul className="list-group">
         <input
           placeholder={lang.global.search}

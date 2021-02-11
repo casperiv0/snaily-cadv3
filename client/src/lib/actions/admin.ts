@@ -281,6 +281,7 @@ export const updateCadSettings = (data: {
   tow_whitelisted: string;
   company_whitelisted: string;
   webhook_url: string;
+  plate_length: number;
 }) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/admin/management/cad-settings", "PUT", data);

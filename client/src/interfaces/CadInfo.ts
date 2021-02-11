@@ -9,6 +9,7 @@ interface CadInfo {
   whitelisted: Perm;
   company_whitelisted: Perm;
   webhook_url: string;
+  plate_length: number;
 }
 
 export default CadInfo;
