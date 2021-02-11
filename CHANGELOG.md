@@ -8,6 +8,7 @@
 - Fixed bug admins not able to delete a bleet
 - A bleet now shows the username of who created the bleet
 - Upgraded to [bootstrap v5 beta 2](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+- Minor bug fixes
 
 ## 1.3.0
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Markdown from "react-markdown";
+import Markdown from "react-markdown/with-html";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
@@ -94,7 +94,9 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
         />
       ) : null}
 
-      <Markdown className="mt-3" escapeHtml={false} source={bleet.markdown} />
+      <Markdown allowDangerousHtml className="mt-3">
+        {bleet.markdown}
+      </Markdown>
     </Layout>
   );
 };

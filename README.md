@@ -45,6 +45,17 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 
 **If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
 
+## Troubleshooting
+
+- I get an error saying that `ts-node is not found/not a command`
+  - run `npm install -g ts-node`
+
+- I get an error saying `cannot find module dotenv/config`
+  - run `cd server && npm install dotenv`
+
+- I try to run `/callxxx` but it won't show up in the CAD/MDT
+  - Make sure that you've configured the config in `server.lua` in the download
+
 ## Contributing
 
 [View CONTRIBUTING.md](./CONTRIBUTING.md)
