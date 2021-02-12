@@ -279,7 +279,6 @@ export const updateCadSettings = (data: {
   cad_name: string;
   whitelisted: string;
   tow_whitelisted: string;
-  company_whitelisted: string;
   webhook_url: string;
   plate_length: number;
 }) => async (dispatch: Dispatch<IDispatch>) => {
