@@ -5,6 +5,7 @@ import cors from "cors";
 import helmet from "helmet";
 
 import authRouter from "./routes/auth";
+import steamAuthRouter from "./routes/auth/steam";
 import truckLogs from "./routes/trucklogs";
 import bleeterRouter from "./routes/bleeter";
 import globalRouter from "./routes/global";
@@ -33,6 +34,7 @@ api.use(
 api.use(cookieParser());
 api.use(helmet());
 
+api.use("/auth/steam", steamAuthRouter);
 api.use("/auth", authRouter);
 api.use("/truck-logs", truckLogs);
 api.use("/bleeter", bleeterRouter);

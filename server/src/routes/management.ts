@@ -55,7 +55,7 @@ router.get(
   usePermission(["admin", "owner", "moderator"]),
   async (_req: IRequest, res: Response) => {
     const members = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users` ORDER BY `username` ASC",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`  FROM `users` ORDER BY `username` ASC",
     );
 
     return res.json({ status: "success", members });
@@ -69,7 +69,7 @@ router.get(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
     const member = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id` FROM `users` WHERE `id` = ?",
       [id],
     );
 
@@ -92,7 +92,7 @@ router.put(
       );
 
       const updated = await processQuery<IUser[]>(
-        "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
+        "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id` FROM `users` WHERE `id` = ?",
         [id],
       );
 
@@ -132,7 +132,7 @@ router.put(
         break;
       }
       case "accept": {
-        await processQuery("UPDATE `users` SET `whitelist_status` = ? WHERE `id` = ?", ["accepted", id]);
+        await processQuery("UPDATE `users` SET `whitelist_status`, `steam_id` = ? WHERE `id` = ?", ["accepted", id]);
         break;
       }
       case "decline": {
@@ -149,10 +149,10 @@ router.put(
     }
 
     const members = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users`",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`  FROM `users`",
     );
     const updated = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id` FROM `users` WHERE `id` = ?",
       [id],
     );
 

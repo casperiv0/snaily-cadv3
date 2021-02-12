@@ -68,6 +68,10 @@ const AccountPage: React.FC<Props> = ({ user }) => {
             <Span>{lang.auth.account.tow_access}: </Span>
             {user.tow}
           </Item>
+
+          <a href="/api/v1/auth/steam" className="d-block mt-2">
+            <img src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png" />
+          </a>
         </div>
 
         <div className="card-footer d-flex">

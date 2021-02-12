@@ -42,11 +42,11 @@ const AllMembersTab: React.FC<Props> = ({ members }) => {
                     <Span>{lang.auth.account.tow_access}: </Span>
                     {member.tow}
                   </Item>
-                  <Item id="rank">
-                    <Span>{lang.auth.account.ems_fd_access}: </Span>
-                    {member.ems_fd}
+                  <Item id="steam_id">
+                    <Span>SteamID: </Span>
+                    {member.steam_id}
                   </Item>
-                  <Item id="rank">
+                  <Item id="banned">
                     <Span>{lang.auth.account.banned}: </Span>
                     {member.banned} <br />
                     {member.banned === "1" && (

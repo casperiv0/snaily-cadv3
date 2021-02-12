@@ -26,6 +26,7 @@ import State from "../../interfaces/State";
 import CadInfo from "../../interfaces/CadInfo";
 import Call from "../../interfaces/Call";
 import { update911Call } from "../../lib/actions/911-calls";
+import { CallInfoHTML, PlayerInfoHTML } from "../../components/dispatch/map/html";
 
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 /* STATUS: NOT COMPLETE */
@@ -309,51 +310,3 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, { getActiveUnits, update911Call })(Map);
-
-function PlayerInfoHTML(player: Player) {
-  return `
-    <div class="info-window">
-      <div class="info-header-box">
-        <div class="info-header"><strong>Player:</strong> ${player.name}</div>
-      </div>
-      <div class="clear"></div>
-      <div class="info-body mt-2">
-        <p style="margin:5px"><strong>Weapon: </strong> ${player.Weapon}</p>
-        <p style="margin:5px"><strong>Location: </strong> ${player?.Location}</p>
-        <p style="margin:5px"><strong>Vehicle: </strong> ${player?.Vehicle || "On foot"}</p>
-        ${
-          player["License Plate"]
-            ? `<p  style="margin:5px"><strong>License plate: </strong> ${player["License Plate"]}</p>`
-            : ""
-        }
-        <p style="margin:5px"><strong>Identifier: </strong> ${player?.identifier}</p>
-      </div>
-    </div>
-`;
-}
-
-function CallInfoHTML(call: Call) {
-  return `
-    <div class="p-2">
-      <h1 class="h5">${call.location}</h1>
-      <div class="d-flex flex-column">
-        <p style="margin: 2px;">
-          <strong>Location: </strong> ${call.location}
-        </p>
-        <p style="margin: 2px;">
-          <strong>Caller: </strong> ${call.name}
-        </p>
-        <p style="margin: 2px;">
-          <strong>Description: </strong> ${call.description}
-        </p>
-        <button
-          class="btn btn-success mt-2"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapse-${call.id}"
-        >
-          Toggle
-        </button>
-      </div>
-    </div>
-  `;
-}
