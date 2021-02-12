@@ -1,3 +1,5 @@
+import { XYZ } from "../components/dispatch/map/interfaces";
+
 interface Call {
   id: string;
   description: string;
@@ -5,6 +7,7 @@ interface Call {
   location: string;
   status: string;
   assigned_unit: Unit[];
+  pos: XYZ;
 }
 
 export interface Unit {

@@ -26,7 +26,7 @@ export interface XYZ {
 
 export interface MarkerPayload {
   pos: XYZ;
-  //   icon: L.IconOptions;
+  // icon: number;
   description: string;
   title: string;
   isPlayer?: boolean;

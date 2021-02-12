@@ -5,6 +5,7 @@ interface Call {
   location: string;
   status: string;
   assigned_unit: string | string[];
+  pos: any;
 }
 
 export default Call;

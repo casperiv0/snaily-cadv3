@@ -17,6 +17,11 @@ export function mapCalls(calls: Call[]): Call[] {
     } catch {
       call.assigned_unit = [];
     }
+    try {
+      call.pos = JSON.parse(call.pos);
+    } catch {
+      call.pos = { x: 0, y: 0, z: 0 };
+    }
 
     return call;
   });
@@ -32,12 +37,18 @@ router.get("/911-calls", async (_req: IRequest, res: Response) => {
 
 router.post("/911-calls", async (req: IRequest, res: Response) => {
   const id = v4();
-  const { location, caller } = req.body;
+  const { location, caller, coords: coordsArr } = req.body;
   const description = req.body.description ?? "No description provided";
 
+  const coords = {
+    x: coordsArr[0] || 0,
+    y: coordsArr[1] || 0,
+    z: coordsArr[2] || 0,
+  };
+
   await processQuery<Call[]>(
-    "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
-    [id, description, caller, location, "Not assigned", "[]"],
+    "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `pos`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    [id, description, caller, location, "Not assigned", "[]", JSON.stringify(coords)],
   );
 
   io.sockets.emit("NEW_911_CALL");

@@ -2,6 +2,7 @@ import * as React from "react";
 import L from "leaflet";
 // import J from "jquery";
 import "leaflet.markercluster";
+import "../../styles/map.css";
 import Logger from "../../lib/Logger";
 import {
   Player,
@@ -15,20 +16,41 @@ import {
   stringCoordToFloat,
   createCluster,
 } from "../../components/dispatch/map/functions";
+import ActiveMapCalls from "../../components/dispatch/map.ActiveCalls";
+import Create911Call from "../../components/modals/call911Modal";
+import { connect } from "react-redux";
+import { getActiveUnits } from "../../lib/actions/dispatch";
+import State from "../../interfaces/State";
+import CadInfo from "../../interfaces/CadInfo";
+import Call from "../../interfaces/Call";
 
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 /* STATUS: NOT COMPLETE */
 
 const TILES_URL = "/tiles/minimap_sea_{y}_{x}.png";
 
-export default function Map() {
+interface Props {
+  getActiveUnits: () => void;
+  cadInfo: CadInfo;
+  calls: Call[];
+}
+
+function Map({ getActiveUnits, cadInfo, calls }: Props) {
   const [MarkerStore, setMarkerStore] = React.useState<CustomMarker[]>([]);
   const [map, setMap] = React.useState<L.Map | null>(null);
   const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
   const [ran, setRan] = React.useState(false);
-  const socket = React.useMemo(() => new WebSocket("ws://localhost:30121"), []);
+  const socket = React.useMemo(() => {
+    if (!cadInfo.live_map_url) return;
+    return new WebSocket(`${cadInfo.live_map_url}`);
+  }, [cadInfo]);
 
   React.useEffect(() => {
+    getActiveUnits();
+  }, [getActiveUnits]);
+
+  React.useEffect(() => {
+    if (!socket) return;
     socket.onclose = () => {
       Logger.log("LIVE_MAP", "Disconnected from live-map");
     };
@@ -68,6 +90,26 @@ export default function Map() {
     setMap(map);
   }, [ran, PlayerMarkers]);
 
+  React.useEffect(() => {
+    if (!map) return;
+
+    calls.forEach((call) => {
+      if (call.pos.x === 0) return;
+
+      createMarker(
+        true,
+        {
+          description: `911 Call from: ${call.name}`,
+          id: MarkerStore.length,
+          pos: call.pos,
+          isPlayer: false,
+          title: "911 Call",
+        },
+        call.location,
+      );
+    });
+  }, [map, calls]);
+
   function onMessage(e: MessageEvent) {
     const data = JSON.parse(e.data) as DataActions;
 
@@ -106,6 +148,7 @@ export default function Map() {
             createMarker(
               false,
               {
+                // icon: 6,
                 description: "Hello world",
                 pos: player.pos,
                 title: player.name,
@@ -161,6 +204,26 @@ export default function Map() {
   return (
     <>
       <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
+
+      <div className="map-blips-container">
+        <button className="btn btn-primary mx-2">
+          {/* {showBlips ? "Hide blips" : "Show blips"} */}
+          Show/hide blips
+        </button>
+        <button data-bs-toggle="modal" data-bs-target="#call911Modal" className="btn btn-primary">
+          Create 911 call
+        </button>
+      </div>
+
+      <Create911Call />
+      <ActiveMapCalls />
     </>
   );
 }
+
+const mapToProps = (state: State) => ({
+  cadInfo: state.global.cadInfo,
+  calls: state.calls.calls_911,
+});
+
+export default connect(mapToProps, { getActiveUnits })(Map);

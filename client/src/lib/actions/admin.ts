@@ -280,6 +280,7 @@ export const updateCadSettings = (data: {
   whitelisted: string;
   tow_whitelisted: string;
   webhook_url: string;
+  live_map_url: string;
   plate_length: number;
 }) => async (dispatch: Dispatch<IDispatch>) => {
   try {

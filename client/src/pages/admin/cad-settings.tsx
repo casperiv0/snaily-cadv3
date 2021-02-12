@@ -20,6 +20,7 @@ interface Props {
     whitelisted: string;
     tow_whitelisted: string;
     webhook_url: string;
+    live_map_url: string;
     plate_length: number;
   }) => void;
 }
@@ -31,6 +32,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
   const [towWhitelist, setTowWhitelist] = React.useState("");
   const [webhookUrl, setWebhookUrl] = React.useState("");
   const [plateLength, setPlateLength] = React.useState(8);
+  const [liveMapUrl, setLiveMapUrl] = React.useState("");
 
   React.useEffect(() => {
     if (cadInfo.id) {
@@ -39,6 +41,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       setWhitelisted(cadInfo.whitelisted);
       setTowWhitelist(cadInfo.tow_whitelisted);
       setWebhookUrl(cadInfo.webhook_url || "");
+      setLiveMapUrl(cadInfo.live_map_url || "");
       setPlateLength(cadInfo.plate_length !== 0 ? cadInfo.plate_length : 8);
     }
   }, [cadInfo]);
@@ -57,6 +60,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       tow_whitelisted: towWhitelist,
       webhook_url: webhookUrl,
       plate_length: plateLength,
+      live_map_url: liveMapUrl,
     });
   }
 
@@ -148,6 +152,18 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
                 id="plate_length"
                 value={plateLength}
                 onChange={(e) => setPlateLength(Number(e.target.value))}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="webhook_url">
+                Live map Socket URL
+              </label>
+              <input
+                type="text"
+                className="form-control bg-secondary border-dark text-light"
+                id="live_map_url"
+                value={liveMapUrl}
+                onChange={(e) => setLiveMapUrl(e.target.value)}
               />
             </div>
             <div className="mb-3">
