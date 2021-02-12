@@ -3,6 +3,7 @@ import Call from "../../../interfaces/Call";
 export interface Player {
   Weapon?: string;
   Vehicle?: string;
+  "License Plate"?: string;
   Location: string;
   pos: XYZ;
   identifier: string;
@@ -33,7 +34,7 @@ export interface LatLng {
 
 export interface MarkerPayload {
   pos: XYZ | LatLng;
-  // icon: number;
+  icon: number;
   description: string;
   title: string;
   isPlayer?: boolean;

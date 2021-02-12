@@ -4,6 +4,7 @@ import L from "leaflet";
 import "leaflet.markercluster";
 import "../../styles/map.css";
 import Logger from "../../lib/Logger";
+import CADSocket from "../../lib/socket";
 import {
   Player,
   DataActions,
@@ -29,6 +30,14 @@ import { update911Call } from "../../lib/actions/911-calls";
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 /* STATUS: NOT COMPLETE */
 
+/* 
+ ? Search for:
+ * REMOVE_CALL_FROM_MAP
+ * CREATE_CALL_MARKER
+ * UPDATE_CALL_POSITION
+ * REMOVE_911_CALL_FROM_MAP
+*/
+
 const TILES_URL = "/tiles/minimap_sea_{y}_{x}.png";
 
 interface Props {
@@ -43,6 +52,7 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
   const [map, setMap] = React.useState<L.Map | null>(null);
   const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
   const [ran, setRan] = React.useState(false);
+
   const socket = React.useMemo(() => {
     if (!cadInfo.live_map_url) return;
     return new WebSocket(`${cadInfo.live_map_url}`);
@@ -51,6 +61,119 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
   React.useEffect(() => {
     getActiveUnits();
   }, [getActiveUnits]);
+
+  const createMarker = React.useCallback(
+    (draggable: boolean, payload: MarkerPayload, title: string): CustomMarker | undefined => {
+      if (map === null) return;
+      let newPos: LatLng;
+
+      if ("lat" in payload.pos) {
+        newPos = {
+          lat: payload.pos.lat,
+          lng: payload.pos.lng,
+        };
+      } else {
+        const coords = stringCoordToFloat(payload.pos);
+        const converted = convertToMap(coords.x, coords.y, map);
+        if (!converted) return;
+
+        newPos = converted;
+      }
+
+      const converted = newPos;
+      const infoContent =
+        (payload.player && PlayerInfoHTML(payload.player)) ||
+        (payload.call && CallInfoHTML(payload.call)) ||
+        "<p>Hello world</p>";
+      const where = payload.isPlayer ? PlayerMarkers : map;
+
+      const marker: CustomMarker = (L as any)
+        .marker(converted, {
+          title,
+          draggable,
+        })
+        .addTo(where)
+        .bindPopup(infoContent);
+
+      if (payload.icon === 6) {
+        const img = L.icon({
+          iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon-2x.png",
+          iconSize: [25, 41],
+          popupAnchor: [0, 0],
+          iconAnchor: [11, 0],
+        });
+        marker.setIcon(img);
+      }
+
+      marker.payload = payload;
+
+      setMarkerStore((prev) => {
+        return [...prev, marker];
+      });
+
+      return marker;
+    },
+    [PlayerMarkers, map],
+  );
+
+  const onMessage = React.useCallback(
+    (e) => {
+      const data = JSON.parse(e.data) as DataActions;
+
+      switch (data.type) {
+        case "playerLeft": {
+          const marker = MarkerStore.find((marker) => {
+            return marker.payload.player?.identifier === data.payload;
+          });
+
+          setMarkerStore((prev) => {
+            return prev.filter((marker) => {
+              return marker.payload.player?.identifier !== data.payload;
+            });
+          });
+
+          marker?.removeFrom(map!);
+          break;
+        }
+        case "playerData": {
+          data.payload.forEach((player: Player) => {
+            if (!player.identifier) return;
+            if (!player.name) return;
+
+            const marker = MarkerStore.find((marker) => {
+              return marker.payload?.player?.identifier === player.identifier;
+            });
+
+            if (marker) {
+              const coords = stringCoordToFloat(player.pos);
+              const converted = convertToMap(coords.x, coords.y, map!);
+              if (!converted) return;
+              marker.setLatLng(converted);
+            } else {
+              createMarker(
+                false,
+                {
+                  icon: 6,
+                  description: "Hello world",
+                  pos: player.pos,
+                  title: player.name,
+                  isPlayer: true,
+                  player,
+                  id: MarkerStore.length,
+                },
+                player?.name,
+              );
+            }
+          });
+          break;
+        }
+        default: {
+          return;
+        }
+      }
+    },
+    [MarkerStore, createMarker, map],
+  );
 
   React.useEffect(() => {
     if (!socket) return;
@@ -65,7 +188,7 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
     socket.onmessage = (e: MessageEvent) => {
       onMessage(e);
     };
-  }, [map, onMessage]);
+  }, [map, onMessage, socket]);
 
   React.useEffect(() => {
     if (ran) return;
@@ -99,7 +222,7 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
     calls.forEach((call) => {
       if ("x" in call.pos && call.pos.x === 0) return;
 
-      // REMOVE_CALL_FROM_MAP
+      //? REMOVE_CALL_FROM_MAP
       const m = MarkerStore.find((marker) => marker.payload?.call?.id === call.id);
       if (m) {
         setMarkerStore((prev) => {
@@ -114,10 +237,11 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
         m.removeFrom(map);
       }
 
-      // CREATE_CALL_MARKER
+      //? CREATE_CALL_MARKER
       const marker = createMarker(
         true,
         {
+          icon: 0,
           description: `911 Call from: ${call.name}`,
           id: MarkerStore.length,
           pos: call.pos,
@@ -129,7 +253,7 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
       );
       if (!marker) return;
 
-      // UPDATE_CALL_POSITION
+      //? UPDATE_CALL_POSITION
       marker.on("moveend", async (e) => {
         const target = e.target;
         const latLng: LatLng = (target as any)._latlng;
@@ -140,113 +264,24 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
         });
       });
     });
-  }, [map, calls]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, calls, createMarker, update911Call]);
 
-  function onMessage(e: MessageEvent) {
-    const data = JSON.parse(e.data) as DataActions;
-    console.log(data);
-
-    switch (data.type) {
-      case "playerLeft": {
-        const marker = MarkerStore.find((marker) => {
-          return marker.payload.player?.identifier === data.payload;
-        });
-
-        setMarkerStore((prev) => {
-          return prev.filter((marker) => {
-            return marker.payload.player?.identifier !== data.payload;
-          });
-        });
-
-        marker?.removeFrom(map!);
-        break;
-      }
-      case "playerData": {
-        data.payload.forEach((player: Player) => {
-          if (!player.identifier) return;
-          if (!player.name) return;
-
-          const marker = MarkerStore.find((marker) => {
-            return marker.payload?.player?.identifier === player.identifier;
-          });
-
-          if (marker) {
-            const coords = stringCoordToFloat(player.pos);
-            const converted = convertToMap(coords.x, coords.y, map!);
-            if (!converted) return;
-            marker.setLatLng(converted);
+  React.useEffect(() => {
+    //? REMOVE_911_CALL_FROM_MAP
+    CADSocket.on("END_911_CALL", (callId: string) => {
+      setMarkerStore((prev) => {
+        return prev.filter((marker) => {
+          if (marker.payload.call) {
+            marker.removeFrom(map!);
+            return marker.payload.call.id === callId;
           } else {
-            createMarker(
-              false,
-              {
-                // icon: 6,
-                description: "Hello world",
-                pos: player.pos,
-                title: player.name,
-                isPlayer: true,
-                player,
-                id: MarkerStore.length,
-              },
-              player?.name,
-            );
+            return true;
           }
         });
-        break;
-      }
-      default: {
-        return;
-      }
-    }
-  }
-
-  function createMarker(
-    draggable: boolean,
-    payload: MarkerPayload,
-    title: string,
-  ): CustomMarker | undefined {
-    if (map === null) return;
-    let newPos: LatLng;
-
-    if ("lat" in payload.pos) {
-      newPos = {
-        lat: payload.pos.lat,
-        lng: payload.pos.lng,
-      };
-    } else {
-      const coords = stringCoordToFloat(payload.pos);
-      const converted = convertToMap(coords.x, coords.y, map);
-      if (!converted) return;
-
-      newPos = converted;
-    }
-
-    const converted = newPos;
-
-    const infoContent =
-      '<div class="info-window"><div class="info-header-box"><div class="info-header">' +
-      title +
-      '</div></div><div class="clear"></div><div class=info-body>' +
-      "<p>Hello from popup</p>" +
-      "</div></div>";
-
-    const where = payload.isPlayer ? PlayerMarkers : map;
-
-    const marker: CustomMarker = (L as any)
-      .marker(converted, {
-        title,
-        draggable,
-      })
-      .addTo(where)
-      .bindPopup(infoContent);
-
-    marker.payload = payload;
-
-    setMarkerStore((prev) => {
-      return [...prev, marker];
+      });
     });
-
-    return marker;
-  }
+  }, [map, calls]);
 
   return (
     <>
@@ -274,3 +309,51 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, { getActiveUnits, update911Call })(Map);
+
+function PlayerInfoHTML(player: Player) {
+  return `
+    <div class="info-window">
+      <div class="info-header-box">
+        <div class="info-header"><strong>Player:</strong> ${player.name}</div>
+      </div>
+      <div class="clear"></div>
+      <div class="info-body mt-2">
+        <p style="margin:5px"><strong>Weapon: </strong> ${player.Weapon}</p>
+        <p style="margin:5px"><strong>Location: </strong> ${player?.Location}</p>
+        <p style="margin:5px"><strong>Vehicle: </strong> ${player?.Vehicle || "On foot"}</p>
+        ${
+          player["License Plate"]
+            ? `<p  style="margin:5px"><strong>License plate: </strong> ${player["License Plate"]}</p>`
+            : ""
+        }
+        <p style="margin:5px"><strong>Identifier: </strong> ${player?.identifier}</p>
+      </div>
+    </div>
+`;
+}
+
+function CallInfoHTML(call: Call) {
+  return `
+    <div class="p-2">
+      <h1 class="h5">${call.location}</h1>
+      <div class="d-flex flex-column">
+        <p style="margin: 2px;">
+          <strong>Location: </strong> ${call.location}
+        </p>
+        <p style="margin: 2px;">
+          <strong>Caller: </strong> ${call.name}
+        </p>
+        <p style="margin: 2px;">
+          <strong>Description: </strong> ${call.description}
+        </p>
+        <button
+          class="btn btn-success mt-2"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapse-${call.id}"
+        >
+          Toggle
+        </button>
+      </div>
+    </div>
+  `;
+}

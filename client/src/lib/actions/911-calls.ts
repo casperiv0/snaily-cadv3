@@ -80,6 +80,7 @@ export const update911Call = (id: string, data: Partial<Call>) => async (
 export const end911Call = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "DELETE");
+    socket.emit("END_911_CALL", id);
 
     if (isSuccess(res)) {
       socket.emit("UPDATE_911_CALLS");
