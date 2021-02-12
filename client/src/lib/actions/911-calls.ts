@@ -1,4 +1,4 @@
-import Call, { Unit } from "../../interfaces/Call";
+import Call from "../../interfaces/Call";
 import Logger from "../Logger";
 import socket from "../socket";
 import lang from "../../language.json";
@@ -55,10 +55,9 @@ export const create911Call = (data: object) => async (dispatch: Dispatch<IDispat
   }
 };
 
-export const update911Call = (
-  id: string,
-  data: { location: string; description: string; assigned_unit: Unit[] },
-) => async (dispatch: Dispatch<IDispatch>) => {
+export const update911Call = (id: string, data: Partial<Call>) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "PUT", data);
 
@@ -66,7 +65,7 @@ export const update911Call = (
       socket.emit("UPDATE_911_CALLS");
       socket.emit(
         "UPDATE_ASSIGNED_UNITS",
-        data.assigned_unit.map((u) => u.value),
+        data.assigned_unit?.map((u) => u.value),
       );
       dispatch({
         type: UPDATE_911_CALL,

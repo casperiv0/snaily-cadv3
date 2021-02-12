@@ -1,3 +1,5 @@
+import Call from "../../../interfaces/Call";
+
 export interface Player {
   Weapon?: string;
   Vehicle?: string;
@@ -24,13 +26,19 @@ export interface XYZ {
   z: number;
 }
 
+export interface LatLng {
+  lat: number;
+  lng: number;
+}
+
 export interface MarkerPayload {
-  pos: XYZ;
+  pos: XYZ | LatLng;
   // icon: number;
   description: string;
   title: string;
   isPlayer?: boolean;
   player?: Player;
+  call?: Call;
   id: number;
 }
 

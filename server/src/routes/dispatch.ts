@@ -6,6 +6,7 @@ import { v4 } from "uuid";
 import { mapCalls } from "./global";
 import usePermission from "../hooks/usePermission";
 import { io } from "../server";
+import Call from "../interfaces/Call";
 const router: Router = Router();
 
 router.get("/active-units", useAuth, usePermission(["dispatch"]), async (_req: IRequest, res: Response) => {
@@ -89,10 +90,13 @@ router.delete("/calls/:id", useAuth, usePermission(["leo", "dispatch"]), async (
 
 router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const { location, description, assigned_unit } = req.body;
+  const { location, description, assigned_unit, pos } = req.body;
   let status = "";
 
   if (location && description && assigned_unit) {
+    const call = await processQuery<Call[]>("SELECT `pos` FROM `911calls` WHERE `id` = ?", [id]);
+    let position = JSON.parse(`${call[0]?.pos || {}}`);
+
     if (assigned_unit.length > 0) {
       status = "Assigned";
 
@@ -103,11 +107,14 @@ router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequ
       status = "Not Assigned";
     }
 
-    io.sockets.emit("UPDATE_ACTIVE_UNITS");
+    if (pos) {
+      position = pos;
+    }
 
+    io.sockets.emit("UPDATE_ACTIVE_UNITS");
     await processQuery(
-      "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ? WHERE `id` = ?",
-      [location, description, JSON.stringify(assigned_unit), status, id],
+      "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ?, `pos` = ? WHERE `id` = ?",
+      [location, description, JSON.stringify(assigned_unit), status, JSON.stringify(position), id],
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");

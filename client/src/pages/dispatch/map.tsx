@@ -9,6 +9,7 @@ import {
   DataActions,
   MarkerPayload,
   CustomMarker,
+  LatLng,
 } from "../../components/dispatch/map/interfaces";
 import {
   getMapBounds,
@@ -23,6 +24,7 @@ import { getActiveUnits } from "../../lib/actions/dispatch";
 import State from "../../interfaces/State";
 import CadInfo from "../../interfaces/CadInfo";
 import Call from "../../interfaces/Call";
+import { update911Call } from "../../lib/actions/911-calls";
 
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 /* STATUS: NOT COMPLETE */
@@ -33,9 +35,10 @@ interface Props {
   getActiveUnits: () => void;
   cadInfo: CadInfo;
   calls: Call[];
+  update911Call: (id: string, data: Partial<Call>) => void;
 }
 
-function Map({ getActiveUnits, cadInfo, calls }: Props) {
+function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
   const [MarkerStore, setMarkerStore] = React.useState<CustomMarker[]>([]);
   const [map, setMap] = React.useState<L.Map | null>(null);
   const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
@@ -94,9 +97,25 @@ function Map({ getActiveUnits, cadInfo, calls }: Props) {
     if (!map) return;
 
     calls.forEach((call) => {
-      if (call.pos.x === 0) return;
+      if ("x" in call.pos && call.pos.x === 0) return;
 
-      createMarker(
+      // REMOVE_CALL_FROM_MAP
+      const m = MarkerStore.find((marker) => marker.payload?.call?.id === call.id);
+      if (m) {
+        setMarkerStore((prev) => {
+          return prev.filter((marker) => {
+            if (marker.payload.call) {
+              return marker.payload.call.id !== call.id;
+            } else {
+              return true;
+            }
+          });
+        });
+        m.removeFrom(map);
+      }
+
+      // CREATE_CALL_MARKER
+      const marker = createMarker(
         true,
         {
           description: `911 Call from: ${call.name}`,
@@ -104,19 +123,31 @@ function Map({ getActiveUnits, cadInfo, calls }: Props) {
           pos: call.pos,
           isPlayer: false,
           title: "911 Call",
+          call,
         },
         call.location,
       );
+      if (!marker) return;
+
+      // UPDATE_CALL_POSITION
+      marker.on("moveend", async (e) => {
+        const target = e.target;
+        const latLng: LatLng = (target as any)._latlng;
+
+        update911Call(call.id, {
+          ...call,
+          pos: latLng,
+        });
+      });
     });
   }, [map, calls]);
 
   function onMessage(e: MessageEvent) {
     const data = JSON.parse(e.data) as DataActions;
+    console.log(data);
 
     switch (data.type) {
       case "playerLeft": {
-        console.log(data);
-
         const marker = MarkerStore.find((marker) => {
           return marker.payload.player?.identifier === data.payload;
         });
@@ -160,8 +191,7 @@ function Map({ getActiveUnits, cadInfo, calls }: Props) {
             );
           }
         });
-
-        return;
+        break;
       }
       default: {
         return;
@@ -169,11 +199,28 @@ function Map({ getActiveUnits, cadInfo, calls }: Props) {
     }
   }
 
-  function createMarker(draggable: boolean, payload: MarkerPayload, title: string) {
+  function createMarker(
+    draggable: boolean,
+    payload: MarkerPayload,
+    title: string,
+  ): CustomMarker | undefined {
     if (map === null) return;
-    const coords = stringCoordToFloat(payload.pos);
-    const converted = convertToMap(coords.x, coords.y, map);
-    if (!converted) return;
+    let newPos: LatLng;
+
+    if ("lat" in payload.pos) {
+      newPos = {
+        lat: payload.pos.lat,
+        lng: payload.pos.lng,
+      };
+    } else {
+      const coords = stringCoordToFloat(payload.pos);
+      const converted = convertToMap(coords.x, coords.y, map);
+      if (!converted) return;
+
+      newPos = converted;
+    }
+
+    const converted = newPos;
 
     const infoContent =
       '<div class="info-window"><div class="info-header-box"><div class="info-header">' +
@@ -198,7 +245,7 @@ function Map({ getActiveUnits, cadInfo, calls }: Props) {
       return [...prev, marker];
     });
 
-    return MarkerStore.length;
+    return marker;
   }
 
   return (
@@ -226,4 +273,4 @@ const mapToProps = (state: State) => ({
   calls: state.calls.calls_911,
 });
 
-export default connect(mapToProps, { getActiveUnits })(Map);
+export default connect(mapToProps, { getActiveUnits, update911Call })(Map);
