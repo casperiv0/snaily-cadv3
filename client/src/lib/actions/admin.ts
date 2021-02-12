@@ -282,6 +282,7 @@ export const updateCadSettings = (data: {
   webhook_url: string;
   live_map_url: string;
   plate_length: number;
+  steam_api_key: string;
 }) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/admin/management/cad-settings", "PUT", data);

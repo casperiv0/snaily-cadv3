@@ -34,12 +34,21 @@ router.put("/cad-settings", useAuth, usePermission(["owner"]), async (req: IRequ
     return res.json({ error: "Forbidden", status: "error" }).status(403);
   }
 
-  const { cad_name, aop, tow_whitelisted, whitelisted, webhook_url, plate_length = 8, live_map_url } = req.body;
+  const {
+    cad_name,
+    aop,
+    tow_whitelisted,
+    whitelisted,
+    webhook_url,
+    plate_length = 8,
+    live_map_url,
+    steam_api_key,
+  } = req.body;
 
   if (cad_name && aop && tow_whitelisted && whitelisted) {
     await processQuery(
-      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?",
-      [cad_name, aop, tow_whitelisted, whitelisted, webhook_url, plate_length, live_map_url],
+      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?",
+      [cad_name, aop, tow_whitelisted, whitelisted, webhook_url, plate_length, live_map_url, steam_api_key],
     );
 
     return res.json({ status: "success" });
@@ -55,7 +64,7 @@ router.get(
   usePermission(["admin", "owner", "moderator"]),
   async (_req: IRequest, res: Response) => {
     const members = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`  FROM `users` ORDER BY `username` ASC",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`  FROM `users` ORDER BY `username` ASC",
     );
 
     return res.json({ status: "success", members });
@@ -69,7 +78,7 @@ router.get(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
     const member = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
       [id],
     );
 
@@ -92,7 +101,7 @@ router.put(
       );
 
       const updated = await processQuery<IUser[]>(
-        "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id` FROM `users` WHERE `id` = ?",
+        "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
         [id],
       );
 
@@ -132,7 +141,7 @@ router.put(
         break;
       }
       case "accept": {
-        await processQuery("UPDATE `users` SET `whitelist_status`, `steam_id` = ? WHERE `id` = ?", ["accepted", id]);
+        await processQuery("UPDATE `users` SET `whitelist_status`, `steam_id`, `avatar_url` = ? WHERE `id` = ?", ["accepted", id]);
         break;
       }
       case "decline": {
@@ -149,10 +158,10 @@ router.put(
     }
 
     const members = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`  FROM `users`",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`  FROM `users`",
     );
     const updated = await processQuery<IUser[]>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
       [id],
     );
 

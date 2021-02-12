@@ -41,9 +41,9 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
   const description = req.body.description ?? "No description provided";
 
   const coords = {
-    x: coordsArr[0] || 0,
-    y: coordsArr[1] || 0,
-    z: coordsArr[2] || 0,
+    x: coordsArr?.[0] || 0,
+    y: coordsArr?.[1] || 0,
+    z: coordsArr?.[2] || 0,
   };
 
   await processQuery<Call[]>(

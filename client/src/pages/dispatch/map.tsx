@@ -27,6 +27,8 @@ import CadInfo from "../../interfaces/CadInfo";
 import Call from "../../interfaces/Call";
 import { update911Call } from "../../lib/actions/911-calls";
 import { CallInfoHTML, PlayerInfoHTML } from "../../components/dispatch/map/html";
+import User from "../../interfaces/User";
+// import { mapBlips, types as blipTypes } from "../../components/dispatch/map/blips";
 
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 /* STATUS: NOT COMPLETE */
@@ -42,9 +44,10 @@ import { CallInfoHTML, PlayerInfoHTML } from "../../components/dispatch/map/html
 const TILES_URL = "/tiles/minimap_sea_{y}_{x}.png";
 
 interface Props {
-  getActiveUnits: () => void;
   cadInfo: CadInfo;
   calls: Call[];
+  user: User;
+  getActiveUnits: () => void;
   update911Call: (id: string, data: Partial<Call>) => void;
 }
 
@@ -52,7 +55,9 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
   const [MarkerStore, setMarkerStore] = React.useState<CustomMarker[]>([]);
   const [map, setMap] = React.useState<L.Map | null>(null);
   const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
+  // const [MarkerTypes, setMarkerTypes] = React.useState<any>([]);
   const [ran, setRan] = React.useState(false);
+  // const [blips, setBlips] = React.useState<any>([]);
 
   const socket = React.useMemo(() => {
     if (!cadInfo.live_map_url) return;
@@ -176,6 +181,72 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
     [MarkerStore, createMarker, map],
   );
 
+  // const initBlips = React.useCallback(() => {
+  //   let blipCss = "";
+  //   const current = {
+  //     x: 0,
+  //     y: 0,
+  //     id: 0,
+  //   };
+
+  //   for (const blipName in blipTypes) {
+  //     const blip = blipTypes[blipName];
+
+  //     current.id = blip.id ? blip.id : current.id + 1;
+  //     current.x = blip.x ? blip.x : current.x + 1;
+  //     current.y = blip.y && blip.y;
+
+  //     setMarkerTypes((prev: any) => {
+  //       console.log(prev);
+
+  //       prev[current.id] = {
+  //         name: blipName.replace(/([A-Z0-9])/g, " $1").trim(),
+  //         className: `blip blip-${blipName}`,
+  //         iconUrl:
+  //           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=",
+  //         iconSize: [32, 32],
+  //         iconAnchor: [32 / 2, 0],
+  //         popupAnchor: [0, 0],
+  //       };
+  //     });
+
+  //     // nameToId[blipName] = current.id;
+
+  //     const left = current.x * 32 + 0;
+  //     const top = current.y * 32 + 0;
+
+  //     blipCss += `.blip-${blipName} { background-position: -${left}px -${top}px }`;
+  //   }
+
+  //   J("head").append(`<style>${blipCss}</style>`);
+
+  //   for (const blipId in mapBlips) {
+  //     const blipArr = mapBlips[blipId];
+
+  //     for (const i in blipArr) {
+  //       const blip = blipArr[i];
+  //       const fallbackName = MarkerTypes[blipId]?.name || "Unknown Name...";
+
+  //       const title = blip?.name || fallbackName;
+  //       const description = blip?.description || "N/A";
+
+  //       const marker = createMarker(
+  //         false,
+  //         {
+  //           description,
+  //           pos: blip.pos,
+  //           id: MarkerStore.length,
+  //           title,
+  //           icon: MarkerTypes[blipId],
+  //         },
+  //         title,
+  //       );
+
+  //       console.log(marker);
+  //     }
+  //   }
+  // }, [MarkerStore.length, createMarker]);
+
   React.useEffect(() => {
     if (!socket) return;
     socket.onclose = () => {
@@ -284,6 +355,10 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
     });
   }, [map, calls]);
 
+  // React.useEffect(() => {
+  //   initBlips();
+  // }, [initBlips]);
+
   return (
     <>
       <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
@@ -307,6 +382,7 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
 const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
   calls: state.calls.calls_911,
+  user: state.auth.user,
 });
 
 export default connect(mapToProps, { getActiveUnits, update911Call })(Map);

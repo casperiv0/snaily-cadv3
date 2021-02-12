@@ -11,6 +11,7 @@ interface CadInfo {
   plate_length: number;
   signal_100: Perm;
   live_map_url: string;
+  steam_api_key: string;
 }
 
 export default CadInfo;
