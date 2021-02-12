@@ -97,22 +97,40 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
           <header>
             <h3>{lang.admin.values.values}</h3>
           </header>
-          <Link className="admin-link text-decoration-none" to="/admin/values/departments">
+          <Link
+            className={`admin-link text-decoration-none  ${isActive("/values/departments")}`}
+            to="/admin/values/departments"
+          >
             {lang.admin.values.departments.index}
           </Link>
-          <Link className="admin-link text-decoration-none" to="/admin/values/ethnicities">
+          <Link
+            className={`admin-link text-decoration-none  ${isActive("/values/ethnicities")}`}
+            to="/admin/values/ethnicities"
+          >
             {lang.admin.values.ethnicities.index}
           </Link>
-          <Link className="admin-link text-decoration-none" to="/admin/values/genders">
+          <Link
+            className={`admin-link text-decoration-none  ${isActive("/values/genders")}`}
+            to="/admin/values/genders"
+          >
             {lang.admin.values.genders.index}
           </Link>
-          <Link className="admin-link text-decoration-none" to="/admin/values/legal-statuses">
+          <Link
+            className={`admin-link text-decoration-none  ${isActive("/values/legal-statuses")}`}
+            to="/admin/values/legal-statuses"
+          >
             {lang.admin.values["legal-statuses"].index}
           </Link>
-          <Link className="admin-link text-decoration-none" to="/admin/values/vehicles">
+          <Link
+            className={`admin-link text-decoration-none  ${isActive("/values/vehicles")}`}
+            to="/admin/values/vehicles"
+          >
             {lang.admin.values.vehicles.index}
           </Link>
-          <Link className="admin-link text-decoration-none" to="/admin/values/weapons">
+          <Link
+            className={`admin-link text-decoration-none  ${isActive("/values/weapons")}`}
+            to="/admin/values/weapons"
+          >
             {lang.admin.values.weapons.index}
           </Link>
         </div>

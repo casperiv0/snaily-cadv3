@@ -12,6 +12,7 @@ import Company from "../../../interfaces/Company";
 import { getCompanies } from "../../../lib/actions/admin";
 import Message from "../../../interfaces/Message";
 import { useHistory } from "react-router-dom";
+import CadInfo from "../../../interfaces/CadInfo";
 
 interface Props {
   message: Message;
@@ -19,6 +20,7 @@ interface Props {
   vehicles: Value[];
   legalStatuses: Value[];
   companies: Company[];
+  cadInfo: CadInfo;
   getLegalStatuses: () => void;
   getVehicles: () => void;
   getCitizens: () => void;
@@ -32,6 +34,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
   vehicles,
   legalStatuses,
   companies,
+  cadInfo,
   getLegalStatuses,
   getVehicles,
   getCitizens,
@@ -80,7 +83,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
             value={plate.toUpperCase()}
             onChange={(e) => setPlate(e.target.value)}
             className="form-control bg-dark border-dark text-light"
-            maxLength={8}
+            maxLength={cadInfo.plate_length !== 0 ? +cadInfo.plate_length : 8}
             minLength={1}
           />
         </div>
@@ -214,6 +217,7 @@ const mapToProps = (state: State) => ({
   vehicles: state.values.vehicles,
   legalStatuses: state.values["legal-statuses"],
   companies: state.admin.companies,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps, {

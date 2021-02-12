@@ -6,7 +6,6 @@ interface ICad {
   AOP: string;
   tow_whitelisted: Perm;
   whitelisted: Perm;
-  company_whitelisted: Perm;
 }
 
 export default ICad;

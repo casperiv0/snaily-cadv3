@@ -6,6 +6,7 @@ import { processQuery } from "./database";
 import { Socket } from "socket.io";
 import Officer from "../interfaces/Officer";
 import { checkVersion } from "./checks";
+import { Perm } from "../interfaces/IUser";
 
 io.on("connection", async (socket: Socket) => {
   const cadInfo = await processQuery("SELECT `webhook_url` FROM `cad_info`");
@@ -25,6 +26,17 @@ io.on("connection", async (socket: Socket) => {
       if (value === true) {
         io.sockets.emit("CHECK_CONNECTION", true);
       }
+    }
+  });
+
+  socket.on("SIGNAL_100", async (value: Perm) => {
+    await processQuery("UPDATE `cad_info` set `signal_100` = ?", [value]);
+    const updated = await processQuery("SELECT `signal_100` FROM `cad_info`");
+
+    io.sockets.emit("SIGNAL_100", updated[0].signal_100);
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "SIGNAL_100");
     }
   });
 

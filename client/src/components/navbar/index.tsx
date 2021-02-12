@@ -126,7 +126,7 @@ const Navbar: React.FC<Props> = ({
                 </Link>
               </li>
             ) : null}
-            <NavbarDropdown loading={loading} isAuth={isAuth} logout={() => logout()} />
+            <NavbarDropdown loading={loading} isAuth={isAuth} />
             <div className="nc-container">
               <button
                 onClick={() => setShowNotis((v) => !v)}
@@ -150,10 +150,7 @@ const Navbar: React.FC<Props> = ({
   );
 };
 
-const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean; logout: () => void }> = ({
-  loading,
-  isAuth,
-}) => {
+const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean }> = ({ loading, isAuth }) => {
   return (
     <li className="dropdown dropstart float-end">
       <button

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Markdown from "react-markdown";
+import Markdown from "react-markdown/with-html";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
@@ -63,7 +63,13 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
       </Link>
 
       <div className="d-flex justify-content-between border-bottom">
-        <h3>{bleet.title}</h3>
+        <div>
+          <h3 className="mb-2">{bleet.title}</h3>
+          <p className="mt-1 mb-1">
+            <strong>Uploaded By: </strong>
+            {bleet.uploadedBy}
+          </p>
+        </div>
         <div>
           {bleet.id && user.id === bleet.user_id ? (
             <Link className="btn btn-success mx-2" type="button" to={`/bleet/edit/${bleet.id}`}>
@@ -88,7 +94,9 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
         />
       ) : null}
 
-      <Markdown className="mt-3" escapeHtml={false} source={bleet.markdown} />
+      <Markdown allowDangerousHtml className="mt-3">
+        {bleet.markdown}
+      </Markdown>
     </Layout>
   );
 };

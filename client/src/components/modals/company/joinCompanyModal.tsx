@@ -101,7 +101,11 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, message, companies, joinC
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button
+            disabled={companies.length <= 0 || !citizenId}
+            type="submit"
+            className="btn btn-primary"
+          >
             {lang.citizen.company.join}
           </button>
         </div>

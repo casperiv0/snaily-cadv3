@@ -20,16 +20,24 @@ import AlertMessage, { DismissAlertBtn } from "../../components/alert-message";
 import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
 import { playSound } from "../../lib/functions";
+import CadInfo from "../../interfaces/CadInfo";
+import { Perm } from "../../interfaces/User";
 
 interface Props {
   aop: string;
   message: Message;
+  cadInfo: CadInfo;
 }
 
 const DispatchDash: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<Date>(new Date());
   const [aop, setAop] = React.useState<string>(props.aop);
   const [panic, setPanic] = React.useState<Officer | null>(null);
+  const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100);
+
+  React.useEffect(() => {
+    setSignal100(props.cadInfo.signal_100);
+  }, [props.cadInfo]);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -49,6 +57,10 @@ const DispatchDash: React.FC<Props> = (props) => {
       setPanic(officer);
     });
 
+    socket.on("SIGNAL_100", (value: Perm) => {
+      setSignal100(value);
+    });
+
     document.title = "Dispatch Dashboard";
   }, []);
 
@@ -58,6 +70,12 @@ const DispatchDash: React.FC<Props> = (props) => {
         <div role="alert" className="alert alert-danger alert-dismissible">
           {panic.officer_name} has activated panic button
           <DismissAlertBtn onClick={() => setPanic(null)} />
+        </div>
+      ) : null}
+      {signal100 === "1" ? (
+        <div role="alert" className="alert alert-danger alert-dismissible">
+          Signal 100 is in effect
+          <DismissAlertBtn onClick={() => setSignal100("0")} />
         </div>
       ) : null}
       {props.message ? <AlertMessage message={props.message} dismissible /> : null}
@@ -101,6 +119,7 @@ const DispatchDash: React.FC<Props> = (props) => {
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
   message: state.global.message,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps)(React.memo(DispatchDash));

@@ -72,25 +72,28 @@ const AccountPage: React.FC<Props> = ({ user }) => {
 
         <div className="card-footer d-flex">
           <a
+            style={{ background: "var(--bs-gray-dark)", color: "white" }}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary col-md-4 me-1"
+            className="btn btn-dark col-md-4 me-1"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/blob/main/CHANGELOG.md"
           >
             {lang.auth.account.changelog}
           </a>
           <a
+            style={{ background: "var(--bs-gray-dark)", color: "white" }}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary col-md-4 me-1"
+            className="btn btn-dark col-md-4 me-1"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new?assignees=&labels=&template=feature_request.md&title="
           >
             {lang.auth.account.new_feature}
           </a>
           <a
+            style={{ background: "var(--bs-gray-dark)", color: "white" }}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary col-md-4"
+            className="btn btn-dark col-md-4"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new"
           >
             {lang.auth.account.report_a_bug}

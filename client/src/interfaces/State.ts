@@ -51,7 +51,6 @@ interface State {
     error: string;
     search: any;
     activeOfficer: Officer | null;
-    penalCodes: PenalCode[];
     names: [];
   };
   bolos: {

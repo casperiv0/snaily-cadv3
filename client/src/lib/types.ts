@@ -122,6 +122,7 @@ export const GET_MEMBER_BY_ID = "GET_MEMBER_BY_ID";
 export const UPDATE_MEMBER_PERMS = "UPDATE_MEMBER_PERMS";
 export const BAN_MEMBER = "BAN_MEMBER";
 export const UN_BAN_MEMBER = "UN_BAN_MEMBER";
+export const REMOVE_USER = "REMOVE_USER";
 export const ACCEPT_USER = "ACCEPT_USER";
 export const DECLINE_USER = "DECLINE_USER";
 export const UPDATE_CAD_SETTINGS = "UPDATE_CAD_SETTINGS";

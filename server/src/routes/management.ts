@@ -34,12 +34,12 @@ router.put("/cad-settings", useAuth, usePermission(["owner"]), async (req: IRequ
     return res.json({ error: "Forbidden", status: "error" }).status(403);
   }
 
-  const { cad_name, aop, tow_whitelisted, whitelisted, company_whitelisted, webhook_url } = req.body;
+  const { cad_name, aop, tow_whitelisted, whitelisted, webhook_url, plate_length = 8 } = req.body;
 
-  if (cad_name && aop && tow_whitelisted && whitelisted && company_whitelisted) {
+  if (cad_name && aop && tow_whitelisted && whitelisted) {
     await processQuery(
-      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `company_whitelisted` = ?, `webhook_url`= ?",
-      [cad_name, aop, tow_whitelisted, whitelisted, company_whitelisted, webhook_url],
+      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?",
+      [cad_name, aop, tow_whitelisted, whitelisted, webhook_url, plate_length],
     );
 
     return res.json({ status: "success" });
@@ -139,6 +139,10 @@ router.put(
         await processQuery("DELETE FROM `users` WHERE `id` = ?", [id]);
         break;
       }
+      case "remove": {
+        await processQuery("DELETE FROM `users` WHERE `id` = ?", [id]);
+        break;
+      }
       default: {
         return res.json({ error: "Invalid path", status: "error" });
       }
@@ -147,7 +151,6 @@ router.put(
     const members = await processQuery<IUser[]>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`  FROM `users`",
     );
-
     const updated = await processQuery<IUser[]>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status` FROM `users` WHERE `id` = ?",
       [id],

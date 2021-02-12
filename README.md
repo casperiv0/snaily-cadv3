@@ -11,6 +11,7 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [Bugs](#bugs)
 - [Features](#features)
@@ -24,9 +25,9 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 
 ## Installation
 
- [Quick Installation guide](https://youtu.be/dO8qXSDDUag)
+[Quick Installation guide](https://youtu.be/dO8qXSDDUag)
 
-<!--[How to update the CAD](https://youtu.be/6THGMcHEX48) -->
+[How to update the CAD](https://youtu.be/RV6KeeN4AA4)
 
 1. Open Command Prompt
 2. Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cadv3`
@@ -44,6 +45,17 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 14. The CAD should be running on <http://localhost:3030> by default
 
 **If you don't understand any step: [please join our support server](https://discord.com/invite/eGnrPqEH7U)**
+
+## Troubleshooting
+
+- I get an error saying that `ts-node is not found/not a command`
+  - run `npm install -g ts-node`
+
+- I get an error saying `cannot find module dotenv/config`
+  - run `cd server && npm install dotenv`
+
+- I try to run `/callxxx` but it won't show up in the CAD/MDT
+  - Make sure that you've configured the config in `server.lua` in the download
 
 ## Contributing
 

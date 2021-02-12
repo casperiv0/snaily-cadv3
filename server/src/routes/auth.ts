@@ -34,6 +34,8 @@ router.post("/register", async (req: IRequest, res: Response) => {
 
     const hash = hashSync(password, saltRounds);
     const users = await processQuery<IUser[]>("SELECT `username` FROM `users`");
+    const insertSQL =
+      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // There are existing users - create the account at user level
     if (users?.length > 0) {
@@ -42,22 +44,19 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const towAccess = cadInfo[0].tow_whitelisted === "1" ? false : true;
       const id = uuidv4();
 
-      await processQuery(
-        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          id /* id */,
-          username /* username */,
-          hash /* password */,
-          Ranks.user /* rank */,
-          false /* leo access */,
-          false /* ems_fd access */,
-          false /* dispatch access */,
-          towAccess /* tow access */,
-          false /* banned */,
-          "" /* ban_reason */,
-          whitelistStatus /* whitelist_status */,
-        ],
-      );
+      await processQuery(insertSQL, [
+        id /* id */,
+        username /* username */,
+        hash /* password */,
+        Ranks.user /* rank */,
+        false /* leo access */,
+        false /* ems_fd access */,
+        false /* dispatch access */,
+        towAccess /* tow access */,
+        false /* banned */,
+        "" /* ban_reason */,
+        whitelistStatus /* whitelist_status */,
+      ]);
 
       if (cadInfo[0].whitelisted === "1") {
         return res.json({
@@ -81,8 +80,8 @@ router.post("/register", async (req: IRequest, res: Response) => {
       // no users found - create the account at owner level
       const id = uuidv4();
       await processQuery(
-        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `company_whitelisted`, `webhook_url`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [username, "Change me", "Change me", "0", "0", "0", ""],
+        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `plate_length`, `signal_100`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [username, "Change me", "Change me", "0", "0", "", 8, "0"],
       );
       await processQuery(
         "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",

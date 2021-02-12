@@ -1,5 +1,10 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import CadInfo from "../../interfaces/CadInfo";
+import State from "../../interfaces/State";
+import { Perm } from "../../interfaces/User";
 import lang from "../../language.json";
+import socket from "../../lib/socket";
 import { MButton } from "../leo/ModalButtons";
 
 const modalButtons: MButton[] = [
@@ -33,7 +38,32 @@ const modalButtons: MButton[] = [
   },
 ];
 
-const ModalButtons: React.FC = () => {
+interface Props {
+  cadInfo: CadInfo;
+}
+
+const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
+  const [signal100, setSignal100] = React.useState<Perm>(cadInfo.signal_100);
+
+  React.useEffect(() => {
+    setSignal100(cadInfo.signal_100);
+  }, [cadInfo]);
+
+  React.useEffect(() => {
+    socket.on("SIGNAL_100", (value: Perm) => {
+      setSignal100(value);
+    });
+  }, []);
+
+  function signal100Func() {
+    const value = signal100 === "1" ? "0" : "1";
+    socket.emit("SIGNAL_100", value);
+  }
+
+  function panicButton() {
+    socket.emit("PANIC_BUTTON", { officer_name: "Dispatcher" });
+  }
+
   return (
     <>
       {/* <Link to="/dispatch/map" className="btn btn-primary col-md-2 mt-2 ms-1">
@@ -52,8 +82,19 @@ const ModalButtons: React.FC = () => {
           </button>
         );
       })}
+
+      <button onClick={signal100Func} className="btn btn-secondary col-md-2">
+        {signal100 === "0" || !signal100 ? "Enable" : "Disable"} Signal 100
+      </button>
+      <button onClick={panicButton} className="btn btn-danger col-md-2">
+        Panic Button
+      </button>
     </>
   );
 };
 
-export default ModalButtons;
+const mapToProps = (state: State) => ({
+  cadInfo: state.global.cadInfo,
+});
+
+export default connect(mapToProps)(ModalButtons);

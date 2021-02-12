@@ -7,8 +7,9 @@ interface CadInfo {
   AOP: string;
   tow_whitelisted: Perm;
   whitelisted: Perm;
-  company_whitelisted: Perm;
   webhook_url: string;
+  plate_length: number;
+  signal_100: Perm;
 }
 
 export default CadInfo;

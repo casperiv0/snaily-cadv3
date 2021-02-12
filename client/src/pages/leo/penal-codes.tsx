@@ -6,6 +6,7 @@ import PenalCode from "../../interfaces/PenalCode";
 import { getPenalCodes } from "../../lib/actions/admin";
 import { connect } from "react-redux";
 import State from "../../interfaces/State";
+import { Link } from "react-router-dom";
 
 interface Props {
   penalCodes: PenalCode[];
@@ -35,6 +36,10 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
     getPenalCodes();
   }, [getPenalCodes]);
 
+  React.useEffect(() => {
+    setFiltered(penalCodes);
+  }, [penalCodes]);
+
   function handleSearch(value: string) {
     const filtered = penalCodes.filter((code) =>
       code.title.toLowerCase().includes(value.toLowerCase()),
@@ -45,6 +50,10 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
 
   return (
     <Layout classes="mt-5 pb-5">
+      <Link className="btn btn-secondary mb-2" to="/leo/dash">
+        Go back
+      </Link>
+
       <ul className="list-group">
         <input
           placeholder={lang.global.search}
@@ -61,7 +70,9 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
               className="list-group-item bg-dark border-secondary"
             >
               <h4>{code.title}</h4>
-              <Markdown className="mt-4 pl-4" escapeHtml={false} source={code.des} />
+              <div className="mt-4 py-2">
+                <Markdown>{code.des}</Markdown>
+              </div>
             </li>
           );
         })}
@@ -71,7 +82,7 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
 };
 
 const mapToProps = (state: State) => ({
-  penalCodes: state.officers.penalCodes,
+  penalCodes: state.admin.penalCodes,
 });
 
 export default connect(mapToProps, { getPenalCodes })(React.memo(PenalCodesPage));

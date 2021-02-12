@@ -13,6 +13,7 @@ import {
   updateMemberPerms,
   banMember,
   unBanMember,
+  removeUser,
 } from "../../../../lib/actions/admin";
 import { Item, Span } from "../../../citizen/citizen-info";
 
@@ -26,6 +27,7 @@ interface Props {
   updateMemberPerms: (id: string, data: object) => void;
   unBanMember: (id: string) => void;
   banMember: (id: string, banReason: string) => void;
+  removeUser: (id: string) => void;
 }
 
 const ManageMember: React.FC<Props> = ({
@@ -38,6 +40,7 @@ const ManageMember: React.FC<Props> = ({
   updateMemberPerms,
   banMember,
   unBanMember,
+  removeUser,
 }) => {
   const id = match.params.id;
   const [rank, setRank] = React.useState("");
@@ -79,6 +82,10 @@ const ManageMember: React.FC<Props> = ({
 
   function handleUnban() {
     unBanMember(member?.id!);
+  }
+
+  function handleRemove() {
+    removeUser(member?.id!);
   }
 
   if (member !== null && !member) {
@@ -246,6 +253,30 @@ const ManageMember: React.FC<Props> = ({
           </div>
         </div>
       </div>
+
+      <div style={{ marginTop: "2rem", width: "100%" }}>
+        <div className="card bg-dark border-dark">
+          <div className="card-header">
+            <h5 className="card-title">Remove user</h5>
+          </div>
+
+          <div className="card-body">
+            {authenticatedUser?.id === member?.id ? (
+              <AlertMessage
+                message={{ msg: "You cannot remove your own account", type: "warning" }}
+              />
+            ) : member?.rank === "owner" ? (
+              <AlertMessage
+                message={{ msg: "You cannot remove the owner's account", type: "warning" }}
+              />
+            ) : (
+              <button onClick={handleRemove} className="btn btn-danger mt-2 col">
+                Remove User
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
     </AdminLayout>
   );
 };
@@ -257,6 +288,10 @@ const mapToProps = (state: State) => ({
   cad: state.global.cadInfo,
 });
 
-export default connect(mapToProps, { getMemberById, updateMemberPerms, banMember, unBanMember })(
-  ManageMember,
-);
+export default connect(mapToProps, {
+  getMemberById,
+  updateMemberPerms,
+  banMember,
+  unBanMember,
+  removeUser,
+})(ManageMember);

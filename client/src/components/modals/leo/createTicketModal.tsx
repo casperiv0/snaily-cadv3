@@ -134,7 +134,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, penalCodes, create
 const mapToProps = (state: State) => ({
   error: state.officers.error,
   officer: state.officers.activeOfficer,
-  penalCodes: state.officers.penalCodes,
+  penalCodes: state.admin.penalCodes,
 });
 
 export default connect(mapToProps, { createTicket })(CreateTicketModal);
