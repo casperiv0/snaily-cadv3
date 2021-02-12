@@ -7,19 +7,13 @@ import usePermission from "../../hooks/usePermission";
 
 const router: Router = Router();
 
-router.get(
-  "/:path",
-  useAuth,
-  usePermission(["admin", "moderator", "owner"]),
-  useValidPath,
-  async (req: IRequest, res: Response) => {
-    const parsedPath = req.parsedPath;
+router.get("/:path", useAuth, useValidPath, async (req: IRequest, res: Response) => {
+  const parsedPath = req.parsedPath;
 
-    const values = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+  const values = await processQuery(`SELECT * FROM \`${parsedPath}\``);
 
-    return res.json({ values, status: "success" });
-  },
-);
+  return res.json({ values, status: "success" });
+});
 
 router.get(
   "/:path/:id",
