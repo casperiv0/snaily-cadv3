@@ -39,11 +39,11 @@ body {
 }
 
 .admin-link:hover {
-  background: #6c757d;
+  background: var(--bs-gray-dark);
   color: white;
 }
 
 .admin-link.active {
-  background: #6c757d;
+  background: var(--bs-gray-dark);
   color: white;
 }

@@ -11,6 +11,7 @@ SnailyCAD is a free, realtime, fast and secure CAD/MDT for your community!
 
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [Bugs](#bugs)
 - [Features](#features)

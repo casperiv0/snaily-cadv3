@@ -36,16 +36,16 @@ async function updateDb() {
   import("./insert");
   try {
     await processQuery(`
+    ALTER TABLE \`cad_info\` ADD \`plate_length\` int(255) NOT NULL AFTER \`webhook_url\`
+    `).catch();
+    await processQuery(`
     ALTER TABLE \`cad_info\` ADD \`signal_100\` varchar(255) NOT NULL AFTER \`plate_length\`;
-    `);
+    `).catch();
     await processQuery(`
     ALTER TABLE \`cad_info\` ADD \`live_map_url\` varchar(500) NOT NULL AFTER \`signal_100\`;
-    `);
+    `).catch();
     await processQuery(`
-    ALTER TABLE \`cad_info\` ADD \`plate_length\` int(255) NOT NULL AFTER \`webhook_url\`
-    `);
-    await processQuery(`
-    CREATE TABLE \`10_codes\` (
+    CREATE TABLE \`10_codes\` (F
       \`id\` varchar(64) NOT NULL,
       \`code\` varchar(255) NOT NULL,
       \`color\` varchar(255) NOT NULL,

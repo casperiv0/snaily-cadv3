@@ -19,7 +19,6 @@ interface Props {
     cad_name: string;
     whitelisted: string;
     tow_whitelisted: string;
-    company_whitelisted: string;
     webhook_url: string;
     plate_length: number;
   }) => void;
@@ -30,7 +29,6 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
   const [aop, setAop] = React.useState("");
   const [whitelisted, setWhitelisted] = React.useState("");
   const [towWhitelist, setTowWhitelist] = React.useState("");
-  const [companyWl, setCompanyWl] = React.useState("");
   const [webhookUrl, setWebhookUrl] = React.useState("");
   const [plateLength, setPlateLength] = React.useState(8);
 
@@ -40,9 +38,8 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       setAop(cadInfo.AOP);
       setWhitelisted(cadInfo.whitelisted);
       setTowWhitelist(cadInfo.tow_whitelisted);
-      setCompanyWl(cadInfo.company_whitelisted);
       setWebhookUrl(cadInfo.webhook_url || "");
-      setPlateLength(cadInfo.plate_length ?? 8);
+      setPlateLength(cadInfo.plate_length !== 0 ? cadInfo.plate_length : 8);
     }
   }, [cadInfo]);
 
@@ -58,7 +55,6 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       aop,
       whitelisted,
       tow_whitelisted: towWhitelist,
-      company_whitelisted: companyWl,
       webhook_url: webhookUrl,
       plate_length: plateLength,
     });
@@ -186,26 +182,6 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
               >
                 <option value={cadInfo.tow_whitelisted}>
                   {cadInfo.tow_whitelisted === "1" ? lang.global.yes : lang.global.no}
-                </option>
-                <option disabled value="">
-                  --------
-                </option>
-                <option value="0">{lang.global.no}</option>
-                <option value="1">{lang.global.yes}</option>
-              </select>
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="company_whitelisted">
-                {lang.admin.cad_settings.company_wl}
-              </label>
-              <select
-                className="form-control bg-secondary border-dark text-light"
-                id="company_whitelisted"
-                value={companyWl}
-                onChange={(e) => setCompanyWl(e.target.value)}
-              >
-                <option value={cadInfo.company_whitelisted}>
-                  {cadInfo.company_whitelisted === "1" ? lang.global.yes : lang.global.no}
                 </option>
                 <option disabled value="">
                   --------

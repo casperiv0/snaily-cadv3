@@ -83,7 +83,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
             value={plate.toUpperCase()}
             onChange={(e) => setPlate(e.target.value)}
             className="form-control bg-dark border-dark text-light"
-            maxLength={cadInfo.plate_length ?? 8}
+            maxLength={cadInfo.plate_length !== 0 ? +cadInfo.plate_length : 8}
             minLength={1}
           />
         </div>

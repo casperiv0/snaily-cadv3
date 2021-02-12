@@ -44,6 +44,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name.value) return;
 
     searchName(name.value);
   }
@@ -526,7 +527,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
-          <button type="submit" disabled={name === ""} className="btn btn-primary">
+          <button type="submit" disabled={!name.value} className="btn btn-primary">
             {lang.global.search}
           </button>
         </div>

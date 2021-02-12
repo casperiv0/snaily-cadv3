@@ -5,6 +5,7 @@ import State from "../../interfaces/State";
 import { setEmsStatus, getCurrentEmsStatus } from "../../lib/actions/ems-fd";
 import socket from "../../lib/socket";
 import Code10 from "../../interfaces/Code10";
+import { filterCodes } from "../modals/dispatch/UpdateStatus";
 
 interface Props {
   status: string | null;
@@ -59,7 +60,7 @@ const Statuses: React.FC<Props> = ({
         </p>
       ) : (
         <>
-          {statuses
+          {filterCodes(statuses)
             .filter((code) => {
               const values = code.what_pages.map((page) => {
                 return page.value;

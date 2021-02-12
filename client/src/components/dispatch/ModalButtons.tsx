@@ -48,11 +48,13 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
 
   React.useEffect(() => {
     setSignal100(cadInfo.signal_100);
+  }, [cadInfo]);
 
+  React.useEffect(() => {
     socket.on("SIGNAL_100", (value: Perm) => {
       setSignal100(value);
     });
-  }, [cadInfo]);
+  }, []);
 
   function signal100Func() {
     const value = signal100 === "1" ? "0" : "1";
