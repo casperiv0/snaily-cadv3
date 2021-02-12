@@ -1,29 +1,39 @@
-// import { Marker as LMarker } from "leaflet";
-// type IncomingTypes = "playerData" | "addBlip" | "updateBlip" | "removeBlip" | "playerLeft";
+export interface Player {
+  Weapon?: string;
+  Vehicle?: string;
+  Location: string;
+  pos: XYZ;
+  identifier: string;
+  icon: string;
+  name: string;
+}
 
-// export interface Data {
-//   type: IncomingTypes;
-//   payload: Payload[];
-// }
+export type DataActions =
+  | {
+      type: "playerLeft";
+      payload: string;
+    }
+  | {
+      type: "playerData";
+      payload: Player[];
+    };
 
-// export interface Payload {
-//   Location: string;
-//   Weapon: string;
-//   icon: number;
-//   identifier: string;
-//   name: string;
-//   pos: Xyz;
-// }
+export interface XYZ {
+  x: number;
+  y: number;
+  z: number;
+}
 
-// export interface Xyz {
-//   x: number;
-//   z: number;
-//   y: number;
-// }
+export interface MarkerPayload {
+  pos: XYZ;
+  //   icon: L.IconOptions;
+  description: string;
+  title: string;
+  isPlayer?: boolean;
+  player?: Player;
+  id: number;
+}
 
-// export interface Marker {
-//   id: string;
-//   payload: Payload;
-//   marker: LMarker;
-// }
-export {};
+export interface CustomMarker extends L.Marker {
+  payload: MarkerPayload;
+}

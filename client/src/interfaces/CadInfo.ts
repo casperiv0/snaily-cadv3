@@ -11,6 +11,7 @@ interface CadInfo {
   webhook_url: string;
   plate_length: number;
   signal_100: Perm;
+  live_map_url: string;
 }
 
 export default CadInfo;

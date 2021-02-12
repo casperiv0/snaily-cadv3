@@ -1,134 +1,166 @@
-// import L from "leaflet";
-// import "leaflet.markercluster";
-// import { useCallback, useEffect, useMemo, useState } from "react";
-// import {
-//   tileLayers,
-//   getMapBounds,
-//   createMarker,
-//   removeMarker,
-// } from "../../components/dispatch/map/functions";
-// import { Data, Marker, Payload } from "../../components/dispatch/map/interfaces";
-// import Loader from "../../components/loader";
-// import Logger from "../../lib/Logger";
+import * as React from "react";
+import L from "leaflet";
+// import J from "jquery";
+import "leaflet.markercluster";
+import Logger from "../../lib/Logger";
+import {
+  Player,
+  DataActions,
+  MarkerPayload,
+  CustomMarker,
+} from "../../components/dispatch/map/interfaces";
+import {
+  getMapBounds,
+  convertToMap,
+  stringCoordToFloat,
+  createCluster,
+} from "../../components/dispatch/map/functions";
 
-// /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
-// /* STATUS: NOT COMPLETE */
+/* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
+/* STATUS: NOT COMPLETE */
 
-// // TODO:
-// // Add blips
-// // refactor
+const TILES_URL = "/tiles/minimap_sea_{y}_{x}.png";
 
-// export let MarkerStore: Marker[] = [];
-// export const PlayerMarkers = L.markerClusterGroup({
-//   maxClusterRadius: 20,
-//   spiderfyOnMaxZoom: false,
-//   showCoverageOnHover: false,
-//   zoomToBoundsOnClick: false,
-// });
+export default function Map() {
+  const [MarkerStore, setMarkerStore] = React.useState<CustomMarker[]>([]);
+  const [map, setMap] = React.useState<L.Map | null>(null);
+  const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
+  const [ran, setRan] = React.useState(false);
+  const socket = React.useMemo(() => new WebSocket("ws://localhost:30121"), []);
 
-// export default function Map() {
-//   const socket = useMemo(() => new WebSocket("ws://localhost:30121"), []);
-//   const [ran, setRan] = useState(false);
-//   const [map, setMap] = useState<L.Map | null>(null);
-//   const [ready, setReady] = useState<boolean>(false);
-//   const [marker] = useState<L.Marker | null>(null);
-//   const CurrentLayer = tileLayers();
+  React.useEffect(() => {
+    socket.onclose = () => {
+      Logger.log("LIVE_MAP", "Disconnected from live-map");
+    };
 
-//   const init = useCallback(() => {
-//     setRan(true);
-//     const m = L.map("map", {
-//       crs: L.CRS.Simple,
-//       layers: [CurrentLayer],
-//       minZoom: -2,
-//       maxZoom: 2,
-//       bounceAtZoomLimits: false,
-//       preferCanvas: true,
-//     }).setView([0, 0], 0);
+    socket.onerror = (e) => {
+      Logger.log("LIVE_MAP", `${e}`);
+    };
 
-//     const bounds = getMapBounds(m);
+    socket.onmessage = (e: MessageEvent) => {
+      onMessage(e);
+    };
+  }, [map, onMessage]);
 
-//     m.setMaxBounds(bounds);
-//     m.fitBounds(bounds);
-//     // m.addLayer(PlayerMarkers);
+  React.useEffect(() => {
+    if (ran) return;
+    setRan(true);
+    const TileLayer = L.tileLayer(TILES_URL, {
+      minZoom: -2,
+      maxZoom: 2,
+      tileSize: 1024,
+      maxNativeZoom: 0,
+      minNativeZoom: 0,
+    });
 
-//     m.whenReady(() => {
-//       setReady(true);
-//       setMap(m);
-//     });
-//   }, [CurrentLayer]);
+    const map = L.map("map", {
+      crs: L.CRS.Simple,
+      layers: [TileLayer],
+      zoomControl: false,
+    }).setView([0, 0], 0);
 
-//   useEffect(() => {
-//     socket.onmessage = async (e) => {
-//       marker && map?.removeLayer(marker!);
+    const bounds = getMapBounds(map);
 
-//       map && onMessage(e, map);
-//     };
-//   }, [socket, map, marker]);
+    map.setMaxBounds(bounds);
+    map.fitBounds(bounds);
+    map.addLayer(PlayerMarkers);
 
-//   useEffect(() => {
-//     return () => {
-//       Logger.log("live_map", "Disconnected from LiveMap socket");
-//       socket.close();
-//     };
-//   }, [socket]);
+    setMap(map);
+  }, [ran, PlayerMarkers]);
 
-//   useEffect(() => {
-//     ran === false && init();
-//   }, [init, ran]);
+  function onMessage(e: MessageEvent) {
+    const data = JSON.parse(e.data) as DataActions;
 
-//   return (
-//     <>
-//       {!ready ? <Loader fullScreen /> : null}
-//       <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
-//     </>
-//   );
-// }
+    switch (data.type) {
+      case "playerLeft": {
+        console.log(data);
 
-// async function onMessage(e: any, map: L.Map) {
-//   const data: Data = JSON.parse(e.data);
-//   // const loc = convertToMap(data.payload[0].pos.x, data.payload[0].pos.y, map);
-//   console.log(data);
+        const marker = MarkerStore.find((marker) => {
+          return marker.payload.player?.identifier === data.payload;
+        });
 
-//   switch (data.type) {
-//     case "addBlip": {
-//       addBlip(data.payload, map);
-//       return;
-//     }
-//     case "playerData": {
-//       removeBlip(data.payload, map);
-//       addBlip(data.payload, map);
-//       return;
-//     }
-//     case "playerLeft": {
-//       removeBlip(data.payload, map);
-//       return;
-//     }
-//     default: {
-//       return "Not allowed";
-//     }
-//   }
-// }
+        setMarkerStore((prev) => {
+          return prev.filter((marker) => {
+            return marker.payload.player?.identifier !== data.payload;
+          });
+        });
 
-// function addBlip(payload: Payload[], map: L.Map) {
-//   payload?.forEach((p) => {
-//     createMarker(p, p?.name, map);
-//   });
-// }
+        marker?.removeFrom(map!);
+        break;
+      }
+      case "playerData": {
+        data.payload.forEach((player: Player) => {
+          if (!player.identifier) return;
+          if (!player.name) return;
 
-// function removeBlip(payload: Payload[] | string, map: L.Map) {
-//   let nw = MarkerStore;
-//   if (typeof payload === "string") {
-//     nw = removeMarker(payload, map);
-//   } else {
-//     payload.map((p) => {
-//       const newStore = removeMarker(p?.identifier, map);
-//       if (typeof newStore === "object") {
-//         nw = newStore;
-//       }
-//     });
-//   }
+          const marker = MarkerStore.find((marker) => {
+            return marker.payload?.player?.identifier === player.identifier;
+          });
 
-//   MarkerStore = nw;
-// }
+          if (marker) {
+            const coords = stringCoordToFloat(player.pos);
+            const converted = convertToMap(coords.x, coords.y, map!);
+            if (!converted) return;
+            marker.setLatLng(converted);
+          } else {
+            createMarker(
+              false,
+              {
+                description: "Hello world",
+                pos: player.pos,
+                title: player.name,
+                isPlayer: true,
+                player,
+                id: MarkerStore.length,
+              },
+              player?.name,
+            );
+          }
+        });
 
-export {};
+        return;
+      }
+      default: {
+        return;
+      }
+    }
+  }
+
+  function createMarker(draggable: boolean, payload: MarkerPayload, title: string) {
+    if (map === null) return;
+    const coords = stringCoordToFloat(payload.pos);
+    const converted = convertToMap(coords.x, coords.y, map);
+    if (!converted) return;
+
+    const infoContent =
+      '<div class="info-window"><div class="info-header-box"><div class="info-header">' +
+      title +
+      '</div></div><div class="clear"></div><div class=info-body>' +
+      "<p>Hello from popup</p>" +
+      "</div></div>";
+
+    const where = payload.isPlayer ? PlayerMarkers : map;
+
+    const marker: CustomMarker = (L as any)
+      .marker(converted, {
+        title,
+        draggable,
+      })
+      .addTo(where)
+      .bindPopup(infoContent);
+
+    marker.payload = payload;
+
+    setMarkerStore((prev) => {
+      return [...prev, marker];
+    });
+
+    return MarkerStore.length;
+  }
+
+  return (
+    <>
+      <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
+    </>
+  );
+}

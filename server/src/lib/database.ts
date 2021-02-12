@@ -39,6 +39,9 @@ async function updateDb() {
     ALTER TABLE \`cad_info\` ADD \`signal_100\` varchar(255) NOT NULL AFTER \`plate_length\`;
     `);
     await processQuery(`
+    ALTER TABLE \`cad_info\` ADD \`live_map_url\` varchar(500) NOT NULL AFTER \`signal_100\`;
+    `);
+    await processQuery(`
     ALTER TABLE \`cad_info\` ADD \`plate_length\` int(255) NOT NULL AFTER \`webhook_url\`
     `);
     await processQuery(`
