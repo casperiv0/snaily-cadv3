@@ -85,7 +85,7 @@ const LeoDash: React.FC<Props> = (props) => {
   }, [props.activeOfficer, location]);
 
   return (
-    <Layout fluid classes="mt-5">
+    <Layout fluid>
       {panic !== null ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
           {panic.officer_name} has activated panic button

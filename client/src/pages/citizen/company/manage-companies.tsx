@@ -23,7 +23,7 @@ const ManageCompaniesPage: React.FC<Props> = ({ message, getCompanyData }) => {
 
       <button
         type="button"
-        className="btn btn-secondary container mb-2"
+        className="btn btn-dark p-2 container mb-2"
         data-bs-toggle="modal"
         data-bs-target="#joinCompanyModal"
       >
@@ -31,7 +31,7 @@ const ManageCompaniesPage: React.FC<Props> = ({ message, getCompanyData }) => {
       </button>
       <button
         type="button"
-        className="btn btn-secondary container"
+        className="btn btn-dark p-2 container"
         data-bs-toggle="modal"
         data-bs-target="#createCompanyModal"
       >
