@@ -74,7 +74,7 @@ router.get(
 router.get(
   "/members/:id",
   useAuth,
-  usePermission(["admin", "owner", "moderator"]),
+  usePermission(["admin", "owner", "moderator", "dispatch"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
     const member = await processQuery<IUser[]>(

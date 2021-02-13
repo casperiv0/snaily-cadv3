@@ -34,7 +34,7 @@ export interface LatLng {
 
 export interface MarkerPayload {
   pos: XYZ | LatLng;
-  icon: number;
+  icon: L.IconOptions | null;
   description: string;
   title: string;
   isPlayer?: boolean;
