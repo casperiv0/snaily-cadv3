@@ -53,11 +53,14 @@ const DispatchDash: React.FC<Props> = (props) => {
     });
 
     socket.on("PANIC_BUTTON", (officer: Officer) => {
-      playSound("/sounds/signal-100.wav");
+      playSound("/sounds/panic-button.wav");
       setPanic(officer);
     });
 
     socket.on("SIGNAL_100", (value: Perm) => {
+      if (value === "1") {
+        playSound("/sounds/signal-100.mp3");
+      }
       setSignal100(value);
     });
 

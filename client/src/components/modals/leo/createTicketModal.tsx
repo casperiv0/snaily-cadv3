@@ -35,7 +35,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, penalCodes, create
 
     createTicket({
       name,
-      officer_name: officer?.officer_name!,
+      officer_name: `${officer?.callsign} ${officer?.officer_name}`,
       violations: violations.map((v: any) => v.value).join(", "),
       postal,
       notes,
@@ -108,6 +108,7 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, penalCodes, create
           <div className="mb-3">
             <label className="form-label">{lang.record.violations}</label>
             <Select
+              closeMenuOnSelect={false}
               value={violations}
               onChange={(v: any) => setViolations(v)}
               options={penalCodes.map((code) => ({
