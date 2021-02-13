@@ -69,7 +69,10 @@ const AccountPage: React.FC<Props> = ({ user }) => {
             {user.tow}
           </Item>
 
-          <a href="/api/v1/auth/steam" className="d-block mt-2">
+          <a
+            href={`/api/v1/auth/steam?callback_url=${window.location.origin}`}
+            className="d-block mt-2"
+          >
             <img src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png" />
           </a>
         </div>

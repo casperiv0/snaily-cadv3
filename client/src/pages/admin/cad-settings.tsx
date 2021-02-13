@@ -179,7 +179,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
                 className="form-control bg-secondary border-dark text-light"
                 id="steam_api_key"
                 value={steamApiKey}
-                onChange={(e) => setLiveMapUrl(e.target.value)}
+                onChange={(e) => setSteamApiKey(e.target.value)}
               />
             </div>
             <div className="mb-3">
