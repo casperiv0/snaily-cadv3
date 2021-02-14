@@ -1,4 +1,5 @@
 import { LatLng, XYZ } from "../components/dispatch/map/interfaces";
+import { Perm } from "./User";
 
 interface Call {
   id: string;
@@ -8,6 +9,7 @@ interface Call {
   status: string;
   assigned_unit: Unit[];
   pos: XYZ | LatLng;
+  hidden: Perm;
 }
 
 export interface Unit {

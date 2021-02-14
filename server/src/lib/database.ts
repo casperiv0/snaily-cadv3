@@ -36,6 +36,9 @@ async function updateDb() {
   import("./insert");
   try {
     await processQuery(`
+    ALTER TABLE \`911calls\` ADD \`hidden\` varchar(255) NOT NULL AFTER \`assigned_unit\`;
+    `).catch();
+    await processQuery(`
     ALTER TABLE \`users\` ADD \`avatar_url\` varchar(255) NOT NULL AFTER \`whitelist_status\`;
     `).catch();
     await processQuery(`

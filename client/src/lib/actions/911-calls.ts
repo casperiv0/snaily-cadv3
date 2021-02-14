@@ -36,7 +36,7 @@ export const getActive911Calls = () => async (dispatch: Dispatch<IDispatch>) => 
 
 export const create911Call = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
-    const res = await handleRequest("/dispatch/calls", "POST", data);
+    const res = await handleRequest("/global/911-calls", "POST", data);
 
     if (isSuccess(res)) {
       dispatch({
@@ -67,10 +67,6 @@ export const update911Call = (id: string, data: Partial<Call>) => async (
         "UPDATE_ASSIGNED_UNITS",
         data.assigned_unit?.map((u) => u.value),
       );
-      dispatch({
-        type: UPDATE_911_CALL,
-        calls: res.data.calls,
-      });
     }
   } catch (e) {
     Logger.error(UPDATE_911_CALL, e);

@@ -44,11 +44,3 @@
   height: 1rem;
   fill: var(--bs-light);
 }
-
-/* .blip {
-  background: url("/blips/blips_texturesheet.png");
-  background-size: 512px 512px;
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-} */

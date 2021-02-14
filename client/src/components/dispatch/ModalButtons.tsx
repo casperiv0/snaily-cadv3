@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import CadInfo from "../../interfaces/CadInfo";
 import State from "../../interfaces/State";
 import { Perm } from "../../interfaces/User";
@@ -71,9 +70,9 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
 
   return (
     <>
-      <Link to="/dispatch/map" className="btn btn-primary col-md-2">
+      <a href="/dispatch/map" className="btn btn-primary col-md-2">
         Live map
-      </Link>
+      </a>
       {modalButtons.map((mButton: MButton, idx: number) => {
         return (
           <button

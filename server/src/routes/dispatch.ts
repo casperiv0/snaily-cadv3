@@ -65,8 +65,8 @@ router.post("/calls", useAuth, usePermission(["leo", "dispatch"]), async (req: I
   if (location && caller) {
     const description = req.body.description || "No description provided";
     await processQuery(
-      "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, description, caller, location, "Not Assigned", "[]"],
+      "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `hidden`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [id, description, caller, location, "Not Assigned", "[]", "1"],
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");
@@ -91,14 +91,21 @@ router.delete("/calls/:id", useAuth, usePermission(["leo", "dispatch"]), async (
 
 router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const { location, assigned_unit, pos } = req.body;
+  const { location, assigned_unit, pos, hidden } = req.body;
   const description = req.body.description || "No description provided";
 
   let status = "";
 
   if (location) {
     const call = await processQuery<Call[]>("SELECT `pos` FROM `911calls` WHERE `id` = ?", [id]);
-    let position = JSON.parse(`${call[0]?.pos || {}}`);
+
+    let position = {};
+
+    try {
+      position = JSON.parse(`${call[0]?.pos}`);
+    } catch {
+      position = { x: null, y: null, z: null };
+    }
 
     if (assigned_unit.length > 0) {
       status = "Assigned";
@@ -116,8 +123,8 @@ router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequ
 
     io.sockets.emit("UPDATE_ACTIVE_UNITS");
     await processQuery(
-      "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ?, `pos` = ? WHERE `id` = ?",
-      [location, description, JSON.stringify(assigned_unit), status, JSON.stringify(position), id],
+      "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ?, `pos` = ?, `hidden` = ? WHERE `id` = ?",
+      [location, description, JSON.stringify(assigned_unit), status, JSON.stringify(position), hidden, id],
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");

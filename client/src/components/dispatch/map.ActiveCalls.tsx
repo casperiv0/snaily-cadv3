@@ -10,9 +10,11 @@ import socket from "../../lib/socket";
 interface CallItemProps {
   call: Call;
   end911Call: (id: string) => void;
+  setMarker: (call: Call, type: "remove" | "place") => void;
+  hasMarker: (id: string) => boolean;
 }
 
-const CallItem: React.FC<CallItemProps> = ({ call, end911Call }) => {
+const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMarker }) => {
   const assignedUnits = React.useMemo(() => {
     return call.assigned_unit.map((c, i) => {
       const comma = i !== call.assigned_unit.length - 1 ? ", " : " ";
@@ -48,7 +50,7 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call }) => {
           <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
         </svg>
       </div>
-      <div id={`collapse-${call.id}`} className="collapse mt-2">
+      <div id={`collapse-${call.id}`} className="collapse">
         <div className="map-column">
           <Item id="caller">
             <Span>Caller:</Span> {call.name}
@@ -76,6 +78,12 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call }) => {
               End call
             </button>
           </div>
+          <button
+            onClick={() => setMarker(call, hasMarker(call.id) ? "remove" : "place")}
+            className="btn btn-secondary w-100 mt-2"
+          >
+            {hasMarker(call.id) ? "Remove Marker" : "Place Marker"}
+          </button>
         </div>
       </div>
     </div>
@@ -85,10 +93,18 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call }) => {
 interface Props {
   calls: Call[];
   getActive911Calls: () => void;
+  setMarker: (call: Call, type: "remove" | "place") => void;
   end911Call: (id: string) => void;
+  hasMarker: (id: string) => boolean;
 }
 
-const Active911MapCalls: React.FC<Props> = ({ calls, getActive911Calls, end911Call }) => {
+const Active911MapCalls: React.FC<Props> = ({
+  calls,
+  getActive911Calls,
+  end911Call,
+  setMarker,
+  hasMarker,
+}) => {
   React.useEffect(() => {
     getActive911Calls();
 
@@ -102,7 +118,15 @@ const Active911MapCalls: React.FC<Props> = ({ calls, getActive911Calls, end911Ca
         <p>No active calls</p>
       ) : (
         calls.map((call: Call) => {
-          return <CallItem end911Call={end911Call} key={call.id} call={call} />;
+          return (
+            <CallItem
+              hasMarker={hasMarker}
+              setMarker={setMarker}
+              end911Call={end911Call}
+              key={call.id}
+              call={call}
+            />
+          );
         })
       )}
 

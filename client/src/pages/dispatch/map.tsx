@@ -1,6 +1,5 @@
 import * as React from "react";
 import L from "leaflet";
-// import J from "jquery";
 import "leaflet.markercluster";
 import "../../styles/map.css";
 import Logger from "../../lib/Logger";
@@ -70,6 +69,17 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
     getActiveUnits();
     getMembers();
   }, [getActiveUnits, getMembers]);
+
+  React.useEffect(() => {
+    return () => {
+      if (process.env.REACT_APP_IS_DEV !== "true") {
+        socket?.close();
+        setMarkerStore([]);
+        setMap(null);
+        setRan(false);
+      }
+    };
+  }, [socket]);
 
   const createMarker = React.useCallback(
     (draggable: boolean, payload: MarkerPayload, title: string): CustomMarker | undefined => {
@@ -187,16 +197,34 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
     [MarkerStore, createMarker, map, MarkerTypes, members],
   );
 
+  const remove911Call = React.useCallback(
+    (id: string) => {
+      setMarkerStore((prev) => {
+        const marker = prev.find((m) => m.payload.call?.id === id);
+        marker?.remove();
+        marker?.removeFrom(map!);
+        return prev.filter((marker) => {
+          if (marker.payload.call) {
+            return marker.payload.call.id !== id;
+          } else {
+            return true;
+          }
+        });
+      });
+    },
+    [map],
+  );
+
   const handleCalls = React.useCallback(async () => {
     if (!map) return;
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     calls.forEach((call) => {
-      if ("x" in call.pos && call.pos.x === 0) return;
-
       //? REMOVE_CALL_FROM_MAP
-      const m = MarkerStore.find((marker) => marker.payload?.call?.id === call.id);
+      const m = MarkerStore.some((marker) => marker.payload?.call?.id === call.id);
+
       if (m) return;
+      if (call.hidden === "1") return;
 
       //? CREATE_CALL_MARKER
       const marker = createMarker(
@@ -226,7 +254,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
       });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, calls, createMarker, update911Call]);
+  }, [calls]);
 
   React.useEffect(() => {
     if (!socket) return;
@@ -276,20 +304,9 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
   React.useEffect(() => {
     //? REMOVE_911_CALL_FROM_MAP
     CADSocket.on("END_911_CALL", (callId: string) => {
-      setMarkerStore((prev) => {
-        const marker = prev.find((m) => m.payload.call?.id === callId);
-        marker?.remove();
-        marker?.removeFrom(map!);
-        return prev.filter((marker) => {
-          if (marker.payload.call) {
-            return marker.payload.call.id !== callId;
-          } else {
-            return true;
-          }
-        });
-      });
+      remove911Call(callId);
     });
-  }, [map, calls]);
+  }, [map, calls, remove911Call]);
 
   return (
     <>
@@ -306,7 +323,24 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
       </div>
 
       <Create911Call />
-      <ActiveMapCalls />
+      <ActiveMapCalls
+        hasMarker={(callId: string) => {
+          return MarkerStore.some((m) => m.payload?.call?.id === callId);
+        }}
+        setMarker={(call: Call, type: "remove" | "place") => {
+          const marker = MarkerStore.some((m) => m.payload.call?.id === call.id);
+          if (marker && type === "place") return;
+
+          if (marker && type === "remove") {
+            remove911Call(call.id);
+          }
+
+          update911Call(call.id, {
+            ...call,
+            hidden: type === "remove" ? "1" : "0",
+          });
+        }}
+      />
     </>
   );
 }

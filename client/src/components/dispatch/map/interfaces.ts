@@ -24,9 +24,9 @@ export type DataActions =
     };
 
 export interface XYZ {
-  x: number;
-  y: number;
-  z: number;
+  x: number | null;
+  y: number | null;
+  z: number | null;
 }
 
 export interface LatLng {
