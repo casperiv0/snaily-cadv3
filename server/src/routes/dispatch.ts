@@ -59,10 +59,11 @@ router.delete("/bolos/:id", useAuth, usePermission(["leo", "dispatch"]), async (
 });
 
 router.post("/calls", useAuth, usePermission(["leo", "dispatch"]), async (req: IRequest, res: Response) => {
-  const { location, description, caller } = req.body;
+  const { location, caller } = req.body;
   const id = v4();
 
-  if (location && description && caller) {
+  if (location && caller) {
+    const description = req.body.description || "No description provided";
     await processQuery(
       "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`) VALUES (?, ?, ?, ?, ?, ?)",
       [id, description, caller, location, "Not Assigned", "[]"],
@@ -90,10 +91,12 @@ router.delete("/calls/:id", useAuth, usePermission(["leo", "dispatch"]), async (
 
 router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const { location, description, assigned_unit, pos } = req.body;
+  const { location, assigned_unit, pos } = req.body;
+  const description = req.body.description || "No description provided";
+
   let status = "";
 
-  if (location && description && assigned_unit) {
+  if (location) {
     const call = await processQuery<Call[]>("SELECT `pos` FROM `911calls` WHERE `id` = ?", [id]);
     let position = JSON.parse(`${call[0]?.pos || {}}`);
 

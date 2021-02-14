@@ -9,6 +9,8 @@ export interface Player {
   identifier: string;
   icon: string;
   name: string;
+  leo?: boolean;
+  ems_fd?: boolean;
 }
 
 export type DataActions =
@@ -46,3 +48,12 @@ export interface MarkerPayload {
 export interface CustomMarker extends L.Marker {
   payload: MarkerPayload;
 }
+
+export const defaultTypes = {
+  6: {
+    iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon-2x.png",
+    iconSize: [25, 41],
+    popupAnchor: [0, 0],
+    iconAnchor: [11, 0],
+  },
+};

@@ -11,6 +11,7 @@ import {
   MarkerPayload,
   CustomMarker,
   LatLng,
+  defaultTypes,
 } from "../../components/dispatch/map/interfaces";
 import {
   getMapBounds,
@@ -28,6 +29,7 @@ import Call from "../../interfaces/Call";
 import { update911Call } from "../../lib/actions/911-calls";
 import { CallInfoHTML, PlayerInfoHTML } from "../../components/dispatch/map/html";
 import User from "../../interfaces/User";
+import { getMembers } from "../../lib/actions/admin";
 
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 /* STATUS: NOT COMPLETE */
@@ -47,14 +49,16 @@ interface Props {
   calls: Call[];
   user: User;
   getActiveUnits: () => void;
+  getMembers: () => void;
   update911Call: (id: string, data: Partial<Call>) => void;
+  members: User[];
 }
 
-function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
+function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, members }: Props) {
   const [MarkerStore, setMarkerStore] = React.useState<CustomMarker[]>([]);
   const [map, setMap] = React.useState<L.Map | null>(null);
   const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
-  const [MarkerTypes] = React.useState<any>([]);
+  const [MarkerTypes] = React.useState<any>(defaultTypes);
   const [ran, setRan] = React.useState(false);
 
   const socket = React.useMemo(() => {
@@ -64,7 +68,8 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
 
   React.useEffect(() => {
     getActiveUnits();
-  }, [getActiveUnits]);
+    getMembers();
+  }, [getActiveUnits, getMembers]);
 
   const createMarker = React.useCallback(
     (draggable: boolean, payload: MarkerPayload, title: string): CustomMarker | undefined => {
@@ -89,7 +94,7 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
         (payload.player && PlayerInfoHTML(payload.player)) ||
         (payload.call && CallInfoHTML(payload.call)) ||
         "<p>Hello world</p>";
-      const where = payload.isPlayer ? PlayerMarkers : map;
+      const where = payload.player ? PlayerMarkers : map;
 
       const marker: CustomMarker = (L as any)
         .marker(converted, {
@@ -100,7 +105,6 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
         .bindPopup(infoContent);
 
       if (payload.icon !== null) {
-        if (!payload?.icon?.iconUrl) return;
         const img = L.icon(payload.icon);
         marker.setIcon(img);
       }
@@ -144,6 +148,10 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
               return marker.payload?.player?.identifier === player.identifier;
             });
 
+            const member = members.find((m) => `steam:${m.steam_id}` === player.identifier);
+            if (!member) return;
+            if (member.leo === "0" || member.ems_fd === "0") return;
+
             if (marker) {
               const coords = stringCoordToFloat(player.pos);
               const converted = convertToMap(coords.x, coords.y, map!);
@@ -158,7 +166,11 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
                   pos: player.pos,
                   title: player.name,
                   isPlayer: true,
-                  player,
+                  player: {
+                    ...player,
+                    ems_fd: member.ems_fd === "1",
+                    leo: member.leo === "1",
+                  },
                   id: MarkerStore.length,
                 },
                 player?.name,
@@ -172,8 +184,49 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
         }
       }
     },
-    [MarkerStore, createMarker, map, MarkerTypes],
+    [MarkerStore, createMarker, map, MarkerTypes, members],
   );
+
+  const handleCalls = React.useCallback(async () => {
+    if (!map) return;
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    calls.forEach((call) => {
+      if ("x" in call.pos && call.pos.x === 0) return;
+
+      //? REMOVE_CALL_FROM_MAP
+      const m = MarkerStore.find((marker) => marker.payload?.call?.id === call.id);
+      if (m) return;
+
+      //? CREATE_CALL_MARKER
+      const marker = createMarker(
+        true,
+        {
+          icon: null,
+          description: `911 Call from: ${call.name}`,
+          id: MarkerStore.length,
+          pos: call.pos,
+          isPlayer: false,
+          title: "911 Call",
+          call,
+        },
+        call.location,
+      );
+      if (!marker) return;
+
+      //? UPDATE_CALL_POSITION
+      marker.on("moveend", async (e) => {
+        const target = e.target;
+        const latLng: LatLng = (target as any)._latlng;
+
+        update911Call(call.id, {
+          ...call,
+          pos: latLng,
+        });
+      });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, calls, createMarker, update911Call]);
 
   React.useEffect(() => {
     if (!socket) return;
@@ -217,64 +270,19 @@ function Map({ getActiveUnits, update911Call, cadInfo, calls }: Props) {
   }, [ran, PlayerMarkers]);
 
   React.useEffect(() => {
-    if (!map) return;
-
-    calls.forEach((call) => {
-      if ("x" in call.pos && call.pos.x === 0) return;
-
-      //? REMOVE_CALL_FROM_MAP
-      const m = MarkerStore.find((marker) => marker.payload?.call?.id === call.id);
-      if (m) {
-        setMarkerStore((prev) => {
-          return prev.filter((marker) => {
-            if (marker.payload.call) {
-              return marker.payload.call.id !== call.id;
-            } else {
-              return true;
-            }
-          });
-        });
-        m.removeFrom(map);
-      }
-
-      //? CREATE_CALL_MARKER
-      const marker = createMarker(
-        true,
-        {
-          icon: null,
-          description: `911 Call from: ${call.name}`,
-          id: MarkerStore.length,
-          pos: call.pos,
-          isPlayer: false,
-          title: "911 Call",
-          call,
-        },
-        call.location,
-      );
-      if (!marker) return;
-
-      //? UPDATE_CALL_POSITION
-      marker.on("moveend", async (e) => {
-        const target = e.target;
-        const latLng: LatLng = (target as any)._latlng;
-
-        update911Call(call.id, {
-          ...call,
-          pos: latLng,
-        });
-      });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, calls, createMarker, update911Call]);
+    handleCalls();
+  }, [handleCalls]);
 
   React.useEffect(() => {
     //? REMOVE_911_CALL_FROM_MAP
     CADSocket.on("END_911_CALL", (callId: string) => {
       setMarkerStore((prev) => {
+        const marker = prev.find((m) => m.payload.call?.id === callId);
+        marker?.remove();
+        marker?.removeFrom(map!);
         return prev.filter((marker) => {
           if (marker.payload.call) {
-            marker.removeFrom(map!);
-            return marker.payload.call.id === callId;
+            return marker.payload.call.id !== callId;
           } else {
             return true;
           }
@@ -307,6 +315,7 @@ const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
   calls: state.calls.calls_911,
   user: state.auth.user,
+  members: state.admin.members,
 });
 
-export default connect(mapToProps, { getActiveUnits, update911Call })(Map);
+export default connect(mapToProps, { getActiveUnits, update911Call, getMembers })(Map);

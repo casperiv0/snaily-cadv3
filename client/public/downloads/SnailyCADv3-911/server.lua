@@ -20,8 +20,6 @@ RegisterServerEvent("911CallUpdate")
 
 -- POST the call to the CAD
 AddEventHandler("911CallUpdate", function(street, name, description)
-    print(name, street, description)
-    print(name)
     PerformHttpRequest(URL_TO_CAD .. ":" .. PORT .. '/api/v1/global/911-calls',
                        function(err, text, headers) end, 'POST', json.encode(
                            {
