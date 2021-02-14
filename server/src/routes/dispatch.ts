@@ -58,26 +58,6 @@ router.delete("/bolos/:id", useAuth, usePermission(["leo", "dispatch"]), async (
   return res.json({ bolos, status: "success" });
 });
 
-router.post("/calls", useAuth, usePermission(["leo", "dispatch"]), async (req: IRequest, res: Response) => {
-  const { location, caller } = req.body;
-  const id = v4();
-
-  if (location && caller) {
-    const description = req.body.description || "No description provided";
-    await processQuery(
-      "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `hidden`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [id, description, caller, location, "Not Assigned", "[]", "1"],
-    );
-
-    const calls = await processQuery("SELECT * FROM `911calls`");
-    const mappedCalls = mapCalls(calls);
-
-    return res.json({ status: "success", calls: mappedCalls });
-  } else {
-    return res.json({ error: "Please fill in all fields", status: "error" });
-  }
-});
-
 router.delete("/calls/:id", useAuth, usePermission(["leo", "dispatch"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
 
