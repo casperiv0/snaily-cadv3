@@ -53,8 +53,8 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                 return (
                   <tr id={`${idx}`} key={call.id}>
                     <th scope="row">{++idx}</th>
-                    <td>{call.location}</td>
                     <td>{call.name}</td>
+                    <td>{call.location}</td>
                     <td>{call.description}</td>
                     <td>{call.status}</td>
                     <td>

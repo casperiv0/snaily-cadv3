@@ -5,6 +5,7 @@
 ## 1.3.3
 
 - Minor: added sound for Signal 100
+- Minor: Bug fixes
 - Minor: minor fixes
 
 ## 1.3.2

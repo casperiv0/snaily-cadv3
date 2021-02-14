@@ -5,6 +5,7 @@ import lang from "../../language.json";
 import socket from "../../lib/socket";
 import { getActiveBolos, deleteBolo } from "../../lib/actions/bolos";
 import { connect } from "react-redux";
+import { Item, Span } from "../../pages/citizen/citizen-info";
 
 interface Props {
   bolos: Bolo[];
@@ -40,18 +41,18 @@ const ActiveBolos: React.FC<Props> = ({ bolos, getActiveBolos, deleteBolo }) => 
               <div className="d-flex">
                 {++idx} | &nbsp;
                 {bolo.type === "person" ? (
-                  <p>
+                  <Item id="description">
                     {bolo.description} <br />
-                    <span className="font-weight-bold">{lang.global.name}: </span>
+                    <Span>{lang.global.name}: </Span>
                     {bolo.name}
-                  </p>
+                  </Item>
                 ) : bolo.type === "vehicle" ? (
                   <p>
                     {bolo.description} <br />
-                    <span className="font-weight-bold">{lang.global.plate}: </span>
+                    <Span>{lang.global.plate}: </Span>
                     {bolo.plate}
                     <br />
-                    <span className="font-weight-bold">{lang.global.color}: </span>
+                    <Span>{lang.global.color}: </Span>
                     {bolo.color}
                   </p>
                 ) : (

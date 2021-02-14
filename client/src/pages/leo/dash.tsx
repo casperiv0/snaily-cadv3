@@ -67,7 +67,7 @@ const LeoDash: React.FC<Props> = (props) => {
 
     socket.on("PANIC_BUTTON", (officer: Officer) => {
       setPanic(officer);
-      playSound("/sounds/panic-button.wav");
+      playSound("/sounds/panic-button.mp3");
     });
 
     socket.on("SIGNAL_100", (value: Perm) => {
