@@ -19,6 +19,7 @@ import {
   createCluster,
 } from "../../components/dispatch/map/functions";
 import ActiveMapCalls from "../../components/dispatch/map.ActiveCalls";
+import ActiveMapUnits from "../../components/dispatch/map.ActiveUnits";
 import Create911Call from "../../components/modals/call911Modal";
 import { connect } from "react-redux";
 import { getActiveUnits } from "../../lib/actions/dispatch";
@@ -323,6 +324,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
       </div>
 
       <Create911Call />
+      <ActiveMapUnits />
       <ActiveMapCalls
         hasMarker={(callId: string) => {
           return MarkerStore.some((m) => m.payload?.call?.id === callId);
@@ -352,4 +354,5 @@ const mapToProps = (state: State) => ({
   members: state.admin.members,
 });
 
-export default connect(mapToProps, { getActiveUnits, update911Call, getMembers })(Map);
+const Memoized = React.memo(Map);
+export default connect(mapToProps, { getActiveUnits, update911Call, getMembers })(Memoized);

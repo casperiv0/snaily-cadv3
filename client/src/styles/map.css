@@ -12,13 +12,20 @@
 .map-calls-container {
   position: absolute;
   top: 5rem;
-  left: 1rem;
   z-index: 1039;
   background-color: var(--bs-dark);
   padding: 0.8rem;
   border-radius: 0.5rem;
   width: 20rem;
   box-shadow: 0 0 32px 8px rgba(0, 0, 0, 0.2);
+}
+
+.active-calls {
+  left: 1rem;
+}
+
+.active-units {
+  right: 1rem;
 }
 
 .map-column {
@@ -43,4 +50,17 @@
   width: 1rem;
   height: 1rem;
   fill: var(--bs-light);
+}
+
+.active-units-edit {
+  background: none;
+  border: none;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.active-units-edit svg {
+  fill: white;
+  width: 1.2rem;
+  height: 1.2rem;
 }

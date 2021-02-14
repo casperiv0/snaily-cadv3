@@ -112,7 +112,7 @@ const Active911MapCalls: React.FC<Props> = ({
   }, [getActive911Calls]);
 
   return (
-    <div className="map-calls-container">
+    <div className="map-calls-container active-calls">
       <h1 className="h4">Active Calls</h1>
       {calls.length <= 0 ? (
         <p>No active calls</p>
@@ -140,4 +140,5 @@ const mapToProps = (state: State) => ({
   calls: state.calls.calls_911,
 });
 
-export default connect(mapToProps, { end911Call, getActive911Calls })(Active911MapCalls);
+const Memoized = React.memo(Active911MapCalls);
+export default connect(mapToProps, { end911Call, getActive911Calls })(Memoized);
