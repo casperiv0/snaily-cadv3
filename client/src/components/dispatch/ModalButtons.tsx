@@ -4,6 +4,7 @@ import CadInfo from "../../interfaces/CadInfo";
 import State from "../../interfaces/State";
 import { Perm } from "../../interfaces/User";
 import lang from "../../language.json";
+import { playSound } from "../../lib/functions";
 import socket from "../../lib/socket";
 import { MButton } from "../leo/ModalButtons";
 
@@ -51,6 +52,9 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
 
   React.useEffect(() => {
     socket.on("SIGNAL_100", (value: Perm) => {
+      if (value === "1") {
+        playSound("/sounds/signal-100.wav");
+      }
       setSignal100(value);
     });
   }, []);

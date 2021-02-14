@@ -99,6 +99,7 @@ const Update911Call: React.FC<Props> = ({
               <p>{lang.dispatch.no_units}</p>
             ) : (
               <Select
+                closeMenuOnSelect={false}
                 defaultValue={assignedUnits}
                 onChange={handleClick}
                 options={activeUnits.map((unit) => ({
