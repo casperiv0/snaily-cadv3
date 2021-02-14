@@ -41,7 +41,7 @@ const CreateArrestReportModal: React.FC<Props> = ({
 
     creatArrestReport({
       name,
-      officer_name: officer?.officer_name!,
+      officer_name: `${officer?.callsign} ${officer?.officer_name}`,
       charges: charges.map((v: any) => v.value).join(", "),
       postal,
       notes,
@@ -114,6 +114,7 @@ const CreateArrestReportModal: React.FC<Props> = ({
           <div className="mb-3">
             <label className="form-label">{lang.record.charges}</label>
             <Select
+              closeMenuOnSelect={false}
               value={charges}
               onChange={(v: any) => setCharges(v)}
               options={penalCodes.map((code) => ({

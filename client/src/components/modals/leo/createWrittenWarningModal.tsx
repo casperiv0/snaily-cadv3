@@ -40,7 +40,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
 
     createWrittenWarning({
       name,
-      officer_name: officer?.officer_name!,
+      officer_name: `${officer?.callsign} ${officer?.officer_name}`,
       infractions: infractions.map((v: any) => v.value).join(", "),
       postal,
       notes,
@@ -113,6 +113,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
           <div className="mb-3">
             <label className="form-label">{lang.record.infractions}</label>
             <Select
+              closeMenuOnSelect={false}
               value={infractions}
               onChange={(v: any) => setInfractions(v)}
               options={penalCodes.map((code) => ({
