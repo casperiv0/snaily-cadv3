@@ -24,9 +24,9 @@ export type DataActions =
     };
 
 export interface XYZ {
-  x: number | null;
-  y: number | null;
-  z: number | null;
+  x: number | undefined;
+  y: number | undefined;
+  z: number | undefined;
 }
 
 export interface LatLng {
@@ -42,14 +42,39 @@ export interface MarkerPayload {
   isPlayer?: boolean;
   player?: Player;
   call?: Call;
-  id: number;
+  id: string;
 }
 
 export interface CustomMarker extends L.Marker {
   payload: MarkerPayload;
 }
 
+export interface Blip {
+  pos: XYZ;
+  icon: L.IconOptions;
+  description: string;
+  name: string;
+  type: any;
+  markerId: number;
+  x?: number;
+  y?: number;
+  z?: number;
+}
+
 export const defaultTypes = {
+  0: {
+    iconUrl:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=",
+    iconSize: [0, 0],
+    popupAnchor: [0, 0],
+    iconAnchor: [0, 0],
+  },
+  999: {
+    iconUrl: "/map/debug.png",
+    iconSize: [23, 32],
+    popupAnchor: [0, 0],
+    iconAnchor: [11.5, 0], // Bottom middle
+  },
   6: {
     iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon-2x.png",
     iconSize: [25, 41],

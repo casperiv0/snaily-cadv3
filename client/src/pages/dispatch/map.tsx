@@ -1,6 +1,8 @@
 import * as React from "react";
 import L from "leaflet";
+import J from "jquery";
 import "leaflet.markercluster";
+import { v4 as uuid } from "uuid";
 import "../../styles/map.css";
 import Logger from "../../lib/Logger";
 import CADSocket from "../../lib/socket";
@@ -11,6 +13,7 @@ import {
   CustomMarker,
   LatLng,
   defaultTypes,
+  Blip,
 } from "../../components/dispatch/map/interfaces";
 import {
   getMapBounds,
@@ -27,9 +30,10 @@ import State from "../../interfaces/State";
 import CadInfo from "../../interfaces/CadInfo";
 import Call from "../../interfaces/Call";
 import { update911Call } from "../../lib/actions/911-calls";
-import { CallInfoHTML, PlayerInfoHTML } from "../../components/dispatch/map/html";
+import { CallInfoHTML, PlayerInfoHTML, BlipInfoHTML } from "../../components/dispatch/map/html";
 import User from "../../interfaces/User";
 import { getMembers } from "../../lib/actions/admin";
+import blipTypes from "../../components/dispatch/map/blips";
 
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 /* STATUS: NOT COMPLETE */
@@ -54,12 +58,18 @@ interface Props {
   members: User[];
 }
 
+export const BLIP_SIZES = {
+  width: 64 / 2,
+  height: 64 / 2,
+};
+
 function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, members }: Props) {
   const [MarkerStore, setMarkerStore] = React.useState<CustomMarker[]>([]);
   const [map, setMap] = React.useState<L.Map | null>(null);
   const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
   const [MarkerTypes] = React.useState<any>(defaultTypes);
   const [ran, setRan] = React.useState(false);
+  const [blips, setBlips] = React.useState<Blip[][]>([]);
 
   const socket = React.useMemo(() => {
     if (!cadInfo.live_map_url) return;
@@ -104,7 +114,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
       const infoContent =
         (payload.player && PlayerInfoHTML(payload.player)) ||
         (payload.call && CallInfoHTML(payload.call)) ||
-        "<p>Hello world</p>";
+        BlipInfoHTML(payload);
       const where = payload.player ? PlayerMarkers : map;
 
       const marker: CustomMarker = (L as any)
@@ -115,7 +125,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
         .addTo(where)
         .bindPopup(infoContent);
 
-      if (payload.icon !== null) {
+      if (payload.icon !== null && payload.icon?.iconUrl) {
         const img = L.icon(payload.icon);
         marker.setIcon(img);
       }
@@ -130,6 +140,165 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
     },
     [PlayerMarkers, map],
   );
+
+  const initBlips = React.useCallback(() => {
+    const nameToId: any = {};
+    let blipCss = "";
+    generateBlips();
+
+    J.ajax("/blips.json", {
+      success: blipSuccess,
+      dataType: "json",
+    });
+
+    function generateBlips() {
+      blipCss = `.blip {
+        background: url("/map/blips_texturesheet.png");
+        background-size: ${1024 / 2}px ${1024 / 2}px;
+        display: inline-block;
+        width: ${BLIP_SIZES.width}px;
+        height: ${BLIP_SIZES.height}px;
+      }`;
+
+      const current = {
+        x: 0,
+        y: 0,
+        id: 0,
+      };
+
+      for (const blipName in blipTypes) {
+        const blip = blipTypes[blipName];
+
+        if (!blip.id) {
+          current.id = current.id + 1;
+        } else {
+          current.id = blip.id;
+        }
+
+        if (!blip.x) {
+          current.x += 1;
+        } else {
+          current.x = blip.x;
+        }
+
+        if (blip.y) {
+          current.y = blip.y;
+        }
+
+        MarkerTypes[current.id] = {
+          name: blipName.replace(/([A-Z0-9])/g, " $1").trim(),
+          className: `blip blip-${blipName}`,
+          iconUrl:
+            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=",
+          iconSize: [BLIP_SIZES.width, BLIP_SIZES.height],
+          iconAnchor: [BLIP_SIZES.width / 2, 0],
+          popupAnchor: [0, 0],
+        };
+
+        nameToId[blipName] = current.id;
+
+        const left = current.x * BLIP_SIZES.width + 0;
+        const top = current.y * BLIP_SIZES.height + 0;
+
+        blipCss += `.blip-${blipName} { background-position: -${left}px -${top}px }`;
+      }
+
+      J("head").append(`<style>${blipCss}</style>`);
+      setTimeout(generateBlipControls, 50);
+
+      showBlips();
+    }
+
+    function generateBlipControls() {
+      for (const blipName in blipTypes) {
+        J("#blip-control-container").append(
+          `<a data-blip-number="${nameToId[blipName]}" id="blip_${blipName}_link" class="blip-button-a list-group-item d-inline-block collapsed blip-enabled" href="#"><span class="blip blip-${blipName}"></span></a>`,
+        );
+      }
+
+      J(".blip-button-a").on("click", function (e) {
+        const element = $(e.currentTarget);
+
+        // Toggle blip
+        element.addClass("blip-enabled");
+
+        showBlips();
+      });
+    }
+
+    function blipSuccess(data: any) {
+      for (const id in data) {
+        if (data?.[id]) {
+          const blipArray = data[id];
+
+          for (const i in blipArray) {
+            const blip = blipArray[i];
+            const fallbackName = `${id} | ${MarkerTypes[id]?.name}` || id;
+
+            blip.name = blip?.name || fallbackName;
+            blip.description = blip?.description || "N/A";
+
+            blip.type = id;
+            createBlip(blip);
+          }
+        }
+      }
+    }
+
+    function createBlip(blip: Blip) {
+      if (!blip.pos) {
+        if (!blip?.pos) {
+          blip.pos = {
+            x: blip.x,
+            y: blip.y,
+            z: blip.z,
+          };
+
+          delete blip.x;
+          delete blip.y;
+          delete blip.z;
+        }
+      }
+
+      const obj: MarkerPayload = {
+        title: blip.name,
+        pos: blip.pos,
+        description: blip.description,
+        icon: MarkerTypes?.[blip.type],
+        id: uuid(),
+      };
+
+      if (!blips[blip.type]) {
+        setBlips((prev) => {
+          prev[blip.type] = [];
+
+          return prev;
+        });
+      }
+
+      const marker = createMarker(false, obj, blip.name);
+      if (!marker) return;
+
+      setBlips((prev) => {
+        prev[blip.type].push(blip);
+
+        return prev;
+      });
+    }
+
+    function showBlips() {
+      for (const id in blips) {
+        const blipArr: any[] = blips[id];
+
+        blipArr.forEach((blip) => {
+          const marker = MarkerStore?.[blip.markerId];
+
+          marker?.addTo(map!);
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createMarker, blips, map, MarkerTypes]);
 
   const onMessage = React.useCallback(
     (e) => {
@@ -182,7 +351,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
                     ems_fd: member.ems_fd === "1",
                     leo: member.leo === "1",
                   },
-                  id: MarkerStore.length,
+                  id: uuid(),
                 },
                 player?.name,
               );
@@ -233,7 +402,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
         {
           icon: null,
           description: `911 Call from: ${call.name}`,
-          id: MarkerStore.length,
+          id: uuid(),
           pos: call.pos,
           isPlayer: false,
           title: "911 Call",
@@ -296,7 +465,13 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
     map.addLayer(PlayerMarkers);
 
     setMap(map);
-  }, [ran, PlayerMarkers]);
+  }, [ran, PlayerMarkers, initBlips]);
+
+  React.useEffect(() => {
+    if (map !== null) {
+      initBlips();
+    }
+  }, [map, initBlips]);
 
   React.useEffect(() => {
     handleCalls();
@@ -354,5 +529,5 @@ const mapToProps = (state: State) => ({
   members: state.admin.members,
 });
 
-const Memoized = React.memo(Map);
-export default connect(mapToProps, { getActiveUnits, update911Call, getMembers })(Memoized);
+// const Memoized = React.memo(Map);
+export default connect(mapToProps, { getActiveUnits, update911Call, getMembers })(Map);

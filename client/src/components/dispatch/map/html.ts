@@ -1,5 +1,5 @@
 import Call from "../../../interfaces/Call";
-import { Player } from "./interfaces";
+import { MarkerPayload, Player } from "./interfaces";
 
 export function PlayerInfoHTML(player: Player) {
   return `
@@ -45,6 +45,18 @@ export function CallInfoHTML(call: Call) {
           >
             Toggle
           </button>
+        </div>
+      </div>
+    `;
+}
+
+export function BlipInfoHTML(blip: MarkerPayload) {
+  return `
+      <div style="min-width: 50px;">
+        <div class="d-flex flex-column">
+          <p style="margin: 2px;">
+            <strong>Name: </strong> ${blip.title}
+          </p>
         </div>
       </div>
     `;
