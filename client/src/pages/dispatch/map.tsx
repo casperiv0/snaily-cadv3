@@ -70,6 +70,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
   const [MarkerTypes] = React.useState<any>(defaultTypes);
   const [ran, setRan] = React.useState(false);
   const [blips, setBlips] = React.useState<Blip[][]>([]);
+  const [blipsShown, setBlipsShown] = React.useState(true);
 
   const socket = React.useMemo(() => {
     if (!cadInfo.live_map_url) return;
@@ -140,6 +141,36 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
     },
     [PlayerMarkers, map],
   );
+
+  const showBlips = React.useCallback(() => {
+    for (const id in blips) {
+      const blipArr: any[] = blips[id];
+
+      blipArr.forEach((blip) => {
+        const marker = MarkerStore?.[blip.markerId];
+
+        marker?.addTo(map!);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, blips]);
+
+  function toggleBlips(show: boolean) {
+    setMarkerStore((prev) => {
+      prev.map((marker) => {
+        if (marker.payload.isBlip) {
+          if (show) {
+            marker.addTo(map!);
+          } else {
+            marker.remove();
+            marker.removeFrom(map!);
+          }
+        }
+      });
+
+      return prev;
+    });
+  }
 
   const initBlips = React.useCallback(() => {
     const nameToId: any = {};
@@ -266,6 +297,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
         description: blip.description,
         icon: MarkerTypes?.[blip.type],
         id: uuid(),
+        isBlip: true,
       };
 
       if (!blips[blip.type]) {
@@ -285,20 +317,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
         return prev;
       });
     }
-
-    function showBlips() {
-      for (const id in blips) {
-        const blipArr: any[] = blips[id];
-
-        blipArr.forEach((blip) => {
-          const marker = MarkerStore?.[blip.markerId];
-
-          marker?.addTo(map!);
-        });
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createMarker, blips, map, MarkerTypes]);
+  }, [createMarker, blips, MarkerTypes, showBlips]);
 
   const onMessage = React.useCallback(
     (e) => {
@@ -336,6 +355,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
               const coords = stringCoordToFloat(player.pos);
               const converted = convertToMap(coords.x, coords.y, map!);
               if (!converted) return;
+
               marker.setLatLng(converted);
             } else {
               createMarker(
@@ -489,9 +509,14 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
       <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
 
       <div className="map-blips-container">
-        <button className="btn btn-primary mx-2">
-          {/* {showBlips ? "Hide blips" : "Show blips"} */}
-          Show/hide blips
+        <button
+          onClick={() => {
+            setBlipsShown((v) => !v);
+            toggleBlips(!blipsShown);
+          }}
+          className="btn btn-primary mx-2"
+        >
+          {blipsShown ? "Hide blips" : "Show blips"}
         </button>
         <button data-bs-toggle="modal" data-bs-target="#call911Modal" className="btn btn-primary">
           Create 911 call

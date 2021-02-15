@@ -39,10 +39,12 @@ export interface MarkerPayload {
   icon: L.IconOptions | null;
   description: string;
   title: string;
-  isPlayer?: boolean;
   player?: Player;
   call?: Call;
   id: string;
+
+  isPlayer?: boolean;
+  isBlip?: boolean;
 }
 
 export interface CustomMarker extends L.Marker {
