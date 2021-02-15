@@ -351,11 +351,15 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
             if (!member) return;
             if (member.leo === "0" || member.ems_fd === "0") return;
 
+            player.ems_fd = member.ems_fd === "1";
+            player.leo = member.leo === "1";
+
             if (marker) {
               const coords = stringCoordToFloat(player.pos);
               const converted = convertToMap(coords.x, coords.y, map!);
               if (!converted) return;
 
+              marker.setPopupContent(PlayerInfoHTML(player));
               marker.setLatLng(converted);
             } else {
               createMarker(
@@ -366,11 +370,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
                   pos: player.pos,
                   title: player.name,
                   isPlayer: true,
-                  player: {
-                    ...player,
-                    ems_fd: member.ems_fd === "1",
-                    leo: member.leo === "1",
-                  },
+                  player: player,
                   id: uuid(),
                 },
                 player?.name,
@@ -524,25 +524,27 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
       </div>
 
       <Create911Call />
-      <ActiveMapUnits />
-      <ActiveMapCalls
-        hasMarker={(callId: string) => {
-          return MarkerStore.some((m) => m.payload?.call?.id === callId);
-        }}
-        setMarker={(call: Call, type: "remove" | "place") => {
-          const marker = MarkerStore.some((m) => m.payload.call?.id === call.id);
-          if (marker && type === "place") return;
+      <div className="map-items-container">
+        <ActiveMapUnits />
+        <ActiveMapCalls
+          hasMarker={(callId: string) => {
+            return MarkerStore.some((m) => m.payload?.call?.id === callId);
+          }}
+          setMarker={(call: Call, type: "remove" | "place") => {
+            const marker = MarkerStore.some((m) => m.payload.call?.id === call.id);
+            if (marker && type === "place") return;
 
-          if (marker && type === "remove") {
-            remove911Call(call.id);
-          }
+            if (marker && type === "remove") {
+              remove911Call(call.id);
+            }
 
-          update911Call(call.id, {
-            ...call,
-            hidden: type === "remove" ? "1" : "0",
-          });
-        }}
-      />
+            update911Call(call.id, {
+              ...call,
+              hidden: type === "remove" ? "1" : "0",
+            });
+          }}
+        />
+      </div>
     </>
   );
 }

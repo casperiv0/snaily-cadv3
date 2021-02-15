@@ -1,4 +1,5 @@
 import * as React from "react";
+import J from "jquery";
 import { connect } from "react-redux";
 import Call from "../../interfaces/Call";
 import { Item, Span } from "../../pages/citizen/citizen-info";
@@ -26,6 +27,11 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
       );
     });
   }, [call]);
+
+  function updateZIndex() {
+    J(".active-units").css("z-index", 9000);
+    J(".active-calls").css("z-index", 9999);
+  }
 
   return (
     <div title="Click to expand" className="py-2">
@@ -71,6 +77,7 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
               data-bs-toggle="modal"
               data-bs-target={`#update911CallMap-call-${call.id}`}
               className="btn btn-success w-50"
+              onClick={updateZIndex}
             >
               Edit call
             </button>

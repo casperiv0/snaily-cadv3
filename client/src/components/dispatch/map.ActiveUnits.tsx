@@ -1,4 +1,5 @@
 import * as React from "react";
+import J from "jquery";
 import { connect } from "react-redux";
 import { getActiveUnits } from "../../lib/actions/dispatch";
 import State from "../../interfaces/State";
@@ -21,6 +22,11 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
   React.useEffect(() => {
     socket.on("UPDATE_ACTIVE_UNITS", () => getActiveUnits());
   }, [getActiveUnits]);
+
+  function updateZIndex() {
+    J(".active-calls").css("z-index", 9000);
+    J(".active-units").css("z-index", 9999);
+  }
 
   return (
     <div className="map-calls-container active-units">
@@ -48,6 +54,7 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
                 data-bs-toggle="modal"
                 data-bs-target={`#updateStatus${value.id}`}
                 className="active-units-edit"
+                onClick={updateZIndex}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
