@@ -35,7 +35,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
     const hash = hashSync(password, saltRounds);
     const users = await processQuery<IUser[]>("SELECT `username` FROM `users`");
     const insertSQL =
-      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // There are existing users - create the account at user level
     if (users?.length > 0) {
@@ -57,6 +57,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
         "" /* ban_reason */,
         whitelistStatus /* whitelist_status */,
         "" /* steam_id */,
+        "" /* avatar_url */,
       ]);
 
       if (cadInfo[0].whitelisted === "1") {
@@ -81,7 +82,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       // no users found - create the account at owner level
       const id = uuidv4();
       await processQuery(
-        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `plate_length`, `signal_100`, `live_map_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `plate_length`, `signal_100`, `live_map_url`, `steam_api_key`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [username, "Change me", "Change me", "0", "0", "", 8, "0", ""],
       );
       await processQuery(insertSQL, [
@@ -97,6 +98,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
         "" /* ban_reason */,
         Whitelist.accepted /* whitelist_status */,
         "" /* steam_id */,
+        "" /* avatar_url */,
       ]);
 
       const token = useToken({ id });
