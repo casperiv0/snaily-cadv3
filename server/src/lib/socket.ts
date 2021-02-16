@@ -100,6 +100,14 @@ io.on("connection", async (socket: Socket) => {
     }
   });
 
+  socket.on("END_911_CALL", (callId: string) => {
+    io.sockets.emit("END_911_CALL", callId);
+
+    if (config.env === "dev") {
+      Logger.log("SOCKET_EVENT", "END_911_CALL");
+    }
+  });
+
   socket.on("NEW_911_CALL", async (callData: { description: string; caller: string; location: string }) => {
     io.sockets.emit("NEW_911_CALL", callData);
 

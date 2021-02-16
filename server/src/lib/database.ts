@@ -36,13 +36,28 @@ async function updateDb() {
   import("./insert");
   try {
     await processQuery(`
+    ALTER TABLE \`911calls\` ADD \`hidden\` varchar(255) NOT NULL AFTER \`assigned_unit\`;
+    `).catch();
+    await processQuery(`
+    ALTER TABLE \`users\` ADD \`avatar_url\` varchar(255) NOT NULL AFTER \`whitelist_status\`;
+    `).catch();
+    await processQuery(`
+    ALTER TABLE \`users\` ADD \`steam_id\` varchar(255) NOT NULL AFTER \`whitelist_status\`;
+    `).catch();
+    await processQuery(`
+    ALTER TABLE \`cad_info\` ADD \`live_map_url\` varchar(255) NOT NULL AFTER \`signal_100\`;
+    `).catch();
+    await processQuery(`
+    ALTER TABLE \`911calls\` ADD \`pos\` text NOT NULL AFTER \`assigned_unit\`;
+    `).catch();
+    await processQuery(`
     ALTER TABLE \`cad_info\` ADD \`plate_length\` int(255) NOT NULL AFTER \`webhook_url\`
     `).catch();
     await processQuery(`
     ALTER TABLE \`cad_info\` ADD \`signal_100\` varchar(255) NOT NULL AFTER \`plate_length\`;
     `).catch();
     await processQuery(`
-    CREATE TABLE \`10_codes\` (
+    CREATE TABLE \`10_codes\` (F
       \`id\` varchar(64) NOT NULL,
       \`code\` varchar(255) NOT NULL,
       \`color\` varchar(255) NOT NULL,

@@ -1,14 +1,14 @@
 import { compareSync, genSaltSync, hashSync } from "bcryptjs";
 import { Response, Router } from "express";
-import { processQuery } from "../lib/database";
+import { processQuery } from "../../lib/database";
 import { v4 as uuidv4 } from "uuid";
-import { useAuth, useToken } from "../hooks";
-import { Ranks, Whitelist } from "../lib/constants";
-import IRequest from "../interfaces/IRequest";
-import ICad from "../interfaces/ICad";
-import IUser from "../interfaces/IUser";
-import Citizen from "../interfaces/Citizen";
-import { logoutActiveUnits } from "../lib/functions";
+import { useAuth, useToken } from "../../hooks";
+import { Ranks, Whitelist } from "../../lib/constants";
+import IRequest from "../../interfaces/IRequest";
+import ICad from "../../interfaces/ICad";
+import IUser from "../../interfaces/IUser";
+import Citizen from "../../interfaces/Citizen";
+import { logoutActiveUnits } from "../../lib/functions";
 
 const saltRounds = genSaltSync(10);
 const router: Router = Router();
@@ -35,7 +35,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
     const hash = hashSync(password, saltRounds);
     const users = await processQuery<IUser[]>("SELECT `username` FROM `users`");
     const insertSQL =
-      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // There are existing users - create the account at user level
     if (users?.length > 0) {
@@ -56,6 +56,8 @@ router.post("/register", async (req: IRequest, res: Response) => {
         false /* banned */,
         "" /* ban_reason */,
         whitelistStatus /* whitelist_status */,
+        "" /* steam_id */,
+        "" /* avatar_url */,
       ]);
 
       if (cadInfo[0].whitelisted === "1") {
@@ -80,25 +82,24 @@ router.post("/register", async (req: IRequest, res: Response) => {
       // no users found - create the account at owner level
       const id = uuidv4();
       await processQuery(
-        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `plate_length`, `signal_100`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [username, "Change me", "Change me", "0", "0", "", 8, "0"],
+        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `plate_length`, `signal_100`, `live_map_url`, `steam_api_key`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [username, "Change me", "Change me", "0", "0", "", 8, "0", ""],
       );
-      await processQuery(
-        "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          id /* id */,
-          username /* username */,
-          hash /* password */,
-          Ranks.owner /* rank */,
-          true /* leo access */,
-          true /* ems_fd access */,
-          true /* dispatch access */,
-          true /* tow access */,
-          false /* banned */,
-          "" /* ban_reason */,
-          Whitelist.accepted /* whitelist_status */,
-        ],
-      );
+      await processQuery(insertSQL, [
+        id /* id */,
+        username /* username */,
+        hash /* password */,
+        Ranks.owner /* rank */,
+        true /* leo access */,
+        true /* ems_fd access */,
+        true /* dispatch access */,
+        true /* tow access */,
+        false /* banned */,
+        "" /* ban_reason */,
+        Whitelist.accepted /* whitelist_status */,
+        "" /* steam_id */,
+        "" /* avatar_url */,
+      ]);
 
       const token = useToken({ id });
 

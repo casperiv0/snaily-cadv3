@@ -20,8 +20,6 @@ RegisterServerEvent("towCallUpdate")
 
 -- POST the call to the CAD
 AddEventHandler("towCallUpdate", function(street, name, description)
-    print(name, street, description)
-    print(name)
     PerformHttpRequest(URL_TO_CAD .. ":" .. PORT .. '/api/v1/tow-calls',
                        function(err, text, headers) end, 'POST', json.encode(
                            {

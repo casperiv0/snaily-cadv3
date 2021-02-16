@@ -70,9 +70,9 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
 
   return (
     <>
-      {/* <Link to="/dispatch/map" className="btn btn-primary col-md-2 mt-2 ms-1">
+      <a href="/dispatch/map" className="btn btn-primary col-md-2">
         Live map
-      </Link> */}
+      </a>
       {modalButtons.map((mButton: MButton, idx: number) => {
         return (
           <button

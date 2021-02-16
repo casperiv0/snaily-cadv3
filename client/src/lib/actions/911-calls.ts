@@ -1,4 +1,4 @@
-import Call, { Unit } from "../../interfaces/Call";
+import Call from "../../interfaces/Call";
 import Logger from "../Logger";
 import socket from "../socket";
 import lang from "../../language.json";
@@ -36,7 +36,7 @@ export const getActive911Calls = () => async (dispatch: Dispatch<IDispatch>) => 
 
 export const create911Call = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
-    const res = await handleRequest("/dispatch/calls", "POST", data);
+    const res = await handleRequest("/global/911-calls", "POST", data);
 
     if (isSuccess(res)) {
       dispatch({
@@ -55,10 +55,9 @@ export const create911Call = (data: object) => async (dispatch: Dispatch<IDispat
   }
 };
 
-export const update911Call = (
-  id: string,
-  data: { location: string; description: string; assigned_unit: Unit[] },
-) => async (dispatch: Dispatch<IDispatch>) => {
+export const update911Call = (id: string, data: Partial<Call>) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "PUT", data);
 
@@ -66,12 +65,8 @@ export const update911Call = (
       socket.emit("UPDATE_911_CALLS");
       socket.emit(
         "UPDATE_ASSIGNED_UNITS",
-        data.assigned_unit.map((u) => u.value),
+        data.assigned_unit?.map((u) => u.value),
       );
-      dispatch({
-        type: UPDATE_911_CALL,
-        calls: res.data.calls,
-      });
     }
   } catch (e) {
     Logger.error(UPDATE_911_CALL, e);
@@ -81,6 +76,7 @@ export const update911Call = (
 export const end911Call = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "DELETE");
+    socket.emit("END_911_CALL", id);
 
     if (isSuccess(res)) {
       socket.emit("UPDATE_911_CALLS");
