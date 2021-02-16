@@ -84,3 +84,8 @@ export const defaultTypes = {
     iconAnchor: [11, 0],
   },
 };
+
+export const BLIP_SIZES = {
+  width: 64 / 2,
+  height: 64 / 2,
+};

@@ -14,6 +14,7 @@ import {
   LatLng,
   defaultTypes,
   Blip,
+  BLIP_SIZES,
 } from "../../components/dispatch/map/interfaces";
 import {
   getMapBounds,
@@ -36,7 +37,6 @@ import { getMembers } from "../../lib/actions/admin";
 import blipTypes from "../../components/dispatch/map/blips";
 
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
-/* STATUS: NOT COMPLETE */
 
 /* 
  ? Search for:
@@ -57,11 +57,6 @@ interface Props {
   update911Call: (id: string, data: Partial<Call>) => void;
   members: User[];
 }
-
-export const BLIP_SIZES = {
-  width: 64 / 2,
-  height: 64 / 2,
-};
 
 function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, members }: Props) {
   const [MarkerStore, setMarkerStore] = React.useState<CustomMarker[]>([]);
@@ -437,6 +432,15 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
         const target = e.target;
         const latLng: LatLng = (target as any)._latlng;
 
+        // Send data to in-game to create blip on map
+        // TODO: convert latLng back to x, y,z
+        // socket?.send(
+        //   JSON.stringify({
+        //     type: "update911Call",
+        //     call: call,
+        //   }),
+        // );
+
         update911Call(call.id, {
           ...call,
           pos: latLng,
@@ -556,5 +560,5 @@ const mapToProps = (state: State) => ({
   members: state.admin.members,
 });
 
-// const Memoized = React.memo(Map);
-export default connect(mapToProps, { getActiveUnits, update911Call, getMembers })(Map);
+const Memoized = React.memo(Map);
+export default connect(mapToProps, { getActiveUnits, update911Call, getMembers })(Memoized);

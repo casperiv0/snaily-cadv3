@@ -7,6 +7,7 @@ import Update911Call from "../modals/dispatch/Update911Call";
 import { end911Call, getActive911Calls } from "../../lib/actions/911-calls";
 import State from "../../interfaces/State";
 import socket from "../../lib/socket";
+import { playSound } from "../../lib/functions";
 
 interface CallItemProps {
   call: Call;
@@ -116,6 +117,10 @@ const Active911MapCalls: React.FC<Props> = ({
     getActive911Calls();
 
     socket.on("UPDATE_911_CALLS", () => getActive911Calls());
+
+    socket.on("NEW_911_CALL", () => {
+      playSound("/sounds/new-call.mp3");
+    });
   }, [getActive911Calls]);
 
   return (

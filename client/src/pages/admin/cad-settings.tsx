@@ -101,9 +101,10 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
             FiveM Call Taxi (/calltaxi)
           </a>
           <a
-            download
+            rel="noreferrer noopener"
+            target="_blank"
             className="btn btn-primary mt-2 mb-2 ms-2"
-            href="https://github.com/Dev-CasperTheGhost/live_map/archive/main.zip"
+            href="https://github.com/Dev-CasperTheGhost/live_map/"
           >
             Live Map addon
           </a>
