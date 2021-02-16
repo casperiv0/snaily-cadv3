@@ -1,4 +1,4 @@
-TriggerEvent('chat:addSuggestion', '/call911', 'Call available 911 operators', {
+TriggerEvent('chat:addSuggestion', '/calltow', 'Call available tow truckers', {
     { name="description", help="Description of your call" },
 })
 
@@ -9,7 +9,9 @@ AddEventHandler("911Call", function(name, description)
     -- get street name
     lastStreet = GetStreetNameAtCoord(x, y, z)
     lastStreetName = GetStreetNameFromHashKey(lastStreet)
-    TriggerServerEvent("911CallUpdate", lastStreetName, name, description)
+    TriggerServerEvent("911CallUpdate", lastStreetName, name, description, { x, y, z })
+
+
     -- send confirm message
     sendNotification("CHAR_CALL911", 0, "Your call has been reported to the emergency services", "Emergency Services")
 end)
