@@ -1,4 +1,4 @@
-TriggerEvent('chat:addSuggestion', '/calltow', 'Call available tow truckers', {
+TriggerEvent('chat:addSuggestion', '/call911', 'Call available 911 operators', {
     { name="description", help="Description of your call" },
 })
 
