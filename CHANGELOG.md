@@ -2,6 +2,10 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.3.5
+
+- Fixed flickering bug in map
+
 ## 1.3.4
 
 - Live map ([#83](https://github.com/Dev-CasperTheGhost/snaily-cadv3/pull/83))
