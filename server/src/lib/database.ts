@@ -36,6 +36,9 @@ async function updateDb() {
   import("./insert");
   try {
     await processQuery(`
+    ALTER TABLE \`cad_info\` ADD \`steam_api_key\` varchar(255) NOT NULL AFTER \`webhook_url\`;
+    `).catch();
+    await processQuery(`
     ALTER TABLE \`911calls\` ADD \`hidden\` varchar(255) NOT NULL AFTER \`assigned_unit\`;
     `).catch();
     await processQuery(`

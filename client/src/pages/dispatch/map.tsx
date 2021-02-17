@@ -15,6 +15,8 @@ import {
   defaultTypes,
   Blip,
   BLIP_SIZES,
+  IIcon,
+  IPopup,
 } from "../../components/dispatch/map/interfaces";
 import {
   getMapBounds,
@@ -52,17 +54,18 @@ interface Props {
   cadInfo: CadInfo;
   calls: Call[];
   user: User;
+  members: User[];
   getActiveUnits: () => void;
   getMembers: () => void;
   update911Call: (id: string, data: Partial<Call>) => void;
-  members: User[];
 }
 
 function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, members }: Props) {
   const [MarkerStore, setMarkerStore] = React.useState<CustomMarker[]>([]);
+  const [PopupStore, setPopupStore] = React.useState<IPopup[]>([]);
   const [map, setMap] = React.useState<L.Map | null>(null);
   const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
-  const [MarkerTypes] = React.useState<any>(defaultTypes);
+  const [MarkerTypes] = React.useState<{ [key: number]: IIcon }>(defaultTypes);
   const [ran, setRan] = React.useState(false);
   const [blips, setBlips] = React.useState<Blip[][]>([]);
   const [blipsShown, setBlipsShown] = React.useState(true);
@@ -139,7 +142,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
 
   const showBlips = React.useCallback(() => {
     for (const id in blips) {
-      const blipArr: any[] = blips[id];
+      const blipArr: Blip[] = blips[id];
 
       blipArr.forEach((blip) => {
         const marker = MarkerStore?.[blip.markerId];
@@ -259,7 +262,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
 
           for (const i in blipArray) {
             const blip = blipArray[i];
-            const fallbackName = `${id} | ${MarkerTypes[id]?.name}` || id;
+            const fallbackName = `${id} | ${MarkerTypes[+id]?.name}` || id;
 
             blip.name = blip?.name || fallbackName;
             blip.description = blip?.description || "N/A";
@@ -349,18 +352,32 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
             player.ems_fd = member.ems_fd === "1";
             player.leo = member.leo === "1";
 
+            const html = PlayerInfoHTML(player);
+
             if (marker) {
               const coords = stringCoordToFloat(player.pos);
               const converted = convertToMap(coords.x, coords.y, map!);
               if (!converted) return;
 
-              marker.setPopupContent(PlayerInfoHTML(player));
               marker.setLatLng(converted);
+
+              const popup = PopupStore.find((popup) => {
+                // @ts-expect-error this works!
+                return popup.options.identifier === player.identifier;
+              });
+
+              popup?.setContent(html);
+
+              if (popup?.isOpen()) {
+                if (popup.getLatLng()?.distanceTo(marker.getLatLng()) !== 0) {
+                  popup.setLatLng(marker.getLatLng());
+                }
+              }
             } else {
-              createMarker(
+              const marker = createMarker(
                 false,
                 {
-                  icon: MarkerTypes?.["6"],
+                  icon: MarkerTypes?.[6],
                   description: "Hello world",
                   pos: player.pos,
                   title: player.name,
@@ -370,6 +387,28 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
                 },
                 player?.name,
               );
+
+              if (!marker) {
+                return console.error("CANNOT_FIND_MARKER");
+              }
+              marker?.unbindPopup();
+
+              const popup = L.popup({
+                // @ts-expect-error this works!
+                identifier: player.identifier,
+              })
+                .setContent(html)
+                .setLatLng(marker.getLatLng());
+
+              setPopupStore((prev) => {
+                return [...prev, popup as IPopup];
+              });
+
+              marker.on("click", (e) => {
+                map?.closePopup((map as any)._popup);
+                popup.setLatLng((e as any).latlng);
+                map?.openPopup(popup);
+              });
             }
           });
           break;
@@ -379,7 +418,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
         }
       }
     },
-    [MarkerStore, createMarker, map, MarkerTypes, members],
+    [MarkerStore, PopupStore, createMarker, map, MarkerTypes, members],
   );
 
   const remove911Call = React.useCallback(
