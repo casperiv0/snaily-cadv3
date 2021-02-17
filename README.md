@@ -86,6 +86,7 @@ You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3
 - Bleeter
 - Translate with ease
 - Realtime dashboards
+- [Live map](https://github.com/Dev-CasperTheGhost/live_map)
 
 - Administration
 
