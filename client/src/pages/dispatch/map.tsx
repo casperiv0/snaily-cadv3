@@ -15,6 +15,8 @@ import {
   defaultTypes,
   Blip,
   BLIP_SIZES,
+  IIcon,
+  IPopup,
 } from "../../components/dispatch/map/interfaces";
 import {
   getMapBounds,
@@ -52,16 +54,10 @@ interface Props {
   cadInfo: CadInfo;
   calls: Call[];
   user: User;
+  members: User[];
   getActiveUnits: () => void;
   getMembers: () => void;
   update911Call: (id: string, data: Partial<Call>) => void;
-  members: User[];
-}
-
-interface IPopup extends L.Popup {
-  payload: {
-    identifier: string;
-  };
 }
 
 function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, members }: Props) {
@@ -69,7 +65,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
   const [PopupStore, setPopupStore] = React.useState<IPopup[]>([]);
   const [map, setMap] = React.useState<L.Map | null>(null);
   const [PlayerMarkers] = React.useState<L.Layer>(createCluster());
-  const [MarkerTypes] = React.useState<any>(defaultTypes);
+  const [MarkerTypes] = React.useState<{ [key: number]: IIcon }>(defaultTypes);
   const [ran, setRan] = React.useState(false);
   const [blips, setBlips] = React.useState<Blip[][]>([]);
   const [blipsShown, setBlipsShown] = React.useState(true);
@@ -146,7 +142,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
 
   const showBlips = React.useCallback(() => {
     for (const id in blips) {
-      const blipArr: any[] = blips[id];
+      const blipArr: Blip[] = blips[id];
 
       blipArr.forEach((blip) => {
         const marker = MarkerStore?.[blip.markerId];
@@ -266,7 +262,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
 
           for (const i in blipArray) {
             const blip = blipArray[i];
-            const fallbackName = `${id} | ${MarkerTypes[id]?.name}` || id;
+            const fallbackName = `${id} | ${MarkerTypes[+id]?.name}` || id;
 
             blip.name = blip?.name || fallbackName;
             blip.description = blip?.description || "N/A";
@@ -381,7 +377,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
               const marker = createMarker(
                 false,
                 {
-                  icon: MarkerTypes?.["6"],
+                  icon: MarkerTypes?.[6],
                   description: "Hello world",
                   pos: player.pos,
                   title: player.name,
@@ -411,7 +407,7 @@ function Map({ getActiveUnits, update911Call, getMembers, cadInfo, calls, member
               marker.on("click", (e) => {
                 map?.closePopup((map as any)._popup);
                 popup.setLatLng((e as any).latlng);
-                (map as any).openPopup(popup);
+                map?.openPopup(popup);
               });
             }
           });

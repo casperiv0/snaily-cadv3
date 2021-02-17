@@ -1,11 +1,10 @@
 const types: any = {
-  Standard: { id: 1, x: 0, y: 0 }, // delete this
-  // Jet: { id: 16 },
+  Standard: { id: 1, x: 0, y: 0 },
   Lift: { id: 36 },
   RaceFinish: { id: 38 },
-  Safehouse: { id: 40 }, // delete this
+  Safehouse: { id: 40 },
   PoliceHelicopter: { id: 43 },
-  ChatBubble: { id: 47 }, // Delete this
+  ChatBubble: { id: 47 },
   Garage2: { id: 50 },
   Drugs: {},
   Store: {},

@@ -63,25 +63,27 @@ export interface Blip {
   z?: number;
 }
 
-export const defaultTypes = {
+export interface IIcon extends L.IconOptions {
+  name?: string;
+}
+
+export interface IPopup extends L.Popup {
+  payload: {
+    identifier: string;
+  };
+}
+
+export const defaultTypes: { [key: number]: IIcon } = {
   0: {
     iconUrl:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=",
     iconSize: [0, 0],
     popupAnchor: [0, 0],
-    iconAnchor: [0, 0],
-  },
-  999: {
-    iconUrl: "/map/debug.png",
-    iconSize: [23, 32],
-    popupAnchor: [0, 0],
-    iconAnchor: [11.5, 0], // Bottom middle
   },
   6: {
     iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon-2x.png",
     iconSize: [25, 41],
     popupAnchor: [0, 0],
-    iconAnchor: [11, 0],
   },
 };
 

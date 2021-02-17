@@ -5,6 +5,7 @@
 ## 1.3.5
 
 - Fixed flickering bug in map
+- Added `steam_api_key` to database updater
 
 ## 1.3.4
 
