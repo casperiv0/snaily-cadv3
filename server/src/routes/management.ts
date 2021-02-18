@@ -141,7 +141,7 @@ router.put(
         break;
       }
       case "accept": {
-        await processQuery("UPDATE `users` SET `whitelist_status`, `steam_id`, `avatar_url` = ? WHERE `id` = ?", ["accepted", id]);
+        await processQuery("UPDATE `users` SET `whitelist_status` WHERE `id` = ?", ["accepted", id]);
         break;
       }
       case "decline": {
