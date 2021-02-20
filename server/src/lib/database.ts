@@ -32,52 +32,50 @@ async function select1() {
   });
 }
 
+async function updateLine(sql: string) {
+  try {
+    await processQuery(sql);
+
+    console.log("added line");
+  } catch (e) {
+    const saveCodes = ["ER_TABLE_EXISTS_ERROR", "ER_DUP_FIELDNAME"];
+    if (saveCodes.includes(e.code)) return;
+
+    console.log(e);
+  }
+}
+
 async function updateDb() {
   import("./insert");
-  try {
-    await processQuery(`
-    ALTER TABLE \`cad_info\` ADD \`steam_api_key\` varchar(255) NOT NULL AFTER \`webhook_url\`;
-    `).catch();
-    await processQuery(`
-    ALTER TABLE \`911calls\` ADD \`hidden\` varchar(255) NOT NULL AFTER \`assigned_unit\`;
-    `).catch();
-    await processQuery(`
-    ALTER TABLE \`users\` ADD \`avatar_url\` varchar(255) NOT NULL AFTER \`whitelist_status\`;
-    `).catch();
-    await processQuery(`
-    ALTER TABLE \`users\` ADD \`steam_id\` varchar(255) NOT NULL AFTER \`whitelist_status\`;
-    `).catch();
-    await processQuery(`
-    ALTER TABLE \`cad_info\` ADD \`live_map_url\` varchar(255) NOT NULL AFTER \`signal_100\`;
-    `).catch();
-    await processQuery(`
-    ALTER TABLE \`911calls\` ADD \`pos\` text NOT NULL AFTER \`assigned_unit\`;
-    `).catch();
-    await processQuery(`
-    ALTER TABLE \`cad_info\` ADD \`plate_length\` int(255) NOT NULL AFTER \`webhook_url\`
-    `).catch();
-    await processQuery(`
-    ALTER TABLE \`cad_info\` ADD \`signal_100\` varchar(255) NOT NULL AFTER \`plate_length\`;
-    `).catch();
-    await processQuery(`
-    CREATE TABLE \`10_codes\` (F
-      \`id\` varchar(64) NOT NULL,
-      \`code\` varchar(255) NOT NULL,
-      \`color\` varchar(255) NOT NULL,
-      \`what_pages\` text,
-      \`should_do\` text,
-      PRIMARY KEY (\`id\`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    `).catch();
-    await processQuery(`
+
+  updateLine("ALTER TABLE `cad_info` ADD `steam_api_key` varchar(255) NOT NULL AFTER `webhook_url`;");
+  updateLine("ALTER TABLE `911calls` ADD `hidden` varchar(255) NOT NULL AFTER `assigned_unit`;");
+  updateLine("ALTER TABLE `users` ADD `avatar_url` varchar(255) NOT NULL AFTER `whitelist_status`;");
+  updateLine("ALTER TABLE `users` ADD `steam_id` varchar(255) NOT NULL AFTER `whitelist_status`;");
+  updateLine("ALTER TABLE `cad_info` ADD `live_map_url` varchar(255) NOT NULL AFTER `signal_100`;");
+  updateLine("ALTER TABLE `911calls` ADD `pos` text NOT NULL AFTER `assigned_unit`;");
+  updateLine(" ALTER TABLE `cad_info` ADD `plate_length` int(255) NOT NULL AFTER `webhook_url`;");
+  updateLine("ALTER TABLE `cad_info` ADD `signal_100` varchar(255) NOT NULL AFTER `plate_length`;");
+  updateLine(`
+  CREATE TABLE \`10_codes\` (
+    \`id\` varchar(64) NOT NULL,
+    \`code\` varchar(255) NOT NULL,
+    \`color\` varchar(255) NOT NULL,
+    \`what_pages\` text,
+    \`should_do\` text,
+    PRIMARY KEY (\`id\`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
+
+  updateLine(`
     CREATE TABLE \`penal_codes\` (
       \`id\` varchar(64) NOT NULL,
       \`title\` longtext,
       \`des\` longtext,
       PRIMARY KEY (\`id\`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    `).catch();
-    await processQuery(`
+    `);
+
+  updateLine(`
     ALTER TABLE \`911calls\` CHANGE \`assigned_unit\` \`assigned_unit\` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL; 
     --
     -- Table structure for table \`notifications\`
@@ -98,9 +96,9 @@ async function updateDb() {
     --
     ALTER TABLE \`notifications\`
       ADD PRIMARY KEY (\`id\`);
-    `).catch();
-    await processQuery(
-      `
+    `);
+  updateLine(
+    `
       CREATE TABLE \`court_requests\` (
         \`id\` varchar(255) NOT NULL,
         \`warrants\` varchar(2500) NOT NULL,
@@ -118,10 +116,7 @@ async function updateDb() {
       ALTER TABLE \`court_requests\`
         ADD PRIMARY KEY (\`id\`);
       ALTER TABLE \`citizens\` ADD \`note\` VARCHAR(255) NOT NULL AFTER \`b_status\`;ALTER TABLE \`officers\` ADD \`callsign\` VARCHAR(255) NOT NULL AFTER \`officer_dept\`;`,
-    ).catch();
-
-    // eslint-disable-next-line no-empty
-  } catch {}
+  );
 }
 
 updateDb();
