@@ -35,8 +35,6 @@ async function select1() {
 async function updateLine(sql: string) {
   try {
     await processQuery(sql);
-
-    console.log("added line");
   } catch (e) {
     const saveCodes = ["ER_TABLE_EXISTS_ERROR", "ER_DUP_FIELDNAME"];
     if (saveCodes.includes(e.code)) return;
@@ -52,7 +50,7 @@ async function updateDb() {
   updateLine("ALTER TABLE `911calls` ADD `hidden` varchar(255) NOT NULL AFTER `assigned_unit`;");
   updateLine("ALTER TABLE `users` ADD `avatar_url` varchar(255) NOT NULL AFTER `whitelist_status`;");
   updateLine("ALTER TABLE `users` ADD `steam_id` varchar(255) NOT NULL AFTER `whitelist_status`;");
-  updateLine("ALTER TABLE `cad_info` ADD `live_map_url` varchar(255) NOT NULL AFTER `signal_100`;");
+  updateLine("ALTER TABLE `cad_info` ADD `live_map_url` varchar(255) NOT NULL AFTER `webhook_url`;");
   updateLine("ALTER TABLE `911calls` ADD `pos` text NOT NULL AFTER `assigned_unit`;");
   updateLine(" ALTER TABLE `cad_info` ADD `plate_length` int(255) NOT NULL AFTER `webhook_url`;");
   updateLine("ALTER TABLE `cad_info` ADD `signal_100` varchar(255) NOT NULL AFTER `plate_length`;");
