@@ -2,15 +2,20 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.3.6
+
+- Minor: Fixed bug that broke registering a new account
+- Minor: Fixed a few minor bugs
+
 ## 1.3.5
 
-- Fixed flickering bug in map
-- Added `steam_api_key` to database updater
+- Minor: Fixed flickering bug in map
+- Minor: Added `steam_api_key` to database updater
 
 ## 1.3.4
 
-- Live map ([#83](https://github.com/Dev-CasperTheGhost/snaily-cadv3/pull/83))
-- Minor bug fixes
+- Major: Live map ([#83](https://github.com/Dev-CasperTheGhost/snaily-cadv3/pull/83))
+- Minor: Minor bug fixes
 
 ## 1.3.3
 
