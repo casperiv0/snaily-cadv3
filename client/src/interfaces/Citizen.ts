@@ -23,6 +23,7 @@ interface Citizen {
   image_id: string;
   b_status: string;
   note: string;
+  phone_nr: string;
   user?: {
     username: string;
   };

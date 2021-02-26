@@ -162,7 +162,8 @@ CREATE TABLE `citizens` (
   `posts` varchar(255) NOT NULL,
   `image_id` varchar(255) NOT NULL,
   `b_status` varchar(255) NOT NULL,
-  `note` varchar(255) NOT NULL
+  `note` varchar(255) NOT NULL,
+  `phone_nr` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

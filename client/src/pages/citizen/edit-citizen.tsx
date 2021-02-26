@@ -55,6 +55,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   const [pilotsLicense, setPilotsLicense] = React.useState<string>("");
   const [firearmsLicense, setFirearmsLicense] = React.useState<string>("");
   const [ccw, setCcw] = React.useState<string>("");
+  const [phoneNumber, setPhoneNumber] = React.useState<string>("");
 
   React.useEffect(() => {
     getGenders();
@@ -78,6 +79,7 @@ const CreateCitizenPage: React.FC<Props> = ({
       setFirearmsLicense(citizen?.fire_license!);
       setPilotsLicense(citizen?.pilot_license!);
       setCcw(citizen?.ccw!);
+      setPhoneNumber(citizen?.phone_nr || "");
     }
   }, [citizen]);
 
@@ -137,6 +139,13 @@ const CreateCitizenPage: React.FC<Props> = ({
       onChange: (e) => setAddress(e.target.value),
       label: lang.citizen.address,
       id: "address",
+    },
+    {
+      type: "text",
+      value: phoneNumber,
+      onChange: (e) => setPhoneNumber(e.target.value),
+      label: "Phone Number",
+      id: "phone_nr",
     },
     {
       type: "text",
@@ -211,6 +220,7 @@ const CreateCitizenPage: React.FC<Props> = ({
       pilot_license: pilotsLicense,
       fire_license: firearmsLicense,
       ccw,
+      phone_nr: phoneNumber,
     });
   }
 

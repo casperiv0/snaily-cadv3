@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 interface Props {
   error: string | null;
   match: Match;
-  createMedicalRecord: (data: object, id: string) => void;
+  createMedicalRecord: (data: object, id: string, shouldReturn: boolean) => void;
 }
 
 const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalRecord }) => {
@@ -28,6 +28,7 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
         shortInfo,
       },
       citizenId,
+      true,
     );
   }
 

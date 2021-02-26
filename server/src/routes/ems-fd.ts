@@ -65,7 +65,23 @@ router.put("/status/:id", useAuth, usePermission(["ems_fd"]), async (req: IReque
 router.get("/medical-records/:name", useAuth, usePermission(["ems_fd"]), async (req: IRequest, res: Response) => {
   const { name } = req.params;
 
+  const citizen = await processQuery("SELECT * FROM `citizens` WHERE `full_name` = ?", [name]);
+
+  if (!citizen[0]) {
+    return res.json({
+      error: "Citizen was not found",
+      status: "error",
+    });
+  }
+
   const medicalRecords = await processQuery("SELECT * FROM `medical_records` WHERE `name` = ?", [name]);
+
+  if (medicalRecords.length <= 0) {
+    return res.json({
+      status: "error",
+      error: "Citizen doesn't have any medical-records",
+    });
+  }
 
   return res.json({ status: "success", medicalRecords });
 });

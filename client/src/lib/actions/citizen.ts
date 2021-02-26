@@ -94,6 +94,7 @@ export const createCitizen = (data: Partial<Citizen>) => async (dispatch: Dispat
       pilot_license,
       fire_license,
       ccw,
+      phone_nr,
     } = data;
 
     const fd = new FormData();
@@ -113,6 +114,7 @@ export const createCitizen = (data: Partial<Citizen>) => async (dispatch: Dispat
     fd.append("pilot_license", pilot_license!);
     fd.append("fire_license", fire_license!);
     fd.append("ccw", ccw!);
+    fd.append("phone_nr", phone_nr!);
 
     const res = await handleRequest("/citizen", "POST", fd);
 
@@ -151,6 +153,7 @@ export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
       pilot_license,
       fire_license,
       ccw,
+      phone_nr,
     } = data;
 
     const fd = new FormData();
@@ -170,6 +173,7 @@ export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
     fd.append("pilot_license", pilot_license!);
     fd.append("fire_license", fire_license!);
     fd.append("ccw", ccw!);
+    fd.append("phone_nr", phone_nr!);
 
     const res = await handleRequest(`/citizen/${id}`, "PUT", fd);
 
@@ -219,9 +223,11 @@ export const getMedicalRecords = (id: string) => async (dispatch: Dispatch<IDisp
   }
 };
 
-export const createMedicalRecord = (data: object, citizenId: string) => async (
-  dispatch: Dispatch<IDispatch>,
-) => {
+export const createMedicalRecord = (
+  data: object,
+  citizenId: string,
+  shouldReturn?: boolean,
+) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/citizen/medical-records/${citizenId}`, "POST", data);
 
@@ -230,15 +236,25 @@ export const createMedicalRecord = (data: object, citizenId: string) => async (
         type: CREATE_MEDICAL_RECORD,
       });
 
-      return (window.location.href = `/citizen/${citizenId}`);
+      if (shouldReturn) {
+        return (window.location.href = `/citizen/${citizenId}`);
+      } else {
+        dispatch({
+          type: SET_MESSAGE,
+          message: { msg: "Successfully added medical record", type: "success" },
+        });
+        return true;
+      }
     } else {
       dispatch({
         type: CREATE_MEDICAL_RECORD_ERROR,
         error: res.data.error,
       });
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_MEDICAL_RECORD, e);
+    return false;
   }
 };
 

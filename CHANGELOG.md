@@ -2,6 +2,12 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.3.7
+
+- Fixed small bug
+- Added phone-number field
+- EMS-FD is able to update medical records for citizens
+
 ## 1.3.6
 
 - Minor: Fixed bug that broke registering a new account

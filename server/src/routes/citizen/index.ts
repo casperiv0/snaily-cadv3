@@ -45,6 +45,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     pilot_license,
     fire_license,
     ccw,
+    phone_nr,
   } = req.body;
 
   const file = req.files?.image ? (req.files.image as UploadedFile) : null;
@@ -70,7 +71,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
     }
 
     const query =
-      "INSERT INTO `citizens` (`id`, `full_name`, `user_id`, `birth`, `gender`, `ethnicity`, `hair_color`, `eye_color`, `address`, `height`, `weight`, `dmv`, `fire_license`, `pilot_license`, `ccw`, `business`, `business_id`, `rank`, `vehicle_reg`, `posts`, `image_id`, `b_status`, `note`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO `citizens` (`id`, `full_name`, `user_id`, `birth`, `gender`, `ethnicity`, `hair_color`, `eye_color`, `address`, `height`, `weight`, `dmv`, `fire_license`, `pilot_license`, `ccw`, `business`, `business_id`, `rank`, `vehicle_reg`, `posts`, `image_id`, `b_status`, `note`, `phone_nr`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     const id = uuidv4();
     try {
@@ -98,6 +99,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
         imageId /* image_id */,
         "" /* b_status */,
         "" /* note */,
+        phone_nr || "" /* phone_nr */,
       ]);
     } catch (e) {
       Logger.error("CREATE_CITIZEN_ERROR", e);
@@ -139,6 +141,7 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
     pilot_license,
     fire_license,
     ccw,
+    phone_nr,
   } = req.body;
 
   const file = req.files?.image ? (req.files.image as UploadedFile) : null;
@@ -164,7 +167,7 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
     }
 
     const query =
-      "UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ? WHERE `id` = ?";
+      "UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ?, `phone_nr` = ? WHERE `id` = ?";
 
     try {
       await processQuery(query, [
@@ -180,6 +183,7 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
         fire_license /* fire_license */,
         pilot_license /* pilot_license */,
         ccw /* ccw */,
+        phone_nr /* phone number */,
         citizenId /* id */,
       ]);
 
