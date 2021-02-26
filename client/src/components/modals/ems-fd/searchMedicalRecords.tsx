@@ -6,13 +6,19 @@ import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import MedicalRecord from "../../../interfaces/MedicalRecord";
 import AlertMessage from "../../alert-message";
+import Message from "../../../interfaces/Message";
 
 interface Props {
+  message: Message;
   medicalRecords: MedicalRecord[];
   searchMedicalRecord: (name: string) => void;
 }
 
-const SearchMedicalRecords: React.FC<Props> = ({ medicalRecords, searchMedicalRecord }) => {
+const SearchMedicalRecords: React.FC<Props> = ({
+  message,
+  medicalRecords,
+  searchMedicalRecord,
+}) => {
   const [name, setName] = React.useState<string>("");
   const [hasSubmitted, setHasSubmitted] = React.useState<boolean>(false);
 
@@ -48,9 +54,9 @@ const SearchMedicalRecords: React.FC<Props> = ({ medicalRecords, searchMedicalRe
             required
           />
 
-          {!medicalRecords?.length && hasSubmitted ? (
+          {hasSubmitted ? (
             <div className="mb-3 mt-2">
-              <AlertMessage message={{ msg: "None found", type: "warning" }} />
+              <AlertMessage message={message} />
             </div>
           ) : hasSubmitted ? (
             <table className="table table-dark mt-2">
@@ -98,6 +104,7 @@ const SearchMedicalRecords: React.FC<Props> = ({ medicalRecords, searchMedicalRe
 };
 
 const mapToProps = (state: State) => ({
+  message: state.global.message,
   medicalRecords: state.ems_fd.medicalRecords,
 });
 

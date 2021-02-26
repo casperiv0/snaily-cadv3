@@ -127,7 +127,7 @@ router.put(
       case "ban": {
         if (ban_reason) {
           if (req.user?.id === id) {
-            return res.json({ error: "You  can't ban yourself", status: "error" });
+            return res.json({ error: "You can't ban yourself", status: "error" });
           }
 
           await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", ["1", ban_reason, id]);
@@ -141,7 +141,7 @@ router.put(
         break;
       }
       case "accept": {
-        await processQuery("UPDATE `users` SET `whitelist_status` WHERE `id` = ?", ["accepted", id]);
+        await processQuery("UPDATE `users` SET `whitelist_status` = ? WHERE `id` = ?", ["accepted", id]);
         break;
       }
       case "decline": {
@@ -173,7 +173,7 @@ router.put(
 router.get(
   "/citizens",
   useAuth,
-  usePermission(["admin", "owner", "moderator"]),
+  usePermission(["admin", "owner", "moderator", "ems_fd"]),
   async (_req: IRequest, res: Response) => {
     const citizens = await processQuery("SELECT * FROM `citizens`");
 

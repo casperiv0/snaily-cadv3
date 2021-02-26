@@ -99,6 +99,10 @@ const CitizenInfoPage: React.FC<Props> = ({
               <Span>{lang.citizen.hair_color}: </Span>
               {citizen.hair_color}
             </Item>
+            <Item id="phone_nr">
+              <Span>Phone number: </Span>
+              {citizen.phone_nr || "None"}
+            </Item>
           </div>
 
           <div className="ms-4">

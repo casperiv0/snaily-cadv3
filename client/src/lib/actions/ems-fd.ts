@@ -134,6 +134,11 @@ export const searchMedicalRecord = (name: string) => async (dispatch: Dispatch<I
         type: SEARCH_MEDICAL_RECORD,
         medicalRecords: res.data.medicalRecords,
       });
+    } else {
+      dispatch({
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
+      });
     }
   } catch (e) {
     Logger.error(SEARCH_MEDICAL_RECORD, e);

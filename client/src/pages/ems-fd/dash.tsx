@@ -13,6 +13,7 @@ import Active911Calls from "../../components/active-911-calls";
 import Message from "../../interfaces/Message";
 import Deputy from "../../interfaces/Deputy";
 import { get10Codes } from "../../lib/actions/admin";
+import AddMedicalRecordModal from "../../components/modals/ems-fd/addMedicalRecordModal";
 
 interface Props {
   aop: string;
@@ -61,6 +62,15 @@ const EmsFdDash: React.FC<Props> = (props) => {
           </button>
 
           <button
+            type="button"
+            className="btn btn-secondary col-md-3"
+            data-bs-toggle="modal"
+            data-bs-target="#addMedicalRecord"
+          >
+            Add medical record
+          </button>
+
+          <button
             className="btn btn-secondary col-md-3"
             data-bs-target="#notepad"
             data-bs-toggle="modal"
@@ -80,6 +90,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
       <SearchMedicalRecord />
       <SelectEmsFdModal />
       <NotepadModal />
+      <AddMedicalRecordModal />
     </Layout>
   );
 };
