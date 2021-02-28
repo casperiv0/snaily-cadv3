@@ -171,7 +171,7 @@ class MapClass extends Component<Props, MapState> {
           blip.description = blip?.description || "N/A";
 
           blip.type = id;
-          // this.createBlip(blip);
+          this.createBlip(blip);
         }
       }
     }

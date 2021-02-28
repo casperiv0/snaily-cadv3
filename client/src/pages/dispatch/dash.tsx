@@ -108,13 +108,15 @@ const DispatchDash: React.FC<Props> = (props) => {
       <ActiveBolos />
 
       {/* modals */}
-      <NotepadModal />
-      <AddressSearchModal />
-      <NameSearchModal />
-      <PlateSearchModal />
-      <WeaponSearchModal />
-      <CreateBoloModal />
-      <Call911Modal />
+      <div id="modals">
+        <NotepadModal />
+        <AddressSearchModal />
+        <NameSearchModal />
+        <PlateSearchModal />
+        <WeaponSearchModal />
+        <CreateBoloModal />
+        <Call911Modal />
+      </div>
     </Layout>
   );
 };
