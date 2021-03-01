@@ -32,6 +32,8 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
     <div className="map-calls-container active-units">
       <h1 className="h4">Active Units</h1>
 
+      {[...ems_fd, ...officers].length <= 0 ? "No active units" : null}
+
       {[...ems_fd, ...officers].map((value) => {
         return (
           <div key={value.id} title="Click to expand" className="p-2">

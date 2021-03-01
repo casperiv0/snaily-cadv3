@@ -7,11 +7,11 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "prettier/@typescript-eslint",
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
     "plugin:json/recommended",
-    "plugin:promise/recommended"
+    "plugin:promise/recommended",
+    "prettier"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -42,7 +42,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/react-in-jsx-scope": "off",
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "endOfLine": "auto"
       }
