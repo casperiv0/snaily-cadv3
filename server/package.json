@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
-    "@types/cors": "^2.8.9",
+    "@types/cors": "^2.8.10",
     "@types/csurf": "^1.11.0",
     "@types/dateformat": "^3.0.1",
     "@types/dompurify": "^2.2.1",
