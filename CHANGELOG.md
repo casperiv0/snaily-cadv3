@@ -6,6 +6,7 @@
 
 - Fixed small bug not being able to search for medical records
 - Minor improvements to live map
+- Updated dependencies (Make sure to run `npm run auto-install` after updating! )
 
 ## 1.3.7
 
