@@ -142,9 +142,11 @@ const Active911MapCalls: React.FC<Props> = ({
         })
       )}
 
-      {calls.map((call: Call) => {
-        return <Update911Call id={`Map-call-${call.id}`} key={call.id} call={call} />;
-      })}
+      <div id="modals">
+        {calls.map((call: Call) => {
+          return <Update911Call id={`Map-call-${call.id}`} key={call.id} call={call} />;
+        })}
+      </div>
     </div>
   );
 };

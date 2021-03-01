@@ -87,10 +87,12 @@ const EmsFdDash: React.FC<Props> = (props) => {
       <Active911Calls />
 
       {/* Modals */}
-      <SearchMedicalRecord />
-      <SelectEmsFdModal />
-      <NotepadModal />
-      <AddMedicalRecordModal />
+      <div id="modals">
+        <SearchMedicalRecord />
+        <SelectEmsFdModal />
+        <NotepadModal />
+        <AddMedicalRecordModal />
+      </div>
     </Layout>
   );
 };

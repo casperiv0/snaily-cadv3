@@ -126,15 +126,17 @@ const LeoDash: React.FC<Props> = (props) => {
       </div>
 
       {/* Modals */}
-      <SelectOfficerModal />
-      <NotepadModal />
-      <CreateBoloModal />
-      <WeaponSearchModal />
-      <PlateSearchModal />
-      <NameSearchModal />
-      <CreateWrittenWarningModal />
-      <CreateArrestReportModal />
-      <CreateTicketModal />
+      <div id="modals">
+        <SelectOfficerModal />
+        <NotepadModal />
+        <CreateBoloModal />
+        <WeaponSearchModal />
+        <PlateSearchModal />
+        <NameSearchModal />
+        <CreateWrittenWarningModal />
+        <CreateArrestReportModal />
+        <CreateTicketModal />
+      </div>
     </Layout>
   );
 };

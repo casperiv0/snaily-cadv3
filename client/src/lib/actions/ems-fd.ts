@@ -131,6 +131,10 @@ export const searchMedicalRecord = (name: string) => async (dispatch: Dispatch<I
 
     if (isSuccess(res)) {
       dispatch({
+        type: SET_MESSAGE,
+        message: undefined,
+      });
+      dispatch({
         type: SEARCH_MEDICAL_RECORD,
         medicalRecords: res.data.medicalRecords,
       });

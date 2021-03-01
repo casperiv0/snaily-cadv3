@@ -4,7 +4,7 @@ const config = {
   user: "root",
   password: "admin",
   databaseName: "snaily-cad",
-  jwtSecret: "bongo super cat",
+  jwtSecret: "bongo super cat", /* change this to a long random string of numbers and characters */
   env: "production" /* Do NOT change this unless you know what you are doing! */,
 };
 
