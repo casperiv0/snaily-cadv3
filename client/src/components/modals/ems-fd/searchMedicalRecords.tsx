@@ -24,7 +24,6 @@ const SearchMedicalRecords: React.FC<Props> = ({
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-
     if (!name) return;
 
     searchMedicalRecord(name);
@@ -54,11 +53,11 @@ const SearchMedicalRecords: React.FC<Props> = ({
             required
           />
 
-          {hasSubmitted ? (
+          {hasSubmitted && message ? (
             <div className="mb-3 mt-2">
               <AlertMessage message={message} />
             </div>
-          ) : hasSubmitted ? (
+          ) : (
             <table className="table table-dark mt-2">
               <thead>
                 <tr>
@@ -82,7 +81,7 @@ const SearchMedicalRecords: React.FC<Props> = ({
                 })}
               </tbody>
             </table>
-          ) : null}
+          )}
         </div>
 
         <div className="modal-footer">

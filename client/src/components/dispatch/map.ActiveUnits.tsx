@@ -76,28 +76,30 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
         );
       })}
 
-      {officers.map((officer: Officer, idx: number) => {
-        return (
-          <UpdateStatusModal
-            type="officers"
-            key={idx}
-            id={officer.id}
-            status={officer.status}
-            status2={officer.status2}
-          />
-        );
-      })}
-      {ems_fd.map((deputy: Deputy, idx: number) => {
-        return (
-          <UpdateStatusModal
-            type="ems-fd"
-            key={idx}
-            id={deputy.id}
-            status={deputy.status}
-            status2={deputy.status2}
-          />
-        );
-      })}
+      <div id="modals">
+        {officers.map((officer: Officer, idx: number) => {
+          return (
+            <UpdateStatusModal
+              type="officers"
+              key={idx}
+              id={officer.id}
+              status={officer.status}
+              status2={officer.status2}
+            />
+          );
+        })}
+        {ems_fd.map((deputy: Deputy, idx: number) => {
+          return (
+            <UpdateStatusModal
+              type="ems-fd"
+              key={idx}
+              id={deputy.id}
+              status={deputy.status}
+              status2={deputy.status2}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

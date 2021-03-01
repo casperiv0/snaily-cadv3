@@ -117,9 +117,11 @@ const CitizensPage: React.FC<Props> = (props) => {
         )}
       </ul>
 
-      <CallTowModal />
-      <Call911Modal />
-      <CallTaxiModal />
+      <div id="modals">
+        <CallTowModal />
+        <Call911Modal />
+        <CallTaxiModal />
+      </div>
     </Layout>
   );
 };
