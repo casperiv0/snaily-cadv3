@@ -7,10 +7,12 @@ version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/client" # Location of package manifests
+    target-branch: "dev"
     schedule:
       interval: "monthly"
       
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/server" # Location of package manifests
+    target-branch: "dev"
     schedule:
       interval: "monthly"
