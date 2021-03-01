@@ -69,6 +69,7 @@ interface MapState {
   map: L.Map | null;
   ran: boolean;
   blipsShown: boolean;
+  showAllPlayers: boolean;
 }
 
 class MapClass extends Component<Props, MapState> {
@@ -87,6 +88,7 @@ class MapClass extends Component<Props, MapState> {
       map: null,
       ran: false,
       blipsShown: true,
+      showAllPlayers: false,
     };
 
     this.CADSocket = null;
@@ -537,14 +539,15 @@ class MapClass extends Component<Props, MapState> {
             return marker.payload?.player?.identifier === player.identifier;
           });
 
-          const member = this.props.members.find(
-            (m) => `steam:${m.steam_id}` === player.identifier,
-          );
-          if (!member) return;
-          if (member.leo === "0" || member.ems_fd === "0") return;
+          let member: User | null | undefined = null;
+          if (!this.state.showAllPlayers) {
+            member = this.props.members.find((m) => `steam:${m.steam_id}` === player?.identifier);
+            if (!member) return;
+            if (member.leo === "0" || member.ems_fd === "0") return;
+          }
 
-          player.ems_fd = member.ems_fd === "1";
-          player.leo = member.leo === "1";
+          player.ems_fd = member?.ems_fd === "1";
+          player.leo = member?.leo === "1";
 
           const html = PlayerInfoHTML(player);
 
@@ -653,6 +656,22 @@ class MapClass extends Component<Props, MapState> {
     }
   }
 
+  componentWillUnmount() {
+    this.state.map?.remove();
+    this.MAPSocket?.close();
+    this.MAPSocket = null;
+
+    this.setState({
+      MarkerStore: [],
+      blips: [],
+      blipsShown: true,
+      MarkerTypes: defaultTypes,
+      PopupStore: [],
+      map: null,
+      ran: false,
+    });
+  }
+
   render() {
     return (
       <>
@@ -664,13 +683,33 @@ class MapClass extends Component<Props, MapState> {
               this.setState((prev) => ({ ...prev, blipsShown: !prev.blipsShown }));
               this.toggleBlips(!this.state.blipsShown);
             }}
-            className="btn btn-primary mx-2"
+            className="btn btn-primary"
           >
             {this.state.blipsShown ? "Hide blips" : "Show blips"}
           </button>
-          <button data-bs-toggle="modal" data-bs-target="#call911Modal" className="btn btn-primary">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#call911Modal"
+            className="btn btn-primary mx-2"
+          >
             Create 911 call
           </button>
+          {["owner", "admin", "moderator"].includes(this.props.user?.rank) ? (
+            <button
+              onClick={() => {
+                if (this.state.showAllPlayers === true) {
+                  window.location.reload();
+                }
+
+                this.setState({
+                  showAllPlayers: !this.state.showAllPlayers,
+                });
+              }}
+              className="btn btn-primary"
+            >
+              {this.state.showAllPlayers ? "Show only LEO/EMS-FD" : "Show all players"}
+            </button>
+          ) : null}
         </div>
 
         <Create911Call />
