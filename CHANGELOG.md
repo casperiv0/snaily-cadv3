@@ -2,6 +2,12 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.3.9
+
+- Minor code improvements
+- Added `rank` to officers, assignable by moderators, admins and owners
+- Added `supervisor` rank to users, this rank can only manage officers
+
 ## 1.3.8
 
 - Fixed small bug not being able to search for medical records

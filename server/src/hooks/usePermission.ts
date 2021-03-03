@@ -6,7 +6,7 @@ import { processQuery } from "../lib/database";
 import Logger from "../lib/Logger";
 
 // rank, leo, ems_fd, dispatch, tow
-type UserPermsArr = [RanksType, Perm, Perm, Perm, Perm];
+type UserPermsArr = [RanksType, Perm, Perm, Perm, Perm, Perm];
 type Permissions = RanksType | "leo" | "ems_fd" | "dispatch" | "tow";
 
 const usePermission = (perms: Permissions[]) => async (
@@ -15,12 +15,19 @@ const usePermission = (perms: Permissions[]) => async (
   next: NextFunction,
 ): Promise<void | Response> => {
   try {
-    const user = await processQuery<IUser[]>(
-      "SELECT `rank`, `leo`, `dispatch`, `tow`, `ems_fd` FROM `users` WHERE `id` = ?",
+    const user = await processQuery<IUser>(
+      "SELECT `rank`, `leo`, `dispatch`, `tow`, `ems_fd`, `supervisor` FROM `users` WHERE `id` = ?",
       [req.user?.id],
     );
 
-    const userPerms: UserPermsArr = [user[0].rank, user[0].leo, user[0].ems_fd, user[0].dispatch, user[0].tow];
+    const userPerms: UserPermsArr = [
+      user[0].rank,
+      user[0].leo,
+      user[0].ems_fd,
+      user[0].dispatch,
+      user[0].tow,
+      user[0].supervisor,
+    ];
 
     if (!user[0]) {
       return res.json({
@@ -65,6 +72,14 @@ const usePermission = (perms: Permissions[]) => async (
           if (userPerms[4] === "0") {
             // 4 = tow
             invalidPerms.push("tow");
+          } else {
+            invalid = false;
+          }
+          break;
+        }
+        case "supervisor": {
+          if (userPerms[5] === "0") {
+            invalidPerms.push("supervisor");
           } else {
             invalid = false;
           }

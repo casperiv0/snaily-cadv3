@@ -7,6 +7,7 @@ interface IUser {
   password: string;
   rank: RanksType;
   leo: Perm;
+  supervisor: Perm;
   ems_fd: Perm;
   dispatch: Perm;
   tow: Perm;

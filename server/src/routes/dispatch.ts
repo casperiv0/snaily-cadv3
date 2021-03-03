@@ -77,7 +77,7 @@ router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequ
   let status = "";
 
   if (location) {
-    const call = await processQuery<Call[]>("SELECT `pos` FROM `911calls` WHERE `id` = ?", [id]);
+    const call = await processQuery<Call>("SELECT `pos` FROM `911calls` WHERE `id` = ?", [id]);
 
     let position = {};
 

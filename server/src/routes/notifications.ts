@@ -26,7 +26,7 @@ export async function createNotification(
 }
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
-  const notifications = await processQuery<Notification[]>("SELECT * FROM `notifications` WHERE `user_id` = ?", [
+  const notifications = await processQuery<Notification>("SELECT * FROM `notifications` WHERE `user_id` = ?", [
     req.user?.id,
   ]);
 
@@ -38,7 +38,7 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
 
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const notification = await processQuery<Notification[]>("SELECT * FROM `notifications` WHERE `id`= ?", [id]);
+  const notification = await processQuery<Notification>("SELECT * FROM `notifications` WHERE `id`= ?", [id]);
 
   if (!notification[0]) {
     return res.json({
@@ -55,7 +55,7 @@ router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   }
 
   await processQuery("DELETE FROM `notifications` WHERE `id` = ?", [id]);
-  const notifications = await processQuery<Notification[]>("SELECT * FROM `notifications` WHERE `user_id` = ?", [
+  const notifications = await processQuery<Notification>("SELECT * FROM `notifications` WHERE `user_id` = ?", [
     req.user?.id,
   ]);
 

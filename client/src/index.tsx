@@ -186,12 +186,12 @@ ReactDOM.render(
             />
             <AuthRoute
               path="/admin/manage/officers/:id"
-              requirement="admin"
+              requirement="supervisor"
               Component={ManageOfficerPage}
             />
             <AuthRoute
               path="/admin/manage/officers"
-              requirement="admin"
+              requirement="supervisor"
               Component={OfficersManagementPage}
             />
 

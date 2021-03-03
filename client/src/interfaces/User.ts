@@ -7,6 +7,7 @@ interface User {
   rank: "owner" | "admin" | "moderator" | "user";
   leo: Perm;
   ems_fd: Perm;
+  supervisor: Perm;
   dispatch: Perm;
   tow: Perm;
   banned: Perm;

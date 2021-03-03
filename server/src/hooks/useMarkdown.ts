@@ -12,15 +12,6 @@ const dompurify = createDompurify(window);
 export default function (data: string): string {
   return dompurify.sanitize(marked(data), {
     FORBID_ATTR: ["style", "onerror", "onload"],
-    FORBID_TAGS: [
-      "script",
-      "audio",
-      "video",
-      "style",
-      "iframe",
-      "textarea",
-      "frame",
-      "frameset",
-    ],
+    FORBID_TAGS: ["script", "audio", "video", "style", "iframe", "textarea", "frame", "frameset", "table", "td", "th"],
   });
 }

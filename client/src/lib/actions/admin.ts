@@ -334,6 +334,7 @@ export const getOfficerById = (id: string) => async (dispatch: Dispatch<IDispatc
 
 export interface UpdateOfficerData {
   callsign: string;
+  rank: string;
 }
 
 export const updateOfficerById = (id: string, data: UpdateOfficerData) => async (
