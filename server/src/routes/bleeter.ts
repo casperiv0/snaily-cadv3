@@ -5,6 +5,7 @@ import { RanksArr, SupportedFileTypes } from "../lib/constants";
 import { v4 as uuidv4 } from "uuid";
 import { UploadedFile } from "express-fileupload";
 import IRequest from "../interfaces/IRequest";
+import IUser from "../interfaces/IUser";
 
 const router = Router();
 
@@ -109,7 +110,8 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
 
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const rank = String(req.user?.rank);
+  const user = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [req.user?.id]);
+  const rank = user[0].rank;
   const bleet = await processQuery("SELECT * FROM `bleets` WHERE `id` = ?", [id]);
 
   if (!bleet[0]) {
