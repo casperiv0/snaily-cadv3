@@ -300,6 +300,7 @@ CREATE TABLE `officers` (
   `officer_name` varchar(255) NOT NULL,
   `officer_dept` varchar(255) NOT NULL,
   `callsign` varchar(255) NOT NULL,
+  `rank` varchar(255) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `status2` varchar(255) NOT NULL

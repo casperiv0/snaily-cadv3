@@ -10,7 +10,7 @@ interface Props {
   isAuth: boolean;
   loading: boolean;
   path: string;
-  requirement?: "admin" | "leo" | "dispatch" | "tow" | "ems_fd";
+  requirement?: "admin" | "leo" | "dispatch" | "tow" | "ems_fd" | "supervisor";
   user: User;
 }
 
@@ -24,25 +24,33 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
     if (requirement && !loading && isAuth) {
       switch (requirement) {
         case "leo":
-          if (user?.leo !== "1") {
+          if (user?.leo === "0") {
             return history.push("/forbidden");
           }
           break;
         case "dispatch":
-          if (user?.dispatch !== "1") {
+          if (user?.dispatch === "0") {
             return history.push("/forbidden");
           }
           break;
         case "tow":
-          if (user?.tow !== "1") {
+          if (user?.tow === "0") {
             history.push("/forbidden");
           }
           break;
         case "ems_fd":
-          if (user?.ems_fd !== "1") {
+          if (user?.ems_fd === "0") {
             history.push("/forbidden");
           }
           break;
+        case "supervisor":
+          if (user.supervisor === "1") break;
+
+          if (!adminRanks.includes(user.rank)) {
+            history.push("/forbidden");
+          }
+          break;
+
         case "admin":
           if (!adminRanks.includes(user.rank)) {
             history.push("/forbidden");

@@ -5,6 +5,7 @@ interface Officer {
   officer_name: string;
   officer_dept: string;
   callsign?: string;
+  rank: string;
 }
 
 export default Officer;

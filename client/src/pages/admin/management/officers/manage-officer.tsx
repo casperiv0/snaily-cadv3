@@ -27,6 +27,7 @@ const ManageOfficerPage: React.FC<Props> = ({
 }) => {
   const { id } = useParams<{ id: string }>();
   const [callSign, setCallSign] = React.useState(officer?.callsign || "");
+  const [rank, setRank] = React.useState(officer?.rank || "");
 
   React.useEffect(() => {
     getOfficerById(id);
@@ -34,6 +35,7 @@ const ManageOfficerPage: React.FC<Props> = ({
 
   React.useEffect(() => {
     setCallSign(officer?.callsign || "");
+    setRank(officer?.rank || "");
   }, [officer]);
 
   function onSubmit(e: React.FormEvent) {
@@ -41,6 +43,7 @@ const ManageOfficerPage: React.FC<Props> = ({
 
     updateOfficerById(id, {
       callsign: callSign,
+      rank,
     });
   }
 
@@ -58,6 +61,18 @@ const ManageOfficerPage: React.FC<Props> = ({
             placeholder="callsign"
             value={callSign}
             onChange={(e) => setCallSign(e.currentTarget.value)}
+            className="form-control bg-dark border-dark text-light"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="tow">
+            Rank
+          </label>
+
+          <input
+            placeholder="rank"
+            value={rank}
+            onChange={(e) => setRank(e.currentTarget.value)}
             className="form-control bg-dark border-dark text-light"
           />
         </div>

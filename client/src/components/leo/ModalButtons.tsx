@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import socket from "../../lib/socket";
 import Officer from "../../interfaces/Officer";
 import lang from "../../language.json";
+import User from "../../interfaces/User";
+import { adminRanks } from "../AuthRoute";
 
 export interface MButton {
   name: string;
@@ -46,9 +48,10 @@ const modalButtons: MButton[] = [
 
 interface Props {
   activeOfficer: Officer | null;
+  user: User | null;
 }
 
-const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
+const ModalButtons: React.FC<Props> = ({ user, activeOfficer }) => {
   function panicButton() {
     socket.emit("PANIC_BUTTON", activeOfficer);
   }
@@ -63,6 +66,15 @@ const ModalButtons: React.FC<Props> = ({ activeOfficer }) => {
       <Link to="/leo/my-officers" className="btn btn-primary col-md-2">
         {lang.officers.my_officers}
       </Link>
+      {user?.supervisor === "1" ? (
+        <Link to="/admin/manage/officers" className="btn btn-primary col-md-2">
+          Manage officers
+        </Link>
+      ) : adminRanks.includes(`${user?.rank}`) ? (
+        <Link to="/admin/manage/officers" className="btn btn-secondary col-md-2">
+          Manage officers
+        </Link>
+      ) : null}
 
       {/* modals */}
       {modalButtons.map((mButton: MButton, idx: number) => {

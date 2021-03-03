@@ -24,7 +24,7 @@ import Officer from "../../interfaces/Officer";
 import { playSound } from "../../lib/functions";
 import { getPenalCodes } from "../../lib/actions/admin";
 import { useLocation } from "react-router-dom";
-import { Perm } from "../../interfaces/User";
+import User, { Perm } from "../../interfaces/User";
 import CadInfo from "../../interfaces/CadInfo";
 
 interface Props {
@@ -32,6 +32,7 @@ interface Props {
   message: Message;
   activeOfficer: Officer | null;
   cadInfo: CadInfo;
+  user: User | null;
   getPenalCodes: () => void;
 }
 
@@ -108,7 +109,7 @@ const LeoDash: React.FC<Props> = (props) => {
           <span>{new Date(time).toLocaleString()}</span>
         </div>
         <div className="card-body row gap-2 px-4">
-          <ModalButtons activeOfficer={props.activeOfficer} />
+          <ModalButtons user={props.user} activeOfficer={props.activeOfficer} />
         </div>
         <div className="card-footer row gap-2 pl-2 px-4">
           <Statuses />
@@ -146,6 +147,7 @@ const mapToProps = (state: State) => ({
   message: state.global.message,
   activeOfficer: state.officers.activeOfficer,
   cadInfo: state.global.cadInfo,
+  user: state.auth.user,
 });
 
 export default connect(mapToProps, { getPenalCodes })(React.memo(LeoDash));

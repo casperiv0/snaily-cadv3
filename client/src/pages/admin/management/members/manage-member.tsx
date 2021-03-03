@@ -45,6 +45,7 @@ const ManageMember: React.FC<Props> = ({
   const id = match.params.id;
   const [rank, setRank] = React.useState("");
   const [leo, setLeo] = React.useState("");
+  const [supervisor, setSupervisor] = React.useState("");
   const [dispatch, setDispatch] = React.useState("");
   const [emsFd, setEmsFd] = React.useState("");
   const [tow, setTow] = React.useState("");
@@ -61,6 +62,7 @@ const ManageMember: React.FC<Props> = ({
       setDispatch(member?.dispatch);
       setEmsFd(member?.ems_fd);
       setTow(member?.tow);
+      setSupervisor(member.supervisor);
     }
   }, [member]);
 
@@ -73,6 +75,7 @@ const ManageMember: React.FC<Props> = ({
       dispatch,
       emsFd,
       tow,
+      supervisor,
     });
   }
 
@@ -136,6 +139,25 @@ const ManageMember: React.FC<Props> = ({
           >
             <option value={member?.leo}>
               {member?.leo === "1" ? lang.global.yes : lang.global.no}
+            </option>
+            <option disabled value="">
+              --------
+            </option>
+            <option value="0">{lang.global.no}</option>
+            <option value="1">{lang.global.yes}</option>
+          </select>
+        </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="leo">
+            LEO Supervisor
+          </label>
+          <select
+            id="supervisor"
+            onChange={(e) => setSupervisor(e.target.value)}
+            className="form-control bg-dark border-dark text-light"
+          >
+            <option value={member?.supervisor}>
+              {member?.supervisor === "1" ? lang.global.yes : lang.global.no}
             </option>
             <option disabled value="">
               --------

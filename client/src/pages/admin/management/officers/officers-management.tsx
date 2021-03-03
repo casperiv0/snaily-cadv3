@@ -74,6 +74,10 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, message, getAllOffi
                       <Span>Callsign: </Span>
                       {officer.callsign || "None set"}
                     </Item>
+                    <Item id="rank">
+                      <Span>Rank: </Span>
+                      {officer.rank || "None set"}
+                    </Item>
                   </div>
                 </div>
 

@@ -64,7 +64,7 @@ router.get(
   usePermission(["admin", "owner", "moderator"]),
   async (_req: IRequest, res: Response) => {
     const members = await processQuery<IUser>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`  FROM `users` ORDER BY `username` ASC",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`  FROM `users` ORDER BY `username` ASC",
     );
 
     return res.json({ status: "success", members });
@@ -78,7 +78,7 @@ router.get(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
     const member = await processQuery<IUser>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor` FROM `users` WHERE `id` = ?",
       [id],
     );
 
@@ -92,16 +92,16 @@ router.put(
   usePermission(["admin", "owner", "moderator"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const { rank, leo, dispatch, emsFd, tow } = req.body;
+    const { rank, leo, dispatch, emsFd, tow, supervisor } = req.body;
 
-    if (rank && leo && dispatch && emsFd && tow) {
+    if (rank && leo && dispatch && emsFd && supervisor) {
       await processQuery(
-        "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ? WHERE `id` = ?",
-        [rank, leo, dispatch, emsFd, tow, id],
+        "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ?, `supervisor` = ? WHERE `id` = ?",
+        [rank, leo, dispatch, emsFd, tow, supervisor, id],
       );
 
       const updated = await processQuery<IUser>(
-        "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
+        "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`  FROM `users` WHERE `id` = ?",
         [id],
       );
 
@@ -334,7 +334,7 @@ router.delete(
 router.get(
   "/officers",
   useAuth,
-  usePermission(["admin", "owner", "moderator"]),
+  usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (_req: IRequest, res: Response) => {
     try {
       const officers = await processQuery<Officer>("SELECT * FROM `officers`");
@@ -350,7 +350,7 @@ router.get(
 router.get(
   "/officers/:id",
   useAuth,
-  usePermission(["admin", "owner", "moderator"]),
+  usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
 
@@ -368,10 +368,10 @@ router.get(
 router.put(
   "/officers/:officerId",
   useAuth,
-  usePermission(["admin", "owner", "moderator"]),
+  usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (req: IRequest, res: Response) => {
     const { officerId } = req.params;
-    const callsign = req.body.callsign;
+    const { callsign, rank } = req.body;
 
     if (!callsign) {
       return res.json({
@@ -381,7 +381,11 @@ router.put(
     }
 
     try {
-      await processQuery("UPDATE `officers` SET `callsign` = ? WHERE `id` = ?", [callsign, officerId]);
+      await processQuery("UPDATE `officers` SET `callsign` = ?, `rank` = ? WHERE `id` = ?", [
+        callsign,
+        rank,
+        officerId,
+      ]);
 
       return res.json({ status: "success" });
     } catch (e) {

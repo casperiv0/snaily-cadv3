@@ -46,6 +46,8 @@ async function updateLine(sql: string) {
 async function updateDb() {
   import("./insert");
 
+  updateLine("ALTER TABLE `users` ADD `supervisor` varchar(255) NOT NULL AFTER `leo`;");
+  updateLine("ALTER TABLE `officers` ADD `rank` varchar(255) NOT NULL AFTER `callsign`;");
   updateLine("ALTER TABLE `citizens` ADD `phone_nr` varchar(255) NOT NULL AFTER `note`;");
   updateLine("ALTER TABLE `cad_info` ADD `steam_api_key` varchar(255) NOT NULL AFTER `webhook_url`;");
   updateLine("ALTER TABLE `911calls` ADD `hidden` varchar(255) NOT NULL AFTER `assigned_unit`;");
