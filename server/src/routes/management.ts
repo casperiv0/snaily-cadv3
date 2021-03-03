@@ -28,7 +28,7 @@ export function parse10Codes(codes: Code10[]): Code10[] {
 
 /* Cad settings */
 router.put("/cad-settings", useAuth, usePermission(["owner"]), async (req: IRequest, res: Response) => {
-  const user = await processQuery<IUser[]>("SELECT `rank` from `users` WHERE `id` = ?", [req.user?.id]);
+  const user = await processQuery<IUser>("SELECT `rank` from `users` WHERE `id` = ?", [req.user?.id]);
 
   if (user[0].rank !== "owner") {
     return res.json({ error: "Forbidden", status: "error" }).status(403);
@@ -63,7 +63,7 @@ router.get(
   useAuth,
   usePermission(["admin", "owner", "moderator"]),
   async (_req: IRequest, res: Response) => {
-    const members = await processQuery<IUser[]>(
+    const members = await processQuery<IUser>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`  FROM `users` ORDER BY `username` ASC",
     );
 
@@ -77,7 +77,7 @@ router.get(
   usePermission(["admin", "owner", "moderator", "dispatch"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const member = await processQuery<IUser[]>(
+    const member = await processQuery<IUser>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
       [id],
     );
@@ -100,7 +100,7 @@ router.put(
         [rank, leo, dispatch, emsFd, tow, id],
       );
 
-      const updated = await processQuery<IUser[]>(
+      const updated = await processQuery<IUser>(
         "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
         [id],
       );
@@ -157,10 +157,10 @@ router.put(
       }
     }
 
-    const members = await processQuery<IUser[]>(
+    const members = await processQuery<IUser>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`  FROM `users`",
     );
-    const updated = await processQuery<IUser[]>(
+    const updated = await processQuery<IUser>(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
       [id],
     );
@@ -314,7 +314,7 @@ router.delete(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
 
-    const employees = await processQuery<Citizen[]>("SELECT * FROM `citizens` WHERE `business_id` = ?", [id]);
+    const employees = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `business_id` = ?", [id]);
 
     employees?.forEach(async (em: Citizen) => {
       await processQuery(
@@ -337,7 +337,7 @@ router.get(
   usePermission(["admin", "owner", "moderator"]),
   async (_req: IRequest, res: Response) => {
     try {
-      const officers = await processQuery<Officer[]>("SELECT * FROM `officers`");
+      const officers = await processQuery<Officer>("SELECT * FROM `officers`");
 
       return res.json({ status: "success", officers });
     } catch (e) {
@@ -355,7 +355,7 @@ router.get(
     const { id } = req.params;
 
     try {
-      const officer = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `id` = ?", [id]);
+      const officer = await processQuery<Officer>("SELECT * FROM `officers` WHERE `id` = ?", [id]);
 
       return res.json({ status: "success", officer: officer[0] });
     } catch (e) {

@@ -44,7 +44,7 @@ router.delete("/:id", useAuth, usePermission(["leo"]), async (req: IRequest, res
 
 router.get("/status/:id", useAuth, usePermission(["leo", "dispatch"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const officer = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE  `id` = ?", [id]);
+  const officer = await processQuery<Officer>("SELECT * FROM `officers` WHERE  `id` = ?", [id]);
 
   return res.json({ officer: officer[0], status: "success" });
 });
@@ -60,7 +60,7 @@ router.put("/status/:id", useAuth, usePermission(["leo", "dispatch"]), async (re
       req.user?.id,
     ]);
 
-    const code = await processQuery<Code10[]>("SELECT * FROM `10_codes` WHERE `code` = ?", [status2]);
+    const code = await processQuery<Code10>("SELECT * FROM `10_codes` WHERE `code` = ?", [status2]);
 
     await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
       code[0]?.should_do === "set_off_duty" ? "off-duty" : status,
@@ -68,7 +68,7 @@ router.put("/status/:id", useAuth, usePermission(["leo", "dispatch"]), async (re
       id,
     ]);
 
-    const updatedOfficer = await processQuery<Officer[]>("SELECT * FROM `officers` WHERE `id` = ?", [id]);
+    const updatedOfficer = await processQuery<Officer>("SELECT * FROM `officers` WHERE `id` = ?", [id]);
 
     return res.json({ status: "success", officer: updatedOfficer[0] });
   } else {

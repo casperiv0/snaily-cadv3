@@ -19,6 +19,9 @@ const io = new Server(server, {
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
+  cookie: {
+    httpOnly: true,
+  },
 });
 const protection = csurf({ cookie: true });
 app.use("/api/v1", api, protection);

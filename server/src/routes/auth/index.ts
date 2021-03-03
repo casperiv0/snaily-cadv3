@@ -23,7 +23,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       return res.json({ status: "error", error: "Passwords do not match" });
     }
 
-    const existing = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `username` = ?", [username]);
+    const existing = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [username]);
 
     if (existing?.length > 0) {
       return res.json({
@@ -33,13 +33,13 @@ router.post("/register", async (req: IRequest, res: Response) => {
     }
 
     const hash = hashSync(password, saltRounds);
-    const users = await processQuery<IUser[]>("SELECT `username` FROM `users`");
+    const users = await processQuery<IUser>("SELECT `username` FROM `users`");
     const insertSQL =
       "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // There are existing users - create the account at user level
     if (users?.length > 0) {
-      const cadInfo = await processQuery<ICad[]>("SELECT * FROM `cad_info`");
+      const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
       const whitelistStatus = cadInfo[0].whitelisted === "1" ? "pending" : "accepted";
       const towAccess = cadInfo[0].tow_whitelisted === "1" ? false : true;
       const id = uuidv4();
@@ -119,8 +119,8 @@ router.post("/login", async (req: IRequest, res: Response) => {
   const { username, password } = req.body;
 
   if (username && password) {
-    const user = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `username` = ?", [username]);
-    const cadInfo = await processQuery<ICad[]>("SELECT * FROM `cad_info`");
+    const user = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [username]);
+    const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
 
     if (!user[0]) {
       return res.json({ error: "User was not found", status: "error" });
@@ -177,7 +177,7 @@ router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
 
 router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) => {
   const userId = req.user?.id;
-  const user = await processQuery<IUser[]>("SELECT `rank` FROM `users` WHERE `id` = ?", [userId]);
+  const user = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [userId]);
 
   if (user[0].rank === "owner") {
     return res.json({
@@ -186,7 +186,7 @@ router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) =
     });
   }
 
-  const citizens = await processQuery<Citizen[]>("SELECT * FROM `citizens` WHERE `user_id` = ?", [userId]);
+  const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [userId]);
 
   citizens.forEach(async (citizen: Citizen) => {
     await processQuery("DELETE FROM `arrest_reports` WHERE `citizen_id` = ?", [citizen.id]);
@@ -215,7 +215,7 @@ router.put("/update-pw", useAuth, async (req: IRequest, res: Response) => {
   const { oldPassword, newPassword, newPassword2 } = req.body;
 
   if (oldPassword && newPassword && newPassword2) {
-    const user = await processQuery<IUser[]>("SELECT * FROM `users` WHERE `id` = ?", [userId]);
+    const user = await processQuery<IUser>("SELECT * FROM `users` WHERE `id` = ?", [userId]);
 
     if (!user[0]) {
       return res.json({ error: "User was not found", status: "error" });

@@ -16,7 +16,7 @@ export async function connect(): Promise<mysql.Connection> {
   return await mysql.createConnection(options);
 }
 
-export async function processQuery<T = any>(query: string, data?: any[]): Promise<T> {
+export async function processQuery<T = any>(query: string, data?: any[]): Promise<T[]> {
   const conn = await connect();
   const result = await conn.query(query, data);
   conn.end();

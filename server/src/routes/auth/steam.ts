@@ -10,7 +10,7 @@ const router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
   const callbackUrl = req.query.callback_url;
-  const cadInfo = await processQuery<ICad[]>("SELECT `steam_api_key` FROM `cad_info`");
+  const cadInfo = await processQuery<ICad>("SELECT `steam_api_key` FROM `cad_info`");
 
   if (!cadInfo[0].steam_api_key) {
     return res.json({
@@ -25,7 +25,7 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
 });
 
 router.get("/callback", useAuth, async (req: IRequest, res: Response) => {
-  const cadInfo = await processQuery<ICad[]>("SELECT `steam_api_key` FROM `cad_info`");
+  const cadInfo = await processQuery<ICad>("SELECT `steam_api_key` FROM `cad_info`");
 
   if (!cadInfo[0].steam_api_key) {
     return res.json({

@@ -224,7 +224,7 @@ router.post("/info", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  const citizen = await processQuery<Citizen[]>("SELECT * FROM `citizens` WHERE `full_name` = ?", [name]);
+  const citizen = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `full_name` = ?", [name]);
 
   if (!citizen[0]) {
     return res.json({
@@ -254,7 +254,7 @@ router.post("/expungement-request/:id", useAuth, async (req: IRequest, res: Resp
   // The requested options to be removed
   const { warrants, arrest_reports, tickets } = req.body;
 
-  const citizen = await processQuery<Citizen[]>("SELECT * FROM `citizens` WHERE `id` = ?", [id]);
+  const citizen = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `id` = ?", [id]);
 
   if (!citizen) {
     return res.json({

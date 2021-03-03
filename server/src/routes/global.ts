@@ -28,7 +28,7 @@ export function mapCalls(calls: Call[]): Call[] {
 }
 
 router.get("/911-calls", async (_req: IRequest, res: Response) => {
-  const calls = await processQuery<Call[]>("SELECT * FROM `911calls`");
+  const calls = await processQuery<Call>("SELECT * FROM `911calls`");
 
   const mappedCalls = mapCalls(calls);
 
@@ -46,7 +46,7 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
     z: coordsArr?.[2] || 0,
   };
 
-  await processQuery<Call[]>(
+  await processQuery<Call>(
     "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `pos`, `hidden`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
     [id, description, caller, location, "Not assigned", "[]", JSON.stringify(coords), coordsArr ? "0" : "1"],
   );
@@ -58,7 +58,7 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
 });
 
 router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
-  const cadInfo = await processQuery<ICad[]>("SELECT * FROM `cad_info`");
+  const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
 
   return res.json({ cadInfo: cadInfo[0], status: "success" });
 });
