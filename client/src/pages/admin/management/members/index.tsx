@@ -11,7 +11,7 @@ import PendingMembersTab from "../../../../components/admin/pending-members";
 import Message from "../../../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   members: User[];
   getMembers: () => void;
 }

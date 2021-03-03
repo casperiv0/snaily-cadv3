@@ -12,7 +12,7 @@ import Message from "../../../interfaces/Message";
 import { useHistory } from "react-router-dom";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   weapons: Value[];
   legalStatuses: Value[];
   owners: Citizen[];

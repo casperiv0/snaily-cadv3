@@ -1,6 +1,7 @@
+import State from "../../interfaces/State";
 import { AUTHENTICATE, SET_LOADING, LOGOUT, DELETE_ACCOUNT, UPDATE_PASSWORD } from "../types";
 
-const initState = {
+const initState: State["auth"] = {
   user: null,
   loading: true,
   isAuth: false,

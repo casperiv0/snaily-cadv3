@@ -4,7 +4,7 @@ import Message from "../../interfaces/Message";
 import { dismissMessage } from "../../lib/actions/global";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   dismissMessage: () => void;
   dismissible?: boolean;
 }

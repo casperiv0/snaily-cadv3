@@ -9,7 +9,7 @@ import { createCompanyPost } from "../../../lib/actions/company";
 import { Link } from "react-router-dom";
 
 interface Props {
-  error: string;
+  error: string | null;
   match: Match;
   createCompanyPost: (data: object) => void;
 }

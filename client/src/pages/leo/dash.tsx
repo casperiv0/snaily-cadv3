@@ -28,10 +28,10 @@ import User, { Perm } from "../../interfaces/User";
 import CadInfo from "../../interfaces/CadInfo";
 
 interface Props {
-  aop: string;
-  message: Message;
+  aop: string | null;
+  message: Message | null;
   activeOfficer: Officer | null;
-  cadInfo: CadInfo;
+  cadInfo: CadInfo | null;
   user: User | null;
   getPenalCodes: () => void;
 }
@@ -40,12 +40,12 @@ const LeoDash: React.FC<Props> = (props) => {
   const location = useLocation();
   const { getPenalCodes } = props;
   const [time, setTime] = React.useState<Date>(new Date());
-  const [aop, setAop] = React.useState<string>(props.aop);
+  const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const [panic, setPanic] = React.useState<Officer | null>(null);
-  const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100);
+  const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100 ?? "0");
 
   React.useEffect(() => {
-    setSignal100(props.cadInfo.signal_100);
+    setSignal100(props.cadInfo?.signal_100 ?? "0");
   }, [props.cadInfo]);
 
   React.useEffect(() => {

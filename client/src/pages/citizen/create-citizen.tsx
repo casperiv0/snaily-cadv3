@@ -13,7 +13,7 @@ import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];

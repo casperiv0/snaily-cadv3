@@ -11,9 +11,9 @@ import lang from "../../language.json";
 import { updateCadSettings } from "../../lib/actions/admin";
 
 interface Props {
-  user: User;
-  message: Message;
-  cadInfo: CadInfo;
+  user: User | null;
+  message: Message | null;
+  cadInfo: CadInfo | null;
   updateCadSettings: (data: {
     aop: string;
     cad_name: string;
@@ -37,7 +37,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
   const [steamApiKey, setSteamApiKey] = React.useState("");
 
   React.useEffect(() => {
-    if (cadInfo.id) {
+    if (cadInfo?.id) {
       setCadName(cadInfo.cad_name);
       setAop(cadInfo.AOP);
       setWhitelisted(cadInfo.whitelisted);
@@ -200,8 +200,8 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
                 value={whitelisted}
                 onChange={(e) => setWhitelisted(e.target.value)}
               >
-                <option value={cadInfo.whitelisted}>
-                  {cadInfo.whitelisted === "1" ? lang.global.yes : lang.global.no}
+                <option value={cadInfo?.whitelisted}>
+                  {cadInfo?.whitelisted === "1" ? lang.global.yes : lang.global.no}
                 </option>
                 <option disabled value="">
                   --------
@@ -220,8 +220,8 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
                 value={towWhitelist}
                 onChange={(e) => setTowWhitelist(e.target.value)}
               >
-                <option value={cadInfo.tow_whitelisted}>
-                  {cadInfo.tow_whitelisted === "1" ? lang.global.yes : lang.global.no}
+                <option value={cadInfo?.tow_whitelisted}>
+                  {cadInfo?.tow_whitelisted === "1" ? lang.global.yes : lang.global.no}
                 </option>
                 <option disabled value="">
                   --------

@@ -1,11 +1,12 @@
 import Bleet from "../../interfaces/Bleet";
+import State from "../../interfaces/State";
 import { GET_BLEETS, SET_LOADING_BLEETS, GET_BLEET_BY_ID, CREATE_BLEET } from "../types";
 
-const initState = {
+const initState: State["bleets"] = {
   bleets: [],
-  bleet: {},
-  loading: true,
+  bleet: null,
   error: null,
+  loading: true,
 };
 
 type Actions =

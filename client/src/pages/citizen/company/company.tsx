@@ -17,7 +17,7 @@ interface Props {
   citizen: Citizen | null;
   match: Match;
   posts: CompanyPost[];
-  returnError: string;
+  returnError: string | null;
   getCitizenById: (id: string) => void;
   getCompanyById: (id: string, citizenId: string) => void;
 }

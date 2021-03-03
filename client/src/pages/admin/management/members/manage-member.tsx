@@ -18,9 +18,9 @@ import {
 import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   member: User | null;
-  user: User;
+  user: User | null;
   match: Match;
   cad: any;
   getMemberById: (id: string) => void;
@@ -108,7 +108,7 @@ const ManageMember: React.FC<Props> = ({
           <label className="form-label" htmlFor="rank">
             {lang.global.rank}
           </label>
-          {authenticatedUser.username === member?.username ? (
+          {authenticatedUser?.username === member?.username ? (
             <AlertMessage message={{ type: "warning", msg: lang.admin.member.own_rank }} />
           ) : member?.rank === "owner" ? (
             <AlertMessage message={{ msg: lang.admin.member.owner, type: "warning" }} />

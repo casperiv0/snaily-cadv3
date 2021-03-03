@@ -8,7 +8,7 @@ import { register } from "../../lib/actions/auth";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   loading: boolean;
   register: (data: object) => void;
 }

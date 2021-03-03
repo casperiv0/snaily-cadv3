@@ -16,15 +16,15 @@ import { get10Codes } from "../../lib/actions/admin";
 import AddMedicalRecordModal from "../../components/modals/ems-fd/addMedicalRecordModal";
 
 interface Props {
-  aop: string;
-  message: Message;
+  aop: string | null;
+  message: Message | null;
   activeDeputy: Deputy | null;
   get10Codes: () => void;
 }
 
 const EmsFdDash: React.FC<Props> = (props) => {
   const { get10Codes } = props;
-  const [aop, setAop] = React.useState<string>(props.aop);
+  const [aop, setAop] = React.useState<string>(props?.aop ?? "");
 
   React.useEffect(() => {
     socket.on("UPDATE_AOP", (newAop: string) => {

@@ -12,7 +12,7 @@ import Message from "../../../interfaces/Message";
 import { Link } from "react-router-dom";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   vehicle: Vehicle | null;
   match: Match;
   owners: Citizen[];

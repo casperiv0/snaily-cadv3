@@ -11,15 +11,15 @@ import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
 
 interface Props {
-  message: Message;
-  aop: string;
+  message: Message | null;
+  aop: string | null;
   logs: TruckLog[];
   getTruckLogs: () => void;
   deleteTruckLog: (id: string) => void;
 }
 
 const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
-  const [aop, setAop] = React.useState<string>(props.aop);
+  const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const { logs, getTruckLogs, deleteTruckLog } = props;
 
   React.useEffect(() => {

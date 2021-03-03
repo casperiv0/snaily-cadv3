@@ -11,7 +11,7 @@ import Message from "../../interfaces/Message";
 
 interface Props {
   officers: Officer[];
-  message: Message;
+  message: Message | null;
   getMyOfficers: () => void;
   deleteOfficer: (id: string) => void;
 }

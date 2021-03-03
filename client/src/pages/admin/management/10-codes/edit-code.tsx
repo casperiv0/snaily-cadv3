@@ -11,7 +11,7 @@ import AlertMessage from "../../../../components/alert-message";
 import { colorOptions, options, shouldDoOptions } from "./add-code";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   update10Code: (id: string, data: Partial<Code10>) => void;
   get10Codes: () => void;
   codes: Code10[];

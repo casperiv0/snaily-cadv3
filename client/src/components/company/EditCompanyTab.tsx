@@ -8,9 +8,9 @@ import { deleteCompany, updateCompany } from "../../lib/actions/company";
 import AlertMessage from "../alert-message";
 
 interface Props {
-  company: Company;
+  company: Company | null;
   match: Match;
-  error: string;
+  error: string | null;
   deleteCompany: (id: string, citizenId: string) => void;
   updateCompany: (id: string, data: object) => void;
 }
@@ -36,6 +36,9 @@ const EditCompanyTab: React.FC<Props> = ({
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!company?.id) {
+      return alert("An error occurred EDIT_COMPANY_TAB_LINE_40#onSubmit");
+    }
 
     updateCompany(company?.id, {
       name,
@@ -45,6 +48,9 @@ const EditCompanyTab: React.FC<Props> = ({
   }
 
   function handleDelete() {
+    if (!company?.id) {
+      return alert("An error occurred EDIT_COMPANY_TAB_LINE_52#handleDelete");
+    }
     deleteCompany(company?.id, match.params.citizenId);
   }
 

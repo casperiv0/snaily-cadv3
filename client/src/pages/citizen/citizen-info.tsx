@@ -17,7 +17,7 @@ import Message from "../../interfaces/Message";
 interface Props {
   citizen: Citizen | null;
   match: Match;
-  message: Message;
+  message: Message | null;
   getCitizenById: (id: string) => void;
   deleteCitizen: (id: string) => void;
 }

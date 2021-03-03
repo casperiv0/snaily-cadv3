@@ -1,8 +1,9 @@
 import Deputy from "../../interfaces/Deputy";
 import Officer from "../../interfaces/Officer";
+import State from "../../interfaces/State";
 import { ADDRESS_SEARCH, GET_ACTIVE_UNITS } from "../types";
 
-const initState = {
+const initState: State["dispatch"] = {
   officers: [],
   ems_fd: [],
   search: null,

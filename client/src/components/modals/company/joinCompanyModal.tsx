@@ -11,7 +11,7 @@ import Message from "../../../interfaces/Message";
 
 interface Props {
   citizens: Citizen[];
-  message: Message;
+  message: Message | null;
   companies: Company[];
   joinCompany: (data: object) => void;
 }

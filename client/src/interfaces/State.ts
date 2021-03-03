@@ -24,19 +24,19 @@ interface State {
   auth: {
     isAuth: boolean;
     loading: boolean;
-    user: User;
-    error: string;
+    user: User | null;
+    error: string | null;
   };
   bleets: {
     bleets: Bleet[];
-    bleet: Bleet;
+    bleet: Bleet | null;
     loading: boolean;
-    error: string;
+    error: string | null;
   };
   global: {
-    cadInfo: CadInfo;
-    aop: string;
-    message: Message;
+    cadInfo: CadInfo | null;
+    aop: string | null;
+    message: Message | null;
   };
   calls: {
     calls_911: Call[];
@@ -55,7 +55,7 @@ interface State {
   };
   bolos: {
     bolos: Bolo[];
-    error: string;
+    error: string | null;
   };
   dispatch: {
     officers: Officer[];
@@ -63,7 +63,7 @@ interface State {
     search: any;
   };
   truck_logs: {
-    error: string;
+    error: string | null;
     logs: TruckLog[];
   };
   ems_fd: {
@@ -88,9 +88,9 @@ interface State {
   company: {
     citizens: Citizen[];
     companies: Company[];
-    error: string;
-    returnError: string;
-    company: Company;
+    error: string | null;
+    returnError: string | null;
+    company: Company | null;
     posts: CompanyPost[];
     employees: Citizen[];
     vehicles: Vehicle[];
@@ -101,8 +101,9 @@ interface State {
     ethnicities: Value[];
     weapons: Value[];
     vehicles: Value[];
-    error: string;
-    value: Value;
+    departments: Value[];
+    error: string | null;
+    value: Value | null;
   };
   admin: {
     error: string | null;

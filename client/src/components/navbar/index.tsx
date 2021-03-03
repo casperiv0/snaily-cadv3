@@ -2,7 +2,7 @@ import * as React from "react";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
-import { checkAuth, logout } from "../../lib/actions/auth";
+import { checkAuth } from "../../lib/actions/auth";
 import { getCadInfo } from "../../lib/actions/global";
 import CadInfo from "../../interfaces/CadInfo";
 import { Link, useLocation } from "react-router-dom";
@@ -13,9 +13,8 @@ interface Props {
   isAuth: boolean;
   loading: boolean;
   checkAuth: () => void;
-  logout: () => void;
   getCadInfo: () => void;
-  cadInfo: CadInfo;
+  cadInfo: CadInfo | null;
   user: User | null;
 }
 
@@ -73,15 +72,7 @@ export const paths: Path[] = [
   },
 ];
 
-const Navbar: React.FC<Props> = ({
-  loading,
-  isAuth,
-  cadInfo,
-  user,
-  checkAuth,
-  logout,
-  getCadInfo,
-}) => {
+const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, user, checkAuth, getCadInfo }) => {
   const [showNotis, setShowNotis] = React.useState(false);
   const location = useLocation();
 
@@ -203,4 +194,4 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
 });
 
-export default connect(mapToProps, { checkAuth, logout, getCadInfo })(Navbar);
+export default connect(mapToProps, { checkAuth, getCadInfo })(Navbar);

@@ -13,7 +13,7 @@ import Officer from "../../../../interfaces/Officer";
 import { Link, useParams } from "react-router-dom";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   officer: Officer | null;
   getOfficerById: (officerId: string) => void;
   updateOfficerById: (officerId: string, data: UpdateOfficerData) => void;

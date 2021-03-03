@@ -47,7 +47,7 @@ export const colorOptions = [
 ];
 
 interface Props {
-  message: Message;
+  message: Message | null;
   add10Code: (data: Partial<Code10>) => void;
 }
 

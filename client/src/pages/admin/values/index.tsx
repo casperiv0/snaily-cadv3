@@ -21,7 +21,7 @@ import {
 import Message from "../../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   values: any;
   match: Match;
   getDepartments: (type: "admin" | "leo") => void;

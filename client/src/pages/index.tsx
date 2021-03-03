@@ -8,7 +8,7 @@ import lang from "../language.json";
 
 interface Props {
   isAuth: boolean;
-  user: User;
+  user: User | null;
 }
 
 const HomePage: React.FC<Props> = ({ isAuth, user }) => {

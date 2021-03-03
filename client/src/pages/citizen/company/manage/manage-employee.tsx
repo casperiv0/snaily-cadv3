@@ -12,8 +12,8 @@ import { updateEmployee } from "../../../../lib/actions/company";
 
 interface Props {
   employee: Citizen | null;
+  returnError: string | null;
   match: Match;
-  returnError: string;
   getCitizenById: (id: string) => void;
   updateEmployee: (employeeId: string, companyId: string, data: object, citizenId: string) => void;
 }

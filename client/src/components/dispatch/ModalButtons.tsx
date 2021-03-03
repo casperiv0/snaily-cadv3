@@ -40,14 +40,14 @@ const modalButtons: MButton[] = [
 ];
 
 interface Props {
-  cadInfo: CadInfo;
+  cadInfo: CadInfo | null;
 }
 
 const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
-  const [signal100, setSignal100] = React.useState<Perm>(cadInfo.signal_100);
+  const [signal100, setSignal100] = React.useState<Perm>(cadInfo?.signal_100 ?? "0");
 
   React.useEffect(() => {
-    setSignal100(cadInfo.signal_100);
+    setSignal100(cadInfo?.signal_100 ?? "0");
   }, [cadInfo]);
 
   React.useEffect(() => {

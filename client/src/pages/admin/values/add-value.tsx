@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 
 interface Props {
   match: Match;
-  message: Message;
+  message: Message | null;
   addValue: (path: string, data: { name: string }) => void;
 }
 

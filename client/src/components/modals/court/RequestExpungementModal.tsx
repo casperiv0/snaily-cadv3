@@ -9,7 +9,7 @@ import AlertMessage from "../../alert-message";
 import Select from "../../select";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   searchCitizen: (name: string) => void;
   requestExpungement: (citizenId: string, data: object) => void;
   courtResult: CourtResults;

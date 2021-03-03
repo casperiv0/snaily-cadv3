@@ -11,7 +11,7 @@ import Officer from "../../../../interfaces/Officer";
 import { Link } from "react-router-dom";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   officers: Officer[];
   getAllOfficers: () => void;
   deleteCompanyById: (id: string) => void;

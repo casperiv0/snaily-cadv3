@@ -51,9 +51,9 @@ import blipTypes from "../../components/dispatch/map/blips";
 const TILES_URL = "/tiles/minimap_sea_{y}_{x}.png";
 
 interface Props {
-  cadInfo: CadInfo;
+  cadInfo: CadInfo | null;
   calls: Call[];
-  user: User;
+  user: User | null;
   members: User[];
   getActiveUnits: () => void;
   getMembers: () => void;
@@ -96,7 +96,7 @@ class MapClass extends Component<Props, MapState> {
   }
 
   handleMapSocket() {
-    const { live_map_url } = this.props.cadInfo;
+    const live_map_url = this.props.cadInfo?.live_map_url;
     if (!live_map_url) {
       Logger.error("LIVE_MAP", "There was no live_map_url provided from the CAD_SETTINGS");
       return;
@@ -694,7 +694,7 @@ class MapClass extends Component<Props, MapState> {
           >
             Create 911 call
           </button>
-          {["owner", "admin", "moderator"].includes(this.props.user?.rank) ? (
+          {["owner", "admin", "moderator"].includes(`${this.props.user?.rank}`) ? (
             <button
               onClick={() => {
                 if (this.state.showAllPlayers === true) {

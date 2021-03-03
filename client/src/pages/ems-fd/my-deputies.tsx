@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   deputies: Deputy[];
   getMyDeputies: () => void;
   deleteEmsFdDeputy: (id: string) => void;

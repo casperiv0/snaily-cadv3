@@ -11,9 +11,9 @@ import Message from "../../../interfaces/Message";
 import { Link } from "react-router-dom";
 
 interface Props {
-  value: Value;
+  value: Value | null;
   match: Match;
-  message: Message;
+  message: Message | null;
   getValueById: (path: string, id: string) => void;
   updateValueById: (path: string, id: string, data: { name: string }) => void;
 }

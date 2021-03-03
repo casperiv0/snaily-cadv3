@@ -9,7 +9,7 @@ import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   createTruckLog: (date: object) => void;
 }
 

@@ -12,7 +12,7 @@ import ExpungementRequestsTab from "../../../../components/admin/expungement-req
 import { ExpungementRequest } from "../../../../lib/actions/court";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   requests: ExpungementRequest[];
   citizens: Citizen[];
   getAllCitizens: () => void;

@@ -13,10 +13,10 @@ import AlertMessage from "../../components/alert-message";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  message: Message;
-  bleet: Bleet;
+  message: Message | null;
   match: Match;
-  user: User;
+  bleet: Bleet | null;
+  user: User | null;
   loading: boolean;
   getBleetById: (id: string) => void;
   updateBleet: (data: object, id: string) => void;
@@ -41,15 +41,15 @@ const EditBleet: React.FC<Props> = ({
   }, [getBleetById, id]);
 
   React.useEffect(() => {
-    if (bleet.id) {
-      if (bleet.user_id !== user.id) {
+    if (bleet?.id) {
+      if (bleet.user_id !== user?.id) {
         history.push(`/bleet/${id}`);
       }
     }
   }, [bleet, user, id, history]);
 
   React.useEffect(() => {
-    if (bleet.id) {
+    if (bleet?.id) {
       setTitle(bleet.title);
       setBody(bleet.body);
       document.title = `Editing ${bleet && bleet.title} - ${lang.nav.bleeter}`;
@@ -102,7 +102,7 @@ const EditBleet: React.FC<Props> = ({
           ></textarea>
         </div>
         <div className="mb-3 float-end">
-          <Link className="btn btn-danger me-2" to={`/bleet/${bleet.id}`}>
+          <Link className="btn btn-danger me-2" to={`/bleet/${bleet?.id}`}>
             {lang.global.cancel}
           </Link>
           <button className="btn btn-success" type="submit">

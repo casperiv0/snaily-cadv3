@@ -11,7 +11,7 @@ interface Props {
   loading: boolean;
   path: string;
   requirement?: "admin" | "leo" | "dispatch" | "tow" | "ems_fd" | "supervisor";
-  user: User;
+  user: User | null;
 }
 
 export const adminRanks: string[] = ["owner", "admin", "moderator"];
@@ -44,15 +44,15 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
           }
           break;
         case "supervisor":
-          if (user.supervisor === "1") break;
+          if (user?.supervisor === "1") break;
 
-          if (!adminRanks.includes(user.rank)) {
+          if (!adminRanks.includes(`${user?.rank}`)) {
             history.push("/forbidden");
           }
           break;
 
         case "admin":
-          if (!adminRanks.includes(user.rank)) {
+          if (!adminRanks.includes(`${user?.rank}`)) {
             history.push("/forbidden");
           }
           break;
@@ -60,7 +60,7 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
           break;
       }
     }
-  });
+  }, [history, isAuth, loading, requirement, user]);
 
   if (loading) {
     return <Loader fullScreen />;

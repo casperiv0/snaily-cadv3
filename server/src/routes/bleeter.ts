@@ -1,9 +1,9 @@
 import { Response, Router } from "express";
+import { v4 as uuidv4 } from "uuid";
+import { UploadedFile } from "express-fileupload";
 import { processQuery } from "../lib/database";
 import { useAuth, useMarkdown } from "../hooks";
 import { RanksArr, SupportedFileTypes } from "../lib/constants";
-import { v4 as uuidv4 } from "uuid";
-import { UploadedFile } from "express-fileupload";
 import IRequest from "../interfaces/IRequest";
 import IUser from "../interfaces/IUser";
 

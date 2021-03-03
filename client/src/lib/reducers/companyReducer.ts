@@ -1,5 +1,6 @@
 import Citizen from "../../interfaces/Citizen";
 import Company, { CompanyPost } from "../../interfaces/Company";
+import State from "../../interfaces/State";
 import Vehicle from "../../interfaces/Vehicle";
 import {
   GET_COMPANY_DATA,
@@ -13,7 +14,7 @@ import {
   FIRE_EMPLOYEE,
 } from "../types";
 
-const initState = {
+const initState: State["company"] = {
   citizens: [],
   companies: [],
   company: null,

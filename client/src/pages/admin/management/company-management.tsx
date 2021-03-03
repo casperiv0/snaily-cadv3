@@ -10,7 +10,7 @@ import { Item, Span } from "../../citizen/citizen-info";
 import Message from "../../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   companies: Company[];
   getCompanies: () => void;
   deleteCompanyById: (id: string) => void;

@@ -24,19 +24,19 @@ import CadInfo from "../../interfaces/CadInfo";
 import { Perm } from "../../interfaces/User";
 
 interface Props {
-  aop: string;
-  message: Message;
-  cadInfo: CadInfo;
+  aop: string | null;
+  message: Message | null;
+  cadInfo: CadInfo | null;
 }
 
 const DispatchDash: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<Date>(new Date());
-  const [aop, setAop] = React.useState<string>(props.aop);
+  const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const [panic, setPanic] = React.useState<Officer | null>(null);
-  const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100);
+  const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100 ?? "0");
 
   React.useEffect(() => {
-    setSignal100(props.cadInfo.signal_100);
+    setSignal100(props.cadInfo?.signal_100 ?? "0");
   }, [props.cadInfo]);
 
   React.useEffect(() => {

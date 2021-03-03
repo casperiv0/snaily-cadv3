@@ -30,7 +30,7 @@ const item: React.CSSProperties = {
 };
 
 interface Props {
-  user: User;
+  user: User | null;
 }
 
 const AdminSidebar: React.FC<Props> = ({ user }) => {

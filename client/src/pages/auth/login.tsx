@@ -9,7 +9,7 @@ import { login } from "../../lib/actions/auth";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   loading: boolean;
   location: ILoc;
   login: (data: object, requestedPath: string) => void;

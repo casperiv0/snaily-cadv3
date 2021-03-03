@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   createEmsFdDeputy: (data: object) => Promise<boolean | undefined>;
 }
 

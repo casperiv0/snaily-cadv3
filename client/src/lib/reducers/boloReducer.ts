@@ -1,7 +1,8 @@
 import Bolo from "../../interfaces/Bolo";
+import State from "../../interfaces/State";
 import { CREATE_BOLO, CREATE_BOLO_ERROR, DELETE_BOLO, GET_BOLOS } from "../types";
 
-const initState = {
+const initState: State["bolos"] = {
   bolos: [],
   error: null,
 };

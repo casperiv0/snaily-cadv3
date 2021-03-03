@@ -11,9 +11,9 @@ import NotepadModal from "../../components/modals/notepad";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   calls: TowCall[];
-  aop: string;
+  aop: string | null;
   getTowCalls: () => void;
   endTowCall: (id: string) => void;
 }

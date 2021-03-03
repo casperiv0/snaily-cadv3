@@ -14,8 +14,8 @@ import Message from "../../interfaces/Message";
 import CallTaxiModal from "../../components/modals/callTaxiModal";
 
 interface Props {
-  aop: string;
-  message: Message;
+  aop: string | null;
+  message: Message | null;
   citizens: Citizen[];
   getCitizens: () => void;
 }

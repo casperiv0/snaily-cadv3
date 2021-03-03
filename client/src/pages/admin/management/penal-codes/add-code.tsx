@@ -9,7 +9,7 @@ import AlertMessage from "../../../../components/alert-message";
 import PenalCode from "../../../../interfaces/PenalCode";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   addPenalCode: (data: Partial<PenalCode>) => void;
 }
 

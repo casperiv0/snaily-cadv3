@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 interface Props {
   bleets: Bleet[];
   loading: boolean;
-  error: string;
   getBleetPosts: any;
 }
 
@@ -48,7 +47,6 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
 };
 
 const mapToProps = (state: State) => ({
-  error: state.bleets.error,
   loading: state.bleets.loading,
   bleets: state.bleets.bleets,
 });

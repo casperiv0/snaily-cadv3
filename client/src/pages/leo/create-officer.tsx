@@ -10,7 +10,7 @@ import AlertMessage from "../../components/alert-message";
 import Message from "../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   departments: Department[];
   createOfficer: (data: object) => void;
   getDepartments: (type: "admin" | "leo") => void;
