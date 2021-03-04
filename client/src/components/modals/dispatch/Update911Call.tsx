@@ -1,7 +1,7 @@
 import * as React from "react";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
-import Call, { Unit } from "../../../interfaces/Call";
+import Call from "../../../interfaces/Call";
 import { connect } from "react-redux";
 import { end911Call, update911Call } from "../../../lib/actions/911-calls";
 import Officer from "../../../interfaces/Officer";
@@ -15,10 +15,7 @@ interface Props {
   officers: Officer[];
   ems_fd: Deputy[];
   end911Call: (id: string) => void;
-  update911Call: (
-    id: string,
-    data: { location: string; description: string; assigned_unit: Unit[] },
-  ) => void;
+  update911Call: (id: string, data: Partial<Call>) => void;
 }
 
 const Update911Call: React.FC<Props> = ({
@@ -47,6 +44,7 @@ const Update911Call: React.FC<Props> = ({
       location,
       description,
       assigned_unit: assignedUnits,
+      hidden: call.hidden,
     });
   }
 
