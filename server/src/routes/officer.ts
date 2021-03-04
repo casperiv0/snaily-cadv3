@@ -20,8 +20,8 @@ router.post("/my-officers", useAuth, usePermission(["leo"]), async (req: IReques
 
   if (name && department && callsign) {
     await processQuery(
-      "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [id, name, department, callsign, req.user?.id, "off-duty", ""],
+      "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`,`rank`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [id, name, department, callsign, req.user?.id, "off-duty", "", "officer"],
     );
 
     return res.json({ status: "success" });
