@@ -73,7 +73,7 @@ export interface IPopup extends L.Popup {
   };
 }
 
-export const defaultTypes: { [key: number]: IIcon } = {
+export const defaultTypes: Record<number, IIcon> = {
   0: {
     iconUrl:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=",

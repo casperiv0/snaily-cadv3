@@ -62,7 +62,7 @@ interface Props {
 
 interface MapState {
   MarkerStore: CustomMarker[];
-  MarkerTypes: { [key: number]: IIcon };
+  MarkerTypes: Record<number, IIcon>;
   PopupStore: IPopup[];
   blips: Blip[][];
   PlayerMarkers: L.Layer;
