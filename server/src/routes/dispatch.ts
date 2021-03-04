@@ -104,7 +104,7 @@ router.put("/calls/:id", useAuth, usePermission(["dispatch"]), async (req: IRequ
     io.sockets.emit("UPDATE_ACTIVE_UNITS");
     await processQuery(
       "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ?, `pos` = ?, `hidden` = ? WHERE `id` = ?",
-      [location, description, JSON.stringify(assigned_unit), status, JSON.stringify(position), hidden, id],
+      [location, description, JSON.stringify(assigned_unit), status, JSON.stringify(position), hidden || "0", id],
     );
 
     const calls = await processQuery("SELECT * FROM `911calls`");
