@@ -35,7 +35,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
     const hash = hashSync(password, saltRounds);
     const users = await processQuery<IUser>("SELECT `username` FROM `users`");
     const insertSQL =
-      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `supervisor`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // There are existing users - create the account at user level
     if (users?.length > 0) {
@@ -50,6 +50,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
         hash /* password */,
         Ranks.user /* rank */,
         false /* leo access */,
+        false /* supervisor access */,
         false /* ems_fd access */,
         false /* dispatch access */,
         towAccess /* tow access */,
@@ -91,6 +92,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
         hash /* password */,
         Ranks.owner /* rank */,
         true /* leo access */,
+        true /* supervisor access */,
         true /* ems_fd access */,
         true /* dispatch access */,
         true /* tow access */,
