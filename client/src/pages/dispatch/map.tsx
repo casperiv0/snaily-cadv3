@@ -564,6 +564,7 @@ class MapClass extends Component<Props, MapState> {
             });
 
             popup?.setContent(html);
+            marker.setIcon(L.icon(this.state.MarkerTypes[Number(player.icon)]));
 
             if (popup?.isOpen()) {
               if (popup.getLatLng()?.distanceTo(marker.getLatLng()) !== 0) {
@@ -574,7 +575,7 @@ class MapClass extends Component<Props, MapState> {
             const marker = this.createMarker(
               false,
               {
-                icon: this.state.MarkerTypes?.[6],
+                icon: this.state.MarkerTypes?.[Number(player.icon)],
                 description: "Hello world",
                 pos: player.pos,
                 title: player.name,
