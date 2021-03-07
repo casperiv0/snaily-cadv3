@@ -116,6 +116,7 @@ interface State {
     expungementRequests: ExpungementRequest[];
     codes: Code10[];
     penalCodes: PenalCode[];
+    loading: boolean;
   };
   notifications: {
     items: Notification[];

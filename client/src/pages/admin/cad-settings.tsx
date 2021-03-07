@@ -35,6 +35,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
   const [plateLength, setPlateLength] = React.useState(8);
   const [liveMapUrl, setLiveMapUrl] = React.useState("");
   const [steamApiKey, setSteamApiKey] = React.useState("");
+  const [showSteamKey, setShowSteamKey] = React.useState(false);
 
   React.useEffect(() => {
     if (cadInfo?.id) {
@@ -182,13 +183,25 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
               <label className="form-label" htmlFor="webhook_url">
                 Steam API key
               </label>
-              <input
-                type="text"
-                className="form-control bg-secondary border-dark text-light"
-                id="steam_api_key"
-                value={steamApiKey}
-                onChange={(e) => setSteamApiKey(e.target.value)}
-              />
+
+              <div className="input-group mb-3">
+                <input
+                  type={showSteamKey ? "text" : "password"}
+                  className="form-control bg-secondary border-dark text-light"
+                  id="steam_api_key"
+                  value={steamApiKey}
+                  onChange={(e) => setSteamApiKey(e.target.value)}
+                  aria-describedby="show-steam-key"
+                />
+                <button
+                  onClick={() => setShowSteamKey((v) => !v)}
+                  className="btn btn-outline-secondary bg-light text-dark"
+                  type="button"
+                  id="show-steam-key"
+                >
+                  {showSteamKey ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
             <div className="mb-3">
               <label className="form-label" htmlFor="whitelisted">

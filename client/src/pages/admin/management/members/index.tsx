@@ -71,7 +71,7 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
                 {lang.admin.all_members}
               </a>
               <a
-                className="nav-item nav-link bg-dark text-light border-secondary"
+                className="nav-item nav-link bg-dark text-light border-secondary mx-1"
                 id="pending-members-tab"
                 data-bs-toggle="tab"
                 href="#pending_tab"

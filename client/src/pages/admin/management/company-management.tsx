@@ -8,10 +8,12 @@ import { connect } from "react-redux";
 import { deleteCompanyById, getCompanies } from "../../../lib/actions/admin";
 import { Item, Span } from "../../citizen/citizen-info";
 import Message from "../../../interfaces/Message";
+import Loader from "../../../components/loader";
 
 interface Props {
   message: Message | null;
   companies: Company[];
+  loading: boolean;
   getCompanies: () => void;
   deleteCompanyById: (id: string) => void;
 }
@@ -19,6 +21,7 @@ interface Props {
 const CompanyManagementPage: React.FC<Props> = ({
   message,
   companies,
+  loading,
   getCompanies,
   deleteCompanyById,
 }) => {
@@ -59,7 +62,9 @@ const CompanyManagementPage: React.FC<Props> = ({
           className="form-control bg-dark border-secondary mb-2 text-light"
           placeholder={lang.global.search}
         />
-        {!companies[0] ? (
+        {loading ? (
+          <Loader fullScreen={false} />
+        ) : !companies[0] ? (
           <AlertMessage message={{ msg: lang.admin.company.no_companies, type: "warning" }} />
         ) : !filtered[0] ? (
           <AlertMessage
@@ -113,6 +118,7 @@ const CompanyManagementPage: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   companies: state.admin.companies,
   message: state.global.message,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, { getCompanies, deleteCompanyById })(CompanyManagementPage);

@@ -115,6 +115,7 @@ export const WEAPON_SEARCH = "WEAPON_SEARCH";
 export const SAVE_NOTE = "SAVE_NOTE";
 
 /* admin*/
+export const SET_ADMIN_LOADING = "SET_ADMIN_LOADING";
 export const GET_COMPANIES = "GET_COMPANIES";
 export const DELETE_COMPANY = "DELETE_COMPANY";
 export const GET_MEMBERS = "GET_MEMBERS";

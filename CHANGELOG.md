@@ -2,6 +2,14 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.4.0
+
+- Major Code improvements
+- Use `npm ci` if `node_modules` folder already exist for `auto-install` command
+- Add Prettier & ESLint
+- Only show navigation bar items where user has access too
+- Updated dependencies
+
 ## 1.3.9
 
 - Minor code improvements

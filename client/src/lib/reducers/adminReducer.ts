@@ -27,6 +27,7 @@ import {
   DELETE_10_CODE,
   DELETE_PENAL_CODE,
   GET_PENAL_CODES,
+  SET_ADMIN_LOADING,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -40,6 +41,7 @@ const initState: State["admin"] = {
   expungementRequests: [],
   codes: [],
   penalCodes: [],
+  loading: false,
 };
 
 type Actions =
@@ -121,6 +123,10 @@ type Actions =
   | {
       type: typeof GET_PENAL_CODES;
       penalCodes: PenalCode[];
+    }
+  | {
+      type: typeof SET_ADMIN_LOADING;
+      loading: boolean;
     };
 
 export default function adminReducer(state = initState, action: Actions) {
@@ -219,6 +225,11 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         penalCodes: action.penalCodes,
+      };
+    case "SET_ADMIN_LOADING":
+      return {
+        ...state,
+        loading: action.loading,
       };
     default:
       return {

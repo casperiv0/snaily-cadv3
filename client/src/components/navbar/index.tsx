@@ -21,54 +21,55 @@ interface Props {
 interface Path {
   href: string;
   name: string;
-  adminOnly: boolean;
+  adminOnly?: boolean;
+  show: (user: User | null) => boolean;
 }
 
 export const paths: Path[] = [
   {
     href: "/leo/dash",
     name: lang.nav.police_dept,
-    adminOnly: false,
+    show: (user) => user?.leo === "1",
   },
   {
     href: "/dispatch",
     name: lang.nav.dispatch,
-    adminOnly: false,
+    show: (user) => user?.dispatch === "1",
   },
   {
     href: "/ems-fd/dash",
     name: lang.nav.ems_fd,
-    adminOnly: false,
+    show: (user) => user?.ems_fd === "1",
   },
   {
     href: "/citizen",
     name: lang.nav.citizen,
-    adminOnly: false,
+    show: () => true,
   },
   {
     href: "/tow",
     name: lang.nav.tow,
-    adminOnly: false,
+    show: () => true,
   },
   {
     href: "/truck-logs",
     name: lang.nav.trucklogs,
-    adminOnly: false,
+    show: () => true,
   },
   {
     href: "/court",
     name: "Courthouse",
-    adminOnly: false,
+    show: () => true,
   },
   {
     href: "/bleeter",
     name: lang.nav.bleeter,
-    adminOnly: false,
+    show: () => true,
   },
   {
     href: "/taxi",
     name: "Taxi",
-    adminOnly: false,
+    show: () => true,
   },
 ];
 
@@ -102,6 +103,10 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, user, checkAuth, ge
         <div className="collapse navbar-collapse" id="nav-items">
           <ul className="navbar-nav w-100">
             {paths.map((path: Path, idx: number) => {
+              if (!["admin", "owner", "moderator"].includes(`${user?.rank}`) && !path.show(user)) {
+                return null;
+              }
+
               return (
                 <li id={path.name} key={idx} className="nav-item">
                   <Link className={"nav-link active text-light"} to={path.href}>

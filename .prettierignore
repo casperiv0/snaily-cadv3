@@ -4,5 +4,4 @@ public
 scripts
 .github
 docs
-**/*.md
 **/*.json

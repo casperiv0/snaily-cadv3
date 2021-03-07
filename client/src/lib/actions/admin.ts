@@ -25,6 +25,7 @@ import {
   UPDATE_10_CODE,
   DELETE_PENAL_CODE,
   REMOVE_USER,
+  SET_ADMIN_LOADING,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -51,6 +52,7 @@ interface IDispatch {
   expungementRequests?: ExpungementRequest[];
   codes?: Code10[];
   penalCodes?: PenalCode[];
+  loading?: boolean;
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -241,6 +243,8 @@ export const deleteCitizen = (id: string) => async (dispatch: Dispatch<IDispatch
 };
 
 export const getCompanies = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: SET_ADMIN_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/admin/management/companies", "GET");
 
@@ -250,8 +254,12 @@ export const getCompanies = () => async (dispatch: Dispatch<IDispatch>) => {
         companies: res.data.companies || [],
       });
     }
+
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   } catch (e) {
     Logger.error(GET_COMPANIES, e);
+
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 
