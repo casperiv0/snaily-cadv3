@@ -199,7 +199,7 @@ INSERT INTO \`penal_codes\` (\`id\`, \`title\`, \`des\`) VALUES
 
     const data = {
       inserted: true,
-      about: "do NOT delete this file if you have added custom penal codes!"
+      about: "do NOT delete this file if you have added custom penal codes!",
     };
     fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
   } catch (e) {

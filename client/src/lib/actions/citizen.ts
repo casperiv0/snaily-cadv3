@@ -291,7 +291,7 @@ export const getRegisteredVehicles = (id: string) => async (dispatch: Dispatch<I
 
 export const registerVehicle = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
-    const res = await handleRequest(`/citizen/vehicles`, "POST", data);
+    const res = await handleRequest("/citizen/vehicles", "POST", data);
 
     if (isSuccess(res)) {
       dispatch({

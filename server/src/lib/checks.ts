@@ -11,7 +11,9 @@ export async function checkVersion(socketOnly?: boolean): Promise<void | undefin
   try {
     const res = await fetch(url);
     const data = await res.json();
-    const message = data.message ? data.message : "Your CAD version is NOT up to date, Please consider updating.";
+    const message = data.message
+      ? data.message
+      : "Your CAD version is NOT up to date, Please consider updating.";
 
     if (socketOnly) {
       io.sockets.emit("VERSION_CHECK", pkg.version, data.snailycad);

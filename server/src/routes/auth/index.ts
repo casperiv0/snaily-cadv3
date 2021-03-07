@@ -23,7 +23,9 @@ router.post("/register", async (req: IRequest, res: Response) => {
       return res.json({ status: "error", error: "Passwords do not match" });
     }
 
-    const existing = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [username]);
+    const existing = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [
+      username,
+    ]);
 
     if (existing?.length > 0) {
       return res.json({
@@ -121,7 +123,9 @@ router.post("/login", async (req: IRequest, res: Response) => {
   const { username, password } = req.body;
 
   if (username && password) {
-    const user = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [username]);
+    const user = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [
+      username,
+    ]);
     const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
 
     if (!user[0]) {
@@ -188,7 +192,9 @@ router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) =
     });
   }
 
-  const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [userId]);
+  const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
+    userId,
+  ]);
 
   citizens.forEach(async (citizen: Citizen) => {
     await processQuery("DELETE FROM `arrest_reports` WHERE `citizen_id` = ?", [citizen.id]);

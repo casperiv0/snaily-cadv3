@@ -27,35 +27,51 @@ export function parse10Codes(codes: Code10[]): Code10[] {
 }
 
 /* Cad settings */
-router.put("/cad-settings", useAuth, usePermission(["owner"]), async (req: IRequest, res: Response) => {
-  const user = await processQuery<IUser>("SELECT `rank` from `users` WHERE `id` = ?", [req.user?.id]);
+router.put(
+  "/cad-settings",
+  useAuth,
+  usePermission(["owner"]),
+  async (req: IRequest, res: Response) => {
+    const user = await processQuery<IUser>("SELECT `rank` from `users` WHERE `id` = ?", [
+      req.user?.id,
+    ]);
 
-  if (user[0].rank !== "owner") {
-    return res.json({ error: "Forbidden", status: "error" }).status(403);
-  }
+    if (user[0].rank !== "owner") {
+      return res.json({ error: "Forbidden", status: "error" }).status(403);
+    }
 
-  const {
-    cad_name,
-    aop,
-    tow_whitelisted,
-    whitelisted,
-    webhook_url,
-    plate_length = 8,
-    live_map_url,
-    steam_api_key,
-  } = req.body;
+    const {
+      cad_name,
+      aop,
+      tow_whitelisted,
+      whitelisted,
+      webhook_url,
+      plate_length = 8,
+      live_map_url,
+      steam_api_key,
+    } = req.body;
 
-  if (cad_name && aop && tow_whitelisted && whitelisted) {
-    await processQuery(
-      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?",
-      [cad_name, aop, tow_whitelisted, whitelisted, webhook_url, plate_length, live_map_url, steam_api_key],
-    );
+    if (cad_name && aop && tow_whitelisted && whitelisted) {
+      await processQuery(
+        "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?",
+        [
+          cad_name,
+          aop,
+          tow_whitelisted,
+          whitelisted,
+          webhook_url,
+          plate_length,
+          live_map_url,
+          steam_api_key,
+        ],
+      );
 
-    return res.json({ status: "success" });
-  } else {
-    return res.json({ error: "Please fill in all fields", status: "error" });
-  }
-});
+      return res.json({ status: "success" });
+    } else {
+      return res.json({ error: "Please fill in all fields", status: "error" });
+    }
+  },
+);
 
 /* members */
 router.get(
@@ -130,18 +146,29 @@ router.put(
             return res.json({ error: "You can't ban yourself", status: "error" });
           }
 
-          await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", ["1", ban_reason, id]);
+          await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", [
+            "1",
+            ban_reason,
+            id,
+          ]);
         } else {
           return res.json({ error: "Please provide a ban reason", status: "error" });
         }
         break;
       }
       case "unban": {
-        await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", ["0", "", id]);
+        await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", [
+          "0",
+          "",
+          id,
+        ]);
         break;
       }
       case "accept": {
-        await processQuery("UPDATE `users` SET `whitelist_status` = ? WHERE `id` = ?", ["accepted", id]);
+        await processQuery("UPDATE `users` SET `whitelist_status` = ? WHERE `id` = ?", [
+          "accepted",
+          id,
+        ]);
         break;
       }
       case "decline": {
@@ -178,7 +205,9 @@ router.get(
     const citizens = await processQuery("SELECT * FROM `citizens`");
 
     await citizens.forEach(async (citizen: Citizen & { user: { username: string } }) => {
-      const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [citizen.user_id]);
+      const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+        citizen.user_id,
+      ]);
 
       citizen.user = user[0];
 
@@ -216,7 +245,9 @@ router.put(
   usePermission(["admin", "owner", "moderator"]),
   async (req: IRequest, res: Response) => {
     const { requestId, type } = req.params;
-    const request = await processQuery("SELECT * FROM `court_requests` WHERE `id` = ?", [requestId]);
+    const request = await processQuery("SELECT * FROM `court_requests` WHERE `id` = ?", [
+      requestId,
+    ]);
 
     switch (type) {
       case "accept": {
@@ -295,7 +326,9 @@ router.get("/companies", useAuth, async (_req: IRequest, res: Response) => {
   const companies = await processQuery("SELECT * FROM `businesses`");
 
   await companies.forEach(async (company: any) => {
-    const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [company.user_id]);
+    const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+      company.user_id,
+    ]);
 
     company.user = user[0];
 
@@ -314,7 +347,10 @@ router.delete(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
 
-    const employees = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `business_id` = ?", [id]);
+    const employees = await processQuery<Citizen>(
+      "SELECT * FROM `citizens` WHERE `business_id` = ?",
+      [id],
+    );
 
     employees?.forEach(async (em: Citizen) => {
       await processQuery(
@@ -423,7 +459,11 @@ router.post(
       });
     }
 
-    await processQuery("INSERT INTO `penal_codes` (`id`, `title`, `des`) VALUES (?, ?, ?)", [v4(), title, des]);
+    await processQuery("INSERT INTO `penal_codes` (`id`, `title`, `des`) VALUES (?, ?, ?)", [
+      v4(),
+      title,
+      des,
+    ]);
 
     const updated = await processQuery("SELECT * FROM `penal_codes`");
 
@@ -449,7 +489,11 @@ router.put(
       });
     }
 
-    await processQuery("UPDATE `penal_codes` SET `title` = ?, `des` = ? WHERE `id` = ?", [title, des, id]);
+    await processQuery("UPDATE `penal_codes` SET `title` = ?, `des` = ? WHERE `id` = ?", [
+      title,
+      des,
+      id,
+    ]);
 
     return res.json({
       status: "success",

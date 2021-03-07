@@ -209,7 +209,7 @@ export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<
 
 export const searchNames = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
-    const res = await handleRequest(`/officer/search/names`, "GET");
+    const res = await handleRequest("/officer/search/names", "GET");
 
     if (isSuccess(res)) {
       dispatch({

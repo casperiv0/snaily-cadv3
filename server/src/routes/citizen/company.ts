@@ -8,7 +8,9 @@ const router: Router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
   const companies = await processQuery("SELECT `id`, `name` FROM `businesses`");
-  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [req.user?.id]);
+  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [
+    req.user?.id,
+  ]);
 
   return res.json({ citizens, companies, status: "success" });
 });
@@ -17,7 +19,9 @@ router.post("/join", useAuth, async (req: IRequest, res: Response) => {
   const { company_id, citizen_id } = req.body;
 
   if (company_id && citizen_id) {
-    const citizen = await processQuery("SELECT `id`, `full_name` FROM `citizens` WHERE `id` = ?", [citizen_id]);
+    const citizen = await processQuery("SELECT `id`, `full_name` FROM `citizens` WHERE `id` = ?", [
+      citizen_id,
+    ]);
     const company = await processQuery("SELECT * FROM `businesses` WHERE `id` = ?", [company_id]);
 
     if (!citizen[0]) {
@@ -135,7 +139,16 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
 
     await processQuery(
       "INSERT INTO `posts` (`id`, `business_id`, `title`, `description`, `citizen_id`, `uploaded_at`, `uploaded_by`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ",
-      [postId, company_id, title, description, citizen[0].id, uploadedAt, citizen[0].full_name, req.user?.id],
+      [
+        postId,
+        company_id,
+        title,
+        description,
+        citizen[0].id,
+        uploadedAt,
+        citizen[0].full_name,
+        req.user?.id,
+      ],
     );
 
     return res.json({
@@ -181,9 +194,14 @@ router.post("/:id", useAuth, async (req: IRequest, res: Response) => {
       });
     }
 
-    const posts = await processQuery("SELECT * FROM `posts` WHERE `business_id` = ? ORDER BY `uploaded_at` DESC", [id]);
+    const posts = await processQuery(
+      "SELECT * FROM `posts` WHERE `business_id` = ? ORDER BY `uploaded_at` DESC",
+      [id],
+    );
     const employees = await processQuery("SELECT * FROM `citizens` WHERE `business_id` = ?", [id]);
-    const vehicles = await processQuery("SELECT * FROM `registered_cars` WHERE `business_id` = ?", [id]);
+    const vehicles = await processQuery("SELECT * FROM `registered_cars` WHERE `business_id` = ?", [
+      id,
+    ]);
 
     return res.json({
       company: company[0],
@@ -218,12 +236,10 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
       }
     }
 
-    await processQuery("UPDATE `businesses` SET `name` = ?, `address` = ?, `whitelisted` = ? WHERE `id` = ?", [
-      name,
-      address,
-      whitelisted,
-      id,
-    ]);
+    await processQuery(
+      "UPDATE `businesses` SET `name` = ?, `address` = ?, `whitelisted` = ? WHERE `id` = ?",
+      [name, address, whitelisted, id],
+    );
 
     return res.json({ status: "success" });
   } else {
@@ -281,12 +297,10 @@ router.put("/:companyId/:employeeId/:type", useAuth, async (req: IRequest, res: 
     switch (type) {
       case "UPDATE": {
         if (can_reg_veh && posts) {
-          await processQuery("UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ? WHERE `id` = ?", [
-            rank,
-            can_reg_veh,
-            posts,
-            employeeId,
-          ]);
+          await processQuery(
+            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ? WHERE `id` = ?",
+            [rank, can_reg_veh, posts, employeeId],
+          );
         } else {
           return res.json({
             error: "Please fill in all fields",
@@ -322,7 +336,9 @@ router.put("/:companyId/:employeeId/:type", useAuth, async (req: IRequest, res: 
       }
     }
 
-    const employees = await processQuery("SELECT * FROM `citizens` WHERE `business_id` = ?", [companyId]);
+    const employees = await processQuery("SELECT * FROM `citizens` WHERE `business_id` = ?", [
+      companyId,
+    ]);
 
     return res.json({
       status: "success",
@@ -358,12 +374,10 @@ router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  await processQuery("UPDATE `citizens` SET `business` = ?, `business_id` = ?, `rank` = ? WHERE `business_id` = ?", [
-    "none",
-    "",
-    "",
-    id,
-  ]);
+  await processQuery(
+    "UPDATE `citizens` SET `business` = ?, `business_id` = ?, `rank` = ? WHERE `business_id` = ?",
+    ["none", "", "", id],
+  );
 
   await processQuery("DELETE FROM `businesses` WHERE `id` = ?", [id]);
 

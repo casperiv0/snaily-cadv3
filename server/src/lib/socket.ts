@@ -108,54 +108,57 @@ io.on("connection", async (socket: Socket) => {
     }
   });
 
-  socket.on("NEW_911_CALL", async (callData: { description: string; caller: string; location: string }) => {
-    io.sockets.emit("NEW_911_CALL", callData);
+  socket.on(
+    "NEW_911_CALL",
+    async (callData: { description: string; caller: string; location: string }) => {
+      io.sockets.emit("NEW_911_CALL", callData);
 
-    if (cadInfo[0]?.webhook_url) {
-      if (cadInfo[0]?.webhook_url === "0") return;
+      if (cadInfo[0]?.webhook_url) {
+        if (cadInfo[0]?.webhook_url === "0") return;
 
-      const webhook = await getWebhookData(cadInfo[0].webhook_url);
+        const webhook = await getWebhookData(cadInfo[0].webhook_url);
 
-      if (webhook) {
-        await postWebhook(
-          {
-            type: 1,
-            id: webhook.id,
-            token: webhook.token,
-            avatar: null,
-            name: webhook.name,
-            channel_id: webhook.channel_id,
-            guild_id: webhook.guild_id,
-          },
-          {
-            username: webhook.name,
-            embeds: [
-              {
-                title: "New 911 Call",
-                type: "rich",
-                description: callData.description,
-                fields: [
-                  {
-                    name: "Caller",
-                    value: callData.caller,
-                    inline: true,
-                  },
-                  {
-                    name: "Location",
-                    value: callData.location,
-                    inline: true,
-                  },
-                ],
-              },
-            ],
-            avatar_url: webhook.avatar,
-          },
-        );
+        if (webhook) {
+          await postWebhook(
+            {
+              type: 1,
+              id: webhook.id,
+              token: webhook.token,
+              avatar: null,
+              name: webhook.name,
+              channel_id: webhook.channel_id,
+              guild_id: webhook.guild_id,
+            },
+            {
+              username: webhook.name,
+              embeds: [
+                {
+                  title: "New 911 Call",
+                  type: "rich",
+                  description: callData.description,
+                  fields: [
+                    {
+                      name: "Caller",
+                      value: callData.caller,
+                      inline: true,
+                    },
+                    {
+                      name: "Location",
+                      value: callData.location,
+                      inline: true,
+                    },
+                  ],
+                },
+              ],
+              avatar_url: webhook.avatar,
+            },
+          );
+        }
       }
-    }
 
-    if (config.env === "dev") {
-      Logger.log("SOCKET_EVENT", "NEW_911_CALL");
-    }
-  });
+      if (config.env === "dev") {
+        Logger.log("SOCKET_EVENT", "NEW_911_CALL");
+      }
+    },
+  );
 });

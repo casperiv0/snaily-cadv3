@@ -1,0 +1,8 @@
+node_modules
+build
+public
+scripts
+.github
+docs
+**/*.md
+**/*.json

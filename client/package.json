@@ -7,9 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "postserve": "npm install -g serve",
-    "serve": "serve -s build -l 5000",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix"
+    "serve": "serve -s build -l 5000"
   },
   "keywords": [],
   "author": "",
@@ -41,16 +39,6 @@
     "@types/react-select": "^4.0.13",
     "@types/redux-thunk": "^2.1.0",
     "@types/uuid": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^4.15.2",
-    "eslint": "^7.21.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-json": "^2.1.2",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-promise": "^4.3.1",
-    "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.2.1",
     "react-scripts": "^4.0.3",
     "redux-devtools-extension": "^2.13.8",
     "typescript": "^4.2.2"
@@ -65,12 +53,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "plugin:prettier/recommended"
     ]
   }
 }

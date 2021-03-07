@@ -21,10 +21,10 @@ router.post("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
 
   if (type && shortInfo) {
     const id = uuidv4();
-    const citizen = await processQuery("SELECT `full_name` FROM `citizens` WHERE `id` = ? AND `user_id` = ?", [
-      citizenId,
-      req.user?.id,
-    ]);
+    const citizen = await processQuery(
+      "SELECT `full_name` FROM `citizens` WHERE `id` = ? AND `user_id` = ?",
+      [citizenId, req.user?.id],
+    );
 
     await processQuery(
       "INSERT INTO `medical_records` (`id`, `type`, `short_info`, `name`, `citizen_id`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
@@ -43,7 +43,10 @@ router.post("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
 router.delete("/:citizenId/:recordId", useAuth, async (req: IRequest, res: Response) => {
   const { citizenId, recordId } = req.params;
 
-  await processQuery("DELETE FROM `medical_records` WHERE `id` = ? AND `citizen_id` = ?", [recordId, citizenId]);
+  await processQuery("DELETE FROM `medical_records` WHERE `id` = ? AND `citizen_id` = ?", [
+    recordId,
+    citizenId,
+  ]);
 
   const medicalRecords = await processQuery(
     "SELECT * FROM `medical_records` WHERE `citizen_id` = ? AND `user_id` = ?",
