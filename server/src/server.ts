@@ -35,3 +35,17 @@ app.get("/*", (_, res: Response) => {
 export { io };
 
 import("./lib/socket");
+
+process.on("uncaughtException", (error) => {
+  const stack = error?.stack || `${error}`;
+
+  Logger.error("UNCAUGHT_ERROR", stack);
+});
+
+process.on("unhandledRejection", (error) => Logger.error("unhandledRejection", `${error}`));
+
+process.on("uncaughtExceptionMonitor", (error) => {
+  const stack = error?.stack || `${error}`;
+
+  Logger.error("uncaughtExceptionMonitor", stack);
+});
