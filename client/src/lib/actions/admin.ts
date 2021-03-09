@@ -291,6 +291,7 @@ export const updateCadSettings = (data: {
   live_map_url: string;
   plate_length: number;
   steam_api_key: string;
+  features: string[];
 }) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/admin/management/cad-settings", "PUT", data);
@@ -343,6 +344,7 @@ export const getOfficerById = (id: string) => async (dispatch: Dispatch<IDispatc
 export interface UpdateOfficerData {
   callsign: string;
   rank: string;
+  department: string;
 }
 
 export const updateOfficerById = (id: string, data: UpdateOfficerData) => async (

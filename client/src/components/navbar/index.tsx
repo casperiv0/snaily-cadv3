@@ -23,6 +23,7 @@ interface Path {
   name: string;
   adminOnly?: boolean;
   show: (user: User | null) => boolean;
+  enabled: (cad: CadInfo | null) => boolean;
 }
 
 export const paths: Path[] = [
@@ -30,46 +31,55 @@ export const paths: Path[] = [
     href: "/leo/dash",
     name: lang.nav.police_dept,
     show: (user) => user?.leo === "1",
+    enabled: () => true,
   },
   {
     href: "/dispatch",
     name: lang.nav.dispatch,
     show: (user) => user?.dispatch === "1",
+    enabled: () => true,
   },
   {
     href: "/ems-fd/dash",
     name: lang.nav.ems_fd,
     show: (user) => user?.ems_fd === "1",
+    enabled: () => true,
   },
   {
     href: "/citizen",
     name: lang.nav.citizen,
     show: () => true,
+    enabled: () => true,
   },
   {
     href: "/tow",
     name: lang.nav.tow,
     show: () => true,
+    enabled: (cad) => cad?.features.includes("tow") ?? true,
   },
   {
     href: "/truck-logs",
     name: lang.nav.trucklogs,
     show: () => true,
+    enabled: (cad) => cad?.features.includes("truck-logs") ?? true,
   },
   {
-    href: "/court",
+    href: "/courthouse",
     name: "Courthouse",
     show: () => true,
+    enabled: (cad) => cad?.features.includes("courthouse") ?? true,
   },
   {
     href: "/bleeter",
     name: lang.nav.bleeter,
     show: () => true,
+    enabled: (cad) => cad?.features.includes("bleeter") ?? true,
   },
   {
     href: "/taxi",
     name: "Taxi",
     show: () => true,
+    enabled: (cad) => cad?.features.includes("taxi") ?? true,
   },
 ];
 
@@ -103,6 +113,8 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, user, checkAuth, ge
         <div className="collapse navbar-collapse" id="nav-items">
           <ul className="navbar-nav w-100">
             {paths.map((path: Path, idx: number) => {
+              if (!path.enabled(cadInfo)) return null;
+
               if (!["admin", "owner", "moderator"].includes(`${user?.rank}`) && !path.show(user)) {
                 return null;
               }

@@ -8,6 +8,8 @@
 - Use `npm ci` if `node_modules` folder already exist for `auto-install` command
 - Add Prettier & ESLint
 - Only show navigation bar items where user has access too
+- Able to enable/disable features (Bleeter, taxi, tow and truck-logs)
+- Able to update officer department in Manage Officers
 - Updated dependencies
 
 ## 1.3.9

@@ -130,7 +130,9 @@ CREATE TABLE `cad_info` (
   `whitelisted` varchar(255) NOT NULL,
   `webhook_url` text NOT NULL,
   `signal_100` varchar(255) NOT NULL,
-  `live_map_url` text NOT NULL
+  `live_map_url` text NOT NULL,
+  `features` text NOT NULL,
+  `plate_length` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

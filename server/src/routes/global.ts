@@ -71,7 +71,15 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
 router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
   const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
 
-  return res.json({ cadInfo: cadInfo[0], status: "success" });
+  let features;
+
+  try {
+    features = JSON.parse(`${cadInfo[0].features}`);
+  } catch {
+    features = [];
+  }
+
+  return res.json({ cadInfo: { ...cadInfo[0], features }, status: "success" });
 });
 
 router.post("/update-aop", useAuth, adminOrDispatchAuth, async (req: IRequest, res: Response) => {

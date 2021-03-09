@@ -49,11 +49,12 @@ router.put(
       plate_length = 8,
       live_map_url,
       steam_api_key,
+      features,
     } = req.body;
 
     if (cad_name && aop && tow_whitelisted && whitelisted) {
       await processQuery(
-        "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?",
+        "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?",
         [
           cad_name,
           aop,
@@ -63,6 +64,7 @@ router.put(
           plate_length,
           live_map_url,
           steam_api_key,
+          JSON.stringify(features) || JSON.stringify("[]"),
         ],
       );
 
@@ -407,21 +409,20 @@ router.put(
   usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (req: IRequest, res: Response) => {
     const { officerId } = req.params;
-    const { callsign, rank } = req.body;
+    const { callsign, rank, department } = req.body;
 
-    if (!callsign) {
+    if (!callsign || !department) {
       return res.json({
-        error: "callsign must be provided",
+        error: "Please fill in all fields",
         status: "error",
       });
     }
 
     try {
-      await processQuery("UPDATE `officers` SET `callsign` = ?, `rank` = ? WHERE `id` = ?", [
-        callsign,
-        rank,
-        officerId,
-      ]);
+      await processQuery(
+        "UPDATE `officers` SET `callsign` = ?, `rank` = ?, `officer_dept` = ? WHERE `id` = ?",
+        [callsign, rank, department, officerId],
+      );
 
       return res.json({ status: "success" });
     } catch (e) {
