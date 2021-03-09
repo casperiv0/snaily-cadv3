@@ -305,7 +305,8 @@ CREATE TABLE `officers` (
   `rank` varchar(255) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `status2` varchar(255) NOT NULL
+  `status2` varchar(255) NOT NULL,
+  `started_at` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

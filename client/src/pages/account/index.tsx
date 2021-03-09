@@ -69,6 +69,11 @@ const AccountPage: React.FC<Props> = ({ user }) => {
             {user?.tow}
           </Item>
 
+          <Item id="steam">
+            <Span>Steam ID: </Span>
+            {user?.steam_id}
+          </Item>
+
           <a
             href={`/api/v1/auth/steam?callback_url=${window.location.origin}`}
             className="d-block mt-2"

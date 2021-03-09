@@ -87,11 +87,14 @@ router.put(
         status2,
       ]);
 
-      await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
-        code[0]?.should_do === "set_off_duty" ? "off-duty" : status,
-        code[0]?.should_do === "set_off_duty" ? "--------" : status2,
-        id,
-      ]);
+      await processQuery(
+        "UPDATE `officers` SET `status` = ?, `status2` = ?, `started_at` = ? WHERE `id` = ?",
+        [
+          code[0]?.should_do === "set_off_duty" ? "off-duty" : status,
+          code[0]?.should_do === "set_off_duty" ? "--------" : status2,
+          id,
+        ],
+      );
 
       const updatedOfficer = await processQuery<Officer>(
         "SELECT * FROM `officers` WHERE `id` = ?",
