@@ -11,6 +11,7 @@
 - Able to enable/disable features (Bleeter, taxi, tow and truck-logs)
 - Able to update officer department in Manage Officers
 - Able to track officer logs (Total time on-duty. LEO Dashboard -> my officers -> my officer logs)
+- See author of expungement request
 - Updated dependencies
 
 ## 1.3.9

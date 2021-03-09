@@ -24,6 +24,12 @@ export interface ExpungementRequest {
   id?: string;
   user_id?: string;
   citizenId?: string;
+  user?: {
+    username: string;
+  };
+  citizen: {
+    full_name: string;
+  };
 }
 
 interface IDispatch {

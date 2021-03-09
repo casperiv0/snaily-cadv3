@@ -206,19 +206,25 @@ router.get(
   async (_req: IRequest, res: Response) => {
     const citizens = await processQuery("SELECT * FROM `citizens`");
 
-    await citizens.forEach(async (citizen: Citizen & { user: { username: string } }) => {
-      const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
-        citizen.user_id,
-      ]);
+    const parsedCitizens = async () => {
+      const arr: Citizen[] = [];
 
-      citizen.user = user[0];
+      await Promise.all(
+        citizens.map(async (citizen: Citizen & { user: { username: string } }) => {
+          const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+            citizen.user_id,
+          ]);
 
-      return citizen;
-    });
+          citizen.user = user[0];
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+          arr.push(citizen);
+        }),
+      );
 
-    return res.json({ citizens, status: "success" });
+      return arr;
+    };
+
+    return res.json({ citizens: await parsedCitizens(), status: "success" });
   },
 );
 
@@ -229,14 +235,35 @@ router.get(
   async (_req, res: Response) => {
     const requests = await processQuery("SELECT * FROM `court_requests`");
 
+    const parsedRequests = async () => {
+      const reqs: any[] = [];
+
+      await Promise.all(
+        requests.map(async (request: any) => {
+          const citizen = await processQuery("SELECT `full_name` FROM `citizens` WHERE `id` = ?", [
+            request.citizen_id,
+          ]);
+          const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+            request.user_id,
+          ]);
+
+          request.user = user[0];
+          request.citizen = citizen[0];
+
+          request.warrants = JSON.parse(request.warrants);
+          request.arrestReports = JSON.parse(request.arrest_reports);
+          request.tickets = JSON.parse(request.tickets);
+
+          reqs.push(request);
+        }),
+      );
+
+      return reqs;
+    };
+
     return res.json({
       status: "success",
-      requests: requests.map((request: any) => {
-        request.warrants = JSON.parse(request.warrants);
-        request.arrestReports = JSON.parse(request.arrest_reports);
-        request.tickets = JSON.parse(request.tickets);
-        return request;
-      }),
+      requests: await parsedRequests(),
     });
   },
 );
@@ -327,19 +354,25 @@ router.delete(
 router.get("/companies", useAuth, async (_req: IRequest, res: Response) => {
   const companies = await processQuery("SELECT * FROM `businesses`");
 
-  await companies.forEach(async (company: any) => {
-    const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
-      company.user_id,
-    ]);
+  const parsedCompanies = async () => {
+    const arr: any[] = [];
 
-    company.user = user[0];
+    await Promise.all(
+      companies.map(async (company: any) => {
+        const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+          company.user_id,
+        ]);
 
-    return company;
-  });
+        company.user = user[0];
 
-  await new Promise((resolve) => setTimeout(resolve, 500));
+        arr.push(company);
+      }),
+    );
 
-  return res.json({ companies, status: "success" });
+    return arr;
+  };
+
+  return res.json({ companies: await parsedCompanies(), status: "success" });
 });
 
 router.delete(

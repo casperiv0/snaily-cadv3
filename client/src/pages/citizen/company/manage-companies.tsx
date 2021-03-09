@@ -19,7 +19,7 @@ const ManageCompaniesPage: React.FC<Props> = ({ message, getCompanyData }) => {
 
   return (
     <Layout>
-      <AlertMessage message={{ msg: message, type: "success" }} dismissible />
+      {message ? <AlertMessage message={{ msg: message, type: "success" }} dismissible /> : null}
 
       <button
         type="button"
