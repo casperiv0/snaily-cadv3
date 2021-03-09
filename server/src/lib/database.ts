@@ -83,6 +83,17 @@ async function updateDb() {
       PRIMARY KEY (\`id\`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
+  updateLine(`
+  CREATE TABLE \`officer_logs\` (
+    \`id\` varchar(255) NOT NULL,
+    \`officer_id\` varchar(255) NOT NULL,
+    \`started_at\` varchar(255) NOT NULL,
+    \`ended_at\` varchar(255) NOT NULL,
+    \`active\` varchar(255) NOT NULL,
+    \`user_id\` varchar(255) NOT NULL,
+    PRIMARY KEY (\`id\`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
 
   updateLine(`
     ALTER TABLE \`911calls\` CHANGE \`assigned_unit\` \`assigned_unit\` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL; 

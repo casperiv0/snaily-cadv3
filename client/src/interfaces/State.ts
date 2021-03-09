@@ -2,7 +2,7 @@ import Bleet from "./Bleet";
 import Call from "./Call";
 import User from "./User";
 import Bolo from "./Bolo";
-import Officer from "./Officer";
+import Officer, { OfficerLog } from "./Officer";
 import Department from "./Department";
 import Deputy from "./Deputy";
 import TowCall from "./TowCall";
@@ -48,10 +48,11 @@ interface State {
     status2: string | null;
     officers: Officer[];
     departments: Department[];
-    error: string;
+    error: string | null;
     search: any;
     activeOfficer: Officer | null;
-    names: [];
+    names: string[];
+    logs: OfficerLog[];
   };
   bolos: {
     bolos: Bolo[];

@@ -1,5 +1,5 @@
 import Department from "../../interfaces/Department";
-import Officer from "../../interfaces/Officer";
+import Officer, { OfficerLog } from "../../interfaces/Officer";
 import State from "../../interfaces/State";
 import {
   GET_CURRENT_OFFICER_STATUS,
@@ -19,6 +19,7 @@ import {
   CREATE_ARREST_REPORT,
   CREATE_TICKET,
   CREATE_TICKET_ERROR,
+  GET_MY_OFFICER_LOGS,
 } from "../types";
 
 const initState: State["officers"] = {
@@ -30,6 +31,7 @@ const initState: State["officers"] = {
   search: null,
   activeOfficer: null,
   names: [],
+  logs: [],
 };
 
 type Actions =
@@ -103,9 +105,13 @@ type Actions =
   | {
       type: "SEARCH_NAMES";
       names: string[];
+    }
+  | {
+      type: typeof GET_MY_OFFICER_LOGS;
+      logs: OfficerLog[];
     };
 
-export default function officerReducer(state = initState, action: Actions) {
+export default function officerReducer(state = initState, action: Actions): State["officers"] {
   switch (action.type) {
     case "GET_CURRENT_OFFICER_STATUS":
       return {
@@ -118,7 +124,11 @@ export default function officerReducer(state = initState, action: Actions) {
       return {
         ...state,
         status2: action.status2,
-        officerName: action.officerName,
+      };
+    case "GET_MY_OFFICER_LOGS":
+      return {
+        ...state,
+        logs: action.logs,
       };
     case "GET_MY_OFFICERS":
       return {
@@ -144,7 +154,6 @@ export default function officerReducer(state = initState, action: Actions) {
       return {
         ...state,
         error: null,
-        message: action.message,
       };
     case "CREATE_WARRANT_ERROR":
       return {

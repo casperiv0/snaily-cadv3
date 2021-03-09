@@ -21,6 +21,15 @@ router.get(
   },
 );
 
+router.get("/my-logs", useAuth, usePermission(["leo"]), async (req: IRequest, res: Response) => {
+  const logs = await processQuery(
+    "SELECT * FROM `officer_logs` WHERE `user_id` = ? ORDER BY `started_at` DESC",
+    [req.user?.id],
+  );
+
+  return res.json({ logs, status: "success" });
+});
+
 router.post(
   "/my-officers",
   useAuth,
@@ -74,9 +83,9 @@ router.put(
   usePermission(["leo", "dispatch"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const { status, status2 } = req.body;
+    const { status, status2, timeMs } = req.body;
 
-    if (status && status2) {
+    if (status && status2 && timeMs) {
       await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `user_id` = ?", [
         "off-duty",
         "--------",
@@ -87,14 +96,33 @@ router.put(
         status2,
       ]);
 
-      await processQuery(
-        "UPDATE `officers` SET `status` = ?, `status2` = ?, `started_at` = ? WHERE `id` = ?",
-        [
-          code[0]?.should_do === "set_off_duty" ? "off-duty" : status,
-          code[0]?.should_do === "set_off_duty" ? "--------" : status2,
-          id,
-        ],
+      const officerLog = await processQuery(
+        "SELECT * FROM `officer_logs` WHERE `officer_id` = ? AND `active` = ?",
+        [id, "1"],
       );
+
+      if (status2 === "10-8") {
+        if (!officerLog[0]) {
+          await processQuery(
+            "INSERT INTO `officer_logs` (`id`, `officer_id`, `started_at`, `ended_at`, `active`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
+            [uuidv4(), id, timeMs, 0, "1", req.user?.id],
+          );
+        }
+      } else {
+        if (!code[0]) return;
+        if (code[0]?.should_do === "set_off_duty") {
+          await processQuery(
+            "UPDATE `officer_logs` SET `active` = ?, `ended_at` = ? WHERE `id` = ?",
+            ["0", timeMs, officerLog[0]?.id],
+          );
+        }
+      }
+
+      await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
+        code[0]?.should_do === "set_off_duty" ? "off-duty" : status,
+        code[0]?.should_do === "set_off_duty" ? "--------" : status2,
+        id,
+      ]);
 
       const updatedOfficer = await processQuery<Officer>(
         "SELECT * FROM `officers` WHERE `id` = ?",

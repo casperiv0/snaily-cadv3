@@ -10,6 +10,7 @@
 - Only show navigation bar items where user has access too
 - Able to enable/disable features (Bleeter, taxi, tow and truck-logs)
 - Able to update officer department in Manage Officers
+- Able to track officer logs (Total time on-duty. LEO Dashboard -> my officers -> my officer logs)
 - Updated dependencies
 
 ## 1.3.9

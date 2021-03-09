@@ -11,7 +11,7 @@ import Select from "../../select";
 import PenalCode from "../../../interfaces/PenalCode";
 
 interface Props {
-  error: string;
+  error: string | null;
   officer: Officer | null;
   penalCodes: PenalCode[];
 

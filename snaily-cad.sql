@@ -309,6 +309,15 @@ CREATE TABLE `officers` (
   `started_at` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `officer_logs` (
+  `id` varchar(255) NOT NULL,
+  `officer_id` varchar(255) NOT NULL,
+  `started_at` varchar(255) NOT NULL,
+  `ended_at` varchar(255) NOT NULL,
+  `active` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
@@ -1092,6 +1101,12 @@ ALTER TABLE `notifications`
 -- Indexes for table `officers`
 --
 ALTER TABLE `officers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `officer_logs`
+--
+ALTER TABLE `officer_logs`
   ADD PRIMARY KEY (`id`);
 
 --

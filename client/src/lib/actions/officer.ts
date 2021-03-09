@@ -1,5 +1,5 @@
 import Department from "../../interfaces/Department";
-import Officer from "../../interfaces/Officer";
+import Officer, { OfficerLog } from "../../interfaces/Officer";
 import Logger from "../Logger";
 import socket from "../socket";
 import lang from "../../language.json";
@@ -18,6 +18,7 @@ import {
   WEAPON_SEARCH,
   GET_ADMIN_DEPARTMENTS,
   SAVE_NOTE,
+  GET_MY_OFFICER_LOGS,
 } from "../types";
 import Message from "../../interfaces/Message";
 import PenalCode from "../../interfaces/PenalCode";
@@ -34,6 +35,7 @@ interface IDispatch {
   message?: Message;
   penalCodes?: PenalCode[];
   names?: string[];
+  logs?: OfficerLog[];
 }
 
 export const getCurrentOfficer = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -62,7 +64,10 @@ export const setStatus = (
   try {
     localStorage.setItem("on-duty-officerId", id);
     const data = { status: status, status2: status2 };
-    const res = await handleRequest(`/officer/status/${id}`, "PUT", data);
+    const res = await handleRequest(`/officer/status/${id}`, "PUT", {
+      ...data,
+      timeMs: Date.now(),
+    });
 
     if (isSuccess(res)) {
       socket.emit("UPDATE_ACTIVE_UNITS");
@@ -86,6 +91,21 @@ export const getMyOfficers = () => async (dispatch: Dispatch<IDispatch>) => {
       dispatch({
         type: GET_MY_OFFICERS,
         officers: res.data.officers,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_MY_OFFICERS, e);
+  }
+};
+
+export const getMyOfficerLogs = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/officer/my-logs", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_MY_OFFICER_LOGS,
+        logs: res.data.logs,
       });
     }
   } catch (e) {

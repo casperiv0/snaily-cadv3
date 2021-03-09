@@ -22,6 +22,7 @@ const Login = React.lazy(() => import("./pages/auth/login"));
 const Register = React.lazy(() => import("./pages/auth/register"));
 
 const LeoDash = React.lazy(() => import("./pages/leo/dash"));
+const OfficerLogsPage = React.lazy(() => import("./pages/leo/logs"));
 const PenalCodesPage = React.lazy(() => import("./pages/leo/penal-codes"));
 const MyOfficersPage = React.lazy(() => import("./pages/leo/my-officers"));
 const CreateOfficerPage = React.lazy(() => import("./pages/leo/create-officer"));
@@ -109,6 +110,7 @@ ReactDOM.render(
             <AuthRoute path="/bleet/edit/:id" Component={EditBleet} />
             <AuthRoute path="/bleet/:id" Component={BleetPage} />
 
+            <AuthRoute requirement="leo" path="/leo/my-logs" Component={OfficerLogsPage} />
             <AuthRoute requirement="leo" path="/leo/dash" Component={LeoDash} />
             <AuthRoute requirement="leo" path="/leo/penal-codes" Component={PenalCodesPage} />
             <AuthRoute requirement="leo" path="/leo/my-officers" Component={MyOfficersPage} />
