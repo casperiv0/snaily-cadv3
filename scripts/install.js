@@ -1,6 +1,9 @@
 //! Please don't change anything here.
 const { exec } = require("child_process");
 
+const serverDir = "./server"
+const clientDir = "./client"
+
 const mainInstall = `npm install`;
 const serverInstall = `cd ${serverDir} && npm install`;
 const clientInstall = `cd ${clientDir} && npm install`;
