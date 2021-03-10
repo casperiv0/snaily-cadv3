@@ -12,6 +12,7 @@ import store from "./lib/store";
 const HomePage = React.lazy(() => import("./pages/index"));
 const NotFoundPage = React.lazy(() => import("./pages/not-found"));
 const ForbiddenPage = React.lazy(() => import("./pages/forbidden"));
+const NotEnabledPage = React.lazy(() => import("./pages/not-enabled"));
 
 const BleeterPage = React.lazy(() => import("./pages/bleeter"));
 const BleetPage = React.lazy(() => import("./pages/bleeter/bleet"));
@@ -21,6 +22,7 @@ const Login = React.lazy(() => import("./pages/auth/login"));
 const Register = React.lazy(() => import("./pages/auth/register"));
 
 const LeoDash = React.lazy(() => import("./pages/leo/dash"));
+const OfficerLogsPage = React.lazy(() => import("./pages/leo/logs"));
 const PenalCodesPage = React.lazy(() => import("./pages/leo/penal-codes"));
 const MyOfficersPage = React.lazy(() => import("./pages/leo/my-officers"));
 const CreateOfficerPage = React.lazy(() => import("./pages/leo/create-officer"));
@@ -108,6 +110,7 @@ ReactDOM.render(
             <AuthRoute path="/bleet/edit/:id" Component={EditBleet} />
             <AuthRoute path="/bleet/:id" Component={BleetPage} />
 
+            <AuthRoute requirement="leo" path="/leo/my-logs" Component={OfficerLogsPage} />
             <AuthRoute requirement="leo" path="/leo/dash" Component={LeoDash} />
             <AuthRoute requirement="leo" path="/leo/penal-codes" Component={PenalCodesPage} />
             <AuthRoute requirement="leo" path="/leo/my-officers" Component={MyOfficersPage} />
@@ -120,7 +123,8 @@ ReactDOM.render(
             <AuthRoute requirement="dispatch" path="/dispatch/map" Component={Map} />
             <AuthRoute requirement="dispatch" path="/dispatch" Component={DispatchDash} />
 
-            <AuthRoute path="/court" Component={CourthousePage} />
+            <Route path="/court" render={() => (window.location.pathname = "/courthouse")} />
+            <AuthRoute path="/courthouse" Component={CourthousePage} />
 
             <AuthRoute
               path="/company/:citizenId/:companyId/manage/:id"
@@ -243,6 +247,7 @@ ReactDOM.render(
 
             <Route path="/logout" component={LogoutPage} />
             <Route path="/forbidden" component={ForbiddenPage} />
+            <Route path="/not-enabled" component={NotEnabledPage} />
             <Route component={NotFoundPage} />
           </Switch>
         </React.Suspense>

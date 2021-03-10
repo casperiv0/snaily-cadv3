@@ -8,6 +8,7 @@ import AlertMessage from "../../../../components/alert-message";
 import { Link } from "react-router-dom";
 import { Item, Span } from "../../../citizen/citizen-info";
 import { colorOptions, shouldDoOptions } from "./add-code";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
   codes: Code10[];
@@ -16,6 +17,8 @@ interface Props {
 }
 
 const Codes10Management: React.FC<Props> = ({ codes, get10Codes, delete10Code }) => {
+  useDocTitle("10 Codes Management");
+
   React.useEffect(() => {
     get10Codes();
   }, [get10Codes]);

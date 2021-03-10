@@ -14,6 +14,7 @@ html {
 body {
   background: #191919;
   color: #fff;
+  overflow-x: hidden;
 }
 
 .auth-btn:disabled {

@@ -1,9 +1,9 @@
 import { Response, Router } from "express";
+import { v4 as uuidv4 } from "uuid";
+import { UploadedFile } from "express-fileupload";
 import { processQuery } from "../lib/database";
 import { useAuth, useMarkdown } from "../hooks";
 import { RanksArr, SupportedFileTypes } from "../lib/constants";
-import { v4 as uuidv4 } from "uuid";
-import { UploadedFile } from "express-fileupload";
 import IRequest from "../interfaces/IRequest";
 import IUser from "../interfaces/IUser";
 
@@ -18,9 +18,14 @@ router.get("/", useAuth, async (_req, res: Response) => {
 router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const bleet = await processQuery("SELECT * FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
-  const uploadedBy = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [bleet[0].user_id]);
+  const uploadedBy = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+    bleet[0].user_id,
+  ]);
 
-  return res.json({ status: "success", bleet: { ...bleet[0], uploadedBy: uploadedBy[0].username } });
+  return res.json({
+    status: "success",
+    bleet: { ...bleet[0], uploadedBy: uploadedBy[0].username },
+  });
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
@@ -89,7 +94,8 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
     let data = [];
 
     if (file) {
-      query = "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
+      query =
+        "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ?, `file_dir` = ? WHERE `bleets`.`id` = ?";
       data = [title, body, markdown, fileName, id];
     } else {
       query = "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ? WHERE `bleets`.`id` = ?";
@@ -110,7 +116,9 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
 
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const user = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [req.user?.id]);
+  const user = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [
+    req.user?.id,
+  ]);
   const rank = user[0].rank;
   const bleet = await processQuery("SELECT * FROM `bleets` WHERE `id` = ?", [id]);
 

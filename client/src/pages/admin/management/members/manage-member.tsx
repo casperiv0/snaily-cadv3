@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
+import useDocTitle from "../../../../hooks/useDocTitle";
 import Match from "../../../../interfaces/Match";
 import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
@@ -18,9 +19,9 @@ import {
 import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   member: User | null;
-  user: User;
+  user: User | null;
   match: Match;
   cad: any;
   getMemberById: (id: string) => void;
@@ -50,6 +51,7 @@ const ManageMember: React.FC<Props> = ({
   const [emsFd, setEmsFd] = React.useState("");
   const [tow, setTow] = React.useState("");
   const [banReason, setBanReason] = React.useState("");
+  useDocTitle(`Managing ${member?.username}`);
 
   React.useEffect(() => {
     getMemberById(id);
@@ -108,7 +110,7 @@ const ManageMember: React.FC<Props> = ({
           <label className="form-label" htmlFor="rank">
             {lang.global.rank}
           </label>
-          {authenticatedUser.username === member?.username ? (
+          {authenticatedUser?.username === member?.username ? (
             <AlertMessage message={{ type: "warning", msg: lang.admin.member.own_rank }} />
           ) : member?.rank === "owner" ? (
             <AlertMessage message={{ msg: lang.admin.member.owner, type: "warning" }} />

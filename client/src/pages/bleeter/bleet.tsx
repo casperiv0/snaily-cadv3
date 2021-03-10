@@ -11,13 +11,14 @@ import lang from "../../language.json";
 import User from "../../interfaces/User";
 import AlertMessage from "../../components/alert-message";
 import { Link, useHistory } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  bleet: IBleet;
+  bleet: IBleet | null;
   loading: boolean;
   isAuth: boolean;
   match: Match;
-  user: User;
+  user: User | null;
   getBleetById: (id: string) => void;
   deleteBleet: (id: string) => Promise<boolean | undefined>;
 }
@@ -25,16 +26,11 @@ interface Props {
 const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, deleteBleet }) => {
   const id = match.params.id;
   const history = useHistory();
+  useDocTitle(`${bleet?.id ? `${bleet.title} - ` : ""} ${lang.nav.bleeter}`);
 
   React.useEffect(() => {
     getBleetById(id);
   }, [getBleetById, id]);
-
-  React.useEffect(() => {
-    if (bleet?.id) {
-      document.title = `${bleet?.title} - ${lang.nav.bleeter}`;
-    }
-  }, [bleet]);
 
   async function handleDelete() {
     const deleted = await deleteBleet(id);
@@ -64,20 +60,20 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
 
       <div className="d-flex justify-content-between border-bottom">
         <div>
-          <h3 className="mb-2">{bleet.title}</h3>
+          <h3 className="mb-2">{bleet?.title}</h3>
           <p className="mt-1 mb-1">
             <strong>Uploaded By: </strong>
-            {bleet.uploadedBy}
+            {bleet?.uploadedBy}
           </p>
         </div>
         <div>
-          {bleet.id && user.id === bleet.user_id ? (
+          {bleet?.id && user?.id === bleet?.user_id ? (
             <Link className="btn btn-success mx-2" type="button" to={`/bleet/edit/${bleet.id}`}>
               Edit bleet
             </Link>
           ) : null}
-          {(user.id && ["owner", "admin", "moderator"].includes(user.rank)) ||
-          bleet.user_id === user.id ? (
+          {(user?.id && ["owner", "admin", "moderator"].includes(user.rank)) ||
+          bleet?.user_id === user?.id ? (
             <button onClick={handleDelete} className="btn btn-danger">
               Delete bleet
             </button>
@@ -85,17 +81,17 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
         </div>
       </div>
 
-      {bleet.image_id !== "" ? (
+      {bleet?.image_id !== "" ? (
         <img
           style={{ width: "100%", height: "100%" }}
           className="mt-3"
-          src={`/static/bleeter-images/${bleet.image_id}`}
+          src={`/static/bleeter-images/${bleet?.image_id}`}
           alt="bleet-image"
         />
       ) : null}
 
       <Markdown allowDangerousHtml className="mt-3">
-        {bleet.markdown}
+        {bleet?.markdown ?? ""}
       </Markdown>
     </Layout>
   );

@@ -1,3 +1,4 @@
+import State from "../../interfaces/State";
 import Value from "../../interfaces/Value";
 import {
   GET_ETHNICITIES,
@@ -14,7 +15,7 @@ import {
   UPDATE_VALUE_BY_ID,
 } from "../types";
 
-const initState = {
+const initState: State["values"] = {
   genders: [],
   "legal-statuses": [],
   ethnicities: [],

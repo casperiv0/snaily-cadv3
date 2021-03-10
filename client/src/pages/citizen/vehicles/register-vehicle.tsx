@@ -13,14 +13,15 @@ import { getCompanies } from "../../../lib/actions/admin";
 import Message from "../../../interfaces/Message";
 import { useHistory } from "react-router-dom";
 import CadInfo from "../../../interfaces/CadInfo";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   owners: Citizen[];
   vehicles: Value[];
   legalStatuses: Value[];
   companies: Company[];
-  cadInfo: CadInfo;
+  cadInfo: CadInfo | null;
   getLegalStatuses: () => void;
   getVehicles: () => void;
   getCitizens: () => void;
@@ -48,6 +49,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
   const [citizenId, setCitizenId] = React.useState("");
   const [companyId, setCompanyId] = React.useState("");
   const history = useHistory();
+  useDocTitle("Register vehicle");
 
   React.useEffect(() => {
     getLegalStatuses();
@@ -83,7 +85,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
             value={plate.toUpperCase()}
             onChange={(e) => setPlate(e.target.value)}
             className="form-control bg-dark border-dark text-light"
-            maxLength={cadInfo.plate_length !== 0 ? +cadInfo.plate_length : 8}
+            maxLength={cadInfo?.plate_length !== 0 ? Number(cadInfo?.plate_length) : 8}
             minLength={1}
           />
         </div>

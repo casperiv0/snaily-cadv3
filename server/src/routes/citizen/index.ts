@@ -19,7 +19,9 @@ router.use("/medical-records", medicalRecordsRouter);
 router.use("/company", companyRouter);
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
-  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [req.user?.id]);
+  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [
+    req.user?.id,
+  ]);
 
   return res.json({ status: "success", citizens });
 });
@@ -61,7 +63,9 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const imageId = file ? `${uuidv4()}${file.name.slice(index)}` : "default.svg";
 
   if (full_name && birth && gender && ethnicity && hair_color && eye_color && height && weight) {
-    const citizen = await processQuery("SELECT * FROM `citizens` WHERE `full_name` = ?", [full_name]);
+    const citizen = await processQuery("SELECT * FROM `citizens` WHERE `full_name` = ?", [
+      full_name,
+    ]);
 
     if (citizen[0]) {
       return res.json({
@@ -188,7 +192,10 @@ router.put("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
       ]);
 
       if (file) {
-        await processQuery("UPDATE `citizens` SET `image_id` = ? WHERE `id` = ?", [imageId, citizenId]);
+        await processQuery("UPDATE `citizens` SET `image_id` = ? WHERE `id` = ?", [
+          imageId,
+          citizenId,
+        ]);
       }
     } catch (e) {
       Logger.error("CREATE_CITIZEN_ERROR", e);
@@ -224,7 +231,9 @@ router.post("/info", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  const citizen = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `full_name` = ?", [name]);
+  const citizen = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `full_name` = ?", [
+    name,
+  ]);
 
   if (!citizen[0]) {
     return res.json({
@@ -242,9 +251,16 @@ router.post("/info", useAuth, async (req: IRequest, res: Response) => {
 
   const citizenId = citizen[0]?.id ?? "not_found";
 
-  const arrestReports = await processQuery("SELECT * FROM `arrest_reports` WHERE `citizen_id` = ?", [citizenId]);
-  const tickets = await processQuery("SELECT * FROM `leo_tickets` WHERE `citizen_id` = ?", [citizenId]);
-  const warrants = await processQuery("SELECT * FROM `warrants` WHERE `citizen_id` = ?", [citizenId]);
+  const arrestReports = await processQuery(
+    "SELECT * FROM `arrest_reports` WHERE `citizen_id` = ?",
+    [citizenId],
+  );
+  const tickets = await processQuery("SELECT * FROM `leo_tickets` WHERE `citizen_id` = ?", [
+    citizenId,
+  ]);
+  const warrants = await processQuery("SELECT * FROM `warrants` WHERE `citizen_id` = ?", [
+    citizenId,
+  ]);
 
   return res.json({ status: "success", tickets, warrants, arrestReports, citizenId });
 });
@@ -265,7 +281,14 @@ router.post("/expungement-request/:id", useAuth, async (req: IRequest, res: Resp
 
   await processQuery(
     "INSERT INTO `court_requests` (`id`, `warrants`, `arrest_reports`, `tickets`, `citizen_id`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
-    [v4(), JSON.stringify(warrants), JSON.stringify(arrest_reports), JSON.stringify(tickets), id, req.user?.id],
+    [
+      v4(),
+      JSON.stringify(warrants),
+      JSON.stringify(arrest_reports),
+      JSON.stringify(tickets),
+      id,
+      req.user?.id,
+    ],
   );
 
   return res.json({
@@ -274,7 +297,9 @@ router.post("/expungement-request/:id", useAuth, async (req: IRequest, res: Resp
 });
 
 router.get("/expungement-requests", useAuth, async (req: IRequest, res: Response) => {
-  const requests = await processQuery("SELECT * FROM `court_requests` WHERE `user_id` = ?", [req.user?.id]);
+  const requests = await processQuery("SELECT * FROM `court_requests` WHERE `user_id` = ?", [
+    req.user?.id,
+  ]);
 
   return res.json({
     status: "success",

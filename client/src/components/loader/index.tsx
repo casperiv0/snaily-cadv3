@@ -6,7 +6,7 @@ interface Props {
 }
 
 const centerStyles: React.CSSProperties = {
-  width: "100vw",
+  width: "100%",
   height: "10rem",
   display: "flex",
   alignItems: "center",

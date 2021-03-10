@@ -46,14 +46,22 @@ async function updateLine(sql: string) {
 async function updateDb() {
   import("./insert");
 
+  updateLine("ALTER TABLE `officers` ADD `started_at` int(255) NOT NULL AFTER `status2`;");
+  updateLine("ALTER TABLE `cad_info` ADD `features` text NOT NULL AFTER `plate_length`;");
   updateLine("ALTER TABLE `users` ADD `supervisor` varchar(255) NOT NULL AFTER `leo`;");
   updateLine("ALTER TABLE `officers` ADD `rank` varchar(255) NOT NULL AFTER `callsign`;");
   updateLine("ALTER TABLE `citizens` ADD `phone_nr` varchar(255) NOT NULL AFTER `note`;");
-  updateLine("ALTER TABLE `cad_info` ADD `steam_api_key` varchar(255) NOT NULL AFTER `webhook_url`;");
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `steam_api_key` varchar(255) NOT NULL AFTER `webhook_url`;",
+  );
   updateLine("ALTER TABLE `911calls` ADD `hidden` varchar(255) NOT NULL AFTER `assigned_unit`;");
-  updateLine("ALTER TABLE `users` ADD `avatar_url` varchar(255) NOT NULL AFTER `whitelist_status`;");
+  updateLine(
+    "ALTER TABLE `users` ADD `avatar_url` varchar(255) NOT NULL AFTER `whitelist_status`;",
+  );
   updateLine("ALTER TABLE `users` ADD `steam_id` varchar(255) NOT NULL AFTER `whitelist_status`;");
-  updateLine("ALTER TABLE `cad_info` ADD `live_map_url` varchar(255) NOT NULL AFTER `webhook_url`;");
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `live_map_url` varchar(255) NOT NULL AFTER `webhook_url`;",
+  );
   updateLine("ALTER TABLE `911calls` ADD `pos` text NOT NULL AFTER `assigned_unit`;");
   updateLine(" ALTER TABLE `cad_info` ADD `plate_length` int(255) NOT NULL AFTER `webhook_url`;");
   updateLine("ALTER TABLE `cad_info` ADD `signal_100` varchar(255) NOT NULL AFTER `plate_length`;");
@@ -74,6 +82,17 @@ async function updateDb() {
       \`des\` longtext,
       PRIMARY KEY (\`id\`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+  updateLine(`
+  CREATE TABLE \`officer_logs\` (
+    \`id\` varchar(255) NOT NULL,
+    \`officer_id\` varchar(255) NOT NULL,
+    \`started_at\` varchar(255) NOT NULL,
+    \`ended_at\` varchar(255) NOT NULL,
+    \`active\` varchar(255) NOT NULL,
+    \`user_id\` varchar(255) NOT NULL,
+    PRIMARY KEY (\`id\`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 
   updateLine(`

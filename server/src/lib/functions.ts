@@ -88,7 +88,9 @@ export async function postWebhook(webhook: WebHook, data: WebHookData): Promise<
 }
 
 export async function logoutActiveUnits(userId: string | undefined): Promise<void> {
-  const officers = await processQuery<Officer>("SELECT * FROM `officers` WHERE `user_id` = ?", [userId]);
+  const officers = await processQuery<Officer>("SELECT * FROM `officers` WHERE `user_id` = ?", [
+    userId,
+  ]);
   const emsFd = await processQuery<any>("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [userId]);
 
   [...officers, ...emsFd]

@@ -51,9 +51,9 @@ import blipTypes from "../../components/dispatch/map/blips";
 const TILES_URL = "/tiles/minimap_sea_{y}_{x}.png";
 
 interface Props {
-  cadInfo: CadInfo;
+  cadInfo: CadInfo | null;
   calls: Call[];
-  user: User;
+  user: User | null;
   members: User[];
   getActiveUnits: () => void;
   getMembers: () => void;
@@ -62,7 +62,7 @@ interface Props {
 
 interface MapState {
   MarkerStore: CustomMarker[];
-  MarkerTypes: { [key: number]: IIcon };
+  MarkerTypes: Record<number, IIcon>;
   PopupStore: IPopup[];
   blips: Blip[][];
   PlayerMarkers: L.Layer;
@@ -96,7 +96,7 @@ class MapClass extends Component<Props, MapState> {
   }
 
   handleMapSocket() {
-    const { live_map_url } = this.props.cadInfo;
+    const live_map_url = this.props.cadInfo?.live_map_url;
     if (!live_map_url) {
       Logger.error("LIVE_MAP", "There was no live_map_url provided from the CAD_SETTINGS");
       return;
@@ -564,6 +564,7 @@ class MapClass extends Component<Props, MapState> {
             });
 
             popup?.setContent(html);
+            marker.setIcon(L.icon(this.state.MarkerTypes[Number(player.icon)]));
 
             if (popup?.isOpen()) {
               if (popup.getLatLng()?.distanceTo(marker.getLatLng()) !== 0) {
@@ -574,7 +575,7 @@ class MapClass extends Component<Props, MapState> {
             const marker = this.createMarker(
               false,
               {
-                icon: this.state.MarkerTypes?.[6],
+                icon: this.state.MarkerTypes?.[Number(player.icon)],
                 description: "Hello world",
                 pos: player.pos,
                 title: player.name,
@@ -694,7 +695,7 @@ class MapClass extends Component<Props, MapState> {
           >
             Create 911 call
           </button>
-          {["owner", "admin", "moderator"].includes(this.props.user?.rank) ? (
+          {["owner", "admin", "moderator"].includes(`${this.props.user?.rank}`) ? (
             <button
               onClick={() => {
                 if (this.state.showAllPlayers === true) {

@@ -7,6 +7,7 @@ import AlertMessage from "../../../../components/alert-message";
 import { Link } from "react-router-dom";
 import { Span } from "../../../citizen/citizen-info";
 import PenalCode from "../../../../interfaces/PenalCode";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
   codes: PenalCode[];
@@ -17,6 +18,7 @@ interface Props {
 const PenalCodesManagement: React.FC<Props> = ({ codes, getPenalCodes, deletePenalCode }) => {
   const [filtered, setFiltered] = React.useState(codes);
   const [filter, setFilter] = React.useState("");
+  useDocTitle("Penal Code Management");
 
   React.useEffect(() => {
     getPenalCodes();

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
 import AlertMessage from "../../components/alert-message";
+import useDocTitle from "../../hooks/useDocTitle";
 import CadInfo from "../../interfaces/CadInfo";
 import Message from "../../interfaces/Message";
 import State from "../../interfaces/State";
@@ -11,9 +12,9 @@ import lang from "../../language.json";
 import { updateCadSettings } from "../../lib/actions/admin";
 
 interface Props {
-  user: User;
-  message: Message;
-  cadInfo: CadInfo;
+  user: User | null;
+  message: Message | null;
+  cadInfo: CadInfo | null;
   updateCadSettings: (data: {
     aop: string;
     cad_name: string;
@@ -23,10 +24,12 @@ interface Props {
     live_map_url: string;
     plate_length: number;
     steam_api_key: string;
+    features: string[];
   }) => void;
 }
 
 const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSettings }) => {
+  useDocTitle("CAD Settings");
   const [cadName, setCadName] = React.useState("");
   const [aop, setAop] = React.useState("");
   const [whitelisted, setWhitelisted] = React.useState("");
@@ -35,9 +38,11 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
   const [plateLength, setPlateLength] = React.useState(8);
   const [liveMapUrl, setLiveMapUrl] = React.useState("");
   const [steamApiKey, setSteamApiKey] = React.useState("");
+  const [showSteamKey, setShowSteamKey] = React.useState(false);
+  const [features, setFeatures] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    if (cadInfo.id) {
+    if (cadInfo?.id) {
       setCadName(cadInfo.cad_name);
       setAop(cadInfo.AOP);
       setWhitelisted(cadInfo.whitelisted);
@@ -46,6 +51,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       setLiveMapUrl(cadInfo.live_map_url || "");
       setPlateLength(cadInfo.plate_length !== 0 ? cadInfo.plate_length : 8);
       setSteamApiKey(cadInfo.steam_api_key || "");
+      setFeatures(cadInfo.features || []);
     }
   }, [cadInfo]);
 
@@ -65,7 +71,33 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
       plate_length: plateLength,
       live_map_url: liveMapUrl,
       steam_api_key: steamApiKey,
+      features: cadInfo?.features || [],
     });
+  }
+
+  function onFeaturesSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!cadInfo) return;
+
+    updateCadSettings({
+      cad_name: cadInfo.cad_name,
+      aop: cadInfo.AOP,
+      whitelisted: cadInfo.whitelisted,
+      tow_whitelisted: cadInfo.tow_whitelisted,
+      webhook_url: cadInfo.webhook_url,
+      plate_length: cadInfo.plate_length,
+      live_map_url: cadInfo.live_map_url,
+      steam_api_key: cadInfo.steam_api_key,
+      features,
+    });
+  }
+
+  function updateFeatures(feature: string) {
+    if (features.includes(feature)) {
+      setFeatures((prev) => prev.filter((f) => f !== feature));
+    } else {
+      setFeatures((prev) => [...prev, feature]);
+    }
   }
 
   if (user?.rank !== "owner") {
@@ -182,13 +214,25 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
               <label className="form-label" htmlFor="webhook_url">
                 Steam API key
               </label>
-              <input
-                type="text"
-                className="form-control bg-secondary border-dark text-light"
-                id="steam_api_key"
-                value={steamApiKey}
-                onChange={(e) => setSteamApiKey(e.target.value)}
-              />
+
+              <div className="input-group mb-3">
+                <input
+                  type={showSteamKey ? "text" : "password"}
+                  className="form-control bg-secondary border-dark text-light"
+                  id="steam_api_key"
+                  value={steamApiKey}
+                  onChange={(e) => setSteamApiKey(e.target.value)}
+                  aria-describedby="show-steam-key"
+                />
+                <button
+                  onClick={() => setShowSteamKey((v) => !v)}
+                  className="btn btn-outline-secondary bg-light text-dark"
+                  type="button"
+                  id="show-steam-key"
+                >
+                  {showSteamKey ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
             <div className="mb-3">
               <label className="form-label" htmlFor="whitelisted">
@@ -200,8 +244,8 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
                 value={whitelisted}
                 onChange={(e) => setWhitelisted(e.target.value)}
               >
-                <option value={cadInfo.whitelisted}>
-                  {cadInfo.whitelisted === "1" ? lang.global.yes : lang.global.no}
+                <option value={cadInfo?.whitelisted}>
+                  {cadInfo?.whitelisted === "1" ? lang.global.yes : lang.global.no}
                 </option>
                 <option disabled value="">
                   --------
@@ -220,8 +264,8 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
                 value={towWhitelist}
                 onChange={(e) => setTowWhitelist(e.target.value)}
               >
-                <option value={cadInfo.tow_whitelisted}>
-                  {cadInfo.tow_whitelisted === "1" ? lang.global.yes : lang.global.no}
+                <option value={cadInfo?.tow_whitelisted}>
+                  {cadInfo?.tow_whitelisted === "1" ? lang.global.yes : lang.global.no}
                 </option>
                 <option disabled value="">
                   --------
@@ -232,12 +276,107 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
             </div>
             <div className="mb-3">
               <button className="btn btn-primary col" type="submit">
-                {lang.admin.cad_settings.update_cad}
+                Save Settings
               </button>
             </div>
           </form>
         </div>
       </div>
+
+      <form onSubmit={onFeaturesSubmit} className="card bg-dark border-dark mt-3 mb-5">
+        <div className="card-header">
+          <h4>Enable/Disable Features</h4>
+        </div>
+
+        <div className="card-body">
+          <div className="mb-3">
+            <div className="form-check form-switch">
+              <input
+                onChange={() => updateFeatures("bleeter")}
+                checked={features.includes("bleeter")}
+                className="form-check-input"
+                type="checkbox"
+                id="bleeter-feature"
+              />
+              <label className="form-check-label" htmlFor="bleeter-feature">
+                Bleeter
+              </label>
+            </div>
+            Bleeter is like twitter but for GTA,{" "}
+            <a href="https://gta.fandom.com/wiki/Bleeter" rel="noreferrer noopener" target="_blank">
+              find more information here
+            </a>
+            .
+          </div>
+          <div className="mb-3">
+            <div className="form-check form-switch">
+              <input
+                onChange={() => updateFeatures("tow")}
+                checked={features.includes("tow")}
+                className="form-check-input"
+                type="checkbox"
+                id="tow-feature"
+              />
+              <label className="form-check-label" htmlFor="tow-feature">
+                Tow
+              </label>
+            </div>
+            Enable/Disable tow. When enabled, this will allow citizens to call tow.
+          </div>
+          <div className="mb-3">
+            <div className="form-check form-switch">
+              <input
+                onChange={() => updateFeatures("truck-logs")}
+                checked={features.includes("truck-logs")}
+                className="form-check-input"
+                type="checkbox"
+                id="truck-logs-feature"
+              />
+              <label className="form-check-label" htmlFor="truck-logs-feature">
+                Truck Logs
+              </label>
+            </div>
+            When enabled, this will allow citizens to create truck logs and track their progress.
+          </div>
+          <div className="mb-3">
+            <div className="form-check form-switch">
+              <input
+                onChange={() => updateFeatures("taxi")}
+                checked={features.includes("taxi")}
+                className="form-check-input"
+                type="checkbox"
+                id="taxi-feature"
+              />
+              <label className="form-check-label" htmlFor="taxi-feature">
+                Taxi
+              </label>
+            </div>
+            When enabled, this will allow citizens to call a taxi to pick them up.
+          </div>
+          <div className="mb-3">
+            <div className="form-check form-switch">
+              <input
+                onChange={() => updateFeatures("courthouse")}
+                checked={features.includes("courthouse")}
+                className="form-check-input"
+                type="checkbox"
+                id="courthouse-feature"
+              />
+              <label className="form-check-label" htmlFor="courthouse-feature">
+                Courthouse
+              </label>
+            </div>
+            When enabled, this will allow citizens to create expungement requests
+          </div>
+
+          <div className="d-flex">
+            <button className="btn btn-primary " type="submit">
+              Save Changes
+            </button>
+            <p className="mx-2">Reload the page to see changes</p>
+          </div>
+        </div>
+      </form>
     </AdminLayout>
   );
 };

@@ -1,7 +1,8 @@
+import State from "../../interfaces/State";
 import TruckLog from "../../interfaces/TruckLog";
 import { CREATE_TRUCK_LOG, DELETE_TRUCK_LOG, GET_TRUCK_LOGS } from "../types";
 
-const initState = {
+const initState: State["truck_logs"] = {
   logs: [],
   error: null,
 };

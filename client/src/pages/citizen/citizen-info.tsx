@@ -13,11 +13,12 @@ import MedicalRecords from "../../components/citizen/MedicalRecords";
 import AlertMessage from "../../components/alert-message";
 import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   citizen: Citizen | null;
   match: Match;
-  message: Message;
+  message: Message | null;
   getCitizenById: (id: string) => void;
   deleteCitizen: (id: string) => void;
 }
@@ -39,6 +40,7 @@ const CitizenInfoPage: React.FC<Props> = ({
   getCitizenById,
   deleteCitizen,
 }) => {
+  useDocTitle(citizen?.id ? `Viewing citizen: ${citizen.full_name}` : "Citizens");
   const citizenId = match.params.id;
 
   React.useEffect(() => {

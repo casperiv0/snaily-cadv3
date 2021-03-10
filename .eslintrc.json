@@ -7,8 +7,8 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:promise/recommended",
     "plugin:json/recommended",
     "plugin:promise/recommended",
     "prettier"
@@ -25,7 +25,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "json", "promise"],
+  "plugins": ["react", "@typescript-eslint", "promise", "prettier", "json"],
   "rules": {
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
@@ -52,10 +52,17 @@
     {
       "files": ["**/*.tsx", "**/*.ts"],
       "rules": {
-        "quotes": "off",
         "no-unused-vars": "off",
         "react/prop-types": "off",
         "react/display-name": "off"
+      }
+    },
+    {
+      "files": ["./server/**/*.ts"],
+      "rules": {
+        "react-hooks/rules-of-hooks": "off",
+        "react-hooks/exhaustive-deps": "off",
+        "react/react-in-jsx-scope": "off"
       }
     }
   ],

@@ -9,11 +9,12 @@ import { getValueById, updateValueById } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import Message from "../../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  value: Value;
+  value: Value | null;
   match: Match;
-  message: Message;
+  message: Message | null;
   getValueById: (path: string, id: string) => void;
   updateValueById: (path: string, id: string, data: { name: string }) => void;
 }
@@ -23,6 +24,7 @@ const EditValuePage: React.FC<Props> = (props) => {
   const [value, setValue] = React.useState<string>("");
   const path = match.params.path;
   const id = match.params.id;
+  useDocTitle(lang.admin.values[path].manage);
 
   React.useEffect(() => {
     getValueById(path, id);

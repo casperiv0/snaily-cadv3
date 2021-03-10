@@ -16,12 +16,10 @@ router.post("/", async (req: IRequest, res: Response) => {
   const { description, location, caller } = req.body;
   const id = uuidv4();
 
-  await processQuery("INSERT INTO `taxi_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)", [
-    id,
-    description,
-    caller,
-    location,
-  ]);
+  await processQuery(
+    "INSERT INTO `taxi_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
+    [id, description, caller, location],
+  );
 
   io.sockets.emit("UPDATE_TAXI_CALLS");
 

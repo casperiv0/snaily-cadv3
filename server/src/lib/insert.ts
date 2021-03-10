@@ -5,6 +5,37 @@ import Logger from "./Logger";
 
 (async function insert() {
   try {
+    let inserted = false;
+    let json = { features: null };
+    fs.readdirSync(".")
+      .filter((f) => f.endsWith(".json"))
+      .forEach((f) => {
+        if (f === "data.json") {
+          const buffer = fs.readFileSync("data.json");
+          json = JSON.parse(buffer.toString());
+
+          if (json.features === true) {
+            inserted = true;
+          }
+        }
+      });
+    if (inserted) return;
+
+    const featuresArr = ["tow", "truck-logs", "bleeter", "taxi", "courthouse"];
+
+    await processQuery("UPDATE `cad_info` SET `features` = ?", [JSON.stringify(featuresArr)]);
+
+    const data = {
+      ...json,
+      features: true,
+      about: "do NOT delete this file if you have added custom penal codes!",
+    };
+    fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
+  } catch (e) {
+    Logger.error("INSERT_PENAL_CODES", e);
+  }
+
+  try {
     // check if it was already inserted
     let inserted = false;
     fs.readdirSync(".")
@@ -199,7 +230,7 @@ INSERT INTO \`penal_codes\` (\`id\`, \`title\`, \`des\`) VALUES
 
     const data = {
       inserted: true,
-      about: "do NOT delete this file if you have added custom penal codes!"
+      about: "do NOT delete this file if you have added custom penal codes!",
     };
     fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
   } catch (e) {

@@ -9,9 +9,10 @@ import { Item, Span } from "../../../citizen/citizen-info";
 import Message from "../../../../interfaces/Message";
 import Officer from "../../../../interfaces/Officer";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   officers: Officer[];
   getAllOfficers: () => void;
   deleteCompanyById: (id: string) => void;
@@ -20,6 +21,7 @@ interface Props {
 const OfficersManagementPage: React.FC<Props> = ({ officers, message, getAllOfficers }) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<Officer[]>(officers);
+  useDocTitle("Officer Management");
 
   React.useEffect(() => {
     getAllOfficers();

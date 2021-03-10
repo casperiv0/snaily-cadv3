@@ -7,9 +7,10 @@ import State from "../../../interfaces/State";
 import Match from "../../../interfaces/Match";
 import { createCompanyPost } from "../../../lib/actions/company";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  error: string;
+  error: string | null;
   match: Match;
   createCompanyPost: (data: object) => void;
 }
@@ -18,6 +19,7 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
   const [title, setTitle] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const { companyId, citizenId } = match.params;
+  useDocTitle("Create company post");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

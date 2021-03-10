@@ -7,13 +7,15 @@ import { createTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   createTruckLog: (date: object) => void;
 }
 
 const CreateTruckLogPage: React.FC<Props> = ({ message, createTruckLog }) => {
+  useDocTitle("Create truck log");
   const [name, setName] = React.useState<string>("");
   const [date, setDate] = React.useState<string>("");
   const [coDriver, setCoDriver] = React.useState<string>("");

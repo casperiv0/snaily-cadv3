@@ -34,7 +34,9 @@ router.get("/callback", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  const userSteamId = req.query["openid.identity"]?.toString().replace("https://steamcommunity.com/openid/id/", "");
+  const userSteamId = req.query["openid.identity"]
+    ?.toString()
+    .replace("https://steamcommunity.com/openid/id/", "");
   const steamRes = await fetch(
     `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${cadInfo[0].steam_api_key}&steamids=${userSteamId}`,
   );

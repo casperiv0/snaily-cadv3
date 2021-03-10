@@ -13,7 +13,9 @@ const router: Router = Router();
 export function mapCalls(calls: Call[]): Call[] {
   return calls.map((call) => {
     try {
-      call.assigned_unit = JSON.parse((typeof call.assigned_unit === "string" && call.assigned_unit) || "[]");
+      call.assigned_unit = JSON.parse(
+        (typeof call.assigned_unit === "string" && call.assigned_unit) || "[]",
+      );
     } catch {
       call.assigned_unit = [];
     }
@@ -48,7 +50,16 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
 
   await processQuery<Call>(
     "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `pos`, `hidden`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-    [id, description, caller, location, "Not assigned", "[]", JSON.stringify(coords), coordsArr ? "0" : "1"],
+    [
+      id,
+      description,
+      caller,
+      location,
+      "Not assigned",
+      "[]",
+      JSON.stringify(coords),
+      coordsArr ? "0" : "1",
+    ],
   );
 
   io.sockets.emit("NEW_911_CALL");
@@ -60,7 +71,15 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
 router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
   const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
 
-  return res.json({ cadInfo: cadInfo[0], status: "success" });
+  let features;
+
+  try {
+    features = JSON.parse(`${cadInfo[0].features}`);
+  } catch {
+    features = [];
+  }
+
+  return res.json({ cadInfo: { ...cadInfo[0], features }, status: "success" });
 });
 
 router.post("/update-aop", useAuth, adminOrDispatchAuth, async (req: IRequest, res: Response) => {
@@ -71,7 +90,11 @@ router.post("/update-aop", useAuth, adminOrDispatchAuth, async (req: IRequest, r
   return res.json({ status: "success" });
 });
 
-export async function adminOrDispatchAuth(req: IRequest, res: Response, next: NextFunction): Promise<void | Response> {
+export async function adminOrDispatchAuth(
+  req: IRequest,
+  res: Response,
+  next: NextFunction,
+): Promise<void | Response> {
   const user: {
     dispatch: string;
     rank: string;

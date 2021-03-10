@@ -7,6 +7,7 @@ import { getPenalCodes } from "../../lib/actions/admin";
 import { connect } from "react-redux";
 import State from "../../interfaces/State";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   penalCodes: PenalCode[];
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
+  useDocTitle("Penal Codes");
   const [filtered, setFiltered] = React.useState<PenalCode[]>(penalCodes);
   const [length, setLength] = React.useState<number>(15);
 

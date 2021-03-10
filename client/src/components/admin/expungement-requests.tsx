@@ -4,6 +4,7 @@ import lang from "../../language.json";
 import { ExpungementRequest } from "../../lib/actions/court";
 import { acceptOrDeclineRequest } from "../../lib/actions/admin";
 import { connect } from "react-redux";
+import { Item, Span } from "../../pages/citizen/citizen-info";
 
 interface Props {
   requests: ExpungementRequest[];
@@ -33,6 +34,16 @@ const ExpungementRequestsTab: React.FC<Props> = ({ requests, acceptOrDeclineRequ
                   <p>
                     Tickets: {request.tickets.map((ticket) => ticket.label).join(", ") || "N/A"}
                   </p>
+
+                  <Item id="username">
+                    <Span>Username: </Span>
+                    {request?.user?.username ?? "Could not get username"}
+                  </Item>
+
+                  <Item id="full_name">
+                    <Span>Citizen Name: </Span>
+                    {request?.citizen?.full_name ?? "Could not get citizen name"}
+                  </Item>
                 </div>
 
                 <div>

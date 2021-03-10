@@ -11,9 +11,10 @@ import { getLegalStatuses } from "../../../lib/actions/values";
 import { getVehicleById, updateVehicleById } from "../../../lib/actions/citizen";
 import Message from "../../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   vehicle: Vehicle | null;
   legalStatuses: Value[];
   match: Match;
@@ -36,6 +37,7 @@ const EditVehiclePage: React.FC<Props> = ({
   const [plate, setPlate] = React.useState("");
   const [color, setColor] = React.useState("");
   const [status, setStatus] = React.useState("");
+  useDocTitle("Edit registered vehicle");
 
   React.useEffect(() => {
     getLegalStatuses();

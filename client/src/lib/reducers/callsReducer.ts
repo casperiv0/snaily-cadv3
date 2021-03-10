@@ -1,4 +1,5 @@
 import Call from "../../interfaces/Call";
+import State from "../../interfaces/State";
 import TowCall from "../../interfaces/TowCall";
 import {
   GET_911_CALLS,
@@ -12,7 +13,7 @@ import {
   END_TAXI_CALL,
 } from "../types";
 
-const initState = {
+const initState: State["calls"] = {
   calls_911: [],
   tow_calls: [],
   taxi_calls: [],

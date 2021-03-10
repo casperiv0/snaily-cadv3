@@ -130,7 +130,9 @@ CREATE TABLE `cad_info` (
   `whitelisted` varchar(255) NOT NULL,
   `webhook_url` text NOT NULL,
   `signal_100` varchar(255) NOT NULL,
-  `live_map_url` text NOT NULL
+  `live_map_url` text NOT NULL,
+  `features` text NOT NULL,
+  `plate_length` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -303,7 +305,17 @@ CREATE TABLE `officers` (
   `rank` varchar(255) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `status2` varchar(255) NOT NULL
+  `status2` varchar(255) NOT NULL,
+  `started_at` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `officer_logs` (
+  `id` varchar(255) NOT NULL,
+  `officer_id` varchar(255) NOT NULL,
+  `started_at` varchar(255) NOT NULL,
+  `ended_at` varchar(255) NOT NULL,
+  `active` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -412,6 +424,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `rank` varchar(255) NOT NULL,
   `leo` varchar(255) NOT NULL,
+  `supervisor` varchar(255) NOT NULL,
   `ems_fd` varchar(255) NOT NULL,
   `dispatch` varchar(255) NOT NULL,
   `tow` varchar(255) NOT NULL,
@@ -1089,6 +1102,12 @@ ALTER TABLE `notifications`
 -- Indexes for table `officers`
 --
 ALTER TABLE `officers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `officer_logs`
+--
+ALTER TABLE `officer_logs`
   ADD PRIMARY KEY (`id`);
 
 --

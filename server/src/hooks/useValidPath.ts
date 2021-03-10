@@ -10,11 +10,7 @@ const paths: string[] = [
   "weapons",
 ];
 
-export default function useValidPath(
-  req: IRequest,
-  res: Response,
-  next: NextFunction
-): void {
+export default function useValidPath(req: IRequest, res: Response, next: NextFunction): void {
   const { path } = req.params;
 
   if (!paths.includes(path.toLowerCase())) {

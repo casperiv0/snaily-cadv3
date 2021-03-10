@@ -8,7 +8,7 @@ import AlertMessage from "../../alert-message";
 import Message from "../../../interfaces/Message";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   updatePassword: (data: object) => void;
 }
 

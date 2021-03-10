@@ -7,6 +7,7 @@ import EmployeesTab from "../../../../components/company/EmployeesTab";
 import PendingTab from "../../../../components/company/PendingTab";
 import VehiclesTab from "../../../../components/company/VehiclesTab";
 import Layout from "../../../../components/Layout";
+import useDocTitle from "../../../../hooks/useDocTitle";
 import Citizen from "../../../../interfaces/Citizen";
 import Match from "../../../../interfaces/Match";
 import Message from "../../../../interfaces/Message";
@@ -17,9 +18,9 @@ import { getCompanyById } from "../../../../lib/actions/company";
 
 interface Props {
   match: Match;
-  message: Message;
+  message: Message | null;
   citizen: Citizen | null;
-  returnError: string;
+  returnError: string | null;
   getCompanyById: (id: string, citizenId: string) => void;
   getCitizenById: (id: string) => void;
 }
@@ -32,6 +33,7 @@ const ManageCompanyPage: React.FC<Props> = ({
   getCompanyById,
   getCitizenById,
 }) => {
+  useDocTitle("Manage company");
   const { companyId, citizenId } = match.params;
   const history = useHistory();
 

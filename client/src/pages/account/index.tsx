@@ -7,19 +7,22 @@ import DeleteAccountModal from "../../components/modals/account/deleteAccountMod
 import EditPasswordModal from "../../components/modals/account/editPasswordModal";
 import { connect } from "react-redux";
 import { Item, Span } from "../citizen/citizen-info";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  user: User;
+  user: User | null;
 }
 
 const AccountPage: React.FC<Props> = ({ user }) => {
+  useDocTitle("My account");
+
   return (
     <Layout>
       <h3>{lang.auth.account.account_info}</h3>
 
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
-          <h4>{user.username}</h4>
+          <h4>{user?.username}</h4>
 
           <div className="d-flex">
             <button
@@ -46,27 +49,32 @@ const AccountPage: React.FC<Props> = ({ user }) => {
         <div className="card-body">
           <Item id="rank">
             <Span>{lang.global.rank}: </Span>
-            {user.rank}
+            {user?.rank}
           </Item>
 
           <Item id="leo">
             <Span>{lang.auth.account.police_access}: </Span>
-            {user.leo}
+            {user?.leo}
           </Item>
 
           <Item id="dispatch">
             <Span>{lang.auth.account.dispatch_access}: </Span>
-            {user.dispatch}
+            {user?.dispatch}
           </Item>
 
           <Item id="ems_fd">
             <Span>{lang.auth.account.ems_fd_access}: </Span>
-            {user.ems_fd}
+            {user?.ems_fd}
           </Item>
 
           <Item id="tow">
             <Span>{lang.auth.account.tow_access}: </Span>
-            {user.tow}
+            {user?.tow}
+          </Item>
+
+          <Item id="steam">
+            <Span>Steam ID: </Span>
+            {user?.steam_id}
           </Item>
 
           <a

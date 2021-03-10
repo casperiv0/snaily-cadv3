@@ -41,11 +41,10 @@ router.post(
     const id = uuidv4();
 
     if (name) {
-      await processQuery(`INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`, [
-        id,
-        name,
-        "0",
-      ]);
+      await processQuery(
+        `INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`,
+        [id, name, "0"],
+      );
 
       return res.json({ status: "success" });
     } else {

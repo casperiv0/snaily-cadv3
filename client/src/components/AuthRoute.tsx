@@ -4,6 +4,8 @@ import State from "../interfaces/State";
 import { Redirect, Route, RouteComponentProps, useHistory, useLocation } from "react-router-dom";
 import User from "../interfaces/User";
 import Loader from "./loader";
+import CadInfo from "../interfaces/CadInfo";
+import GlobalSearch from "../components/global-search";
 
 interface Props {
   Component: any;
@@ -11,14 +13,38 @@ interface Props {
   loading: boolean;
   path: string;
   requirement?: "admin" | "leo" | "dispatch" | "tow" | "ems_fd" | "supervisor";
-  user: User;
+  user: User | null;
+  cadInfo: CadInfo | null;
 }
 
 export const adminRanks: string[] = ["owner", "admin", "moderator"];
 
-const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, requirement }) => {
+const AuthRoute: React.FC<Props> = ({
+  Component,
+  loading,
+  isAuth,
+  path,
+  user,
+  requirement,
+  cadInfo,
+}) => {
   const history = useHistory();
   const location = useLocation();
+
+  React.useEffect(() => {
+    const parsedPath = path
+      .split("")
+      .filter((v) => v !== "/")
+      .join("")
+      .toLowerCase();
+
+    if (
+      ["bleeter", "tow", "truck-logs", "courthouse", "taxi"].includes(parsedPath) &&
+      !cadInfo?.features.includes(parsedPath)
+    ) {
+      return history.push("/not-enabled");
+    }
+  }, [cadInfo?.features, history, path]);
 
   React.useEffect(() => {
     if (requirement && !loading && isAuth) {
@@ -44,15 +70,15 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
           }
           break;
         case "supervisor":
-          if (user.supervisor === "1") break;
+          if (user?.supervisor === "1") break;
 
-          if (!adminRanks.includes(user.rank)) {
+          if (!adminRanks.includes(`${user?.rank}`)) {
             history.push("/forbidden");
           }
           break;
 
         case "admin":
-          if (!adminRanks.includes(user.rank)) {
+          if (!adminRanks.includes(`${user?.rank}`)) {
             history.push("/forbidden");
           }
           break;
@@ -60,7 +86,7 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
           break;
       }
     }
-  });
+  }, [history, isAuth, loading, requirement, user]);
 
   if (loading) {
     return <Loader fullScreen />;
@@ -72,7 +98,10 @@ const AuthRoute: React.FC<Props> = ({ Component, loading, isAuth, path, user, re
       path={path}
       render={(props: RouteComponentProps) =>
         !loading && isAuth ? (
-          <Component {...props} />
+          <>
+            <GlobalSearch />
+            <Component {...props} />
+          </>
         ) : (
           <Redirect
             to={{
@@ -93,6 +122,7 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
   isAuth: state.auth.isAuth,
   loading: state.auth.loading,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps)(AuthRoute);

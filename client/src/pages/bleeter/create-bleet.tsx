@@ -7,9 +7,10 @@ import AlertMessage from "../../components/alert-message";
 import { createBleet } from "../../lib/actions/bleeter";
 import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   createBleet: (data: { title: string; body: string; image: any }) => void;
 }
 
@@ -17,6 +18,7 @@ const CreateBleetPage: React.FC<Props> = ({ message, createBleet }) => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [image, setImage] = React.useState<any>(null);
+  useDocTitle("Create bleet");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

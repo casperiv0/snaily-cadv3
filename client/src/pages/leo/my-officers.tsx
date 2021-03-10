@@ -8,15 +8,17 @@ import { connect } from "react-redux";
 import { getMyOfficers, deleteOfficer } from "../../lib/actions/officer";
 import AlertMessage from "../../components/alert-message";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   officers: Officer[];
-  message: Message;
+  message: Message | null;
   getMyOfficers: () => void;
   deleteOfficer: (id: string) => void;
 }
 
 const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, getMyOfficers }) => {
+  useDocTitle("My officers");
   React.useEffect(() => {
     getMyOfficers();
   }, [getMyOfficers]);
@@ -25,8 +27,11 @@ const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, get
     <Layout classes="mt-5">
       {message ? <AlertMessage message={message} dismissible /> : null}
       <h3>{lang.officers.my_officers}</h3>
-      <Link className="btn btn-primary text-light w-100 p-2 my-2" to="/leo/dash">
+      <Link className="btn btn-primary text-light w-100 p-2" to="/leo/dash">
         {lang.global.back_to_dashboard}
+      </Link>
+      <Link className="btn btn-primary text-light w-100 p-2 my-2" to="/leo/my-logs">
+        My officer logs
       </Link>
       <Link className="btn btn-dark text-light w-100 p-2" to="/leo/officers/create">
         {lang.officers.create_an_officer}

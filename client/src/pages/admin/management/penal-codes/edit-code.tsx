@@ -7,9 +7,10 @@ import { Link, useParams } from "react-router-dom";
 import Message from "../../../../interfaces/Message";
 import AlertMessage from "../../../../components/alert-message";
 import PenalCode from "../../../../interfaces/PenalCode";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   updatePenalCode: (id: string, data: Partial<PenalCode>) => void;
   getPenalCodes: () => void;
   codes: PenalCode[];
@@ -19,6 +20,7 @@ const EditPenalCode: React.FC<Props> = ({ updatePenalCode, message, codes, getPe
   const { id } = useParams<{ id: string }>();
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState<string>("");
+  useDocTitle("Edit Penal Code");
 
   React.useEffect(() => {
     getPenalCodes();

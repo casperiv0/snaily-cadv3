@@ -7,15 +7,17 @@ import { Link } from "react-router-dom";
 import Message from "../../../../interfaces/Message";
 import AlertMessage from "../../../../components/alert-message";
 import PenalCode from "../../../../interfaces/PenalCode";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   addPenalCode: (data: Partial<PenalCode>) => void;
 }
 
 const AddPenalCode: React.FC<Props> = ({ addPenalCode, message }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState("");
+  useDocTitle("Add Penal Code");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

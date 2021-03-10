@@ -27,35 +27,53 @@ export function parse10Codes(codes: Code10[]): Code10[] {
 }
 
 /* Cad settings */
-router.put("/cad-settings", useAuth, usePermission(["owner"]), async (req: IRequest, res: Response) => {
-  const user = await processQuery<IUser>("SELECT `rank` from `users` WHERE `id` = ?", [req.user?.id]);
+router.put(
+  "/cad-settings",
+  useAuth,
+  usePermission(["owner"]),
+  async (req: IRequest, res: Response) => {
+    const user = await processQuery<IUser>("SELECT `rank` from `users` WHERE `id` = ?", [
+      req.user?.id,
+    ]);
 
-  if (user[0].rank !== "owner") {
-    return res.json({ error: "Forbidden", status: "error" }).status(403);
-  }
+    if (user[0].rank !== "owner") {
+      return res.json({ error: "Forbidden", status: "error" }).status(403);
+    }
 
-  const {
-    cad_name,
-    aop,
-    tow_whitelisted,
-    whitelisted,
-    webhook_url,
-    plate_length = 8,
-    live_map_url,
-    steam_api_key,
-  } = req.body;
+    const {
+      cad_name,
+      aop,
+      tow_whitelisted,
+      whitelisted,
+      webhook_url,
+      plate_length = 8,
+      live_map_url,
+      steam_api_key,
+      features,
+    } = req.body;
 
-  if (cad_name && aop && tow_whitelisted && whitelisted) {
-    await processQuery(
-      "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?",
-      [cad_name, aop, tow_whitelisted, whitelisted, webhook_url, plate_length, live_map_url, steam_api_key],
-    );
+    if (cad_name && aop && tow_whitelisted && whitelisted) {
+      await processQuery(
+        "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?",
+        [
+          cad_name,
+          aop,
+          tow_whitelisted,
+          whitelisted,
+          webhook_url,
+          plate_length,
+          live_map_url,
+          steam_api_key,
+          JSON.stringify(features) || JSON.stringify("[]"),
+        ],
+      );
 
-    return res.json({ status: "success" });
-  } else {
-    return res.json({ error: "Please fill in all fields", status: "error" });
-  }
-});
+      return res.json({ status: "success" });
+    } else {
+      return res.json({ error: "Please fill in all fields", status: "error" });
+    }
+  },
+);
 
 /* members */
 router.get(
@@ -130,18 +148,29 @@ router.put(
             return res.json({ error: "You can't ban yourself", status: "error" });
           }
 
-          await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", ["1", ban_reason, id]);
+          await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", [
+            "1",
+            ban_reason,
+            id,
+          ]);
         } else {
           return res.json({ error: "Please provide a ban reason", status: "error" });
         }
         break;
       }
       case "unban": {
-        await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", ["0", "", id]);
+        await processQuery("UPDATE `users` SET `banned` = ?, `ban_reason` = ? WHERE `id` = ?", [
+          "0",
+          "",
+          id,
+        ]);
         break;
       }
       case "accept": {
-        await processQuery("UPDATE `users` SET `whitelist_status` = ? WHERE `id` = ?", ["accepted", id]);
+        await processQuery("UPDATE `users` SET `whitelist_status` = ? WHERE `id` = ?", [
+          "accepted",
+          id,
+        ]);
         break;
       }
       case "decline": {
@@ -177,17 +206,25 @@ router.get(
   async (_req: IRequest, res: Response) => {
     const citizens = await processQuery("SELECT * FROM `citizens`");
 
-    await citizens.forEach(async (citizen: Citizen & { user: { username: string } }) => {
-      const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [citizen.user_id]);
+    const parsedCitizens = async () => {
+      const arr: Citizen[] = [];
 
-      citizen.user = user[0];
+      await Promise.all(
+        citizens.map(async (citizen: Citizen & { user: { username: string } }) => {
+          const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+            citizen.user_id,
+          ]);
 
-      return citizen;
-    });
+          citizen.user = user[0];
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+          arr.push(citizen);
+        }),
+      );
 
-    return res.json({ citizens, status: "success" });
+      return arr;
+    };
+
+    return res.json({ citizens: await parsedCitizens(), status: "success" });
   },
 );
 
@@ -198,14 +235,35 @@ router.get(
   async (_req, res: Response) => {
     const requests = await processQuery("SELECT * FROM `court_requests`");
 
+    const parsedRequests = async () => {
+      const reqs: any[] = [];
+
+      await Promise.all(
+        requests.map(async (request: any) => {
+          const citizen = await processQuery("SELECT `full_name` FROM `citizens` WHERE `id` = ?", [
+            request.citizen_id,
+          ]);
+          const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+            request.user_id,
+          ]);
+
+          request.user = user[0];
+          request.citizen = citizen[0];
+
+          request.warrants = JSON.parse(request.warrants);
+          request.arrestReports = JSON.parse(request.arrest_reports);
+          request.tickets = JSON.parse(request.tickets);
+
+          reqs.push(request);
+        }),
+      );
+
+      return reqs;
+    };
+
     return res.json({
       status: "success",
-      requests: requests.map((request: any) => {
-        request.warrants = JSON.parse(request.warrants);
-        request.arrestReports = JSON.parse(request.arrest_reports);
-        request.tickets = JSON.parse(request.tickets);
-        return request;
-      }),
+      requests: await parsedRequests(),
     });
   },
 );
@@ -216,7 +274,9 @@ router.put(
   usePermission(["admin", "owner", "moderator"]),
   async (req: IRequest, res: Response) => {
     const { requestId, type } = req.params;
-    const request = await processQuery("SELECT * FROM `court_requests` WHERE `id` = ?", [requestId]);
+    const request = await processQuery("SELECT * FROM `court_requests` WHERE `id` = ?", [
+      requestId,
+    ]);
 
     switch (type) {
       case "accept": {
@@ -294,17 +354,25 @@ router.delete(
 router.get("/companies", useAuth, async (_req: IRequest, res: Response) => {
   const companies = await processQuery("SELECT * FROM `businesses`");
 
-  await companies.forEach(async (company: any) => {
-    const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [company.user_id]);
+  const parsedCompanies = async () => {
+    const arr: any[] = [];
 
-    company.user = user[0];
+    await Promise.all(
+      companies.map(async (company: any) => {
+        const user = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+          company.user_id,
+        ]);
 
-    return company;
-  });
+        company.user = user[0];
 
-  await new Promise((resolve) => setTimeout(resolve, 500));
+        arr.push(company);
+      }),
+    );
 
-  return res.json({ companies, status: "success" });
+    return arr;
+  };
+
+  return res.json({ companies: await parsedCompanies(), status: "success" });
 });
 
 router.delete(
@@ -314,7 +382,10 @@ router.delete(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
 
-    const employees = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `business_id` = ?", [id]);
+    const employees = await processQuery<Citizen>(
+      "SELECT * FROM `citizens` WHERE `business_id` = ?",
+      [id],
+    );
 
     employees?.forEach(async (em: Citizen) => {
       await processQuery(
@@ -371,21 +442,20 @@ router.put(
   usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (req: IRequest, res: Response) => {
     const { officerId } = req.params;
-    const { callsign, rank } = req.body;
+    const { callsign, rank, department } = req.body;
 
-    if (!callsign) {
+    if (!callsign || !department) {
       return res.json({
-        error: "callsign must be provided",
+        error: "Please fill in all fields",
         status: "error",
       });
     }
 
     try {
-      await processQuery("UPDATE `officers` SET `callsign` = ?, `rank` = ? WHERE `id` = ?", [
-        callsign,
-        rank,
-        officerId,
-      ]);
+      await processQuery(
+        "UPDATE `officers` SET `callsign` = ?, `rank` = ?, `officer_dept` = ? WHERE `id` = ?",
+        [callsign, rank, department, officerId],
+      );
 
       return res.json({ status: "success" });
     } catch (e) {
@@ -423,7 +493,11 @@ router.post(
       });
     }
 
-    await processQuery("INSERT INTO `penal_codes` (`id`, `title`, `des`) VALUES (?, ?, ?)", [v4(), title, des]);
+    await processQuery("INSERT INTO `penal_codes` (`id`, `title`, `des`) VALUES (?, ?, ?)", [
+      v4(),
+      title,
+      des,
+    ]);
 
     const updated = await processQuery("SELECT * FROM `penal_codes`");
 
@@ -449,7 +523,11 @@ router.put(
       });
     }
 
-    await processQuery("UPDATE `penal_codes` SET `title` = ?, `des` = ? WHERE `id` = ?", [title, des, id]);
+    await processQuery("UPDATE `penal_codes` SET `title` = ?, `des` = ? WHERE `id` = ?", [
+      title,
+      des,
+      id,
+    ]);
 
     return res.json({
       status: "success",

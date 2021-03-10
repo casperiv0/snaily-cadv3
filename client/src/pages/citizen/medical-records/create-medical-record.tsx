@@ -7,6 +7,7 @@ import lang from "../../../language.json";
 import { connect } from "react-redux";
 import { createMedicalRecord } from "../../../lib/actions/citizen";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   error: string | null;
@@ -18,6 +19,7 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
   const [type, setType] = React.useState("Allergy");
   const [shortInfo, setShortInfo] = React.useState("");
   const citizenId = match.params.id;
+  useDocTitle("Create medical record");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

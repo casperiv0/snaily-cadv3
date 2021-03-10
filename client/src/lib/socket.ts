@@ -7,7 +7,7 @@ const socket = io(url);
 const INTERVAL_1_MIN = 60_000; /* 1 minute interval */
 
 socket.on("connect", () => {
-  Logger.log("socket", `Connected to socket`);
+  Logger.log("socket", `Connected to socket. ID: ${socket.id}`);
   socket.emit("CHECK_FOR_VERSION");
 });
 

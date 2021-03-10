@@ -9,14 +9,18 @@ const router: Router = Router();
 
 router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const weapons = await processQuery("SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?", [id]);
+  const weapons = await processQuery("SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?", [
+    id,
+  ]);
 
   return res.json({ status: "success", weapons });
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const { weapon, citizenId, status } = req.body;
-  const citizen = await processQuery("SELECT `full_name` FROM `citizens` WHERE `id` = ?", [citizenId]);
+  const citizen = await processQuery("SELECT `full_name` FROM `citizens` WHERE `id` = ?", [
+    citizenId,
+  ]);
 
   if (weapon && citizenId && status) {
     const id = uuidv4();
@@ -36,9 +40,14 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 router.delete("/:citizenId/:weaponId", useAuth, async (req: IRequest, res: Response) => {
   const { citizenId, weaponId } = req.params;
 
-  await processQuery("DELETE FROM `registered_weapons` WHERE `id` = ? AND `citizen_id` = ?", [weaponId, citizenId]);
+  await processQuery("DELETE FROM `registered_weapons` WHERE `id` = ? AND `citizen_id` = ?", [
+    weaponId,
+    citizenId,
+  ]);
 
-  const weapons = await processQuery("SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?", [citizenId]);
+  const weapons = await processQuery("SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?", [
+    citizenId,
+  ]);
 
   return res.json({ status: "success", weapons });
 });

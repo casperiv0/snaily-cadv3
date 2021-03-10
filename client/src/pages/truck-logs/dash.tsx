@@ -9,17 +9,19 @@ import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
-  aop: string;
+  message: Message | null;
+  aop: string | null;
   logs: TruckLog[];
   getTruckLogs: () => void;
   deleteTruckLog: (id: string) => void;
 }
 
 const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
-  const [aop, setAop] = React.useState<string>(props.aop);
+  useDocTitle("Truck logs dashboard");
+  const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const { logs, getTruckLogs, deleteTruckLog } = props;
 
   React.useEffect(() => {

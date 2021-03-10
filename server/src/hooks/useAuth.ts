@@ -19,7 +19,7 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
     const vToken = jwt.verify(token, secret) as IUser;
     const user = await processQuery(
       "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`  FROM `users` WHERE `id` = ?",
-      [vToken.id]
+      [vToken.id],
     );
 
     if (!user[0]) {

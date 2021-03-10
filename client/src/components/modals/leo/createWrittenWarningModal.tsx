@@ -11,7 +11,7 @@ import PenalCode from "../../../interfaces/PenalCode";
 import Select from "../../select";
 
 interface Props {
-  error: string;
+  error: string | null;
   officer: Officer | null;
   penalCodes: PenalCode[];
   createWrittenWarning: (data: {

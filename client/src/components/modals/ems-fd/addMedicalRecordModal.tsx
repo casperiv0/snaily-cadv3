@@ -11,7 +11,7 @@ import AlertMessage from "../../alert-message";
 import Select from "../../select";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   citizens: Citizen[];
   getAllCitizens: () => void;
   createMedicalRecord: (

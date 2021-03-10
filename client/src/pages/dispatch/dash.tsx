@@ -22,21 +22,23 @@ import Officer from "../../interfaces/Officer";
 import { playSound } from "../../lib/functions";
 import CadInfo from "../../interfaces/CadInfo";
 import { Perm } from "../../interfaces/User";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  aop: string;
-  message: Message;
-  cadInfo: CadInfo;
+  aop: string | null;
+  message: Message | null;
+  cadInfo: CadInfo | null;
 }
 
 const DispatchDash: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<Date>(new Date());
-  const [aop, setAop] = React.useState<string>(props.aop);
+  const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const [panic, setPanic] = React.useState<Officer | null>(null);
-  const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100);
+  const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100 ?? "0");
+  useDocTitle("Dispatch Dashboard");
 
   React.useEffect(() => {
-    setSignal100(props.cadInfo.signal_100);
+    setSignal100(props.cadInfo?.signal_100 ?? "0");
   }, [props.cadInfo]);
 
   React.useEffect(() => {
@@ -63,8 +65,6 @@ const DispatchDash: React.FC<Props> = (props) => {
       }
       setSignal100(value);
     });
-
-    document.title = "Dispatch Dashboard";
   }, []);
 
   return (

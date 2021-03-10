@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import Officer from "../../../interfaces/Officer";
@@ -42,7 +43,12 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
             </label>
 
             {!officers[0] ? (
-              <p className="font-weight-bold">{lang.officers.no_officers}</p>
+              <p className="font-weight-bold">
+                You do not have any officers!{" "}
+                <Link onClick={() => btnRef.current?.click()} to="/leo/officers/create">
+                  Create one here
+                </Link>
+              </p>
             ) : (
               <select
                 className="form-control bg-secondary border-secondary text-light"

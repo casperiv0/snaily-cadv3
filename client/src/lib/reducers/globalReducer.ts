@@ -1,10 +1,11 @@
 import CadInfo from "../../interfaces/CadInfo";
+import State from "../../interfaces/State";
 import { UPDATE_AOP, GET_AOP, SET_MESSAGE, GET_CAD_INFO } from "../types";
 
-const initState = {
+const initState: State["global"] = {
   aop: null,
   message: null,
-  cadInfo: {},
+  cadInfo: null,
 };
 
 type Actions =
@@ -18,7 +19,7 @@ type Actions =
     }
   | {
       type: typeof GET_CAD_INFO;
-      cadInfo: CadInfo;
+      cadInfo: CadInfo | null;
     }
   | {
       type: typeof SET_MESSAGE;

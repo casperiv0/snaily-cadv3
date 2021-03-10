@@ -9,9 +9,10 @@ import { Link, useParams } from "react-router-dom";
 import Message from "../../../../interfaces/Message";
 import AlertMessage from "../../../../components/alert-message";
 import { colorOptions, options, shouldDoOptions } from "./add-code";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   update10Code: (id: string, data: Partial<Code10>) => void;
   get10Codes: () => void;
   codes: Code10[];
@@ -23,6 +24,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
   const [whatPages, setWhatPages] = React.useState<Code10["what_pages"]>([]);
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
+  useDocTitle("Edit 10 Code");
 
   const value = {
     value: colorOptions.find((clr) => clr.value === color)?.value,

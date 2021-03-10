@@ -8,6 +8,7 @@ import Code10 from "../../../../interfaces/Code10";
 import { Link } from "react-router-dom";
 import Message from "../../../../interfaces/Message";
 import AlertMessage from "../../../../components/alert-message";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 export const options = [
   {
@@ -47,7 +48,7 @@ export const colorOptions = [
 ];
 
 interface Props {
-  message: Message;
+  message: Message | null;
   add10Code: (data: Partial<Code10>) => void;
 }
 
@@ -56,6 +57,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code, message }) => {
   const [whatPages, setWhatPages] = React.useState([]);
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
+  useDocTitle("Add 10 Code");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

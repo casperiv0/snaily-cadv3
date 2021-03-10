@@ -11,7 +11,7 @@ import Message from "../../../interfaces/Message";
 interface Props {
   citizens: Citizen[];
   createCompany: (data: object) => void;
-  message: Message;
+  message: Message | null;
 }
 
 const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany }) => {

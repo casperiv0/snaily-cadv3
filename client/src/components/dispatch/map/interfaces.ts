@@ -73,7 +73,7 @@ export interface IPopup extends L.Popup {
   };
 }
 
-export const defaultTypes: { [key: number]: IIcon } = {
+export const defaultTypes: Record<number, IIcon> = {
   0: {
     iconUrl:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=",
@@ -82,9 +82,16 @@ export const defaultTypes: { [key: number]: IIcon } = {
   },
   6: {
     iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon-2x.png",
-    iconSize: [25, 41],
-    popupAnchor: [0, 0],
+    iconSize: [30, 30],
+    popupAnchor: [0, 2],
   },
+  // TODO: add icon for these
+  // Police car
+  // 5: {},
+  // Fire truck
+  // 4: {},
+  // Ambulance
+  // 3: {},
 };
 
 export const BLIP_SIZES = {

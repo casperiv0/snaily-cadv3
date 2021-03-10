@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import State from "../../../../interfaces/State";
 import AlertMessage from "../../../../components/alert-message";
@@ -10,13 +11,18 @@ import {
 } from "../../../../lib/actions/admin";
 import Message from "../../../../interfaces/Message";
 import Officer from "../../../../interfaces/Officer";
-import { Link, useParams } from "react-router-dom";
+import lang from "../../../../language.json";
+import Department from "../../../../interfaces/Department";
+import { getDepartments } from "../../../../lib/actions/officer";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   officer: Officer | null;
+  departments: Department[];
   getOfficerById: (officerId: string) => void;
   updateOfficerById: (officerId: string, data: UpdateOfficerData) => void;
+  getDepartments: (type: "admin" | "leo") => void;
 }
 
 const ManageOfficerPage: React.FC<Props> = ({
@@ -24,18 +30,24 @@ const ManageOfficerPage: React.FC<Props> = ({
   message,
   getOfficerById,
   updateOfficerById,
+  departments,
+  getDepartments,
 }) => {
   const { id } = useParams<{ id: string }>();
+  const [department, setDepartment] = React.useState(officer?.officer_dept || "");
   const [callSign, setCallSign] = React.useState(officer?.callsign || "");
   const [rank, setRank] = React.useState(officer?.rank || "");
+  useDocTitle(`Managing ${officer?.officer_name}`);
 
   React.useEffect(() => {
     getOfficerById(id);
-  }, [id, getOfficerById]);
+    getDepartments("leo");
+  }, [id, getOfficerById, getDepartments]);
 
   React.useEffect(() => {
     setCallSign(officer?.callsign || "");
     setRank(officer?.rank || "");
+    setDepartment(officer?.officer_dept || "");
   }, [officer]);
 
   function onSubmit(e: React.FormEvent) {
@@ -44,6 +56,7 @@ const ManageOfficerPage: React.FC<Props> = ({
     updateOfficerById(id, {
       callsign: callSign,
       rank,
+      department,
     });
   }
 
@@ -52,6 +65,32 @@ const ManageOfficerPage: React.FC<Props> = ({
       {message ? <AlertMessage message={message} dismissible /> : null}
 
       <form onSubmit={onSubmit}>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="tow">
+            Department
+          </label>
+
+          <select
+            className="form-control bg-dark border-dark text-light"
+            name="department"
+            id="department"
+            value={department}
+            onChange={(e) => setDepartment(e.target.value)}
+          >
+            <option>{lang.officers.select_department}..</option>
+            {!departments[0] ? (
+              <option>{lang.officers.no_departments}</option>
+            ) : (
+              departments.map((department, idx) => {
+                return (
+                  <option key={idx} id={`${idx}`} value={department.name}>
+                    {department.name}
+                  </option>
+                );
+              })
+            )}
+          </select>
+        </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="tow">
             Callsign
@@ -93,6 +132,9 @@ const ManageOfficerPage: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   officer: state.admin.officer,
   message: state.global.message,
+  departments: state.officers.departments,
 });
 
-export default connect(mapToProps, { getOfficerById, updateOfficerById })(ManageOfficerPage);
+export default connect(mapToProps, { getOfficerById, updateOfficerById, getDepartments })(
+  ManageOfficerPage,
+);

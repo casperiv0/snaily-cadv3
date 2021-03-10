@@ -8,9 +8,10 @@ import lang from "../../language.json";
 import { getMyDeputies, deleteEmsFdDeputy } from "../../lib/actions/ems-fd";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   deputies: Deputy[];
   getMyDeputies: () => void;
   deleteEmsFdDeputy: (id: string) => void;
@@ -22,6 +23,7 @@ const MyDeputiesPage: React.FC<Props> = ({
   getMyDeputies,
   deleteEmsFdDeputy,
 }) => {
+  useDocTitle("My EMS/FD Deputies");
   React.useEffect(() => {
     getMyDeputies();
   }, [getMyDeputies]);

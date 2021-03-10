@@ -12,10 +12,11 @@ import Call911Modal from "../../components/modals/call911Modal";
 import { getCitizens } from "../../lib/actions/citizen";
 import Message from "../../interfaces/Message";
 import CallTaxiModal from "../../components/modals/callTaxiModal";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  aop: string;
-  message: Message;
+  aop: string | null;
+  message: Message | null;
   citizens: Citizen[];
   getCitizens: () => void;
 }
@@ -23,10 +24,7 @@ interface Props {
 const CitizensPage: React.FC<Props> = (props) => {
   const { message, citizens, getCitizens } = props;
   const [aop, setAop] = React.useState(props.aop);
-
-  React.useEffect(() => {
-    document.title = "Citizen - View and change all your citizens";
-  });
+  useDocTitle("Citizen - View and change all your citizens");
 
   React.useEffect(() => {
     getCitizens();

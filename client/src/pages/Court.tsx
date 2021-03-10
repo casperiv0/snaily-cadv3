@@ -4,6 +4,7 @@ import { ExpungementRequest, getExpungementRequests } from "../lib/actions/court
 import Layout from "../components/Layout";
 import RequestExpungementModal from "../components/modals/court/RequestExpungementModal";
 import State from "../interfaces/State";
+import useDocTitle from "../hooks/useDocTitle";
 
 interface Props {
   requests: ExpungementRequest[];
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const CourthousePage: React.FC<Props> = ({ requests, getExpungementRequests }) => {
+  useDocTitle("Courthouse");
   React.useEffect(() => {
     getExpungementRequests();
   }, [getExpungementRequests]);

@@ -23,7 +23,9 @@ router.post("/register", async (req: IRequest, res: Response) => {
       return res.json({ status: "error", error: "Passwords do not match" });
     }
 
-    const existing = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [username]);
+    const existing = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [
+      username,
+    ]);
 
     if (existing?.length > 0) {
       return res.json({
@@ -82,9 +84,22 @@ router.post("/register", async (req: IRequest, res: Response) => {
     } else {
       // no users found - create the account at owner level
       const id = uuidv4();
+      const features = ["bleeter", "tow", "taxi", "courthouse", "truck-logs"];
       await processQuery(
-        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `live_map_url`, `plate_length`, `signal_100`, `steam_api_key`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [username, "Change me", "Change me", "0", "0", "", "", 8, "0", ""],
+        "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `live_map_url`, `plate_length`, `signal_100`, `steam_api_key`, `features`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          username,
+          "Change me",
+          "Change me",
+          "0",
+          "0",
+          "",
+          "",
+          8,
+          "0",
+          "",
+          JSON.stringify(features),
+        ],
       );
       await processQuery(insertSQL, [
         id /* id */,
@@ -121,7 +136,9 @@ router.post("/login", async (req: IRequest, res: Response) => {
   const { username, password } = req.body;
 
   if (username && password) {
-    const user = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [username]);
+    const user = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [
+      username,
+    ]);
     const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
 
     if (!user[0]) {
@@ -188,26 +205,32 @@ router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) =
     });
   }
 
-  const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [userId]);
+  const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
+    userId,
+  ]);
 
-  citizens.forEach(async (citizen: Citizen) => {
-    await processQuery("DELETE FROM `arrest_reports` WHERE `citizen_id` = ?", [citizen.id]);
-    await processQuery("DELETE FROM `businesses` WHERE `citizen_id` = ?", [citizen.id]);
-    await processQuery("DELETE FROM `leo_tickets` WHERE `citizen_id` = ?", [citizen.id]);
-    await processQuery("DELETE FROM `medical_records` WHERE `citizen_id` = ?", [citizen.id]);
-    await processQuery("DELETE FROM `registered_cars` WHERE `citizen_id` = ?", [citizen.id]);
-    await processQuery("DELETE FROM `registered_weapons` WHERE `citizen_id` = ?", [citizen.id]);
-    await processQuery("DELETE FROM `warrants` WHERE `citizen_id` = ?", [citizen.id]);
-    await processQuery("DELETE FROM `written_warnings` WHERE `citizen_id` = ?", [citizen.id]);
-  });
+  await Promise.all(
+    citizens.map(async (citizen) => {
+      await processQuery("DELETE FROM `arrest_reports` WHERE `citizen_id` = ?", [citizen.id]);
+      await processQuery("DELETE FROM `businesses` WHERE `citizen_id` = ?", [citizen.id]);
+      await processQuery("DELETE FROM `leo_tickets` WHERE `citizen_id` = ?", [citizen.id]);
+      await processQuery("DELETE FROM `medical_records` WHERE `citizen_id` = ?", [citizen.id]);
+      await processQuery("DELETE FROM `registered_cars` WHERE `citizen_id` = ?", [citizen.id]);
+      await processQuery("DELETE FROM `registered_weapons` WHERE `citizen_id` = ?", [citizen.id]);
+      await processQuery("DELETE FROM `warrants` WHERE `citizen_id` = ?", [citizen.id]);
+      await processQuery("DELETE FROM `written_warnings` WHERE `citizen_id` = ?", [citizen.id]);
+    }),
+  );
 
-  await processQuery("DELETE FROM `posts` WHERE `user_id` = ?", [userId]);
-  await processQuery("DELETE FROM `truck_logs` WHERE `user_id` = ?", [userId]);
-  await processQuery("DELETE FROM `officers` WHERE `user_id` = ?", [userId]);
-  await processQuery("DELETE FROM `ems-fd` WHERE `user_id` = ?", [userId]);
-  await processQuery("DELETE FROM `bleets` WHERE `user_id` = ?", [userId]);
-  await processQuery("DELETE FROM `citizens` WHERE `user_id` = ?", [userId]);
-  await processQuery("DELETE FROM `users` WHERE `id` = ?", [userId]);
+  await Promise.all([
+    await processQuery("DELETE FROM `posts` WHERE `user_id` = ?", [userId]),
+    await processQuery("DELETE FROM `truck_logs` WHERE `user_id` = ?", [userId]),
+    await processQuery("DELETE FROM `officers` WHERE `user_id` = ?", [userId]),
+    await processQuery("DELETE FROM `ems-fd` WHERE `user_id` = ?", [userId]),
+    await processQuery("DELETE FROM `bleets` WHERE `user_id` = ?", [userId]),
+    await processQuery("DELETE FROM `citizens` WHERE `user_id` = ?", [userId]),
+    await processQuery("DELETE FROM `users` WHERE `id` = ?", [userId]),
+  ]);
 
   return res.json({ status: "success" });
 });

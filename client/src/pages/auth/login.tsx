@@ -7,9 +7,10 @@ import lang from "../../language.json";
 import { connect } from "react-redux";
 import { login } from "../../lib/actions/auth";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   loading: boolean;
   location: ILoc;
   login: (data: object, requestedPath: string) => void;
@@ -19,6 +20,7 @@ const Login: React.FC<Props> = ({ message, loading, location, login }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const requestedPath = location?.state?.requestedPath;
+  useDocTitle("Login");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

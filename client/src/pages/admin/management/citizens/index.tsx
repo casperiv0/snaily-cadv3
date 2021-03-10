@@ -10,9 +10,10 @@ import Message from "../../../../interfaces/Message";
 import AllCitizensTab from "../../../../components/admin/all-citizens";
 import ExpungementRequestsTab from "../../../../components/admin/expungement-requests";
 import { ExpungementRequest } from "../../../../lib/actions/court";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message;
+  message: Message | null;
   requests: ExpungementRequest[];
   citizens: Citizen[];
   getAllCitizens: () => void;
@@ -26,6 +27,7 @@ const ManageCitizensPage: React.FC<Props> = ({
   getAllCitizens,
   getAllExpungementRequests,
 }) => {
+  useDocTitle("Citizen management");
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<any>([]);
 
