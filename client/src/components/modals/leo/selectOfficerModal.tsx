@@ -44,7 +44,10 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
 
             {!officers[0] ? (
               <p className="font-weight-bold">
-                You do not have any officers! <Link to="/leo/officers/create">Create one here</Link>
+                You do not have any officers!{" "}
+                <Link onClick={() => btnRef.current?.click()} to="/leo/officers/create">
+                  Create one here
+                </Link>
               </p>
             ) : (
               <select

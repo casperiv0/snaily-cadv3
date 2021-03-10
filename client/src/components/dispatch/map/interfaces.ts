@@ -81,29 +81,17 @@ export const defaultTypes: Record<number, IIcon> = {
     popupAnchor: [0, 0],
   },
   6: {
-    iconUrl: "https://discord.com/assets/ccb2d2a7a4b084c98d57ab384c0267c6.svg",
+    iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon-2x.png",
     iconSize: [30, 30],
     popupAnchor: [0, 2],
   },
+  // TODO: add icon for these
   // Police car
-  5: {
-    iconUrl: "https://discord.com/assets/c8d3385524b2681cbb83d5f6dad308a2.svg",
-    iconSize: [30, 35],
-    popupAnchor: [0, 0],
-    shadowAnchor: [0, 0],
-  },
+  // 5: {},
   // Fire truck
-  4: {
-    iconUrl: "https://discord.com/assets/c2aef75dcc13733edda4b2bbd35509a6.svg",
-    iconSize: [30, 30],
-    popupAnchor: [0, 0],
-  },
+  // 4: {},
   // Ambulance
-  3: {
-    iconUrl: "https://discord.com/assets/ab136c40e0d79d1ecda361d342b53050.svg",
-    iconSize: [30, 30],
-    popupAnchor: [0, 0],
-  },
+  // 3: {},
 };
 
 export const BLIP_SIZES = {

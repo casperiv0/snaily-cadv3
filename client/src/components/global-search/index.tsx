@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import { Options, useHotkeys } from "react-hotkeys-hook";
 import "./styles.css";
 import { Items } from "./items";
 import { Link } from "react-router-dom";
@@ -10,6 +10,11 @@ import User from "../../interfaces/User";
 interface Props {
   user: User | null;
 }
+
+const KeyOptions: Options = {
+  filterPreventDefault: false,
+  enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+};
 
 const GlobalSearch: React.FC<Props> = ({ user }) => {
   const [open, setOpen] = React.useState(false);
@@ -26,25 +31,28 @@ const GlobalSearch: React.FC<Props> = ({ user }) => {
   }, [open]);
 
   useHotkeys(
-    "cmd+k, ctrl+k, esc",
+    "esc",
     (e) => {
       e.preventDefault();
 
-      if (e.key === "Esc") {
-        setOpen(false);
-      }
+      setOpen(false);
+    },
+    KeyOptions,
+  );
+
+  useHotkeys(
+    "cmd+k, ctrl+k",
+    (e) => {
+      e.preventDefault();
 
       setOpen((v) => !v);
     },
-    {
-      filterPreventDefault: false,
-      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
-    },
+    KeyOptions,
   );
 
-  if (!open) return null;
+  if (open === false) return null;
 
-  return (
+  return !open ? null : (
     <div id="globalSearch">
       <div onClick={() => setOpen(false)} className="global-search-bg" />
       <div className="global-search rounded bg-dark">
