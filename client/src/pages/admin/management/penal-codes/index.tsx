@@ -48,7 +48,7 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, getPenalCodes, deletePen
         </div>
       </div>
 
-      <ul className="list-group pb-5">
+      <div className="pb-5">
         <input
           type="text"
           value={filter}
@@ -61,40 +61,45 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, getPenalCodes, deletePen
             message={{ msg: "This CAD doesn't have any penal codes", type: "warning" }}
           />
         ) : (
-          filtered.map((code: PenalCode, idx: number) => {
-            return (
-              <li
-                key={code.id}
-                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
-              >
-                <div>
-                  <div className="mb-0">
-                    <p className="h5">
-                      {++idx} | {code.title}
-                    </p>
+          <ul className="list-group">
+            {filtered.map((code: PenalCode, idx: number) => {
+              return (
+                <li
+                  key={code.id}
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                >
+                  <div>
+                    <div className="mb-0">
+                      <p className="h5">
+                        {++idx} | {code.title}
+                      </p>
+                    </div>
+                    <div style={{ marginTop: "0" }}>
+                      <Span>Description: </Span>
+                      <p style={{ maxWidth: "600px" }}>{code.des}</p>
+                    </div>
                   </div>
-                  <div style={{ marginTop: "0" }}>
-                    <Span>Description: </Span>
-                    <p style={{ maxWidth: "600px" }}>{code.des}</p>
-                  </div>
-                </div>
 
-                <div>
-                  <button onClick={() => deletePenalCode(code.id)} className="btn btn-danger mx-2">
-                    Delete
-                  </button>
-                  <Link
-                    to={`/admin/manage/penal-codes/edit/${code.id}`}
-                    className="btn btn-success"
-                  >
-                    Edit
-                  </Link>
-                </div>
-              </li>
-            );
-          })
+                  <div>
+                    <button
+                      onClick={() => deletePenalCode(code.id)}
+                      className="btn btn-danger mx-2"
+                    >
+                      Delete
+                    </button>
+                    <Link
+                      to={`/admin/manage/penal-codes/edit/${code.id}`}
+                      className="btn btn-success"
+                    >
+                      Edit
+                    </Link>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         )}
-      </ul>
+      </div>
     </AdminLayout>
   );
 };
