@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AlertMessage from "../../../../components/alert-message";
 import Layout from "../../../../components/Layout";
+import useDocTitle from "../../../../hooks/useDocTitle";
 import Citizen from "../../../../interfaces/Citizen";
 import Match from "../../../../interfaces/Match";
 import State from "../../../../interfaces/State";
@@ -29,6 +30,7 @@ const ManageEmployee: React.FC<Props> = ({
   const [rank, setRank] = React.useState("");
   const [canRegVeh, setCanRegVeh] = React.useState("");
   const [canCreatePost, setCanCreatePost] = React.useState("");
+  useDocTitle(employee?.id ? `Managing employee: ${employee.full_name}` : "Company");
 
   React.useEffect(() => {
     getCitizenById(employeeId);

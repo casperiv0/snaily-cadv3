@@ -7,6 +7,7 @@ import AlertMessage from "../../components/alert-message";
 import { createEmsFdDeputy } from "../../lib/actions/ems-fd";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -16,6 +17,7 @@ interface Props {
 const CreateDeputyPage: React.FC<Props> = ({ message, createEmsFdDeputy }) => {
   const [name, setName] = React.useState<string>("");
   const history = useHistory();
+  useDocTitle("Create EMS/FD Deputy");
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();

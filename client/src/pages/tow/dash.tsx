@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { getTowCalls, endTowCall } from "../../lib/actions/tow-calls";
 import NotepadModal from "../../components/modals/notepad";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const TowDash: React.FC<Props> = (props) => {
+  useDocTitle("Tow Dashboard");
   const { calls, message, getTowCalls, endTowCall } = props;
   const [aop, setAop] = React.useState(props.aop);
 

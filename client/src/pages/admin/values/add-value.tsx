@@ -8,6 +8,7 @@ import { addValue } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import Message from "../../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   match: Match;
@@ -17,6 +18,7 @@ interface Props {
 
 const AddValuePage: React.FC<Props> = ({ message, match, addValue }) => {
   const path = match.params.path;
+  useDocTitle(lang.admin.values[path].add);
   const [value, setValue] = React.useState<string>("");
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

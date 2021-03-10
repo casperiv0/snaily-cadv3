@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { endTaxiCall, getTaxiCalls } from "../../lib/actions/taxi-calls";
 import NotepadModal from "../../components/modals/notepad";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const TaxiDash: React.FC<Props> = (props) => {
+  useDocTitle("Taxi Dashboard");
   const { calls, message, getTaxiCalls, endTaxiCall } = props;
   const [aop, setAop] = React.useState(props.aop);
 

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AlertMessage from "../../../components/alert-message";
 import Layout from "../../../components/Layout";
+import useDocTitle from "../../../hooks/useDocTitle";
 import Citizen from "../../../interfaces/Citizen";
 import Company, { CompanyPost } from "../../../interfaces/Company";
 import Match from "../../../interfaces/Match";
@@ -32,6 +33,7 @@ const CompanyPage: React.FC<Props> = ({
   getCompanyById,
 }) => {
   const { companyId, citizenId } = match.params;
+  useDocTitle(company?.id ? `Viewing company: ${company.name}` : "Company");
 
   React.useEffect(() => {
     getCitizenById(citizenId);

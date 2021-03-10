@@ -424,6 +424,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `rank` varchar(255) NOT NULL,
   `leo` varchar(255) NOT NULL,
+  `supervisor` varchar(255) NOT NULL,
   `ems_fd` varchar(255) NOT NULL,
   `dispatch` varchar(255) NOT NULL,
   `tow` varchar(255) NOT NULL,

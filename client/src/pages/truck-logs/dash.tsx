@@ -9,6 +9,7 @@ import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
 import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
+  useDocTitle("Truck logs dashboard");
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const { logs, getTruckLogs, deleteTruckLog } = props;
 

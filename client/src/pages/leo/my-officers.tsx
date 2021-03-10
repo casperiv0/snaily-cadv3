@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { getMyOfficers, deleteOfficer } from "../../lib/actions/officer";
 import AlertMessage from "../../components/alert-message";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   officers: Officer[];
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const MyOfficersPage: React.FC<Props> = ({ officers, message, deleteOfficer, getMyOfficers }) => {
+  useDocTitle("My officers");
   React.useEffect(() => {
     getMyOfficers();
   }, [getMyOfficers]);

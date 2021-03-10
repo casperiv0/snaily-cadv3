@@ -9,6 +9,7 @@ import { deleteCompanyById, getCompanies } from "../../../lib/actions/admin";
 import { Item, Span } from "../../citizen/citizen-info";
 import Message from "../../../interfaces/Message";
 import Loader from "../../../components/loader";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -27,6 +28,7 @@ const CompanyManagementPage: React.FC<Props> = ({
 }) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<any>([]);
+  useDocTitle("Company Management");
 
   React.useEffect(() => {
     getCompanies();

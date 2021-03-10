@@ -12,6 +12,7 @@ import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/
 import Match from "../../interfaces/Match";
 import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -56,6 +57,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   const [firearmsLicense, setFirearmsLicense] = React.useState<string>("");
   const [ccw, setCcw] = React.useState<string>("");
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
+  useDocTitle(`${citizen?.id ? `Editing citizen: ${name}` : ""}`);
 
   React.useEffect(() => {
     getGenders();

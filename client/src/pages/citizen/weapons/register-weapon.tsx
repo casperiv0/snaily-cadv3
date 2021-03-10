@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { getCitizens, registerWeapon } from "../../../lib/actions/citizen";
 import Message from "../../../interfaces/Message";
 import { useHistory } from "react-router-dom";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -36,6 +37,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
   const [citizenId, setCitizenId] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>("");
   const history = useHistory();
+  useDocTitle("Register weapon");
 
   React.useEffect(() => {
     getWeapons();

@@ -19,6 +19,7 @@ import {
   deleteValue,
 } from "../../../lib/actions/values";
 import Message from "../../../interfaces/Message";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -57,6 +58,7 @@ const Values: React.FC<Props> = ({
   const [filtered, setFiltered] = React.useState<any>([]);
   const [filter, setFilter] = React.useState<string>("");
   const path: ValuePaths = match.params.path;
+  useDocTitle(lang.admin.values[path].manage);
 
   React.useEffect(() => {
     if (values[path]) {

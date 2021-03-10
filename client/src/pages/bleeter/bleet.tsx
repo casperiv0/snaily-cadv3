@@ -11,6 +11,7 @@ import lang from "../../language.json";
 import User from "../../interfaces/User";
 import AlertMessage from "../../components/alert-message";
 import { Link, useHistory } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   bleet: IBleet | null;
@@ -25,16 +26,11 @@ interface Props {
 const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, deleteBleet }) => {
   const id = match.params.id;
   const history = useHistory();
+  useDocTitle(`${bleet?.id ? `${bleet.title} - ` : ""} ${lang.nav.bleeter}`);
 
   React.useEffect(() => {
     getBleetById(id);
   }, [getBleetById, id]);
-
-  React.useEffect(() => {
-    if (bleet?.id) {
-      document.title = `${bleet?.title} - ${lang.nav.bleeter}`;
-    }
-  }, [bleet]);
 
   async function handleDelete() {
     const deleted = await deleteBleet(id);

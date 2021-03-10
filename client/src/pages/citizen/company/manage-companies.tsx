@@ -6,6 +6,7 @@ import JoinCompanyModal from "../../../components/modals/company/joinCompanyModa
 import CreateCompanyModal from "../../../components/modals/company/createCompanyModal";
 import lang from "../../../language.json";
 import { getCompanyData } from "../../../lib/actions/company";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   message: string;
@@ -13,6 +14,8 @@ interface Props {
 }
 
 const ManageCompaniesPage: React.FC<Props> = ({ message, getCompanyData }) => {
+  useDocTitle("Manage companies");
+
   React.useEffect(() => {
     getCompanyData();
   }, [getCompanyData]);

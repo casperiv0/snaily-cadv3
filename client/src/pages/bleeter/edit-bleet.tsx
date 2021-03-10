@@ -11,6 +11,7 @@ import User from "../../interfaces/User";
 import { getBleetById, updateBleet } from "../../lib/actions/bleeter";
 import AlertMessage from "../../components/alert-message";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -35,6 +36,7 @@ const EditBleet: React.FC<Props> = ({
   const history = useHistory();
   const [title, setTitle] = React.useState<string>("");
   const [body, setBody] = React.useState<string>("");
+  useDocTitle("Edit bleet");
 
   React.useEffect(() => {
     getBleetById(id);

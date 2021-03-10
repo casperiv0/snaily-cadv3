@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
 import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -33,6 +34,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   getLegalStatuses,
   createCitizen,
 }) => {
+  useDocTitle("Create citizen");
   const [image, setImage] = React.useState<any>(null);
   const [name, setName] = React.useState<string>("");
   const [gender, setGender] = React.useState<string>("");

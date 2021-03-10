@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
+import useDocTitle from "../../../../hooks/useDocTitle";
 import Match from "../../../../interfaces/Match";
 import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
@@ -50,6 +51,7 @@ const ManageMember: React.FC<Props> = ({
   const [emsFd, setEmsFd] = React.useState("");
   const [tow, setTow] = React.useState("");
   const [banReason, setBanReason] = React.useState("");
+  useDocTitle(`Managing ${member?.username}`);
 
   React.useEffect(() => {
     getMemberById(id);

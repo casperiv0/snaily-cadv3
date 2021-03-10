@@ -10,6 +10,7 @@ import { getAllCitizens, getVehicleById, transferVehicle } from "../../../lib/ac
 import Citizen from "../../../interfaces/Citizen";
 import Message from "../../../interfaces/Message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -34,6 +35,7 @@ const TransferVehiclePage: React.FC<Props> = ({
   const [plate, setPlate] = React.useState<string>("");
   const [ownerId, setOwnerId] = React.useState<string>("");
   const vehicleId = match.params.id;
+  useDocTitle("Transfer vehicle");
 
   React.useEffect(() => {
     getVehicleById(vehicleId);

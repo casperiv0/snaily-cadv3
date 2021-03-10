@@ -7,12 +7,15 @@ import DeleteAccountModal from "../../components/modals/account/deleteAccountMod
 import EditPasswordModal from "../../components/modals/account/editPasswordModal";
 import { connect } from "react-redux";
 import { Item, Span } from "../citizen/citizen-info";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   user: User | null;
 }
 
 const AccountPage: React.FC<Props> = ({ user }) => {
+  useDocTitle("My account");
+
   return (
     <Layout>
       <h3>{lang.auth.account.account_info}</h3>

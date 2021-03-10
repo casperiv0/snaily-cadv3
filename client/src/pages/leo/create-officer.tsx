@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { createOfficer, getDepartments } from "../../lib/actions/officer";
 import AlertMessage from "../../components/alert-message";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -22,6 +23,7 @@ const CreateOfficerPage: React.FC<Props> = ({
   createOfficer,
   getDepartments,
 }) => {
+  useDocTitle("Create Officer");
   const [officerName, setOfficerName] = React.useState<string>("");
   const [officerDept, setOfficerDept] = React.useState<string>("");
   const [callSign, setCallSign] = React.useState<string>("");

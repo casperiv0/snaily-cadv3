@@ -4,34 +4,34 @@
 
 ## 1.4.0
 
-- Added a global search, use `CTRL+K` or `CMD+K` to open it. Use the `Escape` key to close
-- Major Code improvements
-- Use `npm ci` if `node_modules` folder already exist for `auto-install` command
-- Add Prettier & ESLint
-- Only show navigation bar items where user has access too
-- Able to enable/disable features (Bleeter, taxi, tow and truck-logs)
-- Able to update officer department in Manage Officers
-- Able to track officer logs (Total time on-duty. LEO Dashboard -> my officers -> my officer logs)
-- See author of expungement request
-- Updated dependencies
+- New: Added a global search, use `CTRL+K` or `CMD+K` to open it. Use the `Escape` key to close
+- New: Able to enable/disable features (Bleeter, taxi, tow and truck-logs)
+- New: Able to update officer department in Manage Officers
+- New: Able to track officer logs (Total time on-duty. LEO Dashboard -> my officers -> my officer logs)
+- Minor: Only show navigation bar items where user has access too
+- Minor: See author of expungement request
+- Minor: Updated dependencies
+- Minor: Updated page titles
+- Major: Add Prettier & ESLint
+- Major: Code improvements
 
 ## 1.3.9
 
-- Minor code improvements
-- Added `rank` to officers, assignable by moderators, admins and owners
-- Added `supervisor` rank to users, this rank can only manage officers
+- Minor: code improvements
+- New: Added `rank` to officers, assignable by moderators, admins and owners
+- New: Added `supervisor` rank to users, this rank can only manage officers
 
 ## 1.3.8
 
-- Fixed small bug not being able to search for medical records
-- Minor improvements to live map
-- Updated dependencies (Make sure to run `npm run auto-install` after updating! )
+- Minor: Fixed small bug not being able to search for medical records
+- Minor: improvements to live map
+- Minor: Updated dependencies (Make sure to run `npm run auto-install` after updating! )
 
 ## 1.3.7
 
-- Fixed small bug
-- Added phone-number field
-- EMS-FD is able to update medical records for citizens
+- New: Added phone-number field
+- New: EMS-FD is able to update medical records for citizens
+- Minor: Fixed small bug
 
 ## 1.3.6
 

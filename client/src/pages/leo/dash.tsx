@@ -26,6 +26,7 @@ import { getPenalCodes } from "../../lib/actions/admin";
 import { useLocation } from "react-router-dom";
 import User, { Perm } from "../../interfaces/User";
 import CadInfo from "../../interfaces/CadInfo";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   aop: string | null;
@@ -37,6 +38,7 @@ interface Props {
 }
 
 const LeoDash: React.FC<Props> = (props) => {
+  useDocTitle("LEO Dashboard");
   const location = useLocation();
   const { getPenalCodes } = props;
   const [time, setTime] = React.useState<Date>(new Date());

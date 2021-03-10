@@ -14,6 +14,7 @@ import Officer from "../../../../interfaces/Officer";
 import lang from "../../../../language.json";
 import Department from "../../../../interfaces/Department";
 import { getDepartments } from "../../../../lib/actions/officer";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -36,6 +37,7 @@ const ManageOfficerPage: React.FC<Props> = ({
   const [department, setDepartment] = React.useState(officer?.officer_dept || "");
   const [callSign, setCallSign] = React.useState(officer?.callsign || "");
   const [rank, setRank] = React.useState(officer?.rank || "");
+  useDocTitle(`Managing ${officer?.officer_name}`);
 
   React.useEffect(() => {
     getOfficerById(id);

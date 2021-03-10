@@ -9,6 +9,7 @@ import User from "../../../../interfaces/User";
 import AllMembersTab from "../../../../components/admin/all-members";
 import PendingMembersTab from "../../../../components/admin/pending-members";
 import Message from "../../../../interfaces/Message";
+import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -19,6 +20,7 @@ interface Props {
 const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) => {
   const [filtered, setFiltered] = React.useState<any[]>([]);
   const [filter, setFilter] = React.useState<string>("");
+  useDocTitle("Member management");
 
   React.useEffect(() => {
     getMembers();

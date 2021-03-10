@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
 import AlertMessage from "../../components/alert-message";
+import useDocTitle from "../../hooks/useDocTitle";
 import CadInfo from "../../interfaces/CadInfo";
 import Message from "../../interfaces/Message";
 import State from "../../interfaces/State";
@@ -28,6 +29,7 @@ interface Props {
 }
 
 const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSettings }) => {
+  useDocTitle("CAD Settings");
   const [cadName, setCadName] = React.useState("");
   const [aop, setAop] = React.useState("");
   const [whitelisted, setWhitelisted] = React.useState("");

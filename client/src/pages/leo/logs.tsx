@@ -10,6 +10,7 @@ import AlertMessage from "../../components/alert-message";
 import Message from "../../interfaces/Message";
 import { Item, Span } from "../citizen/citizen-info";
 import lang from "../../language.json";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   officers: Officer[];
@@ -26,6 +27,7 @@ const OfficerLogsPage: React.FC<Props> = ({
   getMyOfficers,
   getMyOfficerLogs,
 }) => {
+  useDocTitle("My officer logs");
   React.useEffect(() => {
     getMyOfficers();
     getMyOfficerLogs();

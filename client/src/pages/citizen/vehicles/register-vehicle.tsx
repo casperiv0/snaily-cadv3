@@ -13,6 +13,7 @@ import { getCompanies } from "../../../lib/actions/admin";
 import Message from "../../../interfaces/Message";
 import { useHistory } from "react-router-dom";
 import CadInfo from "../../../interfaces/CadInfo";
+import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -48,6 +49,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
   const [citizenId, setCitizenId] = React.useState("");
   const [companyId, setCompanyId] = React.useState("");
   const history = useHistory();
+  useDocTitle("Register vehicle");
 
   React.useEffect(() => {
     getLegalStatuses();

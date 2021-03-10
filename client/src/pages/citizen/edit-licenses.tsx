@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { getCitizenById, updateLicenses } from "../../lib/actions/citizen";
 import { getLegalStatuses } from "../../lib/actions/values";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   citizen: Citizen | null;
@@ -28,6 +29,7 @@ const EditLicensesPage: React.FC<Props> = ({
   getLegalStatuses,
   updateLicenses,
 }) => {
+  useDocTitle("Manage licenses");
   const [dmv, setDmv] = React.useState("");
   const [fireArms, setFireArms] = React.useState("");
   const [pilot, setPilot] = React.useState("");

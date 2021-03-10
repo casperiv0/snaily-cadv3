@@ -6,6 +6,7 @@ import lang from "../../language.json";
 import { connect } from "react-redux";
 import { register } from "../../lib/actions/auth";
 import Message from "../../interfaces/Message";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
@@ -17,6 +18,7 @@ const Register: React.FC<Props> = ({ message, loading, register }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [password2, setPassword2] = React.useState<string>("");
+  useDocTitle("Register");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

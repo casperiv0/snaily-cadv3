@@ -9,6 +9,7 @@ import BleetItem from "../../components/bleeter/bleetItem";
 import Loader from "../../components/loader";
 import AlertMessage from "../../components/alert-message";
 import { Link } from "react-router-dom";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   bleets: Bleet[];
@@ -17,6 +18,8 @@ interface Props {
 }
 
 const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
+  useDocTitle("Bleeter");
+
   React.useEffect(() => {
     getBleetPosts();
   }, [getBleetPosts]);

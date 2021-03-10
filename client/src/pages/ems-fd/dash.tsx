@@ -14,6 +14,7 @@ import Message from "../../interfaces/Message";
 import Deputy from "../../interfaces/Deputy";
 import { get10Codes } from "../../lib/actions/admin";
 import AddMedicalRecordModal from "../../components/modals/ems-fd/addMedicalRecordModal";
+import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   aop: string | null;
@@ -25,6 +26,7 @@ interface Props {
 const EmsFdDash: React.FC<Props> = (props) => {
   const { get10Codes } = props;
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
+  useDocTitle("EMS-FD Dashboard");
 
   React.useEffect(() => {
     socket.on("UPDATE_AOP", (newAop: string) => {
@@ -33,7 +35,6 @@ const EmsFdDash: React.FC<Props> = (props) => {
   }, []);
 
   React.useEffect(() => {
-    document.title = "EMS-FD Dashboard";
     get10Codes();
   }, [get10Codes]);
 
