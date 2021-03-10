@@ -4,6 +4,7 @@
 
 ## 1.4.0
 
+- Added a global search, use `CTRL+K` or `CMD+K` to open it. Use the `Escape` key to close
 - Major Code improvements
 - Use `npm ci` if `node_modules` folder already exist for `auto-install` command
 - Add Prettier & ESLint

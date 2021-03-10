@@ -5,6 +5,7 @@ import { Redirect, Route, RouteComponentProps, useHistory, useLocation } from "r
 import User from "../interfaces/User";
 import Loader from "./loader";
 import CadInfo from "../interfaces/CadInfo";
+import GlobalSearch from "../components/global-search";
 
 interface Props {
   Component: any;
@@ -97,7 +98,10 @@ const AuthRoute: React.FC<Props> = ({
       path={path}
       render={(props: RouteComponentProps) =>
         !loading && isAuth ? (
-          <Component {...props} />
+          <>
+            <GlobalSearch />
+            <Component {...props} />
+          </>
         ) : (
           <Redirect
             to={{
