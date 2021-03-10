@@ -1,7 +1,7 @@
 import * as React from "react";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
-import { searchMedicalRecord } from "../../../lib/actions/ems-fd";
+import { searchMedicalRecord, declareDeadOrAlive } from "../../../lib/actions/ems-fd";
 import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import MedicalRecord from "../../../interfaces/MedicalRecord";
@@ -12,12 +12,14 @@ interface Props {
   message: Message | null;
   medicalRecords: MedicalRecord[];
   searchMedicalRecord: (name: string) => void;
+  declareDeadOrAlive: (citizenId: string, type: "dead" | "alive") => void;
 }
 
 const SearchMedicalRecords: React.FC<Props> = ({
   message,
   medicalRecords,
   searchMedicalRecord,
+  declareDeadOrAlive,
 }) => {
   const [name, setName] = React.useState<string>("");
   const [hasSubmitted, setHasSubmitted] = React.useState<boolean>(false);
@@ -29,6 +31,13 @@ const SearchMedicalRecords: React.FC<Props> = ({
     searchMedicalRecord(name);
 
     setHasSubmitted(true);
+  }
+
+  function handleDeclare(type: "dead" | "alive") {
+    if (!name) return;
+    if (!medicalRecords[0]) return;
+
+    declareDeadOrAlive(medicalRecords[0].citizen_id, type);
   }
 
   function reset() {
@@ -58,29 +67,43 @@ const SearchMedicalRecords: React.FC<Props> = ({
               <AlertMessage message={message} />
             </div>
           ) : (
-            <table className="table table-dark mt-2">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">{lang.ems_fd.type}</th>
-                  <th scope="col">{lang.ems_fd.short_info}</th>
-                  <th scope="col">{lang.global.name}</th>
-                </tr>
-              </thead>
+            hasSubmitted && (
+              <table className="table table-dark mt-2">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th>{lang.ems_fd.type}</th>
+                    <th>{lang.ems_fd.short_info}</th>
+                    <th>{lang.global.name}</th>
+                    <th>{lang.global.actions}</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {medicalRecords?.map((record, idx) => {
-                  return (
-                    <tr key={idx}>
-                      <th scope="row"> {++idx}</th>
-                      <td> {record.type} </td>
-                      <td> {record.short_info}</td>
-                      <td> {record.name} </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                <tbody>
+                  {medicalRecords?.map((record, idx) => {
+                    return (
+                      <tr key={idx}>
+                        <th scope="row"> {++idx}</th>
+                        <td> {record.type} </td>
+                        <td> {record.short_info}</td>
+                        <td> {record.name} </td>
+                        <td>
+                          <button
+                            onClick={() =>
+                              handleDeclare(record.citizen?.dead === "1" ? "alive" : "dead")
+                            }
+                            type="button"
+                            className="btn btn-primary"
+                          >
+                            Declare {record.citizen?.dead === "1" ? "alive" : "dead"}
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )
           )}
         </div>
 
@@ -107,4 +130,6 @@ const mapToProps = (state: State) => ({
   medicalRecords: state.ems_fd.medicalRecords,
 });
 
-export default connect(mapToProps, { searchMedicalRecord })(SearchMedicalRecords);
+export default connect(mapToProps, { searchMedicalRecord, declareDeadOrAlive })(
+  SearchMedicalRecords,
+);

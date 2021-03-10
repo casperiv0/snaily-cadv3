@@ -1,3 +1,5 @@
+import { Perm } from "./User";
+
 interface Citizen {
   image: any;
   id: string;
@@ -24,6 +26,9 @@ interface Citizen {
   b_status: string;
   note: string;
   phone_nr: string;
+  dead: Perm;
+  dead_on: string;
+
   user?: {
     username: string;
   };

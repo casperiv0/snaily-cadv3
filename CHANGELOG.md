@@ -5,6 +5,7 @@
 ## 1.4.2
 
 - Admins/supervisors can see officer logs in `Officer Management`
+- Declare citizens dead or alive (EMS/FD only)
 
 ## 1.4.1
 
