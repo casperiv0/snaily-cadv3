@@ -6,6 +6,8 @@ import IRequest from "../interfaces/IRequest";
 import Officer from "../interfaces/Officer";
 import usePermission from "../hooks/usePermission";
 import Code10 from "../interfaces/Code10";
+import { getWebhookData, postWebhook } from "../lib/functions";
+import ICad from "../interfaces/ICad";
 const router: Router = Router();
 
 router.get(
@@ -92,6 +94,9 @@ router.put(
         req.user?.id,
       ]);
 
+      const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
+      const webhook = cadInfo[0].webhook_url && (await getWebhookData(cadInfo[0].webhook_url));
+
       const code = await processQuery<Code10>("SELECT * FROM `10_codes` WHERE `code` = ?", [
         status2,
       ]);
@@ -128,6 +133,31 @@ router.put(
         "SELECT * FROM `officers` WHERE `id` = ?",
         [id],
       );
+
+      webhook &&
+        postWebhook(webhook, {
+          username: webhook.name,
+          avatar_url: webhook.avatar,
+          embeds: [
+            {
+              title: "Status Change",
+              type: "rich",
+              description: `Officer ** ${updatedOfficer[0].officer_dept} - ${updatedOfficer[0].callsign}${updatedOfficer[0].officer_name}** has changed their status to ${status2}`,
+              fields: [
+                {
+                  name: "ON/OFF duty",
+                  value: updatedOfficer[0].status,
+                  inline: true,
+                },
+                {
+                  name: "Status",
+                  value: updatedOfficer[0].status2,
+                  inline: true,
+                },
+              ],
+            },
+          ],
+        });
 
       return res.json({ status: "success", officer: updatedOfficer[0] });
     } else {

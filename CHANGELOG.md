@@ -8,6 +8,7 @@
 - New: Able to enable/disable features (Bleeter, taxi, tow and truck-logs)
 - New: Able to update officer department in Manage Officers
 - New: Able to track officer logs (Total time on-duty. LEO Dashboard -> my officers -> my officer logs)
+- New: Send webhook when officer status was changed
 - Minor: Only show navigation bar items where user has access too
 - Minor: See author of expungement request
 - Minor: Updated dependencies
