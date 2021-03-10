@@ -10,7 +10,7 @@
 - New: Able to track officer logs (Total time on-duty. LEO Dashboard -> my officers -> my officer logs)
 - New: Send webhook when officer status was changed
 - Minor: Only show navigation bar items where user has access too
-- Minor: See author of expungement request
+- Minor: See author of expungement request ([#107](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/107))
 - Minor: Updated dependencies
 - Minor: Updated page titles
 - Major: Add Prettier & ESLint
