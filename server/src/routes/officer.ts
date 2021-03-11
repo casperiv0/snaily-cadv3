@@ -142,7 +142,7 @@ router.put(
             {
               title: "Status Change",
               type: "rich",
-              description: `Officer ** ${updatedOfficer[0].officer_dept} - ${updatedOfficer[0].callsign}${updatedOfficer[0].officer_name}** has changed their status to ${status2}`,
+              description: `Officer ** ${updatedOfficer[0].officer_dept} - ${updatedOfficer[0].callsign} ${updatedOfficer[0].officer_name}** has changed their status to ${status2}`,
               fields: [
                 {
                   name: "ON/OFF duty",
