@@ -36,9 +36,13 @@ const Statuses: React.FC<Props> = ({
   }, [getCurrentOfficer, officerId]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_ACTIVE_UNITS", () => {
-      getCurrentOfficer(officerId);
-    });
+    const handler = () => getCurrentOfficer(officerId);
+
+    socket.on("UPDATE_ACTIVE_UNITS", handler);
+
+    return () => {
+      socket.off("UPDATE_ACTIVE_UNITS", handler);
+    };
   }, [officerId, getCurrentOfficer]);
 
   function updateStatus(e: any) {

@@ -5,7 +5,6 @@ import { getWebhookData, postWebhook } from "./functions";
 import { processQuery } from "./database";
 import { Socket } from "socket.io";
 import Officer from "../interfaces/Officer";
-import { checkVersion } from "./checks";
 import { Perm } from "../interfaces/IUser";
 
 io.on("connection", async (socket: Socket) => {
@@ -38,10 +37,6 @@ io.on("connection", async (socket: Socket) => {
     if (config.env === "dev") {
       Logger.log("SOCKET_EVENT", "SIGNAL_100");
     }
-  });
-
-  socket.on("CHECK_FOR_VERSION", () => {
-    checkVersion(true);
   });
 
   socket.on("UPDATE_AOP", (aop: string) => {

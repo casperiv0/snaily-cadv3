@@ -1,5 +1,6 @@
 import { NextFunction, Response, Router } from "express";
 import { v4 } from "uuid";
+import pkg from "../../../package.json";
 import { processQuery } from "../lib/database";
 import IRequest from "../interfaces/IRequest";
 import { useAuth } from "../hooks";
@@ -7,6 +8,7 @@ import { RanksArr } from "../lib/constants";
 import ICad from "../interfaces/ICad";
 import { io } from "../server";
 import Call from "../interfaces/Call";
+import { checkVersion } from "../lib/checks";
 
 const router: Router = Router();
 
@@ -70,6 +72,7 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
 
 router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
   const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
+  const updatedVersion = await checkVersion(false);
 
   let features;
 
@@ -79,7 +82,10 @@ router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
     features = [];
   }
 
-  return res.json({ cadInfo: { ...cadInfo[0], features }, status: "success" });
+  return res.json({
+    cadInfo: { ...cadInfo[0], features, version: pkg.version, updatedVersion },
+    status: "success",
+  });
 });
 
 router.post("/update-aop", useAuth, adminOrDispatchAuth, async (req: IRequest, res: Response) => {

@@ -6,6 +6,11 @@
 
 - Admins/supervisors can see officer logs in `Officer Management`
 - Declare citizens dead or alive (EMS/FD only)
+- LEO actions are disabled if there's no `activeOfficer`
+- Fixed minor bug
+- Don't use sockets to check version, will now return the version via `/api/v1/global/cad-info`
+- Fixed bugs with sounds playing several times over
+- Fixed bugs with requests getting spammed on a socket update
 
 ## 1.4.1
 

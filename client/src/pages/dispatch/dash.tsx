@@ -50,21 +50,33 @@ const DispatchDash: React.FC<Props> = (props) => {
   }, [time]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_AOP", (newAop: any) => {
-      setAop(newAop);
-    });
+    const panicSound = playSound("/sounds/panic-button.mp3");
+    const signal100Sound = playSound("/sounds/signal-100.wav");
 
-    socket.on("PANIC_BUTTON", (officer: Officer) => {
-      playSound("/sounds/panic-button.mp3");
+    const aopHandler = (newAop: string) => setAop(newAop);
+    const panicButtonHandler = (officer: Officer) => {
       setPanic(officer);
-    });
-
-    socket.on("SIGNAL_100", (value: Perm) => {
+      panicSound.play();
+    };
+    const signal100Handler = (value: Perm) => {
       if (value === "1") {
-        playSound("/sounds/signal-100.wav");
+        signal100Sound.play();
       }
       setSignal100(value);
-    });
+    };
+
+    socket.on("UPDATE_AOP", aopHandler);
+    socket.on("PANIC_BUTTON", panicButtonHandler);
+    socket.on("SIGNAL_100", signal100Handler);
+
+    return () => {
+      socket.off("UPDATE_AOP", aopHandler);
+      socket.off("PANIC_BUTTON", panicButtonHandler);
+      socket.off("SIGNAL_100", signal100Handler);
+
+      panicSound.stop();
+      signal100Sound.stop();
+    };
   }, []);
 
   return (

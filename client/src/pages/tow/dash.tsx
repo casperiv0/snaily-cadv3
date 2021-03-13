@@ -29,16 +29,16 @@ const TowDash: React.FC<Props> = (props) => {
   }, [getTowCalls]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_AOP", (newAop: string) => {
-      setAop(newAop);
-    });
-  }, []);
+    const aopHandler = (newAop: string) => setAop(newAop);
+    const callsHandler = () => getTowCalls();
 
-  React.useEffect(() => {
-    socket.on("UPDATE_TOW_CALLS", () => {
-      // todo: play a sound
-      getTowCalls();
-    });
+    socket.on("UPDATE_AOP", aopHandler);
+    socket.on("UPDATE_TOW_CALLS", callsHandler);
+
+    return () => {
+      socket.off("UPDATE_AOP", aopHandler);
+      socket.off("UPDATE_TOW_CALLS", callsHandler);
+    };
   }, [getTowCalls]);
 
   return (

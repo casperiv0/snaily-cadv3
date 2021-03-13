@@ -19,11 +19,18 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
   }, [getActive911Calls]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_911_CALLS", () => getActive911Calls());
+    const sound = playSound("/sounds/new-call.mp3");
+    const callHandler = () => getActive911Calls();
+    const newCallHandler = () => sound.play();
 
-    socket.on("NEW_911_CALL", () => {
-      playSound("/sounds/new-call.mp3");
-    });
+    socket.on("UPDATE_911_CALLS", callHandler);
+    socket.on("NEW_911_CALL", newCallHandler);
+
+    return () => {
+      socket.off("UPDATE_911_CALLS", callHandler);
+      socket.off("NEW_911_CALL", newCallHandler);
+      sound.stop();
+    };
   }, [getActive911Calls]);
 
   return (

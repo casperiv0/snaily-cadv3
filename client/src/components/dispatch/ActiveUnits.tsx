@@ -20,7 +20,13 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
   }, [getActiveUnits]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_ACTIVE_UNITS", () => getActiveUnits());
+    const handler = () => getActiveUnits();
+
+    socket.on("UPDATE_ACTIVE_UNITS", handler);
+
+    return () => {
+      socket.off("UPDATE_ACTIVE_UNITS", handler);
+    };
   }, [getActiveUnits]);
 
   return (

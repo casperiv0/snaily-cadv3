@@ -25,9 +25,13 @@ const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
   const { logs, getTruckLogs, deleteTruckLog } = props;
 
   React.useEffect(() => {
-    socket.on("UPDATE_AOP", (newAop: string) => {
-      setAop(newAop);
-    });
+    const handler = (newAop: string) => setAop(newAop);
+
+    socket.on("UPDATE_AOP", handler);
+
+    return () => {
+      socket.off("UPDATE_AOP", handler);
+    };
   }, []);
 
   React.useEffect(() => {

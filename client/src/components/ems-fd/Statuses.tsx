@@ -29,9 +29,13 @@ const Statuses: React.FC<Props> = ({
   }, [getCurrentEmsStatus]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_ACTIVE_UNITS", () => {
-      getCurrentEmsStatus();
-    });
+    const handler = () => getCurrentEmsStatus();
+
+    socket.on("UPDATE_ACTIVE_UNITS", handler);
+
+    return () => {
+      socket.off("UPDATE_ACTIVE_UNITS", handler);
+    };
   }, [getCurrentEmsStatus]);
 
   function updateStatus(e: any) {

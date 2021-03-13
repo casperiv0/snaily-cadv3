@@ -1,4 +1,5 @@
 import * as React from "react";
+import ReactDOM from "react-dom";
 import { Options, useHotkeys } from "react-hotkeys-hook";
 import "./styles.css";
 import { Items } from "./items";
@@ -20,6 +21,7 @@ const GlobalSearch: React.FC<Props> = ({ user }) => {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const ref = React.useRef<HTMLInputElement>(null);
+  const appMount = React.useMemo(() => document.getElementById("app-mount"), []);
   const filteredItems = React.useMemo(() => {
     return Items.filter((item) => item.query.join(" ").includes(search.toLowerCase()));
   }, [search]);
@@ -27,8 +29,11 @@ const GlobalSearch: React.FC<Props> = ({ user }) => {
   React.useEffect(() => {
     if (open) {
       ref.current?.focus();
+      appMount?.setAttribute("aria-hidden", "true");
+    } else {
+      appMount?.removeAttribute("aria-hidden");
     }
-  }, [open]);
+  }, [open, appMount]);
 
   useHotkeys(
     "esc",
@@ -52,7 +57,7 @@ const GlobalSearch: React.FC<Props> = ({ user }) => {
 
   if (open === false) return null;
 
-  return !open ? null : (
+  return ReactDOM.createPortal(
     <div id="globalSearch">
       <div onClick={() => setOpen(false)} className="global-search-bg" />
       <div className="global-search rounded bg-dark">
@@ -94,7 +99,8 @@ const GlobalSearch: React.FC<Props> = ({ user }) => {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.getElementById("global-search")!,
   );
 };
 
