@@ -1,11 +1,10 @@
 import fetch from "node-fetch";
 import Logger from "./Logger";
 import pkg from "../../../package.json";
-import { io } from "../server";
 
 checkVersion();
 
-export async function checkVersion(socketOnly?: boolean): Promise<void | undefined> {
+export async function checkVersion(sendMessage = true): Promise<void | null> {
   const url = "https://dev-caspertheghost.github.io/version.html";
 
   try {
@@ -15,14 +14,15 @@ export async function checkVersion(socketOnly?: boolean): Promise<void | undefin
       ? data.message
       : "Your CAD version is NOT up to date, Please consider updating.";
 
-    if (socketOnly) {
-      io.sockets.emit("VERSION_CHECK", pkg.version, data.snailycad);
-      return;
+    if (sendMessage) {
+      logVersion(data.snailycad !== pkg.version, message);
     }
 
-    logVersion(data.snailycad !== pkg.version, message);
+    return data.snailycad;
   } catch (e) {
     Logger.error("UPDATER", e);
+
+    return null;
   }
 }
 

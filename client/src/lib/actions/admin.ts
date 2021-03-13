@@ -333,7 +333,10 @@ export const getOfficerById = (id: string) => async (dispatch: Dispatch<IDispatc
     if (isSuccess(res)) {
       dispatch({
         type: GET_OFFICER_BY_ID,
-        officer: res.data.officer,
+        officer: {
+          ...res.data.officer,
+          logs: res.data.logs,
+        },
       });
     }
   } catch (e) {

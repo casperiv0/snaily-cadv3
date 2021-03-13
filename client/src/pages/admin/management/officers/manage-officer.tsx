@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import formatDistance from "date-fns/formatDistance";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import State from "../../../../interfaces/State";
 import AlertMessage from "../../../../components/alert-message";
@@ -10,15 +11,17 @@ import {
   UpdateOfficerData,
 } from "../../../../lib/actions/admin";
 import Message from "../../../../interfaces/Message";
-import Officer from "../../../../interfaces/Officer";
+import Officer, { OfficerLog } from "../../../../interfaces/Officer";
 import lang from "../../../../language.json";
 import Department from "../../../../interfaces/Department";
 import { getDepartments } from "../../../../lib/actions/officer";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
   message: Message | null;
   officer: Officer | null;
+  logs: OfficerLog[] | undefined;
   departments: Department[];
   getOfficerById: (officerId: string) => void;
   updateOfficerById: (officerId: string, data: UpdateOfficerData) => void;
@@ -28,9 +31,10 @@ interface Props {
 const ManageOfficerPage: React.FC<Props> = ({
   officer,
   message,
+  departments,
+  logs,
   getOfficerById,
   updateOfficerById,
-  departments,
   getDepartments,
 }) => {
   const { id } = useParams<{ id: string }>();
@@ -63,6 +67,8 @@ const ManageOfficerPage: React.FC<Props> = ({
   return (
     <AdminLayout>
       {message ? <AlertMessage message={message} dismissible /> : null}
+
+      <h1 className="h2 mb-3">Managing Officer: {officer?.officer_name}</h1>
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
@@ -125,6 +131,40 @@ const ManageOfficerPage: React.FC<Props> = ({
           </button>
         </div>
       </form>
+
+      <div className="mt-5">
+        <h1 className="h2">Officer logs</h1>
+
+        <ul className="list-group">
+          {logs && logs?.length <= 0 ? (
+            <p>Officer does not have any logs yet</p>
+          ) : (
+            logs?.map((log, idx) => {
+              return (
+                <li key={idx} id={`${idx}`} className="list-group-item bg-dark border-secondary ">
+                  <Item id="started_at">
+                    <Span>Started at: </Span>
+                    {new Date(+log.started_at).toLocaleString()}
+                  </Item>
+                  <Item id="ended_at">
+                    <Span>Ended at: </Span>
+                    {log.ended_at !== "0"
+                      ? new Date(+log.ended_at).toLocaleString()
+                      : "Has not ended yet"}
+                  </Item>
+
+                  <Item id="total">
+                    <Span>Total Time on-duty: </Span>
+                    {log.ended_at !== "0"
+                      ? `${formatDistance(+log.ended_at, +log.started_at)}`
+                      : "Not ended yet"}
+                  </Item>
+                </li>
+              );
+            })
+          )}
+        </ul>
+      </div>
     </AdminLayout>
   );
 };
@@ -133,6 +173,7 @@ const mapToProps = (state: State) => ({
   officer: state.admin.officer,
   message: state.global.message,
   departments: state.officers.departments,
+  logs: state.admin.officer?.logs,
 });
 
 export default connect(mapToProps, { getOfficerById, updateOfficerById, getDepartments })(

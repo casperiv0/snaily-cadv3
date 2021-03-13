@@ -27,6 +27,22 @@ export const isSuccess = (res: AxiosResponse) => {
   return res.data.status && res.data.status === "success";
 };
 
-export const playSound = (dir: string): void => {
-  new Audio(dir).play();
-};
+export function playSound(src: string) {
+  const audio = new Audio(src);
+  audio.volume = 0.6;
+
+  const play = () => {
+    audio.play();
+
+    return true;
+  };
+
+  const stop = () => {
+    audio.pause();
+    audio.currentTime = 0;
+
+    return true;
+  };
+
+  return { stop, play, audio };
+}

@@ -20,7 +20,12 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
   }, [getActiveUnits]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_ACTIVE_UNITS", () => getActiveUnits());
+    const handler = () => getActiveUnits();
+    socket.on("UPDATE_ACTIVE_UNITS", handler);
+
+    return () => {
+      socket.off("UPDATE_ACTIVE_UNITS", handler);
+    };
   }, [getActiveUnits]);
 
   function updateZIndex() {

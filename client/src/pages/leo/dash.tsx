@@ -64,27 +64,51 @@ const LeoDash: React.FC<Props> = (props) => {
   }, [getPenalCodes]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_AOP", (newAop: string) => {
-      setAop(newAop);
-    });
+    const panicSound = playSound("/sounds/panic-button.mp3");
+    const signal100Sound = playSound("/sounds/signal-100.wav");
 
-    socket.on("PANIC_BUTTON", (officer: Officer) => {
+    const aopHandler = (newAop: string) => setAop(newAop);
+    const panicButtonHandler = (officer: Officer) => {
+      panicSound.play();
       setPanic(officer);
-      playSound("/sounds/panic-button.mp3");
-    });
-
-    socket.on("SIGNAL_100", (value: Perm) => {
+    };
+    const signal100Handler = (value: Perm) => {
+      if (value === "1") {
+        signal100Sound.play();
+      }
       setSignal100(value);
-    });
+    };
+
+    socket.on("UPDATE_AOP", aopHandler);
+    socket.on("PANIC_BUTTON", panicButtonHandler);
+    socket.on("SIGNAL_100", signal100Handler);
+
+    return () => {
+      socket.off("UPDATE_AOP", aopHandler);
+      socket.off("PANIC_BUTTON", panicButtonHandler);
+      socket.off("SIGNAL_100", signal100Handler);
+
+      panicSound.stop;
+      signal100Sound.stop();
+    };
   }, []);
 
   React.useEffect(() => {
-    socket.on("UPDATE_ASSIGNED_UNITS", (unitIds: string[]) => {
+    const successSound = playSound("/sounds/success.mp3");
+
+    const unitsHandler = (unitIds: string[]) => {
       if (location.pathname !== "/leo/dash") return;
       if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
-        playSound("/sounds/success.mp3");
+        successSound.play();
       }
-    });
+    };
+
+    socket.on("UPDATE_ASSIGNED_UNITS", unitsHandler);
+
+    return () => {
+      socket.off("UPDATE_ASSIGNED_UNITS", unitsHandler);
+      successSound.stop();
+    };
   }, [props.activeOfficer, location]);
 
   return (

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
+import format from "date-fns/format";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
@@ -64,6 +65,18 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
         <div className="modal-body">
           {search !== null && search?.type === "name" && search?.warrants[0] ? (
             <AlertMessage message={{ msg: lang.record.has_warrant, type: "warning" }} />
+          ) : null}
+          {search !== null && search.type === "name" && search.citizen.dead === "1" ? (
+            <AlertMessage
+              message={{
+                msg: `INFO: This citizen was declared dead on ${format(
+                  Number(search.citizen.dead_on),
+                  /* EG: 1st Jan 2020  */
+                  "MMMM do yyyy",
+                )}`,
+                type: "warning",
+              }}
+            />
           ) : null}
           <div className="mb-3">
             <label className="form-label" htmlFor="name">

@@ -116,11 +116,18 @@ const Active911MapCalls: React.FC<Props> = ({
   React.useEffect(() => {
     getActive911Calls();
 
-    socket.on("UPDATE_911_CALLS", () => getActive911Calls());
+    const sound = playSound("/sounds/new-call.mp3");
+    const callHandler = () => getActive911Calls();
+    const newCallHandler = () => sound.play();
 
-    socket.on("NEW_911_CALL", () => {
-      playSound("/sounds/new-call.mp3");
-    });
+    socket.on("UPDATE_911_CALLS", callHandler);
+    socket.on("NEW_911_CALL", newCallHandler);
+
+    return () => {
+      socket.off("UPDATE_911_CALLS", callHandler);
+      socket.off("NEW_911_CALL", newCallHandler);
+      sound.stop();
+    };
   }, [getActive911Calls]);
 
   return (
@@ -129,17 +136,19 @@ const Active911MapCalls: React.FC<Props> = ({
       {calls.length <= 0 ? (
         <p>No active calls</p>
       ) : (
-        calls.map((call: Call) => {
-          return (
-            <CallItem
-              hasMarker={hasMarker}
-              setMarker={setMarker}
-              end911Call={end911Call}
-              key={call.id}
-              call={call}
-            />
-          );
-        })
+        <>
+          {calls.map((call) => {
+            return (
+              <CallItem
+                hasMarker={hasMarker}
+                setMarker={setMarker}
+                end911Call={end911Call}
+                key={call.id}
+                call={call}
+              />
+            );
+          })}
+        </>
       )}
 
       <div id="modals">

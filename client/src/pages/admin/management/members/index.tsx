@@ -45,71 +45,69 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
     <AdminLayout>
       {message ? <AlertMessage message={message} dismissible /> : null}
 
-      <ul className="list-group">
-        <input
-          type="text"
-          value={filter}
-          onChange={handleFilter}
-          className="form-control bg-dark border-dark mb-2 text-light"
-          placeholder={`${lang.global.search}..`}
-        />
+      <input
+        type="text"
+        value={filter}
+        onChange={handleFilter}
+        className="form-control bg-dark border-dark mb-2 text-light"
+        placeholder={`${lang.global.search}..`}
+      />
 
-        {!members[0] ? (
-          <AlertMessage message={{ msg: lang.admin.no_members_cad, type: "warning" }} />
-        ) : !filtered[0] ? (
-          <AlertMessage message={{ msg: lang.admin.no_member_found_by_name, type: "warning" }} />
-        ) : (
-          <div>
-            <div className="nav nav-tabs">
-              <a
-                className="nav-item nav-link active bg-dark text-light border-secondary"
-                id="all-members-tab"
-                data-bs-toggle="tab"
-                href="#members_tab"
-                role="tab"
-                aria-controls="members-tab"
-                aria-selected="true"
-              >
-                {lang.admin.all_members}
-              </a>
-              <a
-                className="nav-item nav-link bg-dark text-light border-secondary mx-1"
-                id="pending-members-tab"
-                data-bs-toggle="tab"
-                href="#pending_tab"
-                role="tab"
-                aria-controls="nav-contact"
-                aria-selected="false"
-              >
-                {lang.admin.pending_members}
-                <div className="badge bg-primary ms-2">
-                  {members.filter((m) => m.whitelist_status === "pending").length}
-                </div>
-              </a>
+      {!members[0] ? (
+        <AlertMessage message={{ msg: lang.admin.no_members_cad, type: "warning" }} />
+      ) : !filtered[0] ? (
+        <AlertMessage message={{ msg: lang.admin.no_member_found_by_name, type: "warning" }} />
+      ) : (
+        <>
+          <div className="nav nav-tabs">
+            <a
+              className="nav-item nav-link active bg-dark text-light border-secondary"
+              id="all-members-tab"
+              data-bs-toggle="tab"
+              href="#members_tab"
+              role="tab"
+              aria-controls="members-tab"
+              aria-selected="true"
+            >
+              {lang.admin.all_members}
+            </a>
+            <a
+              className="nav-item nav-link bg-dark text-light border-secondary mx-1"
+              id="pending-members-tab"
+              data-bs-toggle="tab"
+              href="#pending_tab"
+              role="tab"
+              aria-controls="nav-contact"
+              aria-selected="false"
+            >
+              {lang.admin.pending_members}
+              <div className="badge bg-primary ms-2">
+                {members.filter((m) => m.whitelist_status === "pending").length}
+              </div>
+            </a>
+          </div>
+
+          <div className="tab-content">
+            <div
+              className="tab-pane fade show active"
+              id="members_tab"
+              role="tabpanel"
+              aria-labelledby="members-tab"
+            >
+              <AllMembersTab members={filtered} />
             </div>
 
-            <div className="tab-content">
-              <div
-                className="tab-pane fade show active"
-                id="members_tab"
-                role="tabpanel"
-                aria-labelledby="members-tab"
-              >
-                <AllMembersTab members={filtered} />
-              </div>
-
-              <div
-                className="tab-pane fade"
-                id="pending_tab"
-                role="tabpanel"
-                aria-labelledby="pending-tab"
-              >
-                <PendingMembersTab members={filtered} />
-              </div>
+            <div
+              className="tab-pane fade"
+              id="pending_tab"
+              role="tabpanel"
+              aria-labelledby="pending-tab"
+            >
+              <PendingMembersTab members={filtered} />
             </div>
           </div>
-        )}
-      </ul>
+        </>
+      )}
     </AdminLayout>
   );
 };

@@ -136,7 +136,40 @@ export const searchMedicalRecord = (name: string) => async (dispatch: Dispatch<I
       });
       dispatch({
         type: SEARCH_MEDICAL_RECORD,
-        medicalRecords: res.data.medicalRecords,
+        medicalRecords: res.data.medicalRecords?.map((record: MedicalRecord) => {
+          record.citizen = res.data.citizen;
+
+          return record;
+        }),
+      });
+    } else {
+      dispatch({
+        type: SET_MESSAGE,
+        message: { msg: res.data.error, type: "warning" },
+      });
+    }
+  } catch (e) {
+    Logger.error(SEARCH_MEDICAL_RECORD, e);
+  }
+};
+
+export const declareDeadOrAlive = (citizenId: string, type: "alive" | "dead") => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/ems-fd/declare/${citizenId}/?declare=${type}`, "PUT");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: SET_MESSAGE,
+        message: {
+          msg: `Successfully declared ${type}`,
+          type: "success",
+        },
+      });
+
+      dispatch({
+        type: "DECLARE_DEAD_OR_ALIVE",
       });
     } else {
       dispatch({

@@ -15,7 +15,6 @@ interface IDispatch {
 export const getCadInfo = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/global/cad-info", "POST");
-
     if (isSuccess(res)) {
       dispatch({
         type: GET_CAD_INFO,
@@ -25,6 +24,17 @@ export const getCadInfo = () => async (dispatch: Dispatch<IDispatch>) => {
         type: GET_AOP,
         aop: res.data.cadInfo.AOP,
       });
+
+      if (res.data.cadInfo.version) {
+        const { version, updatedVersion } = res.data.cadInfo;
+        Logger.log(
+          "VERSION",
+          `
+
+- Your version: ${version}
+- Updated version: ${updatedVersion}`,
+        );
+      }
     }
   } catch (e) {
     Logger.error("GET_CAD_INFO", e);

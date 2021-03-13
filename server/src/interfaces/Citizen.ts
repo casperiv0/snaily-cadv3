@@ -1,3 +1,5 @@
+import { Perm } from "./IUser";
+
 interface Citizen {
   id: string;
   full_name: string;
@@ -22,6 +24,8 @@ interface Citizen {
   image_id: string;
   b_status: string;
   note: string;
+  dead: Perm;
+  dead_on: string;
 }
 
 export default Citizen;

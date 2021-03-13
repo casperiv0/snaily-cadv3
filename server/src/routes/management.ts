@@ -427,8 +427,9 @@ router.get(
 
     try {
       const officer = await processQuery<Officer>("SELECT * FROM `officers` WHERE `id` = ?", [id]);
+      const logs = await processQuery("SELECT * FROM `officer_logs` WHERE `officer_id` = ?", [id]);
 
-      return res.json({ status: "success", officer: officer[0] });
+      return res.json({ status: "success", officer: officer[0], logs });
     } catch (e) {
       Logger.error("GET_OFFICER_BY_ID", e);
       return res.json({ error: "An unexpected error occurred", status: "error" });

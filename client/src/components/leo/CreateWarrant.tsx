@@ -2,17 +2,21 @@ import * as React from "react";
 import lang from "../../language.json";
 import { createWarrant } from "../../lib/actions/records";
 import { connect } from "react-redux";
+import Officer from "../../interfaces/Officer";
+import State from "../../interfaces/State";
 
 interface Props {
+  activeOfficer: Officer | null;
   createWarrant: (data: { fullName: string; status: string; details: string }) => void;
 }
 
-const CreateWarrant: React.FC<Props> = ({ createWarrant }) => {
+const CreateWarrant: React.FC<Props> = ({ createWarrant, activeOfficer }) => {
   const [name, setName] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>("active");
   const [details, setDetails] = React.useState<string>("");
 
   function onSubmit(e: React.FormEvent) {
+    if (!activeOfficer) return;
     e.preventDefault();
 
     createWarrant({
@@ -72,11 +76,20 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant }) => {
           />
         </div>
         <div className="mb-3">
-          <button className="btn btn-secondary col">{lang.global.create_warrant}</button>
+          <button
+            title={!activeOfficer ? "Go on-duty first!" : ""}
+            disabled={!activeOfficer}
+            className="btn btn-secondary col"
+          >
+            {lang.global.create_warrant}
+          </button>
         </div>
       </form>
     </div>
   );
 };
+const mapToProps = (state: State) => ({
+  activeOfficer: state.officers.activeOfficer,
+});
 
-export default connect(null, { createWarrant })(CreateWarrant);
+export default connect(mapToProps, { createWarrant })(CreateWarrant);

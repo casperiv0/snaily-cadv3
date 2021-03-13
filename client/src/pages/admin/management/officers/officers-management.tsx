@@ -43,7 +43,7 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, message, getAllOffi
   return (
     <AdminLayout>
       {message ? <AlertMessage message={message} dismissible /> : null}
-      <ul className="list-group">
+      <div>
         <input
           type="text"
           value={filter}
@@ -58,41 +58,43 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, message, getAllOffi
         ) : !filtered[0] ? (
           <AlertMessage message={{ msg: "No officer found with that name", type: "warning" }} />
         ) : (
-          filtered.map((officer: Officer, idx: number) => {
-            return (
-              <li
-                key={idx}
-                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
-              >
-                <div>
-                  {++idx} | {officer.officer_name}
-                  <div className="mt-2">
-                    <Item id="name">
-                      <Span>{lang.dispatch.officer_dept}: </Span>
-                      {officer.officer_dept}
-                    </Item>
+          <ul className="list-group">
+            {filtered.map((officer: Officer, idx: number) => {
+              return (
+                <li
+                  key={idx}
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                >
+                  <div>
+                    {++idx} | {officer.officer_name}
+                    <div className="mt-2">
+                      <Item id="name">
+                        <Span>{lang.dispatch.officer_dept}: </Span>
+                        {officer.officer_dept}
+                      </Item>
 
-                    <Item id="callsign">
-                      <Span>Callsign: </Span>
-                      {officer.callsign || "None set"}
-                    </Item>
-                    <Item id="rank">
-                      <Span>Rank: </Span>
-                      {officer.rank || "None set"}
-                    </Item>
+                      <Item id="callsign">
+                        <Span>Callsign: </Span>
+                        {officer.callsign || "None set"}
+                      </Item>
+                      <Item id="rank">
+                        <Span>Rank: </Span>
+                        {officer.rank || "None set"}
+                      </Item>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <Link className="btn btn-success" to={`officers/${officer.id}`}>
-                    Manage
-                  </Link>
-                </div>
-              </li>
-            );
-          })
+                  <div>
+                    <Link className="btn btn-success" to={`officers/${officer.id}`}>
+                      Manage
+                    </Link>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         )}
-      </ul>
+      </div>
     </AdminLayout>
   );
 };

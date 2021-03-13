@@ -7,30 +7,56 @@ import { connect } from "react-redux";
 import { end911Call, getActive911Calls } from "../../lib/actions/911-calls";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
+import Officer from "../../interfaces/Officer";
+import Deputy from "../../interfaces/Deputy";
 
 interface Props {
   calls: Call[];
+  activeOfficer: Officer | null;
+  activeDeputy: Deputy | null;
   getActive911Calls: () => void;
   end911Call: (id: string) => void;
 }
 
-const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls, end911Call }) => {
+const Active911Calls: React.FC<Props> = ({
+  calls,
+  activeOfficer,
+  activeDeputy,
+  getActive911Calls,
+  end911Call,
+}) => {
   const location = useLocation();
+  const disabled = React.useMemo(() => {
+    if (location.pathname === "/ems-fd/dash") {
+      return !activeDeputy;
+    } else if (location.pathname === "/leo/dash") {
+      return !activeOfficer;
+    } else {
+      return true;
+    }
+  }, [location.pathname, activeOfficer, activeDeputy]);
 
   React.useEffect(() => {
     getActive911Calls();
   }, [getActive911Calls]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_911_CALLS", () => {
-      getActive911Calls();
-    });
-
-    socket.on("NEW_911_CALL", () => {
+    const sound = playSound("/sounds/new-call.mp3");
+    const getCallHandler = () => getActive911Calls();
+    const newCallHandler = () => {
       if (["/dispatch", "/leo/dash", "/ems/dash"].includes(location.pathname)) {
-        playSound("/sounds/new-call.mp3");
+        sound.play();
       }
-    });
+    };
+
+    socket.on("UPDATE_911_CALLS", getCallHandler);
+    socket.on("NEW_911_CALL", newCallHandler);
+
+    return () => {
+      socket.off("NEW_911_CALL", newCallHandler);
+      socket.off("UPDATE_911_CALLS", getCallHandler);
+      sound.stop();
+    };
   }, [getActive911Calls, location]);
 
   return (
@@ -75,6 +101,8 @@ const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls, end911Call 
                   </td>
                   <td>
                     <button
+                      disabled={disabled}
+                      title={disabled ? "Go on-duty first!" : ""}
                       onClick={() => {
                         end911Call(call.id);
                       }}
@@ -95,6 +123,8 @@ const Active911Calls: React.FC<Props> = ({ calls, getActive911Calls, end911Call 
 
 const mapToProps = (state: State) => ({
   calls: state.calls.calls_911,
+  activeOfficer: state.officers.activeOfficer,
+  activeDeputy: state.ems_fd.activeDeputy,
 });
 
 const Memoized = React.memo(Active911Calls);

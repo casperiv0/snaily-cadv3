@@ -4,6 +4,7 @@ import { useAuth } from "../hooks";
 import { v4 as uuidv4 } from "uuid";
 import IRequest from "../interfaces/IRequest";
 import usePermission from "../hooks/usePermission";
+import Citizen from "../interfaces/Citizen";
 const router: Router = Router();
 
 router.get(
@@ -95,7 +96,10 @@ router.get(
   async (req: IRequest, res: Response) => {
     const { name } = req.params;
 
-    const citizen = await processQuery("SELECT * FROM `citizens` WHERE `full_name` = ?", [name]);
+    const citizen = await processQuery(
+      "SELECT `dead`, `dead_on` FROM `citizens` WHERE `full_name` = ?",
+      [name],
+    );
 
     if (!citizen[0]) {
       return res.json({
@@ -115,7 +119,65 @@ router.get(
       });
     }
 
-    return res.json({ status: "success", medicalRecords });
+    return res.json({ status: "success", medicalRecords, citizen: citizen[0] });
+  },
+);
+
+router.put(
+  "/declare/:citizenId",
+  useAuth,
+  usePermission(["ems_fd"]),
+  async (req: IRequest, res: Response) => {
+    const { citizenId } = req.params;
+    // alive | dead
+    const { declare } = req.query;
+
+    if (!declare) {
+      return res.json({
+        error: "Please provide a `declare` query",
+        status: "error",
+      });
+    }
+
+    const citizen = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `id` = ?", [
+      citizenId,
+    ]);
+
+    if (!citizen[0]) {
+      return res.json({
+        error: "citizen was not found",
+        status: "error",
+      });
+    }
+
+    switch (`${declare}`.toLowerCase()) {
+      case "alive": {
+        await processQuery("UPDATE `citizens` SET `dead` = ?, `dead_on` = ? WHERE `id` = ?", [
+          "0",
+          "",
+          citizen[0].id,
+        ]);
+        break;
+      }
+      case "dead": {
+        await processQuery("UPDATE `citizens` SET `dead` = ?, `dead_on` = ? WHERE `id` = ?", [
+          "1",
+          Date.now(),
+          citizen[0].id,
+        ]);
+        break;
+      }
+      default: {
+        return res.json({
+          error: "Invalid type",
+          status: "error",
+        });
+      }
+    }
+
+    return res.json({
+      status: "success",
+    });
   },
 );
 

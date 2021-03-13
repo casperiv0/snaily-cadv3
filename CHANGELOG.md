@@ -2,6 +2,16 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.4.2
+
+- Admins/supervisors can see officer logs in `Officer Management`
+- Declare citizens dead or alive (EMS/FD only)
+- LEO actions are disabled if there's no `activeOfficer`
+- Fixed minor bug
+- Don't use sockets to check version, will now return the version via `/api/v1/global/cad-info`
+- Fixed bugs with sounds playing several times over
+- Fixed bugs with requests getting spammed on a socket update
+
 ## 1.4.1
 
 - Fixed small issue with installation

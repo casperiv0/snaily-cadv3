@@ -4,6 +4,7 @@ import AlertMessage from "../alert-message";
 import DeleteCitizenModal from "../modals/admin/deleteCitizenModal";
 import lang from "../../language.json";
 import { Item, Span } from "../../pages/citizen/citizen-info";
+import format from "date-fns/format";
 
 interface Props {
   citizens: Citizen[];
@@ -71,6 +72,16 @@ const AllCitizensTab: React.FC<Props> = ({ citizens }) => {
                       <Span>{lang.citizen.employer}: </Span>
                       {citizen.business}
                     </Item>
+                    <Item id="dead">
+                      <Span>Dead: </Span>
+                      {citizen.dead === "1"}
+                    </Item>
+                    {citizen.dead === "1" ? (
+                      <Item id="dead_on">
+                        <Span>Declared dead on: </Span>
+                        {format(Number(citizen.dead_on), "MMMM do yyyy")}
+                      </Item>
+                    ) : null}
                   </div>
                 </div>
 

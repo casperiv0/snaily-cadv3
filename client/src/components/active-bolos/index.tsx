@@ -6,22 +6,27 @@ import socket from "../../lib/socket";
 import { getActiveBolos, deleteBolo } from "../../lib/actions/bolos";
 import { connect } from "react-redux";
 import { Item, Span } from "../../pages/citizen/citizen-info";
+import Officer from "../../interfaces/Officer";
 
 interface Props {
   bolos: Bolo[];
+  activeOfficer: Officer | null;
   getActiveBolos: () => void;
   deleteBolo: (id: string) => void;
 }
 
-const ActiveBolos: React.FC<Props> = ({ bolos, getActiveBolos, deleteBolo }) => {
+const ActiveBolos: React.FC<Props> = ({ bolos, activeOfficer, getActiveBolos, deleteBolo }) => {
   React.useEffect(() => {
     getActiveBolos();
   }, [getActiveBolos]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_BOLOS", () => {
-      getActiveBolos();
-    });
+    const handler = () => getActiveBolos();
+    socket.on("UPDATE_BOLOS", handler);
+
+    return () => {
+      socket.off("UPDATE_BOLOS", handler);
+    };
   }, [getActiveBolos]);
 
   return (
@@ -31,42 +36,48 @@ const ActiveBolos: React.FC<Props> = ({ bolos, getActiveBolos, deleteBolo }) => 
       {!bolos[0] ? (
         <li className="list-group-item bg-dark border-dark">{lang.global.no_bolos}</li>
       ) : (
-        bolos.map((bolo: Bolo, idx: number) => {
-          return (
-            <li
-              key={idx}
-              id={`${idx}`}
-              className="list-group-item bg-dark border-secondary d-flex justify-content-between"
-            >
-              <div className="d-flex">
-                {++idx} | &nbsp;
-                {bolo.type === "person" ? (
-                  <Item id="description">
-                    {bolo.description} <br />
-                    <Span>{lang.global.name}: </Span>
-                    {bolo.name}
-                  </Item>
-                ) : bolo.type === "vehicle" ? (
-                  <p>
-                    {bolo.description} <br />
-                    <Span>{lang.global.plate}: </Span>
-                    {bolo.plate}
-                    <br />
-                    <Span>{lang.global.color}: </Span>
-                    {bolo.color}
-                  </p>
-                ) : (
-                  <p>{bolo.description}</p>
-                )}
-              </div>
-              <div>
-                <button className="btn btn-danger" onClick={() => deleteBolo(bolo.id)}>
-                  {lang.bolos.remove_bolo}
-                </button>
-              </div>
-            </li>
-          );
-        })
+        <>
+          {bolos.map((bolo, idx) => {
+            return (
+              <li
+                key={idx}
+                id={`${idx}`}
+                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+              >
+                <div className="d-flex">
+                  {++idx} | &nbsp;
+                  {bolo.type === "person" ? (
+                    <Item id="description">
+                      {bolo.description} <br />
+                      <Span>{lang.global.name}: </Span>
+                      {bolo.name}
+                    </Item>
+                  ) : bolo.type === "vehicle" ? (
+                    <p>
+                      {bolo.description} <br />
+                      <Span>{lang.global.plate}: </Span>
+                      {bolo.plate}
+                      <br />
+                      <Span>{lang.global.color}: </Span>
+                      {bolo.color}
+                    </p>
+                  ) : (
+                    <p>{bolo.description}</p>
+                  )}
+                </div>
+                <div>
+                  <button
+                    disabled={!activeOfficer}
+                    className="btn btn-danger"
+                    onClick={() => deleteBolo(bolo.id)}
+                  >
+                    {lang.bolos.remove_bolo}
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </>
       )}
     </ul>
   );
@@ -74,6 +85,7 @@ const ActiveBolos: React.FC<Props> = ({ bolos, getActiveBolos, deleteBolo }) => 
 
 const mapToProps = (state: State) => ({
   bolos: state.bolos.bolos,
+  activeOfficer: state.officers.activeOfficer,
 });
 
 export default connect(mapToProps, { getActiveBolos, deleteBolo })(ActiveBolos);

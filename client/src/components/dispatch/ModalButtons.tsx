@@ -51,12 +51,20 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
   }, [cadInfo]);
 
   React.useEffect(() => {
-    socket.on("SIGNAL_100", (value: Perm) => {
+    const sound = playSound("/sounds/signal-100.wav");
+    const handler = (value: Perm) => {
       if (value === "1") {
-        playSound("/sounds/signal-100.wav");
+        sound.play();
       }
       setSignal100(value);
-    });
+    };
+
+    socket.on("SIGNAL_100", handler);
+
+    return () => {
+      socket.off("SIGNAL_100", handler);
+      sound.stop();
+    };
   }, []);
 
   function signal100Func() {

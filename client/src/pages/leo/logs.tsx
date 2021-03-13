@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { formatDistance } from "date-fns";
+import formatDistance from "date-fns/formatDistance";
 import Layout from "../../components/Layout";
 import Officer, { OfficerLog } from "../../interfaces/Officer";
 import State from "../../interfaces/State";

@@ -8,6 +8,11 @@ interface Officer {
   officer_dept: string;
   callsign?: string;
   rank: string;
+
+  /**
+   * Only available when gotten from admin
+   */
+  logs?: OfficerLog[];
 }
 
 export interface OfficerLog {
