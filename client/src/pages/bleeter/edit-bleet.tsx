@@ -20,7 +20,7 @@ interface Props {
   user: User | null;
   loading: boolean;
   getBleetById: (id: string) => void;
-  updateBleet: (data: object, id: string) => void;
+  updateBleet: (data: object, id: string) => Promise<boolean | string>;
 }
 
 const EditBleet: React.FC<Props> = ({
@@ -62,16 +62,20 @@ const EditBleet: React.FC<Props> = ({
     return <Loader />;
   }
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateBleet(
+    const updated = await updateBleet(
       {
         title,
         body,
       },
       id,
     );
+
+    if (typeof updated === "string") {
+      history.push(updated);
+    }
   }
 
   return (

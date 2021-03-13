@@ -112,18 +112,23 @@ export const getMyOfficerLogs = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createOfficer = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const createOfficer = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/officer/my-officers", "POST", data);
 
     if (isSuccess(res)) {
       dispatch({ type: CREATE_OFFICER });
-      window.location.href = "/leo/my-officers";
+
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_OFFICER, e);
+    return false;
   }
 };
 

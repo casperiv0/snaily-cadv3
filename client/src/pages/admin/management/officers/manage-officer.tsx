@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import formatDistance from "date-fns/formatDistance";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import State from "../../../../interfaces/State";
@@ -24,7 +24,7 @@ interface Props {
   logs: OfficerLog[] | undefined;
   departments: Department[];
   getOfficerById: (officerId: string) => void;
-  updateOfficerById: (officerId: string, data: UpdateOfficerData) => void;
+  updateOfficerById: (officerId: string, data: UpdateOfficerData) => Promise<boolean>;
   getDepartments: (type: "admin" | "leo") => void;
 }
 
@@ -41,6 +41,7 @@ const ManageOfficerPage: React.FC<Props> = ({
   const [department, setDepartment] = React.useState(officer?.officer_dept || "");
   const [callSign, setCallSign] = React.useState(officer?.callsign || "");
   const [rank, setRank] = React.useState(officer?.rank || "");
+  const history = useHistory();
   useDocTitle(`Managing ${officer?.officer_name}`);
 
   React.useEffect(() => {
@@ -54,14 +55,18 @@ const ManageOfficerPage: React.FC<Props> = ({
     setDepartment(officer?.officer_dept || "");
   }, [officer]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateOfficerById(id, {
+    const updated = await updateOfficerById(id, {
       callsign: callSign,
       rank,
       department,
     });
+
+    if (updated === true) {
+      history.push("/admin/manage/officers");
+    }
   }
 
   return (

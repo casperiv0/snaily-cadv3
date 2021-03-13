@@ -345,7 +345,7 @@ export interface UpdateOfficerData {
 
 export const updateOfficerById = (id: string, data: UpdateOfficerData) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean> => {
   try {
     const res = await handleRequest(`/admin/management/officers/${id}`, "PUT", data);
 
@@ -354,13 +354,15 @@ export const updateOfficerById = (id: string, data: UpdateOfficerData) => async 
         type: ADMIN_UPDATE_OFFICER,
       });
 
-      return (window.location.href = "/admin/manage/officers");
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(GET_ALL_OFFICERS, e);
     notify(e).error();
+    return false;
   }
 };
 
@@ -434,13 +436,15 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispa
         penalCodes: res.data.penalCodes,
       });
 
-      return (window.location.href = "/admin/manage/penal-codes");
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
     notify(e).error();
+    return false;
   }
 };
 

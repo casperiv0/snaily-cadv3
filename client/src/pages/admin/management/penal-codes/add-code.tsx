@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { addPenalCode } from "../../../../lib/actions/admin";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import State from "../../../../interfaces/State";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Message from "../../../../interfaces/Message";
 import AlertMessage from "../../../../components/alert-message";
 import PenalCode from "../../../../interfaces/PenalCode";
@@ -11,21 +11,26 @@ import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
-  addPenalCode: (data: Partial<PenalCode>) => void;
+  addPenalCode: (data: Partial<PenalCode>) => Promise<boolean>;
 }
 
 const AddPenalCode: React.FC<Props> = ({ addPenalCode, message }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState("");
+  const history = useHistory();
   useDocTitle("Add Penal Code");
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    addPenalCode({
+    const added = await addPenalCode({
       title,
       des,
     });
+
+    if (added === true) {
+      history.push("/admin/manage/penal-codes");
+    }
   }
 
   return (

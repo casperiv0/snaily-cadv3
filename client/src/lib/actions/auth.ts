@@ -49,7 +49,9 @@ export const login = (data: object, requestedPath: string) => async (
   dispatch({ type: SET_LOADING, loading: false });
 };
 
-export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const register = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   dispatch({ type: SET_LOADING, loading: true });
 
   try {
@@ -63,15 +65,17 @@ export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) 
         user: res.data.user,
       });
 
-      window.location.href = "/citizen";
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error("REGISTER", e);
   }
 
   dispatch({ type: SET_LOADING, loading: false });
+  return false;
 };
 
 export const checkAuth = () => async (dispatch: Dispatch<IDispatch>) => {

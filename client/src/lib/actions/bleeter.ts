@@ -61,7 +61,7 @@ export const getBleetById = (id: string) => async (dispatch: Dispatch<IDispatch>
 
 export const createBleet = (data: { title: string; body: string; image: any }) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean | string> => {
   try {
     const { title, body, image } = data;
 
@@ -79,16 +79,21 @@ export const createBleet = (data: { title: string; body: string; image: any }) =
       dispatch({
         type: CREATE_BLEET,
       });
-      window.location.href = `/bleet/${res.data.id}`;
+
+      return `/bleet/${res.data.id}`;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_BLEET, e);
+    return false;
   }
 };
 
-export const updateBleet = (data: object, id: string) => async (dispatch: Dispatch<IDispatch>) => {
+export const updateBleet = (data: object, id: string) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean | string> => {
   try {
     const res = await handleRequest(`/bleeter/${id}`, "PUT", data);
 
@@ -96,12 +101,15 @@ export const updateBleet = (data: object, id: string) => async (dispatch: Dispat
       dispatch({
         type: UPDATE_BLEET,
       });
-      return (window.location.href = `/bleet/${id}`);
+
+      return `/bleet/${id}`;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(GET_BLEET_BY_ID, e);
+    return false;
   }
 };
 

@@ -10,7 +10,7 @@ import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
 import Message from "../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
   getGenders: () => void;
   getEthnicities: () => void;
   getLegalStatuses: () => void;
-  createCitizen: (data: Partial<Citizen>) => void;
+  createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
 }
 
 const CreateCitizenPage: React.FC<Props> = ({
@@ -50,6 +50,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   const [firearmsLicense, setFirearmsLicense] = React.useState<string>("");
   const [ccw, setCcw] = React.useState<string>("");
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
+  const history = useHistory();
 
   React.useEffect(() => {
     getGenders();
@@ -175,10 +176,10 @@ const CreateCitizenPage: React.FC<Props> = ({
     },
   ];
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createCitizen({
+    const created = await createCitizen({
       image: image,
       full_name: name,
       gender,
@@ -195,6 +196,10 @@ const CreateCitizenPage: React.FC<Props> = ({
       ccw,
       phone_nr: phoneNumber,
     });
+
+    if (typeof created === "string") {
+      history.push(created);
+    }
   }
 
   return (

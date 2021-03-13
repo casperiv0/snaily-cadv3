@@ -6,28 +6,33 @@ import lang from "../../language.json";
 import AlertMessage from "../../components/alert-message";
 import { createBleet } from "../../lib/actions/bleeter";
 import Message from "../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
-  createBleet: (data: { title: string; body: string; image: any }) => void;
+  createBleet: (data: { title: string; body: string; image: any }) => Promise<boolean | string>;
 }
 
 const CreateBleetPage: React.FC<Props> = ({ message, createBleet }) => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [image, setImage] = React.useState<any>(null);
+  const history = useHistory();
   useDocTitle("Create bleet");
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createBleet({
+    const created = await createBleet({
       title,
       body,
       image,
     });
+
+    if (typeof created === "string") {
+      return history.push(created);
+    }
   }
 
   return (

@@ -7,25 +7,31 @@ import AlertMessage from "../../../components/alert-message";
 import { addValue } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import Message from "../../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   match: Match;
   message: Message | null;
-  addValue: (path: string, data: { name: string }) => void;
+  addValue: (path: string, data: { name: string }) => Promise<boolean>;
 }
 
 const AddValuePage: React.FC<Props> = ({ message, match, addValue }) => {
   const path = match.params.path;
   useDocTitle(lang.admin.values[path].add);
   const [value, setValue] = React.useState<string>("");
-  function onSubmit(e: React.FormEvent) {
+  const history = useHistory();
+
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    addValue(path, {
+    const added = await addValue(path, {
       name: value,
     });
+
+    if (added === true) {
+      history.push(`/admin/values/${path}`);
+    }
   }
 
   return (

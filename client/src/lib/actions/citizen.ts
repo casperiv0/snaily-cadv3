@@ -75,7 +75,9 @@ export const getCitizenById = (id: string) => async (dispatch: Dispatch<IDispatc
   }
 };
 
-export const createCitizen = (data: Partial<Citizen>) => async (dispatch: Dispatch<IDispatch>) => {
+export const createCitizen = (data: Partial<Citizen>) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean | string> => {
   try {
     const {
       image,
@@ -120,12 +122,15 @@ export const createCitizen = (data: Partial<Citizen>) => async (dispatch: Dispat
       dispatch({
         type: CREATE_CITIZEN,
       });
-      return (window.location.href = `/citizen/${res.data.citizenId}`);
+
+      return `/citizen/${res.data.citizenId}`;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_CITIZEN, e);
+    return false;
   }
 };
 
@@ -411,7 +416,7 @@ export const getVehicleById = (id: string) => async (dispatch: Dispatch<IDispatc
   }
 };
 
-export const updateVehicleById = (id: string, citizenId: string, data: object) => async (
+export const updateVehicleById = (id: string, data: object) => async (
   dispatch: Dispatch<IDispatch>,
 ) => {
   try {
@@ -422,12 +427,14 @@ export const updateVehicleById = (id: string, citizenId: string, data: object) =
         type: UPDATE_VEHICLE,
       });
 
-      return (window.location.href = `/citizen/${citizenId}`);
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(UPDATE_VEHICLE, e);
+    return false;
   }
 };
 

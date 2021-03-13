@@ -27,7 +27,9 @@ export const getTruckLogs = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createTruckLog = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const createTruckLog = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/truck-logs", "POST", data);
 
@@ -35,12 +37,15 @@ export const createTruckLog = (data: object) => async (dispatch: Dispatch<IDispa
       dispatch({
         type: CREATE_TRUCK_LOG,
       });
-      return (window.location.href = "/truck-logs");
+
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_TRUCK_LOG, e);
+    return false;
   }
 };
 

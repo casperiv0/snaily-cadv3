@@ -8,7 +8,7 @@ import lang from "../../../language.json";
 import { getValueById, updateValueById } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import Message from "../../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
@@ -16,12 +16,13 @@ interface Props {
   match: Match;
   message: Message | null;
   getValueById: (path: string, id: string) => void;
-  updateValueById: (path: string, id: string, data: { name: string }) => void;
+  updateValueById: (path: string, id: string, data: { name: string }) => Promise<boolean>;
 }
 
 const EditValuePage: React.FC<Props> = (props) => {
   const { match, message, getValueById, updateValueById } = props;
   const [value, setValue] = React.useState<string>("");
+  const history = useHistory();
   const path = match.params.path;
   const id = match.params.id;
   useDocTitle(lang.admin.values[path].manage);
@@ -36,10 +37,14 @@ const EditValuePage: React.FC<Props> = (props) => {
     }
   }, [props.value]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateValueById(path, id, { name: value });
+    const updated = await updateValueById(path, id, { name: value });
+
+    if (updated === true) {
+      history.push(`/admin/values/${path}`);
+    }
   }
 
   if (props.value !== null && !props.value) {
