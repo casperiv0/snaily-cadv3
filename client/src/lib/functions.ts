@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from "axios";
+import { toast } from "react-toastify";
+
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 let url: string | undefined = "/";
 
@@ -45,4 +47,36 @@ export function playSound(src: string) {
   };
 
   return { stop, play, audio };
+}
+
+export function notify(message: string) {
+  const success = () =>
+    toast.success(message, {
+      style: {
+        background: "#D1E7DD",
+      },
+      className: "alert-success",
+    });
+
+  const error = () =>
+    toast.error(message, {
+      style: {
+        background: "#F8D7DA",
+      },
+      className: "alert-danger",
+    });
+
+  const warn = () =>
+    toast.warn(message, {
+      style: {
+        background: "#FFF3CD",
+      },
+      className: "alert-warning",
+    });
+
+  return {
+    success,
+    error,
+    warn,
+  };
 }

@@ -3,6 +3,8 @@ import "./lib/socket";
 import * as React from "react";
 import * as Redux from "react-redux";
 import ReactDOM from "react-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AuthRoute from "./components/AuthRoute";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Loader from "./components/loader";
@@ -99,6 +101,16 @@ ReactDOM.render(
   <React.StrictMode>
     <Redux.Provider store={store}>
       <Router>
+        <ToastContainer
+          limit={5}
+          hideProgressBar
+          autoClose={3000}
+          draggablePercent={40}
+          closeButton={false}
+          toastStyle={{
+            background: "var(--bs-danger)",
+          }}
+        />
         <Navbar />
         <React.Suspense fallback={<Loader fullScreen />}>
           <Switch>

@@ -1,8 +1,8 @@
 import Logger from "../Logger";
 import lang from "../../language.json";
 import { Dispatch } from "react";
-import { CREATE_TOW_CALL, SET_MESSAGE, GET_TOW_CALLS, END_TOW_CALL } from "../types";
-import { handleRequest, isSuccess } from "../functions";
+import { CREATE_TOW_CALL, GET_TOW_CALLS, END_TOW_CALL } from "../types";
+import { handleRequest, isSuccess, notify } from "../functions";
 import socket from "../socket";
 import Message from "../../interfaces/Message";
 
@@ -37,10 +37,8 @@ export const createTowCall = (data: object) => async (dispatch: Dispatch<IDispat
         type: CREATE_TOW_CALL,
         calls: res.data.calls,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.citizen.tow_call_created, type: "success" },
-      });
+
+      notify(lang.citizen.tow_call_created).success();
     }
   } catch (e) {
     Logger.error(CREATE_TOW_CALL, e);
@@ -56,10 +54,8 @@ export const endTowCall = (id: string) => async (dispatch: Dispatch<IDispatch>) 
         type: END_TOW_CALL,
         calls: res.data.calls,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.tow?.end_success, type: "success" },
-      });
+
+      notify(lang.tow.end_success).success();
     }
   } catch (e) {
     Logger.error(END_TOW_CALL, e);

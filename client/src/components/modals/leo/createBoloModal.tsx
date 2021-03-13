@@ -5,7 +5,7 @@ import { createBolo } from "../../../lib/actions/bolos";
 import { connect } from "react-redux";
 
 interface Props {
-  createBolo: (data: object) => void;
+  createBolo: (data: object) => Promise<boolean>;
 }
 
 const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
@@ -14,12 +14,12 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
   const [plate, setPlate] = React.useState("");
   const [color, setColor] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
+  const btnRef = React.useRef<HTMLButtonElement>(null);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createBolo({
+    const created = await createBolo({
       type,
       name,
       plate,
@@ -27,13 +27,15 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
       description,
     });
 
-    setType("");
-    setName("");
-    setPlate("");
-    setColor("");
-    setDescription("");
+    if (created === true) {
+      btnRef.current?.click();
 
-    btnRef.current?.click();
+      setType("person");
+      setName("");
+      setPlate("");
+      setColor("");
+      setDescription("");
+    }
   }
 
   return (

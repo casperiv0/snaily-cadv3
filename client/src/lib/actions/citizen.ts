@@ -15,7 +15,6 @@ import {
   REGISTER_VEHICLE,
   GET_MEDICAL_RECORDS,
   CREATE_MEDICAL_RECORD,
-  CREATE_MEDICAL_RECORD_ERROR,
   DELETE_MEDICAL_RECORD,
   DELETE_CITIZEN,
   UPDATE_LICENSES,
@@ -24,9 +23,8 @@ import {
   GET_ALL_CITIZENS,
   TRANSFER_VEHICLE,
   REPORT_AS_STOLEN,
-  SET_MESSAGE,
 } from "../types";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import Weapon from "../../interfaces/Weapon";
 import Vehicle from "../../interfaces/Vehicle";
 import MedicalRecord from "../../interfaces/MedicalRecord";
@@ -124,10 +122,7 @@ export const createCitizen = (data: Partial<Citizen>) => async (dispatch: Dispat
       });
       return (window.location.href = `/citizen/${res.data.citizenId}`);
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(CREATE_CITIZEN, e);
@@ -183,10 +178,7 @@ export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
       });
       return (window.location.href = `/citizen/${res.data.citizenId}`);
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(UPDATE_CITIZEN, e);
@@ -239,17 +231,11 @@ export const createMedicalRecord = (
       if (shouldReturn) {
         return (window.location.href = `/citizen/${citizenId}`);
       } else {
-        dispatch({
-          type: SET_MESSAGE,
-          message: { msg: "Successfully added medical record", type: "success" },
-        });
+        notify("Successfully added medical record").success();
         return true;
       }
     } else {
-      dispatch({
-        type: CREATE_MEDICAL_RECORD_ERROR,
-        error: res.data.error,
-      });
+      notify(res.data.error).warn();
       return false;
     }
   } catch (e) {
@@ -299,10 +285,7 @@ export const registerVehicle = (data: object) => async (dispatch: Dispatch<IDisp
       });
       return (window.location.href = `/citizen/${res.data.citizenId}`);
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(REGISTER_VEHICLE, e);
@@ -317,10 +300,8 @@ export const reportAsStolen = (id: string) => async (dispatch: Dispatch<IDispatc
       dispatch({
         type: REPORT_AS_STOLEN,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.citizen.vehicle.reported_stolen, type: "success" },
-      });
+
+      notify(lang.citizen.vehicle.reported_stolen).success();
     }
   } catch (e) {
     Logger.error(REPORT_AS_STOLEN, e);
@@ -338,10 +319,8 @@ export const deleteVehicle = (citizenId: string, vehicleId: string) => async (
         type: DELETE_REGISTERED_VEHICLE,
         vehicles: res.data.vehicles,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.citizen.vehicle.deleted_veh, type: "success" },
-      });
+
+      notify(lang.citizen.vehicle.deleted_veh).success();
     }
   } catch (e) {
     Logger.error(DELETE_REGISTERED_VEHICLE, e);
@@ -373,10 +352,7 @@ export const registerWeapon = (data: object) => async (dispatch: Dispatch<IDispa
       });
       return (window.location.href = `/citizen/${res.data.citizenId}`);
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(REGISTER_WEAPON, e);
@@ -394,10 +370,8 @@ export const deleteWeapon = (citizenId: string, weaponId: string) => async (
         type: DELETE_REGISTERED_WEAPON,
         weapons: res.data.weapons,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.citizen.weapon.deleted_weapon, type: "success" },
-      });
+
+      notify(lang.citizen.weapon.deleted_weapon).success();
     }
   } catch (e) {
     Logger.error(DELETE_REGISTERED_WEAPON, e);
@@ -450,10 +424,7 @@ export const updateVehicleById = (id: string, citizenId: string, data: object) =
 
       return (window.location.href = `/citizen/${citizenId}`);
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(UPDATE_VEHICLE, e);
@@ -472,10 +443,7 @@ export const transferVehicle = (id: string, data: object) => async (
       });
       return (window.location.href = "/citizen");
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(TRANSFER_VEHICLE, e);

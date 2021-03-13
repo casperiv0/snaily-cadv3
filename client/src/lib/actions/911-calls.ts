@@ -3,14 +3,8 @@ import Logger from "../Logger";
 import socket from "../socket";
 import lang from "../../language.json";
 import { Dispatch } from "redux";
-import { handleRequest, isSuccess } from "../functions";
-import {
-  GET_911_CALLS,
-  END_911_CALL,
-  UPDATE_911_CALL,
-  CREATE_911_CALL,
-  SET_MESSAGE,
-} from "../types";
+import { handleRequest, isSuccess, notify } from "../functions";
+import { GET_911_CALLS, END_911_CALL, UPDATE_911_CALL, CREATE_911_CALL } from "../types";
 import Message from "../../interfaces/Message";
 
 interface IDispatch {
@@ -43,10 +37,8 @@ export const create911Call = (data: object) => async (dispatch: Dispatch<IDispat
         type: CREATE_911_CALL,
         calls: res.data.calls,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.citizen.call_created, type: "success" },
-      });
+
+      notify(lang.citizen.call_created).success();
       socket.emit("UPDATE_911_CALLS");
       socket.emit("NEW_911_CALL", data);
     }
@@ -55,9 +47,7 @@ export const create911Call = (data: object) => async (dispatch: Dispatch<IDispat
   }
 };
 
-export const update911Call = (id: string, data: Partial<Call>) => async (
-  dispatch: Dispatch<IDispatch>,
-) => {
+export const update911Call = (id: string, data: Partial<Call>) => async () => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "PUT", data);
 

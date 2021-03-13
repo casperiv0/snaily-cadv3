@@ -1,9 +1,9 @@
 import { Dispatch } from "react";
 import Message from "../../interfaces/Message";
 import { ArrestReport, Ticket, Warrant } from "../../interfaces/Record";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import Logger from "../Logger";
-import { SET_MESSAGE, SEARCH_CITIZEN } from "../types";
+import { SEARCH_CITIZEN } from "../types";
 
 export interface CourtResults {
   warrants: Warrant[];
@@ -54,13 +54,7 @@ export const searchCitizen = (name: string) => async (dispatch: Dispatch<IDispat
         },
       });
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: {
-          msg: res.data.error,
-          type: "warning",
-        },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error("SEARCH_CITIZEN", e);
@@ -77,13 +71,8 @@ export const requestExpungement = (citizenId: string, data: object) => async (
       dispatch({
         type: "REQUEST_EXPUNGEMENT",
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: {
-          msg: "Successfully requested expungement",
-          type: "success",
-        },
-      });
+
+      notify("Successfully requested expungement").success();
     }
   } catch (e) {
     Logger.error("REQUEST_EXPUNGEMENT", e);

@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import {
   DELETE_CITIZEN,
   DELETE_COMPANY,
@@ -96,10 +96,8 @@ export const updateMemberPerms = (id: string, data: object) => async (
         type: UPDATE_MEMBER_PERMS,
         member: res.data.member,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: "Successfully updated", type: "success" },
-      });
+
+      notify("Successfully updated member").success();
     }
   } catch (e) {
     Logger.error(UPDATE_MEMBER_PERMS, e);
@@ -119,10 +117,8 @@ export const banMember = (id: string, banReason: string) => async (
         type: BAN_MEMBER,
         member: res.data.member,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: `${lang.admin.ban_success} ${res.data.member?.username}`, type: "success" },
-      });
+
+      notify(`${lang.admin.ban_success} ${res.data.member?.username ?? "Unknown"}`).success();
     } else {
       dispatch({
         type: SET_MESSAGE,
@@ -142,20 +138,17 @@ export const unBanMember = (id: string) => async (dispatch: Dispatch<IDispatch>)
         type: UN_BAN_MEMBER,
         member: res.data.member,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: {
-          msg: `${lang.admin.un_ban_success} ${res.data.member?.username}`,
-          type: "success",
-        },
-      });
+
+      notify(`${lang.admin.un_ban_success} ${res.data.member?.username ?? "Unknown"}`).success();
     }
   } catch (e) {
     Logger.error(UN_BAN_MEMBER, e);
   }
 };
 
-export const removeUser = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+export const removeUser = (id: string) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest(`/admin/management/members/remove/${id}`, "PUT");
 
@@ -163,10 +156,16 @@ export const removeUser = (id: string) => async (dispatch: Dispatch<IDispatch>) 
       dispatch({
         type: REMOVE_USER,
       });
-      return (window.location.href = "/admin/manage/members");
+
+      notify(`Successfully removed user with ID: ${id}`).success();
+
+      return true;
+    } else {
+      return false;
     }
   } catch (e) {
     Logger.error(UN_BAN_MEMBER, e);
+    return false;
   }
 };
 
@@ -179,10 +178,8 @@ export const acceptUser = (id: string) => async (dispatch: Dispatch<IDispatch>) 
         type: ACCEPT_USER,
         members: res.data.members,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: `${lang.admin.accepted_member}`, type: "success" },
-      });
+
+      notify(lang.admin.accepted_member).success();
     }
   } catch (e) {
     Logger.error(ACCEPT_USER, e);
@@ -198,10 +195,8 @@ export const declineUser = (id: string) => async (dispatch: Dispatch<IDispatch>)
         type: DECLINE_USER,
         members: res.data.members,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: `${lang.admin.declined_member}`, type: "success" },
-      });
+
+      notify(lang.admin.declined_member).success();
     }
   } catch (e) {
     Logger.error(DECLINE_USER, e);
@@ -232,10 +227,8 @@ export const deleteCitizen = (id: string) => async (dispatch: Dispatch<IDispatch
         type: DELETE_CITIZEN,
         citizens: res.data.citizens,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.citizen.deleted_citizen, type: "success" },
-      });
+
+      notify(lang.citizen.deleted_citizen).success();
     }
   } catch (e) {
     Logger.error(DELETE_CITIZEN, e);
@@ -272,17 +265,15 @@ export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<IDisp
         type: DELETE_COMPANY,
         companies: res.data.companies,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.admin.company.delete_success, type: "success" },
-      });
+
+      notify(lang.admin.company.delete_success).success();
     }
   } catch (e) {
     Logger.error(DELETE_COMPANY, e);
   }
 };
 
-export const updateCadSettings = (data: {
+export interface UpdateCADSettings {
   aop: string;
   cad_name: string;
   whitelisted: string;
@@ -292,7 +283,11 @@ export const updateCadSettings = (data: {
   plate_length: number;
   steam_api_key: string;
   features: string[];
-}) => async (dispatch: Dispatch<IDispatch>) => {
+}
+
+export const updateCadSettings = (data: UpdateCADSettings) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
   try {
     const res = await handleRequest("/admin/management/cad-settings", "PUT", data);
 
@@ -301,10 +296,8 @@ export const updateCadSettings = (data: {
       dispatch({
         type: UPDATE_CAD_SETTINGS,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.admin.cad_settings?.updated, type: "success" },
-      });
+
+      notify(lang.admin.cad_settings.updated).success();
     }
   } catch (e) {
     Logger.error(UPDATE_CAD_SETTINGS, e);
@@ -363,13 +356,11 @@ export const updateOfficerById = (id: string, data: UpdateOfficerData) => async 
 
       return (window.location.href = "/admin/manage/officers");
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(GET_ALL_OFFICERS, e);
+    notify(e).error();
   }
 };
 
@@ -408,6 +399,10 @@ export const acceptOrDeclineRequest = (
         type: ACCEPT_OR_DECLINE_REQUEST,
         expungementRequests: res.data.requests,
       });
+
+      notify("Successfully accepted expungement request").success();
+    } else {
+      notify("An error occurred when accepting the request").error();
     }
   } catch (e) {
     Logger.error(ACCEPT_OR_DECLINE_REQUEST, e);
@@ -441,16 +436,11 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispa
 
       return (window.location.href = "/admin/manage/penal-codes");
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: {
-          type: "warning",
-          msg: res.data.error,
-        },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
+    notify(e).error();
   }
 };
 
@@ -463,15 +453,18 @@ export const deletePenalCode = (id: string) => async (dispatch: Dispatch<IDispat
         type: DELETE_PENAL_CODE,
         penalCodes: res.data.penalCodes,
       });
+
+      notify("Successfully deleted penal code").success();
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
+    notify(e).error();
   }
 };
 
 export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean> => {
   try {
     const res = await handleRequest(`/admin/management/penal-codes/${id}`, "PUT", data);
 
@@ -481,10 +474,16 @@ export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
         penalCodes: res.data.penalCodes,
       });
 
-      return (window.location.href = "/admin/manage/penal-codes");
+      notify("Successfully updated penal code").success();
+
+      return true;
+    } else {
+      return false;
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
+    notify(e).error();
+    return false;
   }
 };
 
@@ -503,7 +502,9 @@ export const get10Codes = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const add10Code = (data: Partial<Code10>) => async (dispatch: Dispatch<IDispatch>) => {
+export const add10Code = (data: Partial<Code10>) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/admin/management/10-codes", "POST", data);
 
@@ -513,18 +514,16 @@ export const add10Code = (data: Partial<Code10>) => async (dispatch: Dispatch<ID
         codes: res.data.codes,
       });
 
-      return (window.location.href = "/admin/manage/10-codes");
+      notify("Successfully add 10 code").success();
+
+      return true;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: {
-          type: "warning",
-          msg: res.data.error,
-        },
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
+    return false;
   }
 };
 
@@ -539,10 +538,16 @@ export const update10Code = (id: string, data: Partial<Code10>) => async (
         type: UPDATE_10_CODE,
         codes: res.data.codes,
       });
-      return (window.location.href = "/admin/manage/10-codes");
+
+      notify("Successfully updated 10 code").success();
+
+      return true;
+    } else {
+      return false;
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
+    return false;
   }
 };
 

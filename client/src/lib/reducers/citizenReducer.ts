@@ -6,8 +6,6 @@ import Vehicle from "../../interfaces/Vehicle";
 import Weapon from "../../interfaces/Weapon";
 import {
   GET_CITIZENS,
-  CREATE_CITIZEN_ERROR,
-  UPDATE_CITIZEN_ERROR,
   GET_CITIZEN_BY_ID,
   GET_REGISTERED_VEHICLES,
   GET_REGISTERED_WEAPONS,
@@ -16,7 +14,6 @@ import {
   DELETE_REGISTERED_VEHICLE,
   REGISTER_VEHICLE,
   GET_MEDICAL_RECORDS,
-  CREATE_MEDICAL_RECORD_ERROR,
   DELETE_MEDICAL_RECORD,
   DELETE_CITIZEN,
   UPDATE_VEHICLE,
@@ -41,14 +38,6 @@ type Actions =
   | {
       type: typeof GET_CITIZENS;
       citizens: Citizen[];
-    }
-  | {
-      type: typeof CREATE_CITIZEN_ERROR;
-      error: string;
-    }
-  | {
-      type: typeof UPDATE_CITIZEN_ERROR;
-      error: string;
     }
   | {
       type: typeof GET_CITIZEN_BY_ID;
@@ -79,10 +68,6 @@ type Actions =
   | {
       type: typeof GET_MEDICAL_RECORDS;
       medicalRecords: MedicalRecord[];
-    }
-  | {
-      type: typeof CREATE_MEDICAL_RECORD_ERROR;
-      error: string;
     }
   | {
       type: typeof DELETE_MEDICAL_RECORD;
@@ -122,16 +107,6 @@ export default function citizenReducer(state = initState, action: Actions) {
         ...state,
         citizens: action.citizens,
       };
-    case "CREATE_CITIZEN_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
-    case "UPDATE_CITIZEN_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
     case "GET_CITIZEN_BY_ID":
       return {
         ...state,
@@ -169,11 +144,6 @@ export default function citizenReducer(state = initState, action: Actions) {
       return {
         ...state,
         medicalRecords: action.medicalRecords,
-      };
-    case "CREATE_MEDICAL_RECORD_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "DELETE_MEDICAL_RECORD":
       return {

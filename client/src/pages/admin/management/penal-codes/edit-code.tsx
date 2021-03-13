@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { updatePenalCode, getPenalCodes } from "../../../../lib/actions/admin";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import State from "../../../../interfaces/State";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Message from "../../../../interfaces/Message";
 import AlertMessage from "../../../../components/alert-message";
 import PenalCode from "../../../../interfaces/PenalCode";
@@ -11,7 +11,7 @@ import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
   message: Message | null;
-  updatePenalCode: (id: string, data: Partial<PenalCode>) => void;
+  updatePenalCode: (id: string, data: Partial<PenalCode>) => Promise<boolean>;
   getPenalCodes: () => void;
   codes: PenalCode[];
 }
@@ -20,6 +20,7 @@ const EditPenalCode: React.FC<Props> = ({ updatePenalCode, message, codes, getPe
   const { id } = useParams<{ id: string }>();
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState<string>("");
+  const history = useHistory();
   useDocTitle("Edit Penal Code");
 
   React.useEffect(() => {
@@ -34,13 +35,17 @@ const EditPenalCode: React.FC<Props> = ({ updatePenalCode, message, codes, getPe
     setDes(code?.des);
   }, [codes, id]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updatePenalCode(id, {
+    const updated = await updatePenalCode(id, {
       title,
       des,
     });
+
+    if (updated === true) {
+      history.push("/admin/manage/penal-codes");
+    }
   }
 
   return (

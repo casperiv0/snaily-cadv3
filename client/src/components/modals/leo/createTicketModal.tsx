@@ -2,7 +2,6 @@ import * as React from "react";
 import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import Field from "../../../interfaces/Field";
-import AlertMessage from "../../alert-message";
 import { connect } from "react-redux";
 import Modal, { XButton } from "../index";
 import { createTicket } from "../../../lib/actions/records";
@@ -11,7 +10,6 @@ import PenalCode from "../../../interfaces/PenalCode";
 import Select from "../../select";
 
 interface Props {
-  error: string | null;
   officer: Officer | null;
   penalCodes: PenalCode[];
   createTicket: (data: {
@@ -20,39 +18,37 @@ interface Props {
     violations: string;
     postal: string;
     notes: string;
-  }) => void;
+  }) => Promise<boolean>;
 }
 
-const CreateTicketModal: React.FC<Props> = ({ error, officer, penalCodes, createTicket }) => {
+const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, createTicket }) => {
   const [name, setName] = React.useState("");
   const [violations, setViolations] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
+  const btnRef = React.useRef<HTMLButtonElement>(null);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createTicket({
+    const created = await createTicket({
       name,
       officer_name: `${officer?.callsign} ${officer?.officer_name}`,
       violations: violations.map((v: any) => v.value).join(", "),
       postal,
       notes,
     });
-  }
 
-  React.useEffect(() => {
-    if (error === null) {
+    if (created === true) {
+      btnRef.current?.click();
+
       setNotes("");
       setName("");
       setViolations([]);
       setPostal("");
       setNotes("");
-
-      btnRef.current?.click();
     }
-  }, [error, btnRef]);
+  }
 
   const fields: Field[] = [
     {
@@ -87,7 +83,6 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, penalCodes, create
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
           {fields.map((field: Field, idx: number) => {
             return (
               <div id={`${idx}`} key={idx} className="mb-3">
@@ -133,7 +128,6 @@ const CreateTicketModal: React.FC<Props> = ({ error, officer, penalCodes, create
 };
 
 const mapToProps = (state: State) => ({
-  error: state.officers.error,
   officer: state.officers.activeOfficer,
   penalCodes: state.admin.penalCodes,
 });

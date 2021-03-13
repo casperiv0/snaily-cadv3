@@ -186,9 +186,10 @@ router.post(
     const { plate } = req.body;
 
     if (plate) {
-      const result = await processQuery("SELECT * FROM `registered_cars` WHERE `plate` = ?", [
-        plate,
-      ]);
+      const result = await processQuery(
+        "SELECT * FROM `registered_cars` WHERE `plate` = ? OR `vin_number` = ?",
+        [plate, plate],
+      );
 
       return res.json({ plate: result[0] ?? {}, status: "success" });
     } else {

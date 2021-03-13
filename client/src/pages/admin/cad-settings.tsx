@@ -9,23 +9,13 @@ import Message from "../../interfaces/Message";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import lang from "../../language.json";
-import { updateCadSettings } from "../../lib/actions/admin";
+import { updateCadSettings, UpdateCADSettings } from "../../lib/actions/admin";
 
 interface Props {
   user: User | null;
   message: Message | null;
   cadInfo: CadInfo | null;
-  updateCadSettings: (data: {
-    aop: string;
-    cad_name: string;
-    whitelisted: string;
-    tow_whitelisted: string;
-    webhook_url: string;
-    live_map_url: string;
-    plate_length: number;
-    steam_api_key: string;
-    features: string[];
-  }) => void;
+  updateCadSettings: (data: UpdateCADSettings) => void;
 }
 
 const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSettings }) => {

@@ -1,16 +1,12 @@
 import lang from "../../language.json";
 import Logger from "../Logger";
 import { Dispatch } from "react";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import {
   CREATE_WARRANT,
-  SET_MESSAGE,
   CREATE_WRITTEN_WARNING,
-  CREATE_WRITTEN_WARNING_ERROR,
-  CREATE_ARREST_REPORT_ERROR,
   CREATE_ARREST_REPORT,
   CREATE_TICKET,
-  CREATE_TICKET_ERROR,
 } from "../types";
 import Message from "../../interfaces/Message";
 
@@ -18,15 +14,6 @@ interface IDispatch {
   type: string;
   error?: string;
   message?: Message;
-}
-
-export function resetError(type: string, dispatch: Dispatch<IDispatch>) {
-  setTimeout(() => {
-    dispatch({
-      type: type,
-      error: "",
-    });
-  }, 200);
 }
 
 export const createWarrant = (data: {
@@ -41,15 +28,10 @@ export const createWarrant = (data: {
       dispatch({
         type: CREATE_WARRANT,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: `${lang.record.created_warrant} ${data.fullName}`, type: "success" },
-      });
+
+      notify(`${lang.record.created_warrant} ${data.fullName}`).success();
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(CREATE_WARRANT, e);
@@ -62,7 +44,7 @@ export const createWrittenWarning = (data: {
   infractions: string;
   postal: string;
   notes: string;
-}) => async (dispatch: Dispatch<IDispatch>) => {
+}) => async (dispatch: Dispatch<IDispatch>): Promise<boolean> => {
   try {
     const res = await handleRequest("/records/create-written-warning", "POST", data);
 
@@ -70,19 +52,16 @@ export const createWrittenWarning = (data: {
       dispatch({
         type: CREATE_WRITTEN_WARNING,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: `${lang.record.created_warning} ${data.name}`, type: "success" },
-      });
-      resetError(CREATE_WRITTEN_WARNING_ERROR, dispatch);
+
+      notify(`${lang.record.created_warning} ${data.name}`).success();
+      return true;
     } else {
-      dispatch({
-        type: CREATE_WRITTEN_WARNING_ERROR,
-        error: res.data.error,
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_WRITTEN_WARNING, e);
+    return false;
   }
 };
 
@@ -92,7 +71,7 @@ export const creatArrestReport = (data: {
   charges: string;
   postal: string;
   notes: string;
-}) => async (dispatch: Dispatch<IDispatch>) => {
+}) => async (dispatch: Dispatch<IDispatch>): Promise<boolean> => {
   try {
     const res = await handleRequest("/records/create-arrest-report", "POST", data);
 
@@ -100,19 +79,16 @@ export const creatArrestReport = (data: {
       dispatch({
         type: CREATE_ARREST_REPORT,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: `${lang.record.created_arrest_report} ${data.name}`, type: "success" },
-      });
-      resetError(CREATE_ARREST_REPORT_ERROR, dispatch);
+
+      notify(`${lang.record.created_arrest_report} ${data.name}`).success();
+      return true;
     } else {
-      dispatch({
-        type: CREATE_ARREST_REPORT_ERROR,
-        error: res.data.error,
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_ARREST_REPORT, e);
+    return false;
   }
 };
 
@@ -122,7 +98,7 @@ export const createTicket = (data: {
   violations: string;
   postal: string;
   notes: string;
-}) => async (dispatch: Dispatch<IDispatch>) => {
+}) => async (dispatch: Dispatch<IDispatch>): Promise<boolean> => {
   try {
     const res = await handleRequest("/records/create-ticket", "POST", data);
 
@@ -130,18 +106,15 @@ export const createTicket = (data: {
       dispatch({
         type: CREATE_TICKET,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: `${lang.record.created_ticket} ${data.name}`, type: "success" },
-      });
-      resetError(CREATE_TICKET_ERROR, dispatch);
+
+      notify(`${lang.record.created_ticket} ${data.name}`).success();
+      return true;
     } else {
-      dispatch({
-        type: CREATE_TICKET_ERROR,
-        error: res.data.error,
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_TICKET, e);
+    return false;
   }
 };

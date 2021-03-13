@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import Field from "../../../interfaces/Field";
-import AlertMessage from "../../alert-message";
 import Modal, { XButton } from "../index";
 import { creatArrestReport } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
@@ -11,7 +10,6 @@ import Select from "../../select";
 import PenalCode from "../../../interfaces/PenalCode";
 
 interface Props {
-  error: string | null;
   officer: Officer | null;
   penalCodes: PenalCode[];
 
@@ -21,44 +19,37 @@ interface Props {
     charges: string;
     postal: string;
     notes: string;
-  }) => void;
+  }) => Promise<boolean>;
 }
 
-const CreateArrestReportModal: React.FC<Props> = ({
-  error,
-  officer,
-  penalCodes,
-  creatArrestReport,
-}) => {
+const CreateArrestReportModal: React.FC<Props> = ({ officer, penalCodes, creatArrestReport }) => {
   const [name, setName] = React.useState("");
   const [charges, setCharges] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
+  const btnRef = React.useRef<HTMLButtonElement>(null);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    creatArrestReport({
+    const created = await creatArrestReport({
       name,
       officer_name: `${officer?.callsign} ${officer?.officer_name}`,
       charges: charges.map((v: any) => v.value).join(", "),
       postal,
       notes,
     });
-  }
 
-  React.useEffect(() => {
-    if (error === null) {
+    if (created === true) {
+      btnRef.current?.click();
+
       setNotes("");
       setName("");
       setCharges([]);
       setPostal("");
       setNotes("");
-
-      btnRef.current?.click();
     }
-  }, [error, btnRef]);
+  }
 
   const fields: Field[] = [
     {
@@ -93,7 +84,6 @@ const CreateArrestReportModal: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
           {fields.map((field: Field, idx: number) => {
             return (
               <div id={`${idx}`} key={idx} className="mb-3">
@@ -139,7 +129,6 @@ const CreateArrestReportModal: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.officers.error,
   officer: state.officers.activeOfficer,
   penalCodes: state.admin.penalCodes,
 });

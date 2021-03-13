@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
 import useDocTitle from "../../../../hooks/useDocTitle";
@@ -28,7 +28,7 @@ interface Props {
   updateMemberPerms: (id: string, data: object) => void;
   unBanMember: (id: string) => void;
   banMember: (id: string, banReason: string) => void;
-  removeUser: (id: string) => void;
+  removeUser: (id: string) => Promise<boolean>;
 }
 
 const ManageMember: React.FC<Props> = ({
@@ -52,6 +52,7 @@ const ManageMember: React.FC<Props> = ({
   const [tow, setTow] = React.useState("");
   const [banReason, setBanReason] = React.useState("");
   useDocTitle(`Managing ${member?.username}`);
+  const history = useHistory();
 
   React.useEffect(() => {
     getMemberById(id);
@@ -89,8 +90,12 @@ const ManageMember: React.FC<Props> = ({
     unBanMember(member?.id!);
   }
 
-  function handleRemove() {
-    removeUser(member?.id!);
+  async function handleRemove() {
+    const deleted = await removeUser(member?.id!);
+
+    if (deleted === true) {
+      history.push("/admin/manage/members");
+    }
   }
 
   if (member !== null && !member) {

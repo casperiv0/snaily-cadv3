@@ -1,7 +1,7 @@
 import Logger from "../Logger";
 import User from "../../interfaces/User";
 import { Dispatch } from "react";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import {
   AUTHENTICATE,
   LOGOUT,
@@ -39,12 +39,10 @@ export const login = (data: object, requestedPath: string) => async (
 
       window.location.href = requestedPath ? `${requestedPath}` : "/citizen";
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
+    notify(e).error;
     Logger.error("LOGIN", e);
   }
 
@@ -67,10 +65,7 @@ export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) 
 
       window.location.href = "/citizen";
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error("REGISTER", e);
@@ -112,6 +107,7 @@ export const logout = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(LOGOUT, e);
+    notify(e).error();
   }
 };
 
@@ -127,6 +123,7 @@ export const deleteAccount = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(DELETE_ACCOUNT, e);
+    notify(e).error();
   }
 };
 
@@ -143,12 +140,10 @@ export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispa
         message: { msg: "Password updated", type: "success" },
       });
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn;
     }
   } catch (e) {
     Logger.error(UPDATE_PASSWORD, e);
+    notify(e).error();
   }
 };

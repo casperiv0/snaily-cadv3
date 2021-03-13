@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import {
   GET_BLEETS,
   GET_BLEET_BY_ID,
@@ -7,7 +7,6 @@ import {
   UPDATE_BLEET,
   DELETE_BLEET_BY_ID,
   CREATE_BLEET,
-  SET_MESSAGE,
 } from "../types";
 import Bleet from "../../interfaces/Bleet";
 import Logger from "../Logger";
@@ -82,10 +81,7 @@ export const createBleet = (data: { title: string; body: string; image: any }) =
       });
       window.location.href = `/bleet/${res.data.id}`;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(CREATE_BLEET, e);
@@ -102,10 +98,7 @@ export const updateBleet = (data: object, id: string) => async (dispatch: Dispat
       });
       return (window.location.href = `/bleet/${id}`);
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(GET_BLEET_BY_ID, e);
