@@ -135,7 +135,7 @@ const ManageOfficerPage: React.FC<Props> = ({
       <div className="mt-5">
         <h1 className="h2">Officer logs</h1>
 
-        <ul className="list-group">
+        <ul style={{ maxHeight: "40rem" }} className="list-group overflow-auto">
           {logs && logs?.length <= 0 ? (
             <p>Officer does not have any logs yet</p>
           ) : (

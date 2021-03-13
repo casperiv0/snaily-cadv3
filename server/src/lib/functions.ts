@@ -93,15 +93,39 @@ export async function logoutActiveUnits(userId: string | undefined): Promise<voi
   ]);
   const emsFd = await processQuery<any>("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [userId]);
 
-  [...officers, ...emsFd]
-    .filter((o) => o.status === "on-duty")
-    .forEach(async (officer) => {
-      processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
-        "off-duty",
-        "--------",
-        officer.id,
-      ]);
-    });
+  await Promise.all(
+    [...officers, ...emsFd]
+      .filter((o) => o.status === "on-duty")
+      .map(async (item) => {
+        if ("officer_name" in item) {
+          const officerLog = await processQuery(
+            "SELECT * FROM `officer_logs` WHERE `officer_id` = ? AND `active` = ?",
+            [item.id, "1"],
+          );
+
+          if (officerLog[0]) {
+            await processQuery(
+              "UPDATE `officer_logs` SET `active` = ?, `ended_at` = ? WHERE `id` = ?",
+              ["0", Date.now(), officerLog[0]?.id],
+            );
+          }
+
+          await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
+            "off-duty",
+            "--------",
+            item.id,
+          ]);
+        } else {
+          await processQuery("UPDATE `ems-fd` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
+            "off-duty",
+            "--------",
+            item.id,
+          ]);
+        }
+
+        return item;
+      }),
+  );
 
   io.sockets.emit("UPDATE_ACTIVE_UNITS");
 }

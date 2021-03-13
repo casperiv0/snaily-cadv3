@@ -29,7 +29,7 @@ export const isSuccess = (res: AxiosResponse) => {
 
 export function playSound(src: string) {
   const audio = new Audio(src);
-  audio.volume = 0.6;
+  audio.volume = 0.7;
 
   const play = () => {
     audio.play();

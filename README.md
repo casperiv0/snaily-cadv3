@@ -25,7 +25,7 @@
 
 ## Troubleshooting
 
-**Troubleshooting guide has been moved to the [SnailyCAD wiki](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide)**
+**Troubleshooting guide has been moved to the [SnailyCAD wiki](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Troubleshooting)**
 
 ## Contributing
 

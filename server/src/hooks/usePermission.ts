@@ -7,7 +7,7 @@ import Logger from "../lib/Logger";
 
 // rank, leo, ems_fd, dispatch, tow
 type UserPermsArr = [RanksType, Perm, Perm, Perm, Perm, Perm];
-type Permissions = RanksType | "leo" | "ems_fd" | "dispatch" | "tow";
+type Permissions = RanksType | "leo" | "ems_fd" | "dispatch" | "tow" | "supervisor";
 
 const usePermission = (perms: Permissions[]) => async (
   req: IRequest,
