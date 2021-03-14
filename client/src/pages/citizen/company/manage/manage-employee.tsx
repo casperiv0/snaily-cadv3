@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AlertMessage from "../../../../components/alert-message";
 import Layout from "../../../../components/Layout";
+import Select from "../../../../components/select";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import Citizen from "../../../../interfaces/Citizen";
 import Match from "../../../../interfaces/Match";
@@ -82,56 +83,65 @@ const ManageEmployee: React.FC<Props> = ({
           <label className="form-label" htmlFor="rank">
             {lang.global.rank}
           </label>
-          <select
-            className="form-control bg-dark border-dark text-light"
-            onChange={(e) => setRank(e.target.value)}
-            value={rank}
-          >
-            <option value={employee?.rank}>{employee?.rank}</option>
-            <option value="" disabled>
-              --------
-            </option>
-            <option value="manager">{lang.citizen.company.manager}</option>
-            <option value="employee">{lang.citizen.company.employee}</option>
-          </select>
+
+          {rank === "owner" ? (
+            <AlertMessage message={{ msg: "Cannot change the owner's rank", type: "warning" }} />
+          ) : (
+            <Select
+              theme="dark"
+              isMulti={false}
+              value={{
+                label: rank,
+                value: rank,
+              }}
+              isClearable={false}
+              onChange={(v) => setRank(v.value)}
+              options={[
+                { label: lang.citizen.company.manager, value: "manager" },
+                { label: lang.citizen.company.employee, value: "employee" },
+              ]}
+            />
+          )}
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="canRegVeh">
             {lang.citizen.company.can_reg_veh}
           </label>
-          <select
-            className="form-control bg-dark border-dark text-light"
-            onChange={(e) => setCanRegVeh(e.target.value)}
-            value={canRegVeh}
-          >
-            <option value={employee?.vehicle_reg}>
-              {employee?.vehicle_reg === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option value="" disabled>
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: canRegVeh === "1" ? lang.global.yes : lang.global.no,
+              value: canRegVeh,
+            }}
+            isClearable={false}
+            onChange={(v) => setCanRegVeh(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="canCreatePost">
             {lang.citizen.company.can_create_post}
           </label>
-          <select
-            className="form-control bg-dark border-dark text-light"
-            onChange={(e) => setCanCreatePost(e.target.value)}
-            value={canCreatePost}
-          >
-            <option value={employee?.posts}>
-              {employee?.posts === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option value="" disabled>
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: canCreatePost === "1" ? lang.global.yes : lang.global.no,
+              value: canCreatePost,
+            }}
+            isClearable={false}
+            onChange={(v) => setCanCreatePost(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
 
         <div className="mb-3 float-end">

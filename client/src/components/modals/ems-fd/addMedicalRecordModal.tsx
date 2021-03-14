@@ -61,19 +61,27 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
         <div className="modal-body">
           <div className="mb-3">
             <label className="form-label">Select type</label>
-            <select
-              className="form-control bg-secondary border-secondary text-light"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="">Select...</option>
-              <option value="" disabled>
-                ---------
-              </option>
-              <option value="Allergy">Allergy</option>
-              <option value="Medication">Medication</option>
-              <option value="Health Problem">Health Problem</option>
-            </select>
+
+            <Select
+              isClearable={false}
+              onChange={(v) => setType(v?.value)}
+              value={{ label: type, value: type }}
+              isMulti={false}
+              options={[
+                {
+                  label: "Allergy",
+                  value: "Allergy",
+                },
+                {
+                  label: "Medication",
+                  value: "Medication",
+                },
+                {
+                  label: "Health Problem",
+                  value: "Health Problem",
+                },
+              ]}
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Citizen name</label>

@@ -107,7 +107,6 @@ const AuthRoute: React.FC<Props> = ({
             to={{
               pathname: "/login",
               state: {
-                message: "You need to be logged in to view this page",
                 requestedPath: location.pathname,
               },
             }}

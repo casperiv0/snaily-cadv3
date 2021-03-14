@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { getCitizens, registerWeapon } from "../../../lib/actions/citizen";
 import { useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Select from "../../../components/select";
 
 interface Props {
   weapons: Value[];
@@ -17,7 +18,7 @@ interface Props {
   getWeapons: () => void;
   getCitizens: () => void;
   getLegalStatuses: () => void;
-  registerWeapon: (data: object) => void;
+  registerWeapon: (data: object) => Promise<boolean>;
 }
 
 const RegisterWeaponPage: React.FC<Props> = ({
@@ -41,14 +42,18 @@ const RegisterWeaponPage: React.FC<Props> = ({
     getCitizens();
   }, [getWeapons, getLegalStatuses, getCitizens]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    registerWeapon({
+    const registered = await registerWeapon({
       weapon,
       citizenId,
       status,
     });
+
+    if (registered === true) {
+      history.push(`/citizen/${citizenId}`);
+    }
   }
 
   return (
@@ -58,67 +63,51 @@ const RegisterWeaponPage: React.FC<Props> = ({
           <label className="form-label" htmlFor="weapon">
             {lang.citizen.weapon.enter_weapon}
           </label>
-          <select
-            value={weapon}
-            onChange={(e) => setWeapon(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option>{lang.global.select}</option>
-            <option disabled>--------</option>
-            {weapons.map((weapon: Value, idx: number) => {
-              return (
-                <option key={idx} id={`${idx}`} value={weapon.name}>
-                  {weapon.name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setWeapon(v.value)}
+            options={weapons.map((weapon) => ({
+              value: weapon.name,
+              label: weapon.name,
+            }))}
+          />
         </div>
 
         <div className="mb-3">
           <label className="form-label" htmlFor="owner">
             {lang.citizen.weapon.enter_owner}
           </label>
-          <select
-            id="owner"
-            value={citizenId}
-            onChange={(e) => {
-              setCitizenId(e.target.value);
-            }}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="">{lang.global.select}</option>
-            <option disabled>--------</option>
-            {owners.map((owner: Citizen, idx: number) => {
-              return (
-                <option key={idx} id={`${idx}`} value={owner.id}>
-                  {owner.full_name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setCitizenId(v.value)}
+            options={owners.map((owner) => ({
+              value: owner.id,
+              label: owner.full_name,
+            }))}
+          />
         </div>
 
         <div className="mb-3">
           <label className="form-label" htmlFor="status">
             {lang.citizen.weapon.enter_status}
           </label>
-          <select
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="">{lang.global.select}</option>
-            <option disabled>--------</option>
-            {legalStatuses.map((status: Value, idx: number) => {
-              return (
-                <option key={idx} id={`${idx}`} value={status.name}>
-                  {status.name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setStatus(v.value)}
+            options={legalStatuses.map((status) => ({
+              value: status.name,
+              label: status.name,
+            }))}
+          />
         </div>
 
         <div className="mb-3 float-end">

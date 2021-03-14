@@ -1,25 +1,44 @@
 import { Styles, GroupTypeBase } from "react-select";
 
-const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | undefined = {
+const DARK = "#212529";
+const LIGHT = "#6C757D";
+
+function color(theme: string) {
+  return theme.toLowerCase() === "light" ? LIGHT : DARK;
+}
+
+const SelectStyles = (
+  theme = LIGHT,
+): Partial<Styles<any, true, GroupTypeBase<any>>> | undefined => ({
   valueContainer: (base) => ({
     ...base,
-    background: "#6C757D",
+    background: color(theme),
     color: "#fff",
+    ":hover": {
+      borderColor: `${color(theme)}`,
+    },
   }),
   option: (base) => ({
     ...base,
-    padding: "1rem",
+    padding: "0.5rem",
     width: "100%",
-    backgroundColor: "#6C757D",
+    backgroundColor: color(theme),
     color: "#fff",
     cursor: "pointer",
+    transition: "background-color 200ms",
+    borderRadius: "0.2rem",
+    marginTop: "0.2rem",
+    ":hover": {
+      backgroundColor: "#565D64",
+    },
   }),
   menu: (prov) => ({
     ...prov,
     width: "100%",
     color: "#fff",
-    padding: "0.2rem",
-    backgroundColor: "#6C757D",
+    padding: "0.5rem",
+    backgroundColor: color(theme),
+    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
   }),
   multiValue: (base) => ({
     ...base,
@@ -47,7 +66,7 @@ const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | undefined =
   }),
   indicatorsContainer: (base) => ({
     ...base,
-    backgroundColor: "#6C757D",
+    backgroundColor: color(theme),
     color: "#fff",
   }),
   clearIndicator: (base, state) => ({
@@ -62,8 +81,11 @@ const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | undefined =
   }),
   control: (base) => ({
     ...base,
-    background: "#6C757D",
-    border: "1px solid #6C757D",
+    background: color(theme),
+    border: `1px solid ${color(theme)}`,
+    ":hover": {
+      borderColor: `${color(theme)}`,
+    },
   }),
   placeholder: (base) => ({
     ...base,
@@ -78,6 +100,13 @@ const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | undefined =
     ...base,
     color: "#fff",
   }),
-};
+  container: (base) => ({
+    ...base,
+    borderColor: "none",
+    ":hover": {
+      borderColor: "none",
+    },
+  }),
+});
 
 export default SelectStyles;

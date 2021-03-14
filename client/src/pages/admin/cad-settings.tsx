@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
+import Select from "../../components/select";
 import useDocTitle from "../../hooks/useDocTitle";
 import CadInfo from "../../interfaces/CadInfo";
 import State from "../../interfaces/State";
@@ -224,41 +225,38 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
               <label className="form-label" htmlFor="whitelisted">
                 {lang.admin.cad_settings.cad_wl}
               </label>
-              <select
-                className="form-control bg-secondary border-dark text-light"
-                id="whitelisted"
-                value={whitelisted}
-                onChange={(e) => setWhitelisted(e.target.value)}
-              >
-                <option value={cadInfo?.whitelisted}>
-                  {cadInfo?.whitelisted === "1" ? lang.global.yes : lang.global.no}
-                </option>
-                <option disabled value="">
-                  --------
-                </option>
-                <option value="0">{lang.global.no}</option>
-                <option value="1">{lang.global.yes}</option>
-              </select>
+
+              <Select
+                isMulti={false}
+                value={{
+                  label: whitelisted === "1" ? lang.global.yes : lang.global.no,
+                  value: whitelisted,
+                }}
+                isClearable={false}
+                onChange={(v) => setWhitelisted(v.value)}
+                options={[
+                  { label: lang.global.yes, value: "1" },
+                  { label: lang.global.no, value: "0" },
+                ]}
+              />
             </div>
             <div className="mb-3">
               <label className="form-label" htmlFor="tow_whitelisted">
                 {lang.admin.cad_settings.tow_wl}
               </label>
-              <select
-                className="form-control bg-secondary border-dark text-light"
-                id="tow_whitelisted"
-                value={towWhitelist}
-                onChange={(e) => setTowWhitelist(e.target.value)}
-              >
-                <option value={cadInfo?.tow_whitelisted}>
-                  {cadInfo?.tow_whitelisted === "1" ? lang.global.yes : lang.global.no}
-                </option>
-                <option disabled value="">
-                  --------
-                </option>
-                <option value="0">{lang.global.no}</option>
-                <option value="1">{lang.global.yes}</option>
-              </select>
+              <Select
+                isMulti={false}
+                value={{
+                  label: towWhitelist === "1" ? lang.global.yes : lang.global.no,
+                  value: towWhitelist,
+                }}
+                isClearable={false}
+                onChange={(v) => setTowWhitelist(v.value)}
+                options={[
+                  { label: lang.global.yes, value: "1" },
+                  { label: lang.global.no, value: "0" },
+                ]}
+              />
             </div>
             <div className="mb-3">
               <button className="btn btn-primary col" type="submit">

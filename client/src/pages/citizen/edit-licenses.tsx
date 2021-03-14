@@ -11,6 +11,7 @@ import { getCitizenById, updateLicenses } from "../../lib/actions/citizen";
 import { getLegalStatuses } from "../../lib/actions/values";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import Select from "../../components/select";
 
 interface Props {
   citizen: Citizen | null;
@@ -43,7 +44,7 @@ const EditLicensesPage: React.FC<Props> = ({
       type: "text",
       id: "dmv",
       label: lang.citizen.drivers_license,
-      onChange: (e) => setDmv(e.target.value),
+      onChange: (e) => setDmv(e.value),
       value: dmv,
       select: true,
       data: legalStatuses,
@@ -53,7 +54,7 @@ const EditLicensesPage: React.FC<Props> = ({
       type: "text",
       id: "firearms_license",
       label: lang.citizen.firearms_license,
-      onChange: (e) => setFireArms(e.target.value),
+      onChange: (e) => setFireArms(e.value),
       value: fireArms,
       select: true,
       data: legalStatuses,
@@ -63,7 +64,7 @@ const EditLicensesPage: React.FC<Props> = ({
       type: "text",
       id: "pilot_license",
       label: lang.citizen.pilot_license,
-      onChange: (e) => setPilot(e.target.value),
+      onChange: (e) => setPilot(e.value),
       value: pilot,
       select: true,
       data: legalStatuses,
@@ -73,7 +74,7 @@ const EditLicensesPage: React.FC<Props> = ({
       type: "text",
       id: "ccw",
       label: lang.citizen.ccw,
-      onChange: (e) => setCcw(e.target.value),
+      onChange: (e) => setCcw(e.value),
       value: ccw,
       select: true,
       data: legalStatuses,
@@ -119,24 +120,17 @@ const EditLicensesPage: React.FC<Props> = ({
               <label className="form-label" htmlFor={field.id}>
                 {field.label}
               </label>
-              <select
-                id="dmv"
-                value={field.value}
-                className="form-control bg-dark border-dark text-light"
+
+              <Select
+                isMulti={false}
+                theme="dark"
+                value={{ value: field.value, label: field.value }}
                 onChange={field.onChange}
-              >
-                <option value={field.selectLabel}>{field.selectLabel}</option>
-                <option disabled value="">
-                  --------
-                </option>
-                {legalStatuses.map((item: Value, idx: number) => {
-                  return (
-                    <option key={idx} value={item.name}>
-                      {item.name}
-                    </option>
-                  );
-                })}
-              </select>
+                options={legalStatuses.map((status) => ({
+                  value: status.name,
+                  label: status.name,
+                }))}
+              />
             </div>
           );
         })}

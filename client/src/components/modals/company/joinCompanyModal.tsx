@@ -6,6 +6,7 @@ import Citizen from "../../../interfaces/Citizen";
 import Company from "../../../interfaces/Company";
 import State from "../../../interfaces/State";
 import { joinCompany } from "../../../lib/actions/company";
+import Select, { Value } from "../../select";
 
 interface Props {
   citizens: Citizen[];
@@ -14,8 +15,8 @@ interface Props {
 }
 
 const JoinCompanyModal: React.FC<Props> = ({ citizens, companies, joinCompany }) => {
-  const [citizenId, setCitizenId] = React.useState<string>("");
-  const [companyId, setCompanyId] = React.useState<string>("");
+  const [citizenId, setCitizenId] = React.useState<Value | null>(null);
+  const [companyId, setCompanyId] = React.useState<Value | null>(null);
 
   React.useEffect(() => {}, []);
 
@@ -23,8 +24,8 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, companies, joinCompany })
     e.preventDefault();
 
     joinCompany({
-      citizen_id: citizenId,
-      company_id: companyId,
+      citizen_id: citizenId?.value,
+      company_id: companyId?.value,
     });
   }
 
@@ -44,24 +45,16 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, companies, joinCompany })
             {!citizens[0] ? (
               <p>{lang.citizen.company.no_cit}</p>
             ) : (
-              <select
-                className="form-control bg-secondary border-secondary text-light"
+              <Select
+                closeMenuOnSelect
+                onChange={(v) => setCitizenId(v)}
+                isMulti={false}
                 value={citizenId}
-                onChange={(e) => setCitizenId(e.target.value)}
-                id="citizen"
-              >
-                <option value="">{lang.global?.select}..</option>
-                <option value="" disabled>
-                  -------
-                </option>
-                {citizens.map((citizen: Citizen, idx: number) => {
-                  return (
-                    <option key={idx} value={citizen.id}>
-                      {citizen.full_name}
-                    </option>
-                  );
-                })}
-              </select>
+                options={citizens.map((citizen) => ({
+                  value: citizen.id,
+                  label: citizen.full_name,
+                }))}
+              />
             )}
           </div>
           <div className="mb-3">
@@ -71,24 +64,12 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, companies, joinCompany })
             {!companies[0] ? (
               <p>{lang.citizen.company.no_com}</p>
             ) : (
-              <select
-                className="form-control bg-secondary border-secondary text-light"
+              <Select
+                isMulti={false}
                 value={companyId}
-                onChange={(e) => setCompanyId(e.target.value)}
-                id="company"
-              >
-                <option value="">{lang.global?.select}..</option>
-                <option value="" disabled>
-                  -------
-                </option>
-                {companies.map((company: Company, idx: number) => {
-                  return (
-                    <option key={idx} value={company.id}>
-                      {company.name}
-                    </option>
-                  );
-                })}
-              </select>
+                onChange={(v) => setCompanyId(v)}
+                options={companies.map((company) => ({ value: company.id, label: company.name }))}
+              />
             )}
           </div>
         </div>
@@ -98,7 +79,7 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, companies, joinCompany })
             {lang.global.cancel}
           </button>
           <button
-            disabled={companies.length <= 0 || !citizenId}
+            disabled={!citizenId?.value || !companyId?.value}
             type="submit"
             className="btn btn-primary"
           >

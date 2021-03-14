@@ -351,7 +351,9 @@ export const getRegisteredWeapons = (id: string) => async (dispatch: Dispatch<ID
   }
 };
 
-export const registerWeapon = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const registerWeapon = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/citizen/weapons", "POST", data);
 
@@ -359,12 +361,16 @@ export const registerWeapon = (data: object) => async (dispatch: Dispatch<IDispa
       dispatch({
         type: REGISTER_WEAPON,
       });
-      return (window.location.href = `/citizen/${res.data.citizenId}`);
+
+      notify("Successfully registered weapon").success();
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(REGISTER_WEAPON, e);
+    return false;
   }
 };
 

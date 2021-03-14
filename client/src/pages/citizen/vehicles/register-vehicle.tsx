@@ -12,6 +12,7 @@ import { getCompanies } from "../../../lib/actions/admin";
 import { useHistory } from "react-router-dom";
 import CadInfo from "../../../interfaces/CadInfo";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Select from "../../../components/select";
 
 interface Props {
   owners: Citizen[];
@@ -127,72 +128,51 @@ const RegisterVehiclePage: React.FC<Props> = ({
           <label className="form-label" htmlFor="owner">
             {lang.citizen.vehicle.select_owner}
           </label>
-          <select
-            id="owner"
-            value={citizenId}
-            onChange={(e) => setCitizenId(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="">{lang.global?.select}</option>
-            <option value="" disabled>
-              --------
-            </option>
-            {owners.map((owner: Citizen, idx: number) => {
-              return (
-                <option value={owner.id} key={idx} id={`${idx}`}>
-                  {owner.full_name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setCitizenId(v.value)}
+            options={owners.map((owner: Citizen) => ({
+              value: owner.id,
+              label: owner.full_name,
+            }))}
+          />
         </div>
 
         <div className="mb-3">
           <label className="form-label" htmlFor="status">
             {lang.citizen.vehicle.select_status}
           </label>
-          <select
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="">{lang.global?.select}</option>
-            <option value="" disabled>
-              --------
-            </option>
-            {legalStatuses.map((status: Value, idx: number) => {
-              return (
-                <option value={status.name} key={idx} id={`${idx}`}>
-                  {status.name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setStatus(v.value)}
+            options={legalStatuses.map((status) => ({
+              value: status.name,
+              label: status.name,
+            }))}
+          />
         </div>
 
         <div className="mb-3">
           <label className="form-label" htmlFor="status">
             {lang.citizen.vehicle.company}
           </label>
-          <select
-            id="company"
-            value={companyId}
-            onChange={(e) => setCompanyId(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="">{lang.global?.select}</option>
-            <option value="" disabled>
-              --------
-            </option>
-            {companies.map((company: Company, idx: number) => {
-              return (
-                <option value={company.id} key={idx} id={`${idx}`}>
-                  {company.name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setCompanyId(v.value)}
+            options={companies.map((company) => ({
+              value: company.id,
+              label: company.name,
+            }))}
+          />
         </div>
 
         <div className="mb-3 float-end">

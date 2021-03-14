@@ -10,6 +10,7 @@ import { getAllCitizens, getVehicleById, transferVehicle } from "../../../lib/ac
 import Citizen from "../../../interfaces/Citizen";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Select from "../../../components/select";
 
 interface Props {
   vehicle: Vehicle | null;
@@ -83,26 +84,19 @@ const TransferVehiclePage: React.FC<Props> = ({
           <label className="form-label" htmlFor="owner">
             {lang.citizen.vehicle.transfer_to}
           </label>
-          <select
-            id="owner"
-            className="form-control bg-dark border-dark text-light"
-            value={ownerId}
-            onChange={(e) => setOwnerId(e.target.value)}
-          >
-            <option value="">{lang.global?.select}</option>
-            <option value="" disabled>
-              --------
-            </option>
-            {owners
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setOwnerId(v.value)}
+            options={owners
               .filter((cit) => cit.id !== vehicle?.citizen_id)
-              .map((owner: Citizen, idx: number) => {
-                return (
-                  <option key={idx} value={owner.id}>
-                    {owner.full_name}
-                  </option>
-                );
-              })}
-          </select>
+              .map((owner: Citizen) => ({
+                value: owner.id,
+                label: owner.full_name,
+              }))}
+          />
         </div>
 
         <div className="mb-3 float-end">

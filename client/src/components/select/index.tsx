@@ -2,14 +2,21 @@ import ReactSelect, { Props as SelectProps } from "react-select";
 import React from "react";
 import SelectStyles from "./SelectStyles";
 
+export interface Value {
+  value: string;
+  label: string;
+}
+
 interface Props {
-  onChange: any;
+  onChange: (v: Value) => void;
   options: SelectProps["options"];
   defaultValue?: SelectProps["defaultValue"];
   value?: SelectProps["value"];
   onFocus?: SelectProps["onFocus"];
   isMulti?: boolean;
   closeMenuOnSelect?: boolean;
+  theme?: "light" | "dark";
+  isClearable?: boolean;
 }
 
 const Select: React.FC<Props> = ({
@@ -20,16 +27,19 @@ const Select: React.FC<Props> = ({
   options,
   defaultValue,
   value,
+  theme = "light",
+  isClearable = true,
 }) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
     <ReactSelect
+      isClearable={isClearable}
       onFocus={onFocus}
       value={value}
       isSearchable
       isMulti={isMulti !== undefined ? isMulti : true}
-      styles={SelectStyles}
+      styles={SelectStyles(theme)}
       onChange={onChange}
       options={options}
       defaultValue={defaultValue}
@@ -38,17 +48,6 @@ const Select: React.FC<Props> = ({
       onMenuClose={() => setMenuOpen(false)}
       onMenuOpen={() => setMenuOpen(true)}
       onBlur={() => setMenuOpen(false)}
-      components={{
-        Option: ({ children, innerProps }) => (
-          <div
-            className="bg-secondary border-secondary text-light px-2 py-2"
-            style={{ cursor: "pointer" }}
-            {...innerProps}
-          >
-            {children}
-          </div>
-        ),
-      }}
     ></ReactSelect>
   );
 };

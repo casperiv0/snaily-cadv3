@@ -102,6 +102,7 @@ ReactDOM.render(
     <Redux.Provider store={store}>
       <Router>
         <ToastContainer
+          hideProgressBar
           limit={5}
           newestOnTop
           autoClose={3000}

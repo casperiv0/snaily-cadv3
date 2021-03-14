@@ -17,7 +17,7 @@ import { getDepartments } from "../../../../lib/actions/officer";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import { Item, Span } from "../../../citizen/citizen-info";
 import Code10 from "../../../../interfaces/Code10";
-import Select from "../../../../components/select";
+import Select, { Value } from "../../../../components/select";
 
 interface Props {
   officer: Officer | null;
@@ -41,7 +41,7 @@ const ManageOfficerPage: React.FC<Props> = ({
   get10Codes,
 }) => {
   const { id } = useParams<{ id: string }>();
-  const [department, setDepartment] = React.useState(officer?.officer_dept || "");
+  const [department, setDepartment] = React.useState<Value | null>(null);
   const [callSign, setCallSign] = React.useState(officer?.callsign || "");
   const [rank, setRank] = React.useState(officer?.rank || "");
   const [status, setStatus] = React.useState(officer?.status ?? "");
@@ -58,18 +58,19 @@ const ManageOfficerPage: React.FC<Props> = ({
   React.useEffect(() => {
     setCallSign(officer?.callsign ?? "");
     setRank(officer?.rank ?? "");
-    setDepartment(officer?.officer_dept ?? "");
+    setDepartment({ label: officer?.officer_dept ?? "", value: officer?.officer_dept ?? "" });
     setStatus(officer?.status ?? "off-duty");
     setStatus2(officer?.status2 ?? "");
   }, [officer]);
 
   async function onSubmit(e: React.FormEvent) {
+    if (!department) return;
     e.preventDefault();
 
     const updated = await updateOfficerById(id, {
       callsign: callSign,
       rank,
-      department,
+      department: department?.value,
       status,
       status2,
     });
@@ -91,6 +92,7 @@ const ManageOfficerPage: React.FC<Props> = ({
             </label>
 
             <Select
+              theme="dark"
               value={{ label: status, value: status }}
               isMulti={false}
               onChange={(v: any) => setStatus(v.value)}
@@ -112,6 +114,7 @@ const ManageOfficerPage: React.FC<Props> = ({
             </label>
 
             <Select
+              theme="dark"
               value={{ label: status2, value: status2 }}
               isMulti={false}
               onChange={(v: any) => setStatus2(v.value)}
@@ -125,26 +128,13 @@ const ManageOfficerPage: React.FC<Props> = ({
             Department
           </label>
 
-          <select
-            className="form-control bg-dark border-dark text-light"
-            name="department"
-            id="department"
+          <Select
             value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-          >
-            <option>{lang.officers.select_department}..</option>
-            {!departments[0] ? (
-              <option>{lang.officers.no_departments}</option>
-            ) : (
-              departments.map((department, idx) => {
-                return (
-                  <option key={idx} id={`${idx}`} value={department.name}>
-                    {department.name}
-                  </option>
-                );
-              })
-            )}
-          </select>
+            theme="dark"
+            isMulti={false}
+            onChange={(v) => setDepartment(v)}
+            options={departments.map((dep) => ({ value: dep.name, label: dep.name }))}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="tow">

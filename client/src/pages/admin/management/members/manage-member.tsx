@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
+import Select from "../../../../components/select";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import Match from "../../../../interfaces/Match";
 import State from "../../../../interfaces/State";
@@ -117,116 +118,123 @@ const ManageMember: React.FC<Props> = ({
           ) : member?.rank === "owner" ? (
             <AlertMessage message={{ msg: lang.admin.member.owner, type: "warning" }} />
           ) : (
-            <select
-              id="rank"
-              className="form-control bg-dark border-dark text-light"
-              onChange={(e) => setRank(e.target.value)}
-            >
-              <option value={member?.rank}>{member?.rank}</option>
-              <option disabled value="">
-                --------
-              </option>
-              <option value="user">{lang.admin.member.remove_rank}</option>
-              <option value="moderator">{lang.admin.member.moderator}</option>
-              <option value="admin">{lang.admin.member.admin}</option>
-            </select>
+            <Select
+              theme="dark"
+              isMulti={false}
+              value={{
+                label: rank,
+                value: rank,
+              }}
+              isClearable={false}
+              onChange={(v) => setRank(v.value)}
+              options={[
+                { label: lang.admin.member.remove_rank, value: "user" },
+                { label: lang.admin.member.moderator, value: "moderator" },
+                { label: lang.admin.member.admin, value: "admin" },
+              ]}
+            />
           )}
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="leo">
             {lang.auth.account.police_access}
           </label>
-          <select
-            id="leo"
-            onChange={(e) => setLeo(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={member?.leo}>
-              {member?.leo === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option disabled value="">
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: leo === "1" ? lang.global.yes : lang.global.no,
+              value: leo,
+            }}
+            isClearable={false}
+            onChange={(v) => setLeo(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="leo">
             LEO Supervisor
           </label>
-          <select
-            id="supervisor"
-            onChange={(e) => setSupervisor(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={member?.supervisor}>
-              {member?.supervisor === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option disabled value="">
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: supervisor === "1" ? lang.global.yes : lang.global.no,
+              value: supervisor,
+            }}
+            isClearable={false}
+            onChange={(v) => setSupervisor(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="dispatch">
             {lang.auth.account.dispatch_access}
           </label>
-          <select
-            id="dispatch"
-            onChange={(e) => setDispatch(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={member?.dispatch}>
-              {member?.dispatch === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option disabled value="">
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: dispatch === "1" ? lang.global.yes : lang.global.no,
+              value: dispatch,
+            }}
+            isClearable={false}
+            onChange={(v) => setDispatch(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="ems_fd">
             {lang.auth.account.ems_fd_access}
           </label>
-          <select
-            id="ems_fd"
-            onChange={(e) => setEmsFd(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={member?.ems_fd}>
-              {member?.ems_fd === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option disabled value="">
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: emsFd === "1" ? lang.global.yes : lang.global.no,
+              value: emsFd,
+            }}
+            isClearable={false}
+            onChange={(v) => setEmsFd(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
         {cad.tow_whitelisted === "1" ? (
           <div className="mb-3">
             <label className="form-label" htmlFor="tow">
               {lang.auth.account.tow_access}
             </label>
-            <select
-              id="tow"
-              onChange={(e) => setTow(e.target.value)}
-              className="form-control bg-dark border-dark text-light"
-            >
-              <option value={member?.tow}>
-                {member?.tow === "1" ? lang.global.yes : lang.global.no}
-              </option>
-              <option disabled value="">
-                --------
-              </option>
-              <option value="0">{lang.global.no}</option>
-              <option value="1">{lang.global.yes}</option>
-            </select>
+
+            <Select
+              theme="dark"
+              isMulti={false}
+              value={{
+                label: tow === "1" ? lang.global.yes : lang.global.no,
+                value: tow,
+              }}
+              isClearable={false}
+              onChange={(v) => setTow(v.value)}
+              options={[
+                { label: lang.global.yes, value: "1" },
+                { label: lang.global.no, value: "0" },
+              ]}
+            />
           </div>
         ) : null}
 

@@ -21,7 +21,6 @@ const GlobalSearch: React.FC<Props> = ({ user }) => {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const ref = React.useRef<HTMLInputElement>(null);
-  const appMount = React.useMemo(() => document.getElementById("app-mount"), []);
   const filteredItems = React.useMemo(() => {
     return Items.filter((item) => item.query.join(" ").includes(search.toLowerCase()));
   }, [search]);
@@ -29,11 +28,11 @@ const GlobalSearch: React.FC<Props> = ({ user }) => {
   React.useEffect(() => {
     if (open) {
       ref.current?.focus();
-      appMount?.setAttribute("aria-hidden", "true");
+      document.body.classList.add("modal-open");
     } else {
-      appMount?.removeAttribute("aria-hidden");
+      document.body.classList.remove("modal-open");
     }
-  }, [open, appMount]);
+  }, [open]);
 
   useHotkeys(
     "esc",
@@ -59,7 +58,7 @@ const GlobalSearch: React.FC<Props> = ({ user }) => {
 
   return ReactDOM.createPortal(
     <div id="globalSearch">
-      <div onClick={() => setOpen(false)} className="global-search-bg" />
+      <div onClick={() => setOpen(false)} className="modal-backdrop fade show" />
       <div className="global-search rounded bg-dark">
         <form className="global-search-form">
           <input
