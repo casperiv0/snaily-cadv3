@@ -10,7 +10,6 @@ import NotepadModal from "../../components/modals/notepad";
 import SelectEmsFdModal from "../../components/modals/ems-fd/selectEmsFdModal";
 import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRecords";
 import Active911Calls from "../../components/active-911-calls";
-import Message from "../../interfaces/Message";
 import Deputy from "../../interfaces/Deputy";
 import { get10Codes } from "../../lib/actions/admin";
 import AddMedicalRecordModal from "../../components/modals/ems-fd/addMedicalRecordModal";
@@ -18,7 +17,6 @@ import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   aop: string | null;
-  message: Message | null;
   activeDeputy: Deputy | null;
   get10Codes: () => void;
 }
@@ -104,7 +102,6 @@ const EmsFdDash: React.FC<Props> = (props) => {
 
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
-  message: state.global.message,
   activeDeputy: state.ems_fd.activeDeputy,
 });
 

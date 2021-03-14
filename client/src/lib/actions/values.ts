@@ -15,7 +15,6 @@ import {
   GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
 } from "../types";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -28,7 +27,6 @@ interface IDispatch {
   path?: string;
   error?: string;
   value?: Value;
-  message?: Message;
 }
 
 export const deleteValue = (id: string, path: ValuePaths) => async (

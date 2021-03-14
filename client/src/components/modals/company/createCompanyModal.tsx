@@ -5,16 +5,13 @@ import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import Citizen from "../../../interfaces/Citizen";
 import { createCompany } from "../../../lib/actions/company";
-import AlertMessage from "../../alert-message";
-import Message from "../../../interfaces/Message";
 
 interface Props {
   citizens: Citizen[];
   createCompany: (data: object) => void;
-  message: Message | null;
 }
 
-const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany }) => {
+const CreateCompanyModal: React.FC<Props> = ({ citizens, createCompany }) => {
   const [address, setAddress] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
   const [whitelist, setWhitelist] = React.useState<string>("no");
@@ -41,7 +38,6 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany 
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <AlertMessage message={message} dismissible />
           <div className="mb-3">
             <label className="form-label" htmlFor="company_name">
               {lang.citizen.company.name}
@@ -119,7 +115,6 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany 
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   citizens: state.company.citizens,
 });
 

@@ -103,7 +103,7 @@ ReactDOM.render(
       <Router>
         <ToastContainer
           limit={5}
-          hideProgressBar
+          newestOnTop
           autoClose={3000}
           draggablePercent={40}
           closeButton={false}

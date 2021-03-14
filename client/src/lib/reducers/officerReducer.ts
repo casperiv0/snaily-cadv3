@@ -59,7 +59,6 @@ type Actions =
     }
   | {
       type: typeof CREATE_WARRANT;
-      message: string;
     }
   | {
       type: typeof NAME_SEARCH;

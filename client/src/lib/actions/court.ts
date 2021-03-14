@@ -1,5 +1,4 @@
 import { Dispatch } from "react";
-import Message from "../../interfaces/Message";
 import { ArrestReport, Ticket, Warrant } from "../../interfaces/Record";
 import { handleRequest, isSuccess, notify } from "../functions";
 import Logger from "../Logger";
@@ -34,7 +33,6 @@ export interface ExpungementRequest {
 
 interface IDispatch {
   type: string;
-  message?: Message;
   courtResult?: CourtResults;
   requests?: ExpungementRequest[];
 }

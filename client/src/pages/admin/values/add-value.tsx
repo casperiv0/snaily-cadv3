@@ -2,21 +2,17 @@ import * as React from "react";
 import AdminLayout from "../../../components/admin/AdminLayout";
 import lang from "../../../language.json";
 import Match from "../../../interfaces/Match";
-import State from "../../../interfaces/State";
-import AlertMessage from "../../../components/alert-message";
 import { addValue } from "../../../lib/actions/values";
 import { connect } from "react-redux";
-import Message from "../../../interfaces/Message";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   match: Match;
-  message: Message | null;
   addValue: (path: string, data: { name: string }) => Promise<boolean>;
 }
 
-const AddValuePage: React.FC<Props> = ({ message, match, addValue }) => {
+const AddValuePage: React.FC<Props> = ({ match, addValue }) => {
   const path = match.params.path;
   useDocTitle(lang.admin.values[path].add);
   const [value, setValue] = React.useState<string>("");
@@ -36,7 +32,6 @@ const AddValuePage: React.FC<Props> = ({ message, match, addValue }) => {
 
   return (
     <AdminLayout>
-      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="name">
@@ -64,8 +59,4 @@ const AddValuePage: React.FC<Props> = ({ message, match, addValue }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  message: state.global.message,
-});
-
-export default connect(mapToProps, { addValue })(AddValuePage);
+export default connect(null, { addValue })(AddValuePage);

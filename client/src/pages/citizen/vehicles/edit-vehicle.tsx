@@ -9,12 +9,10 @@ import Match from "../../../interfaces/Match";
 import { connect } from "react-redux";
 import { getLegalStatuses } from "../../../lib/actions/values";
 import { getVehicleById, updateVehicleById } from "../../../lib/actions/citizen";
-import Message from "../../../interfaces/Message";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   vehicle: Vehicle | null;
   legalStatuses: Value[];
   match: Match;
@@ -24,7 +22,6 @@ interface Props {
 }
 
 const EditVehiclePage: React.FC<Props> = ({
-  message,
   vehicle,
   legalStatuses,
   match,
@@ -81,8 +78,6 @@ const EditVehiclePage: React.FC<Props> = ({
 
   return (
     <Layout>
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="plate">
@@ -146,7 +141,6 @@ const EditVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   vehicle: state.citizen.vehicle,
   legalStatuses: state.values["legal-statuses"],
 });

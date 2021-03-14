@@ -1,18 +1,14 @@
 import * as React from "react";
 import lang from "../../../language.json";
-import State from "../../../interfaces/State";
 import Modal, { XButton } from "../index";
 import { connect } from "react-redux";
 import { updatePassword } from "../../../lib/actions/auth";
-import AlertMessage from "../../alert-message";
-import Message from "../../../interfaces/Message";
 
 interface Props {
-  message: Message | null;
   updatePassword: (data: object) => void;
 }
 
-const EditPasswordModal: React.FC<Props> = ({ message, updatePassword }) => {
+const EditPasswordModal: React.FC<Props> = ({ updatePassword }) => {
   const [oldPassword, setOldPassword] = React.useState<string>("");
   const [newPassword, setNewPassword] = React.useState<string>("");
   const [newPassword2, setNewPassword2] = React.useState<string>("");
@@ -36,7 +32,6 @@ const EditPasswordModal: React.FC<Props> = ({ message, updatePassword }) => {
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <AlertMessage message={message} />
           <div className="mb-3">
             <label className="form-label" htmlFor="old_password">
               {lang.auth.enter_old_password}
@@ -88,8 +83,4 @@ const EditPasswordModal: React.FC<Props> = ({ message, updatePassword }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  message: state.global.message,
-});
-
-export default connect(mapToProps, { updatePassword })(EditPasswordModal);
+export default connect(null, { updatePassword })(EditPasswordModal);

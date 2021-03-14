@@ -7,16 +7,13 @@ import Citizen from "../../../interfaces/Citizen";
 import { connect } from "react-redux";
 import { getLegalStatuses, getVehicles } from "../../../lib/actions/values";
 import { getCitizens, registerVehicle } from "../../../lib/actions/citizen";
-import AlertMessage from "../../../components/alert-message";
 import Company from "../../../interfaces/Company";
 import { getCompanies } from "../../../lib/actions/admin";
-import Message from "../../../interfaces/Message";
 import { useHistory } from "react-router-dom";
 import CadInfo from "../../../interfaces/CadInfo";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   owners: Citizen[];
   vehicles: Value[];
   legalStatuses: Value[];
@@ -30,7 +27,6 @@ interface Props {
 }
 
 const RegisterVehiclePage: React.FC<Props> = ({
-  message,
   owners,
   vehicles,
   legalStatuses,
@@ -73,7 +69,6 @@ const RegisterVehiclePage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="plate">
@@ -214,7 +209,6 @@ const RegisterVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   owners: state.citizen.citizens,
   vehicles: state.values.vehicles,
   legalStatuses: state.values["legal-statuses"],

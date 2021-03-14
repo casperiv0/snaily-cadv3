@@ -13,11 +13,9 @@ import {
   CREATE_EMS_FD_DEPUTY,
   SEARCH_MEDICAL_RECORD,
 } from "../types";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
-  message?: Message;
   error?: string;
   deputies?: Deputy[];
   medicalRecords?: MedicalRecord[];

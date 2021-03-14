@@ -2,15 +2,7 @@ import Logger from "../Logger";
 import User from "../../interfaces/User";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess, notify } from "../functions";
-import {
-  AUTHENTICATE,
-  LOGOUT,
-  SET_LOADING,
-  DELETE_ACCOUNT,
-  UPDATE_PASSWORD,
-  SET_MESSAGE,
-} from "../types";
-import Message from "../../interfaces/Message";
+import { AUTHENTICATE, LOGOUT, SET_LOADING, DELETE_ACCOUNT, UPDATE_PASSWORD } from "../types";
 
 interface IDispatch {
   type: string;
@@ -18,12 +10,11 @@ interface IDispatch {
   user?: User;
   isAuth?: boolean;
   error?: string | null;
-  message?: Message;
 }
 
 export const login = (data: object, requestedPath: string) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean | string> => {
   dispatch({ type: SET_LOADING, loading: true });
 
   try {
@@ -37,9 +28,10 @@ export const login = (data: object, requestedPath: string) => async (
         user: res.data.user,
       });
 
-      window.location.href = requestedPath ? `${requestedPath}` : "/citizen";
+      return requestedPath || "/citizen";
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     notify(e).error;
@@ -47,6 +39,7 @@ export const login = (data: object, requestedPath: string) => async (
   }
 
   dispatch({ type: SET_LOADING, loading: false });
+  return false;
 };
 
 export const register = (data: object) => async (
@@ -139,10 +132,8 @@ export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispa
       dispatch({
         type: UPDATE_PASSWORD,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: "Password updated", type: "success" },
-      });
+
+      notify("Successfully updated password").success();
     } else {
       notify(res.data.error).warn;
     }

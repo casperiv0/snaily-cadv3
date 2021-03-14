@@ -1,20 +1,16 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
-import State from "../../interfaces/State";
 import lang from "../../language.json";
-import AlertMessage from "../../components/alert-message";
 import { createBleet } from "../../lib/actions/bleeter";
-import Message from "../../interfaces/Message";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   createBleet: (data: { title: string; body: string; image: any }) => Promise<boolean | string>;
 }
 
-const CreateBleetPage: React.FC<Props> = ({ message, createBleet }) => {
+const CreateBleetPage: React.FC<Props> = ({ createBleet }) => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [image, setImage] = React.useState<any>(null);
@@ -37,8 +33,6 @@ const CreateBleetPage: React.FC<Props> = ({ message, createBleet }) => {
 
   return (
     <Layout>
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="title">
@@ -93,8 +87,4 @@ const CreateBleetPage: React.FC<Props> = ({ message, createBleet }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  message: state.global.message,
-});
-
-export default connect(mapToProps, { createBleet })(CreateBleetPage);
+export default connect(null, { createBleet })(CreateBleetPage);

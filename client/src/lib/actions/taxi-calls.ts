@@ -3,11 +3,9 @@ import { Dispatch } from "react";
 import { CREATE_TAXI_CALL, GET_TAXI_CALLS, END_TAXI_CALL } from "../types";
 import { handleRequest, isSuccess, notify } from "../functions";
 import socket from "../socket";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
-  message?: Message;
   calls?: object;
 }
 

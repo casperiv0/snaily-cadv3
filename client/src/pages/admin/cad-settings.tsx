@@ -2,10 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
-import AlertMessage from "../../components/alert-message";
 import useDocTitle from "../../hooks/useDocTitle";
 import CadInfo from "../../interfaces/CadInfo";
-import Message from "../../interfaces/Message";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import lang from "../../language.json";
@@ -13,12 +11,11 @@ import { updateCadSettings, UpdateCADSettings } from "../../lib/actions/admin";
 
 interface Props {
   user: User | null;
-  message: Message | null;
   cadInfo: CadInfo | null;
   updateCadSettings: (data: UpdateCADSettings) => void;
 }
 
-const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSettings }) => {
+const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) => {
   useDocTitle("CAD Settings");
   const [cadName, setCadName] = React.useState("");
   const [aop, setAop] = React.useState("");
@@ -96,7 +93,6 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
       <h3>{lang.admin.cad_settings.cad_settings}</h3>
 
       <div className="card bg-dark border-dark mt-3">
@@ -373,7 +369,6 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
 
 const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
-  message: state.global.message,
   user: state.auth.user,
 });
 

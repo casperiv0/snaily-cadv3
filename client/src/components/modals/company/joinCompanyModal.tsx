@@ -4,19 +4,16 @@ import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import Citizen from "../../../interfaces/Citizen";
 import Company from "../../../interfaces/Company";
-import AlertMessage from "../../alert-message";
 import State from "../../../interfaces/State";
 import { joinCompany } from "../../../lib/actions/company";
-import Message from "../../../interfaces/Message";
 
 interface Props {
   citizens: Citizen[];
-  message: Message | null;
   companies: Company[];
   joinCompany: (data: object) => void;
 }
 
-const JoinCompanyModal: React.FC<Props> = ({ citizens, message, companies, joinCompany }) => {
+const JoinCompanyModal: React.FC<Props> = ({ citizens, companies, joinCompany }) => {
   const [citizenId, setCitizenId] = React.useState<string>("");
   const [companyId, setCompanyId] = React.useState<string>("");
 
@@ -40,7 +37,6 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, message, companies, joinC
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <AlertMessage message={message} dismissible />
           <div className="mb-3">
             <label className="form-label" htmlFor="citizen">
               {lang.citizen.company.select_cit}
@@ -117,7 +113,6 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, message, companies, joinC
 const mapToProps = (state: State) => ({
   citizens: state.company.citizens,
   companies: state.company.companies,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { joinCompany })(JoinCompanyModal);

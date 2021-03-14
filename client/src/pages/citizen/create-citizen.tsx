@@ -3,18 +3,15 @@ import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import Value from "../../interfaces/Value";
-import AlertMessage from "../../components/alert-message";
 import Citizen from "../../interfaces/Citizen";
 import Field from "../../interfaces/Field";
 import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
-import Message from "../../interfaces/Message";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
@@ -25,7 +22,6 @@ interface Props {
 }
 
 const CreateCitizenPage: React.FC<Props> = ({
-  message,
   genders,
   ethnicities,
   legalStatuses,
@@ -205,8 +201,6 @@ const CreateCitizenPage: React.FC<Props> = ({
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        <AlertMessage message={message} dismissible />
-
         <div key="image" id="-1" className="mb-3">
           <label className="form-label" htmlFor="image">
             {lang.global.image}
@@ -299,7 +293,6 @@ const CreateCitizenPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   legalStatuses: state.values["legal-statuses"],

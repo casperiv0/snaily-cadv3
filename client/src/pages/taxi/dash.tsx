@@ -3,16 +3,13 @@ import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import TowCall from "../../interfaces/TowCall";
 import socket from "../../lib/socket";
-import AlertMessage from "../../components/alert-message";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { endTaxiCall, getTaxiCalls } from "../../lib/actions/taxi-calls";
 import NotepadModal from "../../components/modals/notepad";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   calls: TowCall[];
   aop: string | null;
   getTaxiCalls: () => void;
@@ -21,7 +18,7 @@ interface Props {
 
 const TaxiDash: React.FC<Props> = (props) => {
   useDocTitle("Taxi Dashboard");
-  const { calls, message, getTaxiCalls, endTaxiCall } = props;
+  const { calls, getTaxiCalls, endTaxiCall } = props;
   const [aop, setAop] = React.useState(props.aop);
 
   React.useEffect(() => {
@@ -42,8 +39,6 @@ const TaxiDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <h3>Taxi Dashboard - AOP: {aop}</h3>
 
       <ul className="list-group">
@@ -96,7 +91,6 @@ const TaxiDash: React.FC<Props> = (props) => {
 const mapToProps = (state: State) => ({
   calls: state.calls.taxi_calls,
   aop: state.global.aop,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getTaxiCalls, endTaxiCall })(TaxiDash);

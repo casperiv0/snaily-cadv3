@@ -1,16 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import formatDistance from "date-fns/formatDistance";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import State from "../../../../interfaces/State";
-import AlertMessage from "../../../../components/alert-message";
-import { connect } from "react-redux";
 import {
   getOfficerById,
   updateOfficerById,
   UpdateOfficerData,
 } from "../../../../lib/actions/admin";
-import Message from "../../../../interfaces/Message";
 import Officer, { OfficerLog } from "../../../../interfaces/Officer";
 import lang from "../../../../language.json";
 import Department from "../../../../interfaces/Department";
@@ -19,7 +17,6 @@ import useDocTitle from "../../../../hooks/useDocTitle";
 import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
-  message: Message | null;
   officer: Officer | null;
   logs: OfficerLog[] | undefined;
   departments: Department[];
@@ -30,7 +27,6 @@ interface Props {
 
 const ManageOfficerPage: React.FC<Props> = ({
   officer,
-  message,
   departments,
   logs,
   getOfficerById,
@@ -71,8 +67,6 @@ const ManageOfficerPage: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <h1 className="h2 mb-3">Managing Officer: {officer?.officer_name}</h1>
 
       <form onSubmit={onSubmit}>
@@ -176,7 +170,6 @@ const ManageOfficerPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   officer: state.admin.officer,
-  message: state.global.message,
   departments: state.officers.departments,
   logs: state.admin.officer?.logs,
 });

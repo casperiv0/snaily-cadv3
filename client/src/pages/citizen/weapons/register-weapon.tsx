@@ -2,18 +2,15 @@ import * as React from "react";
 import Layout from "../../../components/Layout";
 import State from "../../../interfaces/State";
 import Value from "../../../interfaces/Value";
-import AlertMessage from "../../../components/alert-message";
 import lang from "../../../language.json";
 import Citizen from "../../../interfaces/Citizen";
 import { getWeapons, getLegalStatuses } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import { getCitizens, registerWeapon } from "../../../lib/actions/citizen";
-import Message from "../../../interfaces/Message";
 import { useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   weapons: Value[];
   legalStatuses: Value[];
   owners: Citizen[];
@@ -24,7 +21,6 @@ interface Props {
 }
 
 const RegisterWeaponPage: React.FC<Props> = ({
-  message,
   weapons,
   legalStatuses,
   owners,
@@ -57,8 +53,6 @@ const RegisterWeaponPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="weapon">
@@ -141,7 +135,6 @@ const RegisterWeaponPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   owners: state.citizen.citizens,
   weapons: state.values.weapons,
   legalStatuses: state.values["legal-statuses"],

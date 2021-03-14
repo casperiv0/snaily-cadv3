@@ -19,7 +19,6 @@ import {
   SAVE_NOTE,
   GET_MY_OFFICER_LOGS,
 } from "../types";
-import Message from "../../interfaces/Message";
 import PenalCode from "../../interfaces/PenalCode";
 
 interface IDispatch {
@@ -31,7 +30,6 @@ interface IDispatch {
   departments?: Department[];
   error?: string;
   search?: object;
-  message?: Message;
   penalCodes?: PenalCode[];
   names?: string[];
   logs?: OfficerLog[];

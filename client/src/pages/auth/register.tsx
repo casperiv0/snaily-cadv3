@@ -1,20 +1,17 @@
 import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
-import AlertMessage from "../../components/alert-message";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { register } from "../../lib/actions/auth";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   loading: boolean;
   register: (data: object) => Promise<boolean>;
 }
 
-const Register: React.FC<Props> = ({ message, loading, register }) => {
+const Register: React.FC<Props> = ({ loading, register }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [password2, setPassword2] = React.useState<string>("");
@@ -37,7 +34,6 @@ const Register: React.FC<Props> = ({ message, loading, register }) => {
 
   return (
     <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
-      <AlertMessage message={message} dismissible />
       <h2>{lang.auth.register}</h2>
       <div className="mb-3">
         <label className="form-label" htmlFor="username">
@@ -92,7 +88,6 @@ const Register: React.FC<Props> = ({ message, loading, register }) => {
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   loading: state.auth.loading,
 });
 

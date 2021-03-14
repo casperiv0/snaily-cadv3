@@ -8,16 +8,14 @@ import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
 import AllMembersTab from "../../../../components/admin/all-members";
 import PendingMembersTab from "../../../../components/admin/pending-members";
-import Message from "../../../../interfaces/Message";
 import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   members: User[];
   getMembers: () => void;
 }
 
-const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) => {
+const ManageMembersPage: React.FC<Props> = ({ members, getMembers }) => {
   const [filtered, setFiltered] = React.useState<any[]>([]);
   const [filter, setFilter] = React.useState<string>("");
   useDocTitle("Member management");
@@ -43,8 +41,6 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <input
         type="text"
         value={filter}
@@ -114,7 +110,6 @@ const ManageMembersPage: React.FC<Props> = ({ message, members, getMembers }) =>
 
 const mapToProps = (state: State) => ({
   members: state.admin.members,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getMembers })(ManageMembersPage);

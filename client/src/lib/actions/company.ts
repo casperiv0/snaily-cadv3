@@ -19,7 +19,6 @@ import {
   ACCEPT_EMPLOYEE,
   DECLINE_EMPLOYEE,
 } from "../types";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -27,7 +26,6 @@ interface IDispatch {
   company?: Company;
   companies?: Company[];
   error?: string;
-  message?: Message;
   posts?: CompanyPost[];
   employees?: Citizen[];
   vehicles?: Vehicle[];

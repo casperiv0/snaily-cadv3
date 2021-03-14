@@ -3,13 +3,11 @@ import Logger from "../Logger";
 import { Dispatch } from "react";
 import { CREATE_TRUCK_LOG, DELETE_TRUCK_LOG, GET_TRUCK_LOGS } from "../types";
 import { handleRequest, isSuccess, notify } from "../functions";
-import Message from "../../interfaces/Message";
 import lang from "../../language.json";
 
 interface IDispatch {
   type: string;
   logs?: TruckLog[];
-  message?: Message;
   error?: string;
 }
 

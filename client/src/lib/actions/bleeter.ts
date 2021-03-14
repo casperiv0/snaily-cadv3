@@ -10,7 +10,6 @@ import {
 } from "../types";
 import Bleet from "../../interfaces/Bleet";
 import Logger from "../Logger";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -18,7 +17,6 @@ interface IDispatch {
   bleets?: Bleet[];
   bleet?: Bleet;
   error?: string;
-  message?: Message;
 }
 
 export const getBleetPosts = () => async (dispatch: Dispatch<IDispatch>) => {

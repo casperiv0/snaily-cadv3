@@ -5,7 +5,6 @@ import {
   DELETE_COMPANY,
   GET_CITIZENS,
   GET_COMPANIES,
-  SET_MESSAGE,
   GET_MEMBERS,
   GET_MEMBER_BY_ID,
   UPDATE_MEMBER_PERMS,
@@ -33,7 +32,6 @@ import Company from "../../interfaces/Company";
 import Citizen from "../../interfaces/Citizen";
 import User from "../../interfaces/User";
 import socket from "../socket";
-import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
 import { ExpungementRequest } from "./court";
 import PenalCode from "../../interfaces/PenalCode";
@@ -41,7 +39,6 @@ import Code10 from "../../interfaces/Code10";
 
 interface IDispatch {
   type: string;
-  message?: Message;
   error?: string;
   companies?: Company[];
   citizens?: Citizen[];
@@ -120,10 +117,7 @@ export const banMember = (id: string, banReason: string) => async (
 
       notify(`${lang.admin.ban_success} ${res.data.member?.username ?? "Unknown"}`).success();
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(BAN_MEMBER, e);

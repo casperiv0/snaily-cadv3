@@ -5,13 +5,11 @@ import { Dispatch } from "react";
 import { handleRequest, isSuccess, notify } from "../functions";
 import socket from "../socket";
 import lang from "../../language.json";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
   error?: string;
   bolos?: Bolo[];
-  message?: Message;
 }
 
 export const getActiveBolos = () => async (dispatch: Dispatch<IDispatch>) => {

@@ -8,12 +8,10 @@ import {
   CREATE_ARREST_REPORT,
   CREATE_TICKET,
 } from "../types";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
   error?: string;
-  message?: Message;
 }
 
 export const createWarrant = (data: {

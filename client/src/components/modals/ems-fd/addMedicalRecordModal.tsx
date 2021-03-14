@@ -2,16 +2,13 @@ import * as React from "react";
 import { connect } from "react-redux";
 import Modal, { XButton } from "..";
 import Citizen from "../../../interfaces/Citizen";
-import Message from "../../../interfaces/Message";
 import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import { getAllCitizens } from "../../../lib/actions/admin";
 import { createMedicalRecord } from "../../../lib/actions/citizen";
-import AlertMessage from "../../alert-message";
 import Select from "../../select";
 
 interface Props {
-  message: Message | null;
   citizens: Citizen[];
   getAllCitizens: () => void;
   createMedicalRecord: (
@@ -21,12 +18,7 @@ interface Props {
   ) => Promise<boolean | string>;
 }
 
-const AddMedicalRecord: React.FC<Props> = ({
-  message,
-  citizens,
-  getAllCitizens,
-  createMedicalRecord,
-}) => {
+const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMedicalRecord }) => {
   const [citizenId, setCitizenId] = React.useState("");
   const [type, setType] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -51,6 +43,10 @@ const AddMedicalRecord: React.FC<Props> = ({
 
     if (success) {
       btnRef.current?.click();
+
+      setCitizenId("");
+      setType("");
+      setDescription("");
     }
   }
 
@@ -63,8 +59,6 @@ const AddMedicalRecord: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <AlertMessage message={message} />
-
           <div className="mb-3">
             <label className="form-label">Select type</label>
             <select
@@ -104,7 +98,7 @@ const AddMedicalRecord: React.FC<Props> = ({
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button disabled={!citizenId} type="submit" className="btn btn-primary">
             Add medical record
           </button>
         </div>
@@ -114,7 +108,6 @@ const AddMedicalRecord: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   citizens: state.admin.citizens,
 });
 

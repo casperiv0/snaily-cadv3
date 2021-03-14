@@ -10,11 +10,9 @@ import lang from "../../language.json";
 import User from "../../interfaces/User";
 import { getBleetById, updateBleet } from "../../lib/actions/bleeter";
 import AlertMessage from "../../components/alert-message";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   match: Match;
   bleet: Bleet | null;
   user: User | null;
@@ -23,15 +21,7 @@ interface Props {
   updateBleet: (data: object, id: string) => Promise<boolean | string>;
 }
 
-const EditBleet: React.FC<Props> = ({
-  message,
-  bleet,
-  match,
-  loading,
-  user,
-  getBleetById,
-  updateBleet,
-}) => {
+const EditBleet: React.FC<Props> = ({ bleet, match, loading, user, getBleetById, updateBleet }) => {
   const id = match.params.id;
   const history = useHistory();
   const [title, setTitle] = React.useState<string>("");
@@ -58,10 +48,6 @@ const EditBleet: React.FC<Props> = ({
     }
   }, [bleet]);
 
-  if (loading) {
-    return <Loader />;
-  }
-
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -78,9 +64,16 @@ const EditBleet: React.FC<Props> = ({
     }
   }
 
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (!loading && !bleet?.id) {
+    return <AlertMessage message={{ msg: "Bleet was not found", type: "danger" }} />;
+  }
+
   return (
     <Layout classes="mt-5">
-      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="title">
@@ -124,7 +117,6 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
   bleet: state.bleets.bleet,
   loading: state.bleets.loading,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getBleetById, updateBleet })(EditBleet);

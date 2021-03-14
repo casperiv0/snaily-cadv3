@@ -7,12 +7,10 @@ import AlertMessage from "../../../components/alert-message";
 import { connect } from "react-redux";
 import { deleteCompanyById, getCompanies } from "../../../lib/actions/admin";
 import { Item, Span } from "../../citizen/citizen-info";
-import Message from "../../../interfaces/Message";
 import Loader from "../../../components/loader";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   companies: Company[];
   loading: boolean;
   getCompanies: () => void;
@@ -20,7 +18,6 @@ interface Props {
 }
 
 const CompanyManagementPage: React.FC<Props> = ({
-  message,
   companies,
   loading,
   getCompanies,
@@ -55,7 +52,6 @@ const CompanyManagementPage: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
       <ul className="list-group">
         <input
           type="text"
@@ -119,7 +115,6 @@ const CompanyManagementPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   companies: state.admin.companies,
-  message: state.global.message,
   loading: state.admin.loading,
 });
 

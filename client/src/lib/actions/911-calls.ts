@@ -5,12 +5,10 @@ import lang from "../../language.json";
 import { Dispatch } from "redux";
 import { handleRequest, isSuccess, notify } from "../functions";
 import { GET_911_CALLS, END_911_CALL, UPDATE_911_CALL, CREATE_911_CALL } from "../types";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
   calls?: Call[];
-  message?: Message;
 }
 
 export const getActive911Calls = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -28,7 +26,9 @@ export const getActive911Calls = () => async (dispatch: Dispatch<IDispatch>) => 
   }
 };
 
-export const create911Call = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const create911Call = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/global/911-calls", "POST", data);
 
@@ -41,9 +41,13 @@ export const create911Call = (data: object) => async (dispatch: Dispatch<IDispat
       notify(lang.citizen.call_created).success();
       socket.emit("UPDATE_911_CALLS");
       socket.emit("NEW_911_CALL", data);
+      return true;
+    } else {
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_911_CALL, e);
+    return false;
   }
 };
 

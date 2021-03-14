@@ -29,7 +29,6 @@ import Weapon from "../../interfaces/Weapon";
 import Vehicle from "../../interfaces/Vehicle";
 import MedicalRecord from "../../interfaces/MedicalRecord";
 import Company from "../../interfaces/Company";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -42,7 +41,6 @@ interface IDispatch {
   medicalRecords?: MedicalRecord[];
   companies?: Company[];
   company?: Company;
-  message?: Message;
 }
 
 export const getCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -136,7 +134,7 @@ export const createCitizen = (data: Partial<Citizen>) => async (
 
 export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean> => {
   try {
     const {
       image,
@@ -181,12 +179,16 @@ export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
       dispatch({
         type: UPDATE_CITIZEN,
       });
-      return (window.location.href = `/citizen/${res.data.citizenId}`);
+
+      notify("Successfully updated citizen").success();
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(UPDATE_CITIZEN, e);
+    return false;
   }
 };
 
@@ -260,6 +262,8 @@ export const deleteMedicalRecord = (citizenId: string, recordId: string) => asyn
         type: DELETE_MEDICAL_RECORD,
         medicalRecords: res.data.medicalRecords,
       });
+
+      notify("Successfully deleted medical record").success();
     }
   } catch (e) {
     Logger.error(DELETE_MEDICAL_RECORD, e);
@@ -385,7 +389,7 @@ export const deleteWeapon = (citizenId: string, weaponId: string) => async (
 
 export const updateLicenses = (id: string, data: object) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean> => {
   try {
     const res = await handleRequest(`/citizen/licenses/${id}`, "PUT", data);
 
@@ -394,10 +398,14 @@ export const updateLicenses = (id: string, data: object) => async (
         type: UPDATE_LICENSES,
       });
 
-      return (window.location.href = `/citizen/${id}`);
+      notify("Successfully updated licenses").success();
+      return true;
+    } else {
+      return false;
     }
   } catch (e) {
     Logger.error(UPDATE_LICENSES, e);
+    return false;
   }
 };
 

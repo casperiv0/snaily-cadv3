@@ -10,7 +10,6 @@ import Layout from "../../../../components/Layout";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import Citizen from "../../../../interfaces/Citizen";
 import Match from "../../../../interfaces/Match";
-import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
 import lang from "../../../../language.json";
 import { getCitizenById } from "../../../../lib/actions/citizen";
@@ -18,7 +17,6 @@ import { getCompanyById } from "../../../../lib/actions/company";
 
 interface Props {
   match: Match;
-  message: Message | null;
   citizen: Citizen | null;
   returnError: string | null;
   getCompanyById: (id: string, citizenId: string) => void;
@@ -27,7 +25,6 @@ interface Props {
 
 const ManageCompanyPage: React.FC<Props> = ({
   match,
-  message,
   citizen,
   returnError,
   getCompanyById,
@@ -60,8 +57,6 @@ const ManageCompanyPage: React.FC<Props> = ({
 
   return (
     <Layout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <h3>{lang.citizen.company.manage_company}</h3>
       <ul className="nav nav-tabs mt-3" id="manage_tabs" role="tablist">
         <li className="nav-item me-1" role="presentation">
@@ -162,7 +157,6 @@ const ManageCompanyPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   company: state.company.company,
-  message: state.global.message,
   citizen: state.citizen.citizen,
   returnError: state.company.returnError,
 });

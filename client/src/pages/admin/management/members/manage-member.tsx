@@ -5,7 +5,6 @@ import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import Match from "../../../../interfaces/Match";
-import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
 import lang from "../../../../language.json";
@@ -19,7 +18,6 @@ import {
 import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
-  message: Message | null;
   member: User | null;
   user: User | null;
   match: Match;
@@ -34,7 +32,6 @@ interface Props {
 const ManageMember: React.FC<Props> = ({
   member,
   user: authenticatedUser,
-  message,
   match,
   cad,
   getMemberById,
@@ -108,8 +105,6 @@ const ManageMember: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="rank">
@@ -312,7 +307,6 @@ const ManageMember: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   member: state.admin.member,
-  message: state.global.message,
   user: state.auth.user,
   cad: state.global.cadInfo,
 });

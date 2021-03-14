@@ -18,11 +18,9 @@ import {
   getWeapons,
   deleteValue,
 } from "../../../lib/actions/values";
-import Message from "../../../interfaces/Message";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   values: any;
   match: Match;
   getDepartments: (type: "admin" | "leo") => void;
@@ -44,7 +42,6 @@ const paths: string[] = [
 ];
 
 const Values: React.FC<Props> = ({
-  message,
   values,
   match,
   getDepartments,
@@ -119,8 +116,6 @@ const Values: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <header className="d-flex justify-content-between">
         <h4>{lang.admin.values[path].manage}</h4>
 
@@ -182,7 +177,6 @@ const Values: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   values: state.values,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, {

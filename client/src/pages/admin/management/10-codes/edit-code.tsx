@@ -6,20 +6,18 @@ import Select from "../../../../components/select";
 import State from "../../../../interfaces/State";
 import Code10 from "../../../../interfaces/Code10";
 import { Link, useHistory, useParams } from "react-router-dom";
-import Message from "../../../../interfaces/Message";
 import AlertMessage from "../../../../components/alert-message";
 import { colorOptions, options, shouldDoOptions } from "./add-code";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import { notify } from "../../../../lib/functions";
 
 interface Props {
-  message: Message | null;
   update10Code: (id: string, data: Partial<Code10>) => Promise<boolean>;
   get10Codes: () => void;
   codes: Code10[];
 }
 
-const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes }) => {
+const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
   const { id } = useParams<{ id: string }>();
   const [code, setCode] = React.useState("");
   const [whatPages, setWhatPages] = React.useState<Code10["what_pages"]>([]);
@@ -78,8 +76,6 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
 
   return (
     <AdminLayout>
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="code">
@@ -142,7 +138,6 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   codes: state.admin.codes,
 });
 

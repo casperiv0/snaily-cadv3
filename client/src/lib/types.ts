@@ -56,8 +56,6 @@ export const CREATE_TAXI_CALL = "CREATE_TAXI_CALL";
 export const GET_TAXI_CALLS = "GET_TAXI_CALLS";
 export const END_TAXI_CALL = "END_TAXI_CALL";
 
-export const SET_MESSAGE = "SET_MESSAGE";
-
 export const GET_TRUCK_LOGS = "GET_TRUCK_LOGS";
 export const CREATE_TRUCK_LOG = "CREATE_TRUCK_LOG";
 export const DELETE_TRUCK_LOG = "DELETE_TRUCK_LOG";

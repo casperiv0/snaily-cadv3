@@ -9,7 +9,7 @@ import Field from "../../interfaces/Field";
 import { connect } from "react-redux";
 import { getCitizenById, updateLicenses } from "../../lib/actions/citizen";
 import { getLegalStatuses } from "../../lib/actions/values";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   legalStatuses: Value[];
   getCitizenById: (id: string) => void;
   getLegalStatuses: () => void;
-  updateLicenses: (id: string, data: object) => void;
+  updateLicenses: (id: string, data: object) => Promise<boolean>;
 }
 
 const EditLicensesPage: React.FC<Props> = ({
@@ -34,6 +34,7 @@ const EditLicensesPage: React.FC<Props> = ({
   const [fireArms, setFireArms] = React.useState("");
   const [pilot, setPilot] = React.useState("");
   const [ccw, setCcw] = React.useState("");
+  const history = useHistory();
 
   const citizenId = match.params.id;
 
@@ -91,19 +92,22 @@ const EditLicensesPage: React.FC<Props> = ({
       setFireArms(citizen?.fire_license);
       setPilot(citizen?.pilot_license);
       setCcw(citizen?.ccw);
-      return;
     }
   }, [citizen]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateLicenses(citizenId, {
+    const updated = await updateLicenses(citizenId, {
       dmv,
       fire_license: fireArms,
       pilot_license: pilot,
       ccw,
     });
+
+    if (updated === true) {
+      history.push(`/citizen/${citizenId}`);
+    }
   }
 
   return (

@@ -3,16 +3,13 @@ import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import TowCall from "../../interfaces/TowCall";
 import socket from "../../lib/socket";
-import AlertMessage from "../../components/alert-message";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { getTowCalls, endTowCall } from "../../lib/actions/tow-calls";
 import NotepadModal from "../../components/modals/notepad";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   calls: TowCall[];
   aop: string | null;
   getTowCalls: () => void;
@@ -21,7 +18,7 @@ interface Props {
 
 const TowDash: React.FC<Props> = (props) => {
   useDocTitle("Tow Dashboard");
-  const { calls, message, getTowCalls, endTowCall } = props;
+  const { calls, getTowCalls, endTowCall } = props;
   const [aop, setAop] = React.useState(props.aop);
 
   React.useEffect(() => {
@@ -43,8 +40,6 @@ const TowDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <h3>
         {lang.tow.tow_dashboard} - AOP: {aop}
       </h3>
@@ -99,7 +94,6 @@ const TowDash: React.FC<Props> = (props) => {
 const mapToProps = (state: State) => ({
   calls: state.calls.tow_calls,
   aop: state.global.aop,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getTowCalls, endTowCall })(TowDash);

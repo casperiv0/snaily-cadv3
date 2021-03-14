@@ -1,42 +1,43 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
-import AlertMessage from "../../components/alert-message";
+import { Link, useHistory } from "react-router-dom";
 import State from "../../interfaces/State";
 import ILoc from "../../interfaces/ILoc";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { login } from "../../lib/actions/auth";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   loading: boolean;
   location: ILoc;
-  login: (data: object, requestedPath: string) => void;
+  login: (data: object, requestedPath: string) => Promise<boolean | string>;
 }
 
-const Login: React.FC<Props> = ({ message, loading, location, login }) => {
+const Login: React.FC<Props> = ({ loading, location, login }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const requestedPath = location?.state?.requestedPath;
+  const history = useHistory();
   useDocTitle("Login");
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    login(
+    const success = await login(
       {
         username,
         password,
       },
       requestedPath,
     );
+
+    if (typeof success === "string") {
+      history.push(success);
+    }
   }
 
   return (
     <form onSubmit={onSubmit} className="mt-5 mx-auto" style={{ width: "500px", maxWidth: "95%" }}>
-      <AlertMessage message={message} dismissible />
       <h2>{lang.auth.login_2}</h2>
       <div className="mb-3">
         <label className="form-label" htmlFor="username">
@@ -84,7 +85,6 @@ const Login: React.FC<Props> = ({ message, loading, location, login }) => {
 
 const mapToProps = (state: State) => ({
   loading: state.auth.loading,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { login })(Login);

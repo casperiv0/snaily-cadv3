@@ -2,19 +2,15 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { addPenalCode } from "../../../../lib/actions/admin";
 import AdminLayout from "../../../../components/admin/AdminLayout";
-import State from "../../../../interfaces/State";
 import { Link, useHistory } from "react-router-dom";
-import Message from "../../../../interfaces/Message";
-import AlertMessage from "../../../../components/alert-message";
 import PenalCode from "../../../../interfaces/PenalCode";
 import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   addPenalCode: (data: Partial<PenalCode>) => Promise<boolean>;
 }
 
-const AddPenalCode: React.FC<Props> = ({ addPenalCode, message }) => {
+const AddPenalCode: React.FC<Props> = ({ addPenalCode }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState("");
   const history = useHistory();
@@ -35,7 +31,6 @@ const AddPenalCode: React.FC<Props> = ({ addPenalCode, message }) => {
 
   return (
     <AdminLayout>
-      <AlertMessage message={message} dismissible />
       <h1 className="h3">Add penal code</h1>
 
       <form onSubmit={onSubmit}>
@@ -75,8 +70,4 @@ const AddPenalCode: React.FC<Props> = ({ addPenalCode, message }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  message: state.global.message,
-});
-
-export default connect(mapToProps, { addPenalCode })(AddPenalCode);
+export default connect(null, { addPenalCode })(AddPenalCode);

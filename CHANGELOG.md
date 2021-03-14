@@ -5,6 +5,7 @@
 ## 1.4.3
 
 - Major: All new error popup system
+- Major: cleanup code
 - Minor: Fixed small bug
 - Minor: able to search vehicle via VIN number now
 

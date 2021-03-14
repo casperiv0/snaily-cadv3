@@ -8,12 +8,10 @@ import lang from "../../../language.json";
 import { connect } from "react-redux";
 import { getAllCitizens, getVehicleById, transferVehicle } from "../../../lib/actions/citizen";
 import Citizen from "../../../interfaces/Citizen";
-import Message from "../../../interfaces/Message";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   vehicle: Vehicle | null;
   match: Match;
   owners: Citizen[];
@@ -24,7 +22,6 @@ interface Props {
 
 const TransferVehiclePage: React.FC<Props> = ({
   match,
-  message,
   vehicle,
   owners,
   getVehicleById,
@@ -68,8 +65,6 @@ const TransferVehiclePage: React.FC<Props> = ({
 
   return (
     <Layout>
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="plate">
@@ -124,7 +119,6 @@ const TransferVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   owners: state.citizen.citizens,
   vehicle: state.citizen.vehicle,
 });

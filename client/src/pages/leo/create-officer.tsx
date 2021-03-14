@@ -6,23 +6,15 @@ import State from "../../interfaces/State";
 import Department from "../../interfaces/Department";
 import { connect } from "react-redux";
 import { createOfficer, getDepartments } from "../../lib/actions/officer";
-import AlertMessage from "../../components/alert-message";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   departments: Department[];
   createOfficer: (data: object) => Promise<boolean>;
   getDepartments: (type: "admin" | "leo") => void;
 }
 
-const CreateOfficerPage: React.FC<Props> = ({
-  message,
-  departments,
-  createOfficer,
-  getDepartments,
-}) => {
+const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDepartments }) => {
   useDocTitle("Create Officer");
   const [officerName, setOfficerName] = React.useState<string>("");
   const [officerDept, setOfficerDept] = React.useState<string>("");
@@ -50,7 +42,6 @@ const CreateOfficerPage: React.FC<Props> = ({
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        <AlertMessage message={message} dismissible />
         <div className="mb-3">
           <label className="form-label" htmlFor="officerName">
             Callsign
@@ -115,7 +106,6 @@ const CreateOfficerPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   departments: state.officers.departments,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { createOfficer, getDepartments })(CreateOfficerPage);
