@@ -78,6 +78,14 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, getAllOfficers }) =
                         <Span>Rank: </Span>
                         {officer.rank || "None set"}
                       </Item>
+                      <Item id="status">
+                        <Span>ON/OFF Duty: </Span>
+                        {officer.status}
+                      </Item>
+                      <Item id="status2">
+                        <Span>Status: </Span>
+                        {officer.status2}
+                      </Item>
                     </div>
                   </div>
 

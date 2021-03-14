@@ -335,6 +335,8 @@ export interface UpdateOfficerData {
   callsign: string;
   rank: string;
   department: string;
+  status: string;
+  status2: string;
 }
 
 export const updateOfficerById = (id: string, data: UpdateOfficerData) => async (
@@ -348,6 +350,7 @@ export const updateOfficerById = (id: string, data: UpdateOfficerData) => async 
         type: ADMIN_UPDATE_OFFICER,
       });
 
+      notify("Successfully updated officer").success();
       return true;
     } else {
       notify(res.data.error).warn();

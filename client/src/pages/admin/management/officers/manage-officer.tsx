@@ -8,6 +8,7 @@ import {
   getOfficerById,
   updateOfficerById,
   UpdateOfficerData,
+  get10Codes,
 } from "../../../../lib/actions/admin";
 import Officer, { OfficerLog } from "../../../../interfaces/Officer";
 import lang from "../../../../language.json";
@@ -15,40 +16,51 @@ import Department from "../../../../interfaces/Department";
 import { getDepartments } from "../../../../lib/actions/officer";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import { Item, Span } from "../../../citizen/citizen-info";
+import Code10 from "../../../../interfaces/Code10";
+import Select from "../../../../components/select";
 
 interface Props {
   officer: Officer | null;
   logs: OfficerLog[] | undefined;
   departments: Department[];
+  codes: Code10[];
   getOfficerById: (officerId: string) => void;
   updateOfficerById: (officerId: string, data: UpdateOfficerData) => Promise<boolean>;
   getDepartments: (type: "admin" | "leo") => void;
+  get10Codes: () => void;
 }
 
 const ManageOfficerPage: React.FC<Props> = ({
   officer,
   departments,
   logs,
+  codes,
   getOfficerById,
   updateOfficerById,
   getDepartments,
+  get10Codes,
 }) => {
   const { id } = useParams<{ id: string }>();
   const [department, setDepartment] = React.useState(officer?.officer_dept || "");
   const [callSign, setCallSign] = React.useState(officer?.callsign || "");
   const [rank, setRank] = React.useState(officer?.rank || "");
+  const [status, setStatus] = React.useState(officer?.status ?? "");
+  const [status2, setStatus2] = React.useState(officer?.status2 ?? "");
   const history = useHistory();
   useDocTitle(`Managing ${officer?.officer_name}`);
 
   React.useEffect(() => {
     getOfficerById(id);
     getDepartments("leo");
-  }, [id, getOfficerById, getDepartments]);
+    get10Codes();
+  }, [id, getOfficerById, getDepartments, get10Codes]);
 
   React.useEffect(() => {
-    setCallSign(officer?.callsign || "");
-    setRank(officer?.rank || "");
-    setDepartment(officer?.officer_dept || "");
+    setCallSign(officer?.callsign ?? "");
+    setRank(officer?.rank ?? "");
+    setDepartment(officer?.officer_dept ?? "");
+    setStatus(officer?.status ?? "off-duty");
+    setStatus2(officer?.status2 ?? "");
   }, [officer]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -58,6 +70,8 @@ const ManageOfficerPage: React.FC<Props> = ({
       callsign: callSign,
       rank,
       department,
+      status,
+      status2,
     });
 
     if (updated === true) {
@@ -70,6 +84,42 @@ const ManageOfficerPage: React.FC<Props> = ({
       <h1 className="h2 mb-3">Managing Officer: {officer?.officer_name}</h1>
 
       <form onSubmit={onSubmit}>
+        <div className="mb-3 row">
+          <div className="col-md-6">
+            <label htmlFor="status" className="form-label">
+              ON/OFF Duty
+            </label>
+
+            <Select
+              value={{ label: status, value: status }}
+              isMulti={false}
+              onChange={(v: any) => setStatus(v.value)}
+              options={[
+                {
+                  value: "on-duty",
+                  label: lang.global.on_duty,
+                },
+                {
+                  value: "off-duty",
+                  label: lang.global.off_duty,
+                },
+              ]}
+            />
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="status2" className="form-label">
+              Status
+            </label>
+
+            <Select
+              value={{ label: status2, value: status2 }}
+              isMulti={false}
+              onChange={(v: any) => setStatus2(v.value)}
+              options={codes.map((code) => ({ value: code.code, label: code.code }))}
+            />
+          </div>
+        </div>
+
         <div className="mb-3">
           <label className="form-label" htmlFor="tow">
             Department
@@ -172,8 +222,12 @@ const mapToProps = (state: State) => ({
   officer: state.admin.officer,
   departments: state.officers.departments,
   logs: state.admin.officer?.logs,
+  codes: state.admin.codes,
 });
 
-export default connect(mapToProps, { getOfficerById, updateOfficerById, getDepartments })(
-  ManageOfficerPage,
-);
+export default connect(mapToProps, {
+  getOfficerById,
+  updateOfficerById,
+  getDepartments,
+  get10Codes,
+})(ManageOfficerPage);

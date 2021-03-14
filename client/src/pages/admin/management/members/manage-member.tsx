@@ -79,7 +79,9 @@ const ManageMember: React.FC<Props> = ({
     });
   }
 
-  function handleBan() {
+  function handleBan(e: React.FormEvent) {
+    e.preventDefault();
+
     banMember(member?.id!, banReason);
   }
 
@@ -244,7 +246,7 @@ const ManageMember: React.FC<Props> = ({
             <h5 className="card-title">Use the ban hammer</h5>
           </div>
 
-          <div className="card-body">
+          <form onSubmit={handleBan} className="card-body">
             {authenticatedUser?.id === member?.id ? (
               <AlertMessage message={{ msg: lang.admin.ban_yourself, type: "warning" }} />
             ) : member?.rank === "owner" ? (
@@ -254,7 +256,7 @@ const ManageMember: React.FC<Props> = ({
                 <Item id="ban_reason">
                   <Span>{lang.admin.banned_for}: </Span> {member?.ban_reason}
                 </Item>
-                <button onClick={handleUnban} className="btn btn-success mt-2 col">
+                <button type="button" onClick={handleUnban} className="btn btn-success mt-2 col">
                   {lang.admin.un_ban_user}
                 </button>
               </>
@@ -269,12 +271,12 @@ const ManageMember: React.FC<Props> = ({
                   placeholder={lang.admin.enter_ban_reason}
                   required
                 />
-                <button onClick={handleBan} className="btn btn-danger mt-2 col">
+                <button type="submit" className="btn btn-danger mt-2 col">
                   {lang.admin.ban_user}
                 </button>
               </>
             )}
-          </div>
+          </form>
         </div>
       </div>
 

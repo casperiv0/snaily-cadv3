@@ -8,6 +8,7 @@
 - Major: cleanup code
 - Minor: Fixed small bug
 - Minor: able to search vehicle via VIN number now
+- Minor: bug fixes
 
 ## 1.4.2
 
