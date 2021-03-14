@@ -4,7 +4,7 @@ import Logger from "../Logger";
 import socket from "../socket";
 import lang from "../../language.json";
 import { Dispatch } from "react";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import {
   GET_CURRENT_EMS_STATUS,
   GET_MY_EMS_FD,
@@ -12,13 +12,10 @@ import {
   DELETE_EMS_DEPUTY,
   CREATE_EMS_FD_DEPUTY,
   SEARCH_MEDICAL_RECORD,
-  SET_MESSAGE,
 } from "../types";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
-  message?: Message;
   error?: string;
   deputies?: Deputy[];
   medicalRecords?: MedicalRecord[];
@@ -38,10 +35,7 @@ export const createEmsFdDeputy = (data: object) => async (dispatch: Dispatch<IDi
 
       return true;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
       return false;
     }
   } catch (e) {
@@ -115,10 +109,8 @@ export const deleteEmsFdDeputy = (id: string) => async (dispatch: Dispatch<IDisp
         type: DELETE_EMS_DEPUTY,
         deputies: res.data.deputies,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.ems_fd.deleted_dept, type: "success" },
-      });
+
+      notify(lang.ems_fd.deleted_dept).success();
     }
   } catch (e) {
     Logger.error(DELETE_EMS_DEPUTY, e);
@@ -131,10 +123,6 @@ export const searchMedicalRecord = (name: string) => async (dispatch: Dispatch<I
 
     if (isSuccess(res)) {
       dispatch({
-        type: SET_MESSAGE,
-        message: undefined,
-      });
-      dispatch({
         type: SEARCH_MEDICAL_RECORD,
         medicalRecords: res.data.medicalRecords?.map((record: MedicalRecord) => {
           record.citizen = res.data.citizen;
@@ -143,10 +131,7 @@ export const searchMedicalRecord = (name: string) => async (dispatch: Dispatch<I
         }),
       });
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(SEARCH_MEDICAL_RECORD, e);
@@ -160,22 +145,13 @@ export const declareDeadOrAlive = (citizenId: string, type: "alive" | "dead") =>
     const res = await handleRequest(`/ems-fd/declare/${citizenId}/?declare=${type}`, "PUT");
 
     if (isSuccess(res)) {
-      dispatch({
-        type: SET_MESSAGE,
-        message: {
-          msg: `Successfully declared ${type}`,
-          type: "success",
-        },
-      });
+      notify(`Successfully declared ${type}`).success();
 
       dispatch({
         type: "DECLARE_DEAD_OR_ALIVE",
       });
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(SEARCH_MEDICAL_RECORD, e);

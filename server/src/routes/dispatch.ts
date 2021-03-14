@@ -90,6 +90,7 @@ router.delete(
     const { id } = req.params;
 
     await processQuery("DELETE FROM `911calls` WHERE `id` = ?", [id]);
+    await processQuery("DELETE FROM `call_events` WHERE `call_id` = ?", [id]);
 
     const calls = await processQuery("SELECT * FROM `911calls`");
     const mappedCalls = mapCalls(calls);
@@ -158,6 +159,36 @@ router.put(
     } else {
       return res.json({ error: "Please fill in all fields", status: "error" });
     }
+  },
+);
+
+router.post(
+  "/event/:callId",
+  useAuth,
+  usePermission(["dispatch"]),
+  async (req: IRequest, res: Response) => {
+    const { callId } = req.params;
+    const { text } = req.body;
+
+    const call = await processQuery("SELECT * FROM `911calls` WHERE `id` = ?", [callId]);
+
+    if (!call[0]) {
+      return res.json({
+        error: "That call was not found",
+        status: "error",
+      });
+    }
+
+    await processQuery(
+      "INSERT INTO `call_events` (`id`, `call_id`, `text`, `date`) VALUES (?, ?, ?, ?)",
+      [v4(), callId, text, Date.now()],
+    );
+
+    io.sockets.emit("UPDATE_911_CALLS");
+
+    return res.json({
+      status: "success",
+    });
   },
 );
 

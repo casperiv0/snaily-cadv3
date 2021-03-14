@@ -9,22 +9,19 @@ import Match from "../../../interfaces/Match";
 import { connect } from "react-redux";
 import { getLegalStatuses } from "../../../lib/actions/values";
 import { getVehicleById, updateVehicleById } from "../../../lib/actions/citizen";
-import Message from "../../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   vehicle: Vehicle | null;
   legalStatuses: Value[];
   match: Match;
   getLegalStatuses: () => void;
   getVehicleById: (id: string) => void;
-  updateVehicleById: (id: string, citizenId: string, data: object) => void;
+  updateVehicleById: (id: string, data: object) => Promise<boolean>;
 }
 
 const EditVehiclePage: React.FC<Props> = ({
-  message,
   vehicle,
   legalStatuses,
   match,
@@ -37,6 +34,7 @@ const EditVehiclePage: React.FC<Props> = ({
   const [plate, setPlate] = React.useState("");
   const [color, setColor] = React.useState("");
   const [status, setStatus] = React.useState("");
+  const history = useHistory();
   useDocTitle("Edit registered vehicle");
 
   React.useEffect(() => {
@@ -57,13 +55,17 @@ const EditVehiclePage: React.FC<Props> = ({
     }
   }, [vehicle]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateVehicleById(vehicleId, vehicle?.citizen_id!, {
+    const updated = await updateVehicleById(vehicleId, {
       color,
       status,
     });
+
+    if (updated === true) {
+      history.push(`/citizen/${vehicle?.citizen_id}`);
+    }
   }
 
   if (notFound) {
@@ -76,8 +78,6 @@ const EditVehiclePage: React.FC<Props> = ({
 
   return (
     <Layout>
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="plate">
@@ -141,7 +141,6 @@ const EditVehiclePage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   vehicle: state.citizen.vehicle,
   legalStatuses: state.values["legal-statuses"],
 });

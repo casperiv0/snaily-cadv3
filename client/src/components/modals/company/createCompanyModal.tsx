@@ -5,20 +5,18 @@ import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import Citizen from "../../../interfaces/Citizen";
 import { createCompany } from "../../../lib/actions/company";
-import AlertMessage from "../../alert-message";
-import Message from "../../../interfaces/Message";
+import Select, { Value } from "../../select";
 
 interface Props {
   citizens: Citizen[];
   createCompany: (data: object) => void;
-  message: Message | null;
 }
 
-const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany }) => {
+const CreateCompanyModal: React.FC<Props> = ({ citizens, createCompany }) => {
   const [address, setAddress] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
   const [whitelist, setWhitelist] = React.useState<string>("no");
-  const [ownerId, setOwnerId] = React.useState<string>("");
+  const [ownerId, setOwnerId] = React.useState<Value | null>(null);
   const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
@@ -28,7 +26,7 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany 
       address,
       name,
       whitelist,
-      owner_id: ownerId,
+      owner_id: ownerId?.value,
     });
   }
 
@@ -41,7 +39,6 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany 
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <AlertMessage message={message} dismissible />
           <div className="mb-3">
             <label className="form-label" htmlFor="company_name">
               {lang.citizen.company.name}
@@ -70,38 +67,32 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany 
             <label className="form-label" htmlFor="whitelist">
               {lang.citizen.company.whitelisted}
             </label>
-            <select
-              id="whitelist"
-              value={whitelist}
-              onChange={(e) => setWhitelist(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-            >
-              <option value="0">{lang.global.no}</option>
-              <option value="1">{lang.global.yes}</option>
-            </select>
+
+            <Select
+              closeMenuOnSelect
+              isMulti={false}
+              onChange={(v) => setWhitelist(v?.value)}
+              options={[
+                { label: lang.global.yes, value: "1" },
+                { label: lang.global.no, value: "0" },
+              ]}
+            />
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="ownerId">
               {lang.citizen.company.select_owner}
             </label>
-            <select
-              id="ownerId"
+
+            <Select
+              closeMenuOnSelect
+              onChange={(v) => setOwnerId(v)}
+              isMulti={false}
               value={ownerId}
-              onChange={(e) => setOwnerId(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-            >
-              <option value="">{lang.global?.select}</option>
-              <option value="" disabled>
-                --------
-              </option>
-              {citizens.map((citizen: Citizen, idx: number) => {
-                return (
-                  <option key={idx} value={citizen.id}>
-                    {citizen.full_name}
-                  </option>
-                );
-              })}
-            </select>
+              options={citizens.map((citizen) => ({
+                value: citizen.id,
+                label: citizen.full_name,
+              }))}
+            />
           </div>
         </div>
 
@@ -109,7 +100,11 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany 
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button
+            disabled={!name || !address || !ownerId?.value || !whitelist}
+            type="submit"
+            className="btn btn-primary"
+          >
             {lang.citizen.company.create}
           </button>
         </div>
@@ -119,7 +114,6 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, message, createCompany 
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   citizens: state.company.citizens,
 });
 

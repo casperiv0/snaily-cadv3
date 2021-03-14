@@ -1,19 +1,16 @@
 import * as React from "react";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import Citizen from "../../../../interfaces/Citizen";
-import AlertMessage from "../../../../components/alert-message";
 import lang from "../../../../language.json";
 import State from "../../../../interfaces/State";
 import { connect } from "react-redux";
 import { getAllCitizens, getAllExpungementRequests } from "../../../../lib/actions/admin";
-import Message from "../../../../interfaces/Message";
 import AllCitizensTab from "../../../../components/admin/all-citizens";
 import ExpungementRequestsTab from "../../../../components/admin/expungement-requests";
 import { ExpungementRequest } from "../../../../lib/actions/court";
 import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   requests: ExpungementRequest[];
   citizens: Citizen[];
   getAllCitizens: () => void;
@@ -21,7 +18,6 @@ interface Props {
 }
 
 const ManageCitizensPage: React.FC<Props> = ({
-  message,
   citizens,
   requests,
   getAllCitizens,
@@ -53,8 +49,6 @@ const ManageCitizensPage: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <div className="list-group">
         <input
           className="form-control bg-dark border-secondary text-light mb-2"
@@ -120,7 +114,6 @@ const ManageCitizensPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   citizens: state.admin.citizens,
-  message: state.global.message,
   requests: state.admin.expungementRequests,
 });
 

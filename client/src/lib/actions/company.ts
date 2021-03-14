@@ -2,26 +2,23 @@ import { Dispatch } from "react";
 import Citizen from "../../interfaces/Citizen";
 import Company, { CompanyPost } from "../../interfaces/Company";
 import Vehicle from "../../interfaces/Vehicle";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import lang from "../../language.json";
 import Logger from "../Logger";
 import {
   GET_COMPANY_DATA,
   JOIN_COMPANY,
   CREATE_COMPANY,
-  CREATE_COMPANY_POST_ERROR,
   GET_COMPANY_BY_ID,
   GET_COMPANY_BY_ID_ERROR,
   CREATE_COMPANY_POST,
   DELETE_COMPANY,
   UPDATE_COMPANY,
-  SET_MESSAGE,
   UPDATE_EMPLOYEE,
   FIRE_EMPLOYEE,
   ACCEPT_EMPLOYEE,
   DECLINE_EMPLOYEE,
 } from "../types";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -29,7 +26,6 @@ interface IDispatch {
   company?: Company;
   companies?: Company[];
   error?: string;
-  message?: Message;
   posts?: CompanyPost[];
   employees?: Citizen[];
   vehicles?: Vehicle[];
@@ -61,10 +57,7 @@ export const joinCompany = (data: object) => async (dispatch: Dispatch<IDispatch
       });
       window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(JOIN_COMPANY, e);
@@ -81,10 +74,7 @@ export const createCompany = (data: object) => async (dispatch: Dispatch<IDispat
       });
       window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(CREATE_COMPANY, e);
@@ -126,10 +116,7 @@ export const createCompanyPost = (data: object) => async (dispatch: Dispatch<IDi
       });
       window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
     } else {
-      dispatch({
-        type: CREATE_COMPANY_POST_ERROR,
-        error: res.data.error,
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(CREATE_COMPANY_POST, e);
@@ -146,15 +133,10 @@ export const updateCompany = (id: string, data: object) => async (
       dispatch({
         type: UPDATE_COMPANY,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.citizen.company.updated_company, type: "success" },
-      });
+
+      notify(lang.citizen.company.updated_company).success();
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
     }
   } catch (e) {
     Logger.error(UPDATE_COMPANY, e);
@@ -215,10 +197,8 @@ export const fireEmployee = (employeeId: string, companyId: string, citizenId: s
         type: FIRE_EMPLOYEE,
         employees: res.data.employees,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.citizen.company.fired_em, type: "success" },
-      });
+
+      notify(lang.citizen.company.fired_em).success();
     }
   } catch (e) {
     Logger.error(FIRE_EMPLOYEE, e);
@@ -241,13 +221,10 @@ export const updateEmployeeStatus = (
         type: type === "ACCEPT" ? ACCEPT_EMPLOYEE : DECLINE_EMPLOYEE,
         employees: res.data.employees,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: {
-          msg: type === "ACCEPT" ? lang.citizen.company.accepted : lang.citizen.company.declined,
-          type: "success",
-        },
-      });
+
+      notify(
+        type === "ACCEPT" ? lang.citizen.company.accepted : lang.citizen.company.declined,
+      ).success();
     }
   } catch (e) {
     Logger.error(`${ACCEPT_EMPLOYEE} | ${DECLINE_EMPLOYEE}`, e);

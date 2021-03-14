@@ -186,9 +186,10 @@ router.post(
     const { plate } = req.body;
 
     if (plate) {
-      const result = await processQuery("SELECT * FROM `registered_cars` WHERE `plate` = ?", [
-        plate,
-      ]);
+      const result = await processQuery(
+        "SELECT * FROM `registered_cars` WHERE `plate` = ? OR `vin_number` = ?",
+        [plate, plate],
+      );
 
       return res.json({ plate: result[0] ?? {}, status: "success" });
     } else {
@@ -200,7 +201,7 @@ router.post(
 router.get(
   "/search/names",
   useAuth,
-  usePermission(["leo", "dispatch"]),
+  usePermission(["leo", "dispatch", "ems_fd"]),
   async (_req, res: Response) => {
     const found = await processQuery("SELECT `full_name` FROM `citizens`", []);
 

@@ -1,13 +1,11 @@
 import Logger from "../Logger";
 import { Dispatch } from "react";
-import { CREATE_TAXI_CALL, SET_MESSAGE, GET_TAXI_CALLS, END_TAXI_CALL } from "../types";
-import { handleRequest, isSuccess } from "../functions";
+import { CREATE_TAXI_CALL, GET_TAXI_CALLS, END_TAXI_CALL } from "../types";
+import { handleRequest, isSuccess, notify } from "../functions";
 import socket from "../socket";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
-  message?: Message;
   calls?: object;
 }
 
@@ -36,10 +34,8 @@ export const createTaxiCall = (data: object) => async (dispatch: Dispatch<IDispa
         type: CREATE_TAXI_CALL,
         calls: res.data.calls,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: "Successfully called the Taxi service", type: "success" },
-      });
+
+      notify("Successfully called the Taxi Service").success();
     }
   } catch (e) {
     Logger.error(CREATE_TAXI_CALL, e);

@@ -3,29 +3,25 @@ import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import Value from "../../interfaces/Value";
-import AlertMessage from "../../components/alert-message";
 import Citizen from "../../interfaces/Citizen";
 import Field from "../../interfaces/Field";
 import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
-import Message from "../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
   getGenders: () => void;
   getEthnicities: () => void;
   getLegalStatuses: () => void;
-  createCitizen: (data: Partial<Citizen>) => void;
+  createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
 }
 
 const CreateCitizenPage: React.FC<Props> = ({
-  message,
   genders,
   ethnicities,
   legalStatuses,
@@ -50,6 +46,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   const [firearmsLicense, setFirearmsLicense] = React.useState<string>("");
   const [ccw, setCcw] = React.useState<string>("");
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
+  const history = useHistory();
 
   React.useEffect(() => {
     getGenders();
@@ -175,10 +172,10 @@ const CreateCitizenPage: React.FC<Props> = ({
     },
   ];
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createCitizen({
+    const created = await createCitizen({
       image: image,
       full_name: name,
       gender,
@@ -195,13 +192,15 @@ const CreateCitizenPage: React.FC<Props> = ({
       ccw,
       phone_nr: phoneNumber,
     });
+
+    if (typeof created === "string") {
+      history.push(created);
+    }
   }
 
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        <AlertMessage message={message} dismissible />
-
         <div key="image" id="-1" className="mb-3">
           <label className="form-label" htmlFor="image">
             {lang.global.image}
@@ -294,7 +293,6 @@ const CreateCitizenPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   legalStatuses: state.values["legal-statuses"],

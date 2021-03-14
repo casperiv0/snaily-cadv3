@@ -1,4 +1,5 @@
 import { LatLng, XYZ } from "../components/dispatch/map/interfaces";
+import CallEvent from "./CallEvent";
 import { Perm } from "./User";
 
 interface Call {
@@ -10,6 +11,8 @@ interface Call {
   assigned_unit: Unit[];
   pos: XYZ | LatLng;
   hidden: Perm;
+
+  events?: CallEvent[];
 }
 
 export interface Unit {

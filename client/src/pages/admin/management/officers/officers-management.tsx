@@ -6,19 +6,17 @@ import AlertMessage from "../../../../components/alert-message";
 import { connect } from "react-redux";
 import { getAllOfficers } from "../../../../lib/actions/admin";
 import { Item, Span } from "../../../citizen/citizen-info";
-import Message from "../../../../interfaces/Message";
 import Officer from "../../../../interfaces/Officer";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   officers: Officer[];
   getAllOfficers: () => void;
   deleteCompanyById: (id: string) => void;
 }
 
-const OfficersManagementPage: React.FC<Props> = ({ officers, message, getAllOfficers }) => {
+const OfficersManagementPage: React.FC<Props> = ({ officers, getAllOfficers }) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<Officer[]>(officers);
   useDocTitle("Officer Management");
@@ -42,7 +40,6 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, message, getAllOffi
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
       <div>
         <input
           type="text"
@@ -81,6 +78,14 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, message, getAllOffi
                         <Span>Rank: </Span>
                         {officer.rank || "None set"}
                       </Item>
+                      <Item id="status">
+                        <Span>ON/OFF Duty: </Span>
+                        {officer.status}
+                      </Item>
+                      <Item id="status2">
+                        <Span>Status: </Span>
+                        {officer.status2}
+                      </Item>
                     </div>
                   </div>
 
@@ -101,7 +106,6 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, message, getAllOffi
 
 const mapToProps = (state: State) => ({
   officers: state.admin.officers,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getAllOfficers })(OfficersManagementPage);

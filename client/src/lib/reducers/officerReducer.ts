@@ -8,17 +8,13 @@ import {
   DELETE_OFFICER_BY_ID,
   GET_DEPARTMENTS,
   CREATE_OFFICER,
-  CREATE_WARRANT_ERROR,
   CREATE_WARRANT,
   PLATE_SEARCH,
   NAME_SEARCH,
   WEAPON_SEARCH,
   CREATE_WRITTEN_WARNING,
-  CREATE_WRITTEN_WARNING_ERROR,
-  CREATE_ARREST_REPORT_ERROR,
   CREATE_ARREST_REPORT,
   CREATE_TICKET,
-  CREATE_TICKET_ERROR,
   GET_MY_OFFICER_LOGS,
 } from "../types";
 
@@ -63,11 +59,6 @@ type Actions =
     }
   | {
       type: typeof CREATE_WARRANT;
-      message: string;
-    }
-  | {
-      type: typeof CREATE_WARRANT_ERROR;
-      error: string;
     }
   | {
       type: typeof NAME_SEARCH;
@@ -85,22 +76,10 @@ type Actions =
       type: typeof CREATE_WRITTEN_WARNING;
     }
   | {
-      type: typeof CREATE_WRITTEN_WARNING_ERROR;
-      error: string;
-    }
-  | {
-      type: typeof CREATE_ARREST_REPORT_ERROR;
-      error: string;
-    }
-  | {
       type: typeof CREATE_ARREST_REPORT;
     }
   | {
       type: typeof CREATE_TICKET;
-    }
-  | {
-      type: typeof CREATE_TICKET_ERROR;
-      error: string;
     }
   | {
       type: "SEARCH_NAMES";
@@ -155,11 +134,6 @@ export default function officerReducer(state = initState, action: Actions): Stat
         ...state,
         error: null,
       };
-    case "CREATE_WARRANT_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
     case "NAME_SEARCH":
       return {
         ...state,
@@ -180,30 +154,15 @@ export default function officerReducer(state = initState, action: Actions): Stat
         ...state,
         error: null,
       };
-    case "CREATE_WRITTEN_WARNING_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
     case "CREATE_ARREST_REPORT":
       return {
         ...state,
         error: null,
       };
-    case "CREATE_ARREST_REPORT_ERROR":
-      return {
-        ...state,
-        error: action.error,
-      };
     case "CREATE_TICKET":
       return {
         ...state,
         error: null,
-      };
-    case "CREATE_TICKET_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "SEARCH_NAMES":
       return {

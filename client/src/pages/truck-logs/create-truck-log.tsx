@@ -1,43 +1,43 @@
 import * as React from "react";
-import AlertMessage from "../../components/alert-message";
 import Layout from "../../components/Layout";
-import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { createTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
-import Message from "../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
-  createTruckLog: (date: object) => void;
+  createTruckLog: (date: object) => Promise<boolean>;
 }
 
-const CreateTruckLogPage: React.FC<Props> = ({ message, createTruckLog }) => {
+const CreateTruckLogPage: React.FC<Props> = ({ createTruckLog }) => {
   useDocTitle("Create truck log");
   const [name, setName] = React.useState<string>("");
   const [date, setDate] = React.useState<string>("");
   const [coDriver, setCoDriver] = React.useState<string>("");
   const [startTime, setStartTime] = React.useState<string>("");
   const [plate, setPlate] = React.useState<string>("");
+  const history = useHistory();
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createTruckLog({
+    const created = await createTruckLog({
       name,
       date,
       co_driver: coDriver,
       start_time: startTime,
       plate,
     });
+
+    if (created === true) {
+      history.push("/truck-logs");
+    }
   }
 
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        <AlertMessage message={message} dismissible />
         <div className="mb-3">
           <label className="form-label" htmlFor="name">
             {lang.truck_logs.enter_trucker_name}
@@ -111,8 +111,4 @@ const CreateTruckLogPage: React.FC<Props> = ({ message, createTruckLog }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  message: state.global.message,
-});
-
-export default connect(mapToProps, { createTruckLog })(CreateTruckLogPage);
+export default connect(null, { createTruckLog })(CreateTruckLogPage);

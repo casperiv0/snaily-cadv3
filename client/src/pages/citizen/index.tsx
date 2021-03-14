@@ -10,19 +10,17 @@ import AlertMessage from "../../components/alert-message";
 import Citizen from "../../interfaces/Citizen";
 import Call911Modal from "../../components/modals/call911Modal";
 import { getCitizens } from "../../lib/actions/citizen";
-import Message from "../../interfaces/Message";
 import CallTaxiModal from "../../components/modals/callTaxiModal";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   aop: string | null;
-  message: Message | null;
   citizens: Citizen[];
   getCitizens: () => void;
 }
 
 const CitizensPage: React.FC<Props> = (props) => {
-  const { message, citizens, getCitizens } = props;
+  const { citizens, getCitizens } = props;
   const [aop, setAop] = React.useState(props.aop);
   useDocTitle("Citizen - View and change all your citizens");
 
@@ -43,7 +41,6 @@ const CitizensPage: React.FC<Props> = (props) => {
   return (
     <Layout classes="mt-5">
       <div>
-        {message ? <AlertMessage message={message} dismissible /> : null}
         <h3>
           {lang.auth.welcome} - AOP: {aop}
         </h3>
@@ -131,7 +128,6 @@ const CitizensPage: React.FC<Props> = (props) => {
 const mapToProps = (state: State) => ({
   citizens: state.citizen.citizens,
   aop: state.global.aop,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getCitizens })(CitizensPage);

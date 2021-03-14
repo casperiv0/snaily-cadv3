@@ -2,7 +2,6 @@ import * as React from "react";
 import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import Field from "../../../interfaces/Field";
-import AlertMessage from "../../alert-message";
 import { connect } from "react-redux";
 import Modal, { XButton } from "../index";
 import { createWrittenWarning } from "../../../lib/actions/records";
@@ -11,7 +10,6 @@ import PenalCode from "../../../interfaces/PenalCode";
 import Select from "../../select";
 
 interface Props {
-  error: string | null;
   officer: Officer | null;
   penalCodes: PenalCode[];
   createWrittenWarning: (data: {
@@ -20,11 +18,10 @@ interface Props {
     infractions: string;
     postal: string;
     notes: string;
-  }) => void;
+  }) => Promise<boolean>;
 }
 
 const CreateWrittenWarningModal: React.FC<Props> = ({
-  error,
   officer,
   penalCodes,
   createWrittenWarning,
@@ -33,31 +30,29 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
   const [infractions, setInfractions] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
+  const btnRef = React.useRef<HTMLButtonElement>(null);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createWrittenWarning({
+    const created = await createWrittenWarning({
       name,
       officer_name: `${officer?.callsign} ${officer?.officer_name}`,
       infractions: infractions.map((v: any) => v.value).join(", "),
       postal,
       notes,
     });
-  }
 
-  React.useEffect(() => {
-    if (error === null) {
+    if (created === true) {
+      btnRef.current?.click();
+
       setNotes("");
       setName("");
       setInfractions([]);
       setPostal("");
       setNotes("");
-
-      btnRef.current?.click();
     }
-  }, [error, btnRef]);
+  }
 
   const fields: Field[] = [
     {
@@ -92,7 +87,6 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
           {fields.map((field: Field, idx: number) => {
             return (
               <div id={`${idx}`} key={idx} className="mb-3">
@@ -138,7 +132,6 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  error: state.officers.error,
   officer: state.officers.activeOfficer,
   penalCodes: state.admin.penalCodes,
 });

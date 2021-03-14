@@ -5,25 +5,25 @@ import AdminLayout from "../../../../components/admin/AdminLayout";
 import Select from "../../../../components/select";
 import State from "../../../../interfaces/State";
 import Code10 from "../../../../interfaces/Code10";
-import { Link, useParams } from "react-router-dom";
-import Message from "../../../../interfaces/Message";
+import { Link, useHistory, useParams } from "react-router-dom";
 import AlertMessage from "../../../../components/alert-message";
 import { colorOptions, options, shouldDoOptions } from "./add-code";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import { notify } from "../../../../lib/functions";
 
 interface Props {
-  message: Message | null;
-  update10Code: (id: string, data: Partial<Code10>) => void;
+  update10Code: (id: string, data: Partial<Code10>) => Promise<boolean>;
   get10Codes: () => void;
   codes: Code10[];
 }
 
-const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes }) => {
+const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
   const { id } = useParams<{ id: string }>();
   const [code, setCode] = React.useState("");
   const [whatPages, setWhatPages] = React.useState<Code10["what_pages"]>([]);
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
+  const history = useHistory();
   useDocTitle("Edit 10 Code");
 
   const value = {
@@ -55,21 +55,27 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
     }
   }
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    update10Code(id, {
+    if (whatPages.length <= 0) {
+      return notify("Please fill in all fields").error();
+    }
+
+    const updated = await update10Code(id, {
       code,
       what_pages: whatPages,
       color: color,
       should_do: shouldDo,
     });
+
+    if (updated === true) {
+      history.push("/admin/manage/10-codes");
+    }
   }
 
   return (
     <AdminLayout>
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="code">
@@ -132,7 +138,6 @@ const Edit10Code: React.FC<Props> = ({ update10Code, message, codes, get10Codes 
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   codes: state.admin.codes,
 });
 

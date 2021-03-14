@@ -1,51 +1,47 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Layout from "../../components/Layout";
 import lang from "../../language.json";
 import State from "../../interfaces/State";
 import Department from "../../interfaces/Department";
 import { connect } from "react-redux";
 import { createOfficer, getDepartments } from "../../lib/actions/officer";
-import AlertMessage from "../../components/alert-message";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   departments: Department[];
-  createOfficer: (data: object) => void;
+  createOfficer: (data: object) => Promise<boolean>;
   getDepartments: (type: "admin" | "leo") => void;
 }
 
-const CreateOfficerPage: React.FC<Props> = ({
-  message,
-  departments,
-  createOfficer,
-  getDepartments,
-}) => {
+const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDepartments }) => {
   useDocTitle("Create Officer");
   const [officerName, setOfficerName] = React.useState<string>("");
   const [officerDept, setOfficerDept] = React.useState<string>("");
   const [callSign, setCallSign] = React.useState<string>("");
+  const history = useHistory();
 
   React.useEffect(() => {
     getDepartments("leo");
   }, [getDepartments]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createOfficer({
+    const created = await createOfficer({
       name: officerName,
       department: officerDept,
       callsign: callSign,
     });
+
+    if (created === true) {
+      history.push("/leo/my-officers");
+    }
   }
 
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        <AlertMessage message={message} dismissible />
         <div className="mb-3">
           <label className="form-label" htmlFor="officerName">
             Callsign
@@ -110,7 +106,6 @@ const CreateOfficerPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   departments: state.officers.departments,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { createOfficer, getDepartments })(CreateOfficerPage);

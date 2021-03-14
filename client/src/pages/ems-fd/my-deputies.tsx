@@ -1,28 +1,20 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
-import AlertMessage from "../../components/alert-message";
 import Deputy from "../../interfaces/Deputy";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { getMyDeputies, deleteEmsFdDeputy } from "../../lib/actions/ems-fd";
 import { connect } from "react-redux";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   deputies: Deputy[];
   getMyDeputies: () => void;
   deleteEmsFdDeputy: (id: string) => void;
 }
 
-const MyDeputiesPage: React.FC<Props> = ({
-  message,
-  deputies,
-  getMyDeputies,
-  deleteEmsFdDeputy,
-}) => {
+const MyDeputiesPage: React.FC<Props> = ({ deputies, getMyDeputies, deleteEmsFdDeputy }) => {
   useDocTitle("My EMS/FD Deputies");
   React.useEffect(() => {
     getMyDeputies();
@@ -30,8 +22,6 @@ const MyDeputiesPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <h4 className="card-title mt-3">{lang.ems_fd.my_deputies}</h4>
 
       <Link className="btn btn-primary container my-1" to="/ems-fd/dash">
@@ -66,7 +56,6 @@ const MyDeputiesPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   deputies: state.ems_fd.deputies,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getMyDeputies, deleteEmsFdDeputy })(MyDeputiesPage);

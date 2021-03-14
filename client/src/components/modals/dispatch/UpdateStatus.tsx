@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Code10 from "../../../interfaces/Code10";
 import State from "../../../interfaces/State";
 import { get10Codes } from "../../../lib/actions/admin";
+import Select from "../../select";
 
 interface Props {
   id: string;
@@ -72,40 +73,42 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
             <label className="form-label" htmlFor="status">
               {lang.dispatch.set_on_off_duty}
             </label>
-            <select
-              value={status}
-              id="status"
-              className="form-control bg-secondary border-secondary text-light"
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value={status}>{status}</option>
-              <option disabled>--------</option>
-              <option value="on-duty">{lang.global.on_duty}</option>
-              <option value="off-duty">{lang.global.off_duty}</option>
-            </select>
+
+            <Select
+              isClearable={false}
+              value={{ label: status, value: status }}
+              isMulti={false}
+              onChange={(v) => setStatus(v.value)}
+              options={[
+                {
+                  value: "on-duty",
+                  label: lang.global.on_duty,
+                },
+                {
+                  value: "off-duty",
+                  label: lang.global.off_duty,
+                },
+              ]}
+            />
           </div>
+
           <div className="mb-3">
             <label className="form-label" htmlFor="status2">
               {lang.dispatch.global_status}
             </label>
-            <select
-              value={status2}
-              id="status2"
-              className="form-control bg-secondary border-secondary text-light"
-              onChange={(e) => setStatus2(e.target.value)}
-            >
-              <option value={status2}>{status2}</option>
-              <option disabled>--------</option>
-              {filterCodes([{ code: "10-8" } as any, ...props.statuses]).map(
-                (stat, idx: number) => {
-                  return (
-                    <option value={stat.code} key={idx} id={`${idx}`}>
-                      {stat.code}
-                    </option>
-                  );
-                },
-              )}
-            </select>
+
+            <Select
+              isClearable={false}
+              value={{ label: status2, value: status2 }}
+              isMulti={false}
+              onChange={(v: any) => setStatus2(v.value)}
+              options={filterCodes([{ code: "10-8" } as any, ...props.statuses]).map((stat) => {
+                return {
+                  label: stat.code,
+                  value: stat.code,
+                };
+              })}
+            />
           </div>
         </div>
         <div className="modal-footer">

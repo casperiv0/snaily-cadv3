@@ -16,17 +16,15 @@ import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import AddressSearchModal from "../../components/modals/dispatch/addressSearchModal";
 import WeaponSearchModal from "../../components/modals/leo/weaponSearchModal";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
-import AlertMessage, { DismissAlertBtn } from "../../components/alert-message";
-import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
 import { playSound } from "../../lib/functions";
 import CadInfo from "../../interfaces/CadInfo";
 import { Perm } from "../../interfaces/User";
 import useDocTitle from "../../hooks/useDocTitle";
+import { DismissAlertBtn } from "../../components/alert-message";
 
 interface Props {
   aop: string | null;
-  message: Message | null;
   cadInfo: CadInfo | null;
 }
 
@@ -93,7 +91,6 @@ const DispatchDash: React.FC<Props> = (props) => {
           <DismissAlertBtn onClick={() => setSignal100("0")} />
         </div>
       ) : null}
-      {props.message ? <AlertMessage message={props.message} dismissible /> : null}
 
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
@@ -135,7 +132,6 @@ const DispatchDash: React.FC<Props> = (props) => {
 
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
-  message: state.global.message,
   cadInfo: state.global.cadInfo,
 });
 

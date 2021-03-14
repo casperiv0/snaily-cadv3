@@ -56,13 +56,13 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, getPenalCodes, deletePen
           className="form-control bg-dark border-dark mb-2 text-light"
           placeholder="Search.."
         />
-        {codes.length <= 0 ? (
+        {codes?.length <= 0 ? (
           <AlertMessage
             message={{ msg: "This CAD doesn't have any penal codes", type: "warning" }}
           />
         ) : (
           <ul className="list-group">
-            {filtered.map((code: PenalCode, idx: number) => {
+            {filtered?.map((code: PenalCode, idx: number) => {
               return (
                 <li
                   key={code.id}

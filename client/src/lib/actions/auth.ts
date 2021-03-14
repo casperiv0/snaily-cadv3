@@ -1,16 +1,8 @@
 import Logger from "../Logger";
 import User from "../../interfaces/User";
 import { Dispatch } from "react";
-import { handleRequest, isSuccess } from "../functions";
-import {
-  AUTHENTICATE,
-  LOGOUT,
-  SET_LOADING,
-  DELETE_ACCOUNT,
-  UPDATE_PASSWORD,
-  SET_MESSAGE,
-} from "../types";
-import Message from "../../interfaces/Message";
+import { handleRequest, isSuccess, notify } from "../functions";
+import { AUTHENTICATE, LOGOUT, SET_LOADING, DELETE_ACCOUNT, UPDATE_PASSWORD } from "../types";
 
 interface IDispatch {
   type: string;
@@ -18,12 +10,11 @@ interface IDispatch {
   user?: User;
   isAuth?: boolean;
   error?: string | null;
-  message?: Message;
 }
 
 export const login = (data: object, requestedPath: string) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean | string> => {
   dispatch({ type: SET_LOADING, loading: true });
 
   try {
@@ -37,21 +28,23 @@ export const login = (data: object, requestedPath: string) => async (
         user: res.data.user,
       });
 
-      window.location.href = requestedPath ? `${requestedPath}` : "/citizen";
+      return requestedPath || "/citizen";
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
+    notify(e).error;
     Logger.error("LOGIN", e);
   }
 
   dispatch({ type: SET_LOADING, loading: false });
+  return false;
 };
 
-export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const register = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   dispatch({ type: SET_LOADING, loading: true });
 
   try {
@@ -65,18 +58,17 @@ export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) 
         user: res.data.user,
       });
 
-      window.location.href = "/citizen";
+      return true;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error("REGISTER", e);
   }
 
   dispatch({ type: SET_LOADING, loading: false });
+  return false;
 };
 
 export const checkAuth = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -112,6 +104,7 @@ export const logout = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(LOGOUT, e);
+    notify(e).error();
   }
 };
 
@@ -127,6 +120,7 @@ export const deleteAccount = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(DELETE_ACCOUNT, e);
+    notify(e).error();
   }
 };
 
@@ -138,17 +132,13 @@ export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispa
       dispatch({
         type: UPDATE_PASSWORD,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: "Password updated", type: "success" },
-      });
+
+      notify("Successfully updated password").success();
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn;
     }
   } catch (e) {
     Logger.error(UPDATE_PASSWORD, e);
+    notify(e).error();
   }
 };

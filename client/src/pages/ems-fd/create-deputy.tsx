@@ -2,19 +2,15 @@ import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
 import Layout from "../../components/Layout";
 import lang from "../../language.json";
-import State from "../../interfaces/State";
-import AlertMessage from "../../components/alert-message";
 import { createEmsFdDeputy } from "../../lib/actions/ems-fd";
 import { connect } from "react-redux";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   createEmsFdDeputy: (data: object) => Promise<boolean | undefined>;
 }
 
-const CreateDeputyPage: React.FC<Props> = ({ message, createEmsFdDeputy }) => {
+const CreateDeputyPage: React.FC<Props> = ({ createEmsFdDeputy }) => {
   const [name, setName] = React.useState<string>("");
   const history = useHistory();
   useDocTitle("Create EMS/FD Deputy");
@@ -33,8 +29,6 @@ const CreateDeputyPage: React.FC<Props> = ({ message, createEmsFdDeputy }) => {
 
   return (
     <Layout classes="mt-5">
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="name">
@@ -61,8 +55,4 @@ const CreateDeputyPage: React.FC<Props> = ({ message, createEmsFdDeputy }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  message: state.global.message,
-});
-
-export default connect(mapToProps, { createEmsFdDeputy })(CreateDeputyPage);
+export default connect(null, { createEmsFdDeputy })(CreateDeputyPage);

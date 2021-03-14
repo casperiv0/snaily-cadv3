@@ -2,33 +2,21 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
-import AlertMessage from "../../components/alert-message";
+import Select from "../../components/select";
 import useDocTitle from "../../hooks/useDocTitle";
 import CadInfo from "../../interfaces/CadInfo";
-import Message from "../../interfaces/Message";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import lang from "../../language.json";
-import { updateCadSettings } from "../../lib/actions/admin";
+import { updateCadSettings, UpdateCADSettings } from "../../lib/actions/admin";
 
 interface Props {
   user: User | null;
-  message: Message | null;
   cadInfo: CadInfo | null;
-  updateCadSettings: (data: {
-    aop: string;
-    cad_name: string;
-    whitelisted: string;
-    tow_whitelisted: string;
-    webhook_url: string;
-    live_map_url: string;
-    plate_length: number;
-    steam_api_key: string;
-    features: string[];
-  }) => void;
+  updateCadSettings: (data: UpdateCADSettings) => void;
 }
 
-const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSettings }) => {
+const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) => {
   useDocTitle("CAD Settings");
   const [cadName, setCadName] = React.useState("");
   const [aop, setAop] = React.useState("");
@@ -106,7 +94,6 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
       <h3>{lang.admin.cad_settings.cad_settings}</h3>
 
       <div className="card bg-dark border-dark mt-3">
@@ -238,41 +225,38 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
               <label className="form-label" htmlFor="whitelisted">
                 {lang.admin.cad_settings.cad_wl}
               </label>
-              <select
-                className="form-control bg-secondary border-dark text-light"
-                id="whitelisted"
-                value={whitelisted}
-                onChange={(e) => setWhitelisted(e.target.value)}
-              >
-                <option value={cadInfo?.whitelisted}>
-                  {cadInfo?.whitelisted === "1" ? lang.global.yes : lang.global.no}
-                </option>
-                <option disabled value="">
-                  --------
-                </option>
-                <option value="0">{lang.global.no}</option>
-                <option value="1">{lang.global.yes}</option>
-              </select>
+
+              <Select
+                isMulti={false}
+                value={{
+                  label: whitelisted === "1" ? lang.global.yes : lang.global.no,
+                  value: whitelisted,
+                }}
+                isClearable={false}
+                onChange={(v) => setWhitelisted(v.value)}
+                options={[
+                  { label: lang.global.yes, value: "1" },
+                  { label: lang.global.no, value: "0" },
+                ]}
+              />
             </div>
             <div className="mb-3">
               <label className="form-label" htmlFor="tow_whitelisted">
                 {lang.admin.cad_settings.tow_wl}
               </label>
-              <select
-                className="form-control bg-secondary border-dark text-light"
-                id="tow_whitelisted"
-                value={towWhitelist}
-                onChange={(e) => setTowWhitelist(e.target.value)}
-              >
-                <option value={cadInfo?.tow_whitelisted}>
-                  {cadInfo?.tow_whitelisted === "1" ? lang.global.yes : lang.global.no}
-                </option>
-                <option disabled value="">
-                  --------
-                </option>
-                <option value="0">{lang.global.no}</option>
-                <option value="1">{lang.global.yes}</option>
-              </select>
+              <Select
+                isMulti={false}
+                value={{
+                  label: towWhitelist === "1" ? lang.global.yes : lang.global.no,
+                  value: towWhitelist,
+                }}
+                isClearable={false}
+                onChange={(v) => setTowWhitelist(v.value)}
+                options={[
+                  { label: lang.global.yes, value: "1" },
+                  { label: lang.global.no, value: "0" },
+                ]}
+              />
             </div>
             <div className="mb-3">
               <button className="btn btn-primary col" type="submit">
@@ -383,7 +367,6 @@ const CadSettingsPage: React.FC<Props> = ({ user, message, cadInfo, updateCadSet
 
 const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
-  message: state.global.message,
   user: state.auth.user,
 });
 

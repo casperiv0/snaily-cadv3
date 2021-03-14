@@ -324,6 +324,10 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
 
+  await processQuery("DELETE FROM `registered_weapons` WHERE `citizen_id` = ?", [id]);
+  await processQuery("DELETE FROM `registered_cars` WHERE `citizen_id` = ?", [id]);
+  await processQuery("DELETE FROM `court_requests` WHERE `citizen_id` = ?", [id]);
+  await processQuery("DELETE FROM `posts` WHERE `citizen_id` = ?", [id]);
   await processQuery("DELETE FROM `citizens` WHERE `id` = ?", [id]);
 
   return res.json({ status: "success" });

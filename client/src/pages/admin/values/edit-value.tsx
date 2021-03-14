@@ -7,21 +7,20 @@ import AlertMessage from "../../../components/alert-message";
 import lang from "../../../language.json";
 import { getValueById, updateValueById } from "../../../lib/actions/values";
 import { connect } from "react-redux";
-import Message from "../../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
   value: Value | null;
   match: Match;
-  message: Message | null;
   getValueById: (path: string, id: string) => void;
-  updateValueById: (path: string, id: string, data: { name: string }) => void;
+  updateValueById: (path: string, id: string, data: { name: string }) => Promise<boolean>;
 }
 
 const EditValuePage: React.FC<Props> = (props) => {
-  const { match, message, getValueById, updateValueById } = props;
+  const { match, getValueById, updateValueById } = props;
   const [value, setValue] = React.useState<string>("");
+  const history = useHistory();
   const path = match.params.path;
   const id = match.params.id;
   useDocTitle(lang.admin.values[path].manage);
@@ -36,10 +35,14 @@ const EditValuePage: React.FC<Props> = (props) => {
     }
   }, [props.value]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateValueById(path, id, { name: value });
+    const updated = await updateValueById(path, id, { name: value });
+
+    if (updated === true) {
+      history.push(`/admin/values/${path}`);
+    }
   }
 
   if (props.value !== null && !props.value) {
@@ -52,7 +55,6 @@ const EditValuePage: React.FC<Props> = (props) => {
 
   return (
     <AdminLayout>
-      <AlertMessage message={message} dismissible />
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="name">
@@ -82,7 +84,6 @@ const EditValuePage: React.FC<Props> = (props) => {
 
 const mapToProps = (state: State) => ({
   value: state.values.value,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getValueById, updateValueById })(EditValuePage);

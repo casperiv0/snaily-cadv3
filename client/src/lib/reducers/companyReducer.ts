@@ -7,7 +7,6 @@ import {
   CREATE_COMPANY,
   JOIN_COMPANY,
   GET_COMPANY_BY_ID,
-  CREATE_COMPANY_POST_ERROR,
   GET_COMPANY_BY_ID_ERROR,
   DECLINE_EMPLOYEE,
   ACCEPT_EMPLOYEE,
@@ -45,10 +44,6 @@ type Actions =
       vehicles: Vehicle[];
     }
   | {
-      type: typeof CREATE_COMPANY_POST_ERROR;
-      error: string;
-    }
-  | {
       type: typeof GET_COMPANY_BY_ID_ERROR;
       error: string;
     }
@@ -84,11 +79,6 @@ export default function companyReducer(state = initState, action: Actions) {
         posts: action.posts,
         employees: action.employees,
         vehicles: action.vehicles,
-      };
-    case "CREATE_COMPANY_POST_ERROR":
-      return {
-        ...state,
-        error: action.error,
       };
     case "GET_COMPANY_BY_ID_ERROR":
       return {
