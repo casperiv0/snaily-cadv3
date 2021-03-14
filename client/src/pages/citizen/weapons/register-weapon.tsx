@@ -33,6 +33,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
   const [weapon, setWeapon] = React.useState<string>("");
   const [citizenId, setCitizenId] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>("");
+  const [serial, setSerial] = React.useState<string>("");
   const history = useHistory();
   useDocTitle("Register weapon");
 
@@ -49,6 +50,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
       weapon,
       citizenId,
       status,
+      serial_number: serial.toUpperCase(),
     });
 
     if (registered === true) {
@@ -107,6 +109,18 @@ const RegisterWeaponPage: React.FC<Props> = ({
               value: status.name,
               label: status.name,
             }))}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">
+            Custom Serial number (Optional)
+          </label>
+
+          <input
+            value={serial.toUpperCase()}
+            onChange={(e) => setSerial(e.target.value?.toUpperCase())}
+            className="bg-dark border-dark form-control text-light"
           />
         </div>
 

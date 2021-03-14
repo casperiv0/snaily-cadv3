@@ -2,22 +2,32 @@ import * as React from "react";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import { searchMedicalRecord, declareDeadOrAlive } from "../../../lib/actions/ems-fd";
+import { searchNames } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import MedicalRecord from "../../../interfaces/MedicalRecord";
+import Select from "../../select";
 
 interface Props {
   medicalRecords: MedicalRecord[];
   searchMedicalRecord: (name: string) => void;
   declareDeadOrAlive: (citizenId: string, type: "dead" | "alive") => void;
+  searchNames: () => void;
+  names: string[];
 }
 
 const SearchMedicalRecords: React.FC<Props> = ({
   medicalRecords,
+  names,
   searchMedicalRecord,
   declareDeadOrAlive,
+  searchNames,
 }) => {
   const [name, setName] = React.useState<string>("");
+
+  React.useEffect(() => {
+    searchNames();
+  }, [searchNames]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -46,13 +56,16 @@ const SearchMedicalRecords: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <input
-            className="form-control bg-secondary border-secondary text-light"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
+          <Select
+            isMulti={false}
+            value={{ value: name, label: name }}
+            onChange={(v) => setName(v?.value)}
+            options={names.map(({ full_name }: any) => ({
+              value: full_name,
+              label: full_name,
+            }))}
           />
+
           <table className="table table-dark mt-2">
             <thead>
               <tr>
@@ -110,8 +123,9 @@ const SearchMedicalRecords: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   medicalRecords: state.ems_fd.medicalRecords,
+  names: state.officers.names,
 });
 
-export default connect(mapToProps, { searchMedicalRecord, declareDeadOrAlive })(
+export default connect(mapToProps, { searchNames, searchMedicalRecord, declareDeadOrAlive })(
   SearchMedicalRecords,
 );

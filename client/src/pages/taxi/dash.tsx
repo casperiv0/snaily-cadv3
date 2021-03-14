@@ -56,9 +56,9 @@ const TaxiDash: React.FC<Props> = (props) => {
             <thead>
               <tr>
                 <th>#</th>
+                <th>{lang.global.caller}</th>
                 <th>{lang.global.location}</th>
                 <th>{lang.global.description}</th>
-                <th>{lang.global.caller}</th>
                 <th>{lang.global.actions}</th>
               </tr>
             </thead>

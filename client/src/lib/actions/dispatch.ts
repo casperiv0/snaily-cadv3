@@ -3,7 +3,7 @@ import Call from "../../interfaces/Call";
 import Deputy from "../../interfaces/Deputy";
 import Officer from "../../interfaces/Officer";
 import Logger from "../Logger";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import { ADDRESS_SEARCH, GET_ACTIVE_UNITS } from "../types";
 
 interface IDispatch {
@@ -44,5 +44,25 @@ export const searchAddress = (address: string) => async (dispatch: Dispatch<IDis
     }
   } catch (e) {
     Logger.error(ADDRESS_SEARCH, e);
+  }
+};
+
+export const addCallEvent = (callId: string, text: string) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/dispatch/event/${callId}`, "POST", { text });
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: "ADD_CALL_EVENT",
+      });
+
+      notify("Successfully added event").success();
+    } else {
+      notify("An error occurred creating the event").error();
+    }
+  } catch (e) {
+    Logger.error("ADD_CALL_EVENT", e);
   }
 };

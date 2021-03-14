@@ -61,6 +61,8 @@ export const update911Call = (id: string, data: Partial<Call>) => async () => {
         "UPDATE_ASSIGNED_UNITS",
         data.assigned_unit?.map((u) => u.value),
       );
+
+      notify("Successfully updated call").success();
     }
   } catch (e) {
     Logger.error(UPDATE_911_CALL, e);

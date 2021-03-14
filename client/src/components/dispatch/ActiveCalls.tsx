@@ -92,8 +92,13 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
           </table>
         )}
       </ul>
+
       {calls.map((call: Call) => {
-        return <Update911Call key={call.id} id={call.id} call={call} />;
+        return (
+          <div key={call.id} id={`call-${call.id}`}>
+            <Update911Call id={call.id} call={call} />;
+          </div>
+        );
       })}
     </>
   );

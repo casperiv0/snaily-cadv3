@@ -32,6 +32,7 @@ const AuthRoute: React.FC<Props> = ({
   const location = useLocation();
 
   React.useEffect(() => {
+    if (loading) return;
     const parsedPath = path
       .split("")
       .filter((v) => v !== "/")
@@ -39,12 +40,14 @@ const AuthRoute: React.FC<Props> = ({
       .toLowerCase();
 
     if (
+      !loading &&
+      cadInfo?.features &&
       ["bleeter", "tow", "truck-logs", "courthouse", "taxi"].includes(parsedPath) &&
       !cadInfo?.features.includes(parsedPath)
     ) {
       return history.push("/not-enabled");
     }
-  }, [cadInfo?.features, history, path]);
+  }, [cadInfo?.features, history, path, loading]);
 
   React.useEffect(() => {
     if (requirement && !loading && isAuth) {

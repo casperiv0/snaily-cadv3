@@ -4,11 +4,13 @@
 
 ## 1.4.3
 
+- New: call events
+- New: register weapon with custom serial number
 - Major: All new error popup system
 - Major: cleanup code
 - Minor: Fixed small bug
 - Minor: able to search vehicle via VIN number now
-- Minor: bug fixes
+- Minor: several bug fixes
 
 ## 1.4.2
 

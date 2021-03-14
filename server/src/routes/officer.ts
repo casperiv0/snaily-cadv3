@@ -201,7 +201,7 @@ router.post(
 router.get(
   "/search/names",
   useAuth,
-  usePermission(["leo", "dispatch"]),
+  usePermission(["leo", "dispatch", "ems_fd"]),
   async (_req, res: Response) => {
     const found = await processQuery("SELECT `full_name` FROM `citizens`", []);
 

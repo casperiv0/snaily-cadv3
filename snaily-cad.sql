@@ -138,6 +138,20 @@ CREATE TABLE `cad_info` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `call_events`
+--
+
+CREATE TABLE `call_events` (
+  `id` varchar(255) NOT NULL,
+  `date` varchar(255) NOT NULL,
+  `call_id` varchar(255) NOT NULL,
+  `text` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `citizens`
 --
 

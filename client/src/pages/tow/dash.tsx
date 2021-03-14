@@ -60,8 +60,8 @@ const TowDash: React.FC<Props> = (props) => {
               <tr>
                 <th>#</th>
                 <th>{lang.global.location}</th>
-                <th>{lang.global.description}</th>
                 <th>{lang.global.caller}</th>
+                <th>{lang.global.description}</th>
                 <th>{lang.global.actions}</th>
               </tr>
             </thead>
@@ -70,8 +70,8 @@ const TowDash: React.FC<Props> = (props) => {
                 return (
                   <tr id={`${idx}`} key={idx}>
                     <th scope="row">{++idx}</th>
-                    <td>{call.name}</td>
                     <td>{call.location}</td>
+                    <td>{call.name}</td>
                     <td>{call.description}</td>
                     <td>
                       <button onClick={() => endTowCall(call.id)} className="btn btn-success">
