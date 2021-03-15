@@ -33,6 +33,7 @@ export const createEmsFdDeputy = (data: object) => async (dispatch: Dispatch<IDi
         type: CREATE_EMS_FD_DEPUTY,
       });
 
+      notify("Successfully created EMS/FD member").success();
       return true;
     } else {
       notify(res.data.error).warn();
@@ -93,6 +94,10 @@ export const setEmsStatus = (
         type: SET_EMS_STATUS,
         status: res.data.deputy.status,
         status2: res.data.deputy.status2,
+      });
+
+      notify(`Successfully updated status to ${status2}`).success({
+        autoClose: 2000,
       });
     }
   } catch (e) {

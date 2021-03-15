@@ -102,6 +102,7 @@ ReactDOM.render(
     <Redux.Provider store={store}>
       <Router>
         <ToastContainer
+          pauseOnFocusLoss={false}
           hideProgressBar
           limit={5}
           newestOnTop
@@ -109,6 +110,7 @@ ReactDOM.render(
           draggablePercent={40}
           closeButton={false}
           toastStyle={{
+            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
             background: "var(--bs-danger)",
           }}
         />

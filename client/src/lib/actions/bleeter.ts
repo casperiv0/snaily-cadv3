@@ -100,6 +100,7 @@ export const updateBleet = (data: object, id: string) => async (
         type: UPDATE_BLEET,
       });
 
+      notify("Successfully updated bleet").success();
       return `/bleet/${id}`;
     } else {
       notify(res.data.error).warn();
@@ -120,10 +121,11 @@ export const deleteBleet = (id: string) => async (dispatch: Dispatch<IDispatch>)
         type: DELETE_BLEET_BY_ID,
       });
 
+      notify("Successfully deleted bleet").success();
       return true;
+    } else {
+      return false;
     }
-
-    return false;
   } catch (e) {
     Logger.error(DELETE_BLEET_BY_ID, e);
   }

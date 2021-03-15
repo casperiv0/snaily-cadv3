@@ -39,7 +39,7 @@ const CreateDeputyPage: React.FC<Props> = ({ createEmsFdDeputy }) => {
             value={name}
             id="name"
             onChange={(e) => setName(e.target.value)}
-            className="form-control text-light bg-dark border-secondary"
+            className="form-control text-light bg-dark border-dark"
           />
         </div>
         <div className="mb-3 float-end">
