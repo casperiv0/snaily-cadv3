@@ -51,7 +51,7 @@ export const create911Call = (data: object) => async (
   }
 };
 
-export const update911Call = (id: string, data: Partial<Call>) => async () => {
+export const update911Call = (id: string, data: Partial<Call>, shouldNotify = true) => async () => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "PUT", data);
 
@@ -62,7 +62,9 @@ export const update911Call = (id: string, data: Partial<Call>) => async () => {
         data.assigned_unit?.map((u) => u.value),
       );
 
-      notify("Successfully updated call").success();
+      if (shouldNotify === true) {
+        notify("Successfully updated call").success();
+      }
     }
   } catch (e) {
     Logger.error(UPDATE_911_CALL, e);

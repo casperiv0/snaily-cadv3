@@ -119,6 +119,13 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
+  if (!company[0]) {
+    return res.json({
+      error: "Company was not found",
+      status: "error",
+    });
+  }
+
   if (citizen[0].business_id !== company[0].id) {
     return res.json({
       error: "You are not working at this company",
@@ -129,13 +136,6 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
   if (citizen[0].posts === "0") {
     return res.json({
       error: "You are not allowed to create posts for this company",
-      status: "error",
-    });
-  }
-
-  if (!company[0]) {
-    return res.json({
-      error: "Company was not found",
       status: "error",
     });
   }
@@ -218,6 +218,9 @@ router.post("/:id", useAuth, async (req: IRequest, res: Response) => {
   });
 });
 
+/**
+ * Update the settings of the business
+ */
 router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { name, whitelisted, address } = req.body;
   const { id } = req.params;
@@ -302,7 +305,14 @@ router.put("/:companyId/:employeeId/:type", useAuth, async (req: IRequest, res: 
 
   switch (type) {
     case "UPDATE": {
-      if (can_reg_veh && posts) {
+      if (can_reg_veh && posts && rank) {
+        if (rank.toLowerCase() === "owner") {
+          return res.json({
+            error: "Cannot set rank to `owner`",
+            status: "error",
+          });
+        }
+
         await processQuery(
           "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ? WHERE `id` = ?",
           [rank, can_reg_veh, posts, employeeId],

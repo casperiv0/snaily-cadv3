@@ -122,6 +122,7 @@ const EditLicensesPage: React.FC<Props> = ({
               </label>
 
               <Select
+                isClearable={false}
                 isMulti={false}
                 theme="dark"
                 value={{ value: field.value, label: field.value }}

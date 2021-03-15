@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { createMedicalRecord } from "../../../lib/actions/citizen";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Select from "../../../components/select";
 
 interface Props {
   match: Match;
@@ -38,15 +39,28 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, createMedicalRecord }
           <label className="form-label" htmlFor="type">
             {lang.citizen.medical.type}
           </label>
-          <select
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="Allergy">Allergy</option>
-            <option value="Medication">Medication</option>
-            <option value="Health Problem">Health Problem</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setType(v?.value)}
+            value={{ label: type, value: type }}
+            isMulti={false}
+            options={[
+              {
+                label: "Allergy",
+                value: "Allergy",
+              },
+              {
+                label: "Medication",
+                value: "Medication",
+              },
+              {
+                label: "Health Problem",
+                value: "Health Problem",
+              },
+            ]}
+          />
         </div>
 
         <div className="mb-3">

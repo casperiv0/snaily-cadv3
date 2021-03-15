@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastOptions } from "react-toastify";
 
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 let url: string | undefined = "/";
@@ -50,28 +50,31 @@ export function playSound(src: string) {
 }
 
 export function notify(message: string) {
-  const success = () =>
+  const success = (options?: ToastOptions) =>
     toast.success(message, {
       style: {
         background: "#D1E7DD",
       },
       className: "alert-success",
+      ...options,
     });
 
-  const error = () =>
+  const error = (options?: ToastOptions) =>
     toast.error(message, {
       style: {
         background: "#F8D7DA",
       },
       className: "alert-danger",
+      ...options,
     });
 
-  const warn = () =>
+  const warn = (options?: ToastOptions) =>
     toast.warn(message, {
       style: {
         background: "#FFF3CD",
       },
       className: "alert-warning",
+      ...options,
     });
 
   return {

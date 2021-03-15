@@ -79,12 +79,16 @@ const SelectStyles = (
     cursor: "pointer",
     color: state.isFocused ? "#fff" : "#fff",
   }),
-  control: (base) => ({
+  control: (base, state) => ({
     ...base,
     background: color(theme),
     border: `1px solid ${color(theme)}`,
+    boxShadow: state.isFocused ? "0 0 0 .25rem rgba(13,110,253,.25)" : "",
     ":hover": {
       borderColor: `${color(theme)}`,
+    },
+    ":focus": {
+      boxShadow: "0 0 0 .25rem rgba(13,110,253,.25)",
     },
   }),
   placeholder: (base) => ({
@@ -100,7 +104,7 @@ const SelectStyles = (
     ...base,
     color: "#fff",
   }),
-  container: (base) => ({
+  container: (base, state) => ({
     ...base,
     borderColor: "none",
     ":hover": {

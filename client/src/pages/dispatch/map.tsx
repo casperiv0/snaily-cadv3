@@ -5,7 +5,6 @@ import "leaflet.markercluster";
 import { v4 as uuid } from "uuid";
 import { Socket } from "socket.io-client";
 import "../../styles/map.css";
-import Logger from "../../lib/Logger";
 import CADSocket from "../../lib/socket";
 import {
   Player,
@@ -38,6 +37,7 @@ import { CallInfoHTML, PlayerInfoHTML, BlipInfoHTML } from "../../components/dis
 import User from "../../interfaces/User";
 import { getMembers } from "../../lib/actions/admin";
 import blipTypes from "../../components/dispatch/map/blips";
+import { notify } from "../../lib/functions";
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 
 /* 
@@ -57,7 +57,7 @@ interface Props {
   members: User[];
   getActiveUnits: () => void;
   getMembers: () => void;
-  update911Call: (id: string, data: Partial<Call>) => void;
+  update911Call: (id: string, data: Partial<Call>, notify?: boolean) => void;
 }
 
 interface MapState {
@@ -98,14 +98,16 @@ class MapClass extends Component<Props, MapState> {
   handleMapSocket() {
     const live_map_url = this.props.cadInfo?.live_map_url;
     if (!live_map_url) {
-      Logger.error("LIVE_MAP", "There was no live_map_url provided from the CAD_SETTINGS");
+      notify("There was no live_map_url provided from the CAD-Settings.").error({
+        autoClose: false,
+      });
       return;
     }
     if (!live_map_url.startsWith("ws")) {
-      Logger.error(
-        "LIVE_MAP",
-        "The live_map_url did not start with ws. Make sure it is a WebSocket protocol",
-      );
+      notify("The live_map_url did not start with ws. Make sure it is a WebSocket protocol").error({
+        autoClose: false,
+      });
+
       return;
     }
 
@@ -501,10 +503,14 @@ class MapClass extends Component<Props, MapState> {
         //   }),
         // );
 
-        this.props.update911Call(call.id, {
-          ...call,
-          pos: latLng,
-        });
+        this.props.update911Call(
+          call.id,
+          {
+            ...call,
+            pos: latLng,
+          },
+          false,
+        );
       });
     });
   }
@@ -639,11 +645,12 @@ class MapClass extends Component<Props, MapState> {
 
     if (!this.MAPSocket) return;
     this.MAPSocket.onclose = () => {
-      Logger.log("LIVE_MAP", "Disconnected from live-map");
+      notify("Disconnected from live-map").error();
     };
 
     this.MAPSocket.onerror = (e) => {
-      Logger.log("LIVE_MAP", `${JSON.stringify(e)}`);
+      notify("An error occurred when trying to connect to the live_map").error();
+      console.error("LIVE_MAP", `${JSON.stringify(e)}`);
     };
 
     this.MAPSocket.onmessage = (e: MessageEvent) => {
@@ -728,10 +735,14 @@ class MapClass extends Component<Props, MapState> {
                 this.remove911Call(call.id);
               }
 
-              this.props.update911Call(call.id, {
-                ...call,
-                hidden: type === "remove" ? "1" : "0",
-              });
+              this.props.update911Call(
+                call.id,
+                {
+                  ...call,
+                  hidden: type === "remove" ? "1" : "0",
+                },
+                false,
+              );
             }}
           />
         </div>

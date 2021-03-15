@@ -49,6 +49,7 @@ const ManageMember: React.FC<Props> = ({
   const [emsFd, setEmsFd] = React.useState("");
   const [tow, setTow] = React.useState("");
   const [banReason, setBanReason] = React.useState("");
+  const [steamId, setSteamId] = React.useState("");
   useDocTitle(`Managing ${member?.username}`);
   const history = useHistory();
 
@@ -64,6 +65,7 @@ const ManageMember: React.FC<Props> = ({
       setEmsFd(member?.ems_fd);
       setTow(member?.tow);
       setSupervisor(member.supervisor);
+      setSteamId(member.steam_id);
     }
   }, [member]);
 
@@ -77,6 +79,7 @@ const ManageMember: React.FC<Props> = ({
       emsFd,
       tow,
       supervisor,
+      steam_id: steamId,
     });
   }
 
@@ -237,6 +240,18 @@ const ManageMember: React.FC<Props> = ({
             />
           </div>
         ) : null}
+
+        <div className="mb-3">
+          <label className="form-label" htmlFor="ems_fd">
+            Steam ID
+          </label>
+
+          <input
+            value={steamId}
+            onChange={(e) => setSteamId(e.target.value)}
+            className="form-control bg-dark border-dark text-light"
+          />
+        </div>
 
         <div className="mb-3 float-end">
           <Link className="btn btn-danger me-2" to="/admin/manage/members">

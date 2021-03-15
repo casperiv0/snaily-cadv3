@@ -92,6 +92,7 @@ const ManageOfficerPage: React.FC<Props> = ({
             </label>
 
             <Select
+              isClearable={false}
               theme="dark"
               value={{ label: status, value: status }}
               isMulti={false}
@@ -114,6 +115,7 @@ const ManageOfficerPage: React.FC<Props> = ({
             </label>
 
             <Select
+              isClearable={false}
               theme="dark"
               value={{ label: status2, value: status2 }}
               isMulti={false}
@@ -129,6 +131,7 @@ const ManageOfficerPage: React.FC<Props> = ({
           </label>
 
           <Select
+            isClearable={false}
             value={department}
             theme="dark"
             isMulti={false}

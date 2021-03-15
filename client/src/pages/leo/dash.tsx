@@ -19,7 +19,7 @@ import CreateArrestReportModal from "../../components/modals/leo/createArrestRep
 import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
 import Officer from "../../interfaces/Officer";
-import { playSound } from "../../lib/functions";
+import { notify, playSound } from "../../lib/functions";
 import { getPenalCodes } from "../../lib/actions/admin";
 import { useLocation } from "react-router-dom";
 import User, { Perm } from "../../interfaces/User";
@@ -97,6 +97,7 @@ const LeoDash: React.FC<Props> = (props) => {
     const unitsHandler = (unitIds: string[]) => {
       if (location.pathname !== "/leo/dash") return;
       if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
+        notify("You were assigned to a call!").success();
         successSound.play();
       }
     };

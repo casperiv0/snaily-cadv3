@@ -110,12 +110,12 @@ router.put(
   usePermission(["admin", "owner", "moderator"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const { rank, leo, dispatch, emsFd, tow, supervisor } = req.body;
+    const { rank, leo, dispatch, emsFd, tow, supervisor, steam_id } = req.body;
 
-    if (rank && leo && dispatch && emsFd && supervisor) {
+    if (rank && leo && dispatch && emsFd && supervisor && steam_id) {
       await processQuery(
-        "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ?, `supervisor` = ? WHERE `id` = ?",
-        [rank, leo, dispatch, emsFd, tow, supervisor, id],
+        "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ?, `supervisor` = ?, `steam_id` = ? WHERE `id` = ?",
+        [rank, leo, dispatch, emsFd, tow, supervisor, steam_id, id],
       );
 
       const updated = await processQuery<IUser>(
