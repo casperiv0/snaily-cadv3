@@ -1,13 +1,37 @@
+import { Socket } from "socket.io";
+import { ExtendedError } from "socket.io/dist/namespace";
+import cookieParser from "cookie-parser";
 import config from "../../config";
 import Logger from "./Logger";
 import { io } from "../server";
 import { getWebhookData, postWebhook } from "./functions";
 import { processQuery } from "./database";
-import { Socket } from "socket.io";
 import Officer from "../interfaces/Officer";
 import { Perm } from "../interfaces/IUser";
+import { useSocketAuth } from "../hooks";
+
+const wrap = (middleware: any) => (
+  socket: Socket,
+  next: (err?: ExtendedError | undefined) => void,
+) => {
+  return middleware(socket.request, {}, next);
+};
+
+io.use(wrap(cookieParser()));
 
 io.on("connection", async (socket: Socket) => {
+  // @ts-expect-error ignore the line below
+  const token = socket?.request?.cookies?.["snaily-cad-session"];
+
+  // Check if the user is authenticated and exits in the database, if not close the connection
+  try {
+    await useSocketAuth(token);
+    socket.emit("connection_success", "Successfully connected to socket");
+  } catch (e) {
+    socket.emit("connection_error", e);
+    socket.disconnect(true);
+  }
+
   const cadInfo = await processQuery("SELECT `webhook_url` FROM `cad_info`");
 
   socket.on("UPDATE_ACTIVE_UNITS", () => {

@@ -6,6 +6,7 @@
 
 - Minor: Removed random `;` on dispatch dashboard
 - Minor: fixed small bugs
+- Major: Socket authentication
 
 ## 1.4.3
 
