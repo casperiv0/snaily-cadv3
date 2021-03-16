@@ -36,9 +36,9 @@ export const login = (data: object, requestedPath: string) => async (
   } catch (e) {
     notify(e).error;
     Logger.error("LOGIN", e);
+  } finally {
+    dispatch({ type: SET_LOADING, loading: false });
   }
-
-  dispatch({ type: SET_LOADING, loading: false });
   return false;
 };
 
@@ -63,9 +63,10 @@ export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) 
     }
   } catch (e) {
     Logger.error("REGISTER", e);
+  } finally {
+    dispatch({ type: SET_LOADING, loading: false });
   }
 
-  dispatch({ type: SET_LOADING, loading: false });
   return false;
 };
 
