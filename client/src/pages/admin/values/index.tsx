@@ -19,10 +19,12 @@ import {
   deleteValue,
 } from "../../../lib/actions/values";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Loader from "../../../components/loader";
 
 interface Props {
   values: any;
   match: Match;
+  loading: boolean;
   getDepartments: (type: "admin" | "leo") => void;
   getEthnicities: () => void;
   getGenders: () => void;
@@ -44,6 +46,7 @@ const paths: string[] = [
 const Values: React.FC<Props> = ({
   values,
   match,
+  loading,
   getDepartments,
   getEthnicities,
   getGenders,
@@ -136,6 +139,8 @@ const Values: React.FC<Props> = ({
         />
         {!values[path]?.[0] ? (
           <AlertMessage message={{ msg: lang.admin.values[path].none, type: "warning" }} />
+        ) : loading ? (
+          <Loader />
         ) : (
           filtered
             .sort((a: Value, _b: Value) => a?.defaults === "1")
@@ -177,6 +182,7 @@ const Values: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   values: state.values,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, {

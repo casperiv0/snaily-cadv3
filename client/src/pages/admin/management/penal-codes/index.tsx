@@ -8,14 +8,21 @@ import { Link } from "react-router-dom";
 import { Span } from "../../../citizen/citizen-info";
 import PenalCode from "../../../../interfaces/PenalCode";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import Loader from "../../../../components/loader";
 
 interface Props {
   codes: PenalCode[];
+  loading: boolean;
   getPenalCodes: () => void;
   deletePenalCode: (id: string) => void;
 }
 
-const PenalCodesManagement: React.FC<Props> = ({ codes, getPenalCodes, deletePenalCode }) => {
+const PenalCodesManagement: React.FC<Props> = ({
+  codes,
+  loading,
+  getPenalCodes,
+  deletePenalCode,
+}) => {
   const [filtered, setFiltered] = React.useState(codes);
   const [filter, setFilter] = React.useState("");
   useDocTitle("Penal Code Management");
@@ -60,6 +67,8 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, getPenalCodes, deletePen
           <AlertMessage
             message={{ msg: "This CAD doesn't have any penal codes", type: "warning" }}
           />
+        ) : loading ? (
+          <Loader />
         ) : (
           <ul className="list-group">
             {filtered?.map((code: PenalCode, idx: number) => {
@@ -106,6 +115,7 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, getPenalCodes, deletePen
 
 const mapToProps = (state: State) => ({
   codes: state.admin.penalCodes,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, { getPenalCodes, deletePenalCode })(PenalCodesManagement);

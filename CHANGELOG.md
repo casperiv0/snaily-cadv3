@@ -4,6 +4,7 @@
 
 ## 1.4.4
 
+- Minor: start on implementing loading indicators for slow connections
 - Minor: Removed random `;` on dispatch dashboard
 - Minor: fixed small bugs
 - Major: Socket authentication

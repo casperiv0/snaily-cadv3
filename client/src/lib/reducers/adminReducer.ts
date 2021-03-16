@@ -135,6 +135,7 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         companies: action.companies,
+        loading: false,
       };
     case "DELETE_COMPANY":
       return {
@@ -145,6 +146,7 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         citizens: action.citizens,
+        loading: false,
       };
     case "DELETE_CITIZEN":
       return {
@@ -155,11 +157,13 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         members: action.members,
+        loading: false,
       };
     case "GET_MEMBER_BY_ID":
       return {
         ...state,
         member: action.member,
+        loading: false,
       };
     case "UPDATE_MEMBER_PERMS":
       return {
@@ -190,16 +194,19 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         officers: action.officers,
+        loading: false,
       };
     case "GET_OFFICER_BY_ID":
       return {
         ...state,
         officer: action.officer,
+        loading: false,
       };
     case "GET_ALl_EXPUNGEMENT_REQUESTS":
       return {
         ...state,
         expungementRequests: action.expungementRequests,
+        loading: false,
       };
     case "ACCEPT_OR_DECLINE_REQUEST":
       return {
@@ -210,6 +217,7 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         codes: action.codes,
+        loading: false,
       };
     case "DELETE_10_CODE":
       return {
@@ -220,6 +228,7 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         penalCodes: action.penalCodes,
+        loading: false,
       };
     case "DELETE_PENAL_CODE":
       return {

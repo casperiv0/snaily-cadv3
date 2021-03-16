@@ -27,6 +27,7 @@ interface IDispatch {
   path?: string;
   error?: string;
   value?: Value;
+  loading?: boolean;
 }
 
 export const deleteValue = (id: string, path: ValuePaths) => async (

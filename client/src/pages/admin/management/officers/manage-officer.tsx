@@ -18,12 +18,14 @@ import useDocTitle from "../../../../hooks/useDocTitle";
 import { Item, Span } from "../../../citizen/citizen-info";
 import Code10 from "../../../../interfaces/Code10";
 import Select, { Value } from "../../../../components/select";
+import Loader from "../../../../components/loader";
 
 interface Props {
   officer: Officer | null;
   logs: OfficerLog[] | undefined;
   departments: Department[];
   codes: Code10[];
+  loading: boolean;
   getOfficerById: (officerId: string) => void;
   updateOfficerById: (officerId: string, data: UpdateOfficerData) => Promise<boolean>;
   getDepartments: (type: "admin" | "leo") => void;
@@ -35,6 +37,7 @@ const ManageOfficerPage: React.FC<Props> = ({
   departments,
   logs,
   codes,
+  loading,
   getOfficerById,
   updateOfficerById,
   getDepartments,
@@ -78,6 +81,14 @@ const ManageOfficerPage: React.FC<Props> = ({
     if (updated === true) {
       history.push("/admin/manage/officers");
     }
+  }
+
+  if (loading) {
+    return (
+      <AdminLayout>
+        <Loader />
+      </AdminLayout>
+    );
   }
 
   return (
@@ -216,6 +227,7 @@ const mapToProps = (state: State) => ({
   departments: state.officers.departments,
   logs: state.admin.officer?.logs,
   codes: state.admin.codes,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, {

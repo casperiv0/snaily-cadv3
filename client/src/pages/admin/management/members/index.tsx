@@ -9,13 +9,15 @@ import User from "../../../../interfaces/User";
 import AllMembersTab from "../../../../components/admin/all-members";
 import PendingMembersTab from "../../../../components/admin/pending-members";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import Loader from "../../../../components/loader";
 
 interface Props {
   members: User[];
+  loading: boolean;
   getMembers: () => void;
 }
 
-const ManageMembersPage: React.FC<Props> = ({ members, getMembers }) => {
+const ManageMembersPage: React.FC<Props> = ({ members, loading, getMembers }) => {
   const [filtered, setFiltered] = React.useState<any[]>([]);
   const [filter, setFilter] = React.useState<string>("");
   useDocTitle("Member management");
@@ -84,23 +86,29 @@ const ManageMembersPage: React.FC<Props> = ({ members, getMembers }) => {
           </div>
 
           <div className="tab-content">
-            <div
-              className="tab-pane fade show active"
-              id="members_tab"
-              role="tabpanel"
-              aria-labelledby="members-tab"
-            >
-              <AllMembersTab members={filtered} />
-            </div>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+                <div
+                  className="tab-pane fade show active"
+                  id="members_tab"
+                  role="tabpanel"
+                  aria-labelledby="members-tab"
+                >
+                  <AllMembersTab members={filtered} />
+                </div>
 
-            <div
-              className="tab-pane fade"
-              id="pending_tab"
-              role="tabpanel"
-              aria-labelledby="pending-tab"
-            >
-              <PendingMembersTab members={filtered} />
-            </div>
+                <div
+                  className="tab-pane fade"
+                  id="pending_tab"
+                  role="tabpanel"
+                  aria-labelledby="pending-tab"
+                >
+                  <PendingMembersTab members={filtered} />
+                </div>
+              </>
+            )}
           </div>
         </>
       )}
@@ -110,6 +118,7 @@ const ManageMembersPage: React.FC<Props> = ({ members, getMembers }) => {
 
 const mapToProps = (state: State) => ({
   members: state.admin.members,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, { getMembers })(ManageMembersPage);

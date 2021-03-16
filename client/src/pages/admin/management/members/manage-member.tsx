@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
+import Loader from "../../../../components/loader";
 import Select from "../../../../components/select";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import CadInfo from "../../../../interfaces/CadInfo";
 import Match from "../../../../interfaces/Match";
 import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
@@ -22,7 +24,8 @@ interface Props {
   member: User | null;
   user: User | null;
   match: Match;
-  cad: any;
+  cad: CadInfo | null;
+  loading: boolean;
   getMemberById: (id: string) => void;
   updateMemberPerms: (id: string, data: object) => void;
   unBanMember: (id: string) => void;
@@ -35,6 +38,7 @@ const ManageMember: React.FC<Props> = ({
   user: authenticatedUser,
   match,
   cad,
+  loading,
   getMemberById,
   updateMemberPerms,
   banMember,
@@ -105,6 +109,14 @@ const ManageMember: React.FC<Props> = ({
     return (
       <AdminLayout>
         <AlertMessage message={{ msg: "Not found", type: "danger" }} />
+      </AdminLayout>
+    );
+  }
+
+  if (loading) {
+    return (
+      <AdminLayout>
+        <Loader />
       </AdminLayout>
     );
   }
@@ -218,7 +230,7 @@ const ManageMember: React.FC<Props> = ({
             ]}
           />
         </div>
-        {cad.tow_whitelisted === "1" ? (
+        {cad?.tow_whitelisted === "1" ? (
           <div className="mb-3">
             <label className="form-label" htmlFor="tow">
               {lang.auth.account.tow_access}
@@ -334,6 +346,7 @@ const mapToProps = (state: State) => ({
   member: state.admin.member,
   user: state.auth.user,
   cad: state.global.cadInfo,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, {
