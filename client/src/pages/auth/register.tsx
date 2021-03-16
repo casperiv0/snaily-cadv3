@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { connect } from "react-redux";
@@ -8,28 +8,23 @@ import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   loading: boolean;
-  register: (data: object) => Promise<boolean>;
+  register: (data: object) => void;
 }
 
 const Register: React.FC<Props> = ({ loading, register }) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [password2, setPassword2] = React.useState<string>("");
-  const history = useHistory();
   useDocTitle("Register");
 
-  async function onSubmit(e: React.FormEvent) {
+  function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const registered = await register({
+    register({
       username,
       password,
       password2,
     });
-
-    if (registered === true) {
-      history.push("/citizen");
-    }
   }
 
   return (

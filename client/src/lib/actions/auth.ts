@@ -14,7 +14,7 @@ interface IDispatch {
 
 export const login = (data: object, requestedPath: string) => async (
   dispatch: Dispatch<IDispatch>,
-): Promise<boolean | string> => {
+) => {
   dispatch({ type: SET_LOADING, loading: true });
 
   try {
@@ -28,7 +28,7 @@ export const login = (data: object, requestedPath: string) => async (
         user: res.data.user,
       });
 
-      return requestedPath || "/citizen";
+      return (window.location.href = requestedPath ?? "/citizen");
     } else {
       notify(res.data.error).warn();
       return false;
@@ -42,9 +42,7 @@ export const login = (data: object, requestedPath: string) => async (
   return false;
 };
 
-export const register = (data: object) => async (
-  dispatch: Dispatch<IDispatch>,
-): Promise<boolean> => {
+export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
   dispatch({ type: SET_LOADING, loading: true });
 
   try {
@@ -58,7 +56,7 @@ export const register = (data: object) => async (
         user: res.data.user,
       });
 
-      return true;
+      return (window.location.href = "/citizen");
     } else {
       notify(res.data.error).warn();
       return false;
