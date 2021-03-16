@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import Select from "../../components/select";
 
 interface Props {
   genders: Value[];
@@ -65,7 +66,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: gender,
-      onChange: (e) => setGender(e.target.value),
+      onChange: (e) => setGender(e?.value),
       label: lang.citizen.gender,
       selectLabel: lang.citizen.select_gender,
       id: "gender",
@@ -75,7 +76,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: ethnicity,
-      onChange: (e) => setEthnicity(e.target.value),
+      onChange: (e) => setEthnicity(e?.value),
       label: lang.citizen.ethnicity,
       selectLabel: lang.citizen.select_ethnicity,
       id: "ethnicity",
@@ -137,7 +138,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: dmv,
-      onChange: (e) => setDmv(e.target.value),
+      onChange: (e) => setDmv(e?.value),
       id: "dmv",
       label: lang.citizen.drivers_license,
       select: true,
@@ -146,7 +147,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: firearmsLicense,
-      onChange: (e) => setFirearmsLicense(e.target.value),
+      onChange: (e) => setFirearmsLicense(e?.value),
       id: "firearmsLicense",
       label: lang.citizen.firearms_license,
       select: true,
@@ -155,7 +156,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: pilotsLicense,
-      onChange: (e) => setPilotsLicense(e.target.value),
+      onChange: (e) => setPilotsLicense(e?.value),
       id: "pilotsLicense",
       label: lang.citizen.pilot_license,
       select: true,
@@ -164,7 +165,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: ccw,
-      onChange: (e) => setCcw(e.target.value),
+      onChange: (e) => setCcw(e?.value),
       id: "ccw",
       label: lang.citizen.ccw,
       select: true,
@@ -219,23 +220,17 @@ const CreateCitizenPage: React.FC<Props> = ({
                 {field.label}
               </label>
               {field.select ? (
-                <select
-                  className="form-control bg-dark border-dark text-light"
-                  value={field.value}
+                <Select
+                  isMulti={false}
+                  theme="dark"
+                  closeMenuOnSelect
+                  isClearable={false}
                   onChange={field.onChange}
-                >
-                  <option value="">{field.selectLabel}</option>
-                  <option value="" disabled>
-                    -------
-                  </option>
-                  {field.data?.map((option: any, idx: number) => {
-                    return (
-                      <option key={idx} id={`${idx}`} value={option.name}>
-                        {option.name}
-                      </option>
-                    );
-                  })}
-                </select>
+                  options={field.data?.map((item: Value) => ({
+                    label: item.name,
+                    value: item.name,
+                  }))}
+                />
               ) : (
                 <input
                   value={field.value}
@@ -256,23 +251,18 @@ const CreateCitizenPage: React.FC<Props> = ({
                 <label className="form-label" htmlFor={field.id}>
                   {field.label}
                 </label>
-                <select
-                  className="form-control bg-dark border-dark text-light"
-                  value={field.value}
+
+                <Select
+                  isMulti={false}
+                  theme="dark"
+                  closeMenuOnSelect
+                  isClearable={false}
                   onChange={field.onChange}
-                >
-                  <option value="">{lang.citizen.select_license}</option>
-                  <option value="" disabled>
-                    -------
-                  </option>
-                  {field.data?.map((option: any, idx: number) => {
-                    return (
-                      <option key={idx} id={`${idx}`} value={option.name}>
-                        {option.name}
-                      </option>
-                    );
-                  })}
-                </select>
+                  options={field.data?.map((item: Value) => ({
+                    label: item.name,
+                    value: item.name,
+                  }))}
+                />
               </div>
             );
           })}

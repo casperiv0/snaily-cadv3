@@ -3,13 +3,17 @@ import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import { createBolo } from "../../../lib/actions/bolos";
 import { connect } from "react-redux";
+import Select, { Value } from "../../select";
 
 interface Props {
   createBolo: (data: object) => Promise<boolean>;
 }
 
 const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
-  const [type, setType] = React.useState("person");
+  const [type, setType] = React.useState<Value | null>({
+    label: lang.global.person,
+    value: "person",
+  });
   const [name, setName] = React.useState("");
   const [plate, setPlate] = React.useState("");
   const [color, setColor] = React.useState("");
@@ -20,9 +24,9 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
     e.preventDefault();
 
     const created = await createBolo({
-      type,
+      type: type?.value,
       name,
-      plate,
+      plate: plate.toUpperCase(),
       color,
       description,
     });
@@ -30,7 +34,10 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
     if (created === true) {
       btnRef.current?.click();
 
-      setType("person");
+      setType({
+        label: lang.global.person,
+        value: "person",
+      });
       setName("");
       setPlate("");
       setColor("");
@@ -51,15 +58,28 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
             <label className="form-label" htmlFor="type">
               {lang.citizen.medical.type}
             </label>
-            <select
-              className="form-control bg-secondary border-secondary text-light"
-              id="type"
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="person">{lang.global.person}</option>
-              <option value="vehicle">{lang.global.vehicle}</option>
-              <option value="other">{lang.global.other}</option>
-            </select>
+
+            <Select
+              value={type}
+              closeMenuOnSelect
+              isMulti={false}
+              isClearable={false}
+              onChange={(v) => setType(v)}
+              options={[
+                {
+                  label: lang.global.person,
+                  value: "person",
+                },
+                {
+                  label: lang.global.vehicle,
+                  value: "vehicle",
+                },
+                {
+                  label: lang.global.other,
+                  value: "other",
+                },
+              ]}
+            />
           </div>
 
           <div className="mb-3">
@@ -75,7 +95,7 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
             ></textarea>
           </div>
 
-          {type === "person" ? (
+          {type?.value === "person" ? (
             <div className="mb-3">
               <label className="form-label" htmlFor="name">
                 {lang.record.enter_per_name}
@@ -87,7 +107,7 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
                 className="form-control bg-secondary border-secondary text-light"
               />
             </div>
-          ) : type === "vehicle" ? (
+          ) : type?.value === "vehicle" ? (
             <>
               <div className="mb-3">
                 <label className="form-label" htmlFor="plate">
@@ -96,7 +116,7 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
                 <input
                   type="text"
                   value={plate}
-                  onChange={(e) => setPlate(e.target.value)}
+                  onChange={(e) => setPlate(e.target.value?.toUpperCase())}
                   className="form-control bg-secondary border-secondary text-light"
                 />
               </div>

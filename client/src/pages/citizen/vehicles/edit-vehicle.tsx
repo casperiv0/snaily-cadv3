@@ -11,6 +11,7 @@ import { getLegalStatuses } from "../../../lib/actions/values";
 import { getVehicleById, updateVehicleById } from "../../../lib/actions/citizen";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Select, { Value as SelectValue } from "../../../components/select";
 
 interface Props {
   vehicle: Vehicle | null;
@@ -33,7 +34,7 @@ const EditVehiclePage: React.FC<Props> = ({
   const [notFound, setNotFound] = React.useState<boolean>(false);
   const [plate, setPlate] = React.useState("");
   const [color, setColor] = React.useState("");
-  const [status, setStatus] = React.useState("");
+  const [status, setStatus] = React.useState<SelectValue | null>(null);
   const history = useHistory();
   useDocTitle("Edit registered vehicle");
 
@@ -46,7 +47,7 @@ const EditVehiclePage: React.FC<Props> = ({
     if (vehicle !== null) {
       setPlate(vehicle?.plate || "");
       setColor(vehicle?.color || "");
-      setStatus(vehicle?.in_status || "");
+      setStatus({ label: vehicle?.in_status, value: vehicle?.in_status });
       return;
     }
 
@@ -60,7 +61,7 @@ const EditVehiclePage: React.FC<Props> = ({
 
     const updated = await updateVehicleById(vehicleId, {
       color,
-      status,
+      status: status?.value,
     });
 
     if (updated === true) {
@@ -107,24 +108,18 @@ const EditVehiclePage: React.FC<Props> = ({
           <label className="form-label" htmlFor="plate">
             {lang.citizen.vehicle.select_status}
           </label>
-          <select
-            onChange={(e) => setStatus(e.target.value)}
+
+          <Select
             value={status}
-            id="plate"
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={vehicle?.in_status}>{vehicle?.in_status}</option>
-            <option value="" disabled>
-              --------
-            </option>
-            {legalStatuses.map((item: Value, idx: number) => {
-              return (
-                <option key={idx} value={item.name}>
-                  {item.name}
-                </option>
-              );
-            })}
-          </select>
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setStatus(v)}
+            options={legalStatuses.map((status) => ({
+              value: status.name,
+              label: status.name,
+            }))}
+          />
         </div>
 
         <div className="mb-3 float-end">
