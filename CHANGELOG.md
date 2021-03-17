@@ -2,6 +2,14 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.4.4
+
+- Minor: lazy load lists
+- Minor: start on implementing loading indicators for slow connections
+- Minor: Removed random `;` on dispatch dashboard
+- Minor: fixed small bugs
+- Major: Socket authentication
+
 ## 1.4.3
 
 - New: call events

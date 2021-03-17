@@ -18,12 +18,14 @@ import useDocTitle from "../../../../hooks/useDocTitle";
 import { Item, Span } from "../../../citizen/citizen-info";
 import Code10 from "../../../../interfaces/Code10";
 import Select, { Value } from "../../../../components/select";
+import Loader from "../../../../components/loader";
 
 interface Props {
   officer: Officer | null;
   logs: OfficerLog[] | undefined;
   departments: Department[];
   codes: Code10[];
+  loading: boolean;
   getOfficerById: (officerId: string) => void;
   updateOfficerById: (officerId: string, data: UpdateOfficerData) => Promise<boolean>;
   getDepartments: (type: "admin" | "leo") => void;
@@ -35,6 +37,7 @@ const ManageOfficerPage: React.FC<Props> = ({
   departments,
   logs,
   codes,
+  loading,
   getOfficerById,
   updateOfficerById,
   getDepartments,
@@ -80,6 +83,14 @@ const ManageOfficerPage: React.FC<Props> = ({
     }
   }
 
+  if (loading) {
+    return (
+      <AdminLayout>
+        <Loader />
+      </AdminLayout>
+    );
+  }
+
   return (
     <AdminLayout>
       <h1 className="h2 mb-3">Managing Officer: {officer?.officer_name}</h1>
@@ -92,6 +103,7 @@ const ManageOfficerPage: React.FC<Props> = ({
             </label>
 
             <Select
+              isClearable={false}
               theme="dark"
               value={{ label: status, value: status }}
               isMulti={false}
@@ -114,6 +126,7 @@ const ManageOfficerPage: React.FC<Props> = ({
             </label>
 
             <Select
+              isClearable={false}
               theme="dark"
               value={{ label: status2, value: status2 }}
               isMulti={false}
@@ -129,6 +142,7 @@ const ManageOfficerPage: React.FC<Props> = ({
           </label>
 
           <Select
+            isClearable={false}
             value={department}
             theme="dark"
             isMulti={false}
@@ -213,6 +227,7 @@ const mapToProps = (state: State) => ({
   departments: state.officers.departments,
   logs: state.admin.officer?.logs,
   codes: state.admin.codes,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, {

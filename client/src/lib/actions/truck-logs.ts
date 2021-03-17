@@ -36,6 +36,7 @@ export const createTruckLog = (data: object) => async (
         type: CREATE_TRUCK_LOG,
       });
 
+      notify("Successfully created truck-log").success();
       return true;
     } else {
       notify(res.data.error).warn();

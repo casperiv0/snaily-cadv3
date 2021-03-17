@@ -53,6 +53,8 @@ interface IDispatch {
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: SET_ADMIN_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/admin/management/members", "GET");
 
@@ -64,10 +66,13 @@ export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_MEMBERS, e);
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 
 export const getMemberById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: SET_ADMIN_LOADING, loading: true });
+
   try {
     const res = await handleRequest(`/admin/management/members/${id}`, "GET");
 
@@ -79,6 +84,7 @@ export const getMemberById = (id: string) => async (dispatch: Dispatch<IDispatch
     }
   } catch (e) {
     Logger.error(GET_MEMBER_BY_ID, e);
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 
@@ -198,6 +204,8 @@ export const declineUser = (id: string) => async (dispatch: Dispatch<IDispatch>)
 };
 
 export const getAllCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: SET_ADMIN_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/admin/management/citizens", "GET");
 
@@ -209,6 +217,7 @@ export const getAllCitizens = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_CITIZENS, e);
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 
@@ -241,8 +250,6 @@ export const getCompanies = () => async (dispatch: Dispatch<IDispatch>) => {
         companies: res.data.companies || [],
       });
     }
-
-    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   } catch (e) {
     Logger.error(GET_COMPANIES, e);
 
@@ -299,6 +306,8 @@ export const updateCadSettings = (data: UpdateCADSettings) => async (
 };
 
 export const getAllOfficers = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: SET_ADMIN_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/admin/management/officers", "GET");
 
@@ -310,10 +319,13 @@ export const getAllOfficers = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_ALL_OFFICERS, e);
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 
 export const getOfficerById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: SET_ADMIN_LOADING, loading: true });
+
   try {
     const res = await handleRequest(`/admin/management/officers/${id}`, "GET");
 
@@ -328,6 +340,7 @@ export const getOfficerById = (id: string) => async (dispatch: Dispatch<IDispatc
     }
   } catch (e) {
     Logger.error(GET_ALL_OFFICERS, e);
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 
@@ -409,6 +422,8 @@ export const acceptOrDeclineRequest = (
 };
 
 export const getPenalCodes = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: SET_ADMIN_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/admin/management/penal-codes", "GET");
 
@@ -420,6 +435,7 @@ export const getPenalCodes = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_PENAL_CODES, e);
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 
@@ -489,6 +505,8 @@ export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
 };
 
 export const get10Codes = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: SET_ADMIN_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/admin/management/10-codes", "GET");
 
@@ -500,6 +518,7 @@ export const get10Codes = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
+    dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 

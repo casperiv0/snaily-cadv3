@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import State from "../../interfaces/State";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import { useObserver } from "../../hooks/useObserver";
 
 interface Props {
   penalCodes: PenalCode[];
@@ -17,22 +18,7 @@ interface Props {
 const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
   useDocTitle("Penal Codes");
   const [filtered, setFiltered] = React.useState<PenalCode[]>(penalCodes);
-  const [length, setLength] = React.useState<number>(15);
-
-  const observer = React.useRef<any>(null);
-  const lastRef = React.useCallback(
-    (node) => {
-      if (length > penalCodes.length) return;
-      if (observer.current) observer.current?.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setLength((prev) => prev + 15);
-        }
-      });
-      if (node) observer.current?.observe(node);
-    },
-    [penalCodes, length],
-  );
+  const { ref, length } = useObserver<PenalCode>(penalCodes);
 
   React.useEffect(() => {
     getPenalCodes();
@@ -66,7 +52,7 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
         {filtered?.slice(0, length)?.map((code: PenalCode, idx: number) => {
           return (
             <li
-              ref={lastRef}
+              ref={ref}
               key={idx}
               id={`${idx}`}
               className="list-group-item bg-dark border-secondary"

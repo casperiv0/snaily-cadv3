@@ -114,8 +114,7 @@ router.put(
           );
         }
       } else {
-        if (!code[0]) return;
-        if (code[0]?.should_do === "set_off_duty") {
+        if (code[0]?.should_do === "set_off_duty" || !code[0]) {
           await processQuery(
             "UPDATE `officer_logs` SET `active` = ?, `ended_at` = ? WHERE `id` = ?",
             ["0", timeMs, officerLog[0]?.id],

@@ -74,6 +74,12 @@ export const setStatus = (
         status: res.data.officer.status,
         status2: res.data.officer.status2,
       });
+
+      notify(
+        `Successfully updated status to ${status2.startsWith("----") ? status : status2}`,
+      ).success({
+        autoClose: 2000,
+      });
     }
   } catch (e) {
     Logger.error(SET_STATUS, e);

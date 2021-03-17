@@ -25,6 +25,16 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   if (weapon && citizenId && status) {
     const id = uuidv4();
     const serial = serial_number ? serial_number : generateString(10);
+    const statuses = await processQuery("SELECT * FROM `legal_statuses`");
+
+    if (
+      statuses.map((s) => s?.name?.toLowerCase()).includes(status.toLowerCase(status.toLowerCase()))
+    ) {
+      return res.json({
+        error: "Could not find that `status`",
+        status: "error",
+      });
+    }
 
     await processQuery(
       "INSERT INTO `registered_weapons` (`id`, `owner`, `citizen_id`, `weapon`, `serial_number`, `status`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)",

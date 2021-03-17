@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
+import Loader from "../../../../components/loader";
 import Select from "../../../../components/select";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import CadInfo from "../../../../interfaces/CadInfo";
 import Match from "../../../../interfaces/Match";
 import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
@@ -22,7 +24,8 @@ interface Props {
   member: User | null;
   user: User | null;
   match: Match;
-  cad: any;
+  cad: CadInfo | null;
+  loading: boolean;
   getMemberById: (id: string) => void;
   updateMemberPerms: (id: string, data: object) => void;
   unBanMember: (id: string) => void;
@@ -35,6 +38,7 @@ const ManageMember: React.FC<Props> = ({
   user: authenticatedUser,
   match,
   cad,
+  loading,
   getMemberById,
   updateMemberPerms,
   banMember,
@@ -49,6 +53,7 @@ const ManageMember: React.FC<Props> = ({
   const [emsFd, setEmsFd] = React.useState("");
   const [tow, setTow] = React.useState("");
   const [banReason, setBanReason] = React.useState("");
+  const [steamId, setSteamId] = React.useState("");
   useDocTitle(`Managing ${member?.username}`);
   const history = useHistory();
 
@@ -64,6 +69,7 @@ const ManageMember: React.FC<Props> = ({
       setEmsFd(member?.ems_fd);
       setTow(member?.tow);
       setSupervisor(member.supervisor);
+      setSteamId(member.steam_id);
     }
   }, [member]);
 
@@ -77,6 +83,7 @@ const ManageMember: React.FC<Props> = ({
       emsFd,
       tow,
       supervisor,
+      steam_id: steamId,
     });
   }
 
@@ -102,6 +109,14 @@ const ManageMember: React.FC<Props> = ({
     return (
       <AdminLayout>
         <AlertMessage message={{ msg: "Not found", type: "danger" }} />
+      </AdminLayout>
+    );
+  }
+
+  if (loading) {
+    return (
+      <AdminLayout>
+        <Loader />
       </AdminLayout>
     );
   }
@@ -215,7 +230,7 @@ const ManageMember: React.FC<Props> = ({
             ]}
           />
         </div>
-        {cad.tow_whitelisted === "1" ? (
+        {cad?.tow_whitelisted === "1" ? (
           <div className="mb-3">
             <label className="form-label" htmlFor="tow">
               {lang.auth.account.tow_access}
@@ -237,6 +252,18 @@ const ManageMember: React.FC<Props> = ({
             />
           </div>
         ) : null}
+
+        <div className="mb-3">
+          <label className="form-label" htmlFor="ems_fd">
+            Steam ID
+          </label>
+
+          <input
+            value={steamId}
+            onChange={(e) => setSteamId(e.target.value)}
+            className="form-control bg-dark border-dark text-light"
+          />
+        </div>
 
         <div className="mb-3 float-end">
           <Link className="btn btn-danger me-2" to="/admin/manage/members">
@@ -319,6 +346,7 @@ const mapToProps = (state: State) => ({
   member: state.admin.member,
   user: state.auth.user,
   cad: state.global.cadInfo,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, {

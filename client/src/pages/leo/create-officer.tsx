@@ -7,6 +7,7 @@ import Department from "../../interfaces/Department";
 import { connect } from "react-redux";
 import { createOfficer, getDepartments } from "../../lib/actions/officer";
 import useDocTitle from "../../hooks/useDocTitle";
+import Select, { Value } from "../../components/select";
 
 interface Props {
   departments: Department[];
@@ -17,7 +18,7 @@ interface Props {
 const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDepartments }) => {
   useDocTitle("Create Officer");
   const [officerName, setOfficerName] = React.useState<string>("");
-  const [officerDept, setOfficerDept] = React.useState<string>("");
+  const [officerDept, setOfficerDept] = React.useState<Value | null>(null);
   const [callSign, setCallSign] = React.useState<string>("");
   const history = useHistory();
 
@@ -30,7 +31,7 @@ const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDep
 
     const created = await createOfficer({
       name: officerName,
-      department: officerDept,
+      department: officerDept?.value,
       callsign: callSign,
     });
 
@@ -70,26 +71,15 @@ const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDep
           <label className="form-label" htmlFor="officerDept">
             {lang.officers.select_department}
           </label>
-          <select
-            className="form-control bg-dark border-dark text-light"
-            name="department"
-            id="department"
+
+          <Select
+            isClearable={false}
             value={officerDept}
-            onChange={(e) => setOfficerDept(e.target.value)}
-          >
-            <option>{lang.officers.select_department}..</option>
-            {!departments[0] ? (
-              <option>{lang.officers.no_departments}</option>
-            ) : (
-              departments.map((department, idx) => {
-                return (
-                  <option key={idx} id={`${idx}`} value={department.name}>
-                    {department.name}
-                  </option>
-                );
-              })
-            )}
-          </select>
+            theme="dark"
+            isMulti={false}
+            onChange={(v) => setOfficerDept(v)}
+            options={departments.map((dep) => ({ value: dep.name, label: dep.name }))}
+          />
         </div>
         <div className="mb-3 float-end">
           <Link className="btn btn-danger" to="/leo/my-officers">

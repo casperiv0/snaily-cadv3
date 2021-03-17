@@ -5,6 +5,9 @@ import State from "../../../interfaces/State";
 import { connect } from "react-redux";
 import { getMyDeputies, setEmsStatus } from "../../../lib/actions/ems-fd";
 import Deputy from "../../../interfaces/Deputy";
+import { Link } from "react-router-dom";
+import Select, { Value } from "../../select";
+import { notify } from "../../../lib/functions";
 
 interface Props {
   deputies: Deputy[];
@@ -13,7 +16,7 @@ interface Props {
 }
 
 const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsStatus }) => {
-  const [selected, setSelected] = React.useState("");
+  const [selected, setSelected] = React.useState<Value | null>(null);
   const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
@@ -22,8 +25,11 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!selected?.value) {
+      return notify("Must select an EMS/FD member before continuing").warn();
+    }
 
-    setEmsStatus(selected, "on-duty", "10-8");
+    setEmsStatus(selected?.value, "on-duty", "10-8");
 
     btnRef.current?.click();
   }
@@ -40,25 +46,22 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
             <label className="form-label" htmlFor="deputy">
               {lang.ems_fd.select_dept_2}
             </label>
-            <select
-              className="form-control bg-secondary border-secondary text-light"
-              id="deputy"
-              onChange={(e) => setSelected(e.target.value)}
-              value={selected}
-            >
-              <option value="">{lang.ems_fd.select_dept_2}...</option>
-              {!deputies[0] ? (
-                <option>{lang.ems_fd.no_dept}</option>
-              ) : (
-                deputies.map((deputy: Deputy, idx: number) => {
-                  return (
-                    <option key={idx} value={deputy.id}>
-                      {deputy.name}
-                    </option>
-                  );
-                })
-              )}
-            </select>
+
+            {!deputies[0] ? (
+              <p className="font-weight-bold">
+                You do not have any EMS/FD members!{" "}
+                <Link onClick={() => btnRef.current?.click()} to="/ems-fd/create">
+                  Create one here
+                </Link>
+              </p>
+            ) : (
+              <Select
+                isMulti={false}
+                onChange={(v) => setSelected(v)}
+                value={selected}
+                options={deputies.map((dep) => ({ label: dep.name, value: dep.id }))}
+              />
+            )}
           </div>
         </div>
         <div className="modal-footer">

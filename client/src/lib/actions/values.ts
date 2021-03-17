@@ -14,6 +14,7 @@ import {
   ADD_VALUE,
   GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
+  VALUES_SET_LOADING,
 } from "../types";
 
 interface IDispatch {
@@ -27,6 +28,7 @@ interface IDispatch {
   path?: string;
   error?: string;
   value?: Value;
+  loading?: boolean;
 }
 
 export const deleteValue = (id: string, path: ValuePaths) => async (
@@ -113,6 +115,8 @@ export const updateValueById = (path: string, id: string, data: { name: string }
 
 /* genders */
 export const getGenders = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/genders", "GET");
 
@@ -124,11 +128,14 @@ export const getGenders = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_GENDERS, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 
 /* ethnicities */
 export const getEthnicities = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/ethnicities", "GET");
 
@@ -140,11 +147,14 @@ export const getEthnicities = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_ETHNICITIES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 
 /* Legal Statuses */
 export const getLegalStatuses = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/legal-statuses", "GET");
 
@@ -156,11 +166,14 @@ export const getLegalStatuses = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_LEGAL_STATUSES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 
 /* weapons */
 export const getWeapons = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/weapons", "GET");
 
@@ -172,11 +185,14 @@ export const getWeapons = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_LEGAL_STATUSES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 
 /* vehicles */
 export const getVehicles = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/vehicles", "GET");
 
@@ -188,5 +204,6 @@ export const getVehicles = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_VEHICLES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };

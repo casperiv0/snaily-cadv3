@@ -74,8 +74,8 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
     [
       id,
       description,
-      caller,
-      location,
+      caller || "Unknown",
+      location || "Unknown",
       "Not assigned",
       "[]",
       JSON.stringify(coords),

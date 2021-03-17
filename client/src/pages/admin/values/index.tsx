@@ -19,10 +19,13 @@ import {
   deleteValue,
 } from "../../../lib/actions/values";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Loader from "../../../components/loader";
+import { useObserver } from "../../../hooks/useObserver";
 
 interface Props {
   values: any;
   match: Match;
+  loading: boolean;
   getDepartments: (type: "admin" | "leo") => void;
   getEthnicities: () => void;
   getGenders: () => void;
@@ -44,6 +47,7 @@ const paths: string[] = [
 const Values: React.FC<Props> = ({
   values,
   match,
+  loading,
   getDepartments,
   getEthnicities,
   getGenders,
@@ -55,6 +59,7 @@ const Values: React.FC<Props> = ({
   const [filtered, setFiltered] = React.useState<any>([]);
   const [filter, setFilter] = React.useState<string>("");
   const path: ValuePaths = match.params.path;
+  const { ref, length } = useObserver<Value>(values);
   useDocTitle(lang.admin.values[path].manage);
 
   React.useEffect(() => {
@@ -117,7 +122,10 @@ const Values: React.FC<Props> = ({
   return (
     <AdminLayout>
       <header className="d-flex justify-content-between">
-        <h4>{lang.admin.values[path].manage}</h4>
+        <div>
+          <h4 style={{ marginBottom: "0.2rem" }}>{lang.admin.values[path].manage}</h4>
+          <p style={{ marginTop: "0" }}>Total items: {values[path].length}</p>
+        </div>
 
         <div>
           <Link className="btn btn-primary" to={`/admin/values/${path}/add`}>
@@ -126,7 +134,7 @@ const Values: React.FC<Props> = ({
         </div>
       </header>
 
-      <ul className="list-group mt-3">
+      <div className="mt-3">
         <input
           type="text"
           value={filter}
@@ -136,47 +144,54 @@ const Values: React.FC<Props> = ({
         />
         {!values[path]?.[0] ? (
           <AlertMessage message={{ msg: lang.admin.values[path].none, type: "warning" }} />
+        ) : loading ? (
+          <Loader />
         ) : (
-          filtered
-            .sort((a: Value, _b: Value) => a?.defaults === "1")
-            .sort((a: Value, _b: Value) => a?.defaults === "1")
-            .map((value: Value, idx: number) => {
-              return (
-                <li
-                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
-                  key={idx}
-                  id={`${idx}`}
-                >
-                  <div>
-                    {++idx} | {value.name}
-                  </div>
+          <ul className="list-group">
+            {filtered
+              .slice(0, length)
+              .sort((a: Value, _b: Value) => a?.defaults === "1")
+              .sort((a: Value, _b: Value) => a?.defaults === "1")
+              .map((value: Value, idx: number) => {
+                return (
+                  <li
+                    ref={ref}
+                    className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                    key={idx}
+                    id={`${idx}`}
+                  >
+                    <div>
+                      {++idx} | {value.name}
+                    </div>
 
-                  <div>
-                    {value?.defaults && value.defaults === "0" ? (
-                      <>
-                        <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
-                          {lang.global.delete}
-                        </button>
-                        <Link
-                          className="btn btn-success ms-2"
-                          to={`/admin/values/${path}/${value.id}/edit`}
-                        >
-                          {lang.global.edit}
-                        </Link>
-                      </>
-                    ) : null}
-                  </div>
-                </li>
-              );
-            })
+                    <div>
+                      {value?.defaults && value.defaults === "0" ? (
+                        <>
+                          <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
+                            {lang.global.delete}
+                          </button>
+                          <Link
+                            className="btn btn-success ms-2"
+                            to={`/admin/values/${path}/${value.id}/edit`}
+                          >
+                            {lang.global.edit}
+                          </Link>
+                        </>
+                      ) : null}
+                    </div>
+                  </li>
+                );
+              })}
+          </ul>
         )}
-      </ul>
+      </div>
     </AdminLayout>
   );
 };
 
 const mapToProps = (state: State) => ({
   values: state.values,
+  loading: state.values.loading,
 });
 
 export default connect(mapToProps, {

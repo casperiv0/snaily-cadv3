@@ -9,14 +9,16 @@ import { Item, Span } from "../../../citizen/citizen-info";
 import Officer from "../../../../interfaces/Officer";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import Loader from "../../../../components/loader";
 
 interface Props {
   officers: Officer[];
+  loading: boolean;
   getAllOfficers: () => void;
   deleteCompanyById: (id: string) => void;
 }
 
-const OfficersManagementPage: React.FC<Props> = ({ officers, getAllOfficers }) => {
+const OfficersManagementPage: React.FC<Props> = ({ officers, loading, getAllOfficers }) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<Officer[]>(officers);
   useDocTitle("Officer Management");
@@ -54,6 +56,8 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, getAllOfficers }) =
           />
         ) : !filtered[0] ? (
           <AlertMessage message={{ msg: "No officer found with that name", type: "warning" }} />
+        ) : loading ? (
+          <Loader />
         ) : (
           <ul className="list-group">
             {filtered.map((officer: Officer, idx: number) => {
@@ -106,6 +110,7 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, getAllOfficers }) =
 
 const mapToProps = (state: State) => ({
   officers: state.admin.officers,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, { getAllOfficers })(OfficersManagementPage);
