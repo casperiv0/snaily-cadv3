@@ -17,6 +17,7 @@
 - [Troubleshooting](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Troubleshooting)
 - [Features](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/%E2%9C%A8-Features)
 - [Contributing](#contributing)
+- [Changelog](./CHANGELOG.md)
 - [Bugs](#bugs)
 - [License](#license)
 
