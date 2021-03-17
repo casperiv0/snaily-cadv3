@@ -59,10 +59,10 @@ const AddPenalCode: React.FC<Props> = ({ addPenalCode }) => {
         </div>
         <div className="mb-3 float-end">
           <Link className="btn btn-danger mx-2" to="/admin/manage/penal-codes">
-            Cancel
+            {window.lang.global.cancel}
           </Link>
           <button type="submit" className="btn btn-primary">
-            Add
+            {window.lang.admin.add_code}
           </button>
         </div>
       </form>

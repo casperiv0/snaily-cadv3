@@ -25,11 +25,11 @@ export const options = [
 export const shouldDoOptions = [
   {
     value: "set_status",
-    label: "Should set the status",
+    label: window.lang.admin.set_status,
   },
   {
     value: "set_off_duty",
-    label: "Should set the officer to off-duty",
+    label: window.lang.admin.set_off_duty,
   },
 ];
 
@@ -54,7 +54,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
   const history = useHistory();
-  useDocTitle("Add 10 Code");
+  useDocTitle(window.lang.admin.add_10_code);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -73,7 +73,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
 
   return (
     <AdminLayout>
-      <h1 className="h3">Add 10 code</h1>
+      <h1 className="h3">{window.lang.admin.add_10_code}</h1>
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
@@ -89,7 +89,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="what_pages">
-            Where should these codes be displayed
+            {window.lang.admin.code_where}
           </label>
           <Select
             closeMenuOnSelect={false}
@@ -100,7 +100,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="what_pages">
-            Select a color
+            {window.lang.admin.select_color}
           </label>
           <Select
             closeMenuOnSelect
@@ -111,7 +111,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="should_do">
-            What should this code do?
+            {window.lang.admin.what_it_do}
           </label>
           <Select
             closeMenuOnSelect
@@ -122,10 +122,10 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
         </div>
         <div className="mb-3 float-end">
           <Link className="btn btn-danger mx-2" to="/admin/manage/10-codes">
-            Cancel
+            {window.lang.global.cancel}
           </Link>
           <button type="submit" className="btn btn-primary">
-            Add
+            {window.lang.admin.add_code}
           </button>
         </div>
       </form>

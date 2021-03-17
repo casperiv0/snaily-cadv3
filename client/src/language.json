@@ -63,7 +63,7 @@
         "create_911_call": "Create 911 Call",
         "notepad": "Open Notepad",
         "penal_codes": "Penal Codes",
-        "panic_button": "has activated panic button",
+        "panic_button": "PANIC BUTTON",
         "active_erm_calls": "Active 911 Calls",
         "active_bolos": "Active Bolos",
         "active_officers": "Active Police Officers",
@@ -132,7 +132,7 @@
         "no_logs": "You don't have any truck logs!",
         "enter_trucker_name": "Enter Trucker Name",
         "enter_co_driver": "Enter Co-Driver Name",
-        "enter_starting_time": "Enter starting time",
+        "enter_starting_time": "Enter tarting time",
         "enter_vehicle_plate": "Enter vehicle plate",
         "create_truck_log": "Create Truck Log",
         "created_truck_log": "Successfully created truck log",
@@ -523,8 +523,8 @@
             "no_com": "There are no companies",
             "fired_em": "Successfully fired employee"
         },
-        "not_found": "Citizen was not found",
         "cannot_change_owner_rank": "Cannot change the owner's rank",
+        "not_found": "Citizen was not found",
         "managing_employee": "Managing employee:",
         "viewing_company": "Viewing Company",
         "company_not_found": "Company was not found",
@@ -587,10 +587,6 @@
         "deleted_dept": "Successfully Deleted ",
         "add_medical_record": "Add medical record"
     },
-    "notifications": {
-        "center": "Notification Center",
-        "no_notifications": "You don't have any notifications"
-    },
     "court": {
         "house": "San Andreas Courthouse",
         "request_expungement": "Request Expungement",
@@ -599,6 +595,10 @@
         "no_warrants": "You don't have any warrants.",
         "no_arr_reports": "You don't have any arrest reports.",
         "no_tickets": "You don't have any tickets."
+    },
+    "notifications": {
+        "center": "Notification Center",
+        "no_notifications": "You don't have any notifications"
     },
     "taxi": {
         "dash": "Taxi Dashboard",

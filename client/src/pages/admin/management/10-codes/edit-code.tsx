@@ -24,7 +24,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
   const history = useHistory();
-  useDocTitle("Edit 10 Code");
+  useDocTitle(window.lang.admin.edit_10_code);
 
   const value = {
     value: colorOptions.find((clr) => clr.value === color)?.value,
@@ -51,7 +51,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
 
   if (codes?.length > 0) {
     if (!value.value) {
-      return <AlertMessage message={{ msg: "Code not found", type: "danger" }} />;
+      return <AlertMessage message={{ msg: window.lang.admin.not_found, type: "danger" }} />;
     }
   }
 
@@ -90,7 +90,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="what_pages">
-            Where should these codes be displayed
+            {window.lang.admin.code_where}
           </label>
           <Select
             closeMenuOnSelect={false}
@@ -102,7 +102,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="what_pages">
-            Select a color
+            {window.lang.admin.select_color}
           </label>
           <Select
             closeMenuOnSelect
@@ -114,7 +114,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="should_do">
-            What should this code do?
+            {window.lang.admin.what_it_do}
           </label>
           <Select
             closeMenuOnSelect
@@ -126,10 +126,10 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
         </div>
         <div className="mb-3 float-end">
           <Link className="btn btn-danger mx-2" to="/admin/manage/10-codes">
-            Cancel
+            {window.lang.global.cancel}
           </Link>
           <button type="submit" className="btn btn-primary">
-            Update
+            {window.lang.global.update}
           </button>
         </div>
       </form>

@@ -101,6 +101,15 @@ const ProbablyNotInTheTranslateFile = {
     enable_disable_features: "Enable/Disable Features",
     value_not_found: "Value was not found",
     total_items: "Total items",
+    set_status: "Should set the status",
+    set_off_duty: "Should set the officer to off-duty",
+    add_10_code: "Add 10 Code",
+    code_where: "Where should these codes be displayed",
+    select_color: "Select a color",
+    what_it_do: "What should this code do?",
+    add_code: "Add",
+    edit_10_code: "Edit 10 Code",
+    not_found: "Code not found",
   },
 };
 
