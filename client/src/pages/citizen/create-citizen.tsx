@@ -31,7 +31,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   getLegalStatuses,
   createCitizen,
 }) => {
-  useDocTitle("Create citizen");
+  useDocTitle(window.lang.citizen.create_citizen);
   const [image, setImage] = React.useState<any>(null);
   const [name, setName] = React.useState<string>("");
   const [gender, setGender] = React.useState<string>("");
@@ -115,7 +115,7 @@ const CreateCitizenPage: React.FC<Props> = ({
       type: "text",
       value: phoneNumber,
       onChange: (e) => setPhoneNumber(e.target.value),
-      label: "Phone number",
+      label: window.lang.citizen.phone_number,
       id: "phone_nr",
     },
     {

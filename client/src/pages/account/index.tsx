@@ -33,7 +33,7 @@ const AccountPage: React.FC<Props> = ({ user }) => {
               {lang.auth.account.edit_password}
             </button>
             {user?.rank === "owner" ? (
-              <p>The owner is not able to delete their account.</p>
+              <p>{window.lang.account.owner_cannot_delete_account}</p>
             ) : (
               <button
                 data-bs-toggle="modal"
@@ -73,7 +73,7 @@ const AccountPage: React.FC<Props> = ({ user }) => {
           </Item>
 
           <Item id="steam">
-            <Span>Steam ID: </Span>
+            <Span>{window.lang.account.steam_id}: </Span>
             {user?.steam_id}
           </Item>
 

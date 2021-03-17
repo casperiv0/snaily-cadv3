@@ -81,13 +81,13 @@ const DispatchDash: React.FC<Props> = (props) => {
     <Layout fluid classes="pb-5 mt-5">
       {panic !== null ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
-          {panic.officer_name} has activated panic button
+          {panic.officer_name} {window.lang.global.panic_button}
           <DismissAlertBtn onClick={() => setPanic(null)} />
         </div>
       ) : null}
       {signal100 === "1" ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
-          Signal 100 is in effect
+          {window.lang.global.signal_100}
           <DismissAlertBtn onClick={() => setSignal100("0")} />
         </div>
       ) : null}

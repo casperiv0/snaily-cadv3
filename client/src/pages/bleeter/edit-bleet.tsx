@@ -69,7 +69,7 @@ const EditBleet: React.FC<Props> = ({ bleet, match, loading, user, getBleetById,
   }
 
   if (!loading && !bleet?.id) {
-    return <AlertMessage message={{ msg: "Bleet was not found", type: "danger" }} />;
+    return <AlertMessage message={{ msg: window.lang.bleeter.bleet_not_found, type: "danger" }} />;
   }
 
   return (

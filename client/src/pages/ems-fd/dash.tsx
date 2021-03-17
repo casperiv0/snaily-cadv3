@@ -26,7 +26,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
   const { get10Codes } = props;
   const location = useLocation();
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
-  useDocTitle("EMS-FD Dashboard");
+  useDocTitle(lang.ems_fd.ems_dash);
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
@@ -44,7 +44,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
     const unitsHandler = (unitIds: string[]) => {
       if (location.pathname !== "/ems-fd/dash") return;
       if (props.activeDeputy && unitIds.includes(props.activeDeputy?.id)) {
-        notify("You were assigned to a call!").success();
+        notify(window.lang.global.assigned_to_call).success();
         successSound.play();
       }
     };
@@ -72,7 +72,9 @@ const EmsFdDash: React.FC<Props> = (props) => {
 
         <div className="card-body row gap-2 px-4">
           {props.activeDeputy ? (
-            <h5 style={{ marginLeft: "-10px" }}>Currently active as: {props.activeDeputy?.name}</h5>
+            <h5 style={{ marginLeft: "-10px" }}>
+              {window.lang.global.currently_active_as} {props.activeDeputy?.name}
+            </h5>
           ) : null}
           <Link className="btn btn-primary col-md-3" to="/ems-fd/deputies">
             {lang.ems_fd.my_ems_fd}
@@ -91,7 +93,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
             data-bs-toggle="modal"
             data-bs-target="#addMedicalRecord"
           >
-            Add medical record
+            {window.lang.ems_fd.add_medical_record}
           </button>
 
           <button

@@ -1,6 +1,5 @@
 import * as React from "react";
 import Layout from "../../components/Layout";
-import lang from "../../language.json";
 import { createTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -11,7 +10,7 @@ interface Props {
 }
 
 const CreateTruckLogPage: React.FC<Props> = ({ createTruckLog }) => {
-  useDocTitle("Create truck log");
+  useDocTitle(window.lang.truck_logs.create_log);
   const [name, setName] = React.useState<string>("");
   const [date, setDate] = React.useState<string>("");
   const [coDriver, setCoDriver] = React.useState<string>("");
@@ -40,7 +39,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ createTruckLog }) => {
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="name">
-            {lang.truck_logs.enter_trucker_name}
+            {window.lang.truck_logs.enter_trucker_name}
           </label>
           <input
             type="text"
@@ -52,7 +51,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ createTruckLog }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="co_driver">
-            {lang.truck_logs.enter_co_driver}
+            {window.lang.truck_logs.enter_co_driver}
           </label>
           <input
             type="text"
@@ -64,7 +63,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ createTruckLog }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="date">
-            {lang.truck_logs.date}
+            {window.lang.truck_logs.date}
           </label>
           <input
             type="date"
@@ -76,7 +75,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ createTruckLog }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="start_time">
-            Enter starting time
+            {window.lang.truck_logs.enter_starting_time}
           </label>
           <input
             type="text"
@@ -88,7 +87,7 @@ const CreateTruckLogPage: React.FC<Props> = ({ createTruckLog }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="plate">
-            {lang.truck_logs.enter_vehicle_plate}
+            {window.lang.truck_logs.enter_vehicle_plate}
           </label>
           <input
             type="text"
@@ -100,10 +99,10 @@ const CreateTruckLogPage: React.FC<Props> = ({ createTruckLog }) => {
         </div>
         <div className="mb-3 float-end">
           <Link to="/truck-logs" className="btn btn-danger">
-            {lang.global.cancel}
+            {window.lang.global.cancel}
           </Link>
           <button className="btn btn-primary ms-2" type="submit">
-            {lang.truck_logs.create_truck_log}
+            {window.lang.truck_logs.create_truck_log}
           </button>
         </div>
       </form>

@@ -59,7 +59,7 @@ const TransferVehiclePage: React.FC<Props> = ({
   if (notFound) {
     return (
       <Layout>
-        <AlertMessage message={{ msg: "Not found", type: "danger" }} />
+        <AlertMessage message={{ msg: window.lang.citizen.vehicle_not_found, type: "danger" }} />
       </Layout>
     );
   }

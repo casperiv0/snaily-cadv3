@@ -36,7 +36,7 @@ const EditVehiclePage: React.FC<Props> = ({
   const [color, setColor] = React.useState("");
   const [status, setStatus] = React.useState<SelectValue | null>(null);
   const history = useHistory();
-  useDocTitle("Edit registered vehicle");
+  useDocTitle(window.lang.citizen.edit_reg_vehicle);
 
   React.useEffect(() => {
     getLegalStatuses();

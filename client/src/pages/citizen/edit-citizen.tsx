@@ -57,7 +57,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   const [ccw, setCcw] = React.useState<SelectValue | null>(null);
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
   const history = useHistory();
-  useDocTitle(`${citizen?.id ? `Editing citizen: ${name}` : ""}`);
+  useDocTitle(`${citizen?.id ? `${window.lang.citizen.editing_citizen}: ${name}` : ""}`);
 
   React.useEffect(() => {
     getGenders();
@@ -146,7 +146,7 @@ const CreateCitizenPage: React.FC<Props> = ({
       type: "text",
       value: phoneNumber,
       onChange: (e) => setPhoneNumber(e.target.value),
-      label: "Phone Number",
+      label: window.lang.citizen.phone_number,
       id: "phone_nr",
     },
     {

@@ -46,7 +46,7 @@ const RegisterVehiclePage: React.FC<Props> = ({
   const [citizenId, setCitizenId] = React.useState("");
   const [companyId, setCompanyId] = React.useState("");
   const history = useHistory();
-  useDocTitle("Register vehicle");
+  useDocTitle(window.lang.citizen.vehicle.reg_vehicle);
 
   React.useEffect(() => {
     getLegalStatuses();

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
 import Layout from "../../components/Layout";
-import lang from "../../language.json";
 import State from "../../interfaces/State";
 import Department from "../../interfaces/Department";
 import { connect } from "react-redux";
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDepartments }) => {
-  useDocTitle("Create Officer");
+  useDocTitle(window.lang.officers.create_officer);
   const [officerName, setOfficerName] = React.useState<string>("");
   const [officerDept, setOfficerDept] = React.useState<Value | null>(null);
   const [callSign, setCallSign] = React.useState<string>("");
@@ -45,7 +44,7 @@ const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDep
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="officerName">
-            Callsign
+            {window.lang.officers.callsign}
           </label>
           <input
             className="form-control bg-dark border-dark text-light"
@@ -57,7 +56,7 @@ const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDep
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="officerName">
-            {lang.record.officer_name}
+            {window.lang.record.officer_name}
           </label>
           <input
             className="form-control bg-dark border-dark text-light"
@@ -69,7 +68,7 @@ const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDep
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="officerDept">
-            {lang.officers.select_department}
+            {window.lang.officers.select_department}
           </label>
 
           <Select
@@ -83,10 +82,10 @@ const CreateOfficerPage: React.FC<Props> = ({ departments, createOfficer, getDep
         </div>
         <div className="mb-3 float-end">
           <Link className="btn btn-danger" to="/leo/my-officers">
-            {lang.global.cancel}
+            {window.lang.global.cancel}
           </Link>
           <button disabled={!departments[0]} type="submit" className="btn btn-primary ms-2">
-            {lang.officers.create_officer}
+            {window.lang.officers.create_officer}
           </button>
         </div>
       </form>

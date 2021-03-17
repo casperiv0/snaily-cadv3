@@ -39,11 +39,13 @@ const TaxiDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid classes="mt-5">
-      <h3>Taxi Dashboard - AOP: {aop}</h3>
+      <h3>
+        {window.lang.taxi.dash} - AOP: {aop}
+      </h3>
 
       <ul className="list-group">
         <li className="list-group-item bg-secondary d-flex justify-content-between">
-          <h4>Active taxi calls</h4>
+          <h4>{window.lang.taxi.active_calls}</h4>
 
           <button data-bs-toggle="modal" data-bs-target="#notepad" className="btn btn-dark">
             {lang.global.notepad}

@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import lang from "../../../language.json";
 import Modal, { XButton } from "..";
 import { CourtResults, searchCitizen, requestExpungement } from "../../../lib/actions/court";
 import State from "../../../interfaces/State";
@@ -57,7 +56,7 @@ const RequestExpungementModal: React.FC<Props> = ({
   return (
     <Modal size="xl" id="requestExpungementModal">
       <div className="modal-header">
-        <h5 className="modal-title">Request Expungement</h5>
+        <h5 className="modal-title">{window.lang.court.request_expungement}</h5>
         <XButton ref={btnRef} />
       </div>
 
@@ -65,7 +64,7 @@ const RequestExpungementModal: React.FC<Props> = ({
         <form id="name-form" onSubmit={onSubmit}>
           <div className="mb-3">
             <label className="form-label" htmlFor="name">
-              Enter your citizen name
+              {window.lang.court.citizen_name}
             </label>
 
             <div className="row">
@@ -78,7 +77,7 @@ const RequestExpungementModal: React.FC<Props> = ({
               </div>
               <div className="col-md-2">
                 <button form="name-form" type="submit" className="btn btn-primary w-100">
-                  Search
+                  {window.lang.global.search}
                 </button>
               </div>
             </div>
@@ -89,10 +88,10 @@ const RequestExpungementModal: React.FC<Props> = ({
           {courtResult !== null && (
             <div className="row">
               <div className="col-md-4 mb-3">
-                <h5>Warrants</h5>
+                <h5>{window.lang.record.warrants}</h5>
 
                 {courtResult.warrants.length <= 0 ? (
-                  <p>You don&apos;t have any warrants</p>
+                  <p>{window.lang.court.no_warrants}</p>
                 ) : (
                   <Select
                     onChange={(v: any) => setWarrants(v)}
@@ -109,7 +108,7 @@ const RequestExpungementModal: React.FC<Props> = ({
                 <h5>Arrest reports</h5>
 
                 {courtResult.arrestReports.length <= 0 ? (
-                  <p>You don&apos;t have any arrestReports</p>
+                  <p>{window.lang.court.no_arr_reports}</p>
                 ) : (
                   <Select
                     onChange={(v: any) => setArrReports(v)}
@@ -128,7 +127,7 @@ const RequestExpungementModal: React.FC<Props> = ({
                 <h5>Tickets</h5>
 
                 {courtResult.tickets.length <= 0 ? (
-                  <p>You don&apos;t have any tickets</p>
+                  <p>{window.lang.court.no_tickets}</p>
                 ) : (
                   <Select
                     onChange={(v: any) => setTickets(v)}
@@ -149,10 +148,10 @@ const RequestExpungementModal: React.FC<Props> = ({
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-secondary me-2" data-bs-dismiss="modal">
-          {lang.global.cancel}
+          {window.lang.global.cancel}
         </button>
         <button disabled={disabled} form="request-form" type="submit" className="btn btn-primary">
-          Request
+          {window.lang.global.request}
         </button>
       </div>
     </Modal>

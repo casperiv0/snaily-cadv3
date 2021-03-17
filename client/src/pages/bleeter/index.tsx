@@ -4,7 +4,6 @@ import Layout from "../../components/Layout";
 import Bleet from "../../interfaces/Bleet";
 import State from "../../interfaces/State";
 import { getBleetPosts } from "../../lib/actions/bleeter";
-import lang from "../../language.json";
 import BleetItem from "../../components/bleeter/bleetItem";
 import Loader from "../../components/loader";
 import AlertMessage from "../../components/alert-message";
@@ -31,14 +30,14 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
   return (
     <Layout classes="mt-5">
       <div className="pb-3 d-flex justify-content-between">
-        <h3>{lang.nav.bleeter}</h3>
+        <h3>{window.lang.nav.bleeter}</h3>
         <Link className="btn btn-primary" to="/bleeter/create">
-          Create bleet
+          {window.lang.bleeter.create_bleet}
         </Link>
       </div>
 
       {!bleets[0] ? (
-        <AlertMessage message={{ msg: lang.bleeter.no_bleet, type: "warning" }} />
+        <AlertMessage message={{ msg: window.lang.bleeter.no_bleet, type: "warning" }} />
       ) : (
         bleets &&
         bleets.map((bleet: Bleet, idx: number) => {

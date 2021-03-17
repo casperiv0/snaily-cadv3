@@ -12,7 +12,7 @@ interface Props {
 }
 
 const CourthousePage: React.FC<Props> = ({ requests, getExpungementRequests }) => {
-  useDocTitle("Courthouse");
+  useDocTitle(window.lang.court.house);
   React.useEffect(() => {
     getExpungementRequests();
   }, [getExpungementRequests]);
@@ -20,7 +20,7 @@ const CourthousePage: React.FC<Props> = ({ requests, getExpungementRequests }) =
   return (
     <Layout>
       <div className="d-flex justify-content-between">
-        <h1 className="h2">San Andreas Courthouse</h1>
+        <h1 className="h2">{window.lang.court.house}</h1>
 
         <div>
           <button
@@ -29,21 +29,21 @@ const CourthousePage: React.FC<Props> = ({ requests, getExpungementRequests }) =
             data-bs-target="#requestExpungementModal"
             className="btn btn-primary"
           >
-            Request Expungement
+            {window.lang.court.request_expungement}
           </button>
         </div>
       </div>
 
       {requests.length <= 0 ? (
-        <p>You don&apos;t have any requests. FYI: declined request get deleted</p>
+        <p>{window.lang.court.no_requests}</p>
       ) : (
         <table className="table table-dark">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Warrants</th>
-              <th scope="col">Arrest reports</th>
-              <th scope="col">Tickets</th>
+              <th scope="col">{window.lang.record.warrants}</th>
+              <th scope="col">{window.lang.record.arr_rep}</th>
+              <th scope="col">{window.lang.record.tickets}</th>
             </tr>
           </thead>
           <tbody>

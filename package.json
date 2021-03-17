@@ -12,7 +12,8 @@
     "update": "node ./scripts/auto-update.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prettier": "prettier --check ."
+    "prettier": "prettier --check .",
+    "translation:generate": "node scripts/generate-lang.js"
   },
   "repository": {
     "type": "git",

@@ -114,7 +114,7 @@ const Values: React.FC<Props> = ({
   if (!paths.includes(path)) {
     return (
       <Layout>
-        <AlertMessage message={{ msg: "Value not found", type: "danger" }} />
+        <AlertMessage message={{ msg: window.lang.admin.value_not_found, type: "danger" }} />
       </Layout>
     );
   }
@@ -124,7 +124,9 @@ const Values: React.FC<Props> = ({
       <header className="d-flex justify-content-between">
         <div>
           <h4 style={{ marginBottom: "0.2rem" }}>{lang.admin.values[path].manage}</h4>
-          <p style={{ marginTop: "0" }}>Total items: {values[path].length}</p>
+          <p style={{ marginTop: "0" }}>
+            {window.lang.admin.total_items}: {values[path].length}
+          </p>
         </div>
 
         <div>

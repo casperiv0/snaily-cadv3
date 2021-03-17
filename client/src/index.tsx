@@ -1,3 +1,14 @@
+import lang from "./language.json";
+
+declare global {
+  interface Window {
+    /**
+     * The imported language file for SnailyCAD
+     */
+    lang: any;
+  }
+}
+
 import "./styles/global.css";
 import "./lib/socket";
 import * as React from "react";
@@ -83,6 +94,8 @@ const OfficersManagementPage = React.lazy(
 const ManageOfficerPage = React.lazy(
   () => import("./pages/admin/management/officers/manage-officer"),
 );
+
+window.lang = lang;
 
 const CadSettingsPage = React.lazy(() => import("./pages/admin/cad-settings"));
 const Map = React.lazy(() => import("./pages/dispatch/map"));

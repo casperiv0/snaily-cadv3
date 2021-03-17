@@ -27,7 +27,7 @@ const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer, getMyOfficer
         {lang.global.back_to_dashboard}
       </Link>
       <Link className="btn btn-primary text-light w-100 p-2 my-2" to="/leo/my-logs">
-        My officer logs
+        {window.lang.officers.logs}
       </Link>
       <Link className="btn btn-dark text-light w-100 p-2" to="/leo/officers/create">
         {lang.officers.create_an_officer}
@@ -35,7 +35,7 @@ const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer, getMyOfficer
 
       <ul className="list-group mt-2">
         {!officers[0] ? (
-          <p>You don not have any officers.</p>
+          <p>{window.lang.officers.no_officers}</p>
         ) : (
           officers.map((officer: Officer, idx: number) => {
             return (

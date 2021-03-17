@@ -13,7 +13,7 @@ interface Props {
 const CreateDeputyPage: React.FC<Props> = ({ createEmsFdDeputy }) => {
   const [name, setName] = React.useState<string>("");
   const history = useHistory();
-  useDocTitle("Create EMS/FD Deputy");
+  useDocTitle(lang.ems_fd.create_a_dept);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();

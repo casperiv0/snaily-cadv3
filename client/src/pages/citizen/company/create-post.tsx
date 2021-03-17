@@ -16,7 +16,7 @@ const CreatePost: React.FC<Props> = ({ match, createCompanyPost }) => {
   const [title, setTitle] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const { companyId, citizenId } = match.params;
-  useDocTitle("Create company post");
+  useDocTitle(window.lang.citizen.create_company_post);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

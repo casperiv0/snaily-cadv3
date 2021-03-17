@@ -89,7 +89,7 @@ const CitizensPage: React.FC<Props> = (props) => {
             data-bs-target="#callTaxiModal"
             className="col ms-1 btn btn-primary"
           >
-            Create taxi call
+            {window.lang.taxi.create_taxi_call}
           </button>
         </div>
       </div>

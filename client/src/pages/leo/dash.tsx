@@ -57,7 +57,6 @@ const LeoDash: React.FC<Props> = (props) => {
   }, [time]);
 
   React.useEffect(() => {
-    document.title = "LEO Dashboard";
     getPenalCodes();
   }, [getPenalCodes]);
 
@@ -97,7 +96,7 @@ const LeoDash: React.FC<Props> = (props) => {
     const unitsHandler = (unitIds: string[]) => {
       if (location.pathname !== "/leo/dash") return;
       if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
-        notify("You were assigned to a call!").success();
+        notify(window.lang.global.assigned_to_call).success();
         successSound.play();
       }
     };
@@ -114,13 +113,13 @@ const LeoDash: React.FC<Props> = (props) => {
     <Layout fluid>
       {panic !== null ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
-          {panic.officer_name} has activated panic button
+          {panic.officer_name} {window.lang.global.panic_button}
           <DismissAlertBtn onClick={() => setPanic(null)} />
         </div>
       ) : null}
       {signal100 === "1" ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
-          Signal 100 is in effect
+          {window.lang.global.signal_100}
           <DismissAlertBtn onClick={() => setSignal100("0")} />
         </div>
       ) : null}

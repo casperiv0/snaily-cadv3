@@ -33,7 +33,7 @@ const CompanyPage: React.FC<Props> = ({
   getCompanyById,
 }) => {
   const { companyId, citizenId } = match.params;
-  useDocTitle(company?.id ? `Viewing company: ${company.name}` : "Company");
+  useDocTitle(company?.id ? `${window.lang.citizen.viewing_company}: ${company.name}` : "Company");
 
   React.useEffect(() => {
     getCitizenById(citizenId);
@@ -43,7 +43,7 @@ const CompanyPage: React.FC<Props> = ({
   if (company !== null && !company) {
     return (
       <Layout>
-        <AlertMessage message={{ msg: "Company not found", type: "danger" }} />
+        <AlertMessage message={{ msg: window.lang.citizen.company_not_found, type: "danger" }} />
       </Layout>
     );
   }

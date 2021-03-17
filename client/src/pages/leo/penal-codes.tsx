@@ -16,7 +16,7 @@ interface Props {
 }
 
 const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
-  useDocTitle("Penal Codes");
+  useDocTitle(lang.global.penal_codes);
   const [filtered, setFiltered] = React.useState<PenalCode[]>(penalCodes);
   const { ref, length } = useObserver<PenalCode>(penalCodes);
 
@@ -39,7 +39,7 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
   return (
     <Layout classes="mt-5 pb-5">
       <Link className="btn btn-secondary mb-2" to="/leo/dash">
-        Go back
+        {window.lang.global.go_back}
       </Link>
 
       <ul className="list-group">
