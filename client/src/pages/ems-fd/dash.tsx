@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
@@ -14,6 +14,7 @@ import Deputy from "../../interfaces/Deputy";
 import { get10Codes } from "../../lib/actions/admin";
 import AddMedicalRecordModal from "../../components/modals/ems-fd/addMedicalRecordModal";
 import useDocTitle from "../../hooks/useDocTitle";
+import { notify, playSound } from "../../lib/functions";
 
 interface Props {
   aop: string | null;
@@ -23,6 +24,7 @@ interface Props {
 
 const EmsFdDash: React.FC<Props> = (props) => {
   const { get10Codes } = props;
+  const location = useLocation();
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   useDocTitle("EMS-FD Dashboard");
 
@@ -35,6 +37,25 @@ const EmsFdDash: React.FC<Props> = (props) => {
       socket.off("UPDATE_AOP", handler);
     };
   }, []);
+
+  React.useEffect(() => {
+    const successSound = playSound("/sounds/success.mp3");
+
+    const unitsHandler = (unitIds: string[]) => {
+      if (location.pathname !== "/ems-fd/dash") return;
+      if (props.activeDeputy && unitIds.includes(props.activeDeputy?.id)) {
+        notify("You were assigned to a call!").success();
+        successSound.play();
+      }
+    };
+
+    socket.on("UPDATE_ASSIGNED_UNITS", unitsHandler);
+
+    return () => {
+      socket.off("UPDATE_ASSIGNED_UNITS", unitsHandler);
+      successSound.stop();
+    };
+  }, [props.activeDeputy, location]);
 
   React.useEffect(() => {
     get10Codes();

@@ -6,7 +6,6 @@
 ![stars](https://img.shields.io/github/stars/dev-caspertheghost/snaily-cadv3?style=flat-square&color=gr)
 ![issues](https://img.shields.io/github/issues/dev-caspertheghost/snaily-cadv3?style=flat-square)
 
-
 💻 A Free, fast and real time open source Computer Aided Dispatch (CAD) for FiveM, this is a web based integration for communities who love police roleplaying and dispatching.
 
 ## Table of contents

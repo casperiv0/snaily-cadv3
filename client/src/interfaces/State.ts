@@ -103,6 +103,7 @@ interface State {
     departments: Value[];
     error: string | null;
     value: Value | null;
+    loading: boolean;
   };
   admin: {
     error: string | null;

@@ -9,6 +9,7 @@ import { Span } from "../../../citizen/citizen-info";
 import PenalCode from "../../../../interfaces/PenalCode";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import Loader from "../../../../components/loader";
+import { useObserver } from "../../../../hooks/useObserver";
 
 interface Props {
   codes: PenalCode[];
@@ -25,6 +26,7 @@ const PenalCodesManagement: React.FC<Props> = ({
 }) => {
   const [filtered, setFiltered] = React.useState(codes);
   const [filter, setFilter] = React.useState("");
+  const { ref, length } = useObserver<PenalCode>(codes);
   useDocTitle("Penal Code Management");
 
   React.useEffect(() => {
@@ -71,9 +73,10 @@ const PenalCodesManagement: React.FC<Props> = ({
           <Loader />
         ) : (
           <ul className="list-group">
-            {filtered?.map((code: PenalCode, idx: number) => {
+            {filtered.slice(0, length)?.map((code: PenalCode, idx: number) => {
               return (
                 <li
+                  ref={ref}
                   key={code.id}
                   className="list-group-item bg-dark border-secondary d-flex justify-content-between"
                 >

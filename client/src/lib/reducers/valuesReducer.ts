@@ -13,6 +13,7 @@ import {
   ADD_VALUE,
   GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
+  VALUES_SET_LOADING,
 } from "../types";
 
 const initState: State["values"] = {
@@ -24,6 +25,7 @@ const initState: State["values"] = {
   vehicles: [],
   error: null,
   value: null,
+  loading: true,
 };
 
 type Actions =
@@ -71,40 +73,50 @@ type Actions =
     }
   | {
       type: typeof UPDATE_VALUE_BY_ID;
+    }
+  | {
+      type: typeof VALUES_SET_LOADING;
+      loading: boolean;
     };
 
-export default function valuesReducer(state = initState, action: Actions) {
+export default function valuesReducer(state = initState, action: Actions): State["values"] {
   switch (action.type) {
     case "GET_GENDERS":
       return {
         ...state,
         genders: action.genders,
+        loading: false,
       };
 
     case "GET_ETHNICITIES":
       return {
         ...state,
         ethnicities: action.ethnicities,
+        loading: false,
       };
     case "GET_LEGAL_STATUSES":
       return {
         ...state,
         "legal-statuses": action.legalStatuses,
+        loading: false,
       };
     case "GET_WEAPONS":
       return {
         ...state,
         weapons: action.weapons,
+        loading: false,
       };
     case "GET_VEHICLES":
       return {
         ...state,
         vehicles: action.vehicles,
+        loading: false,
       };
     case "GET_ADMIN_DEPARTMENTS":
       return {
         ...state,
         departments: action.departments,
+        loading: false,
       };
     case "DELETE_VALUE":
       return {
@@ -119,6 +131,11 @@ export default function valuesReducer(state = initState, action: Actions) {
     case "UPDATE_VALUE_BY_ID":
       return {
         ...state,
+      };
+    case "VALUES_SET_LOADING":
+      return {
+        ...state,
+        loading: action.loading,
       };
     default:
       return {
