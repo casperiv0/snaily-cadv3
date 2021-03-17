@@ -166,8 +166,8 @@ const RegisterVehiclePage: React.FC<Props> = ({
           <Select
             isMulti={false}
             theme="dark"
-            isClearable={false}
-            onChange={(v) => setCompanyId(v.value)}
+            isClearable
+            onChange={(v) => setCompanyId(v?.value)}
             options={companies.map((company) => ({
               value: company.id,
               label: company.name,
