@@ -35,17 +35,6 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   if (plate && status && color && vehicle && citizenId) {
     // replace "0" with "O"
     const parsedPlate = plate.replace(/[oO]/g, "0");
-    const statuses = await processQuery("SELECT * FROM `legal_statuses`");
-
-    if (
-      statuses.map((s) => s?.name?.toLowerCase()).includes(status.toLowerCase(status.toLowerCase()))
-    ) {
-      return res.json({
-        error: "Could not find that `status`",
-        status: "error",
-      });
-    }
-
     const citizen = await processQuery(
       "SELECT `full_name`, `business_id` FROM `citizens` WHERE `id` = ?",
       [citizenId],
