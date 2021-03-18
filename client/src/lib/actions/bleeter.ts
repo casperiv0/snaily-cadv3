@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import {
   GET_BLEETS,
   GET_BLEET_BY_ID,
@@ -7,11 +7,9 @@ import {
   UPDATE_BLEET,
   DELETE_BLEET_BY_ID,
   CREATE_BLEET,
-  SET_MESSAGE,
 } from "../types";
 import Bleet from "../../interfaces/Bleet";
 import Logger from "../Logger";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -19,7 +17,6 @@ interface IDispatch {
   bleets?: Bleet[];
   bleet?: Bleet;
   error?: string;
-  message?: Message;
 }
 
 export const getBleetPosts = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -62,7 +59,7 @@ export const getBleetById = (id: string) => async (dispatch: Dispatch<IDispatch>
 
 export const createBleet = (data: { title: string; body: string; image: any }) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean | string> => {
   try {
     const { title, body, image } = data;
 
@@ -80,19 +77,21 @@ export const createBleet = (data: { title: string; body: string; image: any }) =
       dispatch({
         type: CREATE_BLEET,
       });
-      window.location.href = `/bleet/${res.data.id}`;
+
+      return `/bleet/${res.data.id}`;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_BLEET, e);
+    return false;
   }
 };
 
-export const updateBleet = (data: object, id: string) => async (dispatch: Dispatch<IDispatch>) => {
+export const updateBleet = (data: object, id: string) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean | string> => {
   try {
     const res = await handleRequest(`/bleeter/${id}`, "PUT", data);
 
@@ -100,15 +99,16 @@ export const updateBleet = (data: object, id: string) => async (dispatch: Dispat
       dispatch({
         type: UPDATE_BLEET,
       });
-      return (window.location.href = `/bleet/${id}`);
+
+      notify("Successfully updated bleet").success();
+      return `/bleet/${id}`;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(GET_BLEET_BY_ID, e);
+    return false;
   }
 };
 
@@ -121,10 +121,11 @@ export const deleteBleet = (id: string) => async (dispatch: Dispatch<IDispatch>)
         type: DELETE_BLEET_BY_ID,
       });
 
+      notify("Successfully deleted bleet").success();
       return true;
+    } else {
+      return false;
     }
-
-    return false;
   } catch (e) {
     Logger.error(DELETE_BLEET_BY_ID, e);
   }

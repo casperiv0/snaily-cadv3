@@ -4,7 +4,7 @@ import Logger from "../Logger";
 import socket from "../socket";
 import lang from "../../language.json";
 import { Dispatch } from "react";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import {
   GET_CURRENT_OFFICER_STATUS,
   SET_STATUS,
@@ -14,13 +14,11 @@ import {
   GET_DEPARTMENTS,
   NAME_SEARCH,
   PLATE_SEARCH,
-  SET_MESSAGE,
   WEAPON_SEARCH,
   GET_ADMIN_DEPARTMENTS,
   SAVE_NOTE,
   GET_MY_OFFICER_LOGS,
 } from "../types";
-import Message from "../../interfaces/Message";
 import PenalCode from "../../interfaces/PenalCode";
 
 interface IDispatch {
@@ -32,7 +30,6 @@ interface IDispatch {
   departments?: Department[];
   error?: string;
   search?: object;
-  message?: Message;
   penalCodes?: PenalCode[];
   names?: string[];
   logs?: OfficerLog[];
@@ -77,6 +74,12 @@ export const setStatus = (
         status: res.data.officer.status,
         status2: res.data.officer.status2,
       });
+
+      notify(
+        `Successfully updated status to ${status2.startsWith("----") ? status : status2}`,
+      ).success({
+        autoClose: 2000,
+      });
     }
   } catch (e) {
     Logger.error(SET_STATUS, e);
@@ -113,18 +116,23 @@ export const getMyOfficerLogs = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createOfficer = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const createOfficer = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/officer/my-officers", "POST", data);
 
     if (isSuccess(res)) {
       dispatch({ type: CREATE_OFFICER });
-      window.location.href = "/leo/my-officers";
+
+      return true;
     } else {
-      dispatch({ type: SET_MESSAGE, message: { msg: res.data.error, type: "warning" } });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_OFFICER, e);
+    return false;
   }
 };
 
@@ -137,10 +145,8 @@ export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IDispatch
         type: DELETE_OFFICER_BY_ID,
         officers: res.data.officers,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.officers.delete_officer_success, type: "success" },
-      });
+
+      notify(lang.officers.delete_officer_success).success();
     }
   } catch (e) {
     Logger.error(DELETE_OFFICER_BY_ID, e);
@@ -202,10 +208,8 @@ export const saveNote = (citizenId: string, note: string) => async (
       dispatch({
         type: SAVE_NOTE,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { type: "success", msg: "Successfully added note" },
-      });
+
+      notify("Successfully added note").success();
     }
   } catch (e) {
     Logger.error(SAVE_NOTE, e);

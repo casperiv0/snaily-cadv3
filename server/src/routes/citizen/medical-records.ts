@@ -26,9 +26,16 @@ router.post("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
       [citizenId, req.user?.id],
     );
 
+    if (!citizen[0]) {
+      return res.json({
+        error: "Citizen was not found",
+        status: "error",
+      });
+    }
+
     await processQuery(
       "INSERT INTO `medical_records` (`id`, `type`, `short_info`, `name`, `citizen_id`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, type, shortInfo, citizen[0].full_name, citizenId, req.user?.id],
+      [id, type, shortInfo, citizen[0]?.full_name, citizenId, req.user?.id],
     );
 
     return res.json({ status: "success" });

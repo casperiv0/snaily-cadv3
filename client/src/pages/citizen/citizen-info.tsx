@@ -12,13 +12,11 @@ import RegisteredVehicles from "../../components/citizen/vehicles/RegisteredVehi
 import MedicalRecords from "../../components/citizen/MedicalRecords";
 import AlertMessage from "../../components/alert-message";
 import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
-import Message from "../../interfaces/Message";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
   citizen: Citizen | null;
   match: Match;
-  message: Message | null;
   getCitizenById: (id: string) => void;
   deleteCitizen: (id: string) => void;
 }
@@ -33,13 +31,7 @@ export const Item: React.FC<{ id: string }> = ({ id, children }) => {
   );
 };
 
-const CitizenInfoPage: React.FC<Props> = ({
-  message,
-  citizen,
-  match,
-  getCitizenById,
-  deleteCitizen,
-}) => {
+const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, deleteCitizen }) => {
   useDocTitle(citizen?.id ? `Viewing citizen: ${citizen.full_name}` : "Citizens");
   const citizenId = match.params.id;
 
@@ -48,7 +40,7 @@ const CitizenInfoPage: React.FC<Props> = ({
   }, [getCitizenById, citizenId]);
 
   if (!citizen) {
-    return null;
+    return <AlertMessage message={{ msg: "Citizen was not found", type: "danger" }} dismissible />;
   }
 
   function handleDelete() {
@@ -57,7 +49,6 @@ const CitizenInfoPage: React.FC<Props> = ({
 
   return (
     <Layout fluid>
-      <AlertMessage message={message} dismissible />
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h3>{lang.admin.cad_settings.general_info}</h3>
@@ -149,7 +140,6 @@ const CitizenInfoPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   citizen: state.citizen.citizen,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getCitizenById, deleteCitizen })(CitizenInfoPage);

@@ -5,7 +5,7 @@ import { create911Call } from "../../lib/actions/911-calls";
 import { connect } from "react-redux";
 
 interface Props {
-  create911Call: (data: object) => void;
+  create911Call: (data: object) => Promise<boolean>;
 }
 
 const Call911Modal: React.FC<Props> = ({ create911Call }) => {
@@ -14,20 +14,22 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
   const [caller, setCaller] = React.useState<string>("");
   const btnRef = React.createRef<HTMLButtonElement>();
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    create911Call({
+    const created = await create911Call({
       description,
       location,
       caller,
     });
 
-    btnRef.current?.click();
+    if (created === true) {
+      btnRef.current?.click();
 
-    setDescription("");
-    setLocation("");
-    setCaller("");
+      setDescription("");
+      setLocation("");
+      setCaller("");
+    }
   }
 
   return (

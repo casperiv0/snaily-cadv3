@@ -1,11 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import AlertMessage from "../../../../components/alert-message";
+import Loader from "../../../../components/loader";
+import Select from "../../../../components/select";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import CadInfo from "../../../../interfaces/CadInfo";
 import Match from "../../../../interfaces/Match";
-import Message from "../../../../interfaces/Message";
 import State from "../../../../interfaces/State";
 import User from "../../../../interfaces/User";
 import lang from "../../../../language.json";
@@ -19,24 +21,24 @@ import {
 import { Item, Span } from "../../../citizen/citizen-info";
 
 interface Props {
-  message: Message | null;
   member: User | null;
   user: User | null;
   match: Match;
-  cad: any;
+  cad: CadInfo | null;
+  loading: boolean;
   getMemberById: (id: string) => void;
   updateMemberPerms: (id: string, data: object) => void;
   unBanMember: (id: string) => void;
   banMember: (id: string, banReason: string) => void;
-  removeUser: (id: string) => void;
+  removeUser: (id: string) => Promise<boolean>;
 }
 
 const ManageMember: React.FC<Props> = ({
   member,
   user: authenticatedUser,
-  message,
   match,
   cad,
+  loading,
   getMemberById,
   updateMemberPerms,
   banMember,
@@ -51,7 +53,9 @@ const ManageMember: React.FC<Props> = ({
   const [emsFd, setEmsFd] = React.useState("");
   const [tow, setTow] = React.useState("");
   const [banReason, setBanReason] = React.useState("");
+  const [steamId, setSteamId] = React.useState("");
   useDocTitle(`Managing ${member?.username}`);
+  const history = useHistory();
 
   React.useEffect(() => {
     getMemberById(id);
@@ -65,6 +69,7 @@ const ManageMember: React.FC<Props> = ({
       setEmsFd(member?.ems_fd);
       setTow(member?.tow);
       setSupervisor(member.supervisor);
+      setSteamId(member.steam_id);
     }
   }, [member]);
 
@@ -78,10 +83,13 @@ const ManageMember: React.FC<Props> = ({
       emsFd,
       tow,
       supervisor,
+      steam_id: steamId,
     });
   }
 
-  function handleBan() {
+  function handleBan(e: React.FormEvent) {
+    e.preventDefault();
+
     banMember(member?.id!, banReason);
   }
 
@@ -89,8 +97,12 @@ const ManageMember: React.FC<Props> = ({
     unBanMember(member?.id!);
   }
 
-  function handleRemove() {
-    removeUser(member?.id!);
+  async function handleRemove() {
+    const deleted = await removeUser(member?.id!);
+
+    if (deleted === true) {
+      history.push("/admin/manage/members");
+    }
   }
 
   if (member !== null && !member) {
@@ -101,10 +113,16 @@ const ManageMember: React.FC<Props> = ({
     );
   }
 
+  if (loading) {
+    return (
+      <AdminLayout>
+        <Loader />
+      </AdminLayout>
+    );
+  }
+
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="rank">
@@ -115,118 +133,137 @@ const ManageMember: React.FC<Props> = ({
           ) : member?.rank === "owner" ? (
             <AlertMessage message={{ msg: lang.admin.member.owner, type: "warning" }} />
           ) : (
-            <select
-              id="rank"
-              className="form-control bg-dark border-dark text-light"
-              onChange={(e) => setRank(e.target.value)}
-            >
-              <option value={member?.rank}>{member?.rank}</option>
-              <option disabled value="">
-                --------
-              </option>
-              <option value="user">{lang.admin.member.remove_rank}</option>
-              <option value="moderator">{lang.admin.member.moderator}</option>
-              <option value="admin">{lang.admin.member.admin}</option>
-            </select>
+            <Select
+              theme="dark"
+              isMulti={false}
+              value={{
+                label: rank,
+                value: rank,
+              }}
+              isClearable={false}
+              onChange={(v) => setRank(v.value)}
+              options={[
+                { label: lang.admin.member.remove_rank, value: "user" },
+                { label: lang.admin.member.moderator, value: "moderator" },
+                { label: lang.admin.member.admin, value: "admin" },
+              ]}
+            />
           )}
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="leo">
             {lang.auth.account.police_access}
           </label>
-          <select
-            id="leo"
-            onChange={(e) => setLeo(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={member?.leo}>
-              {member?.leo === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option disabled value="">
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: leo === "1" ? lang.global.yes : lang.global.no,
+              value: leo,
+            }}
+            isClearable={false}
+            onChange={(v) => setLeo(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="leo">
             LEO Supervisor
           </label>
-          <select
-            id="supervisor"
-            onChange={(e) => setSupervisor(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={member?.supervisor}>
-              {member?.supervisor === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option disabled value="">
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: supervisor === "1" ? lang.global.yes : lang.global.no,
+              value: supervisor,
+            }}
+            isClearable={false}
+            onChange={(v) => setSupervisor(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="dispatch">
             {lang.auth.account.dispatch_access}
           </label>
-          <select
-            id="dispatch"
-            onChange={(e) => setDispatch(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={member?.dispatch}>
-              {member?.dispatch === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option disabled value="">
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: dispatch === "1" ? lang.global.yes : lang.global.no,
+              value: dispatch,
+            }}
+            isClearable={false}
+            onChange={(v) => setDispatch(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="ems_fd">
             {lang.auth.account.ems_fd_access}
           </label>
-          <select
-            id="ems_fd"
-            onChange={(e) => setEmsFd(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={member?.ems_fd}>
-              {member?.ems_fd === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option disabled value="">
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isMulti={false}
+            value={{
+              label: emsFd === "1" ? lang.global.yes : lang.global.no,
+              value: emsFd,
+            }}
+            isClearable={false}
+            onChange={(v) => setEmsFd(v.value)}
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
-        {cad.tow_whitelisted === "1" ? (
+        {cad?.tow_whitelisted === "1" ? (
           <div className="mb-3">
             <label className="form-label" htmlFor="tow">
               {lang.auth.account.tow_access}
             </label>
-            <select
-              id="tow"
-              onChange={(e) => setTow(e.target.value)}
-              className="form-control bg-dark border-dark text-light"
-            >
-              <option value={member?.tow}>
-                {member?.tow === "1" ? lang.global.yes : lang.global.no}
-              </option>
-              <option disabled value="">
-                --------
-              </option>
-              <option value="0">{lang.global.no}</option>
-              <option value="1">{lang.global.yes}</option>
-            </select>
+
+            <Select
+              theme="dark"
+              isMulti={false}
+              value={{
+                label: tow === "1" ? lang.global.yes : lang.global.no,
+                value: tow,
+              }}
+              isClearable={false}
+              onChange={(v) => setTow(v.value)}
+              options={[
+                { label: lang.global.yes, value: "1" },
+                { label: lang.global.no, value: "0" },
+              ]}
+            />
           </div>
         ) : null}
+
+        <div className="mb-3">
+          <label className="form-label" htmlFor="ems_fd">
+            Steam ID
+          </label>
+
+          <input
+            value={steamId}
+            onChange={(e) => setSteamId(e.target.value)}
+            className="form-control bg-dark border-dark text-light"
+          />
+        </div>
 
         <div className="mb-3 float-end">
           <Link className="btn btn-danger me-2" to="/admin/manage/members">
@@ -244,7 +281,7 @@ const ManageMember: React.FC<Props> = ({
             <h5 className="card-title">Use the ban hammer</h5>
           </div>
 
-          <div className="card-body">
+          <form onSubmit={handleBan} className="card-body">
             {authenticatedUser?.id === member?.id ? (
               <AlertMessage message={{ msg: lang.admin.ban_yourself, type: "warning" }} />
             ) : member?.rank === "owner" ? (
@@ -254,7 +291,7 @@ const ManageMember: React.FC<Props> = ({
                 <Item id="ban_reason">
                   <Span>{lang.admin.banned_for}: </Span> {member?.ban_reason}
                 </Item>
-                <button onClick={handleUnban} className="btn btn-success mt-2 col">
+                <button type="button" onClick={handleUnban} className="btn btn-success mt-2 col">
                   {lang.admin.un_ban_user}
                 </button>
               </>
@@ -269,12 +306,12 @@ const ManageMember: React.FC<Props> = ({
                   placeholder={lang.admin.enter_ban_reason}
                   required
                 />
-                <button onClick={handleBan} className="btn btn-danger mt-2 col">
+                <button type="submit" className="btn btn-danger mt-2 col">
                   {lang.admin.ban_user}
                 </button>
               </>
             )}
-          </div>
+          </form>
         </div>
       </div>
 
@@ -307,9 +344,9 @@ const ManageMember: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   member: state.admin.member,
-  message: state.global.message,
   user: state.auth.user,
   cad: state.global.cadInfo,
+  loading: state.admin.loading,
 });
 
 export default connect(mapToProps, {

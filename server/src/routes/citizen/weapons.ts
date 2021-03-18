@@ -17,14 +17,14 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
-  const { weapon, citizenId, status } = req.body;
+  const { weapon, citizenId, status, serial_number } = req.body;
   const citizen = await processQuery("SELECT `full_name` FROM `citizens` WHERE `id` = ?", [
     citizenId,
   ]);
 
   if (weapon && citizenId && status) {
     const id = uuidv4();
-    const serial = generateString(10);
+    const serial = serial_number ? serial_number : generateString(10);
 
     await processQuery(
       "INSERT INTO `registered_weapons` (`id`, `owner`, `citizen_id`, `weapon`, `serial_number`, `status`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)",

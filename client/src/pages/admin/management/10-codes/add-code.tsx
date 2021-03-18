@@ -3,11 +3,8 @@ import { connect } from "react-redux";
 import { add10Code } from "../../../../lib/actions/admin";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import Select from "../../../../components/select";
-import State from "../../../../interfaces/State";
 import Code10 from "../../../../interfaces/Code10";
-import { Link } from "react-router-dom";
-import Message from "../../../../interfaces/Message";
-import AlertMessage from "../../../../components/alert-message";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../../hooks/useDocTitle";
 
 export const options = [
@@ -48,31 +45,34 @@ export const colorOptions = [
 ];
 
 interface Props {
-  message: Message | null;
-  add10Code: (data: Partial<Code10>) => void;
+  add10Code: (data: Partial<Code10>) => Promise<boolean>;
 }
 
-const Add10CodePage: React.FC<Props> = ({ add10Code, message }) => {
+const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
   const [code, setCode] = React.useState("");
   const [whatPages, setWhatPages] = React.useState([]);
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
+  const history = useHistory();
   useDocTitle("Add 10 Code");
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    add10Code({
+    const added = await add10Code({
       code,
       color: color,
       what_pages: whatPages,
       should_do: shouldDo,
     });
+
+    if (added === true) {
+      history.push("/admin/manage/10-codes");
+    }
   }
 
   return (
     <AdminLayout>
-      <AlertMessage message={message} dismissible />
       <h1 className="h3">Add 10 code</h1>
 
       <form onSubmit={onSubmit}>
@@ -133,8 +133,4 @@ const Add10CodePage: React.FC<Props> = ({ add10Code, message }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  message: state.global.message,
-});
-
-export default connect(mapToProps, { add10Code })(Add10CodePage);
+export default connect(null, { add10Code })(Add10CodePage);

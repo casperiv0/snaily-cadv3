@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from "axios";
+import { toast, ToastOptions } from "react-toastify";
+
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 let url: string | undefined = "/";
 
@@ -29,7 +31,7 @@ export const isSuccess = (res: AxiosResponse) => {
 
 export function playSound(src: string) {
   const audio = new Audio(src);
-  audio.volume = 0.6;
+  audio.volume = 0.7;
 
   const play = () => {
     audio.play();
@@ -45,4 +47,39 @@ export function playSound(src: string) {
   };
 
   return { stop, play, audio };
+}
+
+export function notify(message: string) {
+  const success = (options?: ToastOptions) =>
+    toast.success(message, {
+      style: {
+        background: "#D1E7DD",
+      },
+      className: "alert-success",
+      ...options,
+    });
+
+  const error = (options?: ToastOptions) =>
+    toast.error(message, {
+      style: {
+        background: "#F8D7DA",
+      },
+      className: "alert-danger",
+      ...options,
+    });
+
+  const warn = (options?: ToastOptions) =>
+    toast.warn(message, {
+      style: {
+        background: "#FFF3CD",
+      },
+      className: "alert-warning",
+      ...options,
+    });
+
+  return {
+    success,
+    error,
+    warn,
+  };
 }

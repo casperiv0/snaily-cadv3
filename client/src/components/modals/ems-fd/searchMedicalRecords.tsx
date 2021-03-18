@@ -2,35 +2,38 @@ import * as React from "react";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import { searchMedicalRecord, declareDeadOrAlive } from "../../../lib/actions/ems-fd";
+import { searchNames } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import MedicalRecord from "../../../interfaces/MedicalRecord";
-import AlertMessage from "../../alert-message";
-import Message from "../../../interfaces/Message";
+import Select from "../../select";
 
 interface Props {
-  message: Message | null;
   medicalRecords: MedicalRecord[];
   searchMedicalRecord: (name: string) => void;
   declareDeadOrAlive: (citizenId: string, type: "dead" | "alive") => void;
+  searchNames: () => void;
+  names: string[];
 }
 
 const SearchMedicalRecords: React.FC<Props> = ({
-  message,
   medicalRecords,
+  names,
   searchMedicalRecord,
   declareDeadOrAlive,
+  searchNames,
 }) => {
   const [name, setName] = React.useState<string>("");
-  const [hasSubmitted, setHasSubmitted] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    searchNames();
+  }, [searchNames]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name) return;
 
     searchMedicalRecord(name);
-
-    setHasSubmitted(true);
   }
 
   function handleDeclare(type: "dead" | "alive") {
@@ -42,7 +45,6 @@ const SearchMedicalRecords: React.FC<Props> = ({
 
   function reset() {
     setName("");
-    setHasSubmitted(false);
   }
 
   return (
@@ -54,57 +56,51 @@ const SearchMedicalRecords: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          <input
-            className="form-control bg-secondary border-secondary text-light"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
+          <Select
+            isMulti={false}
+            value={{ value: name, label: name }}
+            onChange={(v) => setName(v?.value)}
+            options={names.map(({ full_name }: any) => ({
+              value: full_name,
+              label: full_name,
+            }))}
           />
 
-          {hasSubmitted && message ? (
-            <div className="mb-3 mt-2">
-              <AlertMessage message={message} />
-            </div>
-          ) : (
-            hasSubmitted && (
-              <table className="table table-dark mt-2">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th>{lang.ems_fd.type}</th>
-                    <th>{lang.ems_fd.short_info}</th>
-                    <th>{lang.global.name}</th>
-                    <th>{lang.global.actions}</th>
-                  </tr>
-                </thead>
+          <table className="table table-dark mt-2">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th>{lang.ems_fd.type}</th>
+                <th>{lang.ems_fd.short_info}</th>
+                <th>{lang.global.name}</th>
+                <th>{lang.global.actions}</th>
+              </tr>
+            </thead>
 
-                <tbody>
-                  {medicalRecords?.map((record, idx) => {
-                    return (
-                      <tr key={idx}>
-                        <th scope="row"> {++idx}</th>
-                        <td> {record.type} </td>
-                        <td> {record.short_info}</td>
-                        <td> {record.name} </td>
-                        <td>
-                          <button
-                            onClick={() =>
-                              handleDeclare(record.citizen?.dead === "1" ? "alive" : "dead")
-                            }
-                            type="button"
-                            className="btn btn-primary"
-                          >
-                            Declare {record.citizen?.dead === "1" ? "alive" : "dead"}
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            )
-          )}
+            <tbody>
+              {medicalRecords?.map((record, idx) => {
+                return (
+                  <tr key={idx}>
+                    <th scope="row"> {++idx}</th>
+                    <td> {record.type} </td>
+                    <td> {record.short_info}</td>
+                    <td> {record.name} </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          handleDeclare(record.citizen?.dead === "1" ? "alive" : "dead")
+                        }
+                        type="button"
+                        className="btn btn-primary"
+                      >
+                        Declare {record.citizen?.dead === "1" ? "alive" : "dead"}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
 
         <div className="modal-footer">
@@ -126,10 +122,10 @@ const SearchMedicalRecords: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   medicalRecords: state.ems_fd.medicalRecords,
+  names: state.officers.names,
 });
 
-export default connect(mapToProps, { searchMedicalRecord, declareDeadOrAlive })(
+export default connect(mapToProps, { searchNames, searchMedicalRecord, declareDeadOrAlive })(
   SearchMedicalRecords,
 );

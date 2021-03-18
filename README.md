@@ -1,5 +1,6 @@
 # SnailyCADv3
 
+[![Check ESlint](https://github.com/Dev-CasperTheGhost/snaily-cadv3/actions/workflows/lint.yml/badge.svg)](https://github.com/Dev-CasperTheGhost/snaily-cadv3/)
 ![license](https://img.shields.io/github/license/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)
 ![contributors](https://img.shields.io/github/contributors/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)
 ![stars](https://img.shields.io/github/stars/dev-caspertheghost/snaily-cadv3?style=flat-square&color=gr)
@@ -16,6 +17,7 @@
 - [Troubleshooting](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Troubleshooting)
 - [Features](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/%E2%9C%A8-Features)
 - [Contributing](#contributing)
+- [Changelog](./CHANGELOG.md)
 - [Bugs](#bugs)
 - [License](#license)
 
@@ -25,7 +27,7 @@
 
 ## Troubleshooting
 
-**Troubleshooting guide has been moved to the [SnailyCAD wiki](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide)**
+**Troubleshooting guide has been moved to the [SnailyCAD wiki](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Troubleshooting)**
 
 ## Contributing
 

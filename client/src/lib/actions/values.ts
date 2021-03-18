@@ -2,7 +2,7 @@ import Value from "../../interfaces/Value";
 import lang from "../../language.json";
 import Logger from "../Logger";
 import ValuePaths from "../../interfaces/ValuePaths";
-import { handleRequest, isSuccess } from "../functions";
+import { handleRequest, isSuccess, notify } from "../functions";
 import { Dispatch } from "react";
 import {
   GET_ETHNICITIES,
@@ -14,9 +14,8 @@ import {
   ADD_VALUE,
   GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
-  SET_MESSAGE,
+  VALUES_SET_LOADING,
 } from "../types";
-import Message from "../../interfaces/Message";
 
 interface IDispatch {
   type: string;
@@ -29,7 +28,7 @@ interface IDispatch {
   path?: string;
   error?: string;
   value?: Value;
-  message?: Message;
+  loading?: boolean;
 }
 
 export const deleteValue = (id: string, path: ValuePaths) => async (
@@ -44,10 +43,8 @@ export const deleteValue = (id: string, path: ValuePaths) => async (
         path: path,
         values: res.data.values,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.admin.values[path].deleted, type: "success" },
-      });
+
+      notify(lang.admin.values[path].deleted).success();
     }
   } catch (e) {
     Logger.error(DELETE_VALUE, e);
@@ -56,7 +53,7 @@ export const deleteValue = (id: string, path: ValuePaths) => async (
 
 export const addValue = (path: string, data: { name: string }) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean> => {
   try {
     const res = await handleRequest(`/values/${path}`, "POST", data);
 
@@ -64,15 +61,16 @@ export const addValue = (path: string, data: { name: string }) => async (
       dispatch({
         type: ADD_VALUE,
       });
-      return (window.location.href = `/admin/values/${path}`);
+
+      notify(`Successfully added ${data.name} to ${path}`).success();
+      return true;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(ADD_VALUE, e);
+    return false;
   }
 };
 
@@ -93,7 +91,7 @@ export const getValueById = (path: string, id: string) => async (dispatch: Dispa
 
 export const updateValueById = (path: string, id: string, data: { name: string }) => async (
   dispatch: Dispatch<IDispatch>,
-) => {
+): Promise<boolean> => {
   try {
     const res = await handleRequest(`/values/${path}/${id}`, "PUT", data);
 
@@ -101,20 +99,24 @@ export const updateValueById = (path: string, id: string, data: { name: string }
       dispatch({
         type: UPDATE_VALUE_BY_ID,
       });
-      window.location.href = `/admin/values/${path}/`;
+
+      notify("Successfully updated value").success();
+
+      return true;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(UPDATE_VALUE_BY_ID, e);
+    return false;
   }
 };
 
 /* genders */
 export const getGenders = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/genders", "GET");
 
@@ -126,11 +128,14 @@ export const getGenders = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_GENDERS, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 
 /* ethnicities */
 export const getEthnicities = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/ethnicities", "GET");
 
@@ -142,11 +147,14 @@ export const getEthnicities = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_ETHNICITIES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 
 /* Legal Statuses */
 export const getLegalStatuses = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/legal-statuses", "GET");
 
@@ -158,11 +166,14 @@ export const getLegalStatuses = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_LEGAL_STATUSES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 
 /* weapons */
 export const getWeapons = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/weapons", "GET");
 
@@ -174,11 +185,14 @@ export const getWeapons = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_LEGAL_STATUSES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 
 /* vehicles */
 export const getVehicles = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest("/values/vehicles", "GET");
 
@@ -190,5 +204,6 @@ export const getVehicles = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(GET_VEHICLES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };

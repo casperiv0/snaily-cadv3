@@ -7,12 +7,10 @@ import AlertMessage from "../../../components/alert-message";
 import { connect } from "react-redux";
 import { deleteCompanyById, getCompanies } from "../../../lib/actions/admin";
 import { Item, Span } from "../../citizen/citizen-info";
-import Message from "../../../interfaces/Message";
 import Loader from "../../../components/loader";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   companies: Company[];
   loading: boolean;
   getCompanies: () => void;
@@ -20,7 +18,6 @@ interface Props {
 }
 
 const CompanyManagementPage: React.FC<Props> = ({
-  message,
   companies,
   loading,
   getCompanies,
@@ -55,8 +52,7 @@ const CompanyManagementPage: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      {message ? <AlertMessage message={message} dismissible /> : null}
-      <ul className="list-group">
+      <div>
         <input
           type="text"
           value={filter}
@@ -73,53 +69,54 @@ const CompanyManagementPage: React.FC<Props> = ({
             message={{ msg: lang.admin.company.no_companies_by_name, type: "warning" }}
           />
         ) : (
-          filtered.map((company: Company, idx: number) => {
-            return (
-              <li
-                key={idx}
-                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
-              >
-                <div>
-                  {++idx} | {company.name}
-                  <div className="mt-2">
-                    <Item id="name">
-                      <Span>{lang.admin.company.name}: </Span>
-                      {company.name}
-                    </Item>
+          <ul className="list-group">
+            {filtered.map((company: Company, idx: number) => {
+              return (
+                <li
+                  key={idx}
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                >
+                  <div>
+                    {++idx} | {company.name}
+                    <div className="mt-2">
+                      <Item id="name">
+                        <Span>{lang.admin.company.name}: </Span>
+                        {company.name}
+                      </Item>
 
-                    <Item id="name">
-                      <Span>{lang.admin.company.owner}: </Span>
-                      {company.owner}
-                    </Item>
+                      <Item id="name">
+                        <Span>{lang.admin.company.owner}: </Span>
+                        {company.owner}
+                      </Item>
 
-                    <Item id="username">
-                      <Span>Account&apos;s username: </Span>
-                      {company.user?.username}
-                    </Item>
+                      <Item id="username">
+                        <Span>Account&apos;s username: </Span>
+                        {company.user?.username}
+                      </Item>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <button
-                    className="btn btn-danger ms-2"
-                    type="button"
-                    onClick={() => handleDelete(company.id)}
-                  >
-                    {lang.admin.company.delete_company}
-                  </button>
-                </div>
-              </li>
-            );
-          })
+                  <div>
+                    <button
+                      className="btn btn-danger ms-2"
+                      type="button"
+                      onClick={() => handleDelete(company.id)}
+                    >
+                      {lang.admin.company.delete_company}
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         )}
-      </ul>
+      </div>
     </AdminLayout>
   );
 };
 
 const mapToProps = (state: State) => ({
   companies: state.admin.companies,
-  message: state.global.message,
   loading: state.admin.loading,
 });
 

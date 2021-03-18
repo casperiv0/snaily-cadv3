@@ -110,12 +110,42 @@ router.put(
   usePermission(["admin", "owner", "moderator"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const { rank, leo, dispatch, emsFd, tow, supervisor } = req.body;
+    const { rank, leo, dispatch, emsFd, tow, supervisor, steam_id } = req.body;
+
+    const previous = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [id]);
+
+    if (!previous[0]) {
+      return res.json({
+        error: "user was not found",
+        status: "error",
+      });
+    }
 
     if (rank && leo && dispatch && emsFd && supervisor) {
+      if (previous[0].rank === "owner" && rank?.toLowerCase() !== "owner") {
+        return res.json({
+          error: "Cannot change the owner's rank",
+          status: "error",
+        });
+      } else if (previous[0].rank !== "owner" && rank?.toLowerCase() === "owner") {
+        return res.json({
+          error: "Rank cannot be set to `owner`",
+          status: "error",
+        });
+      }
+
       await processQuery(
-        "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ?, `supervisor` = ? WHERE `id` = ?",
-        [rank, leo, dispatch, emsFd, tow, supervisor, id],
+        "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ?, `supervisor` = ?, `steam_id` = ? WHERE `id` = ?",
+        [
+          rank,
+          leo ?? previous,
+          dispatch,
+          emsFd,
+          tow,
+          supervisor,
+          steam_id ?? previous[0].steam_id,
+          id,
+        ],
       );
 
       const updated = await processQuery<IUser>(
@@ -140,6 +170,21 @@ router.put(
   async (req: IRequest, res: Response) => {
     const { path, id } = req.params;
     const { ban_reason } = req.body;
+    const member = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [id]);
+
+    if (!member[0]) {
+      return res.json({
+        error: "member was not found",
+        status: "error",
+      });
+    }
+
+    if (member[0].rank === "owner") {
+      return res.json({
+        error: "Cannot remove the owner's account",
+        status: "error",
+      });
+    }
 
     switch (path) {
       case "ban": {
@@ -443,7 +488,12 @@ router.put(
   usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (req: IRequest, res: Response) => {
     const { officerId } = req.params;
-    const { callsign, rank, department } = req.body;
+    const { callsign, rank, department, status } = req.body;
+    let { status2 } = req.body;
+
+    if (status2 && status && status === "off-duty") {
+      status2 = "--------";
+    }
 
     if (!callsign || !department) {
       return res.json({
@@ -457,6 +507,14 @@ router.put(
         "UPDATE `officers` SET `callsign` = ?, `rank` = ?, `officer_dept` = ? WHERE `id` = ?",
         [callsign, rank, department, officerId],
       );
+
+      if (status && status2) {
+        await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
+          status,
+          status2,
+          officerId,
+        ]);
+      }
 
       return res.json({ status: "success" });
     } catch (e) {

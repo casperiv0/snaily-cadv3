@@ -9,8 +9,9 @@ import Field from "../../interfaces/Field";
 import { connect } from "react-redux";
 import { getCitizenById, updateLicenses } from "../../lib/actions/citizen";
 import { getLegalStatuses } from "../../lib/actions/values";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import Select from "../../components/select";
 
 interface Props {
   citizen: Citizen | null;
@@ -18,7 +19,7 @@ interface Props {
   legalStatuses: Value[];
   getCitizenById: (id: string) => void;
   getLegalStatuses: () => void;
-  updateLicenses: (id: string, data: object) => void;
+  updateLicenses: (id: string, data: object) => Promise<boolean>;
 }
 
 const EditLicensesPage: React.FC<Props> = ({
@@ -34,6 +35,7 @@ const EditLicensesPage: React.FC<Props> = ({
   const [fireArms, setFireArms] = React.useState("");
   const [pilot, setPilot] = React.useState("");
   const [ccw, setCcw] = React.useState("");
+  const history = useHistory();
 
   const citizenId = match.params.id;
 
@@ -42,7 +44,7 @@ const EditLicensesPage: React.FC<Props> = ({
       type: "text",
       id: "dmv",
       label: lang.citizen.drivers_license,
-      onChange: (e) => setDmv(e.target.value),
+      onChange: (e) => setDmv(e.value),
       value: dmv,
       select: true,
       data: legalStatuses,
@@ -52,7 +54,7 @@ const EditLicensesPage: React.FC<Props> = ({
       type: "text",
       id: "firearms_license",
       label: lang.citizen.firearms_license,
-      onChange: (e) => setFireArms(e.target.value),
+      onChange: (e) => setFireArms(e.value),
       value: fireArms,
       select: true,
       data: legalStatuses,
@@ -62,7 +64,7 @@ const EditLicensesPage: React.FC<Props> = ({
       type: "text",
       id: "pilot_license",
       label: lang.citizen.pilot_license,
-      onChange: (e) => setPilot(e.target.value),
+      onChange: (e) => setPilot(e.value),
       value: pilot,
       select: true,
       data: legalStatuses,
@@ -72,7 +74,7 @@ const EditLicensesPage: React.FC<Props> = ({
       type: "text",
       id: "ccw",
       label: lang.citizen.ccw,
-      onChange: (e) => setCcw(e.target.value),
+      onChange: (e) => setCcw(e.value),
       value: ccw,
       select: true,
       data: legalStatuses,
@@ -91,19 +93,22 @@ const EditLicensesPage: React.FC<Props> = ({
       setFireArms(citizen?.fire_license);
       setPilot(citizen?.pilot_license);
       setCcw(citizen?.ccw);
-      return;
     }
   }, [citizen]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    updateLicenses(citizenId, {
+    const updated = await updateLicenses(citizenId, {
       dmv,
       fire_license: fireArms,
       pilot_license: pilot,
       ccw,
     });
+
+    if (updated === true) {
+      history.push(`/citizen/${citizenId}`);
+    }
   }
 
   return (
@@ -115,24 +120,18 @@ const EditLicensesPage: React.FC<Props> = ({
               <label className="form-label" htmlFor={field.id}>
                 {field.label}
               </label>
-              <select
-                id="dmv"
-                value={field.value}
-                className="form-control bg-dark border-dark text-light"
+
+              <Select
+                isClearable={false}
+                isMulti={false}
+                theme="dark"
+                value={{ value: field.value, label: field.value }}
                 onChange={field.onChange}
-              >
-                <option value={field.selectLabel}>{field.selectLabel}</option>
-                <option disabled value="">
-                  --------
-                </option>
-                {legalStatuses.map((item: Value, idx: number) => {
-                  return (
-                    <option key={idx} value={item.name}>
-                      {item.name}
-                    </option>
-                  );
-                })}
-              </select>
+                options={legalStatuses.map((status) => ({
+                  value: status.name,
+                  label: status.name,
+                }))}
+              />
             </div>
           );
         })}

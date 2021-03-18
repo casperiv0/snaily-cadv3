@@ -1,15 +1,13 @@
 import TruckLog from "../../interfaces/TruckLog";
 import Logger from "../Logger";
 import { Dispatch } from "react";
-import { CREATE_TRUCK_LOG, DELETE_TRUCK_LOG, GET_TRUCK_LOGS, SET_MESSAGE } from "../types";
-import { handleRequest, isSuccess } from "../functions";
-import Message from "../../interfaces/Message";
+import { CREATE_TRUCK_LOG, DELETE_TRUCK_LOG, GET_TRUCK_LOGS } from "../types";
+import { handleRequest, isSuccess, notify } from "../functions";
 import lang from "../../language.json";
 
 interface IDispatch {
   type: string;
   logs?: TruckLog[];
-  message?: Message;
   error?: string;
 }
 
@@ -27,7 +25,9 @@ export const getTruckLogs = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createTruckLog = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const createTruckLog = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/truck-logs", "POST", data);
 
@@ -35,15 +35,16 @@ export const createTruckLog = (data: object) => async (dispatch: Dispatch<IDispa
       dispatch({
         type: CREATE_TRUCK_LOG,
       });
-      return (window.location.href = "/truck-logs");
+
+      notify("Successfully created truck-log").success();
+      return true;
     } else {
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: res.data.error, type: "warning" },
-      });
+      notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(CREATE_TRUCK_LOG, e);
+    return false;
   }
 };
 
@@ -56,10 +57,7 @@ export const deleteTruckLog = (id: string) => async (dispatch: Dispatch<IDispatc
         type: DELETE_TRUCK_LOG,
         logs: res.data.logs,
       });
-      dispatch({
-        type: SET_MESSAGE,
-        message: { msg: lang.truck_logs.deleted_truck_log, type: "success" },
-      });
+      notify(lang.truck_logs.deleted_truck_log).success();
     }
   } catch (e) {
     Logger.error(DELETE_TRUCK_LOG, e);

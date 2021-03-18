@@ -33,8 +33,8 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const { plate, status, color, vehicle, citizenId, businessId } = req.body;
 
   if (plate && status && color && vehicle && citizenId) {
+    // replace "0" with "O"
     const parsedPlate = plate.replace(/[oO]/g, "0");
-
     const citizen = await processQuery(
       "SELECT `full_name`, `business_id` FROM `citizens` WHERE `id` = ?",
       [citizenId],
@@ -42,7 +42,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
     const existingPlate = await processQuery(
       "SELECT `plate` from `registered_cars` WHERE `plate` = ?",
-      [parsedPlate],
+      [parsedPlate?.toUpperCase()],
     );
 
     if (existingPlate[0]) {

@@ -10,7 +10,6 @@ import SelectOfficerModal from "../../components/modals/leo/selectOfficerModal";
 import CreateWarrant from "../../components/leo/CreateWarrant";
 import socket from "../../lib/socket";
 import NotepadModal from "../../components/modals/notepad";
-import AlertMessage, { DismissAlertBtn } from "../../components/alert-message";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
 import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
 import NameSearchModal from "../../components/modals/leo/nameSearchModal";
@@ -19,18 +18,17 @@ import CreateWrittenWarningModal from "../../components/modals/leo/createWritten
 import CreateArrestReportModal from "../../components/modals/leo/createArrestReportModal";
 import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
-import Message from "../../interfaces/Message";
 import Officer from "../../interfaces/Officer";
-import { playSound } from "../../lib/functions";
+import { notify, playSound } from "../../lib/functions";
 import { getPenalCodes } from "../../lib/actions/admin";
 import { useLocation } from "react-router-dom";
 import User, { Perm } from "../../interfaces/User";
 import CadInfo from "../../interfaces/CadInfo";
 import useDocTitle from "../../hooks/useDocTitle";
+import { DismissAlertBtn } from "../../components/alert-message";
 
 interface Props {
   aop: string | null;
-  message: Message | null;
   activeOfficer: Officer | null;
   cadInfo: CadInfo | null;
   user: User | null;
@@ -99,6 +97,7 @@ const LeoDash: React.FC<Props> = (props) => {
     const unitsHandler = (unitIds: string[]) => {
       if (location.pathname !== "/leo/dash") return;
       if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
+        notify("You were assigned to a call!").success();
         successSound.play();
       }
     };
@@ -125,7 +124,6 @@ const LeoDash: React.FC<Props> = (props) => {
           <DismissAlertBtn onClick={() => setSignal100("0")} />
         </div>
       ) : null}
-      {props.message ? <AlertMessage message={props.message} dismissible /> : null}
 
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
@@ -170,7 +168,6 @@ const LeoDash: React.FC<Props> = (props) => {
 
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
-  message: state.global.message,
   activeOfficer: state.officers.activeOfficer,
   cadInfo: state.global.cadInfo,
   user: state.auth.user,

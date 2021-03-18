@@ -4,19 +4,15 @@ import lang from "../../../language.json";
 import Modal, { XButton } from "..";
 import { CourtResults, searchCitizen, requestExpungement } from "../../../lib/actions/court";
 import State from "../../../interfaces/State";
-import Message from "../../../interfaces/Message";
-import AlertMessage from "../../alert-message";
 import Select from "../../select";
 
 interface Props {
-  message: Message | null;
   searchCitizen: (name: string) => void;
   requestExpungement: (citizenId: string, data: object) => void;
   courtResult: CourtResults;
 }
 
 const RequestExpungementModal: React.FC<Props> = ({
-  message,
   courtResult,
   searchCitizen,
   requestExpungement,
@@ -66,7 +62,6 @@ const RequestExpungementModal: React.FC<Props> = ({
       </div>
 
       <div className="modal-body">
-        <AlertMessage message={message} dismissible />
         <form id="name-form" onSubmit={onSubmit}>
           <div className="mb-3">
             <label className="form-label" htmlFor="name">
@@ -165,7 +160,6 @@ const RequestExpungementModal: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   courtResult: state.citizen.courtResult,
 });
 

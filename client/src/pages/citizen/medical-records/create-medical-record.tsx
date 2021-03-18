@@ -1,21 +1,19 @@
 import * as React from "react";
-import AlertMessage from "../../../components/alert-message";
 import Layout from "../../../components/Layout";
 import Match from "../../../interfaces/Match";
-import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import { connect } from "react-redux";
 import { createMedicalRecord } from "../../../lib/actions/citizen";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Select from "../../../components/select";
 
 interface Props {
-  error: string | null;
   match: Match;
   createMedicalRecord: (data: object, id: string, shouldReturn: boolean) => void;
 }
 
-const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalRecord }) => {
+const CreateMedicalRecordPage: React.FC<Props> = ({ match, createMedicalRecord }) => {
   const [type, setType] = React.useState("Allergy");
   const [shortInfo, setShortInfo] = React.useState("");
   const citizenId = match.params.id;
@@ -36,21 +34,33 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
 
   return (
     <Layout classes="mt-5">
-      {error ? <AlertMessage message={{ msg: error, type: "warning" }} dismissible /> : null}
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="type">
             {lang.citizen.medical.type}
           </label>
-          <select
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="Allergy">Allergy</option>
-            <option value="Medication">Medication</option>
-            <option value="Health Problem">Health Problem</option>
-          </select>
+
+          <Select
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setType(v?.value)}
+            value={{ label: type, value: type }}
+            isMulti={false}
+            options={[
+              {
+                label: "Allergy",
+                value: "Allergy",
+              },
+              {
+                label: "Medication",
+                value: "Medication",
+              },
+              {
+                label: "Health Problem",
+                value: "Health Problem",
+              },
+            ]}
+          />
         </div>
 
         <div className="mb-3">
@@ -81,8 +91,4 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, error, createMedicalR
   );
 };
 
-const mapToProps = (state: State) => ({
-  error: state.citizen.error,
-});
-
-export default connect(mapToProps, { createMedicalRecord })(CreateMedicalRecordPage);
+export default connect(null, { createMedicalRecord })(CreateMedicalRecordPage);

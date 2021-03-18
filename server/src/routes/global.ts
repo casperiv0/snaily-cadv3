@@ -36,7 +36,26 @@ router.get("/911-calls", async (_req: IRequest, res: Response) => {
 
   const mappedCalls = mapCalls(calls);
 
-  return res.json({ calls: mappedCalls, status: "success" });
+  const callsWithEvents = async () => {
+    const arr: any[] = [];
+
+    await Promise.all(
+      mappedCalls.map(async (call) => {
+        const events = await processQuery("SELECT * FROM `call_events` WHERE `call_id` = ?", [
+          call.id,
+        ]);
+
+        // @ts-expect-error please ignore the line below.
+        call.events = events;
+
+        arr.push(call);
+      }),
+    );
+
+    return arr;
+  };
+
+  return res.json({ calls: await callsWithEvents(), status: "success" });
 });
 
 router.post("/911-calls", async (req: IRequest, res: Response) => {
@@ -55,8 +74,8 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
     [
       id,
       description,
-      caller,
-      location,
+      caller || "Unknown",
+      location || "Unknown",
       "Not assigned",
       "[]",
       JSON.stringify(coords),

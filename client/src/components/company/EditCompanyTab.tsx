@@ -6,6 +6,7 @@ import State from "../../interfaces/State";
 import lang from "../../language.json";
 import { deleteCompany, updateCompany } from "../../lib/actions/company";
 import AlertMessage from "../alert-message";
+import Select, { Value } from "../select";
 
 interface Props {
   company: Company | null;
@@ -23,13 +24,16 @@ const EditCompanyTab: React.FC<Props> = ({
   updateCompany,
 }) => {
   const [name, setName] = React.useState<string>("");
-  const [whitelisted, setWhitelisted] = React.useState<string>("");
+  const [whitelisted, setWhitelisted] = React.useState<Value | null>(null);
   const [address, setAddress] = React.useState<string>("");
 
   React.useEffect(() => {
     if (company?.name) {
       setName(company?.name);
-      setWhitelisted(company?.whitelisted);
+      setWhitelisted({
+        label: company?.whitelisted === "1" ? lang.global.yes : lang.global.no,
+        value: company?.whitelisted,
+      });
       setAddress(company?.address);
     }
   }, [company]);
@@ -42,7 +46,7 @@ const EditCompanyTab: React.FC<Props> = ({
 
     updateCompany(company?.id, {
       name,
-      whitelisted,
+      whitelisted: whitelisted?.value,
       address,
     });
   }
@@ -86,21 +90,18 @@ const EditCompanyTab: React.FC<Props> = ({
           <label className="form-label" htmlFor="whitelisted">
             {lang.citizen.company.whitelisted}
           </label>
-          <select
+
+          <Select
+            theme="dark"
+            closeMenuOnSelect
+            isMulti={false}
+            onChange={(v) => setWhitelisted(v)}
             value={whitelisted}
-            onChange={(e) => setWhitelisted(e.target.value)}
-            id="whitelisted"
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value={company?.whitelisted}>
-              {company?.whitelisted === "1" ? lang.global.yes : lang.global.no}
-            </option>
-            <option value="" disabled>
-              --------
-            </option>
-            <option value="0">{lang.global.no}</option>
-            <option value="1">{lang.global.yes}</option>
-          </select>
+            options={[
+              { label: lang.global.yes, value: "1" },
+              { label: lang.global.no, value: "0" },
+            ]}
+          />
         </div>
 
         <div className="mb-3 float-end">

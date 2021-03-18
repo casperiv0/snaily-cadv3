@@ -86,7 +86,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
               closeMenuOnSelect={true}
               isMulti={false}
               onFocus={() => searchNames()}
-              value={name.value && name}
+              value={name}
               onChange={(v: any) => setName(v)}
               options={names.map(({ full_name }: any) => ({
                 value: full_name,
@@ -540,7 +540,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
-          <button type="submit" disabled={!name.value} className="btn btn-primary">
+          <button type="submit" disabled={!name?.value} className="btn btn-primary">
             {lang.global.search}
           </button>
         </div>

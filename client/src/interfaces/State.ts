@@ -14,7 +14,6 @@ import Weapon from "./Weapon";
 import Vehicle from "./Vehicle";
 import Company, { CompanyPost } from "./Company";
 import CadInfo from "./CadInfo";
-import Message from "./Message";
 import { ExpungementRequest } from "../lib/actions/court";
 import PenalCode from "./PenalCode";
 import Notification from "./Notification";
@@ -36,7 +35,6 @@ interface State {
   global: {
     cadInfo: CadInfo | null;
     aop: string | null;
-    message: Message | null;
   };
   calls: {
     calls_911: Call[];
@@ -105,6 +103,7 @@ interface State {
     departments: Value[];
     error: string | null;
     value: Value | null;
+    loading: boolean;
   };
   admin: {
     error: string | null;

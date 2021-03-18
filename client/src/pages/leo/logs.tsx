@@ -6,8 +6,6 @@ import Officer, { OfficerLog } from "../../interfaces/Officer";
 import State from "../../interfaces/State";
 import { connect } from "react-redux";
 import { getMyOfficers, getMyOfficerLogs } from "../../lib/actions/officer";
-import AlertMessage from "../../components/alert-message";
-import Message from "../../interfaces/Message";
 import { Item, Span } from "../citizen/citizen-info";
 import lang from "../../language.json";
 import useDocTitle from "../../hooks/useDocTitle";
@@ -15,18 +13,11 @@ import useDocTitle from "../../hooks/useDocTitle";
 interface Props {
   officers: Officer[];
   logs: OfficerLog[];
-  message: Message | null;
   getMyOfficers: () => void;
   getMyOfficerLogs: () => void;
 }
 
-const OfficerLogsPage: React.FC<Props> = ({
-  officers,
-  logs,
-  message,
-  getMyOfficers,
-  getMyOfficerLogs,
-}) => {
+const OfficerLogsPage: React.FC<Props> = ({ officers, logs, getMyOfficers, getMyOfficerLogs }) => {
   useDocTitle("My officer logs");
   React.useEffect(() => {
     getMyOfficers();
@@ -35,7 +26,6 @@ const OfficerLogsPage: React.FC<Props> = ({
 
   return (
     <Layout classes="mt-5">
-      {message ? <AlertMessage message={message} dismissible /> : null}
       <h3>My officer logs</h3>
       <Link className="btn btn-primary text-light w-100 p-2 my-2" to="/leo/dash">
         {lang.global.back_to_dashboard}
@@ -83,7 +73,6 @@ const OfficerLogsPage: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   officers: state.officers.officers,
   logs: state.officers.logs,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getMyOfficers, getMyOfficerLogs })(OfficerLogsPage);

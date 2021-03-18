@@ -2,15 +2,38 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.4.4-patch1
+
+- Fixed error "Could not find that `status`"
+- Fixed bug not being able to clear company when registering a vehicle
+
+## 1.4.4
+
+- Minor: lazy load lists
+- Minor: start on implementing loading indicators for slow connections
+- Minor: Removed random `;` on dispatch dashboard
+- Minor: fixed small bugs
+- Major: Socket authentication
+
+## 1.4.3
+
+- New: call events
+- New: register weapon with custom serial number
+- Major: All new error popup system
+- Major: cleanup code
+- Minor: Fixed small bug
+- Minor: able to search vehicle via VIN number now
+- Minor: several bug fixes
+
 ## 1.4.2
 
-- Admins/supervisors can see officer logs in `Officer Management`
-- Declare citizens dead or alive (EMS/FD only)
-- LEO actions are disabled if there's no `activeOfficer`
-- Fixed minor bug
-- Don't use sockets to check version, will now return the version via `/api/v1/global/cad-info`
-- Fixed bugs with sounds playing several times over
-- Fixed bugs with requests getting spammed on a socket update
+- New: Admins/supervisors can see officer logs in `Officer Management`
+- New: Declare citizens dead or alive (EMS/FD only)
+- Minor: LEO actions are disabled if there's no `activeOfficer`
+- Minor: Fixed minor bug
+- Minor: Don't use sockets to check version, will now return the version via `/api/v1/global/cad-info`
+- Major: Fixed bugs with sounds playing several times over
+- Major: Fixed bugs with requests getting spammed on a socket update
 
 ## 1.4.1
 

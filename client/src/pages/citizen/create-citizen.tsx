@@ -3,29 +3,26 @@ import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import Value from "../../interfaces/Value";
-import AlertMessage from "../../components/alert-message";
 import Citizen from "../../interfaces/Citizen";
 import Field from "../../interfaces/Field";
 import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
 import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
-import Message from "../../interfaces/Message";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import Select from "../../components/select";
 
 interface Props {
-  message: Message | null;
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
   getGenders: () => void;
   getEthnicities: () => void;
   getLegalStatuses: () => void;
-  createCitizen: (data: Partial<Citizen>) => void;
+  createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
 }
 
 const CreateCitizenPage: React.FC<Props> = ({
-  message,
   genders,
   ethnicities,
   legalStatuses,
@@ -50,6 +47,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   const [firearmsLicense, setFirearmsLicense] = React.useState<string>("");
   const [ccw, setCcw] = React.useState<string>("");
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
+  const history = useHistory();
 
   React.useEffect(() => {
     getGenders();
@@ -68,7 +66,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: gender,
-      onChange: (e) => setGender(e.target.value),
+      onChange: (e) => setGender(e?.value),
       label: lang.citizen.gender,
       selectLabel: lang.citizen.select_gender,
       id: "gender",
@@ -78,7 +76,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: ethnicity,
-      onChange: (e) => setEthnicity(e.target.value),
+      onChange: (e) => setEthnicity(e?.value),
       label: lang.citizen.ethnicity,
       selectLabel: lang.citizen.select_ethnicity,
       id: "ethnicity",
@@ -140,7 +138,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: dmv,
-      onChange: (e) => setDmv(e.target.value),
+      onChange: (e) => setDmv(e?.value),
       id: "dmv",
       label: lang.citizen.drivers_license,
       select: true,
@@ -149,7 +147,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: firearmsLicense,
-      onChange: (e) => setFirearmsLicense(e.target.value),
+      onChange: (e) => setFirearmsLicense(e?.value),
       id: "firearmsLicense",
       label: lang.citizen.firearms_license,
       select: true,
@@ -158,7 +156,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: pilotsLicense,
-      onChange: (e) => setPilotsLicense(e.target.value),
+      onChange: (e) => setPilotsLicense(e?.value),
       id: "pilotsLicense",
       label: lang.citizen.pilot_license,
       select: true,
@@ -167,7 +165,7 @@ const CreateCitizenPage: React.FC<Props> = ({
     {
       type: "text",
       value: ccw,
-      onChange: (e) => setCcw(e.target.value),
+      onChange: (e) => setCcw(e?.value),
       id: "ccw",
       label: lang.citizen.ccw,
       select: true,
@@ -175,10 +173,10 @@ const CreateCitizenPage: React.FC<Props> = ({
     },
   ];
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createCitizen({
+    const created = await createCitizen({
       image: image,
       full_name: name,
       gender,
@@ -195,13 +193,15 @@ const CreateCitizenPage: React.FC<Props> = ({
       ccw,
       phone_nr: phoneNumber,
     });
+
+    if (typeof created === "string") {
+      history.push(created);
+    }
   }
 
   return (
     <Layout classes="mt-5">
       <form onSubmit={onSubmit}>
-        <AlertMessage message={message} dismissible />
-
         <div key="image" id="-1" className="mb-3">
           <label className="form-label" htmlFor="image">
             {lang.global.image}
@@ -220,23 +220,17 @@ const CreateCitizenPage: React.FC<Props> = ({
                 {field.label}
               </label>
               {field.select ? (
-                <select
-                  className="form-control bg-dark border-dark text-light"
-                  value={field.value}
+                <Select
+                  isMulti={false}
+                  theme="dark"
+                  closeMenuOnSelect
+                  isClearable={false}
                   onChange={field.onChange}
-                >
-                  <option value="">{field.selectLabel}</option>
-                  <option value="" disabled>
-                    -------
-                  </option>
-                  {field.data?.map((option: any, idx: number) => {
-                    return (
-                      <option key={idx} id={`${idx}`} value={option.name}>
-                        {option.name}
-                      </option>
-                    );
-                  })}
-                </select>
+                  options={field.data?.map((item: Value) => ({
+                    label: item.name,
+                    value: item.name,
+                  }))}
+                />
               ) : (
                 <input
                   value={field.value}
@@ -257,23 +251,18 @@ const CreateCitizenPage: React.FC<Props> = ({
                 <label className="form-label" htmlFor={field.id}>
                   {field.label}
                 </label>
-                <select
-                  className="form-control bg-dark border-dark text-light"
-                  value={field.value}
+
+                <Select
+                  isMulti={false}
+                  theme="dark"
+                  closeMenuOnSelect
+                  isClearable={false}
                   onChange={field.onChange}
-                >
-                  <option value="">{lang.citizen.select_license}</option>
-                  <option value="" disabled>
-                    -------
-                  </option>
-                  {field.data?.map((option: any, idx: number) => {
-                    return (
-                      <option key={idx} id={`${idx}`} value={option.name}>
-                        {option.name}
-                      </option>
-                    );
-                  })}
-                </select>
+                  options={field.data?.map((item: Value) => ({
+                    label: item.name,
+                    value: item.name,
+                  }))}
+                />
               </div>
             );
           })}
@@ -294,7 +283,6 @@ const CreateCitizenPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   legalStatuses: state.values["legal-statuses"],

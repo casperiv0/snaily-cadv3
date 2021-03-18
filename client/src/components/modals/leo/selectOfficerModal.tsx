@@ -6,6 +6,8 @@ import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
 import { connect } from "react-redux";
 import { getMyOfficers, setStatus } from "../../../lib/actions/officer";
+import Select, { Value } from "../../select";
+import { notify } from "../../../lib/functions";
 
 interface Props {
   officers: Officer[];
@@ -14,7 +16,7 @@ interface Props {
 }
 
 const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatus }) => {
-  const [selected, setSelected] = React.useState("");
+  const [selected, setSelected] = React.useState<Value | null>(null);
   const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
@@ -23,8 +25,11 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!selected?.value) {
+      return notify("Must select an officer before continuing").warn();
+    }
 
-    setStatus(selected, "on-duty", "10-8");
+    setStatus(selected?.value, "on-duty", "10-8");
 
     btnRef.current?.click();
   }
@@ -50,21 +55,15 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
                 </Link>
               </p>
             ) : (
-              <select
-                className="form-control bg-secondary border-secondary text-light"
-                id="officer"
-                onChange={(e) => setSelected(e.target.value)}
+              <Select
+                isMulti={false}
                 value={selected}
-              >
-                <option value="">{lang.officers.select_officer2}</option>
-                {officers.map((officer: Officer, idx: number) => {
-                  return (
-                    <option key={idx} value={officer.id}>
-                      {`${officer.callsign} ${officer.officer_name} - ${officer.officer_dept}`}
-                    </option>
-                  );
-                })}
-              </select>
+                onChange={(v) => setSelected(v)}
+                options={officers.map((officer) => ({
+                  label: `${officer.callsign} ${officer.officer_name} - ${officer.officer_dept}`,
+                  value: officer.id,
+                }))}
+              />
             )}
           </div>
         </div>

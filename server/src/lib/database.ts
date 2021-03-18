@@ -47,6 +47,14 @@ async function updateDb() {
   import("./insert");
 
   updateLine("ALTER TABLE `officers` DROP `started_at`;");
+  updateLine(`
+CREATE TABLE \`call_events\` (
+  \`id\` varchar(255) NOT NULL,
+  \`call_id\` varchar(255) NOT NULL,
+  \`date\` varchar(255) NOT NULL,
+  \`text\` text NOT NULL,
+  PRIMARY KEY (\`id\`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
   updateLine("ALTER TABLE `citizens` ADD `dead_on` varchar(255) NOT NULL AFTER `phone_nr`;");
   updateLine("ALTER TABLE `citizens` ADD `dead` varchar(255) NOT NULL AFTER `phone_nr`;");
   updateLine("ALTER TABLE `officers` ADD `started_at` int(255) NOT NULL AFTER `status2`;");

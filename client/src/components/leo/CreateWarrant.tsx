@@ -4,6 +4,7 @@ import { createWarrant } from "../../lib/actions/records";
 import { connect } from "react-redux";
 import Officer from "../../interfaces/Officer";
 import State from "../../interfaces/State";
+import Select, { Value } from "../select";
 
 interface Props {
   activeOfficer: Officer | null;
@@ -12,20 +13,27 @@ interface Props {
 
 const CreateWarrant: React.FC<Props> = ({ createWarrant, activeOfficer }) => {
   const [name, setName] = React.useState<string>("");
-  const [status, setStatus] = React.useState<string>("active");
+  const [status, setStatus] = React.useState<Value | null>({
+    label: lang.record.active,
+    value: "active",
+  });
   const [details, setDetails] = React.useState<string>("");
 
   function onSubmit(e: React.FormEvent) {
     if (!activeOfficer) return;
     e.preventDefault();
+    if (!status) return;
 
     createWarrant({
       fullName: name,
-      status: status,
+      status: status.value,
       details: details,
     });
 
-    setStatus("");
+    setStatus({
+      label: lang.record.active,
+      value: "active",
+    });
     setName("");
     setDetails("");
   }
@@ -53,15 +61,22 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant, activeOfficer }) => {
             {lang.record.select_status}
           </label>
 
-          <select
-            className="form-control bg-secondary border-secondary text-light"
-            id="status"
-            onChange={(e) => setStatus(e.target.value)}
+          <Select
+            isClearable={false}
             value={status}
-          >
-            <option value="active">{lang.record.active}</option>
-            <option value="inactive">{lang.record.inactive}</option>
-          </select>
+            isMulti={false}
+            onChange={(v) => setStatus(v)}
+            options={[
+              {
+                label: lang.record.active,
+                value: "active",
+              },
+              {
+                value: "inactive",
+                label: lang.record.inactive,
+              },
+            ]}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="details">

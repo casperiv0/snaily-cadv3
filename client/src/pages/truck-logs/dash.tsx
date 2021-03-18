@@ -7,19 +7,17 @@ import lang from "../../language.json";
 import socket from "../../lib/socket";
 import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
-import Message from "../../interfaces/Message";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 
 interface Props {
-  message: Message | null;
   aop: string | null;
   logs: TruckLog[];
   getTruckLogs: () => void;
   deleteTruckLog: (id: string) => void;
 }
 
-const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
+const TruckLogsDash: React.FC<Props> = (props) => {
   useDocTitle("Truck logs dashboard");
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const { logs, getTruckLogs, deleteTruckLog } = props;
@@ -40,7 +38,6 @@ const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
 
   return (
     <Layout fluid classes="mt-5">
-      <AlertMessage message={message} dismissible />
       <div className="d-flex justify-content-between mb-3">
         <h3>
           {lang.nav.trucklogs} - AOP: {aop}
@@ -98,7 +95,6 @@ const TruckLogsDash: React.FC<Props> = ({ message, ...props }) => {
 const mapToProps = (state: State) => ({
   logs: state.truck_logs.logs,
   aop: state.global.aop,
-  message: state.global.message,
 });
 
 export default connect(mapToProps, { getTruckLogs, deleteTruckLog })(TruckLogsDash);

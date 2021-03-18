@@ -1,21 +1,18 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import lang from "../../../language.json";
-import AlertMessage from "../../../components/alert-message";
 import Layout from "../../../components/Layout";
-import State from "../../../interfaces/State";
 import Match from "../../../interfaces/Match";
 import { createCompanyPost } from "../../../lib/actions/company";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 
 interface Props {
-  error: string | null;
   match: Match;
   createCompanyPost: (data: object) => void;
 }
 
-const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
+const CreatePost: React.FC<Props> = ({ match, createCompanyPost }) => {
   const [title, setTitle] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const { companyId, citizenId } = match.params;
@@ -34,8 +31,6 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
 
   return (
     <Layout>
-      {error ? <AlertMessage message={{ msg: error, type: "warning" }} /> : null}
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="title">
@@ -72,8 +67,4 @@ const CreatePost: React.FC<Props> = ({ error, match, createCompanyPost }) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  error: state.company.error,
-});
-
-export default connect(mapToProps, { createCompanyPost })(CreatePost);
+export default connect(null, { createCompanyPost })(CreatePost);

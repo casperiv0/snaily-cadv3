@@ -2,29 +2,26 @@ import * as React from "react";
 import Layout from "../../../components/Layout";
 import State from "../../../interfaces/State";
 import Value from "../../../interfaces/Value";
-import AlertMessage from "../../../components/alert-message";
 import lang from "../../../language.json";
 import Citizen from "../../../interfaces/Citizen";
 import { getWeapons, getLegalStatuses } from "../../../lib/actions/values";
 import { connect } from "react-redux";
 import { getCitizens, registerWeapon } from "../../../lib/actions/citizen";
-import Message from "../../../interfaces/Message";
 import { useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
+import Select from "../../../components/select";
 
 interface Props {
-  message: Message | null;
   weapons: Value[];
   legalStatuses: Value[];
   owners: Citizen[];
   getWeapons: () => void;
   getCitizens: () => void;
   getLegalStatuses: () => void;
-  registerWeapon: (data: object) => void;
+  registerWeapon: (data: object) => Promise<boolean>;
 }
 
 const RegisterWeaponPage: React.FC<Props> = ({
-  message,
   weapons,
   legalStatuses,
   owners,
@@ -36,6 +33,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
   const [weapon, setWeapon] = React.useState<string>("");
   const [citizenId, setCitizenId] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>("");
+  const [serial, setSerial] = React.useState<string>("");
   const history = useHistory();
   useDocTitle("Register weapon");
 
@@ -45,86 +43,85 @@ const RegisterWeaponPage: React.FC<Props> = ({
     getCitizens();
   }, [getWeapons, getLegalStatuses, getCitizens]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    registerWeapon({
+    const registered = await registerWeapon({
       weapon,
       citizenId,
       status,
+      serial_number: serial.toUpperCase(),
     });
+
+    if (registered === true) {
+      history.push(`/citizen/${citizenId}`);
+    }
   }
 
   return (
     <Layout classes="mt-5">
-      <AlertMessage message={message} dismissible />
-
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="weapon">
             {lang.citizen.weapon.enter_weapon}
           </label>
-          <select
-            value={weapon}
-            onChange={(e) => setWeapon(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option>{lang.global.select}</option>
-            <option disabled>--------</option>
-            {weapons.map((weapon: Value, idx: number) => {
-              return (
-                <option key={idx} id={`${idx}`} value={weapon.name}>
-                  {weapon.name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setWeapon(v.value)}
+            options={weapons.map((weapon) => ({
+              value: weapon.name,
+              label: weapon.name,
+            }))}
+          />
         </div>
 
         <div className="mb-3">
           <label className="form-label" htmlFor="owner">
             {lang.citizen.weapon.enter_owner}
           </label>
-          <select
-            id="owner"
-            value={citizenId}
-            onChange={(e) => {
-              setCitizenId(e.target.value);
-            }}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="">{lang.global.select}</option>
-            <option disabled>--------</option>
-            {owners.map((owner: Citizen, idx: number) => {
-              return (
-                <option key={idx} id={`${idx}`} value={owner.id}>
-                  {owner.full_name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setCitizenId(v.value)}
+            options={owners.map((owner) => ({
+              value: owner.id,
+              label: owner.full_name,
+            }))}
+          />
         </div>
 
         <div className="mb-3">
           <label className="form-label" htmlFor="status">
             {lang.citizen.weapon.enter_status}
           </label>
-          <select
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="form-control bg-dark border-dark text-light"
-          >
-            <option value="">{lang.global.select}</option>
-            <option disabled>--------</option>
-            {legalStatuses.map((status: Value, idx: number) => {
-              return (
-                <option key={idx} id={`${idx}`} value={status.name}>
-                  {status.name}
-                </option>
-              );
-            })}
-          </select>
+
+          <Select
+            isMulti={false}
+            theme="dark"
+            isClearable={false}
+            onChange={(v) => setStatus(v.value)}
+            options={legalStatuses.map((status) => ({
+              value: status.name,
+              label: status.name,
+            }))}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label" htmlFor="status">
+            Custom Serial number (Optional)
+          </label>
+
+          <input
+            value={serial.toUpperCase()}
+            onChange={(e) => setSerial(e.target.value?.toUpperCase())}
+            className="bg-dark border-dark form-control text-light"
+          />
         </div>
 
         <div className="mb-3 float-end">
@@ -141,7 +138,6 @@ const RegisterWeaponPage: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  message: state.global.message,
   owners: state.citizen.citizens,
   weapons: state.values.weapons,
   legalStatuses: state.values["legal-statuses"],

@@ -114,8 +114,7 @@ router.put(
           );
         }
       } else {
-        if (!code[0]) return;
-        if (code[0]?.should_do === "set_off_duty") {
+        if (code[0]?.should_do === "set_off_duty" || !code[0]) {
           await processQuery(
             "UPDATE `officer_logs` SET `active` = ?, `ended_at` = ? WHERE `id` = ?",
             ["0", timeMs, officerLog[0]?.id],
@@ -186,9 +185,10 @@ router.post(
     const { plate } = req.body;
 
     if (plate) {
-      const result = await processQuery("SELECT * FROM `registered_cars` WHERE `plate` = ?", [
-        plate,
-      ]);
+      const result = await processQuery(
+        "SELECT * FROM `registered_cars` WHERE `plate` = ? OR `vin_number` = ?",
+        [plate, plate],
+      );
 
       return res.json({ plate: result[0] ?? {}, status: "success" });
     } else {
@@ -200,7 +200,7 @@ router.post(
 router.get(
   "/search/names",
   useAuth,
-  usePermission(["leo", "dispatch"]),
+  usePermission(["leo", "dispatch", "ems_fd"]),
   async (_req, res: Response) => {
     const found = await processQuery("SELECT `full_name` FROM `citizens`", []);
 

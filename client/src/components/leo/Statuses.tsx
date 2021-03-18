@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Code10 from "../../interfaces/Code10";
+import Officer from "../../interfaces/Officer";
 import State from "../../interfaces/State";
 import { get10Codes } from "../../lib/actions/admin";
 import { getCurrentOfficer, setStatus } from "../../lib/actions/officer";
@@ -11,18 +12,20 @@ import { filterCodes } from "../modals/dispatch/UpdateStatus";
 interface Props {
   status: string | null;
   status2: string | null;
+  statuses: Code10[];
+  activeOfficer: Officer | null;
   getCurrentOfficer: (id: string) => void;
   setStatus: (id: string, status: "on-duty" | "off-duty", status2: string) => void;
-  statuses: Code10[];
   get10Codes: () => void;
 }
 
 const Statuses: React.FC<Props> = ({
   status: currentStatus,
   status2,
+  statuses,
+  activeOfficer,
   getCurrentOfficer,
   setStatus,
-  statuses,
   get10Codes,
 }) => {
   const officerId = String(localStorage.getItem("on-duty-officerId"));
@@ -56,14 +59,26 @@ const Statuses: React.FC<Props> = ({
 
   return (
     <>
-      <button
-        type="button"
-        data-bs-toggle="modal"
-        data-bs-target="#selectOfficerModal"
-        className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
-      >
-        10-8
-      </button>
+      {activeOfficer ? (
+        <button
+          className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
+          type="button"
+          onClick={updateStatus}
+          value="10-8"
+        >
+          10-8
+        </button>
+      ) : (
+        <button
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#selectOfficerModal"
+          className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
+        >
+          10-8
+        </button>
+      )}
+
       {statuses.length <= 0 ? (
         <p>
           You can now have custom 10 codes for your CAD!{" "}
@@ -108,6 +123,7 @@ const mapToProps = (state: State) => ({
   status: state.officers.status,
   status2: state.officers.status2,
   statuses: state.admin.codes,
+  activeOfficer: state.officers.activeOfficer,
 });
 
 const Memoized = React.memo(Statuses);

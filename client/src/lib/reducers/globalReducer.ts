@@ -1,10 +1,9 @@
 import CadInfo from "../../interfaces/CadInfo";
 import State from "../../interfaces/State";
-import { UPDATE_AOP, GET_AOP, SET_MESSAGE, GET_CAD_INFO } from "../types";
+import { UPDATE_AOP, GET_AOP, GET_CAD_INFO } from "../types";
 
 const initState: State["global"] = {
   aop: null,
-  message: null,
   cadInfo: null,
 };
 
@@ -20,10 +19,6 @@ type Actions =
   | {
       type: typeof GET_CAD_INFO;
       cadInfo: CadInfo | null;
-    }
-  | {
-      type: typeof SET_MESSAGE;
-      message: string;
     };
 
 export default function globalReducer(state = initState, action: Actions) {
@@ -42,11 +37,6 @@ export default function globalReducer(state = initState, action: Actions) {
       return {
         ...state,
         cadInfo: action.cadInfo,
-      };
-    case "SET_MESSAGE":
-      return {
-        ...state,
-        message: action.message,
       };
     default:
       return {
