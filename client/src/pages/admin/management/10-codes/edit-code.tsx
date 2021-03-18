@@ -24,7 +24,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
   const history = useHistory();
-  useDocTitle(window.lang.admin.edit_10_code);
+  useDocTitle(window.lang.codes.edit_10_code);
 
   const value = {
     value: colorOptions.find((clr) => clr.value === color)?.value,
@@ -51,7 +51,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
 
   if (codes?.length > 0) {
     if (!value.value) {
-      return <AlertMessage message={{ msg: window.lang.admin.not_found, type: "danger" }} />;
+      return <AlertMessage message={{ msg: window.lang.codes.not_found, type: "danger" }} />;
     }
   }
 
@@ -79,7 +79,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="code">
-            Code
+            {window.lang.codes.code}
           </label>
           <input
             id="code"
@@ -90,9 +90,10 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="what_pages">
-            {window.lang.admin.code_where}
+            {window.lang.codes.code_where}
           </label>
           <Select
+            theme="dark"
             closeMenuOnSelect={false}
             isMulti
             options={options}
@@ -102,9 +103,10 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="what_pages">
-            {window.lang.admin.select_color}
+            {window.lang.codes.select_color}
           </label>
           <Select
+            theme="dark"
             closeMenuOnSelect
             isMulti={false}
             options={colorOptions}
@@ -114,9 +116,10 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="should_do">
-            {window.lang.admin.what_it_do}
+            {window.lang.codes.what_it_do}
           </label>
           <Select
+            theme="dark"
             closeMenuOnSelect
             isMulti={false}
             options={shouldDoOptions}

@@ -18,7 +18,7 @@ const EditPenalCode: React.FC<Props> = ({ updatePenalCode, codes, getPenalCodes 
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState<string>("");
   const history = useHistory();
-  useDocTitle("Edit Penal Code");
+  useDocTitle(window.lang.codes.edit_penal_code);
 
   React.useEffect(() => {
     getPenalCodes();
@@ -50,7 +50,7 @@ const EditPenalCode: React.FC<Props> = ({ updatePenalCode, codes, getPenalCodes 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="code">
-            Title
+            {window.lang.global.title}
           </label>
           <input
             id="title"
@@ -61,7 +61,7 @@ const EditPenalCode: React.FC<Props> = ({ updatePenalCode, codes, getPenalCodes 
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="code">
-            Description
+            {window.lang.global.description}
           </label>
           <textarea
             rows={15}
@@ -74,10 +74,10 @@ const EditPenalCode: React.FC<Props> = ({ updatePenalCode, codes, getPenalCodes 
 
         <div className="mb-3 float-end">
           <Link className="btn btn-danger mx-2" to="/admin/manage/penal-codes">
-            Cancel
+            {window.lang.global.cancel}
           </Link>
           <button type="submit" className="btn btn-primary">
-            Update
+            {window.lang.global.update}
           </button>
         </div>
       </form>

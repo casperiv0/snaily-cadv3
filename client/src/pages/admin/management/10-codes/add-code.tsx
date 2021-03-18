@@ -54,7 +54,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
   const history = useHistory();
-  useDocTitle(window.lang.admin.add_10_code);
+  useDocTitle(window.lang.codes.add_10_code);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -78,7 +78,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="code">
-            Code
+            {window.lang.codes.code}
           </label>
           <input
             id="code"
@@ -89,9 +89,10 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="what_pages">
-            {window.lang.admin.code_where}
+            {window.lang.codes.code_where}
           </label>
           <Select
+            theme="dark"
             closeMenuOnSelect={false}
             isMulti
             options={options}
@@ -100,9 +101,10 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="what_pages">
-            {window.lang.admin.select_color}
+            {window.lang.codes.select_color}
           </label>
           <Select
+            theme="dark"
             closeMenuOnSelect
             isMulti={false}
             options={colorOptions}
@@ -111,9 +113,10 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="should_do">
-            {window.lang.admin.what_it_do}
+            {window.lang.codes.what_it_do}
           </label>
           <Select
+            theme="dark"
             closeMenuOnSelect
             isMulti={false}
             options={shouldDoOptions}
@@ -125,7 +128,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
             {window.lang.global.cancel}
           </Link>
           <button type="submit" className="btn btn-primary">
-            {window.lang.admin.add_code}
+            {window.lang.codes.add_code}
           </button>
         </div>
       </form>

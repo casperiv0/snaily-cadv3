@@ -47,7 +47,7 @@ const TruckLogsDash: React.FC<Props> = (props) => {
       </div>
 
       {!logs[0] ? (
-        <AlertMessage message={{ msg: "You don't have any truck logs", type: "warning" }} />
+        <AlertMessage message={{ msg: window.lang.truck_logs.no_logs, type: "warning" }} />
       ) : (
         <table className="table table-dark">
           <thead>

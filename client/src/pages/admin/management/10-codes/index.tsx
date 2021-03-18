@@ -81,13 +81,13 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
 
                     <div>
                       <button onClick={() => delete10Code(code.id)} className="btn btn-danger mx-2">
-                        Delete
+                        {window.lang.global.delete}
                       </button>
                       <Link
                         to={`/admin/manage/10-codes/edit/${code.id}`}
                         className="btn btn-success"
                       >
-                        Edit
+                        {window.lang.global.edit}
                       </Link>
                     </div>
                   </li>
