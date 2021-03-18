@@ -25,5 +25,5 @@ jobs:
         run: cd client && npm install
 
       - name: check build
-        run: cd client && npm run build
+        run: "npm run translation:generate cd client && npm run build"
       
