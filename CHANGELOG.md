@@ -2,6 +2,15 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.4.5
+
+- Updated translations.
+
+  **Read:** Make sure to start your CAD after updating, this will update the translation file with the new values.
+  The values you have translated to your likings are **not** being overwritten. It'll only add the new missing values.
+
+- Fixed minor bugs
+
 ## 1.4.4-patch1
 
 - Fixed error "Could not find that `status`"

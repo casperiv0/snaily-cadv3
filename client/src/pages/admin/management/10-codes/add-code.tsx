@@ -73,7 +73,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
 
   return (
     <AdminLayout>
-      <h1 className="h3">{window.lang.admin.add_10_code}</h1>
+      <h1 className="h3">{window.lang.codes.add_10_code}</h1>
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
