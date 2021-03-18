@@ -124,7 +124,7 @@ const Update911Call: React.FC<Props> = ({
 
           <div className="mt-4 mb-3">
             <div id="addEventForm" className="d-flex justify-content-between">
-              <h1 className="h3">Events</h1>
+              <h1 className="h3">{window.lang.dispatch.events}</h1>
 
               <div>
                 <button
@@ -132,7 +132,7 @@ const Update911Call: React.FC<Props> = ({
                   type="button"
                   className="btn btn-primary"
                 >
-                  Add event
+                  {window.lang.dispatch.add_event}
                 </button>
               </div>
             </div>
@@ -140,7 +140,7 @@ const Update911Call: React.FC<Props> = ({
             {showAdd ? (
               <div className="mb-3">
                 <label htmlFor="text" className="form-label">
-                  Event
+                  {window.lang.dispatch.event}
                 </label>
 
                 <div className="d-flex">
@@ -150,7 +150,6 @@ const Update911Call: React.FC<Props> = ({
                     className="bg-secondary border-secondary text-light form-control"
                     value={eventText}
                     onChange={(e) => setEventText(e.target.value)}
-                    placeholder="Enter event"
                   />
 
                   <button
@@ -160,7 +159,7 @@ const Update911Call: React.FC<Props> = ({
                     style={{ marginLeft: "0.5rem" }}
                     className="btn btn-primary"
                   >
-                    Add
+                    {window.lang.codes.add_code}
                   </button>
                 </div>
               </div>
@@ -168,7 +167,7 @@ const Update911Call: React.FC<Props> = ({
 
             <ul style={{ maxHeight: "15rem" }} className="list-group overflow-auto">
               {call.events && call.events.length <= 0 ? (
-                <p>No events logged for this call</p>
+                <p>{window.lang.dispatch.no_events}</p>
               ) : (
                 call.events
                   ?.sort((a, b) => Number(b.date) - Number(a.date))

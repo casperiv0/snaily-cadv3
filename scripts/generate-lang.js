@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 let file = require("../client/src/language.json");
 
-console.log("Check language file...");
+console.log("[TRANSLATION]: Checking language file...");
 
 /**
  *! DO NOT TRANSLATE THESE LINES!
@@ -50,6 +50,7 @@ const ProbablyNotInTheTranslateFile = {
     dash: "Taxi Dashboard",
     active_calls: "Active taxi calls",
     create_taxi_call: "Create taxi call",
+    taxi_service: "Call taxi service",
   },
   truck_logs: {
     ...file.truck_logs,
@@ -58,6 +59,8 @@ const ProbablyNotInTheTranslateFile = {
   ems_fd: {
     ...file.ems_fd,
     add_medical_record: "Add medical record",
+    declare_dead: "Declare dead",
+    declare_alive: "Declare alive",
   },
   account: {
     owner_cannot_delete_account: "The owner is not able to delete their account.",
@@ -97,7 +100,11 @@ const ProbablyNotInTheTranslateFile = {
     no_officers: "You don't have any officers.",
     on_off_duty: "ON/OFF Duty",
     manage_officers: "Manage Officers",
-    
+    citizen_dead: "INFO: This citizen was declared dead on",
+    add_note: "Add note",
+    save_note: "Save note",
+    plate_or_vin: "Enter Plate or VIN number",
+    select_office: "Must select an officer before continuing",
   },
   admin: {
     ...file.admin,
@@ -148,6 +155,11 @@ const ProbablyNotInTheTranslateFile = {
     en_signal_100: "Enable signal 100",
     dis_signal_100: "Disable signal 100",
     panic_button: "Panic Button",
+    open_name_search: "Open name search",
+    events: "Events",
+    event: "Event",
+    add_event: "Add event",
+    no_events: "No events logged for this call",
   },
 };
 
@@ -187,4 +199,4 @@ Object.keys(file).forEach((fileKey) => {
 
 fs.writeFileSync(path.resolve("client/src/language.json"), JSON.stringify(file, null, 4));
 
-console.log("Successfully checked translation file.");
+console.log("[TRANSLATION]: Successfully checked translation file.");

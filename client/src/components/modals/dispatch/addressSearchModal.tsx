@@ -72,7 +72,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
                           data-bs-target="#nameSearchModal"
                           className="btn btn-primary"
                         >
-                          Open name search
+                          {window.lang.dispatch.open_name_search}
                         </button>
                       </div>
                     </li>

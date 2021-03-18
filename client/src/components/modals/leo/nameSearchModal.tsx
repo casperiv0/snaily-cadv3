@@ -69,7 +69,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
           {search !== null && search.type === "name" && search.citizen.dead === "1" ? (
             <AlertMessage
               message={{
-                msg: `INFO: This citizen was declared dead on ${format(
+                msg: `${window.lang.officers.citizen_dead} ${format(
                   Number(search.citizen.dead_on),
                   /* EG: 1st Jan 2020  */
                   "MMMM do yyyy",
@@ -184,7 +184,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
 
                     <div className="mt-3" id="note">
                       <label style={{ fontSize: "1.2rem" }} htmlFor="note">
-                        Add Note
+                        {window.lang.officers.add_note}
                       </label>
                       <textarea
                         id="note"
@@ -199,7 +199,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
                         onClick={addNote}
                         className="btn btn-primary mt-2"
                       >
-                        Save note
+                        {window.lang.officers.save_note}
                       </button>
                     </div>
                   </div>

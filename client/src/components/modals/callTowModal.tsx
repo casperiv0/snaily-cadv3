@@ -33,7 +33,7 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
   return (
     <Modal size="lg" id="callTowModal">
       <div className="modal-header">
-        <h5 className="modal-title">{lang.calls.tow_service} </h5>
+        <h5 className="modal-title">{lang.calls.tow_service}</h5>
         <XButton ref={btnRef} />
       </div>
 

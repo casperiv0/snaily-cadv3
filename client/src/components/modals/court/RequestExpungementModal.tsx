@@ -105,7 +105,7 @@ const RequestExpungementModal: React.FC<Props> = ({
                 )}
               </div>
               <div className="col-md-4 mb-3">
-                <h5>Arrest reports</h5>
+                <h5>{window.lang.record.arr_rep}</h5>
 
                 {courtResult.arrestReports.length <= 0 ? (
                   <p>{window.lang.court.no_arr_reports}</p>
@@ -124,7 +124,7 @@ const RequestExpungementModal: React.FC<Props> = ({
                 )}
               </div>
               <div className="col-md-4 mb-3">
-                <h5>Tickets</h5>
+                <h5>{window.lang.record.tickets}</h5>
 
                 {courtResult.tickets.length <= 0 ? (
                   <p>{window.lang.court.no_tickets}</p>

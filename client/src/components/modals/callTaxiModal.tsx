@@ -33,7 +33,7 @@ const CallTaxiModal: React.FC<Props> = ({ createTaxiCall }) => {
   return (
     <Modal size="lg" id="callTaxiModal">
       <div className="modal-header">
-        <h5 className="modal-title">Call Taxi Service</h5>
+        <h5 className="modal-title">{window.lang.taxi.taxi_service}</h5>
         <XButton ref={btnRef} />
       </div>
 
