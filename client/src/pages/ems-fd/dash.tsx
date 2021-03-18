@@ -15,6 +15,7 @@ import { get10Codes } from "../../lib/actions/admin";
 import AddMedicalRecordModal from "../../components/modals/ems-fd/addMedicalRecordModal";
 import useDocTitle from "../../hooks/useDocTitle";
 import { notify, playSound } from "../../lib/functions";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   aop: string | null;
@@ -31,10 +32,10 @@ const EmsFdDash: React.FC<Props> = (props) => {
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
 
-    socket.on("UPDATE_AOP", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, handler);
 
     return () => {
-      socket.off("UPDATE_AOP", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_AOP, handler);
     };
   }, []);
 
@@ -49,10 +50,10 @@ const EmsFdDash: React.FC<Props> = (props) => {
       }
     };
 
-    socket.on("UPDATE_ASSIGNED_UNITS", unitsHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_ASSIGNED_UNITS, unitsHandler);
 
     return () => {
-      socket.off("UPDATE_ASSIGNED_UNITS", unitsHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_ASSIGNED_UNITS, unitsHandler);
       successSound.stop();
     };
   }, [props.activeDeputy, location]);

@@ -7,6 +7,7 @@ import State from "../../interfaces/State";
 import { get10Codes } from "../../lib/actions/admin";
 import { getCurrentOfficer, setStatus } from "../../lib/actions/officer";
 import socket from "../../lib/socket";
+import { SOCKET_EVENTS } from "../../lib/types";
 import { filterCodes } from "../modals/dispatch/UpdateStatus";
 
 interface Props {
@@ -41,10 +42,10 @@ const Statuses: React.FC<Props> = ({
   React.useEffect(() => {
     const handler = () => getCurrentOfficer(officerId);
 
-    socket.on("UPDATE_ACTIVE_UNITS", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS, handler);
 
     return () => {
-      socket.off("UPDATE_ACTIVE_UNITS", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS, handler);
     };
   }, [officerId, getCurrentOfficer]);
 

@@ -7,6 +7,7 @@ import socket from "../../lib/socket";
 import Code10 from "../../interfaces/Code10";
 import { filterCodes } from "../modals/dispatch/UpdateStatus";
 import Deputy from "../../interfaces/Deputy";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   status: string | null;
@@ -34,10 +35,10 @@ const Statuses: React.FC<Props> = ({
   React.useEffect(() => {
     const handler = () => getCurrentEmsStatus();
 
-    socket.on("UPDATE_ACTIVE_UNITS", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS, handler);
 
     return () => {
-      socket.off("UPDATE_ACTIVE_UNITS", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS, handler);
     };
   }, [getCurrentEmsStatus]);
 

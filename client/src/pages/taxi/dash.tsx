@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { endTaxiCall, getTaxiCalls } from "../../lib/actions/taxi-calls";
 import NotepadModal from "../../components/modals/notepad";
 import useDocTitle from "../../hooks/useDocTitle";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: TowCall[];
@@ -26,15 +27,18 @@ const TaxiDash: React.FC<Props> = (props) => {
   }, [getTaxiCalls]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_AOP", (newAop: string) => {
+    const handler = (newAop: string) => {
       setAop(newAop);
-    });
-  }, []);
+    };
+    const taxiHandler = () => getTaxiCalls();
 
-  React.useEffect(() => {
-    socket.on("UPDATE_TAXI_CALLS", () => {
-      getTaxiCalls();
-    });
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, handler);
+    socket.on(SOCKET_EVENTS.UPDATE_TAXI_CALLS, taxiHandler);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.UPDATE_AOP);
+      socket.off(SOCKET_EVENTS.UPDATE_TAXI_CALLS, taxiHandler);
+    };
   }, [getTaxiCalls]);
 
   return (

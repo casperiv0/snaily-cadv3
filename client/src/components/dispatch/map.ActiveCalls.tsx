@@ -8,6 +8,7 @@ import { end911Call, getActive911Calls } from "../../lib/actions/911-calls";
 import State from "../../interfaces/State";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface CallItemProps {
   call: Call;
@@ -122,12 +123,12 @@ const Active911MapCalls: React.FC<Props> = ({
     const callHandler = () => getActive911Calls();
     const newCallHandler = () => sound.play();
 
-    socket.on("UPDATE_911_CALLS", callHandler);
-    socket.on("NEW_911_CALL", newCallHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_911_CALLS, callHandler);
+    socket.on(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
 
     return () => {
-      socket.off("UPDATE_911_CALLS", callHandler);
-      socket.off("NEW_911_CALL", newCallHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_911_CALLS, callHandler);
+      socket.off(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
       sound.stop();
     };
   }, [getActive911Calls]);

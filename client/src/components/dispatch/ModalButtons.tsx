@@ -6,6 +6,7 @@ import { Perm } from "../../interfaces/User";
 import lang from "../../language.json";
 import { playSound } from "../../lib/functions";
 import socket from "../../lib/socket";
+import { SOCKET_EVENTS } from "../../lib/types";
 import { MButton } from "../leo/ModalButtons";
 
 const modalButtons: MButton[] = [
@@ -59,21 +60,21 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
       setSignal100(value);
     };
 
-    socket.on("SIGNAL_100", handler);
+    socket.on(SOCKET_EVENTS.SIGNAL_100, handler);
 
     return () => {
-      socket.off("SIGNAL_100", handler);
+      socket.off(SOCKET_EVENTS.SIGNAL_100, handler);
       sound.stop();
     };
   }, []);
 
   function signal100Func() {
     const value = signal100 === "1" ? "0" : "1";
-    socket.emit("SIGNAL_100", value);
+    socket.emit(SOCKET_EVENTS.SIGNAL_100, value);
   }
 
   function panicButton() {
-    socket.emit("PANIC_BUTTON", { officer_name: "Dispatcher" });
+    socket.emit(SOCKET_EVENTS.PANIC_BUTTON, { officer_name: "Dispatcher" });
   }
 
   return (

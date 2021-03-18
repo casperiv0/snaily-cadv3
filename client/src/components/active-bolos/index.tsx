@@ -7,6 +7,7 @@ import { getActiveBolos, deleteBolo } from "../../lib/actions/bolos";
 import { connect } from "react-redux";
 import { Item, Span } from "../../pages/citizen/citizen-info";
 import Officer from "../../interfaces/Officer";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   bolos: Bolo[];
@@ -22,10 +23,10 @@ const ActiveBolos: React.FC<Props> = ({ bolos, activeOfficer, getActiveBolos, de
 
   React.useEffect(() => {
     const handler = () => getActiveBolos();
-    socket.on("UPDATE_BOLOS", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_BOLOS, handler);
 
     return () => {
-      socket.off("UPDATE_BOLOS", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_BOLOS, handler);
     };
   }, [getActiveBolos]);
 

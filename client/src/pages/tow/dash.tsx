@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { getTowCalls, endTowCall } from "../../lib/actions/tow-calls";
 import NotepadModal from "../../components/modals/notepad";
 import useDocTitle from "../../hooks/useDocTitle";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: TowCall[];
@@ -28,12 +29,12 @@ const TowDash: React.FC<Props> = (props) => {
     const aopHandler = (newAop: string) => setAop(newAop);
     const callsHandler = () => getTowCalls();
 
-    socket.on("UPDATE_AOP", aopHandler);
-    socket.on("UPDATE_TOW_CALLS", callsHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, aopHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_TOW_CALLS, callsHandler);
 
     return () => {
-      socket.off("UPDATE_AOP", aopHandler);
-      socket.off("UPDATE_TOW_CALLS", callsHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_AOP, aopHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_TOW_CALLS, callsHandler);
     };
   }, [getTowCalls]);
 

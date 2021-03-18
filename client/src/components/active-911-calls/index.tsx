@@ -8,6 +8,7 @@ import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
 import Officer from "../../interfaces/Officer";
 import Deputy from "../../interfaces/Deputy";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: Call[];
@@ -48,12 +49,12 @@ const Active911Calls: React.FC<Props> = ({
       }
     };
 
-    socket.on("UPDATE_911_CALLS", getCallHandler);
-    socket.on("NEW_911_CALL", newCallHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_911_CALLS, getCallHandler);
+    socket.on(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
 
     return () => {
-      socket.off("NEW_911_CALL", newCallHandler);
-      socket.off("UPDATE_911_CALLS", getCallHandler);
+      socket.off(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_911_CALLS, getCallHandler);
       sound.stop();
     };
   }, [getActive911Calls, location]);

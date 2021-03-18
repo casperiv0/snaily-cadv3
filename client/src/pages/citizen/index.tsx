@@ -12,6 +12,7 @@ import Call911Modal from "../../components/modals/call911Modal";
 import { getCitizens } from "../../lib/actions/citizen";
 import CallTaxiModal from "../../components/modals/callTaxiModal";
 import useDocTitle from "../../hooks/useDocTitle";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   aop: string | null;
@@ -31,10 +32,10 @@ const CitizensPage: React.FC<Props> = (props) => {
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
 
-    socket.on("UPDATE_AOP", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, handler);
 
     return () => {
-      socket.off("UPDATE_AOP", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_AOP, handler);
     };
   }, []);
 

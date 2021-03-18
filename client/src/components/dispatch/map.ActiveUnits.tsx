@@ -7,6 +7,7 @@ import socket from "../../lib/socket";
 import Officer from "../../interfaces/Officer";
 import Deputy from "../../interfaces/Deputy";
 import UpdateStatusModal from "../modals/dispatch/UpdateStatus";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   officers: Officer[];
@@ -21,10 +22,10 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
 
   React.useEffect(() => {
     const handler = () => getActiveUnits();
-    socket.on("UPDATE_ACTIVE_UNITS", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS, handler);
 
     return () => {
-      socket.off("UPDATE_ACTIVE_UNITS", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS, handler);
     };
   }, [getActiveUnits]);
 

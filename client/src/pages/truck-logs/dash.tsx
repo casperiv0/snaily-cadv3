@@ -8,6 +8,7 @@ import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   aop: string | null;
@@ -24,10 +25,10 @@ const TruckLogsDash: React.FC<Props> = (props) => {
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
 
-    socket.on("UPDATE_AOP", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, handler);
 
     return () => {
-      socket.off("UPDATE_AOP", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_AOP, handler);
     };
   }, []);
 
