@@ -107,7 +107,7 @@ const Active911Calls: React.FC<Props> = ({
                       }}
                       className="btn btn-success"
                     >
-                      Mark as Code 4
+                      {window.lang.dispatch.mark_code_4}
                     </button>
                   </td>
                 </tr>

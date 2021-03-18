@@ -79,7 +79,7 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
   return (
     <>
       <a href="/dispatch/map" className="btn btn-primary col-md-2">
-        Live map
+        {window.lang.dispatch.live_map}
       </a>
       {modalButtons.map((mButton: MButton, idx: number) => {
         return (
@@ -96,10 +96,12 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
       })}
 
       <button onClick={signal100Func} className="btn btn-secondary col-md-2">
-        {signal100 === "0" || !signal100 ? "Enable" : "Disable"} Signal 100
+        {signal100 === "0" || !signal100
+          ? window.lang.dispatch.en_signal_100
+          : window.lang.dispatch.dis_signal_100}
       </button>
       <button onClick={panicButton} className="btn btn-danger col-md-2">
-        Panic Button
+        {window.lang.dispatch.panic_button}
       </button>
     </>
   );

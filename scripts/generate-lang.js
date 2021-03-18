@@ -96,6 +96,8 @@ const ProbablyNotInTheTranslateFile = {
     total_time: "Total time on-duty",
     no_officers: "You don't have any officers.",
     on_off_duty: "ON/OFF Duty",
+    manage_officers: "Manage Officers",
+    
   },
   admin: {
     ...file.admin,
@@ -133,6 +135,19 @@ const ProbablyNotInTheTranslateFile = {
     penal_code_management: "Penal Code Management",
     penal_codes: "Penal Codes",
     no_penal_codes: "This CAD doesn't have any penal codes",
+  },
+  dispatch: {
+    ...file.dispatch,
+    mark_code_4: "Mark as code 4",
+    remove_marker: "Remove marker",
+    place_marker: "Place marker",
+    leo: "LEO",
+    ems_fd: "EMS-FD",
+    active_units: "Active Units",
+    live_map: "Live map",
+    en_signal_100: "Enable signal 100",
+    dis_signal_100: "Disable signal 100",
+    panic_button: "Panic Button",
   },
 };
 
