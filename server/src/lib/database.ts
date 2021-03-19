@@ -46,6 +46,7 @@ async function updateLine(sql: string) {
 async function updateDb() {
   import("./insert");
 
+  updateLine("ALTER TABLE `officers` DROP `started_at`;");
   updateLine(`
 CREATE TABLE \`call_events\` (
   \`id\` varchar(255) NOT NULL,
