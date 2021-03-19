@@ -7,6 +7,7 @@ import { getActive911Calls } from "../../lib/actions/911-calls";
 import { connect } from "react-redux";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: Call[];
@@ -23,12 +24,12 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
     const callHandler = () => getActive911Calls();
     const newCallHandler = () => sound.play();
 
-    socket.on("UPDATE_911_CALLS", callHandler);
-    socket.on("NEW_911_CALL", newCallHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_911_CALLS, callHandler);
+    socket.on(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
 
     return () => {
-      socket.off("UPDATE_911_CALLS", callHandler);
-      socket.off("NEW_911_CALL", newCallHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_911_CALLS, callHandler);
+      socket.off(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
       sound.stop();
     };
   }, [getActive911Calls]);

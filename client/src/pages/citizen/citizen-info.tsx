@@ -40,7 +40,11 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
   }, [getCitizenById, citizenId]);
 
   if (!citizen) {
-    return <AlertMessage message={{ msg: "Citizen was not found", type: "danger" }} dismissible />;
+    return (
+      <Layout>
+        <AlertMessage message={{ msg: window.lang.citizen.not_found, type: "danger" }} />
+      </Layout>
+    );
   }
 
   function handleDelete() {
@@ -93,7 +97,7 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
               {citizen.hair_color}
             </Item>
             <Item id="phone_nr">
-              <Span>Phone number: </Span>
+              <Span>{window.lang.citizen.phone_number}: </Span>
               {citizen.phone_nr || "None"}
             </Item>
           </div>

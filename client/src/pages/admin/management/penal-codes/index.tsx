@@ -27,7 +27,7 @@ const PenalCodesManagement: React.FC<Props> = ({
   const [filtered, setFiltered] = React.useState(codes);
   const [filter, setFilter] = React.useState("");
   const { ref, length } = useObserver<PenalCode>(codes);
-  useDocTitle("Penal Code Management");
+  useDocTitle(window.lang.codes.penal_code_management);
 
   React.useEffect(() => {
     getPenalCodes();
@@ -49,10 +49,10 @@ const PenalCodesManagement: React.FC<Props> = ({
   return (
     <AdminLayout>
       <div className="d-flex justify-content-between mb-3">
-        <h1 className="h3">Penal codes</h1>
+        <h1 className="h3">{window.lang.global.penal_codes}</h1>
         <div>
           <Link to="/admin/manage/penal-codes/add" className="btn btn-primary">
-            Add code
+            {window.lang.codes.add_penal_code}
           </Link>
         </div>
       </div>
@@ -63,12 +63,10 @@ const PenalCodesManagement: React.FC<Props> = ({
           value={filter}
           onChange={handleFilter}
           className="form-control bg-dark border-dark mb-2 text-light"
-          placeholder="Search.."
+          placeholder={`${window.lang.global.search}...`}
         />
         {codes?.length <= 0 ? (
-          <AlertMessage
-            message={{ msg: "This CAD doesn't have any penal codes", type: "warning" }}
-          />
+          <AlertMessage message={{ msg: window.lang.codes.no_penal_codes, type: "warning" }} />
         ) : loading ? (
           <Loader />
         ) : (
@@ -97,13 +95,13 @@ const PenalCodesManagement: React.FC<Props> = ({
                       onClick={() => deletePenalCode(code.id)}
                       className="btn btn-danger mx-2"
                     >
-                      Delete
+                      {window.lang.global.delete}
                     </button>
                     <Link
                       to={`/admin/manage/penal-codes/edit/${code.id}`}
                       className="btn btn-success"
                     >
-                      Edit
+                      {window.lang.global.edit}
                     </Link>
                   </div>
                 </li>

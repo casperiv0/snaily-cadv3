@@ -85,7 +85,7 @@ const ManageCitizensPage: React.FC<Props> = ({
               aria-controls="expungement-requests"
               aria-selected="false"
             >
-              Expungement Requests
+              {window.lang.court.requests}
               <span className="badge bg-primary ms-2">{requests.length}</span>
             </a>
           </li>

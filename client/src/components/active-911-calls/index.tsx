@@ -2,13 +2,13 @@ import * as React from "react";
 import { useLocation } from "react-router-dom";
 import Call from "../../interfaces/Call";
 import State from "../../interfaces/State";
-import lang from "../../language.json";
 import { connect } from "react-redux";
 import { end911Call, getActive911Calls } from "../../lib/actions/911-calls";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
 import Officer from "../../interfaces/Officer";
 import Deputy from "../../interfaces/Deputy";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: Call[];
@@ -49,12 +49,12 @@ const Active911Calls: React.FC<Props> = ({
       }
     };
 
-    socket.on("UPDATE_911_CALLS", getCallHandler);
-    socket.on("NEW_911_CALL", newCallHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_911_CALLS, getCallHandler);
+    socket.on(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
 
     return () => {
-      socket.off("NEW_911_CALL", newCallHandler);
-      socket.off("UPDATE_911_CALLS", getCallHandler);
+      socket.off(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_911_CALLS, getCallHandler);
       sound.stop();
     };
   }, [getActive911Calls, location]);
@@ -62,21 +62,21 @@ const Active911Calls: React.FC<Props> = ({
   return (
     <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
       <li className="bg-secondary border-secondary list-group-item sticky-top">
-        {lang.global.active_erm_calls}
+        {window.lang.global.active_erm_calls}
       </li>
       {!calls[0] ? (
-        <li className="list-group-item bg-dark">{lang.global.no_calls}</li>
+        <li className="list-group-item bg-dark">{window.lang.global.no_calls}</li>
       ) : (
         <table className="table table-dark">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">{lang.dispatch.caller_name}</th>
-              <th scope="col">{lang.dispatch.caller_location}</th>
-              <th scope="col">{lang.dispatch.call_desc}</th>
-              <th scope="col">{lang.dispatch.status}</th>
-              <th scope="col">{lang.dispatch.assigned_unit}</th>
-              <th scope="col">{lang.global.actions}</th>
+              <th scope="col">{window.lang.dispatch.caller_name}</th>
+              <th scope="col">{window.lang.dispatch.caller_location}</th>
+              <th scope="col">{window.lang.dispatch.call_desc}</th>
+              <th scope="col">{window.lang.dispatch.status}</th>
+              <th scope="col">{window.lang.dispatch.assigned_unit}</th>
+              <th scope="col">{window.lang.global.actions}</th>
             </tr>
           </thead>
           <tbody>
@@ -108,7 +108,7 @@ const Active911Calls: React.FC<Props> = ({
                       }}
                       className="btn btn-success"
                     >
-                      Mark as Code 4
+                      {window.lang.dispatch.mark_code_4}
                     </button>
                   </td>
                 </tr>

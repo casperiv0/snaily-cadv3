@@ -35,7 +35,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
   const [status, setStatus] = React.useState<string>("");
   const [serial, setSerial] = React.useState<string>("");
   const history = useHistory();
-  useDocTitle("Register weapon");
+  useDocTitle(window.lang.citizen.weapon.reg_weapon);
 
   React.useEffect(() => {
     getWeapons();
@@ -114,7 +114,7 @@ const RegisterWeaponPage: React.FC<Props> = ({
 
         <div className="mb-3">
           <label className="form-label" htmlFor="status">
-            Custom Serial number (Optional)
+            {window.lang.citizen.weapon_custom_serial}
           </label>
 
           <input

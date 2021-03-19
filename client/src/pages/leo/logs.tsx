@@ -26,14 +26,14 @@ const OfficerLogsPage: React.FC<Props> = ({ officers, logs, getMyOfficers, getMy
 
   return (
     <Layout classes="mt-5">
-      <h3>My officer logs</h3>
+      <h3>{window.lang.officers.logs}</h3>
       <Link className="btn btn-primary text-light w-100 p-2 my-2" to="/leo/dash">
         {lang.global.back_to_dashboard}
       </Link>
 
       <ul className="list-group mt-2">
         {!logs[0] ? (
-          <p>You don not have any officer logs.</p>
+          <p>{window.lang.officers.no_logs}</p>
         ) : (
           logs.map((log, idx) => {
             const officer = officers.find((off) => off.id === log.officer_id);
@@ -41,25 +41,25 @@ const OfficerLogsPage: React.FC<Props> = ({ officers, logs, getMyOfficers, getMy
             return (
               <li key={idx} id={`${idx}`} className="list-group-item bg-dark border-secondary ">
                 <Item id="officer_name">
-                  <Span>Officer name: </Span>
+                  <Span>{lang.dispatch.officer_name}: </Span>
                   {officer?.officer_name}
                 </Item>
                 <Item id="started_at">
-                  <Span>Started at: </Span>
+                  <Span>{window.lang.officers.started_at}: </Span>
                   {new Date(+log.started_at).toLocaleString()}
                 </Item>
                 <Item id="ended_at">
-                  <Span>Ended at: </Span>
+                  <Span>{window.lang.officers.ended_at}: </Span>
                   {log.ended_at !== "0"
                     ? new Date(+log.ended_at).toLocaleString()
-                    : "Has not ended yet"}
+                    : window.lang.officers.not_ended_yet}
                 </Item>
 
                 <Item id="total">
-                  <Span>Total Time on-duty: </Span>
+                  <Span>{window.lang.officers.total_time}: </Span>
                   {log.ended_at !== "0"
                     ? `${formatDistance(+log.ended_at, +log.started_at)}`
-                    : "Not ended yet"}
+                    : window.lang.officers.not_ended_yet}
                 </Item>
               </li>
             );

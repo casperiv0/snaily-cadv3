@@ -11,7 +11,7 @@ function useDocTitle(title: string) {
     return () => {
       document.title = "SnailyCAD";
     };
-  });
+  }, [state?.cad_name, title]);
 
   return `${title} - ${state?.cad_name || "SnailyCAD"}`;
 }

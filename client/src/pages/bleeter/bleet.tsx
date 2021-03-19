@@ -62,20 +62,20 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
         <div>
           <h3 className="mb-2">{bleet?.title}</h3>
           <p className="mt-1 mb-1">
-            <strong>Uploaded By: </strong>
+            <strong>{window.lang.bleeter.uploaded_by}: </strong>
             {bleet?.uploadedBy}
           </p>
         </div>
         <div>
           {bleet?.id && user?.id === bleet?.user_id ? (
             <Link className="btn btn-success mx-2" type="button" to={`/bleet/edit/${bleet.id}`}>
-              Edit bleet
+              {window.lang.bleeter.edit_bleet}
             </Link>
           ) : null}
           {(user?.id && ["owner", "admin", "moderator"].includes(user.rank)) ||
           bleet?.user_id === user?.id ? (
             <button onClick={handleDelete} className="btn btn-danger">
-              Delete bleet
+              {window.lang.bleeter.delete_bleet}
             </button>
           ) : null}
         </div>

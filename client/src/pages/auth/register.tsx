@@ -71,7 +71,7 @@ const Register: React.FC<Props> = ({ loading, register }) => {
         <button type="submit" className="btn btn-primary float-end w-100 mt-2">
           {loading ? (
             <div className="spinner-border text-light" role="status">
-              <span className="visually-hidden">Loading...</span>
+              <span className="visually-hidden">{window.lang.global.loading}...</span>
             </div>
           ) : (
             lang.auth.register

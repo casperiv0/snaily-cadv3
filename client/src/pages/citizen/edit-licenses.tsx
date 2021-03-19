@@ -30,7 +30,7 @@ const EditLicensesPage: React.FC<Props> = ({
   getLegalStatuses,
   updateLicenses,
 }) => {
-  useDocTitle("Manage licenses");
+  useDocTitle(window.lang.citizen.license.edit);
   const [dmv, setDmv] = React.useState("");
   const [fireArms, setFireArms] = React.useState("");
   const [pilot, setPilot] = React.useState("");

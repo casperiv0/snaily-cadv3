@@ -37,7 +37,7 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
         <div className="modal-body">
           <div className="mb-3">
             <label className="form-label" htmlFor="plate">
-              Enter Plate or VIN number
+              {window.lang.officers.plate_or_vin}
             </label>
             <input
               type="search"

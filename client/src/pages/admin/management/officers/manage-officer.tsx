@@ -50,7 +50,7 @@ const ManageOfficerPage: React.FC<Props> = ({
   const [status, setStatus] = React.useState(officer?.status ?? "");
   const [status2, setStatus2] = React.useState(officer?.status2 ?? "");
   const history = useHistory();
-  useDocTitle(`Managing ${officer?.officer_name}`);
+  useDocTitle(`${window.lang.admin.managing_officer} ${officer?.officer_name}`);
 
   React.useEffect(() => {
     getOfficerById(id);
@@ -93,13 +93,15 @@ const ManageOfficerPage: React.FC<Props> = ({
 
   return (
     <AdminLayout>
-      <h1 className="h2 mb-3">Managing Officer: {officer?.officer_name}</h1>
+      <h1 className="h2 mb-3">
+        {window.lang.admin.managing_officer}: {officer?.officer_name}
+      </h1>
 
       <form onSubmit={onSubmit}>
         <div className="mb-3 row">
           <div className="col-md-6">
             <label htmlFor="status" className="form-label">
-              ON/OFF Duty
+              {window.lang.officers.on_off_duty}
             </label>
 
             <Select
@@ -122,7 +124,7 @@ const ManageOfficerPage: React.FC<Props> = ({
           </div>
           <div className="col-md-6">
             <label htmlFor="status2" className="form-label">
-              Status
+              {window.lang.dispatch.status}
             </label>
 
             <Select
@@ -138,7 +140,7 @@ const ManageOfficerPage: React.FC<Props> = ({
 
         <div className="mb-3">
           <label className="form-label" htmlFor="tow">
-            Department
+            {lang.dispatch.officer_dept}
           </label>
 
           <Select
@@ -152,9 +154,8 @@ const ManageOfficerPage: React.FC<Props> = ({
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="tow">
-            Callsign
+            {window.lang.officers.callsign}
           </label>
-
           <input
             placeholder="callsign"
             value={callSign}
@@ -164,7 +165,7 @@ const ManageOfficerPage: React.FC<Props> = ({
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="tow">
-            Rank
+            {window.lang.global.rank}
           </label>
 
           <input
@@ -177,40 +178,40 @@ const ManageOfficerPage: React.FC<Props> = ({
 
         <div className="float-end">
           <Link to="/admin/manage/officers" className="btn btn-danger mx-2">
-            Cancel
+            {window.lang.global.cancel}
           </Link>
           <button type="submit" className="btn btn-primary">
-            Update
+            {window.lang.global.update}
           </button>
         </div>
       </form>
 
       <div className="mt-5">
-        <h1 className="h2">Officer logs</h1>
+        <h1 className="h2">{window.lang.admin.officer_logs}</h1>
 
         <ul style={{ maxHeight: "40rem" }} className="list-group overflow-auto">
           {logs && logs?.length <= 0 ? (
-            <p>Officer does not have any logs yet</p>
+            <p>{window.lang.officers.officer_no_logs}</p>
           ) : (
             logs?.map((log, idx) => {
               return (
                 <li key={idx} id={`${idx}`} className="list-group-item bg-dark border-secondary ">
                   <Item id="started_at">
-                    <Span>Started at: </Span>
+                    <Span>{window.lang.officers.started_at}: </Span>
                     {new Date(+log.started_at).toLocaleString()}
                   </Item>
                   <Item id="ended_at">
-                    <Span>Ended at: </Span>
+                    <Span>{window.lang.officers.ended_at}: </Span>
                     {log.ended_at !== "0"
                       ? new Date(+log.ended_at).toLocaleString()
-                      : "Has not ended yet"}
+                      : window.lang.officers.not_ended_yet}
                   </Item>
 
                   <Item id="total">
-                    <Span>Total Time on-duty: </Span>
+                    <Span>{window.lang.officers.total_time}: </Span>
                     {log.ended_at !== "0"
                       ? `${formatDistance(+log.ended_at, +log.started_at)}`
-                      : "Not ended yet"}
+                      : window.lang.officers.not_ended_yet}
                   </Item>
                 </li>
               );

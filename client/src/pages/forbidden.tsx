@@ -7,7 +7,7 @@ const ForbiddenPage: React.FC = () => {
 
   return (
     <Layout classes="mt-5">
-      <h3 className="text-center">You are not allowed to view the requested page</h3>
+      <h3 className="text-center">{window.lang.global.forbidden}</h3>
     </Layout>
   );
 };

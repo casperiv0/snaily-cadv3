@@ -60,7 +60,8 @@ const ModalButtons: React.FC<Props> = ({ user, activeOfficer }) => {
     <>
       {activeOfficer ? (
         <h5 style={{ marginLeft: "-10px" }}>
-          Currently active as: {`${activeOfficer?.callsign} ${activeOfficer?.officer_name}`}
+          {window.lang.global.currently_active_as}{" "}
+          {`${activeOfficer?.callsign} ${activeOfficer?.officer_name}`}
         </h5>
       ) : null}
       <Link to="/leo/my-officers" className="btn btn-primary col-md-2">
@@ -68,11 +69,11 @@ const ModalButtons: React.FC<Props> = ({ user, activeOfficer }) => {
       </Link>
       {user?.supervisor === "1" ? (
         <Link to="/admin/manage/officers" className="btn btn-primary col-md-2">
-          Manage officers
+          {window.lang.officers.manage_officers}
         </Link>
       ) : adminRanks.includes(`${user?.rank}`) ? (
         <Link to="/admin/manage/officers" className="btn btn-secondary col-md-2">
-          Manage officers
+          {window.lang.officers.manage_officers}
         </Link>
       ) : null}
 
@@ -98,7 +99,7 @@ const ModalButtons: React.FC<Props> = ({ user, activeOfficer }) => {
         {lang.global.penal_codes}
       </Link>
       <button onClick={panicButton} disabled={!activeOfficer} className="btn btn-danger col-md-2">
-        Panic Button
+        {window.lang.dispatch.panic_button}
       </button>
     </>
   );

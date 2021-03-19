@@ -26,6 +26,7 @@ import User, { Perm } from "../../interfaces/User";
 import CadInfo from "../../interfaces/CadInfo";
 import useDocTitle from "../../hooks/useDocTitle";
 import { DismissAlertBtn } from "../../components/alert-message";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   aop: string | null;
@@ -57,7 +58,6 @@ const LeoDash: React.FC<Props> = (props) => {
   }, [time]);
 
   React.useEffect(() => {
-    document.title = "LEO Dashboard";
     getPenalCodes();
   }, [getPenalCodes]);
 
@@ -77,14 +77,14 @@ const LeoDash: React.FC<Props> = (props) => {
       setSignal100(value);
     };
 
-    socket.on("UPDATE_AOP", aopHandler);
-    socket.on("PANIC_BUTTON", panicButtonHandler);
-    socket.on("SIGNAL_100", signal100Handler);
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, aopHandler);
+    socket.on(SOCKET_EVENTS.PANIC_BUTTON, panicButtonHandler);
+    socket.on(SOCKET_EVENTS.SIGNAL_100, signal100Handler);
 
     return () => {
-      socket.off("UPDATE_AOP", aopHandler);
-      socket.off("PANIC_BUTTON", panicButtonHandler);
-      socket.off("SIGNAL_100", signal100Handler);
+      socket.off(SOCKET_EVENTS.UPDATE_AOP, aopHandler);
+      socket.off(SOCKET_EVENTS.PANIC_BUTTON, panicButtonHandler);
+      socket.off(SOCKET_EVENTS.SIGNAL_100, signal100Handler);
 
       panicSound.stop;
       signal100Sound.stop();
@@ -97,15 +97,15 @@ const LeoDash: React.FC<Props> = (props) => {
     const unitsHandler = (unitIds: string[]) => {
       if (location.pathname !== "/leo/dash") return;
       if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
-        notify("You were assigned to a call!").success();
+        notify(window.lang.global.assigned_to_call).success();
         successSound.play();
       }
     };
 
-    socket.on("UPDATE_ASSIGNED_UNITS", unitsHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_ASSIGNED_UNITS, unitsHandler);
 
     return () => {
-      socket.off("UPDATE_ASSIGNED_UNITS", unitsHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_ASSIGNED_UNITS, unitsHandler);
       successSound.stop();
     };
   }, [props.activeOfficer, location]);
@@ -114,13 +114,13 @@ const LeoDash: React.FC<Props> = (props) => {
     <Layout fluid>
       {panic !== null ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
-          {panic.officer_name} has activated panic button
+          {panic.officer_name} {window.lang.global.panic_button}
           <DismissAlertBtn onClick={() => setPanic(null)} />
         </div>
       ) : null}
       {signal100 === "1" ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
-          Signal 100 is in effect
+          {window.lang.global.signal_100}
           <DismissAlertBtn onClick={() => setSignal100("0")} />
         </div>
       ) : null}

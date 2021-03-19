@@ -26,9 +26,9 @@ const NotificationsCenter: FC<Props> = ({
 
   return (
     <div className="nc-content">
-      <h1 className="h2">Notification Center</h1>
+      <h1 className="h2">{window.lang.notifications.center}</h1>
       {notifications.length <= 0 ? (
-        <p>You don&apos;t have any active notifications</p>
+        <p>{window.lang.notifications.no_notifications}</p>
       ) : (
         notifications.map((notification) => {
           return (

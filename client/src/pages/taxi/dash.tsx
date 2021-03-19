@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { endTaxiCall, getTaxiCalls } from "../../lib/actions/taxi-calls";
 import NotepadModal from "../../components/modals/notepad";
 import useDocTitle from "../../hooks/useDocTitle";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: TowCall[];
@@ -26,24 +27,29 @@ const TaxiDash: React.FC<Props> = (props) => {
   }, [getTaxiCalls]);
 
   React.useEffect(() => {
-    socket.on("UPDATE_AOP", (newAop: string) => {
+    const handler = (newAop: string) => {
       setAop(newAop);
-    });
-  }, []);
+    };
+    const taxiHandler = () => getTaxiCalls();
 
-  React.useEffect(() => {
-    socket.on("UPDATE_TAXI_CALLS", () => {
-      getTaxiCalls();
-    });
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, handler);
+    socket.on(SOCKET_EVENTS.UPDATE_TAXI_CALLS, taxiHandler);
+
+    return () => {
+      socket.off(SOCKET_EVENTS.UPDATE_AOP);
+      socket.off(SOCKET_EVENTS.UPDATE_TAXI_CALLS, taxiHandler);
+    };
   }, [getTaxiCalls]);
 
   return (
     <Layout fluid classes="mt-5">
-      <h3>Taxi Dashboard - AOP: {aop}</h3>
+      <h3>
+        {window.lang.taxi.dash} - AOP: {aop}
+      </h3>
 
       <ul className="list-group">
         <li className="list-group-item bg-secondary d-flex justify-content-between">
-          <h4>Active taxi calls</h4>
+          <h4>{window.lang.taxi.active_calls}</h4>
 
           <button data-bs-toggle="modal" data-bs-target="#notepad" className="btn btn-dark">
             {lang.global.notepad}

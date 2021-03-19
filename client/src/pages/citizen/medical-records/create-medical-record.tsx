@@ -17,7 +17,7 @@ const CreateMedicalRecordPage: React.FC<Props> = ({ match, createMedicalRecord }
   const [type, setType] = React.useState("Allergy");
   const [shortInfo, setShortInfo] = React.useState("");
   const citizenId = match.params.id;
-  useDocTitle("Create medical record");
+  useDocTitle(window.lang.citizen.create_medical_record);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();

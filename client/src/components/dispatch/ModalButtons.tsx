@@ -6,6 +6,7 @@ import { Perm } from "../../interfaces/User";
 import lang from "../../language.json";
 import { playSound } from "../../lib/functions";
 import socket from "../../lib/socket";
+import { SOCKET_EVENTS } from "../../lib/types";
 import { MButton } from "../leo/ModalButtons";
 
 const modalButtons: MButton[] = [
@@ -59,27 +60,27 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
       setSignal100(value);
     };
 
-    socket.on("SIGNAL_100", handler);
+    socket.on(SOCKET_EVENTS.SIGNAL_100, handler);
 
     return () => {
-      socket.off("SIGNAL_100", handler);
+      socket.off(SOCKET_EVENTS.SIGNAL_100, handler);
       sound.stop();
     };
   }, []);
 
   function signal100Func() {
     const value = signal100 === "1" ? "0" : "1";
-    socket.emit("SIGNAL_100", value);
+    socket.emit(SOCKET_EVENTS.SIGNAL_100, value);
   }
 
   function panicButton() {
-    socket.emit("PANIC_BUTTON", { officer_name: "Dispatcher" });
+    socket.emit(SOCKET_EVENTS.PANIC_BUTTON, { officer_name: "Dispatcher" });
   }
 
   return (
     <>
       <a href="/dispatch/map" className="btn btn-primary col-md-2">
-        Live map
+        {window.lang.dispatch.live_map}
       </a>
       {modalButtons.map((mButton: MButton, idx: number) => {
         return (
@@ -96,10 +97,12 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
       })}
 
       <button onClick={signal100Func} className="btn btn-secondary col-md-2">
-        {signal100 === "0" || !signal100 ? "Enable" : "Disable"} Signal 100
+        {signal100 === "0" || !signal100
+          ? window.lang.dispatch.en_signal_100
+          : window.lang.dispatch.dis_signal_100}
       </button>
       <button onClick={panicButton} className="btn btn-danger col-md-2">
-        Panic Button
+        {window.lang.dispatch.panic_button}
       </button>
     </>
   );

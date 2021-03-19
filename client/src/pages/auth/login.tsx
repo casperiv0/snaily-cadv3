@@ -72,7 +72,7 @@ const Login: React.FC<Props> = ({ loading, location, login }) => {
         >
           {loading ? (
             <div className="spinner-border text-light" role="status">
-              <span className="visually-hidden">Loading...</span>
+              <span className="visually-hidden">{window.lang.global.loading}...</span>
             </div>
           ) : (
             lang.auth.login

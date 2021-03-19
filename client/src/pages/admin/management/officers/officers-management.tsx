@@ -48,14 +48,14 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, loading, getAllOffi
           value={filter}
           onChange={handleFilter}
           className="form-control bg-dark border-secondary mb-2 text-light"
-          placeholder={lang.global.search}
+          placeholder={`${lang.global.search}...`}
         />
         {!officers[0] ? (
-          <AlertMessage
-            message={{ msg: "This CAD doesn't have any officers yet", type: "warning" }}
-          />
+          <AlertMessage message={{ msg: window.lang.admin.no_officers, type: "warning" }} />
         ) : !filtered[0] ? (
-          <AlertMessage message={{ msg: "No officer found with that name", type: "warning" }} />
+          <AlertMessage
+            message={{ msg: window.lang.admin.no_officer_with_name, type: "warning" }}
+          />
         ) : loading ? (
           <Loader />
         ) : (
@@ -75,19 +75,19 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, loading, getAllOffi
                       </Item>
 
                       <Item id="callsign">
-                        <Span>Callsign: </Span>
-                        {officer.callsign || "None set"}
+                        <Span>{window.lang.officers.callsign}: </Span>
+                        {officer.callsign || window.lang.global.none_set}
                       </Item>
                       <Item id="rank">
-                        <Span>Rank: </Span>
-                        {officer.rank || "None set"}
+                        <Span>{window.lang.global.rank}: </Span>
+                        {officer.rank || window.lang.global.none_set}
                       </Item>
                       <Item id="status">
-                        <Span>ON/OFF Duty: </Span>
+                        <Span>{window.lang.officers.on_off_duty}: </Span>
                         {officer.status}
                       </Item>
                       <Item id="status2">
-                        <Span>Status: </Span>
+                        <Span>{window.lang.dispatch.status}: </Span>
                         {officer.status2}
                       </Item>
                     </div>
@@ -95,7 +95,7 @@ const OfficersManagementPage: React.FC<Props> = ({ officers, loading, getAllOffi
 
                   <div>
                     <Link className="btn btn-success" to={`officers/${officer.id}`}>
-                      Manage
+                      {window.lang.global.manage}
                     </Link>
                   </div>
                 </li>

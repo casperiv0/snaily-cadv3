@@ -108,7 +108,7 @@ const ManageMember: React.FC<Props> = ({
   if (member !== null && !member) {
     return (
       <AdminLayout>
-        <AlertMessage message={{ msg: "Not found", type: "danger" }} />
+        <AlertMessage message={{ msg: window.lang.admin.mem_not_found, type: "danger" }} />
       </AdminLayout>
     );
   }
@@ -172,7 +172,7 @@ const ManageMember: React.FC<Props> = ({
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="leo">
-            LEO Supervisor
+            {window.lang.admin.leo_supervisor}
           </label>
 
           <Select
@@ -255,7 +255,7 @@ const ManageMember: React.FC<Props> = ({
 
         <div className="mb-3">
           <label className="form-label" htmlFor="ems_fd">
-            Steam ID
+            {window.lang.account.steam_id}
           </label>
 
           <input
@@ -278,7 +278,7 @@ const ManageMember: React.FC<Props> = ({
       <div style={{ marginTop: "5rem", width: "100%" }}>
         <div className="card bg-dark border-dark">
           <div className="card-header">
-            <h5 className="card-title">Use the ban hammer</h5>
+            <h5 className="card-title">{window.lang.admin.ban_hammer}</h5>
           </div>
 
           <form onSubmit={handleBan} className="card-body">
@@ -318,21 +318,21 @@ const ManageMember: React.FC<Props> = ({
       <div style={{ marginTop: "2rem", width: "100%" }}>
         <div className="card bg-dark border-dark">
           <div className="card-header">
-            <h5 className="card-title">Remove user</h5>
+            <h5 className="card-title">{window.lang.admin.remove_user}</h5>
           </div>
 
           <div className="card-body">
             {authenticatedUser?.id === member?.id ? (
               <AlertMessage
-                message={{ msg: "You cannot remove your own account", type: "warning" }}
+                message={{ msg: window.lang.admin.cannot_remove_own_acc, type: "warning" }}
               />
             ) : member?.rank === "owner" ? (
               <AlertMessage
-                message={{ msg: "You cannot remove the owner's account", type: "warning" }}
+                message={{ msg: window.lang.admin.cannot_remove_owner_acc, type: "warning" }}
               />
             ) : (
               <button onClick={handleRemove} className="btn btn-danger mt-2 col">
-                Remove User
+                {window.lang.admin.remove_user}
               </button>
             )}
           </div>

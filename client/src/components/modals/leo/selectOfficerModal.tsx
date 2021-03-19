@@ -26,7 +26,7 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!selected?.value) {
-      return notify("Must select an officer before continuing").warn();
+      return notify(window.lang.officers.select_officer).warn();
     }
 
     setStatus(selected?.value, "on-duty", "10-8");

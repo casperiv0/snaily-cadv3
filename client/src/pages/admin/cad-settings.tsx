@@ -43,10 +43,6 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
     }
   }, [cadInfo]);
 
-  React.useEffect(() => {
-    document.title = "CAD Settings - SnailyCAD";
-  }, []);
-
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -175,7 +171,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
             </div>
             <div className="mb-3">
               <label className="form-label" htmlFor="webhook_url">
-                Max plate length
+                {window.lang.admin.max_plate_length}
               </label>
               <input
                 type="number"
@@ -187,7 +183,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
             </div>
             <div className="mb-3">
               <label className="form-label" htmlFor="webhook_url">
-                Live map Socket URL
+                {window.lang.admin.socket_url}
               </label>
               <input
                 type="text"
@@ -199,7 +195,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
             </div>
             <div className="mb-3">
               <label className="form-label" htmlFor="webhook_url">
-                Steam API key
+                {window.lang.admin.steam_api_key}
               </label>
 
               <div className="input-group mb-3">
@@ -217,7 +213,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
                   type="button"
                   id="show-steam-key"
                 >
-                  {showSteamKey ? "Hide" : "Show"}
+                  {showSteamKey ? window.lang.global.hide : window.lang.global.show}
                 </button>
               </div>
             </div>
@@ -260,7 +256,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
             </div>
             <div className="mb-3">
               <button className="btn btn-primary col" type="submit">
-                Save Settings
+                {window.lang.admin.save}
               </button>
             </div>
           </form>
@@ -269,7 +265,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
 
       <form onSubmit={onFeaturesSubmit} className="card bg-dark border-dark mt-3 mb-5">
         <div className="card-header">
-          <h4>Enable/Disable Features</h4>
+          <h4>{window.lang.admin.enable_disable_features}</h4>
         </div>
 
         <div className="card-body">

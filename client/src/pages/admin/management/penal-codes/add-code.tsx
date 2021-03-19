@@ -14,7 +14,7 @@ const AddPenalCode: React.FC<Props> = ({ addPenalCode }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState("");
   const history = useHistory();
-  useDocTitle("Add Penal Code");
+  useDocTitle(window.lang.codes.add_penal_code);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,12 +31,12 @@ const AddPenalCode: React.FC<Props> = ({ addPenalCode }) => {
 
   return (
     <AdminLayout>
-      <h1 className="h3">Add penal code</h1>
+      <h1 className="h3">{window.lang.codes.add_penal_code}</h1>
 
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="code">
-            Title
+            {window.lang.global.title}
           </label>
           <input
             id="title"
@@ -47,7 +47,7 @@ const AddPenalCode: React.FC<Props> = ({ addPenalCode }) => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="code">
-            Description
+            {window.lang.global.description}
           </label>
           <textarea
             rows={7}
@@ -59,10 +59,10 @@ const AddPenalCode: React.FC<Props> = ({ addPenalCode }) => {
         </div>
         <div className="mb-3 float-end">
           <Link className="btn btn-danger mx-2" to="/admin/manage/penal-codes">
-            Cancel
+            {window.lang.global.cancel}
           </Link>
           <button type="submit" className="btn btn-primary">
-            Add
+            {window.lang.codes.add_code}
           </button>
         </div>
       </form>

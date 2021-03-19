@@ -93,7 +93,9 @@ const SearchMedicalRecords: React.FC<Props> = ({
                         type="button"
                         className="btn btn-primary"
                       >
-                        Declare {record.citizen?.dead === "1" ? "alive" : "dead"}
+                        {record.citizen?.dead === "1"
+                          ? window.lang.ems_fd.declare_alive
+                          : window.lang.ems_fd.declare_dead}
                       </button>
                     </td>
                   </tr>

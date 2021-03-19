@@ -8,6 +8,7 @@ import { end911Call, getActive911Calls } from "../../lib/actions/911-calls";
 import State from "../../interfaces/State";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface CallItemProps {
   call: Call;
@@ -60,16 +61,16 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
       <div id={`collapse-${call.id}`} className="collapse">
         <div className="map-column">
           <Item id="caller">
-            <Span>Caller:</Span> {call.name}
+            <Span>{window.lang.dispatch.caller_name}:</Span> {call.name}
           </Item>
           <Item id="description">
-            <Span>Description:</Span> {call.description}
+            <Span>{window.lang.dispatch.call_desc}:</Span> {call.description}
           </Item>
           <Item id="location">
-            <Span>Location:</Span> {call.location}
+            <Span>{window.lang.dispatch.caller_location}:</Span> {call.location}
           </Item>
           <Item id="location">
-            <Span>Assigned units: </Span>
+            <Span>{window.lang.dispatch.assigned_unit}: </Span>
             {assignedUnits.length <= 0 ? "None" : assignedUnits}
           </Item>
 
@@ -80,17 +81,19 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
               className="btn btn-success w-50"
               onClick={updateZIndex}
             >
-              Edit call
+              {window.lang.dispatch.update_call}
             </button>
             <button onClick={() => end911Call(call.id)} className="btn btn-danger w-50">
-              End call
+              {window.lang.tow.end_call}
             </button>
           </div>
           <button
             onClick={() => setMarker(call, hasMarker(call.id) ? "remove" : "place")}
             className="btn btn-secondary w-100 mt-2"
           >
-            {hasMarker(call.id) ? "Remove Marker" : "Place Marker"}
+            {hasMarker(call.id)
+              ? window.lang.dispatch.remove_marker
+              : window.lang.dispatch.place_marker}
           </button>
         </div>
       </div>
@@ -120,12 +123,12 @@ const Active911MapCalls: React.FC<Props> = ({
     const callHandler = () => getActive911Calls();
     const newCallHandler = () => sound.play();
 
-    socket.on("UPDATE_911_CALLS", callHandler);
-    socket.on("NEW_911_CALL", newCallHandler);
+    socket.on(SOCKET_EVENTS.UPDATE_911_CALLS, callHandler);
+    socket.on(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
 
     return () => {
-      socket.off("UPDATE_911_CALLS", callHandler);
-      socket.off("NEW_911_CALL", newCallHandler);
+      socket.off(SOCKET_EVENTS.UPDATE_911_CALLS, callHandler);
+      socket.off(SOCKET_EVENTS.NEW_911_CALL, newCallHandler);
       sound.stop();
     };
   }, [getActive911Calls]);

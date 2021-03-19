@@ -31,7 +31,9 @@ const ManageEmployee: React.FC<Props> = ({
   const [rank, setRank] = React.useState("");
   const [canRegVeh, setCanRegVeh] = React.useState("");
   const [canCreatePost, setCanCreatePost] = React.useState("");
-  useDocTitle(employee?.id ? `Managing employee: ${employee.full_name}` : "Company");
+  useDocTitle(
+    employee?.id ? `${window.lang.citizen.managing_employee}: ${employee.full_name}` : "Company",
+  );
 
   React.useEffect(() => {
     getCitizenById(employeeId);
@@ -71,7 +73,7 @@ const ManageEmployee: React.FC<Props> = ({
   if (employee !== null && !employee) {
     return (
       <Layout>
-        <AlertMessage message={{ msg: "Citizen not found", type: "danger" }} />
+        <AlertMessage message={{ msg: window.lang.citizen.not_found, type: "danger" }} />
       </Layout>
     );
   }
@@ -85,7 +87,9 @@ const ManageEmployee: React.FC<Props> = ({
           </label>
 
           {rank === "owner" ? (
-            <AlertMessage message={{ msg: "Cannot change the owner's rank", type: "warning" }} />
+            <AlertMessage
+              message={{ msg: window.lang.citizen.cannot_change_owner_rank, type: "warning" }}
+            />
           ) : (
             <Select
               theme="dark"

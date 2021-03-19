@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Layout from "../../components/Layout";
-import lang from "../../language.json";
 import { createBleet } from "../../lib/actions/bleeter";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
@@ -36,7 +35,7 @@ const CreateBleetPage: React.FC<Props> = ({ createBleet }) => {
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="title">
-            {lang.bleeter.bleet_title}
+            {window.lang.bleeter.bleet_title}
           </label>
           <input
             type="file"
@@ -48,7 +47,7 @@ const CreateBleetPage: React.FC<Props> = ({ createBleet }) => {
 
         <div className="mb-3">
           <label className="form-label" htmlFor="title">
-            {lang.bleeter.bleet_title}
+            {window.lang.bleeter.bleet_title}
           </label>
           <input
             type="text"
@@ -61,7 +60,7 @@ const CreateBleetPage: React.FC<Props> = ({ createBleet }) => {
 
         <div className="mb-3">
           <label className="form-label" htmlFor="body">
-            {lang.bleeter.bleet_body}
+            {window.lang.bleeter.bleet_body}
           </label>
           <textarea
             className="form-control bg-dark border-dark text-light"
@@ -75,11 +74,11 @@ const CreateBleetPage: React.FC<Props> = ({ createBleet }) => {
 
         <div className="mb-3 float-end">
           <Link className="btn btn-danger" to="/bleeter">
-            {lang.global.cancel}
+            {window.lang.global.cancel}
           </Link>
 
           <button className="btn btn-primary ms-2" type="submit">
-            {lang.bleeter.create_bleet}
+            {window.lang.bleeter.create_bleet}
           </button>
         </div>
       </form>

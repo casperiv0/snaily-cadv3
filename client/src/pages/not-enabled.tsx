@@ -7,10 +7,7 @@ const NotEnabled: React.FC = () => {
 
   return (
     <Layout classes="mt-5">
-      <h3 className="text-center">
-        That feature was disabled by the CAD owner, if you would like to use this feature, let your
-        owner know!
-      </h3>
+      <h3 className="text-center">{window.lang.global.not_enabled}</h3>
     </Layout>
   );
 };

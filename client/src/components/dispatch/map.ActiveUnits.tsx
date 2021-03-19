@@ -7,6 +7,7 @@ import socket from "../../lib/socket";
 import Officer from "../../interfaces/Officer";
 import Deputy from "../../interfaces/Deputy";
 import UpdateStatusModal from "../modals/dispatch/UpdateStatus";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   officers: Officer[];
@@ -21,10 +22,10 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
 
   React.useEffect(() => {
     const handler = () => getActiveUnits();
-    socket.on("UPDATE_ACTIVE_UNITS", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS, handler);
 
     return () => {
-      socket.off("UPDATE_ACTIVE_UNITS", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS, handler);
     };
   }, [getActiveUnits]);
 
@@ -35,9 +36,9 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
 
   return (
     <div className="map-calls-container active-units">
-      <h1 className="h4">Active Units</h1>
+      <h1 className="h4">{window.lang.dispatch.active_units}</h1>
 
-      {[...ems_fd, ...officers].length <= 0 ? "No active units" : null}
+      {[...ems_fd, ...officers].length <= 0 ? window.lang.dispatch.no_units : null}
 
       {[...ems_fd, ...officers].map((value) => {
         return (
@@ -46,12 +47,12 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
               <div>
                 {"officer_name" in value ? (
                   <>
-                    <strong>LEO: </strong>
+                    <strong>{window.lang.dispatch.leo}: </strong>
                     {value.callsign} {value.officer_name}
                   </>
                 ) : (
                   <>
-                    <strong>EMS-FD: </strong>
+                    <strong>{window.lang.dispatch.ems_fd}: </strong>
                     {value.name}
                   </>
                 )}{" "}

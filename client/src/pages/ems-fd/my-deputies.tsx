@@ -15,7 +15,7 @@ interface Props {
 }
 
 const MyDeputiesPage: React.FC<Props> = ({ deputies, getMyDeputies, deleteEmsFdDeputy }) => {
-  useDocTitle("My EMS/FD Deputies");
+  useDocTitle(lang.ems_fd.my_deputies);
   React.useEffect(() => {
     getMyDeputies();
   }, [getMyDeputies]);

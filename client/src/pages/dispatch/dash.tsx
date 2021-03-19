@@ -22,6 +22,7 @@ import CadInfo from "../../interfaces/CadInfo";
 import { Perm } from "../../interfaces/User";
 import useDocTitle from "../../hooks/useDocTitle";
 import { DismissAlertBtn } from "../../components/alert-message";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   aop: string | null;
@@ -63,14 +64,14 @@ const DispatchDash: React.FC<Props> = (props) => {
       setSignal100(value);
     };
 
-    socket.on("UPDATE_AOP", aopHandler);
-    socket.on("PANIC_BUTTON", panicButtonHandler);
-    socket.on("SIGNAL_100", signal100Handler);
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, aopHandler);
+    socket.on(SOCKET_EVENTS.PANIC_BUTTON, panicButtonHandler);
+    socket.on(SOCKET_EVENTS.SIGNAL_100, signal100Handler);
 
     return () => {
-      socket.off("UPDATE_AOP", aopHandler);
-      socket.off("PANIC_BUTTON", panicButtonHandler);
-      socket.off("SIGNAL_100", signal100Handler);
+      socket.off(SOCKET_EVENTS.UPDATE_AOP, aopHandler);
+      socket.off(SOCKET_EVENTS.PANIC_BUTTON, panicButtonHandler);
+      socket.off(SOCKET_EVENTS.SIGNAL_100, signal100Handler);
 
       panicSound.stop();
       signal100Sound.stop();
@@ -81,13 +82,13 @@ const DispatchDash: React.FC<Props> = (props) => {
     <Layout fluid classes="pb-5 mt-5">
       {panic !== null ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
-          {panic.officer_name} has activated panic button
+          {panic.officer_name} {window.lang.global.panic_button}
           <DismissAlertBtn onClick={() => setPanic(null)} />
         </div>
       ) : null}
       {signal100 === "1" ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
-          Signal 100 is in effect
+          {window.lang.global.signal_100}
           <DismissAlertBtn onClick={() => setSignal100("0")} />
         </div>
       ) : null}

@@ -36,7 +36,7 @@ async function updateLine(sql: string) {
   try {
     await processQuery(sql);
   } catch (e) {
-    const saveCodes = ["ER_TABLE_EXISTS_ERROR", "ER_DUP_FIELDNAME"];
+    const saveCodes = ["ER_TABLE_EXISTS_ERROR", "ER_DUP_FIELDNAME", "ER_CANT_DROP_FIELD_OR_KEY"];
     if (saveCodes.includes(e.code)) return;
 
     console.log(e);

@@ -3,12 +3,12 @@ import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import TruckLog from "../../interfaces/TruckLog";
 import AlertMessage from "../../components/alert-message";
-import lang from "../../language.json";
 import socket from "../../lib/socket";
 import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import { SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   aop: string | null;
@@ -18,17 +18,17 @@ interface Props {
 }
 
 const TruckLogsDash: React.FC<Props> = (props) => {
-  useDocTitle("Truck logs dashboard");
+  useDocTitle(window.lang.nav.trucklogs);
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const { logs, getTruckLogs, deleteTruckLog } = props;
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
 
-    socket.on("UPDATE_AOP", handler);
+    socket.on(SOCKET_EVENTS.UPDATE_AOP, handler);
 
     return () => {
-      socket.off("UPDATE_AOP", handler);
+      socket.off(SOCKET_EVENTS.UPDATE_AOP, handler);
     };
   }, []);
 
@@ -40,26 +40,26 @@ const TruckLogsDash: React.FC<Props> = (props) => {
     <Layout fluid classes="mt-5">
       <div className="d-flex justify-content-between mb-3">
         <h3>
-          {lang.nav.trucklogs} - AOP: {aop}
+          {window.lang.nav.trucklogs} - AOP: {aop}
         </h3>
         <Link className="btn btn-secondary" to="/truck-logs/create">
-          {lang.truck_logs.create_truck_log}
+          {window.lang.truck_logs.create_truck_log}
         </Link>
       </div>
 
       {!logs[0] ? (
-        <AlertMessage message={{ msg: "You don't have any truck logs", type: "warning" }} />
+        <AlertMessage message={{ msg: window.lang.truck_logs.no_logs, type: "warning" }} />
       ) : (
         <table className="table table-dark">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">{lang.global.name}</th>
-              <th scope="col">{lang.truck_logs.co_driver}</th>
-              <th scope="col">{lang.truck_logs?.date}</th>
-              <th scope="col">{lang.truck_logs.start_time}</th>
-              <th scope="col">{lang.truck_logs.vehicle_plate}</th>
-              <th scope="col">{lang.global.actions}</th>
+              <th scope="col">{window.lang.global.name}</th>
+              <th scope="col">{window.lang.truck_logs.co_driver}</th>
+              <th scope="col">{window.lang.truck_logs?.date}</th>
+              <th scope="col">{window.lang.truck_logs.start_time}</th>
+              <th scope="col">{window.lang.truck_logs.vehicle_plate}</th>
+              <th scope="col">{window.lang.global.actions}</th>
             </tr>
           </thead>
           <tbody>
@@ -79,7 +79,7 @@ const TruckLogsDash: React.FC<Props> = (props) => {
                       }}
                       className="btn btn-danger"
                     >
-                      {lang.global.delete}
+                      {window.lang.global.delete}
                     </button>
                   </td>
                 </tr>

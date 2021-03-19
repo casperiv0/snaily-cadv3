@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import Modal, { XButton } from "..";
 import Citizen from "../../../interfaces/Citizen";
 import State from "../../../interfaces/State";
-import lang from "../../../language.json";
 import { getAllCitizens } from "../../../lib/actions/admin";
 import { createMedicalRecord } from "../../../lib/actions/citizen";
 import Select from "../../select";
@@ -53,14 +52,14 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
   return (
     <Modal id="addMedicalRecord" size="lg">
       <div className="modal-header">
-        <h5 className="modal-title">Add medical record</h5>
+        <h5 className="modal-title">{window.lang.citizen.medical.add}</h5>
         <XButton ref={btnRef} />
       </div>
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label">Select type</label>
+            <label className="form-label">{window.lang.citizen.medical.type}</label>
 
             <Select
               isClearable={false}
@@ -84,7 +83,7 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Citizen name</label>
+            <label className="form-label">{window.lang.record.enter_name}</label>
             <Select
               options={citizens.map((citizen) => ({ label: citizen.full_name, value: citizen.id }))}
               closeMenuOnSelect={true}
@@ -93,7 +92,7 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Description</label>
+            <label className="form-label">{window.lang.global.description}</label>
             <textarea
               className="form-control bg-secondary border-secondary text-light"
               value={description}
@@ -104,10 +103,10 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
 
         <div className="modal-footer">
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-            {lang.global.cancel}
+            {window.lang.global.cancel}
           </button>
           <button disabled={!citizenId} type="submit" className="btn btn-primary">
-            Add medical record
+            {window.lang.citizen.medical.add}
           </button>
         </div>
       </form>

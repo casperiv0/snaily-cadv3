@@ -5,7 +5,6 @@ import State from "../../../interfaces/State";
 import { connect } from "react-redux";
 import { getMyDeputies, setEmsStatus } from "../../../lib/actions/ems-fd";
 import Deputy from "../../../interfaces/Deputy";
-import { Link } from "react-router-dom";
 import Select, { Value } from "../../select";
 import { notify } from "../../../lib/functions";
 
@@ -48,12 +47,7 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
             </label>
 
             {!deputies[0] ? (
-              <p className="font-weight-bold">
-                You do not have any EMS/FD members!{" "}
-                <Link onClick={() => btnRef.current?.click()} to="/ems-fd/create">
-                  Create one here
-                </Link>
-              </p>
+              <p className="font-weight-bold">{window.lang.ems_fd.no_dept}</p>
             ) : (
               <Select
                 isMulti={false}

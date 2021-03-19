@@ -7,7 +7,7 @@ const NotFoundPage: React.FC = () => {
 
   return (
     <Layout classes="mt-5">
-      <h3 className="text-center">Whoops! I could not find that page!</h3>
+      <h3 className="text-center">{window.lang.global.page_not_found}</h3>
     </Layout>
   );
 };
