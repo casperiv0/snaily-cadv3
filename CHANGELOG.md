@@ -4,7 +4,7 @@
 
 ## 1.4.5
 
-- Updated translations.
+- Updated translations
 
   **Read:** Make sure to start your CAD after updating, this will update the translation file with the new values.
   The values you have translated to your likings are **not** being overwritten. It'll only add the new missing values.
