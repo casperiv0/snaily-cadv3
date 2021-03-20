@@ -11,7 +11,15 @@ import config from "../config";
 
 const app: Application = express();
 const port = config.port;
-const server = app.listen(port, () => Logger.listening(port));
+const server = app.listen(port, () => {
+  if (!config.password) {
+    Logger.log('ERROR', 'DB_PASSWORD is missing! Did you forget to set up .env file in server folder?')
+  } 
+  if (!config.jwtSecret) {
+    Logger.log('ERROR', 'JWT_SECRET is missing! Did you forget to set up .env file in server folder?')
+  }
+  Logger.listening(port)
+});
 
 const io = new Server(server, {
   cors: {

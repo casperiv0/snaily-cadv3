@@ -11,7 +11,6 @@ build
 node_modules
 
 # config
-server/config.ts
 client/src/config.ts
 
 server/public/citizen-images/*

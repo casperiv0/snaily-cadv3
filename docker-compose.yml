@@ -6,10 +6,10 @@ services:
     ports:
       - "3030:3030"
     environment: 
-      DB_HOST: database
-      DB_NAME: snaily-cad
-      DB_PASSWORD: p69gTywJwQ2wJ64S
-      JWT_SECRET: 3bCPHdeHQPuPnXyG
+      DB_HOST: "${DB_HOST}"
+      DB_NAME: "${DB_NAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      JWT_SECRET: "${JWT_SECRET}"
       PORT: 3030
     depends_on:
       - database
@@ -19,9 +19,9 @@ services:
     ports:
       - "8080:80"
     environment: 
-      PMA_HOST: database
+      PMA_HOST: "${DB_HOST}"
       PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: p69gTywJwQ2wJ64S
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
     depends_on:
       - database
   database:
@@ -33,7 +33,7 @@ services:
     ports:
       - "3306:3306"
     environment: 
-      MYSQL_DATABASE: snaily-cad
-      MYSQL_ROOT_PASSWORD: p69gTywJwQ2wJ64S
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
 volumes:
   db_data: {}
