@@ -1,11 +1,16 @@
+/* eslint-disable prettier/prettier */
+// @ts-nocheck
+
+// You can find more information about what everything is here:
+// https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Config-file
 const config = {
-  port: 3030,
-  host: "localhost",
-  user: "root",
-  password: "admin",
-  databaseName: "snaily-cad",
-  jwtSecret: "bongo super cat" /* change this to a long random string of numbers and characters */,
-  env: "production" /* Do NOT change this unless you know what you are doing! */,
+  port: Number(process.env.PORT) || 3030,
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "admin",
+  databaseName: process.env.DB_NAME || "snaily-cad",
+  jwtSecret: process.env.JWT_SECRET || "bongo super cat",
+  env: process.env.PROFILE || "production",
 };
 
 export default config;
