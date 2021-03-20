@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  cad:
+    build: .
+    restart: always
+    ports:
+      - "3030:3030"
+    environment: 
+      DB_HOST: database
+      DB_NAME: snaily-cad
+      DB_PASSWORD: p69gTywJwQ2wJ64S
+      JWT_SECRET: 3bCPHdeHQPuPnXyG
+      PORT: 3030
+    depends_on:
+      - database
+  database:
+    image: "mariadb:10.4.17"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./snaily-cad.sql:/docker-entrypoint-initdb.d/001_init.sql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment: 
+      MYSQL_DATABASE: snaily-cad
+      MYSQL_ROOT_PASSWORD: p69gTywJwQ2wJ64S
+volumes:
+  db_data: {}
