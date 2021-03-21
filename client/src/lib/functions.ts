@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { toast, ToastOptions } from "react-toastify";
+import Call from "../interfaces/Call";
 
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 let url: string | undefined = "/";
@@ -82,4 +83,10 @@ export function notify(message: string) {
     error,
     warn,
   };
+}
+
+export function isUnitAlreadyAssigned(unitId: string, calls: Call[]) {
+  const unitIds = calls.flatMap((call) => call.assigned_unit.map((v) => v.value));
+
+  return unitIds.includes(unitId);
 }

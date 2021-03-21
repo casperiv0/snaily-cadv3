@@ -28,16 +28,16 @@ import ActiveMapCalls from "../../components/dispatch/map.ActiveCalls";
 import ActiveMapUnits from "../../components/dispatch/map.ActiveUnits";
 import Create911Call from "../../components/modals/call911Modal";
 import { connect } from "react-redux";
-import { getActiveUnits } from "../../lib/actions/dispatch";
+import { getActiveUnits, getSteamIds } from "../../lib/actions/dispatch";
 import State from "../../interfaces/State";
 import CadInfo from "../../interfaces/CadInfo";
 import Call from "../../interfaces/Call";
 import { update911Call } from "../../lib/actions/911-calls";
 import { CallInfoHTML, PlayerInfoHTML, BlipInfoHTML } from "../../components/dispatch/map/html";
 import User from "../../interfaces/User";
-import { getMembers } from "../../lib/actions/admin";
 import blipTypes from "../../components/dispatch/map/blips";
 import { notify } from "../../lib/functions";
+import Loader from "../../components/loader";
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 
 /* 
@@ -54,9 +54,9 @@ interface Props {
   cadInfo: CadInfo | null;
   calls: Call[];
   user: User | null;
-  members: User[];
+  steam_ids: Partial<User>[];
   getActiveUnits: () => void;
-  getMembers: () => void;
+  getSteamIds: () => void;
   update911Call: (id: string, data: Partial<Call>, notify?: boolean) => void;
 }
 
@@ -70,6 +70,7 @@ interface MapState {
   ran: boolean;
   blipsShown: boolean;
   showAllPlayers: boolean;
+  loading: boolean;
 }
 
 class MapClass extends Component<Props, MapState> {
@@ -89,13 +90,20 @@ class MapClass extends Component<Props, MapState> {
       ran: false,
       blipsShown: true,
       showAllPlayers: false,
+      loading: true,
     };
 
     this.CADSocket = null;
     this.MAPSocket = null;
   }
 
-  handleMapSocket() {
+  async handleMapSocket() {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    this.setState({
+      loading: false,
+    });
+
     const live_map_url = this.props.cadInfo?.live_map_url;
     if (!live_map_url) {
       notify("There was no live_map_url provided from the CAD-Settings.").error({
@@ -545,9 +553,9 @@ class MapClass extends Component<Props, MapState> {
             return marker.payload?.player?.identifier === player.identifier;
           });
 
-          let member: User | null | undefined = null;
+          let member: Partial<User> | null | undefined = null;
           if (!this.state.showAllPlayers) {
-            member = this.props.members.find((m) => `steam:${m.steam_id}` === player?.identifier);
+            member = this.props.steam_ids.find((m) => `steam:${m.steam_id}` === player?.identifier);
             if (!member) return;
             if (member.leo === "0" || member.ems_fd === "0") return;
           }
@@ -633,7 +641,7 @@ class MapClass extends Component<Props, MapState> {
 
     // Get all values from backend
     !this.state.ran && this.props.getActiveUnits();
-    !this.state.ran && this.props.getMembers();
+    !this.state.ran && this.props.getSteamIds();
 
     this.handleCalls();
     this.initBlips();
@@ -653,9 +661,7 @@ class MapClass extends Component<Props, MapState> {
       console.error("LIVE_MAP", `${JSON.stringify(e)}`);
     };
 
-    this.MAPSocket.onmessage = (e: MessageEvent) => {
-      this.onMessage(e);
-    };
+    this.MAPSocket.addEventListener("message", this.onMessage);
   }
 
   componentDidUpdate() {
@@ -683,6 +689,7 @@ class MapClass extends Component<Props, MapState> {
   render() {
     return (
       <>
+        {this.state.loading ? <Loader fullScreen /> : null}
         <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
 
         <div className="map-blips-container">
@@ -755,8 +762,8 @@ const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
   calls: state.calls.calls_911,
   user: state.auth.user,
-  members: state.admin.members,
+  steam_ids: state.dispatch.steam_ids,
 });
 
 const Memoized = React.memo(MapClass);
-export default connect(mapToProps, { getActiveUnits, update911Call, getMembers })(Memoized);
+export default connect(mapToProps, { getActiveUnits, update911Call, getSteamIds })(Memoized);

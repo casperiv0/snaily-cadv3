@@ -12,6 +12,7 @@ interface IDispatch {
   ems_fd?: Deputy[];
   calls?: Call[];
   search?: object;
+  steam_ids?: string[];
 }
 
 export const getActiveUnits = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -40,6 +41,21 @@ export const searchAddress = (address: string) => async (dispatch: Dispatch<IDis
       dispatch({
         type: ADDRESS_SEARCH,
         search: res.data.results,
+      });
+    }
+  } catch (e) {
+    Logger.error(ADDRESS_SEARCH, e);
+  }
+};
+
+export const getSteamIds = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/dispatch/map/steam_ids", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: "GET_STEAM_IDS",
+        steam_ids: res.data.members,
       });
     }
   } catch (e) {

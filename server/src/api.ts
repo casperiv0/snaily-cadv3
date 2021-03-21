@@ -50,4 +50,8 @@ api.use("/admin/management", managementRouter);
 api.use("/notifications", notificationsRouter);
 api.use("/citizen", citizenRouter);
 
+api.use((req, res) => {
+  return res.json({ status: "error", error: "route not found" }).status(404);
+});
+
 export default api;

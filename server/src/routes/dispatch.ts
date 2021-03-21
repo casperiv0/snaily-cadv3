@@ -207,4 +207,15 @@ router.post(
   },
 );
 
+router.get(
+  "/map/steam_ids",
+  useAuth,
+  usePermission(["dispatch"]),
+  async (_req: IRequest, res: Response) => {
+    const members = await processQuery("SELECT `steam_id`, `leo`, `ems_fd` FROM `users`");
+
+    return res.json({ status: "success", members });
+  },
+);
+
 export default router;

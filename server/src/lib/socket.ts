@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { ExtendedError } from "socket.io/dist/namespace";
 import cookieParser from "cookie-parser";
-import config from "../../config";
+import config from "../lib/config";
 import Logger from "./Logger";
 import { io } from "../server";
 import { getWebhookData, postWebhook } from "./functions";

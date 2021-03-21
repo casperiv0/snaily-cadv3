@@ -19,7 +19,7 @@ import CreateArrestReportModal from "../../components/modals/leo/createArrestRep
 import CreateTicketModal from "../../components/modals/leo/createTicketModal";
 import { connect } from "react-redux";
 import Officer from "../../interfaces/Officer";
-import { notify, playSound } from "../../lib/functions";
+import { isUnitAlreadyAssigned, notify, playSound } from "../../lib/functions";
 import { getPenalCodes } from "../../lib/actions/admin";
 import { useLocation } from "react-router-dom";
 import User, { Perm } from "../../interfaces/User";
@@ -27,12 +27,14 @@ import CadInfo from "../../interfaces/CadInfo";
 import useDocTitle from "../../hooks/useDocTitle";
 import { DismissAlertBtn } from "../../components/alert-message";
 import { SOCKET_EVENTS } from "../../lib/types";
+import Call from "../../interfaces/Call";
 
 interface Props {
   aop: string | null;
   activeOfficer: Officer | null;
   cadInfo: CadInfo | null;
   user: User | null;
+  calls: Call[];
   getPenalCodes: () => void;
 }
 
@@ -97,6 +99,10 @@ const LeoDash: React.FC<Props> = (props) => {
     const unitsHandler = (unitIds: string[]) => {
       if (location.pathname !== "/leo/dash") return;
       if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
+        /* If the officer is already assigned to a call, don't notify them. */
+        const alreadyAssigned = isUnitAlreadyAssigned(props.activeOfficer.id, props.calls);
+        if (alreadyAssigned) return;
+
         notify(window.lang.global.assigned_to_call).success();
         successSound.play();
       }
@@ -108,7 +114,7 @@ const LeoDash: React.FC<Props> = (props) => {
       socket.off(SOCKET_EVENTS.UPDATE_ASSIGNED_UNITS, unitsHandler);
       successSound.stop();
     };
-  }, [props.activeOfficer, location]);
+  }, [props.activeOfficer, location, props.calls]);
 
   return (
     <Layout fluid>
@@ -171,6 +177,7 @@ const mapToProps = (state: State) => ({
   activeOfficer: state.officers.activeOfficer,
   cadInfo: state.global.cadInfo,
   user: state.auth.user,
+  calls: state.calls.calls_911,
 });
 
 export default connect(mapToProps, { getPenalCodes })(React.memo(LeoDash));
