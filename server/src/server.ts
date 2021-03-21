@@ -7,11 +7,19 @@ import csurf from "csurf";
 import { Server } from "socket.io";
 import Logger from "./lib/Logger";
 import api from "./api";
-import config from "../config";
+import config from "./lib/config";
 
 const app: Application = express();
 const port = config.port;
-const server = app.listen(port, () => Logger.listening(port));
+const server = app.listen(port, () => {
+  if (config.password.length === 0) {
+    Logger.log("ERROR", "DB_PASSWORD is missing! Did you forget to set up .env file or config.ts?");
+  }
+  if (config.jwtSecret.length === 0) {
+    Logger.log("ERROR", "JWT_SECRET is missing! Did you forget to set up .env file or config.ts?");
+  }
+  Logger.listening(port);
+});
 
 const io = new Server(server, {
   cors: {
