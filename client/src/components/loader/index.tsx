@@ -1,4 +1,5 @@
 import * as React from "react";
+import ReactDOM from "react-dom";
 
 interface Props {
   size?: number | string;
@@ -15,7 +16,7 @@ const centerStyles: React.CSSProperties = {
 
 const fullScreenStyles: React.CSSProperties = {
   position: "fixed",
-  zIndex: 50,
+  zIndex: 99999,
   width: "100%",
   height: "100vh",
   left: "0",
@@ -25,13 +26,16 @@ const fullScreenStyles: React.CSSProperties = {
   justifyContent: "center",
 };
 
+const element = document.getElementById("loader-portal");
+
 const Loader: React.FC<Props> = ({ fullScreen }) => {
-  return (
+  return ReactDOM.createPortal(
     <div style={fullScreen ? fullScreenStyles : centerStyles}>
       <div className="spinner-border text-primary" role="status">
         <span className="visually-hidden">Loading...</span>
       </div>
-    </div>
+    </div>,
+    element!,
   );
 };
 

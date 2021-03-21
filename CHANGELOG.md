@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.4.6
+
+- Bug fixes with the live-map
+- New release of [the live_map resource](https://github.com/Dev-CasperTheGhost/live_map)
+
 ## 1.4.5
 
 - Updated translations

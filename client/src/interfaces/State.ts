@@ -60,6 +60,7 @@ interface State {
     officers: Officer[];
     ems_fd: Deputy[];
     search: any;
+    steam_ids: Partial<User>[];
   };
   truck_logs: {
     error: string | null;
