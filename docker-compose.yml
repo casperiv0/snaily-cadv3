@@ -11,8 +11,15 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       JWT_SECRET: "${JWT_SECRET}"
       PORT: 3030
+    healthcheck:
+      test: curl -sS http://cad:3030/health/liveness || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     depends_on:
-      - database
+      database:
+        condition: service_healthy
   admin:
     image: "phpmyadmin:5.1.0"
     restart: always
@@ -23,7 +30,8 @@ services:
       PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
   database:
     image: "mysql:5.7"
     volumes:
@@ -35,5 +43,9 @@ services:
     environment: 
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+    healthcheck:
+      test: "/etc/init.d/mysql status"
+      timeout: 5s
+      retries: 3
 volumes:
   db_data: {}
