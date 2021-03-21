@@ -4,9 +4,9 @@
 
 ## 1.4.6
 
-- Only notify an active officer to a call when they're not already assigned to a call.
-- Bug fixes with the live-map
-- New release of [the live_map resource](https://github.com/Dev-CasperTheGhost/live_map)
+- New: [Docker support](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide#using-docker) - for advanced users.
+- New: Only notify an active officer to a call when they're not already assigned to a call.
+- Minor: Bug fixes with the live-map
 
 ## 1.4.5
 
