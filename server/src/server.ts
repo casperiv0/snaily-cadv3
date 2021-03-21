@@ -36,7 +36,7 @@ const io = new Server(server, {
 });
 const protection = csurf({ cookie: true });
 app.use("/api/v1", api, protection);
-app.use("", monitoringApi);
+app.use(monitoringApi);
 
 app.use("/static", express.static("public"));
 app.use(express.static(path.join(__dirname, "../../client/build")));
