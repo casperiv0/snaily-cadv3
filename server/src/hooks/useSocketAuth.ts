@@ -1,6 +1,6 @@
 import { processQuery } from "../lib/database";
 import jwt from "jsonwebtoken";
-import config from "../../config";
+import config from "../lib/config";
 import IUser from "../interfaces/IUser";
 import { Whitelist } from "../lib/constants";
 

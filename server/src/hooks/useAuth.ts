@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import { processQuery } from "../lib/database";
 import jwt from "jsonwebtoken";
-import config from "../../config";
+import config from "../lib/config";
 import IRequest from "../interfaces/IRequest";
 import IUser from "../interfaces/IUser";
 

@@ -7,9 +7,9 @@ const config = {
   port: Number(process.env.PORT) || 3030,
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD,
+  password: process.env.DB_PASSWORD || "admin",
   databaseName: process.env.DB_NAME || "snaily-cad",
-  jwtSecret: process.env.JWT_SECRET,
+  jwtSecret: process.env.JWT_SECRET || "bongo super cat",
   env: process.env.PROFILE || "production",
 };
 

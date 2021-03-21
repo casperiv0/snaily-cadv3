@@ -1,5 +1,5 @@
 import mysql, { ConnectionConfig } from "promise-mysql";
-import config from "../../config";
+import config from "../lib/config";
 import Logger from "./Logger";
 const INTERVAL_5_SECS = 5000;
 
