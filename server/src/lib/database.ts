@@ -57,7 +57,6 @@ CREATE TABLE \`call_events\` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
   updateLine("ALTER TABLE `citizens` ADD `dead_on` varchar(255) NOT NULL AFTER `phone_nr`;");
   updateLine("ALTER TABLE `citizens` ADD `dead` varchar(255) NOT NULL AFTER `phone_nr`;");
-  updateLine("ALTER TABLE `officers` ADD `started_at` int(255) NOT NULL AFTER `status2`;");
   updateLine("ALTER TABLE `cad_info` ADD `features` text NOT NULL AFTER `plate_length`;");
   updateLine("ALTER TABLE `users` ADD `supervisor` varchar(255) NOT NULL AFTER `leo`;");
   updateLine("ALTER TABLE `officers` ADD `rank` varchar(255) NOT NULL AFTER `callsign`;");
