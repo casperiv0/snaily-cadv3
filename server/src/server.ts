@@ -7,6 +7,7 @@ import csurf from "csurf";
 import { Server } from "socket.io";
 import Logger from "./lib/Logger";
 import api from "./api";
+import monitoringApi from "./monitoring-api";
 import config from "./lib/config";
 
 const app: Application = express();
@@ -35,6 +36,7 @@ const io = new Server(server, {
 });
 const protection = csurf({ cookie: true });
 app.use("/api/v1", api, protection);
+app.use("", monitoringApi);
 
 app.use("/static", express.static("public"));
 app.use(express.static(path.join(__dirname, "../../client/build")));
