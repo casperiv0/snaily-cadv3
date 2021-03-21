@@ -15,9 +15,11 @@ const server = app.listen(port, () => {
   if (config.password.length === 0) {
     Logger.log("ERROR", "DB_PASSWORD is missing! Did you forget to set up .env file or config.ts?");
   }
+
   if (config.jwtSecret.length === 0) {
     Logger.log("ERROR", "JWT_SECRET is missing! Did you forget to set up .env file or config.ts?");
   }
+
   Logger.listening(port);
 });
 

@@ -8,6 +8,11 @@ interface ServerConfig {
   env: string;
 }
 
+/**
+ *! WARNING!
+ *! Do not change the values in this file.
+ */
+
 const defaultPort = 3030;
 const defaultHost = "localhost";
 const defaultUser = "root";

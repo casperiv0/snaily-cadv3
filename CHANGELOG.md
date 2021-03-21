@@ -4,6 +4,7 @@
 
 ## 1.4.6
 
+- Only notify an active officer to a call when they're not already assigned to a call.
 - Bug fixes with the live-map
 - New release of [the live_map resource](https://github.com/Dev-CasperTheGhost/live_map)
 
