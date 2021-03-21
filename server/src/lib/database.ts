@@ -18,9 +18,13 @@ export async function connect(): Promise<mysql.Connection> {
 
 export async function processQuery<T = any>(query: string, data?: any[]): Promise<T[]> {
   const conn = await connect();
-  const result = await conn.query(query, data);
-  conn.end();
-  return result;
+  try {
+    return await conn.query(query, data);
+  } finally {
+    if (conn) {
+      conn.end();
+    }
+  }
 }
 
 const interval = setInterval(select1, INTERVAL_5_SECS);
