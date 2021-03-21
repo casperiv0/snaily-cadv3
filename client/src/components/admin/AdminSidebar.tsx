@@ -13,6 +13,7 @@ const styles: React.CSSProperties = {
   bottom: "0",
   display: "flex",
   padding: "1rem",
+  overflow: "auto",
 };
 
 const content: React.CSSProperties = {
