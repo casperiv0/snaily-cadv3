@@ -93,6 +93,15 @@ router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
   const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
   const updatedVersion = await checkVersion(false);
 
+  return res.json({
+    cadInfo: { ...cadInfo[0], version: pkg.version, updatedVersion },
+    status: "success",
+  });
+});
+
+router.get("/cad-features", async (_req: IRequest, res: Response) => {
+  const cadInfo = await processQuery("SELECT `features` FROM `cad_info`");
+
   let features;
 
   try {
@@ -102,7 +111,7 @@ router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
   }
 
   return res.json({
-    cadInfo: { ...cadInfo[0], features, version: pkg.version, updatedVersion },
+    features,
     status: "success",
   });
 });

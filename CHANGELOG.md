@@ -5,6 +5,7 @@
 ## 1.4.7
 
 - Bug fixes
+- Add missing translation keys
 
 ## 1.4.6
 
