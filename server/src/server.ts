@@ -14,14 +14,20 @@ const app: Application = express();
 const port = config.port;
 const server = app.listen(port, () => {
   if (config.password.length === 0) {
-    Logger.log("ERROR", "DB_PASSWORD is missing! Did you forget to set up .env file or config.ts?");
+    Logger.warn(
+      "WARNING",
+      "DB_PASSWORD is missing! Did you forget to set up .env file or config.ts?",
+    );
   }
 
   if (config.jwtSecret.length === 0) {
-    Logger.log("ERROR", "JWT_SECRET is missing! Did you forget to set up .env file or config.ts?");
+    Logger.warn(
+      "WARNING",
+      "JWT_SECRET is missing! Did you forget to set up .env file or config.ts?",
+    );
   }
 
-  Logger.listening(port);
+  Logger.log("APP", `CAD IS RUNNING ON ${port}`);
 });
 
 const io = new Server(server, {

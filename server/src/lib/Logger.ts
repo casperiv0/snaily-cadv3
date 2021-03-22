@@ -1,25 +1,22 @@
 import dateformat from "dateformat";
+import chalk from "chalk";
 
 class Logger {
-  now(): string {
+  get now(): string {
     const now = new Date();
     return dateformat(now, "HH:MM:ss");
   }
 
-  listening(port: number): void {
-    return console.log(`[MAIN][${this.now()}]: CAD IS RUNNING ON ${port}`);
-  }
-
-  connected(): void {
-    return console.log(`[DATABASE][${this.now()}]: CONNECTED TO DATABASE`);
+  warn(type: string, warning: string): void {
+    return console.warn(chalk.yellow(`[${type}][${this.now}]: ${warning}`));
   }
 
   error(type: string, error: string): void {
-    return console.error(`[${type}][${this.now()}]: ${error}`);
+    return console.error(chalk.redBright(`[${type}][${this.now}]: ${error}`));
   }
 
   log(type: string, message: string): void {
-    return console.log(`[${type}][${this.now()}]: ${message}`);
+    return console.log(`[${type}][${this.now}]: ${message}`);
   }
 
   throw(type: string, message: string): void {

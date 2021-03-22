@@ -211,7 +211,7 @@ Object.keys(file).forEach((fileKey) => {
         });
 
         if (alreadyExists === false) {
-          console.log("Some items were not found in the language file, adding them now...");
+          console.log("Some keys were not found in the language file, adding them now...");
           file[key] = ProbablyNotInTheTranslateFile[key];
         }
       }
