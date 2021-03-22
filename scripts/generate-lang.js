@@ -31,6 +31,7 @@ const ProbablyNotInTheTranslateFile = {
     show: "Show",
     manage: "Manage",
     none_set: "None set",
+    no_options: "No options",
   },
   court: {
     house: "San Andreas Courthouse",
