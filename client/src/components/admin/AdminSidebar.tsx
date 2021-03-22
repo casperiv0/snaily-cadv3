@@ -76,7 +76,7 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
             )} `}
             to="/admin/manage/officers"
           >
-            Officer Management
+            {window.lang.admin.officer_management}
           </Link>
           <Link
             className={`text-decoration-none p-2 rounded admin-link ${isActive(
@@ -84,7 +84,7 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
             )} `}
             to="/admin/manage/10-codes"
           >
-            10 Codes
+            {window.lang.codes.codes_10}
           </Link>
           <Link
             className={`text-decoration-none p-2 rounded admin-link ${isActive(
@@ -92,7 +92,7 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
             )} `}
             to="/admin/manage/penal-codes"
           >
-            Penal Codes
+            {window.lang.codes.penal_codes}
           </Link>
           {user?.rank === "owner" ? (
             <Link

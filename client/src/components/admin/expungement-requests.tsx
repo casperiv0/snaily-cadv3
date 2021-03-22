@@ -15,7 +15,9 @@ const ExpungementRequestsTab: React.FC<Props> = ({ requests, acceptOrDeclineRequ
   return (
     <>
       {!requests[0] ? (
-        <AlertMessage message={{ msg: "There are no active requests", type: "warning" }} />
+        <AlertMessage
+          message={{ msg: window.lang.admin.no_expungement_requests, type: "warning" }}
+        />
       ) : (
         <ul className="list-group">
           {requests.map((request: ExpungementRequest, idx: number) => {
@@ -26,23 +28,27 @@ const ExpungementRequestsTab: React.FC<Props> = ({ requests, acceptOrDeclineRequ
                 className="list-group-item bg-dark border-secondary d-flex justify-content-between"
               >
                 <div>
-                  <p>Warrants: {request.warrants.map((war) => war.label).join(", ") || "N/A"}</p>
                   <p>
-                    Arrest Reports:{" "}
+                    {window.lang.record.warrants}:{" "}
+                    {request.warrants.map((war) => war.label).join(", ") || "N/A"}
+                  </p>
+                  <p>
+                    {window.lang.record.arr_rep}:{" "}
                     {request.arrestReports.map((arr) => arr.label).join(", ") || "N/A"}
                   </p>
                   <p>
-                    Tickets: {request.tickets.map((ticket) => ticket.label).join(", ") || "N/A"}
+                    {window.lang.record.tickets}:{" "}
+                    {request.tickets.map((ticket) => ticket.label).join(", ") || "N/A"}
                   </p>
 
                   <Item id="username">
-                    <Span>Username: </Span>
-                    {request?.user?.username ?? "Could not get username"}
+                    <Span>{window.lang.auth.username}: </Span>
+                    {request?.user?.username ?? window.lang.auth.error_username}
                   </Item>
 
                   <Item id="full_name">
-                    <Span>Citizen Name: </Span>
-                    {request?.citizen?.full_name ?? "Could not get citizen name"}
+                    <Span>{window.lang.auth.citizen_name}: </Span>
+                    {request?.citizen?.full_name ?? window.lang.auth.error_citizen}
                   </Item>
                 </div>
 

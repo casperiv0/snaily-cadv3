@@ -57,7 +57,7 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
                         </p>
                       </div>
                       <Item id="pages">
-                        <Span>Pages: </Span>
+                        <Span>{window.lang.codes.pages}: </Span>
                         {code.what_pages?.map((p, i: number) => {
                           const comma = i !== code?.what_pages?.length - 1 ? ", " : " ";
 
@@ -70,11 +70,11 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
                         })}
                       </Item>
                       <Item id="color">
-                        <Span>Color: </Span>
+                        <Span>{window.lang.codes.color}: </Span>
                         {colorOptions.find((clr) => clr.value === code.color)?.label}
                       </Item>
                       <Item id="should_do">
-                        <Span>Should do: </Span>
+                        <Span>{window.lang.codes.should_do}: </Span>
                         {shouldDoOptions.find((option) => option.value === code.should_do)?.label}
                       </Item>
                     </div>

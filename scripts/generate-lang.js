@@ -14,6 +14,13 @@ console.log("[TRANSLATION]: Checking language file...");
  */
 
 const ProbablyNotInTheTranslateFile = {
+  auth: {
+    ...file.auth,
+    username: "Username",
+    citizen_name: "Citizen name",
+    error_username: "Could not get username",
+    error_citizen: "Could not get citizen name",
+  },
   global: {
     ...file.global,
     request: "Request",
@@ -128,6 +135,8 @@ const ProbablyNotInTheTranslateFile = {
     remove_user: "Remove User",
     cannot_remove_own_acc: "You cannot remove your own account",
     cannot_remove_owner_acc: "You cannot remove the owner's account",
+    no_expungement_requests: "There are no active requests",
+    officer_management: "Officer Management",
   },
   codes: {
     code: "Code",
@@ -143,6 +152,10 @@ const ProbablyNotInTheTranslateFile = {
     penal_code_management: "Penal Code Management",
     penal_codes: "Penal Codes",
     no_penal_codes: "This CAD doesn't have any penal codes",
+    pages: "Pages",
+    should_do: "Should do",
+    color: "Color",
+    codes_10: "10 Codes",
   },
   dispatch: {
     ...file.dispatch,
@@ -161,6 +174,10 @@ const ProbablyNotInTheTranslateFile = {
     event: "Event",
     add_event: "Add event",
     no_events: "No events logged for this call",
+    hide_blips: "Hide Blips",
+    show_blips: "Show Blips",
+    show_all_players: "Show all players",
+    call: "Call",
   },
   nav: {
     ...file.nav,
