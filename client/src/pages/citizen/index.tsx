@@ -13,15 +13,18 @@ import { getCitizens } from "../../lib/actions/citizen";
 import CallTaxiModal from "../../components/modals/callTaxiModal";
 import useDocTitle from "../../hooks/useDocTitle";
 import { SOCKET_EVENTS } from "../../lib/types";
+import CadInfo from "../../interfaces/CadInfo";
+import { isCadFeatureEnabled } from "../../lib/functions";
 
 interface Props {
   aop: string | null;
+  cadInfo: CadInfo | null;
   citizens: Citizen[];
   getCitizens: () => void;
 }
 
 const CitizensPage: React.FC<Props> = (props) => {
-  const { citizens, getCitizens } = props;
+  const { citizens, cadInfo, getCitizens } = props;
   const [aop, setAop] = React.useState(props.aop);
   useDocTitle("Citizen - View and change all your citizens");
 
@@ -71,13 +74,15 @@ const CitizensPage: React.FC<Props> = (props) => {
           <Link to="/citizen/manage-companies" className="col btn btn-primary">
             {lang.citizen.employment_status}
           </Link>
-          <button
-            data-bs-toggle="modal"
-            data-bs-target="#callTowModal"
-            className="col ms-1 btn btn-primary"
-          >
-            {lang.citizen.call_tow}
-          </button>
+          {isCadFeatureEnabled(cadInfo?.features, "tow") ? (
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#callTowModal"
+              className="col ms-1 btn btn-primary"
+            >
+              {lang.citizen.call_tow}
+            </button>
+          ) : null}
           <button
             data-bs-toggle="modal"
             data-bs-target="#call911Modal"
@@ -85,13 +90,15 @@ const CitizensPage: React.FC<Props> = (props) => {
           >
             {lang.citizen.call_911}
           </button>
-          <button
-            data-bs-toggle="modal"
-            data-bs-target="#callTaxiModal"
-            className="col ms-1 btn btn-primary"
-          >
-            {window.lang.taxi.create_taxi_call}
-          </button>
+          {isCadFeatureEnabled(cadInfo?.features, "taxi") ? (
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#callTaxiModal"
+              className="col ms-1 btn btn-primary"
+            >
+              {window.lang.taxi.create_taxi_call}
+            </button>
+          ) : null}
         </div>
       </div>
 
@@ -118,9 +125,9 @@ const CitizensPage: React.FC<Props> = (props) => {
       </ul>
 
       <div id="modals">
-        <CallTowModal />
+        {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CallTowModal /> : null}
+        {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CallTaxiModal /> : null}
         <Call911Modal />
-        <CallTaxiModal />
       </div>
     </Layout>
   );
@@ -129,6 +136,7 @@ const CitizensPage: React.FC<Props> = (props) => {
 const mapToProps = (state: State) => ({
   citizens: state.citizen.citizens,
   aop: state.global.aop,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps, { getCitizens })(CitizensPage);

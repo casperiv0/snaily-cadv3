@@ -161,6 +161,10 @@ const ProbablyNotInTheTranslateFile = {
     add_event: "Add event",
     no_events: "No events logged for this call",
   },
+  nav: {
+    ...file.nav,
+    courthouse: "Courthouse",
+  },
 };
 
 const keys = Object.keys(ProbablyNotInTheTranslateFile);

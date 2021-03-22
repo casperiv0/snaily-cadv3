@@ -85,6 +85,10 @@ export function notify(message: string) {
   };
 }
 
+export function isCadFeatureEnabled(features: string[] | undefined, feature: string) {
+  return features?.includes(feature.toLowerCase());
+}
+
 export function isUnitAlreadyAssigned(unitId: string, calls: Call[]) {
   const unitIds = calls.flatMap((call) => call.assigned_unit.map((v) => v.value));
 
