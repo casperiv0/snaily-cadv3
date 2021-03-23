@@ -412,7 +412,9 @@ export const acceptOrDeclineRequest = (
         expungementRequests: res.data.requests,
       });
 
-      notify("Successfully accepted expungement request").success();
+      notify(
+        `Successfully ${type === "accept" ? "accepted" : "declined"} expungement request`,
+      ).success();
     } else {
       notify("An error occurred when accepting the request").error();
     }

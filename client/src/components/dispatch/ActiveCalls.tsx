@@ -52,6 +52,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                 <th scope="col">{lang.dispatch.caller_location}</th>
                 <th scope="col">{lang.dispatch.call_desc}</th>
                 <th scope="col">{lang.dispatch.status}</th>
+                <th scope="col">{window.lang.citizen.medical.type2}</th>
                 <th scope="col">{lang.dispatch.assigned_unit}</th>
                 <th scope="col">{lang.global.actions}</th>
               </tr>
@@ -65,6 +66,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                     <td>{call.location}</td>
                     <td>{call.description}</td>
                     <td>{call.status}</td>
+                    <td>{call.type === "1" ? window.lang.dispatch.citizen_call : call.type}</td>
                     <td>
                       {call.assigned_unit.map((c, i) => {
                         const comma = i !== call.assigned_unit.length - 1 ? ", " : " ";

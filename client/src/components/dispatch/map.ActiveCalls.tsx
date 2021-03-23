@@ -43,7 +43,7 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
         data-bs-target={`#collapse-${call.id}`}
       >
         <Item id="call_location">
-          <Span>Call: </Span>
+          <Span>{window.lang.dispatch.call}: </Span>
           {call.location}
         </Item>
 
@@ -69,7 +69,11 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
           <Item id="location">
             <Span>{window.lang.dispatch.caller_location}:</Span> {call.location}
           </Item>
-          <Item id="location">
+          <Item id="type">
+            <Span>{window.lang.citizen.medical.type2}: </Span>
+            {call.type === "1" ? window.lang.dispatch.citizen_call : call.type}
+          </Item>
+          <Item id="assigned_unit">
             <Span>{window.lang.dispatch.assigned_unit}: </Span>
             {assignedUnits.length <= 0 ? "None" : assignedUnits}
           </Item>
@@ -135,9 +139,9 @@ const Active911MapCalls: React.FC<Props> = ({
 
   return (
     <div className="map-calls-container active-calls">
-      <h1 className="h4">Active Calls</h1>
+      <h1 className="h4">{window.lang.global.active_erm_calls}</h1>
       {calls.length <= 0 ? (
-        <p>No active calls</p>
+        <p>{window.lang.global.no_calls}</p>
       ) : (
         <>
           {calls.map((call) => {

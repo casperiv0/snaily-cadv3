@@ -18,9 +18,13 @@ export async function connect(): Promise<mysql.Connection> {
 
 export async function processQuery<T = any>(query: string, data?: any[]): Promise<T[]> {
   const conn = await connect();
-  const result = await conn.query(query, data);
-  conn.end();
-  return result;
+  try {
+    return await conn.query(query, data);
+  } finally {
+    if (conn) {
+      conn.end();
+    }
+  }
 }
 
 const interval = setInterval(select1, INTERVAL_5_SECS);
@@ -46,6 +50,18 @@ async function updateLine(sql: string) {
 async function updateDb() {
   import("./insert");
 
+  updateLine(`
+  CREATE TABLE \`call_types\` (
+    \`id\` varchar(255) NOT NULL,
+    \`name\` varchar(255) NOT NULL,
+    \`defaults\` varchar(255) NOT NULL DEFAULT '0',
+    PRIMARY KEY (\`id\`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  
+  `);
+
+  updateLine("ALTER TABLE `911calls` ADD `type` varchar(255) NOT NULL AFTER `status`;");
+  updateLine("ALTER TABLE `10_codes` ADD `position` int(255) NOT NULL AFTER `should_do`;");
   updateLine("ALTER TABLE `officers` DROP `started_at`;");
   updateLine(`
 CREATE TABLE \`call_events\` (

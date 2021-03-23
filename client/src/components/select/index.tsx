@@ -48,6 +48,8 @@ const Select: React.FC<Props> = ({
       onMenuClose={() => setMenuOpen(false)}
       onMenuOpen={() => setMenuOpen(true)}
       onBlur={() => setMenuOpen(false)}
+      placeholder={window.lang.global.select}
+      noOptionsMessage={() => window.lang.global.no_options}
     ></ReactSelect>
   );
 };

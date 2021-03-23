@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { toast, ToastOptions } from "react-toastify";
 import Call from "../interfaces/Call";
+import Code10 from "../interfaces/Code10";
 
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 let url: string | undefined = "/";
@@ -85,8 +86,25 @@ export function notify(message: string) {
   };
 }
 
+export function isCadFeatureEnabled(features: string[] | undefined, feature: string) {
+  return features?.includes(feature.toLowerCase());
+}
+
 export function isUnitAlreadyAssigned(unitId: string, calls: Call[]) {
   const unitIds = calls.flatMap((call) => call.assigned_unit.map((v) => v.value));
 
   return unitIds.includes(unitId);
+}
+
+export function filterCodes(codes: Code10[]) {
+  return codes.sort(function (a, b) {
+    if (a.position && b.position) {
+      return a.position - b.position;
+    } else {
+      b.position = 0;
+      a.position = 0;
+
+      return a.position - b.position;
+    }
+  });
 }

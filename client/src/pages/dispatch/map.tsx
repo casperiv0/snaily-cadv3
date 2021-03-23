@@ -700,14 +700,16 @@ class MapClass extends Component<Props, MapState> {
             }}
             className="btn btn-primary"
           >
-            {this.state.blipsShown ? "Hide blips" : "Show blips"}
+            {this.state.blipsShown
+              ? window.lang.dispatch.hide_blips
+              : window.lang.dispatch.show_blips}
           </button>
           <button
             data-bs-toggle="modal"
             data-bs-target="#call911Modal"
             className="btn btn-primary mx-2"
           >
-            Create 911 call
+            {window.lang.global.create_911_call}
           </button>
           {["owner", "admin", "moderator"].includes(`${this.props.user?.rank}`) ? (
             <button

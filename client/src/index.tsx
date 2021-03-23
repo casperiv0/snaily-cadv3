@@ -5,9 +5,7 @@ declare global {
     /**
      * The imported language file for SnailyCAD
      */
-    lang: typeof import("./language.json") & {
-      [v: string]: string;
-    };
+    lang: any;
   }
 }
 
@@ -97,7 +95,6 @@ const ManageOfficerPage = React.lazy(
   () => import("./pages/admin/management/officers/manage-officer"),
 );
 
-// @ts-expect-error ignore this.
 window.lang = lang;
 
 const CadSettingsPage = React.lazy(() => import("./pages/admin/cad-settings"));

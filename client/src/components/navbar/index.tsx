@@ -65,7 +65,7 @@ export const paths: Path[] = [
   },
   {
     href: "/courthouse",
-    name: "Courthouse",
+    name: lang.nav.courthouse,
     show: () => true,
     enabled: (cad) => cad?.features.includes("courthouse") ?? true,
   },

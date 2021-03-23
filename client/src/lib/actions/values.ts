@@ -15,6 +15,7 @@ import {
   GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
   VALUES_SET_LOADING,
+  GET_CALL_TYPES,
 } from "../types";
 
 interface IDispatch {
@@ -25,6 +26,7 @@ interface IDispatch {
   weapons?: Value[];
   vehicles?: Value[];
   values?: Value[];
+  callTypes?: Value[];
   path?: string;
   error?: string;
   value?: Value;
@@ -200,6 +202,24 @@ export const getVehicles = () => async (dispatch: Dispatch<IDispatch>) => {
       dispatch({
         type: GET_VEHICLES,
         vehicles: res.data.values,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_VEHICLES, e);
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
+  }
+};
+
+export const getCallTypes = () => async (dispatch: Dispatch<IDispatch>) => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
+  try {
+    const res = await handleRequest("/values/call-types", "GET");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_CALL_TYPES,
+        callTypes: res.data.values,
       });
     }
   } catch (e) {

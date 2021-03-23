@@ -6,11 +6,13 @@ COPY . /build
 
 WORKDIR /build
 
-RUN npm run auto-install
+RUN npm run docker-build
 
 #
 
 FROM node:${IMAGE_VER}
+
+RUN apk add --update --no-cache curl
 
 COPY --from=build /build/client/ /app/client
 COPY --from=build /build/server/ /app/server
@@ -19,4 +21,4 @@ COPY package.json package-lock.json /app/
 WORKDIR /app
 
 EXPOSE 3030
-CMD ["npm", "start"]
+CMD ["npm", "run", "docker-start"]

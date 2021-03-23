@@ -60,7 +60,7 @@ router.get("/911-calls", async (_req: IRequest, res: Response) => {
 
 router.post("/911-calls", async (req: IRequest, res: Response) => {
   const id = v4();
-  const { location, caller, coords: coordsArr } = req.body;
+  const { location, caller, coords: coordsArr, type = "1" } = req.body;
   const description = req.body.description ?? "No description provided";
 
   const coords = {
@@ -70,7 +70,7 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
   };
 
   await processQuery<Call>(
-    "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `pos`, `hidden`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `pos`, `hidden`, `type`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       id,
       description,
@@ -80,6 +80,7 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
       "[]",
       JSON.stringify(coords),
       coordsArr ? "0" : "1",
+      type,
     ],
   );
 
@@ -93,6 +94,15 @@ router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
   const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
   const updatedVersion = await checkVersion(false);
 
+  return res.json({
+    cadInfo: { ...cadInfo[0], version: pkg.version, updatedVersion },
+    status: "success",
+  });
+});
+
+router.get("/cad-features", async (_req: IRequest, res: Response) => {
+  const cadInfo = await processQuery("SELECT `features` FROM `cad_info`");
+
   let features;
 
   try {
@@ -102,7 +112,7 @@ router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {
   }
 
   return res.json({
-    cadInfo: { ...cadInfo[0], features, version: pkg.version, updatedVersion },
+    features,
     status: "success",
   });
 });

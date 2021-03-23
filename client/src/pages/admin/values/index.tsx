@@ -16,6 +16,7 @@ import {
   getLegalStatuses,
   getVehicles,
   getWeapons,
+  getCallTypes,
   deleteValue,
 } from "../../../lib/actions/values";
 import useDocTitle from "../../../hooks/useDocTitle";
@@ -32,6 +33,7 @@ interface Props {
   getLegalStatuses: () => void;
   getVehicles: () => void;
   getWeapons: () => void;
+  getCallTypes: () => void;
   deleteValue: (id: string, path: ValuePaths) => void;
 }
 
@@ -42,6 +44,7 @@ const paths: string[] = [
   "legal-statuses",
   "vehicles",
   "weapons",
+  "call-types",
 ];
 
 const Values: React.FC<Props> = ({
@@ -54,6 +57,7 @@ const Values: React.FC<Props> = ({
   getLegalStatuses,
   getVehicles,
   getWeapons,
+  getCallTypes,
   deleteValue,
 }) => {
   const [filtered, setFiltered] = React.useState<any>([]);
@@ -94,9 +98,22 @@ const Values: React.FC<Props> = ({
         getWeapons();
         break;
       }
+      case "call-types": {
+        getCallTypes();
+        break;
+      }
       default:
     }
-  }, [path, getDepartments, getEthnicities, getGenders, getLegalStatuses, getVehicles, getWeapons]);
+  }, [
+    path,
+    getDepartments,
+    getEthnicities,
+    getGenders,
+    getLegalStatuses,
+    getVehicles,
+    getWeapons,
+    getCallTypes,
+  ]);
 
   function handleDelete(id: string) {
     deleteValue(id, path);
@@ -125,7 +142,7 @@ const Values: React.FC<Props> = ({
         <div>
           <h4 style={{ marginBottom: "0.2rem" }}>{lang.admin.values[path].manage}</h4>
           <p style={{ marginTop: "0" }}>
-            {window.lang.admin.total_items}: {values[path].length}
+            {window.lang.admin.total_items}: {values[path]?.length ?? 0}
           </p>
         </div>
 
@@ -203,5 +220,6 @@ export default connect(mapToProps, {
   getLegalStatuses,
   getVehicles,
   getWeapons,
+  getCallTypes,
   deleteValue,
 })(Values);

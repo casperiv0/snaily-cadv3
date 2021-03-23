@@ -7,20 +7,27 @@ import csurf from "csurf";
 import { Server } from "socket.io";
 import Logger from "./lib/Logger";
 import api from "./api";
+import monitoringApi from "./monitoring-api";
 import config from "./lib/config";
 
 const app: Application = express();
 const port = config.port;
 const server = app.listen(port, () => {
   if (config.password.length === 0) {
-    Logger.log("ERROR", "DB_PASSWORD is missing! Did you forget to set up .env file or config.ts?");
+    Logger.warn(
+      "WARNING",
+      "DB_PASSWORD is missing! Did you forget to set up .env file or config.ts?",
+    );
   }
 
   if (config.jwtSecret.length === 0) {
-    Logger.log("ERROR", "JWT_SECRET is missing! Did you forget to set up .env file or config.ts?");
+    Logger.warn(
+      "WARNING",
+      "JWT_SECRET is missing! Did you forget to set up .env file or config.ts?",
+    );
   }
 
-  Logger.listening(port);
+  Logger.log("APP", `CAD IS RUNNING ON ${port}`);
 });
 
 const io = new Server(server, {
@@ -35,6 +42,7 @@ const io = new Server(server, {
 });
 const protection = csurf({ cookie: true });
 app.use("/api/v1", api, protection);
+app.use(monitoringApi);
 
 app.use("/static", express.static("public"));
 app.use(express.static(path.join(__dirname, "../../client/build")));

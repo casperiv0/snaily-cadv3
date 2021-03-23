@@ -85,7 +85,7 @@ const PenalCodesManagement: React.FC<Props> = ({
                       </p>
                     </div>
                     <div style={{ marginTop: "0" }}>
-                      <Span>Description: </Span>
+                      <Span>{window.lang.global.description}: </Span>
                       <p style={{ maxWidth: "600px" }}>{code.des}</p>
                     </div>
                   </div>

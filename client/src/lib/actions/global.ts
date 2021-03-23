@@ -13,11 +13,17 @@ interface IDispatch {
 export const getCadInfo = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/global/cad-info", "POST");
+    const featuresRes = await handleRequest("/global/cad-features", "GET");
+
+    dispatch({
+      type: GET_CAD_INFO,
+      cadInfo: {
+        ...res.data.cadInfo,
+        features: featuresRes.data.features,
+      },
+    });
+
     if (isSuccess(res)) {
-      dispatch({
-        type: GET_CAD_INFO,
-        cadInfo: res.data.cadInfo,
-      });
       dispatch({
         type: GET_AOP,
         aop: res.data.cadInfo.AOP,

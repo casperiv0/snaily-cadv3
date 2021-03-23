@@ -23,6 +23,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
   const [whatPages, setWhatPages] = React.useState<Code10["what_pages"]>([]);
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
+  const [position, setPosition] = React.useState(0);
   const history = useHistory();
   useDocTitle(window.lang.codes.edit_10_code);
 
@@ -47,7 +48,22 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
     setWhatPages(code.what_pages);
     setColor(code.color);
     setShouldDo(code.should_do);
+    setPosition(code.position);
   }, [codes, id]);
+
+  React.useEffect(() => {
+    get10Codes();
+  }, [get10Codes]);
+
+  const length = React.useCallback(() => {
+    const arr = [];
+
+    for (let i = 0; i < codes.length; i++) {
+      arr.push(i);
+    }
+
+    return arr.map((v) => ({ value: v, label: `${window.lang.codes.position}: ${++v}` }));
+  }, [codes.length]);
 
   if (codes?.length > 0) {
     if (!value.value) {
@@ -67,6 +83,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
       what_pages: whatPages,
       color: color,
       should_do: shouldDo,
+      position,
     });
 
     if (updated === true) {
@@ -94,6 +111,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
           </label>
           <Select
             theme="dark"
+            isClearable={false}
             closeMenuOnSelect={false}
             isMulti
             options={options}
@@ -106,6 +124,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
             {window.lang.codes.select_color}
           </label>
           <Select
+            isClearable={false}
             theme="dark"
             closeMenuOnSelect
             isMulti={false}
@@ -119,12 +138,30 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
             {window.lang.codes.what_it_do}
           </label>
           <Select
+            isClearable={false}
             theme="dark"
             closeMenuOnSelect
             isMulti={false}
             options={shouldDoOptions}
             onChange={(v: any) => setShouldDo(v.value)}
             value={shouldDoValue as any}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="position">
+            {window.lang.codes.position}
+          </label>
+          <Select
+            isClearable={false}
+            value={{
+              label: `${window.lang.codes.position}: ${position}`,
+              value: `${position}`,
+            }}
+            theme="dark"
+            closeMenuOnSelect
+            isMulti={false}
+            options={length() as any}
+            onChange={(v) => setPosition(+v.value)}
           />
         </div>
         <div className="mb-3 float-end">

@@ -4,6 +4,7 @@ type ValuePaths =
   | "departments"
   | "legal-statuses"
   | "vehicles"
-  | "weapons";
+  | "weapons"
+  | "call-types";
 
 export default ValuePaths;

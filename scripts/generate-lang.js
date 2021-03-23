@@ -14,6 +14,13 @@ console.log("[TRANSLATION]: Checking language file...");
  */
 
 const ProbablyNotInTheTranslateFile = {
+  auth: {
+    ...file.auth,
+    username: "Username",
+    citizen_name: "Citizen name",
+    error_username: "Could not get username",
+    error_citizen: "Could not get citizen name",
+  },
   global: {
     ...file.global,
     request: "Request",
@@ -31,6 +38,7 @@ const ProbablyNotInTheTranslateFile = {
     show: "Show",
     manage: "Manage",
     none_set: "None set",
+    no_options: "No options",
   },
   court: {
     house: "San Andreas Courthouse",
@@ -127,6 +135,8 @@ const ProbablyNotInTheTranslateFile = {
     remove_user: "Remove User",
     cannot_remove_own_acc: "You cannot remove your own account",
     cannot_remove_owner_acc: "You cannot remove the owner's account",
+    no_expungement_requests: "There are no active requests",
+    officer_management: "Officer Management",
   },
   codes: {
     code: "Code",
@@ -142,6 +152,11 @@ const ProbablyNotInTheTranslateFile = {
     penal_code_management: "Penal Code Management",
     penal_codes: "Penal Codes",
     no_penal_codes: "This CAD doesn't have any penal codes",
+    pages: "Pages",
+    should_do: "Should do",
+    color: "Color",
+    codes_10: "10 Codes",
+    position: "Position",
   },
   dispatch: {
     ...file.dispatch,
@@ -160,6 +175,15 @@ const ProbablyNotInTheTranslateFile = {
     event: "Event",
     add_event: "Add event",
     no_events: "No events logged for this call",
+    hide_blips: "Hide Blips",
+    show_blips: "Show Blips",
+    show_all_players: "Show all players",
+    call: "Call",
+    citizen_call: "Citizen Call",
+  },
+  nav: {
+    ...file.nav,
+    courthouse: "Courthouse",
   },
 };
 
@@ -189,13 +213,26 @@ Object.keys(file).forEach((fileKey) => {
         });
 
         if (alreadyExists === false) {
-          console.log("Some items were not found in the language file, adding them now...");
+          console.log("Some keys were not found in the language file, adding them now...");
           file[key] = ProbablyNotInTheTranslateFile[key];
         }
       }
     }
   });
 });
+
+if (!file.admin.values["call-types"]) {
+  file.admin.values["call-types"] = {
+    index: "Call Types",
+    add: "Add call type",
+    manage: "Manage call types",
+    name: "Enter Call type",
+    none: "There are call types found",
+    deleted: "Successfully deleted call type",
+    updated: "Successfully updated call type",
+    added: "Successfully added call type",
+  };
+}
 
 fs.writeFileSync(path.resolve("client/src/language.json"), JSON.stringify(file, null, 4));
 
