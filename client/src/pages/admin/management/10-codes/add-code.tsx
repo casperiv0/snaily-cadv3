@@ -1,11 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { add10Code } from "../../../../lib/actions/admin";
+import { Link, useHistory } from "react-router-dom";
+import { add10Code, get10Codes } from "../../../../lib/actions/admin";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import Select from "../../../../components/select";
 import Code10 from "../../../../interfaces/Code10";
-import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../../hooks/useDocTitle";
+import State from "../../../../interfaces/State";
 
 export const options = [
   {
@@ -45,16 +46,33 @@ export const colorOptions = [
 ];
 
 interface Props {
+  codesLength: number;
+  get10Codes: () => void;
   add10Code: (data: Partial<Code10>) => Promise<boolean>;
 }
 
-const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
+const Add10CodePage: React.FC<Props> = ({ codesLength, get10Codes, add10Code }) => {
   const [code, setCode] = React.useState("");
   const [whatPages, setWhatPages] = React.useState([]);
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
+  const [position, setPosition] = React.useState(0);
   const history = useHistory();
   useDocTitle(window.lang.codes.add_10_code);
+
+  React.useEffect(() => {
+    get10Codes();
+  }, [get10Codes]);
+
+  const length = React.useCallback(() => {
+    const arr = [];
+
+    for (let i = 0; i < codesLength; i++) {
+      arr.push(i);
+    }
+
+    return arr.map((v) => ({ value: v, label: `${window.lang.codes.position}: ${++v}` }));
+  }, [codesLength]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -64,6 +82,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
       color: color,
       what_pages: whatPages,
       should_do: shouldDo,
+      position,
     });
 
     if (added === true) {
@@ -108,7 +127,7 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
             closeMenuOnSelect
             isMulti={false}
             options={colorOptions}
-            onChange={(v: any) => setColor(v.value)}
+            onChange={(v) => setColor(v.value)}
           />
         </div>
         <div className="mb-3">
@@ -120,7 +139,19 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
             closeMenuOnSelect
             isMulti={false}
             options={shouldDoOptions}
-            onChange={(v: any) => setShouldDo(v.value)}
+            onChange={(v) => setShouldDo(v.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="position">
+            {window.lang.codes.position}
+          </label>
+          <Select
+            theme="dark"
+            closeMenuOnSelect
+            isMulti={false}
+            options={length() as any}
+            onChange={(v) => setPosition(+v.value)}
           />
         </div>
         <div className="mb-3 float-end">
@@ -136,4 +167,8 @@ const Add10CodePage: React.FC<Props> = ({ add10Code }) => {
   );
 };
 
-export default connect(null, { add10Code })(Add10CodePage);
+const mapToProps = (state: State) => ({
+  codesLength: state.admin?.codes?.length,
+});
+
+export default connect(mapToProps, { add10Code, get10Codes })(Add10CodePage);

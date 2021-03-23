@@ -50,6 +50,7 @@ async function updateLine(sql: string) {
 async function updateDb() {
   import("./insert");
 
+  updateLine("ALTER TABLE `10_codes` ADD `position` int(255) NOT NULL AFTER `should_do`;");
   updateLine("ALTER TABLE `officers` DROP `started_at`;");
   updateLine(`
 CREATE TABLE \`call_events\` (

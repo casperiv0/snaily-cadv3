@@ -6,9 +6,9 @@ import Officer from "../../interfaces/Officer";
 import State from "../../interfaces/State";
 import { get10Codes } from "../../lib/actions/admin";
 import { getCurrentOfficer, setStatus } from "../../lib/actions/officer";
+import { filterCodes } from "../../lib/functions";
 import socket from "../../lib/socket";
 import { SOCKET_EVENTS } from "../../lib/types";
-import { filterCodes } from "../modals/dispatch/UpdateStatus";
 
 interface Props {
   status: string | null;

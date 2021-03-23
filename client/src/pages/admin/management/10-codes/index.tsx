@@ -77,6 +77,10 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
                         <Span>{window.lang.codes.should_do}: </Span>
                         {shouldDoOptions.find((option) => option.value === code.should_do)?.label}
                       </Item>
+                      <Item id="position">
+                        <Span>{window.lang.codes.position}: </Span>
+                        {code.position}
+                      </Item>
                     </div>
 
                     <div>

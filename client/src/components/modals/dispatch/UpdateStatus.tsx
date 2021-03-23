@@ -8,6 +8,7 @@ import Code10 from "../../../interfaces/Code10";
 import State from "../../../interfaces/State";
 import { get10Codes } from "../../../lib/actions/admin";
 import Select from "../../select";
+import { filterCodes } from "../../../lib/functions";
 
 interface Props {
   id: string;
@@ -18,18 +19,6 @@ interface Props {
   setEmsStatus: (id: string, status: string, status2: string) => void;
   statuses: Code10[];
   get10Codes: () => void;
-}
-
-export function filterCodes(codes: Code10[]) {
-  return codes.sort(function (a, b) {
-    if (a.code < b.code) {
-      return -1;
-    }
-    if (a.code > b.code) {
-      return 1;
-    }
-    return 0;
-  });
 }
 
 const UpdateStatusModal: React.FC<Props> = (props) => {

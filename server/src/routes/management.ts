@@ -633,9 +633,9 @@ router.post(
   useAuth,
   usePermission(["admin", "moderator", "owner"]),
   async (req: IRequest, res: Response) => {
-    const { code, what_pages, color, should_do } = req.body;
+    const { code, what_pages, color, should_do, position } = req.body;
 
-    if (!code || what_pages?.length <= 0 || !should_do || !color) {
+    if (!code || what_pages?.length <= 0 || !should_do || !color || !position) {
       return res.json({
         status: "error",
         error: "Please fill in all fields",
@@ -652,8 +652,8 @@ router.post(
     }
 
     await processQuery(
-      "INSERT INTO `10_codes` (`id`, `code`, `color`, `what_pages`, `should_do`) VALUES (?, ?, ?, ?, ?)",
-      [v4(), code, color, JSON.stringify(what_pages), should_do],
+      "INSERT INTO `10_codes` (`id`, `code`, `color`, `what_pages`, `should_do`, `position`) VALUES (?, ?, ?, ?, ?, ?)",
+      [v4(), code, color, JSON.stringify(what_pages), should_do, position],
     );
 
     return res.json({
@@ -668,11 +668,11 @@ router.put(
   usePermission(["admin", "moderator", "owner"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const { code, what_pages, color, should_do } = req.body;
+    const { code, what_pages, color, should_do, position } = req.body;
 
     await processQuery(
-      "UPDATE `10_codes` SET `code` = ?, `color` = ?, `what_pages` = ?, `should_do` = ? WHERE `id` = ?",
-      [code, color, JSON.stringify(what_pages), should_do, id],
+      "UPDATE `10_codes` SET `code` = ?, `color` = ?, `what_pages` = ?, `should_do` = ?, `position` = ? WHERE `id` = ?",
+      [code, color, JSON.stringify(what_pages), should_do, position, id],
     );
 
     return res.json({

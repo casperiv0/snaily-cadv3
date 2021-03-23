@@ -6,6 +6,7 @@
 
 - Bug fixes
 - Add missing translation keys
+- Set a position for 10 codes
 
 ## 1.4.6
 

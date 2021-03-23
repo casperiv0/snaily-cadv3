@@ -5,9 +5,9 @@ import State from "../../interfaces/State";
 import { setEmsStatus, getCurrentEmsStatus } from "../../lib/actions/ems-fd";
 import socket from "../../lib/socket";
 import Code10 from "../../interfaces/Code10";
-import { filterCodes } from "../modals/dispatch/UpdateStatus";
 import Deputy from "../../interfaces/Deputy";
 import { SOCKET_EVENTS } from "../../lib/types";
+import { filterCodes } from "../../lib/functions";
 
 interface Props {
   status: string | null;

@@ -156,6 +156,7 @@ const ProbablyNotInTheTranslateFile = {
     should_do: "Should do",
     color: "Color",
     codes_10: "10 Codes",
+    position: "Position",
   },
   dispatch: {
     ...file.dispatch,
