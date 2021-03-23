@@ -37,14 +37,14 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
       </div>
 
       <ul className="list-group pb-5">
-        {codes.length <= 0 ? (
+        {codes?.length <= 0 ? (
           <AlertMessage message={{ msg: "This CAD doesn't have any 10 codes", type: "warning" }} />
         ) : (
           <>
             {loading ? (
               <Loader />
             ) : (
-              codes.map((code: Code10, idx: number) => {
+              codes?.map((code: Code10, idx: number) => {
                 return (
                   <li
                     key={code.id}
@@ -79,7 +79,7 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
                       </Item>
                       <Item id="position">
                         <Span>{window.lang.codes.position}: </Span>
-                        {code.position}
+                        {code.position + 1}
                       </Item>
                     </div>
 

@@ -633,9 +633,9 @@ router.post(
   useAuth,
   usePermission(["admin", "moderator", "owner"]),
   async (req: IRequest, res: Response) => {
-    const { code, what_pages, color, should_do, position } = req.body;
+    const { code, what_pages, color, should_do, position = 0 } = req.body;
 
-    if (!code || what_pages?.length <= 0 || !should_do || !color || !position) {
+    if (!code || what_pages?.length <= 0 || !should_do || !color) {
       return res.json({
         status: "error",
         error: "Please fill in all fields",

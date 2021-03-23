@@ -58,7 +58,7 @@ const Edit10Code: React.FC<Props> = ({ update10Code, codes, get10Codes }) => {
   const length = React.useCallback(() => {
     const arr = [];
 
-    for (let i = 0; i < codes.length; i++) {
+    for (let i = 0; i <= codes.length + 1; i++) {
       arr.push(i);
     }
 

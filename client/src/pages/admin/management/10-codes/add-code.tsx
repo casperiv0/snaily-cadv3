@@ -67,7 +67,7 @@ const Add10CodePage: React.FC<Props> = ({ codesLength, get10Codes, add10Code }) 
   const length = React.useCallback(() => {
     const arr = [];
 
-    for (let i = 0; i < codesLength; i++) {
+    for (let i = 0; i <= codesLength + 1; i++) {
       arr.push(i);
     }
 
