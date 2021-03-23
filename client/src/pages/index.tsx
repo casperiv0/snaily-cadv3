@@ -1,10 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Layout from "../components/Layout";
 import State from "../interfaces/State";
 import User from "../interfaces/User";
 import lang from "../language.json";
+import { notify } from "../lib/functions";
 
 interface Props {
   isAuth: boolean;
@@ -12,6 +13,14 @@ interface Props {
 }
 
 const HomePage: React.FC<Props> = ({ isAuth, user }) => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (location.search.includes("auth=success")) {
+      notify("Successfully connected with steam!").success();
+    }
+  }, [location.search]);
+
   return (
     <Layout>
       {isAuth ? (

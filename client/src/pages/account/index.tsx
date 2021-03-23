@@ -78,7 +78,11 @@ const AccountPage: React.FC<Props> = ({ user }) => {
           </Item>
 
           <a
-            href={`/api/v1/auth/steam?callback_url=${window.location.origin}`}
+            href={
+              process.env.REACT_APP_IS_DEV
+                ? "http://localhost:3030/api/v1/auth/steam?callback_url=http://localhost:3030"
+                : "/api/v1/auth/steam?callback_url=${window.location.origin}"
+            }
             className="d-block mt-2"
           >
             <img src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png" />

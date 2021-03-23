@@ -9,7 +9,8 @@ import fetch from "node-fetch";
 const router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
-  const callbackUrl = req.query.callback_url;
+  const callbackUrl =
+    req.query.callback_url + "/api/v1/auth/steam/callback?next=http://localhost:3000?auth=success";
   const cadInfo = await processQuery<ICad>("SELECT `steam_api_key` FROM `cad_info`");
 
   if (!cadInfo[0].steam_api_key) {
@@ -19,7 +20,7 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  const url = `https://steamcommunity.com/openid/login?openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.ns.sreg=http://openid.net/extensions/sreg/1.1&openid.sreg.optional=nickname,email,fullname,dob,gender,postcode,country,language,timezone&openid.ns.ax=http://openid.net/srv/ax/1.0&openid.ax.mode=fetch_request&openid.ax.type.fullname=http://axschema.org/namePerson&openid.ax.type.firstname=http://axschema.org/namePerson/first&openid.ax.type.email=http://axschema.org/contact/email&openid.ax.required=fullname,email&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.return_to=${callbackUrl}/api/v1/auth/steam/callback&openid.realm=${callbackUrl}/api/v1/auth/steam/callback`;
+  const url = `https://steamcommunity.com/openid/login?openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.ns.sreg=http://openid.net/extensions/sreg/1.1&openid.sreg.optional=nickname,email,fullname,dob,gender,postcode,country,language,timezone&openid.ns.ax=http://openid.net/srv/ax/1.0&openid.ax.mode=fetch_request&openid.ax.type.fullname=http://axschema.org/namePerson&openid.ax.type.firstname=http://axschema.org/namePerson/first&openid.ax.type.email=http://axschema.org/contact/email&openid.ax.required=fullname,email&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.return_to=${callbackUrl}&openid.realm=${callbackUrl}`;
 
   return res.redirect(url);
 });
@@ -56,10 +57,16 @@ router.get("/callback", useAuth, async (req: IRequest, res: Response) => {
     req.user?.id,
   ]);
 
-  return res.json({
-    status: "success",
-    message: "You can now return to the CAD",
-  });
+  const nextURL = req.query?.["next"];
+
+  if (nextURL && typeof nextURL === "string") {
+    return res.redirect(301, nextURL);
+  } else {
+    return res.json({
+      status: "success",
+      message: "You can now return to the CAD",
+    });
+  }
 });
 
 export default router;
