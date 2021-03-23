@@ -73,6 +73,7 @@ const ProbablyNotInTheTranslateFile = {
   account: {
     owner_cannot_delete_account: "The owner is not able to delete their account.",
     steam_id: "Steam ID",
+    unlink_steam: "Unlink Steam",
   },
   bleeter: {
     ...file.bleeter,

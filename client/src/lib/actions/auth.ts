@@ -2,7 +2,14 @@ import Logger from "../Logger";
 import User from "../../interfaces/User";
 import { Dispatch } from "react";
 import { handleRequest, isSuccess, notify } from "../functions";
-import { AUTHENTICATE, LOGOUT, SET_LOADING, DELETE_ACCOUNT, UPDATE_PASSWORD } from "../types";
+import {
+  AUTHENTICATE,
+  LOGOUT,
+  SET_LOADING,
+  DELETE_ACCOUNT,
+  UPDATE_PASSWORD,
+  UNLINK_STEAM,
+} from "../types";
 
 interface IDispatch {
   type: string;
@@ -138,6 +145,25 @@ export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispa
     }
   } catch (e) {
     Logger.error(UPDATE_PASSWORD, e);
+    notify(e).error();
+  }
+};
+
+export const unlinkSteam = () => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    const res = await handleRequest("/auth/steam", "PUT");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: UNLINK_STEAM,
+      });
+
+      notify("Successfully unlinked Steam").success();
+    } else {
+      notify(res.data.error).warn;
+    }
+  } catch (e) {
+    Logger.error(UNLINK_STEAM, e);
     notify(e).error();
   }
 };

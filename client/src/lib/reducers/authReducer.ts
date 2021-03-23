@@ -1,5 +1,12 @@
 import State from "../../interfaces/State";
-import { AUTHENTICATE, SET_LOADING, LOGOUT, DELETE_ACCOUNT, UPDATE_PASSWORD } from "../types";
+import {
+  AUTHENTICATE,
+  SET_LOADING,
+  LOGOUT,
+  DELETE_ACCOUNT,
+  UPDATE_PASSWORD,
+  UNLINK_STEAM,
+} from "../types";
 
 const initState: State["auth"] = {
   user: null,
@@ -26,6 +33,9 @@ type Actions =
     }
   | {
       type: typeof UPDATE_PASSWORD;
+    }
+  | {
+      type: typeof UNLINK_STEAM;
     };
 
 export default function authReducer(state = initState, action: Actions) {
@@ -62,6 +72,14 @@ export default function authReducer(state = initState, action: Actions) {
       return {
         ...state,
         error: null,
+      };
+    case "UNLINK_STEAM":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          steam_id: null,
+        },
       };
     default:
       return {

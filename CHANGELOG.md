@@ -4,19 +4,20 @@
 
 ## 1.4.8
 
-- Auto redirect when user has successfully authenticated with Steam.
+- New: able to unlink Steam
+- Minor: Auto redirect when user has successfully authenticated with Steam.
 
 ## 1.4.7-patch1
 
-- Fixed a (app breaking) bug with 10 codes positioning
+- Minor: Fixed a (app breaking) bug with 10 codes positioning
 
 ## 1.4.7
 
-- Bug fixes
-- Add missing translation keys
-- Set a position for 10 codes
-- Call types (EG: Citizen call, Traffic stop, ...)
-- Improvements to Docker support, Thanks @bound2 & @henriots!
+- New: Set a position for 10 codes
+- New: Call types (EG: Citizen call, Traffic stop, ...)
+- Minor: Bug fixes
+- Major: Add missing translation keys
+- Major: Improvements to Docker support, Thanks @bound2 & @henriots!
 
 ## 1.4.6
 

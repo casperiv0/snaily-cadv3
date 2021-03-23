@@ -1,8 +1,8 @@
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
-
 export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
+export const UNLINK_STEAM = "UNLINK_STEAM";
 
 export const SET_LOADING = "SET_LOADING";
 export const SET_LOADING_BLEETS = "SET_LOADING_BLEETS";
