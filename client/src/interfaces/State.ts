@@ -98,6 +98,7 @@ interface State {
   values: {
     genders: Value[];
     "legal-statuses": Value[];
+    "call-types": Value[];
     ethnicities: Value[];
     weapons: Value[];
     vehicles: Value[];

@@ -3,16 +3,28 @@ import Modal, { XButton } from "./index";
 import lang from "../../language.json";
 import { create911Call } from "../../lib/actions/911-calls";
 import { connect } from "react-redux";
+import { useLocation } from "react-router";
+import Select from "../select";
+import State from "../../interfaces/State";
+import Value from "../../interfaces/Value";
+import { getCallTypes } from "../../lib/actions/values";
 
 interface Props {
+  callTypes: Value[];
+  getCallTypes: () => void;
   create911Call: (data: object) => Promise<boolean>;
 }
 
-const Call911Modal: React.FC<Props> = ({ create911Call }) => {
+const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call }) => {
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
   const btnRef = React.createRef<HTMLButtonElement>();
+  const locationPath = useLocation();
+
+  React.useEffect(() => {
+    getCallTypes();
+  }, [getCallTypes]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -82,6 +94,20 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
                 className="form-control bg-secondary border-secondary text-light"
               />
             </div>
+
+            {locationPath.pathname === "/dispatch" ? (
+              <div className="mt-3 mb-3">
+                <Select
+                  onChange={(v) => null}
+                  isMulti={false}
+                  isClearable={false}
+                  options={callTypes.map((type) => ({
+                    label: type.name,
+                    value: type.name,
+                  }))}
+                />
+              </div>
+            ) : null}
           </div>
         </div>
 
@@ -98,4 +124,8 @@ const Call911Modal: React.FC<Props> = ({ create911Call }) => {
   );
 };
 
-export default connect(null, { create911Call })(Call911Modal);
+const mapToProps = (state: State) => ({
+  callTypes: state.values["call-types"],
+});
+
+export default connect(mapToProps, { create911Call, getCallTypes })(Call911Modal);

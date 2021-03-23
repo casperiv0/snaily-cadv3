@@ -14,11 +14,13 @@ import {
   GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
   VALUES_SET_LOADING,
+  GET_CALL_TYPES,
 } from "../types";
 
 const initState: State["values"] = {
   genders: [],
   "legal-statuses": [],
+  "call-types": [],
   ethnicities: [],
   departments: [],
   weapons: [],
@@ -77,6 +79,10 @@ type Actions =
   | {
       type: typeof VALUES_SET_LOADING;
       loading: boolean;
+    }
+  | {
+      type: typeof GET_CALL_TYPES;
+      callTypes: Value[];
     };
 
 export default function valuesReducer(state = initState, action: Actions): State["values"] {
@@ -110,6 +116,12 @@ export default function valuesReducer(state = initState, action: Actions): State
       return {
         ...state,
         vehicles: action.vehicles,
+        loading: false,
+      };
+    case "GET_CALL_TYPES":
+      return {
+        ...state,
+        "call-types": action.callTypes,
         loading: false,
       };
     case "GET_ADMIN_DEPARTMENTS":

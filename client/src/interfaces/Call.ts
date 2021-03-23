@@ -11,6 +11,7 @@ interface Call {
   assigned_unit: Unit[];
   pos: XYZ | LatLng;
   hidden: Perm;
+  type: string;
 
   events?: CallEvent[];
 }

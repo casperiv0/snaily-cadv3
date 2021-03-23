@@ -105,7 +105,7 @@ router.put(
   usePermission(["dispatch"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const { location, assigned_unit, pos, hidden } = req.body;
+    const { location, assigned_unit, pos, hidden, type } = req.body;
     const description = req.body.description || "No description provided";
 
     let status = "";
@@ -140,7 +140,7 @@ router.put(
 
       io.sockets.emit("UPDATE_ACTIVE_UNITS");
       await processQuery(
-        "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ?, `pos` = ?, `hidden` = ? WHERE `id` = ?",
+        "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ?, `pos` = ?, `hidden` = ?, `type` = ? WHERE `id` = ?",
         [
           location,
           description,
@@ -148,6 +148,7 @@ router.put(
           status,
           JSON.stringify(position),
           hidden || "0",
+          type,
           id,
         ],
       );

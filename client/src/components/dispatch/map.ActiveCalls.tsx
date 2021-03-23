@@ -69,7 +69,11 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
           <Item id="location">
             <Span>{window.lang.dispatch.caller_location}:</Span> {call.location}
           </Item>
-          <Item id="location">
+          <Item id="type">
+            <Span>{window.lang.citizen.medical.type2}: </Span>
+            {call.type === "1" ? window.lang.dispatch.citizen_call : call.type}
+          </Item>
+          <Item id="assigned_unit">
             <Span>{window.lang.dispatch.assigned_unit}: </Span>
             {assignedUnits.length <= 0 ? "None" : assignedUnits}
           </Item>

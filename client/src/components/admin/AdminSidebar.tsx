@@ -156,6 +156,14 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
           >
             {lang.admin.values.weapons.index}
           </Link>
+          <Link
+            className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+              "/values/call-types",
+            )}`}
+            to="/admin/values/call-types"
+          >
+            {window.lang.admin.values["call-types"].index}
+          </Link>
         </div>
       </div>
     </nav>

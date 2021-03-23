@@ -179,6 +179,7 @@ const ProbablyNotInTheTranslateFile = {
     show_blips: "Show Blips",
     show_all_players: "Show all players",
     call: "Call",
+    citizen_call: "Citizen Call",
   },
   nav: {
     ...file.nav,
@@ -219,6 +220,19 @@ Object.keys(file).forEach((fileKey) => {
     }
   });
 });
+
+if (!file.admin.values["call-types"]) {
+  file.admin.values["call-types"] = {
+    index: "Call Types",
+    add: "Add call type",
+    manage: "Manage call types",
+    name: "Enter Call type",
+    none: "There are call types found",
+    deleted: "Successfully deleted call type",
+    updated: "Successfully updated call type",
+    added: "Successfully added call type",
+  };
+}
 
 fs.writeFileSync(path.resolve("client/src/language.json"), JSON.stringify(file, null, 4));
 

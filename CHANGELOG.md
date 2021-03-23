@@ -7,6 +7,7 @@
 - Bug fixes
 - Add missing translation keys
 - Set a position for 10 codes
+- Call types (EG: Citizen call, Traffic stop, ...)
 
 ## 1.4.6
 

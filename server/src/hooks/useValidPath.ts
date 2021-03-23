@@ -8,6 +8,7 @@ const paths: string[] = [
   "legal-statuses",
   "vehicles",
   "weapons",
+  "call-types",
 ];
 
 export default function useValidPath(req: IRequest, res: Response, next: NextFunction): void {

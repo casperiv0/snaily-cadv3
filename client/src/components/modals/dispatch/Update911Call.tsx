@@ -5,16 +5,20 @@ import Call from "../../../interfaces/Call";
 import { connect } from "react-redux";
 import { end911Call, update911Call } from "../../../lib/actions/911-calls";
 import { addCallEvent } from "../../../lib/actions/dispatch";
+import { getCallTypes } from "../../../lib/actions/values";
 import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
 import Deputy from "../../../interfaces/Deputy";
-import Select from "../../select";
+import Select, { Value as SelectValue } from "../../select";
+import Value from "../../../interfaces/Value";
 
 interface Props {
   id: string;
   call: Call;
   officers: Officer[];
   ems_fd: Deputy[];
+  callTypes: Value[];
+  getCallTypes: () => void;
   end911Call: (id: string) => void;
   update911Call: (id: string, data: Partial<Call>) => void;
   addCallEvent: (callId: string, text: string) => void;
@@ -25,6 +29,8 @@ const Update911Call: React.FC<Props> = ({
   call,
   officers: activeOfficers,
   ems_fd: activeEmsFdDeputies,
+  callTypes,
+  getCallTypes,
   end911Call,
   update911Call,
   addCallEvent,
@@ -35,8 +41,15 @@ const Update911Call: React.FC<Props> = ({
   const [activeUnits, setActiveUnits] = React.useState<(Officer | Deputy)[]>([]);
   const [showAdd, setShowAdd] = React.useState<boolean>(false);
   const [eventText, setEventText] = React.useState<string>("");
+  const [type, setType] = React.useState<SelectValue | null>(null);
   const btnRef = React.createRef<HTMLButtonElement>();
   const inputRef = React.createRef<HTMLInputElement>();
+
+  React.useEffect(() => {
+    getCallTypes();
+
+    setType({ label: call.type, value: call.type });
+  }, [getCallTypes, call.type]);
 
   React.useEffect(() => {
     setActiveUnits([...activeEmsFdDeputies, ...activeOfficers]);
@@ -51,6 +64,7 @@ const Update911Call: React.FC<Props> = ({
       description,
       assigned_unit: assignedUnits,
       hidden: call.hidden,
+      type: type?.value,
     });
   }
 
@@ -100,6 +114,19 @@ const Update911Call: React.FC<Props> = ({
               className="form-control bg-secondary border-secondary text-light"
               onChange={(e) => setDescription(e.target.value)}
               value={description}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="call_description">
+              {lang.citizen.medical.type2}
+            </label>
+            <Select
+              value={type}
+              options={callTypes.map((v) => ({ value: v.name, label: v.name }))}
+              onChange={(v) => setType(v)}
+              closeMenuOnSelect
+              isClearable={false}
+              isMulti={false}
             />
           </div>
           <div className="mb-3">
@@ -206,6 +233,9 @@ const Update911Call: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   officers: state.dispatch.officers,
   ems_fd: state.dispatch.ems_fd,
+  callTypes: state.values["call-types"],
 });
 
-export default connect(mapToProps, { end911Call, update911Call, addCallEvent })(Update911Call);
+export default connect(mapToProps, { end911Call, update911Call, addCallEvent, getCallTypes })(
+  Update911Call,
+);
