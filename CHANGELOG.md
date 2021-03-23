@@ -8,6 +8,7 @@
 - Add missing translation keys
 - Set a position for 10 codes
 - Call types (EG: Citizen call, Traffic stop, ...)
+- Improvements to Docker support, Thanks @bound2 & @henriots!
 
 ## 1.4.6
 
