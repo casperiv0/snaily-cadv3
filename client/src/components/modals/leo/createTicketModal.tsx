@@ -7,11 +7,13 @@ import Modal, { XButton } from "../index";
 import { createTicket } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
 import PenalCode from "../../../interfaces/PenalCode";
-import Select from "../../select";
+import Select, { Value } from "../../select";
 
 interface Props {
   officer: Officer | null;
   penalCodes: PenalCode[];
+  names: string[];
+
   createTicket: (data: {
     name: string;
     officer_name: string;
@@ -21,8 +23,8 @@ interface Props {
   }) => Promise<boolean>;
 }
 
-const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, createTicket }) => {
-  const [name, setName] = React.useState("");
+const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, names, createTicket }) => {
+  const [name, setName] = React.useState<Value | null>(null);
   const [violations, setViolations] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
@@ -30,9 +32,10 @@ const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, createTicket 
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name?.value) return;
 
     const created = await createTicket({
-      name,
+      name: name?.value,
       officer_name: `${officer?.callsign} ${officer?.officer_name}`,
       violations: violations.map((v: any) => v.value).join(", "),
       postal,
@@ -43,7 +46,7 @@ const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, createTicket 
       btnRef.current?.click();
 
       setNotes("");
-      setName("");
+      setName(null);
       setViolations([]);
       setPostal("");
       setNotes("");
@@ -51,13 +54,6 @@ const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, createTicket 
   }
 
   const fields: Field[] = [
-    {
-      type: "text",
-      id: "ticket_name",
-      label: lang.record.enter_full_name,
-      onChange: (e) => setName(e.target.value),
-      value: name,
-    },
     {
       type: "text",
       id: "ticket_postal",
@@ -83,6 +79,22 @@ const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, createTicket 
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
+          <div className="mb-3">
+            <label className="form-label" htmlFor="ticket_name">
+              {lang.record.enter_full_name}
+            </label>
+            <Select
+              closeMenuOnSelect={true}
+              isMulti={false}
+              value={name}
+              onChange={(v) => setName(v)}
+              options={names.map(({ full_name }: any) => ({
+                value: full_name,
+                label: full_name,
+              }))}
+            />
+          </div>
+
           {fields.map((field: Field, idx: number) => {
             return (
               <div id={`${idx}`} key={idx} className="mb-3">
@@ -130,6 +142,7 @@ const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, createTicket 
 const mapToProps = (state: State) => ({
   officer: state.officers.activeOfficer,
   penalCodes: state.admin.penalCodes,
+  names: state.officers.names,
 });
 
 export default connect(mapToProps, { createTicket })(CreateTicketModal);

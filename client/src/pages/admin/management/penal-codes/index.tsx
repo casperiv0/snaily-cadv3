@@ -71,7 +71,7 @@ const PenalCodesManagement: React.FC<Props> = ({
           <Loader />
         ) : (
           <ul className="list-group">
-            {filtered.slice(0, length)?.map((code: PenalCode, idx: number) => {
+            {filtered?.slice(0, length)?.map((code: PenalCode, idx: number) => {
               return (
                 <li
                   ref={ref}

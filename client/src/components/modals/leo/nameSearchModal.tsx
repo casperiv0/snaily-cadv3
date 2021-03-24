@@ -41,6 +41,7 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
 
   React.useEffect(() => {
     setNote(search?.citizen?.note || "");
+    searchNames();
   }, [search?.citizen, name, searchNames]);
 
   function onSubmit(e: React.FormEvent) {
@@ -85,7 +86,6 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
             <Select
               closeMenuOnSelect={true}
               isMulti={false}
-              onFocus={() => searchNames()}
               value={name}
               onChange={(v: any) => setName(v)}
               options={names.map(({ full_name }: any) => ({
