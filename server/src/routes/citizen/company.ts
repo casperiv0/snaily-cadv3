@@ -8,9 +8,7 @@ const router: Router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
   const companies = await processQuery("SELECT `id`, `name` FROM `businesses`");
-  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [
-    req.user?.id,
-  ]);
+  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [req.userId]);
 
   return res.json({ citizens, companies, status: "success" });
 });
@@ -53,7 +51,7 @@ router.post("/join", useAuth, async (req: IRequest, res: Response) => {
       "Company request",
       `Citizen: ${citizen[0].full_name} would like to join your company!`,
       `/company/${company[0].citizen_id}/${company[0].id}/manage#pending_citizens`,
-      req.user?.id,
+      req.userId,
     );
   }
 
@@ -89,7 +87,7 @@ router.post("/create", useAuth, async (req: IRequest, res: Response) => {
   );
   await processQuery(
     "INSERT INTO `businesses` (`id`, `name`, `owner`, `user_id`, `citizen_id`, `whitelisted`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [businessId, name, citizen[0].full_name, req.user?.id, citizen[0].id, whitelist, address],
+    [businessId, name, citizen[0].full_name, req.userId, citizen[0].id, whitelist, address],
   );
 
   return res.json({
@@ -153,7 +151,7 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
       citizen[0].id,
       uploadedAt,
       citizen[0].full_name,
-      req.user?.id,
+      req.userId,
     ],
   );
 

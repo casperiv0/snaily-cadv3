@@ -32,7 +32,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   const { title, body } = req.body;
   const file = req.files?.image as UploadedFile;
   const uploadedAt = Date.now();
-  const user_id = req.user?.id;
+  const user_id = req.userId;
   const index = req.files?.image && file?.name.indexOf(".");
   const imageId = file ? `${uuidv4()}${file.name.slice(index)}` : "";
 
@@ -76,7 +76,7 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  if (bleet[0].user_id !== req.user?.id) {
+  if (bleet[0].user_id !== req.userId) {
     return res.json({
       error: "Forbidden",
       status: "error",
@@ -116,9 +116,7 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
 
 router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  const user = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [
-    req.user?.id,
-  ]);
+  const user = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [req.userId]);
   const rank = user[0].rank;
   const bleet = await processQuery("SELECT * FROM `bleets` WHERE `id` = ?", [id]);
 
@@ -126,7 +124,7 @@ router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
     return res.json({ status: "error", error: "Bleet was not found" });
   }
 
-  if (RanksArr.includes(rank) || bleet[0].user_id === req.user?.id) {
+  if (RanksArr.includes(rank) || bleet[0].user_id === req.userId) {
     await processQuery("DELETE FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
 
     return res.json({ status: "success" });

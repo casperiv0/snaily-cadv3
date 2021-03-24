@@ -12,7 +12,7 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
 
   const vehicles = await processQuery(
     "SELECT * FROM `registered_cars` WHERE `citizen_id` = ? AND `user_id` = ?",
-    [id, req.user?.id],
+    [id, req.userId],
   );
 
   return res.json({ vehicles, status: "success" });
@@ -23,7 +23,7 @@ router.get("/i/:id", useAuth, async (req: IRequest, res: Response) => {
 
   const vehicle = await processQuery(
     "SELECT * FROM `registered_cars` WHERE `id` = ? AND `user_id` = ?",
-    [id, req.user?.id],
+    [id, req.userId],
   );
 
   return res.json({ vehicle: vehicle[0], status: "success" });
@@ -98,7 +98,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
         status,
         parsedPlate,
         color,
-        req.user?.id,
+        req.userId,
         businessId,
       ],
     );
@@ -145,7 +145,7 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   if (color && status) {
     await processQuery(
       "UPDATE `registered_cars` SET `color` = ?, `in_status` = ? WHERE `id` = ? AND `user_id` = ?",
-      [color, status, id, req.user?.id],
+      [color, status, id, req.userId],
     );
 
     return res.json({ status: "success" });
@@ -174,7 +174,7 @@ router.delete("/:citizenId/:vehicleId", useAuth, async (req: IRequest, res: Resp
 
   const vehicles = await processQuery(
     "SELECT * FROM `registered_cars` WHERE `citizen_id` = ? AND `user_id` = ?",
-    [citizenId, req.user?.id],
+    [citizenId, req.userId],
   );
 
   return res.json({

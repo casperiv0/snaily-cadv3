@@ -16,7 +16,7 @@ router.get(
   usePermission(["leo"]),
   async (req: IRequest, res: Response) => {
     const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [
-      req.user?.id,
+      req.userId,
     ]);
 
     return res.json({ officers, status: "success" });
@@ -26,7 +26,7 @@ router.get(
 router.get("/my-logs", useAuth, usePermission(["leo"]), async (req: IRequest, res: Response) => {
   const logs = await processQuery(
     "SELECT * FROM `officer_logs` WHERE `user_id` = ? ORDER BY `started_at` DESC",
-    [req.user?.id],
+    [req.userId],
   );
 
   return res.json({ logs, status: "success" });
@@ -43,7 +43,7 @@ router.post(
     if (name && department && callsign) {
       await processQuery(
         "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`,`rank`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [id, name, department, callsign, req.user?.id, "off-duty", "", "officer"],
+        [id, name, department, callsign, req.userId, "off-duty", "", "officer"],
       );
 
       return res.json({ status: "success" });
@@ -60,9 +60,7 @@ router.delete("/:id", useAuth, usePermission(["leo"]), async (req: IRequest, res
   const { id } = req.params;
   await processQuery("DELETE FROM `officers` WHERE `id` = ?", [id]);
 
-  const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [
-    req.user?.id,
-  ]);
+  const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [req.userId]);
 
   return res.json({ status: "success", officers });
 });
@@ -91,7 +89,7 @@ router.put(
       await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `user_id` = ?", [
         "off-duty",
         "--------",
-        req.user?.id,
+        req.userId,
       ]);
 
       const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
@@ -110,7 +108,7 @@ router.put(
         if (!officerLog[0]) {
           await processQuery(
             "INSERT INTO `officer_logs` (`id`, `officer_id`, `started_at`, `ended_at`, `active`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
-            [uuidv4(), id, timeMs, 0, "1", req.user?.id],
+            [uuidv4(), id, timeMs, 0, "1", req.userId],
           );
         }
       } else {

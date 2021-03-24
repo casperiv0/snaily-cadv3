@@ -12,9 +12,7 @@ router.get(
   useAuth,
   usePermission(["ems_fd"]),
   async (req: IRequest, res: Response) => {
-    const deputies = await processQuery("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [
-      req.user?.id,
-    ]);
+    const deputies = await processQuery("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [req.userId]);
 
     return res.json({ deputies, status: "success" });
   },
@@ -31,7 +29,7 @@ router.post(
     if (name) {
       await processQuery(
         "INSERT INTO `ems-fd` (`id`, `name`, `user_id`, `status`, `status2`) VALUES (?, ?, ?, ?, ?)",
-        [id, name, req.user?.id, "off-duty", "--------"],
+        [id, name, req.userId, "off-duty", "--------"],
       );
 
       return res.json({ status: "success" });
@@ -50,9 +48,7 @@ router.delete(
 
     await processQuery("DELETE FROM `ems-fd` WHERE `id` = ?", [id]);
 
-    const deputies = await processQuery("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [
-      req.user?.id,
-    ]);
+    const deputies = await processQuery("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [req.userId]);
 
     return res.json({ status: "success", deputies });
   },

@@ -7,7 +7,7 @@ import { v4 } from "uuid";
 const router = Router();
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
-  const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [req.user?.id]);
+  const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [req.userId]);
 
   return res.json({ status: "success", logs });
 });
@@ -19,7 +19,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
   if (name && date && start_time && plate) {
     await processQuery(
       "INSERT INTO `truck_logs` (`id`, `name`, `timestamp`, `co_driver`, `start_time`, `plate`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [id, name, date, co_driver ?? "None", start_time, plate, req.user?.id],
+      [id, name, date, co_driver ?? "None", start_time, plate, req.userId],
     );
 
     return res.json({
@@ -38,13 +38,13 @@ router.delete("/:id", useAuth, async (req: IRequest, res: Response) => {
 
   const log = await processQuery("SELECT * FROM `truck_logs` WHERE `id` = ?", [id]);
 
-  if (log[0].user_id !== req.user?.id) {
+  if (log[0].user_id !== req.userId) {
     return res.json({ error: "Forbidden", status: "error" });
   }
 
   await processQuery("DELETE FROM `truck_logs` WHERE `id` = ?", [id]);
 
-  const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [req.user?.id]);
+  const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [req.userId]);
 
   return res.json({ status: "success", logs });
 });

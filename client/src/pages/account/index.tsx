@@ -121,7 +121,7 @@ const AccountPage: React.FC<Props> = ({ user, unlinkSteam }) => {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-dark col-md-4"
-            href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new"
+            href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new?assignees=Dev-CasperTheGhost&labels=&template=bug_report.md&title=%5BBug%5D"
           >
             {lang.auth.account.report_a_bug}
           </a>

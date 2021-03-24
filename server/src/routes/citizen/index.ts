@@ -19,9 +19,7 @@ router.use("/medical-records", medicalRecordsRouter);
 router.use("/company", companyRouter);
 
 router.get("/", useAuth, async (req: IRequest, res: Response) => {
-  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [
-    req.user?.id,
-  ]);
+  const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [req.userId]);
 
   return res.json({ status: "success", citizens });
 });
@@ -82,7 +80,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
       await processQuery(query, [
         id /* Id */,
         full_name /* full name */,
-        req.user?.id /* user_id */,
+        req.userId /* user_id */,
         birth /* birth */,
         gender /* gender */,
         ethnicity /* ethnicity */,
@@ -244,7 +242,7 @@ router.post("/info", useAuth, async (req: IRequest, res: Response) => {
     });
   }
 
-  if (citizen[0].user_id !== req.user?.id) {
+  if (citizen[0].user_id !== req.userId) {
     return res.json({
       error: "This citizen is not connected to your account",
       status: "error",
@@ -289,7 +287,7 @@ router.post("/expungement-request/:id", useAuth, async (req: IRequest, res: Resp
       JSON.stringify(arrest_reports),
       JSON.stringify(tickets),
       id,
-      req.user?.id,
+      req.userId,
     ],
   );
 
@@ -300,7 +298,7 @@ router.post("/expungement-request/:id", useAuth, async (req: IRequest, res: Resp
 
 router.get("/expungement-requests", useAuth, async (req: IRequest, res: Response) => {
   const requests = await processQuery("SELECT * FROM `court_requests` WHERE `user_id` = ?", [
-    req.user?.id,
+    req.userId,
   ]);
 
   return res.json({

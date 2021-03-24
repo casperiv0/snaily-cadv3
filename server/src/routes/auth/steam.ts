@@ -26,7 +26,7 @@ router.get("/", useAuth, async (req: IRequest, res: Response) => {
 
 router.put("/", useAuth, async (req: IRequest, res: Response) => {
   try {
-    await processQuery("UPDATE `users` SET `steam_id` = ? WHERE `id` = ?", ["", req.user?.id]);
+    await processQuery("UPDATE `users` SET `steam_id` = ? WHERE `id` = ?", ["", req.userId]);
 
     return res.json({
       status: "success",
@@ -79,7 +79,7 @@ router.get("/callback", useAuth, async (req: IRequest, res: Response) => {
   await processQuery("UPDATE `users` SET `steam_id` = ?, `avatar_url` = ? WHERE `id` =  ?", [
     userSteamHex.toString(16),
     json.response.players?.[0]?.avatar,
-    req.user?.id,
+    req.userId,
   ]);
 
   const nextURL = req.query?.["next"];

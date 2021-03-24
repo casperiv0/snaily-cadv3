@@ -28,7 +28,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
     await processQuery(
       "INSERT INTO `registered_weapons` (`id`, `owner`, `citizen_id`, `weapon`, `serial_number`, `status`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [id, citizen[0].full_name, citizenId, weapon, serial, status, req.user?.id],
+      [id, citizen[0].full_name, citizenId, weapon, serial, status, req.userId],
     );
 
     return res.json({ status: "success", citizenId });

@@ -26,6 +26,8 @@ export const isSuccess = (res: AxiosResponse) => {
     window.location.href = "/login";
 
     return false;
+  } else if (isNotLogin && !res.data.invalid_token && res.data.status === "error") {
+    notify(res.data.error).error();
   }
 
   return res.data.status && res.data.status === "success";

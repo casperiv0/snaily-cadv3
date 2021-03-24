@@ -33,7 +33,7 @@ router.put(
   usePermission(["owner"]),
   async (req: IRequest, res: Response) => {
     const user = await processQuery<IUser>("SELECT `rank` from `users` WHERE `id` = ?", [
-      req.user?.id,
+      req.userId,
     ]);
 
     if (user[0].rank !== "owner") {
@@ -189,7 +189,7 @@ router.put(
     switch (path) {
       case "ban": {
         if (ban_reason) {
-          if (req.user?.id === id) {
+          if (req?.userId === id) {
             return res.json({ error: "You can't ban yourself", status: "error" });
           }
 

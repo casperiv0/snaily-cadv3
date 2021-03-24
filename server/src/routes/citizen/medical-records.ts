@@ -9,7 +9,7 @@ router.get("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const medicalRecords = await processQuery(
     "SELECT * FROM `medical_records` WHERE `citizen_id` = ? AND `user_id` = ?",
-    [id, req.user?.id],
+    [id, req.userId],
   );
 
   return res.json({ medicalRecords, status: "success" });
@@ -23,7 +23,7 @@ router.post("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
     const id = uuidv4();
     const citizen = await processQuery(
       "SELECT `full_name` FROM `citizens` WHERE `id` = ? AND `user_id` = ?",
-      [citizenId, req.user?.id],
+      [citizenId, req.userId],
     );
 
     if (!citizen[0]) {
@@ -35,7 +35,7 @@ router.post("/:citizenId", useAuth, async (req: IRequest, res: Response) => {
 
     await processQuery(
       "INSERT INTO `medical_records` (`id`, `type`, `short_info`, `name`, `citizen_id`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, type, shortInfo, citizen[0]?.full_name, citizenId, req.user?.id],
+      [id, type, shortInfo, citizen[0]?.full_name, citizenId, req.userId],
     );
 
     return res.json({ status: "success" });
@@ -57,7 +57,7 @@ router.delete("/:citizenId/:recordId", useAuth, async (req: IRequest, res: Respo
 
   const medicalRecords = await processQuery(
     "SELECT * FROM `medical_records` WHERE `citizen_id` = ? AND `user_id` = ?",
-    [citizenId, req.user?.id],
+    [citizenId, req.userId],
   );
 
   return res.json({ medicalRecords, status: "success" });
