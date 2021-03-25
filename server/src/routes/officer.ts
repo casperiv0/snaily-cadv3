@@ -58,7 +58,7 @@ router.post(
 
 router.delete("/:id", useAuth, usePermission(["leo"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  await processQuery("DELETE FROM `officers` WHERE `id` = ?", [id]);
+  await processQuery("DELETE FROM `officers` WHERE `id` = ? AND `user_id` = ?", [id, req.userId]);
 
   const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [req.userId]);
 
@@ -71,7 +71,10 @@ router.get(
   usePermission(["leo", "dispatch"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const officer = await processQuery<Officer>("SELECT * FROM `officers` WHERE  `id` = ?", [id]);
+    const officer = await processQuery<Officer>(
+      "SELECT * FROM `officers` WHERE  `id` = ? AND `user_id` = ?",
+      [id, req.userId],
+    );
 
     return res.json({ officer: officer[0], status: "success" });
   },
@@ -84,6 +87,20 @@ router.put(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
     const { status, status2, timeMs } = req.body;
+
+    const user = await processQuery("SELECT `leo`, `dispatch` FROM `users` WHERE `id` = ?", [
+      req.userId,
+    ]);
+    const officer = await processQuery("SELECT `id`, `user_id` FROM `officers` WHERE `id` = ?", [
+      id,
+    ]);
+
+    if (user[0].leo === "1" && officer[0].user_id !== req.userId) {
+      return res.json({
+        error: "This officer is not associated with your account.",
+        status: "error",
+      });
+    }
 
     if (status && status2 && timeMs) {
       await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `user_id` = ?", [
