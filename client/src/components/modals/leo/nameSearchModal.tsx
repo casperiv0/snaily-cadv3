@@ -8,7 +8,7 @@ import AlertMessage from "../../alert-message";
 import Citizen from "../../../interfaces/Citizen";
 import Weapon from "../../../interfaces/Weapon";
 import Vehicle from "../../../interfaces/Vehicle";
-import { searchName, saveNote, searchNames } from "../../../lib/actions/officer";
+import { searchName, saveNote, searchNames, suspendLicense } from "../../../lib/actions/officer";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
@@ -31,13 +31,28 @@ interface Props {
   searchName: (name: string) => void;
   saveNote: (citizenId: string, note: string) => void;
   searchNames: () => void;
+  suspendLicense: (type: string, citizenId: string) => void;
 }
 
-const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote, searchNames }) => {
+const NameSearchModal: React.FC<Props> = ({
+  search,
+  names,
+  searchName,
+  saveNote,
+  searchNames,
+  suspendLicense,
+}) => {
   const [name, setName] = React.useState<any>({});
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const btnRef = React.createRef<HTMLButtonElement>();
   const location = useLocation();
+  const isSuspended = React.useCallback(
+    (type: string) => {
+      // @ts-expect-error ignore line below
+      return search?.citizen?.[type] === "1";
+    },
+    [search?.citizen],
+  );
 
   React.useEffect(() => {
     setNote(search?.citizen?.note || "");
@@ -54,6 +69,10 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
   function addNote() {
     search.citizen?.id && saveNote(search.citizen.id, note);
   }
+
+  const handleSuspend = (type: string) => () => {
+    suspendLicense(type, search?.citizen?.id);
+  };
 
   return (
     <Modal size="lg" id="nameSearchModal">
@@ -164,22 +183,74 @@ const NameSearchModal: React.FC<Props> = ({ search, names, searchName, saveNote,
                   <div className="list-group" id="licenses">
                     <Item id="dmv">
                       <Span>{lang.citizen.license.dmv}: </Span>
-                      {search.citizen.dmv}
+                      {isSuspended("dmv") ? (
+                        window.lang.officers.suspended
+                      ) : (
+                        <>
+                          {search.citizen.dmv}{" "}
+                          <button
+                            onClick={handleSuspend("dmv")}
+                            type="button"
+                            className="suspend-btn link-primary"
+                          >
+                            {window.lang.officers.suspend_license}
+                          </button>
+                        </>
+                      )}
                     </Item>
 
                     <Item id="fire_license">
                       <Span>{lang.citizen.license.firearms}: </Span>
-                      {search.citizen.fire_license}
+                      {isSuspended("fire_license") ? (
+                        window.lang.officers.suspended
+                      ) : (
+                        <>
+                          {search.citizen.fire_license}{" "}
+                          <button
+                            onClick={handleSuspend("fire_license")}
+                            type="button"
+                            className="suspend-btn link-primary"
+                          >
+                            {window.lang.officers.suspend_license}
+                          </button>
+                        </>
+                      )}
                     </Item>
 
                     <Item id="pilot_license">
                       <Span>{lang.citizen.license.pilot}: </Span>
-                      {search.citizen.pilot_license}
+                      {isSuspended("pilot_license") ? (
+                        window.lang.officers.suspended
+                      ) : (
+                        <>
+                          {search.citizen.pilot_license}{" "}
+                          <button
+                            onClick={handleSuspend("pilot_license")}
+                            type="button"
+                            className="suspend-btn link-primary"
+                          >
+                            {window.lang.officers.suspend_license}
+                          </button>
+                        </>
+                      )}
                     </Item>
 
                     <Item id="ccw">
                       <Span>{lang.citizen.license.ccw}: </Span>
-                      {search.citizen.ccw}
+                      {isSuspended("ccw") ? (
+                        window.lang.officers.suspended
+                      ) : (
+                        <>
+                          {search.citizen.ccw}{" "}
+                          <button
+                            onClick={handleSuspend("ccw")}
+                            type="button"
+                            className="suspend-btn link-primary"
+                          >
+                            {window.lang.officers.suspend_license}
+                          </button>
+                        </>
+                      )}
                     </Item>
 
                     <div className="mt-3" id="note">
@@ -554,4 +625,6 @@ const mapToProps = (state: State) => ({
   names: state.officers.names,
 });
 
-export default connect(mapToProps, { searchName, saveNote, searchNames })(NameSearchModal);
+export default connect(mapToProps, { searchName, saveNote, searchNames, suspendLicense })(
+  NameSearchModal,
+);

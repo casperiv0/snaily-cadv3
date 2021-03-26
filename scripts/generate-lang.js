@@ -114,6 +114,8 @@ const ProbablyNotInTheTranslateFile = {
     save_note: "Save note",
     plate_or_vin: "Enter Plate or VIN number",
     select_office: "Must select an officer before continuing",
+    suspend_license: "Suspend License",
+    suspended: "Suspended",
   },
   admin: {
     ...file.admin,
@@ -138,7 +140,7 @@ const ProbablyNotInTheTranslateFile = {
     cannot_remove_owner_acc: "You cannot remove the owner's account",
     no_expungement_requests: "There are no active requests",
     officer_management: "Officer Management",
-    supervisor_panel: "Supervisor Panel"
+    supervisor_panel: "Supervisor Panel",
   },
   codes: {
     code: "Code",

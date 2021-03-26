@@ -314,4 +314,51 @@ router.post(
   },
 );
 
+router.put(
+  "/suspend-license/:citizenId",
+  useAuth,
+  usePermission(["leo", "dispatch"]),
+  async (req: IRequest, res: Response) => {
+    const { type } = req.body;
+
+    if (!type) {
+      return res.json({
+        error: "Please fill in all fields",
+        status: "error",
+      });
+    }
+
+    let sql = "UPDATE `citizens` SET ";
+    switch (type) {
+      case "dmv": {
+        sql += "`dmv` = ?";
+        break;
+      }
+      case "ccw": {
+        sql += "`ccw` = ?";
+        break;
+      }
+      case "pilot_license": {
+        sql += "`pilot_license` = ?";
+
+        break;
+      }
+      case "fire_license": {
+        sql += "`fire_license` = ?";
+        break;
+      }
+      default: {
+        return res.json({
+          error: "Invalid type",
+          status: "error",
+        });
+      }
+    }
+
+    await processQuery(sql + "WHERE `id` = ?", ["1", req.params.citizenId]);
+
+    return res.json({ status: "success" });
+  },
+);
+
 export default router;
