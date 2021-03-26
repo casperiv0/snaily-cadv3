@@ -13,9 +13,9 @@ import {
   ACCEPT_USER,
   DECLINE_USER,
   UPDATE_CAD_SETTINGS,
-  GET_ALL_OFFICERS,
-  GET_OFFICER_BY_ID,
-  ADMIN_UPDATE_OFFICER,
+  GET_ALL_UNITS,
+  GET_UNIT_BY_ID,
+  ADMIN_UPDATE_UNIT,
   GET_ALl_EXPUNGEMENT_REQUESTS,
   ACCEPT_OR_DECLINE_REQUEST,
   GET_10_CODES,
@@ -36,6 +36,7 @@ import Officer from "../../interfaces/Officer";
 import { ExpungementRequest } from "./court";
 import PenalCode from "../../interfaces/PenalCode";
 import Code10 from "../../interfaces/Code10";
+import Deputy from "../../interfaces/Deputy";
 
 interface IDispatch {
   type: string;
@@ -45,11 +46,13 @@ interface IDispatch {
   members?: User[];
   member?: User;
   officers?: Officer[];
+  ems_fd?: Deputy[];
   officer?: Officer;
   expungementRequests?: ExpungementRequest[];
   codes?: Code10[];
   penalCodes?: PenalCode[];
   loading?: boolean;
+  unit?: Officer | Deputy;
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -305,41 +308,42 @@ export const updateCadSettings = (data: UpdateCADSettings) => async (
   }
 };
 
-export const getAllOfficers = () => async (dispatch: Dispatch<IDispatch>) => {
+export const getAllUnits = () => async (dispatch: Dispatch<IDispatch>) => {
   dispatch({ type: SET_ADMIN_LOADING, loading: true });
 
   try {
-    const res = await handleRequest("/admin/management/officers", "GET");
+    const res = await handleRequest("/admin/management/units", "GET");
 
     if (isSuccess(res)) {
       dispatch({
-        type: GET_ALL_OFFICERS,
+        type: GET_ALL_UNITS,
         officers: res.data.officers,
+        ems_fd: res.data.ems_fd,
       });
     }
   } catch (e) {
-    Logger.error(GET_ALL_OFFICERS, e);
+    Logger.error(GET_ALL_UNITS, e);
     dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
 
-export const getOfficerById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+export const getUnitById = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   dispatch({ type: SET_ADMIN_LOADING, loading: true });
 
   try {
-    const res = await handleRequest(`/admin/management/officers/${id}`, "GET");
+    const res = await handleRequest(`/admin/management/units/${id}`, "GET");
 
     if (isSuccess(res)) {
       dispatch({
-        type: GET_OFFICER_BY_ID,
-        officer: {
-          ...res.data.officer,
-          logs: res.data.logs,
+        type: GET_UNIT_BY_ID,
+        unit: {
+          ...res.data.unit,
+          logs: res.data.logs ?? [],
         },
       });
     }
   } catch (e) {
-    Logger.error(GET_ALL_OFFICERS, e);
+    Logger.error(GET_UNIT_BY_ID, e);
     dispatch({ type: SET_ADMIN_LOADING, loading: false });
   }
 };
@@ -352,15 +356,15 @@ export interface UpdateOfficerData {
   status2: string;
 }
 
-export const updateOfficerById = (id: string, data: UpdateOfficerData) => async (
+export const updateUnitById = (id: string, data: UpdateOfficerData) => async (
   dispatch: Dispatch<IDispatch>,
 ): Promise<boolean> => {
   try {
-    const res = await handleRequest(`/admin/management/officers/${id}`, "PUT", data);
+    const res = await handleRequest(`/admin/management/units/${id}`, "PUT", data);
 
     if (isSuccess(res)) {
       dispatch({
-        type: ADMIN_UPDATE_OFFICER,
+        type: ADMIN_UPDATE_UNIT,
       });
 
       notify("Successfully updated officer").success();
@@ -370,7 +374,7 @@ export const updateOfficerById = (id: string, data: UpdateOfficerData) => async 
       return false;
     }
   } catch (e) {
-    Logger.error(GET_ALL_OFFICERS, e);
+    Logger.error(GET_ALL_UNITS, e);
     notify(e).error();
     return false;
   }

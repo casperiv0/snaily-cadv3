@@ -21,6 +21,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Loader from "./components/loader";
 import Navbar from "./components/navbar";
 import store from "./lib/store";
+const SupervisorPanelPage = React.lazy(() => import("./pages/admin/management/supervisor"));
 
 const HomePage = React.lazy(() => import("./pages/index"));
 const NotFoundPage = React.lazy(() => import("./pages/not-found"));
@@ -88,12 +89,8 @@ const ManageCitizensPage = React.lazy(() => import("./pages/admin/management/cit
 const CompanyManagementPage = React.lazy(
   () => import("./pages/admin/management/company-management"),
 );
-const OfficersManagementPage = React.lazy(
-  () => import("./pages/admin/management/officers/officers-management"),
-);
-const ManageOfficerPage = React.lazy(
-  () => import("./pages/admin/management/officers/manage-officer"),
-);
+
+const ManageUnitPage = React.lazy(() => import("./pages/admin/management/supervisor/manage-unit"));
 
 window.lang = lang;
 
@@ -217,14 +214,14 @@ ReactDOM.render(
               Component={CompanyManagementPage}
             />
             <AuthRoute
-              path="/admin/manage/officers/:id"
+              path="/admin/manage/units/:id"
               requirement="supervisor"
-              Component={ManageOfficerPage}
+              Component={ManageUnitPage}
             />
             <AuthRoute
-              path="/admin/manage/officers"
+              path="/admin/manage/units"
               requirement="supervisor"
-              Component={OfficersManagementPage}
+              Component={SupervisorPanelPage}
             />
 
             <AuthRoute

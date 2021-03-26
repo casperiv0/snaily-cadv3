@@ -71,12 +71,10 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
             {lang.admin.company_management}
           </Link>
           <Link
-            className={`text-decoration-none p-2 rounded admin-link ${isActive(
-              "/manage/officers",
-            )} `}
-            to="/admin/manage/officers"
+            className={`text-decoration-none p-2 rounded admin-link ${isActive("/manage/units")} `}
+            to="/admin/manage/units"
           >
-            {window.lang.admin.officer_management}
+            {window.lang.admin.supervisor_panel}
           </Link>
           <Link
             className={`text-decoration-none p-2 rounded admin-link ${isActive(

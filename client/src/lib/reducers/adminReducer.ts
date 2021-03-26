@@ -1,6 +1,7 @@
 import Citizen from "../../interfaces/Citizen";
 import Code10 from "../../interfaces/Code10";
 import Company from "../../interfaces/Company";
+import Deputy from "../../interfaces/Deputy";
 import Officer from "../../interfaces/Officer";
 import PenalCode from "../../interfaces/PenalCode";
 import State from "../../interfaces/State";
@@ -18,8 +19,8 @@ import {
   UPDATE_MEMBER_PERMS,
   ACCEPT_USER,
   DECLINE_USER,
-  GET_ALL_OFFICERS,
-  GET_OFFICER_BY_ID,
+  GET_ALL_UNITS,
+  GET_UNIT_BY_ID,
   ACCEPT_OR_DECLINE_REQUEST,
   GET_ALl_EXPUNGEMENT_REQUESTS,
   GET_10_CODES,
@@ -42,6 +43,8 @@ const initState: State["admin"] = {
   codes: [],
   penalCodes: [],
   loading: false,
+  ems_fd: [],
+  unit: null,
 };
 
 type Actions =
@@ -90,12 +93,13 @@ type Actions =
       members: User[];
     }
   | {
-      type: typeof GET_ALL_OFFICERS;
+      type: typeof GET_ALL_UNITS;
       officers: Officer[];
+      ems_fd: Deputy[];
     }
   | {
-      type: typeof GET_OFFICER_BY_ID;
-      officer: Officer;
+      type: typeof GET_UNIT_BY_ID;
+      unit: Officer | Deputy;
     }
   | {
       type: typeof GET_ALl_EXPUNGEMENT_REQUESTS;
@@ -190,16 +194,17 @@ export default function adminReducer(state = initState, action: Actions) {
         ...state,
         members: action.members,
       };
-    case "GET_ALL_OFFICERS":
+    case "GET_ALL_UNITS":
       return {
         ...state,
         officers: action.officers,
+        ems_fd: action.ems_fd,
         loading: false,
       };
-    case "GET_OFFICER_BY_ID":
+    case "GET_UNIT_BY_ID":
       return {
         ...state,
-        officer: action.officer,
+        unit: action.unit,
         loading: false,
       };
     case "GET_ALl_EXPUNGEMENT_REQUESTS":

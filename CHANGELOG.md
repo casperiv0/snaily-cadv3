@@ -4,6 +4,7 @@
 
 ## 1.4.8
 
+- New: CAD wide supervisor panel (EMS/FD + LEO)
 - New: able to unlink Steam
 - Minor: Auto redirect when user has successfully authenticated with Steam.
 
