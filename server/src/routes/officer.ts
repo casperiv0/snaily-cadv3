@@ -16,7 +16,7 @@ router.get(
   usePermission(["leo"]),
   async (req: IRequest, res: Response) => {
     const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [
-      req.user?.id,
+      req.userId,
     ]);
 
     return res.json({ officers, status: "success" });
@@ -26,7 +26,7 @@ router.get(
 router.get("/my-logs", useAuth, usePermission(["leo"]), async (req: IRequest, res: Response) => {
   const logs = await processQuery(
     "SELECT * FROM `officer_logs` WHERE `user_id` = ? ORDER BY `started_at` DESC",
-    [req.user?.id],
+    [req.userId],
   );
 
   return res.json({ logs, status: "success" });
@@ -43,7 +43,7 @@ router.post(
     if (name && department && callsign) {
       await processQuery(
         "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`,`rank`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [id, name, department, callsign, req.user?.id, "off-duty", "", "officer"],
+        [id, name, department, callsign, req.userId, "off-duty", "", "officer"],
       );
 
       return res.json({ status: "success" });
@@ -58,11 +58,9 @@ router.post(
 
 router.delete("/:id", useAuth, usePermission(["leo"]), async (req: IRequest, res: Response) => {
   const { id } = req.params;
-  await processQuery("DELETE FROM `officers` WHERE `id` = ?", [id]);
+  await processQuery("DELETE FROM `officers` WHERE `id` = ? AND `user_id` = ?", [id, req.userId]);
 
-  const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [
-    req.user?.id,
-  ]);
+  const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [req.userId]);
 
   return res.json({ status: "success", officers });
 });
@@ -73,7 +71,10 @@ router.get(
   usePermission(["leo", "dispatch"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const officer = await processQuery<Officer>("SELECT * FROM `officers` WHERE  `id` = ?", [id]);
+    const officer = await processQuery<Officer>(
+      "SELECT * FROM `officers` WHERE  `id` = ? AND `user_id` = ?",
+      [id, req.userId],
+    );
 
     return res.json({ officer: officer[0], status: "success" });
   },
@@ -87,11 +88,25 @@ router.put(
     const { id } = req.params;
     const { status, status2, timeMs } = req.body;
 
+    const user = await processQuery("SELECT `leo`, `dispatch` FROM `users` WHERE `id` = ?", [
+      req.userId,
+    ]);
+    const officer = await processQuery("SELECT `id`, `user_id` FROM `officers` WHERE `id` = ?", [
+      id,
+    ]);
+
+    if (user[0].leo === "1" && officer[0].user_id !== req.userId) {
+      return res.json({
+        error: "This officer is not associated with your account.",
+        status: "error",
+      });
+    }
+
     if (status && status2 && timeMs) {
       await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `user_id` = ?", [
         "off-duty",
         "--------",
-        req.user?.id,
+        req.userId,
       ]);
 
       const cadInfo = await processQuery<ICad>("SELECT * FROM `cad_info`");
@@ -110,7 +125,7 @@ router.put(
         if (!officerLog[0]) {
           await processQuery(
             "INSERT INTO `officer_logs` (`id`, `officer_id`, `started_at`, `ended_at`, `active`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
-            [uuidv4(), id, timeMs, 0, "1", req.user?.id],
+            [uuidv4(), id, timeMs, 0, "1", req.userId],
           );
         }
       } else {
@@ -296,6 +311,53 @@ router.post(
     } else {
       return res.json({ error: "Please fill in all fields", status: "error" });
     }
+  },
+);
+
+router.put(
+  "/suspend-license/:citizenId",
+  useAuth,
+  usePermission(["leo", "dispatch"]),
+  async (req: IRequest, res: Response) => {
+    const { type } = req.body;
+
+    if (!type) {
+      return res.json({
+        error: "Please fill in all fields",
+        status: "error",
+      });
+    }
+
+    let sql = "UPDATE `citizens` SET ";
+    switch (type) {
+      case "dmv": {
+        sql += "`dmv` = ?";
+        break;
+      }
+      case "ccw": {
+        sql += "`ccw` = ?";
+        break;
+      }
+      case "pilot_license": {
+        sql += "`pilot_license` = ?";
+
+        break;
+      }
+      case "fire_license": {
+        sql += "`fire_license` = ?";
+        break;
+      }
+      default: {
+        return res.json({
+          error: "Invalid type",
+          status: "error",
+        });
+      }
+    }
+
+    await processQuery(sql + "WHERE `id` = ?", ["1", req.params.citizenId]);
+
+    return res.json({ status: "success" });
   },
 );
 

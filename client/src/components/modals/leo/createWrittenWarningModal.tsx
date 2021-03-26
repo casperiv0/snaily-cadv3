@@ -7,11 +7,13 @@ import Modal, { XButton } from "../index";
 import { createWrittenWarning } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
 import PenalCode from "../../../interfaces/PenalCode";
-import Select from "../../select";
+import Select, { Value } from "../../select";
 
 interface Props {
   officer: Officer | null;
   penalCodes: PenalCode[];
+  names: string[];
+
   createWrittenWarning: (data: {
     name: string;
     officer_name: string;
@@ -24,9 +26,10 @@ interface Props {
 const CreateWrittenWarningModal: React.FC<Props> = ({
   officer,
   penalCodes,
+  names,
   createWrittenWarning,
 }) => {
-  const [name, setName] = React.useState("");
+  const [name, setName] = React.useState<Value | null>(null);
   const [infractions, setInfractions] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
@@ -34,9 +37,10 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name?.value) return;
 
     const created = await createWrittenWarning({
-      name,
+      name: name?.value,
       officer_name: `${officer?.callsign} ${officer?.officer_name}`,
       infractions: infractions.map((v: any) => v.value).join(", "),
       postal,
@@ -47,7 +51,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
       btnRef.current?.click();
 
       setNotes("");
-      setName("");
+      setName(null);
       setInfractions([]);
       setPostal("");
       setNotes("");
@@ -55,13 +59,6 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
   }
 
   const fields: Field[] = [
-    {
-      type: "text",
-      id: "written_warning_name",
-      label: lang.record.enter_full_name,
-      onChange: (e) => setName(e.target.value),
-      value: name,
-    },
     {
       type: "text",
       id: "written_warning_postal",
@@ -87,6 +84,22 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
+          <div className="mb-3">
+            <label className="form-label" htmlFor="written_warning_name">
+              {lang.record.enter_full_name}
+            </label>
+            <Select
+              closeMenuOnSelect={true}
+              isMulti={false}
+              value={name}
+              onChange={(v) => setName(v)}
+              options={names.map(({ full_name }: any) => ({
+                value: full_name,
+                label: full_name,
+              }))}
+            />
+          </div>
+
           {fields.map((field: Field, idx: number) => {
             return (
               <div id={`${idx}`} key={idx} className="mb-3">
@@ -134,6 +147,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   officer: state.officers.activeOfficer,
   penalCodes: state.admin.penalCodes,
+  names: state.officers.names,
 });
 
 export default connect(mapToProps, { createWrittenWarning })(CreateWrittenWarningModal);

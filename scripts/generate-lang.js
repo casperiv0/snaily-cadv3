@@ -73,6 +73,7 @@ const ProbablyNotInTheTranslateFile = {
   account: {
     owner_cannot_delete_account: "The owner is not able to delete their account.",
     steam_id: "Steam ID",
+    unlink_steam: "Unlink Steam",
   },
   bleeter: {
     ...file.bleeter,
@@ -113,6 +114,8 @@ const ProbablyNotInTheTranslateFile = {
     save_note: "Save note",
     plate_or_vin: "Enter Plate or VIN number",
     select_office: "Must select an officer before continuing",
+    suspend_license: "Suspend License",
+    suspended: "Suspended",
   },
   admin: {
     ...file.admin,
@@ -125,10 +128,10 @@ const ProbablyNotInTheTranslateFile = {
     total_items: "Total items",
     set_status: "Should set the status",
     set_off_duty: "Should set the officer to off-duty",
-    no_officers: "This CAD doesn't have any officers yet",
-    no_officer_with_name: "No officer found with that name",
+    no_units: "This CAD doesn't have any units yet",
+    no_unit_with_name: "No unit found with that name",
     officer_logs: "Officer logs",
-    managing_officer: "Managing officer",
+    managing_unit: "Managing unit",
     leo_supervisor: "LEO Supervisor",
     mem_not_found: "Member was not found",
     ban_hammer: "Use the ban hammer",
@@ -137,6 +140,7 @@ const ProbablyNotInTheTranslateFile = {
     cannot_remove_owner_acc: "You cannot remove the owner's account",
     no_expungement_requests: "There are no active requests",
     officer_management: "Officer Management",
+    supervisor_panel: "Supervisor Panel",
   },
   codes: {
     code: "Code",

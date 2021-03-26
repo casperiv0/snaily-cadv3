@@ -245,3 +245,23 @@ export const searchNames = () => async (dispatch: Dispatch<IDispatch>) => {
     Logger.error("SEARCH_NAMES", e);
   }
 };
+
+export const suspendLicense = (type: string, citizenId: string) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/officer/suspend-license/${citizenId}`, "PUT", {
+      type,
+    });
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: "SUSPEND_LICENSE",
+      });
+
+      notify("Successfully suspended license.").success();
+    }
+  } catch (e) {
+    Logger.error("SUSPEND_LICENSE", e);
+  }
+};

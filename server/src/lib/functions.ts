@@ -4,6 +4,8 @@ import { processQuery } from "./database";
 import Logger from "./Logger";
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 import { io } from "../server";
+import { WhitelistedChars } from "./constants";
+import { WebHook, WebHookData } from "../interfaces/Discord";
 
 export function generateString(length: number): string {
   let result = "";
@@ -15,38 +17,12 @@ export function generateString(length: number): string {
   return result;
 }
 
-export interface WebHook {
-  id: string;
-  token: string;
-  avatar: string | null;
-  name: string;
-  channel_id: string;
-  guild_id: string;
-  user?: any;
-  type?: number;
+export function checkForInvalidChars(username: string) {
+  return !WhitelistedChars.test(username);
 }
 
-export interface DiscordEmbed {
-  title?: string;
-  description?: string;
-  color?: any;
-  type?: string;
-  footer?: {
-    text: string;
-    icon_url: string;
-  };
-  fields?: Array<{
-    name: string;
-    value: string;
-    inline?: boolean;
-  }>;
-}
-
-export interface WebHookData {
-  content?: string;
-  username: string;
-  avatar_url?: string | null;
-  embeds?: DiscordEmbed[];
+export function serializeUsername(username: string) {
+  return username.replace(" ", "");
 }
 
 export async function getWebhookData(url: string): Promise<WebHook | undefined> {

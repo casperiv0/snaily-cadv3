@@ -86,6 +86,12 @@ export const paths: Path[] = [
 const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, user, checkAuth, getCadInfo }) => {
   const [showNotis, setShowNotis] = React.useState(false);
   const location = useLocation();
+  const ref = React.useRef<HTMLButtonElement>(null);
+
+  const isActive = React.useCallback(() => {
+    const el = document.getElementById("nav-items");
+    return el?.classList.contains("show");
+  }, []);
 
   React.useEffect(() => {
     console.clear();
@@ -107,6 +113,7 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, user, checkAuth, ge
           aria-controls="nav-items"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          ref={ref}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -121,7 +128,11 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, user, checkAuth, ge
 
               return (
                 <li id={path.name} key={idx} className="nav-item">
-                  <Link className={"nav-link active text-light"} to={path.href}>
+                  <Link
+                    onClick={() => isActive() && ref.current?.click()}
+                    className={"nav-link active text-light"}
+                    to={path.href}
+                  >
                     {path.name}
                   </Link>
                 </li>

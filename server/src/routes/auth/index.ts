@@ -3,28 +3,34 @@ import { Response, Router } from "express";
 import { processQuery } from "../../lib/database";
 import { v4 as uuidv4 } from "uuid";
 import { useAuth, useToken } from "../../hooks";
-import { Ranks, Whitelist } from "../../lib/constants";
+import { CookieExpiresIn, Ranks, SaveUserQueryData, Whitelist } from "../../lib/constants";
 import IRequest from "../../interfaces/IRequest";
 import ICad from "../../interfaces/ICad";
 import IUser from "../../interfaces/IUser";
 import Citizen from "../../interfaces/Citizen";
-import { logoutActiveUnits } from "../../lib/functions";
+import { checkForInvalidChars, logoutActiveUnits, serializeUsername } from "../../lib/functions";
 
 const saltRounds = genSaltSync(10);
 const router: Router = Router();
-const COOKIE_EXPIRES = 60 * 60 * 1000 * 2; // 2hours
 
 router.post("/register", async (req: IRequest, res: Response) => {
   const { username, password, password2 } = req.body;
 
   if (username && password && password2) {
+    if (checkForInvalidChars(username)) {
+      return res.json({
+        error: "Username contains special characters, please remove them.",
+        status: "error",
+      });
+    }
+
     // check if passwords are the same
     if (password !== password2) {
       return res.json({ status: "error", error: "Passwords do not match" });
     }
 
     const existing = await processQuery<IUser>("SELECT * FROM `users` WHERE `username` = ?", [
-      username,
+      serializeUsername(username),
     ]);
 
     if (existing?.length > 0) {
@@ -48,7 +54,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
 
       await processQuery(insertSQL, [
         id /* id */,
-        username /* username */,
+        serializeUsername(username) /* username */,
         hash /* password */,
         Ranks.user /* rank */,
         false /* leo access */,
@@ -74,7 +80,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const token = useToken({ id });
 
       res.cookie("snaily-cad-session", token, {
-        expires: new Date(Date.now() + COOKIE_EXPIRES),
+        expires: new Date(Date.now() + CookieExpiresIn),
         httpOnly: true,
       });
 
@@ -103,7 +109,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       );
       await processQuery(insertSQL, [
         id /* id */,
-        username /* username */,
+        serializeUsername(username) /* username */,
         hash /* password */,
         Ranks.owner /* rank */,
         true /* leo access */,
@@ -121,7 +127,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
       const token = useToken({ id });
 
       res.cookie("snaily-cad-session", token, {
-        expires: new Date(Date.now() + COOKIE_EXPIRES),
+        expires: new Date(Date.now() + CookieExpiresIn),
         httpOnly: true,
       });
 
@@ -154,7 +160,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
       });
     }
 
-    if (+user[0].banned === 1) {
+    if (user[0].banned === "1") {
       return res.json({
         status: "error",
         error: `This account was banned, reason: ${user[0].ban_reason}`,
@@ -170,7 +176,7 @@ router.post("/login", async (req: IRequest, res: Response) => {
 
     const token = useToken({ id: user[0].id });
     res.cookie("snaily-cad-session", token, {
-      expires: new Date(Date.now() + COOKIE_EXPIRES),
+      expires: new Date(Date.now() + CookieExpiresIn),
       httpOnly: true,
     });
 
@@ -181,13 +187,15 @@ router.post("/login", async (req: IRequest, res: Response) => {
 });
 
 router.post("/user", useAuth, async (req: IRequest, res: Response) => {
-  const user = req.user;
+  const user = await processQuery(`SELECT ${SaveUserQueryData} FROM \`users\` WHERE \`id\` = ?`, [
+    req.userId,
+  ]);
 
-  return res.json({ user, status: "success" });
+  return res.json({ user: user[0], status: "success" });
 });
 
 router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
-  logoutActiveUnits(req.user?.id);
+  logoutActiveUnits(req.userId);
 
   res.clearCookie("snaily-cad-session", { httpOnly: true });
 
@@ -195,8 +203,7 @@ router.get("/logout", useAuth, async (req: IRequest, res: Response) => {
 });
 
 router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) => {
-  const userId = req.user?.id;
-  const user = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [userId]);
+  const user = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [req.userId]);
 
   if (user[0].rank === "owner") {
     return res.json({
@@ -206,7 +213,7 @@ router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) =
   }
 
   const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
-    userId,
+    req.userId,
   ]);
 
   await Promise.all(
@@ -223,20 +230,20 @@ router.delete("/delete-account", useAuth, async (req: IRequest, res: Response) =
   );
 
   await Promise.all([
-    await processQuery("DELETE FROM `posts` WHERE `user_id` = ?", [userId]),
-    await processQuery("DELETE FROM `truck_logs` WHERE `user_id` = ?", [userId]),
-    await processQuery("DELETE FROM `officers` WHERE `user_id` = ?", [userId]),
-    await processQuery("DELETE FROM `ems-fd` WHERE `user_id` = ?", [userId]),
-    await processQuery("DELETE FROM `bleets` WHERE `user_id` = ?", [userId]),
-    await processQuery("DELETE FROM `citizens` WHERE `user_id` = ?", [userId]),
-    await processQuery("DELETE FROM `users` WHERE `id` = ?", [userId]),
+    await processQuery("DELETE FROM `posts` WHERE `user_id` = ?", [req.userId]),
+    await processQuery("DELETE FROM `truck_logs` WHERE `user_id` = ?", [req.userId]),
+    await processQuery("DELETE FROM `officers` WHERE `user_id` = ?", [req.userId]),
+    await processQuery("DELETE FROM `ems-fd` WHERE `user_id` = ?", [req.userId]),
+    await processQuery("DELETE FROM `bleets` WHERE `user_id` = ?", [req.userId]),
+    await processQuery("DELETE FROM `citizens` WHERE `user_id` = ?", [req.userId]),
+    await processQuery("DELETE FROM `users` WHERE `id` = ?", [req.userId]),
   ]);
 
   return res.json({ status: "success" });
 });
 
 router.put("/update-pw", useAuth, async (req: IRequest, res: Response) => {
-  const userId = req.user?.id;
+  const userId = req.userId;
   const { oldPassword, newPassword, newPassword2 } = req.body;
 
   if (oldPassword && newPassword && newPassword2) {

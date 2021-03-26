@@ -133,7 +133,7 @@ export async function adminOrDispatchAuth(
   const user: {
     dispatch: string;
     rank: string;
-  }[] = await processQuery("SELECT `dispatch`, `rank` from `users` WHERE `id` = ?", [req.user?.id]);
+  }[] = await processQuery("SELECT `dispatch`, `rank` from `users` WHERE `id` = ?", [req.userId]);
 
   if (!user[0]) {
     return res.json({

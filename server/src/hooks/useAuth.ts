@@ -1,9 +1,10 @@
 import { NextFunction, Response } from "express";
-import { processQuery } from "../lib/database";
 import jwt from "jsonwebtoken";
+import { processQuery } from "../lib/database";
 import config from "../lib/config";
 import IRequest from "../interfaces/IRequest";
 import IUser from "../interfaces/IUser";
+import { Whitelist } from "../lib/constants";
 
 async function useAuth(req: IRequest, res: Response, next: NextFunction): Promise<void | Response> {
   const token = req.cookies["snaily-cad-session"];
@@ -17,10 +18,7 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
 
   try {
     const vToken = jwt.verify(token, secret) as IUser;
-    const user = await processQuery(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`  FROM `users` WHERE `id` = ?",
-      [vToken.id],
-    );
+    const user = await processQuery<IUser>("SELECT `id`  FROM `users` WHERE `id` = ?", [vToken.id]);
 
     if (!user[0]) {
       return res.json({
@@ -30,7 +28,21 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
       });
     }
 
-    req.user = user[0];
+    if (user[0].whitelist_status === Whitelist.pending) {
+      return Promise.reject({
+        error: "user is still pending access for CAD",
+        status: "error",
+      });
+    }
+
+    if (user[0].banned === "1") {
+      return res.json({
+        status: "error",
+        error: `This account was banned, reason: ${user[0].ban_reason}`,
+      });
+    }
+
+    req.userId = user[0].id;
 
     next();
   } catch (e) {

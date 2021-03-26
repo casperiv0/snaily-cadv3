@@ -33,7 +33,7 @@ router.put(
   usePermission(["owner"]),
   async (req: IRequest, res: Response) => {
     const user = await processQuery<IUser>("SELECT `rank` from `users` WHERE `id` = ?", [
-      req.user?.id,
+      req.userId,
     ]);
 
     if (user[0].rank !== "owner") {
@@ -189,7 +189,7 @@ router.put(
     switch (path) {
       case "ban": {
         if (ban_reason) {
-          if (req.user?.id === id) {
+          if (req?.userId === id) {
             return res.json({ error: "You can't ban yourself", status: "error" });
           }
 
@@ -448,14 +448,15 @@ router.delete(
 );
 
 router.get(
-  "/officers",
+  "/units",
   useAuth,
   usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (_req: IRequest, res: Response) => {
     try {
       const officers = await processQuery<Officer>("SELECT * FROM `officers`");
+      const ems_fd = await processQuery("SELECT * FROM `ems-fd`");
 
-      return res.json({ status: "success", officers });
+      return res.json({ status: "success", officers, ems_fd });
     } catch (e) {
       Logger.error("UPDATE_CALLSIGN", e);
       return res.json({ status: "error", error: "An unexpected error occurred" });
@@ -464,17 +465,29 @@ router.get(
 );
 
 router.get(
-  "/officers/:id",
+  "/units/:id",
   useAuth,
   usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
 
     try {
-      const officer = await processQuery<Officer>("SELECT * FROM `officers` WHERE `id` = ?", [id]);
+      let unit = await processQuery("SELECT * FROM `officers` WHERE `id` = ?", [id]);
+
+      if (!unit[0]) {
+        unit = await processQuery("SELECT * FROM `ems-fd` WHERE `id` = ?", [id]);
+      }
+
+      if (!unit[0]) {
+        return res.json({
+          error: "Unit not found",
+          status: "error",
+        });
+      }
+
       const logs = await processQuery("SELECT * FROM `officer_logs` WHERE `officer_id` = ?", [id]);
 
-      return res.json({ status: "success", officer: officer[0], logs });
+      return res.json({ status: "success", unit: unit[0], logs });
     } catch (e) {
       Logger.error("GET_OFFICER_BY_ID", e);
       return res.json({ error: "An unexpected error occurred", status: "error" });
@@ -483,37 +496,57 @@ router.get(
 );
 
 router.put(
-  "/officers/:officerId",
+  "/units/:unitId",
   useAuth,
   usePermission(["admin", "owner", "moderator", "supervisor"]),
   async (req: IRequest, res: Response) => {
-    const { officerId } = req.params;
+    const { unitId } = req.params;
     const { callsign, rank, department, status } = req.body;
     let { status2 } = req.body;
 
     if (status2 && status && status === "off-duty") {
       status2 = "--------";
     }
-
-    if (!callsign || !department) {
-      return res.json({
-        error: "Please fill in all fields",
-        status: "error",
-      });
-    }
-
     try {
-      await processQuery(
-        "UPDATE `officers` SET `callsign` = ?, `rank` = ?, `officer_dept` = ? WHERE `id` = ?",
-        [callsign, rank, department, officerId],
-      );
+      let unit = await processQuery("SELECT * FROM `officers` WHERE `id` = ?", [unitId]);
+      if (!unit[0]) {
+        unit = await processQuery("SELECT * FROM `ems-fd` WHERE `id` = ?", [unitId]);
+      }
+      if (!unit[0]) {
+        return res.json({
+          error: "Unit not found",
+          status: "error",
+        });
+      }
 
-      if (status && status2) {
-        await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
-          status,
-          status2,
-          officerId,
-        ]);
+      if (unit[0]?.officer_name) {
+        if (!callsign || !department) {
+          return res.json({
+            error: "Please fill in all fields",
+            status: "error",
+          });
+        }
+
+        await processQuery(
+          "UPDATE `officers` SET `callsign` = ?, `rank` = ?, `officer_dept` = ? WHERE `id` = ?",
+          [callsign, rank, department, unitId],
+        );
+
+        if (status && status2) {
+          await processQuery("UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
+            status,
+            status2,
+            unitId,
+          ]);
+        }
+      } else {
+        if (status && status2) {
+          await processQuery("UPDATE `ems-fd` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
+            status,
+            status2,
+            unitId,
+          ]);
+        }
       }
 
       return res.json({ status: "success" });

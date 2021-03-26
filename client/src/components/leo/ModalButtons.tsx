@@ -68,11 +68,11 @@ const ModalButtons: React.FC<Props> = ({ user, activeOfficer }) => {
         {lang.officers.my_officers}
       </Link>
       {user?.supervisor === "1" ? (
-        <Link to="/admin/manage/officers" className="btn btn-primary col-md-2">
+        <Link to="/admin/manage/units" className="btn btn-primary col-md-2">
           {window.lang.officers.manage_officers}
         </Link>
       ) : adminRanks.includes(`${user?.rank}`) ? (
-        <Link to="/admin/manage/officers" className="btn btn-secondary col-md-2">
+        <Link to="/admin/manage/units" className="btn btn-secondary col-md-2">
           {window.lang.officers.manage_officers}
         </Link>
       ) : null}

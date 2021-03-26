@@ -37,6 +37,10 @@ const EditLicensesPage: React.FC<Props> = ({
   const [ccw, setCcw] = React.useState("");
   const history = useHistory();
 
+  const isSuspended = React.useCallback((type: string) => {
+    return type === "1";
+  }, []);
+
   const citizenId = match.params.id;
 
   const fields: Field[] = [
@@ -45,7 +49,7 @@ const EditLicensesPage: React.FC<Props> = ({
       id: "dmv",
       label: lang.citizen.drivers_license,
       onChange: (e) => setDmv(e.value),
-      value: dmv,
+      value: isSuspended(dmv) ? window.lang.officers.suspended : dmv,
       select: true,
       data: legalStatuses,
       selectLabel: citizen?.dmv,
@@ -55,7 +59,7 @@ const EditLicensesPage: React.FC<Props> = ({
       id: "firearms_license",
       label: lang.citizen.firearms_license,
       onChange: (e) => setFireArms(e.value),
-      value: fireArms,
+      value: isSuspended(fireArms) ? window.lang.officers.suspended : fireArms,
       select: true,
       data: legalStatuses,
       selectLabel: citizen?.fire_license,
@@ -65,7 +69,7 @@ const EditLicensesPage: React.FC<Props> = ({
       id: "pilot_license",
       label: lang.citizen.pilot_license,
       onChange: (e) => setPilot(e.value),
-      value: pilot,
+      value: isSuspended(pilot) ? window.lang.officers.suspended : pilot,
       select: true,
       data: legalStatuses,
       selectLabel: citizen?.dmv,
@@ -75,7 +79,7 @@ const EditLicensesPage: React.FC<Props> = ({
       id: "ccw",
       label: lang.citizen.ccw,
       onChange: (e) => setCcw(e.value),
-      value: ccw,
+      value: isSuspended(ccw) ? window.lang.officers.suspended : ccw,
       select: true,
       data: legalStatuses,
       selectLabel: citizen?.dmv,

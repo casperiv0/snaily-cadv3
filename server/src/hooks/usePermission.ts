@@ -17,7 +17,7 @@ const usePermission = (perms: Permissions[]) => async (
   try {
     const user = await processQuery<IUser>(
       "SELECT `rank`, `leo`, `dispatch`, `tow`, `ems_fd`, `supervisor` FROM `users` WHERE `id` = ?",
-      [req.user?.id],
+      [req.userId],
     );
 
     const userPerms: UserPermsArr = [

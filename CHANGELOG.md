@@ -2,17 +2,25 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.4.8
+
+- New: LEO can suspend licenses
+- New: CAD wide supervisor panel (EMS/FD + LEO)
+- New: able to unlink Steam
+- Minor: Auto redirect when user has successfully authenticated with Steam.
+- Minor: fixed minor bugs
+
 ## 1.4.7-patch1
 
-- Fixed a (app breaking) bug with 10 codes positioning
+- Minor: Fixed a (app breaking) bug with 10 codes positioning
 
 ## 1.4.7
 
-- Bug fixes
-- Add missing translation keys
-- Set a position for 10 codes
-- Call types (EG: Citizen call, Traffic stop, ...)
-- Improvements to Docker support, Thanks @bound2 & @henriots!
+- New: Set a position for 10 codes
+- New: Call types (EG: Citizen call, Traffic stop, ...)
+- Minor: Bug fixes
+- Major: Add missing translation keys
+- Major: Improvements to Docker support, Thanks @bound2 & @henriots!
 
 ## 1.4.6
 

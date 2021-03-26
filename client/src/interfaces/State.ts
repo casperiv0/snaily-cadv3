@@ -119,6 +119,8 @@ interface State {
     codes: Code10[];
     penalCodes: PenalCode[];
     loading: boolean;
+    ems_fd: Deputy[];
+    unit: null | (Officer | Deputy);
   };
   notifications: {
     items: Notification[];

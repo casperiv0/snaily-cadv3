@@ -46,3 +46,9 @@ body {
   background: var(--bs-gray-dark);
   color: white;
 }
+
+.suspend-btn {
+  background: none;
+  border: none;
+  text-decoration: underline;
+}

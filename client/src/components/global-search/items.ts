@@ -118,9 +118,9 @@ export const Items: Item[] = [
     show: (user) => ["admin", "moderator", "owner"].includes(`${user?.rank}`),
   },
   {
-    query: ["admin", "manage officers", "officers"],
-    title: "Manage all officers",
-    href: "/admin/manage/officers",
+    query: ["admin", "manage units", "units"],
+    title: "Manage all units",
+    href: "/admin/manage/units",
     show: (user) =>
       ["admin", "moderator", "owner"].includes(`${user?.rank}`) || user?.supervisor === "1",
   },

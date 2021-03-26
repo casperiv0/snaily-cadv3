@@ -1,20 +1,26 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import Layout from "../../components/Layout";
 import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import lang from "../../language.json";
 import DeleteAccountModal from "../../components/modals/account/deleteAccountModal";
 import EditPasswordModal from "../../components/modals/account/editPasswordModal";
-import { connect } from "react-redux";
 import { Item, Span } from "../citizen/citizen-info";
 import useDocTitle from "../../hooks/useDocTitle";
+import { unlinkSteam } from "../../lib/actions/auth";
 
 interface Props {
   user: User | null;
+  unlinkSteam: () => void;
 }
 
-const AccountPage: React.FC<Props> = ({ user }) => {
+const AccountPage: React.FC<Props> = ({ user, unlinkSteam }) => {
   useDocTitle("My account");
+
+  function handleUnlink() {
+    unlinkSteam();
+  }
 
   return (
     <Layout>
@@ -77,12 +83,18 @@ const AccountPage: React.FC<Props> = ({ user }) => {
             {user?.steam_id}
           </Item>
 
-          <a
-            href={`/api/v1/auth/steam?callback_url=${window.location.origin}`}
-            className="d-block mt-2"
-          >
-            <img src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png" />
-          </a>
+          {user?.steam_id ? (
+            <button className="btn btn-primary mt-2" onClick={handleUnlink}>
+              {window.lang.account.unlink_steam}
+            </button>
+          ) : (
+            <a
+              href={`/api/v1/auth/steam?callback_url=${window.location.origin}`}
+              className="d-block mt-2"
+            >
+              <img src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png" />
+            </a>
+          )}
         </div>
 
         <div className="card-footer d-flex">
@@ -109,7 +121,7 @@ const AccountPage: React.FC<Props> = ({ user }) => {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-dark col-md-4"
-            href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new"
+            href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new?assignees=Dev-CasperTheGhost&labels=&template=bug_report.md&title=%5BBug%5D"
           >
             {lang.auth.account.report_a_bug}
           </a>
@@ -126,4 +138,4 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
 });
 
-export default connect(mapToProps)(AccountPage);
+export default connect(mapToProps, { unlinkSteam })(AccountPage);
