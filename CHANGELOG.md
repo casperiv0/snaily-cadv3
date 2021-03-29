@@ -4,7 +4,9 @@
 
 ## 1.4.9
 
-- New: able to remove tickets/arrest reports
+- New: able to remove tickets/arrest reports/written warnings
+- New: LEO supervisors can manage 10 Codes & Penal Codes
+- Minor: fixed a bug where supervisors could not see officer logs in manage officer
 - Minor: Fixed few bugs
 
 ## 1.4.8

@@ -226,33 +226,33 @@ ReactDOM.render(
 
             <AuthRoute
               path="/admin/manage/10-codes/edit/:id"
-              requirement="admin"
+              requirement="supervisor"
               Component={Edit10Code}
             />
             <AuthRoute
               path="/admin/manage/10-codes/add"
-              requirement="admin"
+              requirement="supervisor"
               Component={Add10Code}
             />
             <AuthRoute
               path="/admin/manage/10-codes"
-              requirement="admin"
+              requirement="supervisor"
               Component={Codes10Management}
             />
 
             <AuthRoute
               path="/admin/manage/penal-codes/edit/:id"
-              requirement="admin"
+              requirement="supervisor"
               Component={EditPenalCode}
             />
             <AuthRoute
               path="/admin/manage/penal-codes/add"
-              requirement="admin"
+              requirement="supervisor"
               Component={AddPenalCode}
             />
             <AuthRoute
               path="/admin/manage/penal-codes"
-              requirement="admin"
+              requirement="supervisor"
               Component={PenalCodesManagement}
             />
 

@@ -18,7 +18,7 @@ import {
 } from "../../../lib/actions/officer";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
-import Select from "../../select";
+import Select, { Value } from "../../select";
 
 interface NameSearch {
   type: "name";
@@ -50,7 +50,7 @@ const NameSearchModal: React.FC<Props> = ({
   suspendLicense,
   deleteRecordById,
 }) => {
-  const [name, setName] = React.useState<any>({});
+  const [name, setName] = React.useState<Value | null>(null);
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const btnRef = React.createRef<HTMLButtonElement>();
   const location = useLocation();
@@ -62,6 +62,12 @@ const NameSearchModal: React.FC<Props> = ({
     [search?.citizen],
   );
 
+  const showResults = React.useMemo(() => {
+    return !name || search?.citizen?.full_name.toLowerCase() !== name.value.toLowerCase()
+      ? false
+      : search !== null && search?.type === "name";
+  }, [name, search]);
+
   React.useEffect(() => {
     setNote(search?.citizen?.note || "");
     searchNames();
@@ -69,9 +75,9 @@ const NameSearchModal: React.FC<Props> = ({
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.value) return;
+    if (!name?.value) return;
 
-    searchName(name.value);
+    searchName(name?.value);
   }
 
   function addNote() {
@@ -95,10 +101,10 @@ const NameSearchModal: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {search !== null && search?.type === "name" && search?.warrants[0] ? (
+          {showResults && search?.warrants[0] ? (
             <AlertMessage message={{ msg: lang.record.has_warrant, type: "warning" }} />
           ) : null}
-          {search !== null && search.type === "name" && search.citizen.dead === "1" ? (
+          {showResults && search.citizen.dead === "1" ? (
             <AlertMessage
               message={{
                 msg: `${window.lang.officers.citizen_dead} ${format(
@@ -126,7 +132,7 @@ const NameSearchModal: React.FC<Props> = ({
             />
           </div>
 
-          {search !== null && search?.type === "name" ? (
+          {showResults ? (
             search?.citizen ? (
               <div className="mt-3 row">
                 <div className="col-md-6">

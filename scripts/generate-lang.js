@@ -188,6 +188,7 @@ const ProbablyNotInTheTranslateFile = {
   nav: {
     ...file.nav,
     courthouse: "Courthouse",
+    leo_management: "LEO Management",
   },
 };
 
