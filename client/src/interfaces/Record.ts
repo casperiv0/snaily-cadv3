@@ -5,6 +5,8 @@ export interface Base {
   postal: string;
   notes: string;
   officer_name: string;
+  citizen_id: string;
+  user_id: string;
 }
 
 export interface Warrant {

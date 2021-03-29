@@ -192,6 +192,7 @@ const ProbablyNotInTheTranslateFile = {
 };
 
 const keys = Object.keys(ProbablyNotInTheTranslateFile);
+let fileHasChanged = false;
 
 Object.keys(file).forEach((fileKey) => {
   Object.keys(ProbablyNotInTheTranslateFile).map((tKey) => {
@@ -209,6 +210,7 @@ Object.keys(file).forEach((fileKey) => {
         probsNotKeys.map((k) => {
           if (!fileKeys.includes(k)) {
             file[key][k] = ProbablyNotInTheTranslateFile[key][k];
+            fileHasChanged = true;
           } else {
             // if the key already exists in the translation file
             // return
@@ -217,7 +219,6 @@ Object.keys(file).forEach((fileKey) => {
         });
 
         if (alreadyExists === false) {
-          console.log("Some keys were not found in the language file, adding them now...");
           file[key] = ProbablyNotInTheTranslateFile[key];
         }
       }
@@ -236,6 +237,10 @@ if (!file.admin.values["call-types"]) {
     updated: "Successfully updated call type",
     added: "Successfully added call type",
   };
+}
+
+if (fileHasChanged === true) {
+  console.log("[TRANSLATION]: Some keys were not found in the language file, adding them now...");
 }
 
 fs.writeFileSync(path.resolve("client/src/language.json"), JSON.stringify(file, null, 4));
