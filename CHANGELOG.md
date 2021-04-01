@@ -8,6 +8,7 @@
 - New: LEO supervisors can manage 10 Codes & Penal Codes
 - Minor: fixed a bug where supervisors could not see officer logs in manage officer
 - Minor: Fixed few bugs
+- Minor: updated dependencies
 
 ## 1.4.8
 
