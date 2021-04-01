@@ -27,7 +27,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "helmet": "^4.4.1",
-    "jsdom": "^16.5.1",
+    "jsdom": "^16.5.2",
     "jsonwebtoken": "^8.5.1",
     "marked": "^2.0.1",
     "node-fetch": "^2.6.1",
