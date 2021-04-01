@@ -18,6 +18,7 @@ import {
   GET_ADMIN_DEPARTMENTS,
   SAVE_NOTE,
   GET_MY_OFFICER_LOGS,
+  REMOVE_RECORD,
 } from "../types";
 import PenalCode from "../../interfaces/PenalCode";
 
@@ -263,5 +264,30 @@ export const suspendLicense = (type: string, citizenId: string) => async (
     }
   } catch (e) {
     Logger.error("SUSPEND_LICENSE", e);
+  }
+};
+
+export const deleteRecordById = (id: string, type: string, citizenId: string) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/records/${type}/${id}/${citizenId}`, "DELETE");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: NAME_SEARCH,
+        search: res.data,
+      });
+
+      const msg =
+        type === "ticket"
+          ? "ticket"
+          : type === "arrest_report"
+          ? "arrest report"
+          : "written warning";
+      notify(`Successfully removed ${msg}.`).success();
+    }
+  } catch (e) {
+    Logger.error(REMOVE_RECORD, e);
   }
 };

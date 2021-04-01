@@ -38,7 +38,6 @@ const initState: State["admin"] = {
   citizens: [],
   officers: [],
   member: null,
-  officer: null,
   expungementRequests: [],
   codes: [],
   penalCodes: [],

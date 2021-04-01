@@ -34,6 +34,8 @@ interface Props {
   user: User | null;
 }
 
+const ranks = ["owner", "admin", "moderator"];
+
 const AdminSidebar: React.FC<Props> = ({ user }) => {
   const location = useLocation();
 
@@ -48,28 +50,35 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
           <header>
             <h3>{lang.admin.management}</h3>
           </header>
-          <Link
-            className={`text-decoration-none p-2 rounded admin-link ${isActive("/manage/members")}`}
-            to="/admin/manage/members"
-          >
-            {lang.admin.member_management}
-          </Link>
-          <Link
-            className={`text-decoration-none p-2 rounded admin-link ${isActive(
-              "/manage/citizens",
-            )}`}
-            to="/admin/manage/citizens"
-          >
-            {lang.admin.citizen_management}
-          </Link>
-          <Link
-            className={`text-decoration-none p-2 rounded admin-link ${isActive(
-              "/manage/companies",
-            )} `}
-            to="/admin/manage/companies"
-          >
-            {lang.admin.company_management}
-          </Link>
+          {ranks.includes(user?.rank!) ? (
+            <>
+              <Link
+                className={`text-decoration-none p-2 rounded admin-link ${isActive(
+                  "/manage/members",
+                )}`}
+                to="/admin/manage/members"
+              >
+                {lang.admin.member_management}
+              </Link>
+              <Link
+                className={`text-decoration-none p-2 rounded admin-link ${isActive(
+                  "/manage/citizens",
+                )}`}
+                to="/admin/manage/citizens"
+              >
+                {lang.admin.citizen_management}
+              </Link>
+              <Link
+                className={`text-decoration-none p-2 rounded admin-link ${isActive(
+                  "/manage/companies",
+                )} `}
+                to="/admin/manage/companies"
+              >
+                {lang.admin.company_management}
+              </Link>
+            </>
+          ) : null}
+
           <Link
             className={`text-decoration-none p-2 rounded admin-link ${isActive("/manage/units")} `}
             to="/admin/manage/units"
@@ -102,67 +111,69 @@ const AdminSidebar: React.FC<Props> = ({ user }) => {
           ) : null}
         </div>
 
-        <div style={item}>
-          <header>
-            <h3>{lang.admin.values.values}</h3>
-          </header>
-          <Link
-            className={`admin-link text-decoration-none p-2 rounded  ${isActive(
-              "/values/departments",
-            )}`}
-            to="/admin/values/departments"
-          >
-            {lang.admin.values.departments.index}
-          </Link>
-          <Link
-            className={`admin-link text-decoration-none p-2 rounded  ${isActive(
-              "/values/ethnicities",
-            )}`}
-            to="/admin/values/ethnicities"
-          >
-            {lang.admin.values.ethnicities.index}
-          </Link>
-          <Link
-            className={`admin-link text-decoration-none p-2 rounded  ${isActive(
-              "/values/genders",
-            )}`}
-            to="/admin/values/genders"
-          >
-            {lang.admin.values.genders.index}
-          </Link>
-          <Link
-            className={`admin-link text-decoration-none p-2 rounded  ${isActive(
-              "/values/legal-statuses",
-            )}`}
-            to="/admin/values/legal-statuses"
-          >
-            {lang.admin.values["legal-statuses"].index}
-          </Link>
-          <Link
-            className={`admin-link text-decoration-none p-2 rounded  ${isActive(
-              "/values/vehicles",
-            )}`}
-            to="/admin/values/vehicles"
-          >
-            {lang.admin.values.vehicles.index}
-          </Link>
-          <Link
-            className={`admin-link text-decoration-none p-2 rounded  ${isActive(
-              "/values/weapons",
-            )}`}
-            to="/admin/values/weapons"
-          >
-            {lang.admin.values.weapons.index}
-          </Link>
-          <Link
-            className={`admin-link text-decoration-none p-2 rounded  ${isActive(
-              "/values/call-types",
-            )}`}
-            to="/admin/values/call-types"
-          >
-            {window.lang.admin.values["call-types"].index}
-          </Link>
-        </div>
+        {ranks.includes(user?.rank!) ? (
+          <div style={item}>
+            <header>
+              <h3>{lang.admin.values.values}</h3>
+            </header>
+            <Link
+              className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+                "/values/departments",
+              )}`}
+              to="/admin/values/departments"
+            >
+              {lang.admin.values.departments.index}
+            </Link>
+            <Link
+              className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+                "/values/ethnicities",
+              )}`}
+              to="/admin/values/ethnicities"
+            >
+              {lang.admin.values.ethnicities.index}
+            </Link>
+            <Link
+              className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+                "/values/genders",
+              )}`}
+              to="/admin/values/genders"
+            >
+              {lang.admin.values.genders.index}
+            </Link>
+            <Link
+              className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+                "/values/legal-statuses",
+              )}`}
+              to="/admin/values/legal-statuses"
+            >
+              {lang.admin.values["legal-statuses"].index}
+            </Link>
+            <Link
+              className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+                "/values/vehicles",
+              )}`}
+              to="/admin/values/vehicles"
+            >
+              {lang.admin.values.vehicles.index}
+            </Link>
+            <Link
+              className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+                "/values/weapons",
+              )}`}
+              to="/admin/values/weapons"
+            >
+              {lang.admin.values.weapons.index}
+            </Link>
+            <Link
+              className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+                "/values/call-types",
+              )}`}
+              to="/admin/values/call-types"
+            >
+              {window.lang.admin.values["call-types"].index}
+            </Link>
+          </div>
+        ) : null}
       </div>
     </nav>
   );

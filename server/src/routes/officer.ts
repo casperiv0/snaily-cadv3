@@ -237,27 +237,13 @@ router.post(
       const citizen = await processQuery("SELECT * FROM `citizens` WHERE `full_name` = ?", [name]);
       const citizenId = citizen[0]?.id ?? "not_found";
 
-      const vehicles = await processQuery(
-        "SELECT * FROM `registered_cars` WHERE `citizen_id` = ?",
-        [citizenId],
-      );
-      const weapons = await processQuery(
-        "SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?",
-        [citizenId],
-      );
-      const warnings = await processQuery(
-        "SELECT * FROM `written_warnings` WHERE `citizen_id` = ?",
-        [citizenId],
-      );
-      const arrestReports = await processQuery(
-        "SELECT * FROM `arrest_reports` WHERE `citizen_id` = ?",
-        [citizenId],
-      );
-      const tickets = await processQuery("SELECT * FROM `leo_tickets` WHERE `citizen_id` = ?", [
-        citizenId,
-      ]);
-      const warrants = await processQuery("SELECT * FROM `warrants` WHERE `citizen_id` = ?", [
-        citizenId,
+      const [vehicles, weapons, warnings, arrestReports, tickets, warrants] = await Promise.all([
+        processQuery("SELECT * FROM `registered_cars` WHERE `citizen_id` = ?", [citizenId]),
+        processQuery("SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?", [citizenId]),
+        processQuery("SELECT * FROM `written_warnings` WHERE `citizen_id` = ?", [citizenId]),
+        processQuery("SELECT * FROM `arrest_reports` WHERE `citizen_id` = ?", [citizenId]),
+        processQuery("SELECT * FROM `leo_tickets` WHERE `citizen_id` = ?", [citizenId]),
+        processQuery("SELECT * FROM `warrants` WHERE `citizen_id` = ?", [citizenId]),
       ]);
 
       return res.json({

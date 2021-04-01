@@ -5,6 +5,7 @@ import config from "../lib/config";
 import IRequest from "../interfaces/IRequest";
 import IUser from "../interfaces/IUser";
 import { Whitelist } from "../lib/constants";
+import { logoutActiveUnits } from "../lib/functions";
 
 async function useAuth(req: IRequest, res: Response, next: NextFunction): Promise<void | Response> {
   const token = req.cookies["snaily-cad-session"];
@@ -46,6 +47,8 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
 
     next();
   } catch (e) {
+    await logoutActiveUnits(req.userId);
+
     return res
       .json({ invalid_token: true, server_error: "invalid token", status: "error" })
       .status(401);

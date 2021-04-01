@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import format from "date-fns/format";
+import { connect } from "react-redux";
 import Modal, { XButton } from "../index";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
@@ -8,11 +9,16 @@ import AlertMessage from "../../alert-message";
 import Citizen from "../../../interfaces/Citizen";
 import Weapon from "../../../interfaces/Weapon";
 import Vehicle from "../../../interfaces/Vehicle";
-import { searchName, saveNote, searchNames, suspendLicense } from "../../../lib/actions/officer";
+import {
+  searchName,
+  saveNote,
+  searchNames,
+  suspendLicense,
+  deleteRecordById,
+} from "../../../lib/actions/officer";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
-import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
-import Select from "../../select";
+import Select, { Value } from "../../select";
 
 interface NameSearch {
   type: "name";
@@ -32,6 +38,7 @@ interface Props {
   saveNote: (citizenId: string, note: string) => void;
   searchNames: () => void;
   suspendLicense: (type: string, citizenId: string) => void;
+  deleteRecordById: (id: string, type: string, citizenId: string) => void;
 }
 
 const NameSearchModal: React.FC<Props> = ({
@@ -41,8 +48,9 @@ const NameSearchModal: React.FC<Props> = ({
   saveNote,
   searchNames,
   suspendLicense,
+  deleteRecordById,
 }) => {
-  const [name, setName] = React.useState<any>({});
+  const [name, setName] = React.useState<Value | null>(null);
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const btnRef = React.createRef<HTMLButtonElement>();
   const location = useLocation();
@@ -54,6 +62,12 @@ const NameSearchModal: React.FC<Props> = ({
     [search?.citizen],
   );
 
+  const showResults = React.useMemo(() => {
+    return !name || search?.citizen?.full_name.toLowerCase() !== name.value.toLowerCase()
+      ? false
+      : search !== null && search?.type === "name";
+  }, [name, search]);
+
   React.useEffect(() => {
     setNote(search?.citizen?.note || "");
     searchNames();
@@ -61,9 +75,9 @@ const NameSearchModal: React.FC<Props> = ({
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.value) return;
+    if (!name?.value) return;
 
-    searchName(name.value);
+    searchName(name?.value);
   }
 
   function addNote() {
@@ -72,6 +86,10 @@ const NameSearchModal: React.FC<Props> = ({
 
   const handleSuspend = (type: string) => () => {
     suspendLicense(type, search?.citizen?.id);
+  };
+
+  const deleteRecord = (id: string, type: string, citizenId: string) => () => {
+    deleteRecordById(id, type, citizenId);
   };
 
   return (
@@ -83,10 +101,10 @@ const NameSearchModal: React.FC<Props> = ({
 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
-          {search !== null && search?.type === "name" && search?.warrants[0] ? (
+          {showResults && search?.warrants[0] ? (
             <AlertMessage message={{ msg: lang.record.has_warrant, type: "warning" }} />
           ) : null}
-          {search !== null && search.type === "name" && search.citizen.dead === "1" ? (
+          {showResults && search.citizen.dead === "1" ? (
             <AlertMessage
               message={{
                 msg: `${window.lang.officers.citizen_dead} ${format(
@@ -114,7 +132,7 @@ const NameSearchModal: React.FC<Props> = ({
             />
           </div>
 
-          {search !== null && search?.type === "name" ? (
+          {showResults ? (
             search?.citizen ? (
               <div className="mt-3 row">
                 <div className="col-md-6">
@@ -317,7 +335,7 @@ const NameSearchModal: React.FC<Props> = ({
                             <li
                               key={idx}
                               id={`${idx}`}
-                              className="list-group-item border-dark text-dark"
+                              className="list-group-item border-dark text-dark position-relative"
                             >
                               <Item id="infractions">
                                 <Span>{lang.record.infractions}: </Span>
@@ -343,6 +361,19 @@ const NameSearchModal: React.FC<Props> = ({
                                 <Span>{lang.global.notes}: </Span>
                                 {warning.notes}
                               </Item>
+
+                              <button
+                                type="button"
+                                onClick={deleteRecord(
+                                  warning.id,
+                                  "written_warning",
+                                  warning.citizen_id,
+                                )}
+                                className="btn btn-danger"
+                                style={{ position: "absolute", bottom: "0.2rem", right: "0.2rem" }}
+                              >
+                                {window.lang.global.delete}
+                              </button>
                             </li>
                           );
                         })
@@ -365,7 +396,7 @@ const NameSearchModal: React.FC<Props> = ({
                         search.tickets.map((ticket: Ticket, idx: number) => {
                           return (
                             <li
-                              className="list-group-item border-dark text-dark"
+                              className="list-group-item border-dark text-dark position-relative"
                               key={idx}
                               id={`${idx}`}
                             >
@@ -393,6 +424,15 @@ const NameSearchModal: React.FC<Props> = ({
                                 <Span>{lang.global.notes}: </Span>
                                 {ticket.notes}
                               </Item>
+
+                              <button
+                                type="button"
+                                onClick={deleteRecord(ticket.id, "ticket", ticket.citizen_id)}
+                                className="btn btn-danger"
+                                style={{ position: "absolute", bottom: "0.2rem", right: "0.2rem" }}
+                              >
+                                {window.lang.global.delete}
+                              </button>
                             </li>
                           );
                         })
@@ -415,7 +455,7 @@ const NameSearchModal: React.FC<Props> = ({
                         search.arrestReports.map((report: ArrestReport, idx: number) => {
                           return (
                             <li
-                              className="list-group-item border-dark text-dark"
+                              className="list-group-item border-dark text-dark position-relative"
                               key={idx}
                               id={`${idx}`}
                             >
@@ -443,6 +483,19 @@ const NameSearchModal: React.FC<Props> = ({
                                 <Span>{lang.global.notes}: </Span>
                                 {report.notes}
                               </Item>
+
+                              <button
+                                type="button"
+                                onClick={deleteRecord(
+                                  report.id,
+                                  "arrest_report",
+                                  report.citizen_id,
+                                )}
+                                className="btn btn-danger"
+                                style={{ position: "absolute", bottom: "0.2rem", right: "0.2rem" }}
+                              >
+                                {window.lang.global.delete}
+                              </button>
                             </li>
                           );
                         })
@@ -465,7 +518,7 @@ const NameSearchModal: React.FC<Props> = ({
                         search.warrants.map((warrant: Warrant, idx: number) => {
                           return (
                             <li
-                              className="list-group-item border-dark text-dark"
+                              className="list-group-item border-dark text-dark position-relative"
                               key={idx}
                               id={`${idx}`}
                             >
@@ -625,6 +678,10 @@ const mapToProps = (state: State) => ({
   names: state.officers.names,
 });
 
-export default connect(mapToProps, { searchName, saveNote, searchNames, suspendLicense })(
-  NameSearchModal,
-);
+export default connect(mapToProps, {
+  searchName,
+  saveNote,
+  searchNames,
+  suspendLicense,
+  deleteRecordById,
+})(NameSearchModal);

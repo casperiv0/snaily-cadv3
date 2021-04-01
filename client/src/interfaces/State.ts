@@ -114,13 +114,19 @@ interface State {
     citizens: Citizen[];
     members: User[];
     officers: Officer[];
-    officer: Officer | null;
     expungementRequests: ExpungementRequest[];
     codes: Code10[];
     penalCodes: PenalCode[];
     loading: boolean;
     ems_fd: Deputy[];
-    unit: null | (Officer | Deputy);
+    unit:
+      | null
+      | ((Officer | Deputy) & {
+          /**
+           * Only available when gotten from admin & when an officer
+           */
+          logs?: OfficerLog[];
+        });
   };
   notifications: {
     items: Notification[];

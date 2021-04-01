@@ -138,11 +138,18 @@ const Navbar: React.FC<Props> = ({ loading, isAuth, cadInfo, user, checkAuth, ge
                 </li>
               );
             })}
-            {user && ["admin", "owner", "moderator"].includes(user?.rank) ? (
+            {(user && ["admin", "owner", "moderator"].includes(user?.rank)) ||
+            user?.supervisor === "1" ? (
               <li id="admin" key={paths.length + 1} className="nav-item">
-                <Link className={"nav-link active text-light"} to="/admin">
-                  {lang.nav.admin}
-                </Link>
+                {["admin", "owner", "moderator"].includes(user.rank) ? (
+                  <Link className="nav-link active text-light" to="/admin">
+                    {window.lang.nav.admin}
+                  </Link>
+                ) : (
+                  <Link className="nav-link active text-light" to="/admin/manage/units">
+                    {window.lang.nav.leo_management}
+                  </Link>
+                )}
               </li>
             ) : null}
             <NavbarDropdown loading={loading} isAuth={isAuth} />

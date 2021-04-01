@@ -33,6 +33,10 @@ const CitizensPage: React.FC<Props> = (props) => {
   }, [getCitizens]);
 
   React.useEffect(() => {
+    setAop(props.aop);
+  }, [props.aop]);
+
+  React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
 
     socket.on(SOCKET_EVENTS.UPDATE_AOP, handler);

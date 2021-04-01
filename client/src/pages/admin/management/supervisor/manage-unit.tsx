@@ -247,7 +247,7 @@ const ManageOfficerPage: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   unit: state.admin.unit,
   departments: state.officers.departments,
-  logs: state.admin.officer?.logs,
+  logs: state.admin.unit?.logs,
   codes: state.admin.codes,
   loading: state.admin.loading,
 });
