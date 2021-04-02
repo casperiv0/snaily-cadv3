@@ -122,11 +122,11 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
           </table>
         )}
       </ul>
+
       <UpdateStatusModal
         type={tempUnit && "officer_name" in tempUnit ? "officers" : "ems-fd"}
         data={tempUnit}
       />
-      ;
     </>
   );
 };

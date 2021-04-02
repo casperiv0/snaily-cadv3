@@ -284,7 +284,9 @@ export const getRegisteredVehicles = (id: string) => async (dispatch: Dispatch<I
   }
 };
 
-export const registerVehicle = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const registerVehicle = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/citizen/vehicles", "POST", data);
 
@@ -292,12 +294,15 @@ export const registerVehicle = (data: object) => async (dispatch: Dispatch<IDisp
       dispatch({
         type: REGISTER_VEHICLE,
       });
-      return (window.location.href = `/citizen/${res.data.citizenId}`);
+
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(REGISTER_VEHICLE, e);
+    return false;
   }
 };
 

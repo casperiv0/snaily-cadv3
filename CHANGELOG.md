@@ -4,7 +4,10 @@
 
 ## 1.5.0
 
+- Major: Replaced several pages with modals (popups)
+- Major: Improvements to modals
 - Major: Tons of bug fixes and improvements to code
+- Minor: slighty darker `btn-secondary` (gray) color
 
 ## 1.4.9
 

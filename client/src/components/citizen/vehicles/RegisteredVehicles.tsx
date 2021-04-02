@@ -6,6 +6,7 @@ import lang from "../../../language.json";
 import { connect } from "react-redux";
 import { getRegisteredVehicles, reportAsStolen, deleteVehicle } from "../../../lib/actions/citizen";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   citizenId: string;
@@ -36,9 +37,13 @@ const RegisteredVehicles: React.FC<Props> = ({
         {!vehicles[0] ? (
           <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
             {lang.citizen.vehicle.no_veh}
-            <Link to="/vehicles/register" className="btn btn-primary">
+            <button
+              data-bs-target={`#${ModalIds.RegisterVehicle}`}
+              data-bs-toggle="modal"
+              className="btn btn-primary"
+            >
               {lang.citizen.vehicle.reg_a_vehicle}
-            </Link>
+            </button>
           </div>
         ) : (
           <>
@@ -52,9 +57,13 @@ const RegisteredVehicles: React.FC<Props> = ({
             >
               {lang.citizen.vehicle.toggle_veh}
             </button>
-            <Link to="/vehicles/register" className="btn btn-primary ms-2">
+            <button
+              data-bs-toggle="modal"
+              data-bs-target={`#${ModalIds.RegisterVehicle}`}
+              className="btn btn-primary ms-2"
+            >
               {lang.citizen.vehicle.reg_a_vehicle}
-            </Link>
+            </button>
             <ul className="list-group collapse mt-2" id="registered_vehicles">
               {vehicles.map((vehicle: Vehicle, idx: number) => {
                 return (

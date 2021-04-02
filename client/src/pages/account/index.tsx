@@ -84,7 +84,7 @@ const AccountPage: React.FC<Props> = ({ user, unlinkSteam }) => {
           </Item>
 
           {user?.steam_id ? (
-            <button className="btn btn-primary mt-2" onClick={handleUnlink}>
+            <button className="btn btn-danger mt-2" onClick={handleUnlink}>
               {window.lang.account.unlink_steam}
             </button>
           ) : (
@@ -99,28 +99,25 @@ const AccountPage: React.FC<Props> = ({ user, unlinkSteam }) => {
 
         <div className="card-footer d-flex">
           <a
-            style={{ background: "var(--bs-gray-dark)", color: "white" }}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-dark col-md-4 me-1"
+            className="btn btn-secondary text-light col-md-4 me-1"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/blob/main/CHANGELOG.md"
           >
             {lang.auth.account.changelog}
           </a>
           <a
-            style={{ background: "var(--bs-gray-dark)", color: "white" }}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-dark col-md-4 me-1"
+            className="btn btn-secondary text-light col-md-4 me-1"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new?assignees=&labels=&template=feature_request.md&title="
           >
             {lang.auth.account.new_feature}
           </a>
           <a
-            style={{ background: "var(--bs-gray-dark)", color: "white" }}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-dark col-md-4"
+            className="btn btn-secondary text-light col-md-4"
             href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new?assignees=Dev-CasperTheGhost&labels=&template=bug_report.md&title=%5BBug%5D"
           >
             {lang.auth.account.report_a_bug}

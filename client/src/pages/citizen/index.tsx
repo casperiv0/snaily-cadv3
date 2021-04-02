@@ -12,9 +12,11 @@ import Call911Modal from "../../components/modals/call911Modal";
 import { getCitizens } from "../../lib/actions/citizen";
 import CallTaxiModal from "../../components/modals/callTaxiModal";
 import useDocTitle from "../../hooks/useDocTitle";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 import CadInfo from "../../interfaces/CadInfo";
 import { isCadFeatureEnabled } from "../../lib/functions";
+import RegisterWeaponModal from "../../components/modals/citizen/RegisterWeaponModal";
+import RegisterVehicleModal from "../../components/modals/citizen/RegisterVehicleModal";
 
 interface Props {
   aop: string | null;
@@ -66,12 +68,20 @@ const CitizensPage: React.FC<Props> = (props) => {
           <Link to="/citizen/create" className="col btn btn-primary">
             {lang.citizen.create_new_citizen}
           </Link>
-          <Link to="/vehicles/register" className="col ms-1 btn btn-primary">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target={`#${ModalIds.RegisterVehicle}`}
+            className="col ms-1 btn btn-primary"
+          >
             {lang.citizen.reg_new_vehicle}
-          </Link>
-          <Link to="/weapons/register" className="col ms-1 btn btn-primary">
+          </button>
+          <button
+            data-bs-toggle="modal"
+            data-bs-target={`#${ModalIds.RegisterWeapon}`}
+            className="col ms-1 btn btn-primary"
+          >
             {lang.citizen.reg_new_weapon}
-          </Link>
+          </button>
         </div>
 
         <div className="d-flex mt-1">
@@ -131,6 +141,8 @@ const CitizensPage: React.FC<Props> = (props) => {
       {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CallTowModal /> : null}
       {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CallTaxiModal /> : null}
       <Call911Modal />
+      <RegisterWeaponModal />
+      <RegisterVehicleModal />
     </Layout>
   );
 };

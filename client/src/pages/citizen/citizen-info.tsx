@@ -13,6 +13,10 @@ import MedicalRecords from "../../components/citizen/MedicalRecords";
 import AlertMessage from "../../components/alert-message";
 import { getCitizenById, deleteCitizen } from "../../lib/actions/citizen";
 import useDocTitle from "../../hooks/useDocTitle";
+import EditLicensesModal from "../../components/modals/citizen/EditLicensesModal";
+import CreateMedicalRecordModal from "../../components/modals/citizen/CreateMedicalRecordModal";
+import RegisterVehicleModal from "../../components/modals/citizen/RegisterVehicleModal";
+import RegisterWeaponModal from "../../components/modals/citizen/RegisterWeaponModal";
 
 interface Props {
   citizen: Citizen | null;
@@ -131,12 +135,15 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
         </div>
       </div>
 
+      {/* Modals */}
+      <EditLicensesModal />
+      <CreateMedicalRecordModal />
+      <RegisterVehicleModal />
+      <RegisterWeaponModal />
+
       <LicenseCard citizen={citizen} />
-
       <MedicalRecords citizenId={citizenId} />
-
       <RegisteredWeapons citizenId={citizenId} />
-
       <RegisteredVehicles citizenId={citizenId} />
     </Layout>
   );

@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import State from "../../interfaces/State";
 import lang from "../../language.json";
 import MedicalRecord from "../../interfaces/MedicalRecord";
 import { connect } from "react-redux";
 import { getMedicalRecords, deleteMedicalRecord } from "../../lib/actions/citizen";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
   citizenId: string;
@@ -29,9 +29,13 @@ const MedicalRecordsCard: React.FC<Props> = ({
         <h1 className="h4">{lang.citizen.medical_records}</h1>
 
         <div>
-          <Link to={`/medical-records/create/${citizenId}`} className="btn btn-primary">
+          <button
+            data-bs-target={`#${ModalIds.CreateMedicalCreate}`}
+            data-bs-toggle="modal"
+            className="btn btn-primary"
+          >
             {lang.citizen.medical.add}
-          </Link>
+          </button>
         </div>
       </div>
 

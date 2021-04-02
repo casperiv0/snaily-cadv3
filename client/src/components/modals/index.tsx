@@ -19,7 +19,7 @@ const Modal: React.FC<Props> = ({ id, size, title, children }) => {
       aria-labelledby={`${id}-label`}
       aria-hidden="true"
     >
-      <div className={`modal-dialog modal-${size}`}>
+      <div className={`modal-dialog modal-${size} modal-dialog-centered`}>
         <div className="modal-content bg-dark border-dark">
           <div className="modal-header">
             <h5 className="modal-title">{title}</h5>

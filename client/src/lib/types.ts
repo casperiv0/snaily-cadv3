@@ -207,4 +207,8 @@ export enum ModalIds {
   AddressSearch = "addressSearchModal",
   Update911Call = "update911CallModal",
   UpdateStatus = "updateStatusModal",
+  EditLicenses = "editLicensesModal",
+  CreateMedicalCreate = "createMedicalRecordModal",
+  RegisterVehicle = "registerVehicleModal",
+  RegisterWeapon = "registerWeaponModal",
 }

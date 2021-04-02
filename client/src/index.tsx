@@ -57,15 +57,6 @@ const ManageEmployeePage = React.lazy(
   () => import("./pages/citizen/company/manage/manage-employee"),
 );
 
-const CreateMedicalRecordPage = React.lazy(
-  () => import("./pages/citizen/medical-records/create-medical-record"),
-);
-
-const EditLicensesPage = React.lazy(() => import("./pages/citizen/edit-licenses"));
-
-const RegisterWeaponPage = React.lazy(() => import("./pages/citizen/weapons/register-weapon"));
-
-const RegisterVehiclePage = React.lazy(() => import("./pages/citizen/vehicles/register-vehicle"));
 const EditVehiclePage = React.lazy(() => import("./pages/citizen/vehicles/edit-vehicle"));
 const TransferVehiclePage = React.lazy(() => import("./pages/citizen/vehicles/transfer-vehicle"));
 
@@ -169,15 +160,8 @@ ReactDOM.render(
             <AuthRoute path="/citizen/:id" Component={CitizenInfoPage} />
             <AuthRoute path="/citizen" Component={CitizensPage} />
 
-            <AuthRoute path="/licenses/edit/:id" Component={EditLicensesPage} />
-
-            <AuthRoute path="/weapons/register" Component={RegisterWeaponPage} />
-
-            <AuthRoute path="/vehicles/register" Component={RegisterVehiclePage} />
             <AuthRoute path="/vehicles/edit/:id" Component={EditVehiclePage} />
             <AuthRoute path="/vehicles/transfer/:id" Component={TransferVehiclePage} />
-
-            <AuthRoute path="/medical-records/create/:id" Component={CreateMedicalRecordPage} />
 
             <AuthRoute requirement="tow" path="/tow" Component={TowDash} />
             <AuthRoute path="/taxi" Component={TaxiDash} />

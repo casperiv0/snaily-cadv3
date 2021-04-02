@@ -5,6 +5,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Assistant", sans-serif;
+  --bs-secondary: #3e464e !important;
 }
 
 html {
@@ -51,4 +52,23 @@ body {
   background: none;
   border: none;
   text-decoration: underline;
+}
+
+.btn-secondary,
+.bg-secondary {
+  background-color: #3e464e !important;
+}
+
+.btn-secondary,
+.border-secondary {
+  border-color: #3e464e !important;
+}
+
+.btn-secondary:hover {
+  background-color: #353c42 !important;
+  border-color: #353c42 !important;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5 !important;
 }

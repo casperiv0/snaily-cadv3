@@ -17,6 +17,8 @@ interface Props {
   closeMenuOnSelect?: boolean;
   theme?: "light" | "dark";
   isClearable?: boolean;
+  disabled?: boolean;
+  id?: string;
 }
 
 const Select: React.FC<Props> = ({
@@ -29,11 +31,14 @@ const Select: React.FC<Props> = ({
   value,
   theme = "light",
   isClearable = true,
+  disabled,
+  id,
 }) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
     <ReactSelect
+      id={id}
       isClearable={isClearable}
       onFocus={onFocus}
       value={value}
@@ -50,6 +55,7 @@ const Select: React.FC<Props> = ({
       onBlur={() => setMenuOpen(false)}
       placeholder={window.lang.global.select}
       noOptionsMessage={() => window.lang.global.no_options}
+      isDisabled={disabled}
     ></ReactSelect>
   );
 };
