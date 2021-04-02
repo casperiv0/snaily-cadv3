@@ -621,8 +621,10 @@ router.put(
       id,
     ]);
 
+    const updated = await processQuery("SELECT * FROM `penal_codes`");
     return res.json({
       status: "success",
+      penalCodes: updated,
     });
   },
 );
@@ -689,8 +691,10 @@ router.post(
       [v4(), code, color, JSON.stringify(what_pages), should_do, position],
     );
 
+    const codes = await processQuery("SELECT * FROM `10_codes`");
     return res.json({
       status: "success",
+      codes: parse10Codes(codes),
     });
   },
 );
@@ -708,8 +712,10 @@ router.put(
       [code, color, JSON.stringify(what_pages), should_do, position, id],
     );
 
+    const codes = await processQuery("SELECT * FROM `10_codes`");
     return res.json({
       status: "success",
+      codes: parse10Codes(codes),
     });
   },
 );

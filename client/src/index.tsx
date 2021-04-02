@@ -91,11 +91,8 @@ const TaxiDash = React.lazy(() => import("./pages/taxi/dash"));
 const CourthousePage = React.lazy(() => import("./pages/Court"));
 
 const Codes10Management = React.lazy(() => import("./pages/admin/management/10-codes"));
-const Edit10Code = React.lazy(() => import("./pages/admin/management/10-codes/edit-code"));
 
 const PenalCodesManagement = React.lazy(() => import("./pages/admin/management/penal-codes"));
-const AddPenalCode = React.lazy(() => import("./pages/admin/management/penal-codes/add-code"));
-const EditPenalCode = React.lazy(() => import("./pages/admin/management/penal-codes/edit-code"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -192,24 +189,9 @@ ReactDOM.render(
               Component={SupervisorPanelPage}
             />
             <AuthRoute
-              path="/admin/manage/10-codes/edit/:id"
-              requirement="supervisor"
-              Component={Edit10Code}
-            />
-            <AuthRoute
               path="/admin/manage/10-codes"
               requirement="supervisor"
               Component={Codes10Management}
-            />
-            <AuthRoute
-              path="/admin/manage/penal-codes/edit/:id"
-              requirement="supervisor"
-              Component={EditPenalCode}
-            />
-            <AuthRoute
-              path="/admin/manage/penal-codes/add"
-              requirement="supervisor"
-              Component={AddPenalCode}
             />
             <AuthRoute
               path="/admin/manage/penal-codes"

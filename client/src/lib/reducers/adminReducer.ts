@@ -29,6 +29,8 @@ import {
   DELETE_PENAL_CODE,
   GET_PENAL_CODES,
   SET_ADMIN_LOADING,
+  UPDATE_10_CODE,
+  UPDATE_PENAL_CODES,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -114,6 +116,11 @@ type Actions =
     }
   | {
       type: typeof CREATE_10_CODE;
+      codes: Code10[];
+    }
+  | {
+      type: typeof UPDATE_10_CODE;
+      codes: Code10[];
     }
   | {
       type: typeof DELETE_10_CODE;
@@ -125,6 +132,10 @@ type Actions =
     }
   | {
       type: typeof GET_PENAL_CODES;
+      penalCodes: PenalCode[];
+    }
+  | {
+      type: typeof UPDATE_PENAL_CODES;
       penalCodes: PenalCode[];
     }
   | {
@@ -206,38 +217,30 @@ export default function adminReducer(state = initState, action: Actions) {
         unit: action.unit,
         loading: false,
       };
+    case "ACCEPT_OR_DECLINE_REQUEST":
     case "GET_ALl_EXPUNGEMENT_REQUESTS":
       return {
         ...state,
         expungementRequests: action.expungementRequests,
         loading: false,
       };
-    case "ACCEPT_OR_DECLINE_REQUEST":
-      return {
-        ...state,
-        expungementRequests: action.expungementRequests,
-      };
     case "GET_10_CODES":
-      return {
-        ...state,
-        codes: action.codes,
-        loading: false,
-      };
     case "DELETE_10_CODE":
+    case "CREATE_10_CODE":
+    case "UPDATE_10_CODE":
       return {
         ...state,
         codes: action.codes,
+        loading: false,
       };
+
+    case "DELETE_PENAL_CODE":
     case "GET_PENAL_CODES":
+    case "UPDATE_PENAL_CODES":
       return {
         ...state,
         penalCodes: action.penalCodes,
         loading: false,
-      };
-    case "DELETE_PENAL_CODE":
-      return {
-        ...state,
-        penalCodes: action.penalCodes,
       };
     case "SET_ADMIN_LOADING":
       return {

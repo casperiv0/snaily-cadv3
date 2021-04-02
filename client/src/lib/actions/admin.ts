@@ -25,6 +25,7 @@ import {
   DELETE_PENAL_CODE,
   REMOVE_USER,
   SET_ADMIN_LOADING,
+  UPDATE_PENAL_CODES,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -493,7 +494,7 @@ export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
 
     if (isSuccess(res)) {
       dispatch({
-        type: DELETE_PENAL_CODE,
+        type: UPDATE_PENAL_CODES,
         penalCodes: res.data.penalCodes,
       });
 

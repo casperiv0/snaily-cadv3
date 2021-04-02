@@ -215,4 +215,6 @@ export enum ModalIds {
   CreateOfficer = "createOfficerModal",
   Create10Code = "create10CodeModal",
   CreatePenalCode = "createPenalCodeModal",
+  Edit10Code = "edit10CodeModal",
+  EditPenalCode = "editPenalCodeModal",
 }
