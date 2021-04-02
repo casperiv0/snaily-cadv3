@@ -1,31 +1,28 @@
 import * as React from "react";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import { deleteCitizen } from "../../../lib/actions/admin";
 import { Span } from "../../../pages/citizen/citizen-info";
 import { connect } from "react-redux";
+import { modal } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
-  name: string;
-  id: string;
+  name: string | undefined;
+  id: string | undefined;
   deleteCitizen: (id: string) => void;
 }
 
 const DeleteCitizenModal: React.FC<Props> = ({ id, name, deleteCitizen }) => {
-  const btnRef = React.createRef<HTMLButtonElement>();
-
   function handleDelete() {
-    btnRef.current?.click();
+    if (!id) return;
+
+    modal(ModalIds.DeleteCitizen).hide();
     deleteCitizen(id);
   }
 
   return (
-    <Modal id={`deleteCitizenModal${id}`}>
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.citizen.delete_citizen}?</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.citizen.delete_citizen} id={ModalIds.DeleteCitizen}>
       <div className="modal-body">
         {lang.citizen.delete_citizen_msg} <Span>{name}</Span>?
       </div>

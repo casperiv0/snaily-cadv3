@@ -1,5 +1,5 @@
 import * as React from "react";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import { setEmsStatus } from "../../../lib/actions/ems-fd";
 import { setStatus } from "../../../lib/actions/officer";
@@ -7,25 +7,28 @@ import { connect } from "react-redux";
 import Code10 from "../../../interfaces/Code10";
 import State from "../../../interfaces/State";
 import { get10Codes } from "../../../lib/actions/admin";
-import Select from "../../select";
-import { filterCodes } from "../../../lib/functions";
+import Select, { Value } from "../../select";
+import { filterCodes, modal } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
-  id: string;
-  status: string;
-  status2: string;
   type: "ems-fd" | "officers";
+  data: { id: string; status: string; status2: string } | null;
+  statuses: Code10[];
   setStatus: (id: string, status: string, status2: string) => void;
   setEmsStatus: (id: string, status: string, status2: string) => void;
-  statuses: Code10[];
   get10Codes: () => void;
 }
 
 const UpdateStatusModal: React.FC<Props> = (props) => {
   const { get10Codes } = props;
-  const [status, setStatus] = React.useState<string>(props.status);
-  const [status2, setStatus2] = React.useState<string>(props.status2);
-  const btnRef = React.createRef<HTMLButtonElement>();
+  const [status, setStatus] = React.useState<Value | null>(null);
+  const [status2, setStatus2] = React.useState<Value | null>(null);
+
+  React.useEffect(() => {
+    setStatus({ label: props.data?.status ?? "", value: props.data?.status ?? "" });
+    setStatus2({ label: props.data?.status2 ?? "", value: props.data?.status2 ?? "" });
+  }, [props.data]);
 
   React.useEffect(() => {
     get10Codes();
@@ -33,11 +36,12 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!status || !status2 || !props.data) return;
 
     const conf = {
-      id: props.id,
-      status: status.toLowerCase(),
-      status2: status === "off-duty" ? "--------" : status2,
+      id: props.data?.id,
+      status: status.value.toLowerCase(),
+      status2: status.value === "off-duty" ? "--------" : status2.value,
     };
 
     if (props.type === "ems-fd") {
@@ -46,16 +50,12 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
       props.setStatus(conf.id, conf.status, conf.status2);
     }
 
-    btnRef.current?.click();
+    modal(ModalIds.UpdateStatus).hide();
   }
 
   return (
-    <Modal id={`updateStatus${props.id}`}>
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.dispatch.update_status}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    // TODO:
+    <Modal title={lang.dispatch.update_status} id={ModalIds.UpdateStatus}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
@@ -65,9 +65,9 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
 
             <Select
               isClearable={false}
-              value={{ label: status, value: status }}
+              value={status}
               isMulti={false}
-              onChange={(v) => setStatus(v.value)}
+              onChange={setStatus}
               options={[
                 {
                   value: "on-duty",
@@ -88,9 +88,9 @@ const UpdateStatusModal: React.FC<Props> = (props) => {
 
             <Select
               isClearable={false}
-              value={{ label: status2, value: status2 }}
+              value={status2}
               isMulti={false}
-              onChange={(v: any) => setStatus2(v.value)}
+              onChange={setStatus2}
               options={filterCodes([{ code: "10-8" } as any, ...props.statuses]).map((stat) => {
                 return {
                   label: stat.code,

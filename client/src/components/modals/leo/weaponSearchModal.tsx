@@ -1,12 +1,13 @@
 import * as React from "react";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import { weaponSearch } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
 import Weapon from "../../../interfaces/Weapon";
 import AlertMessage from "../../alert-message";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
+import { ModalIds } from "../../../lib/types";
 
 interface Search extends Weapon {
   type: "weapon";
@@ -19,7 +20,6 @@ interface Props {
 
 const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
   const [serialNumber, setSerialNumber] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,12 +28,7 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
   }
 
   return (
-    <Modal size="lg" id="weaponSearchModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.weapon_search}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.global.weapon_search} size="lg" id={ModalIds.WeaponSearch}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

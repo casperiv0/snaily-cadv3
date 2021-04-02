@@ -1,5 +1,5 @@
 import * as React from "react";
-import Modal, { XButton } from "./index";
+import Modal from "./index";
 import lang from "../../language.json";
 import { create911Call } from "../../lib/actions/911-calls";
 import { connect } from "react-redux";
@@ -8,6 +8,8 @@ import Select from "../select";
 import State from "../../interfaces/State";
 import Value from "../../interfaces/Value";
 import { getCallTypes } from "../../lib/actions/values";
+import { modal } from "../../lib/functions";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
   callTypes: Value[];
@@ -19,7 +21,6 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
-  const btnRef = React.createRef<HTMLButtonElement>();
   const locationPath = useLocation();
 
   React.useEffect(() => {
@@ -36,7 +37,7 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
     });
 
     if (created === true) {
-      btnRef.current?.click();
+      modal(ModalIds.Call911).hide();
 
       setDescription("");
       setLocation("");
@@ -45,12 +46,7 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
   }
 
   return (
-    <Modal size="lg" id="call911Modal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.citizen.call_911} </h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.citizen.call_911} size="lg" id={ModalIds.Call911}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

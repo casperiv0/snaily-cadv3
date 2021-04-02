@@ -1,5 +1,5 @@
 import * as React from "react";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import { searchMedicalRecord, declareDeadOrAlive } from "../../../lib/actions/ems-fd";
 import { searchNames } from "../../../lib/actions/officer";
@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import MedicalRecord from "../../../interfaces/MedicalRecord";
 import Select from "../../select";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   medicalRecords: MedicalRecord[];
@@ -48,12 +49,7 @@ const SearchMedicalRecords: React.FC<Props> = ({
   }
 
   return (
-    <Modal size="xl" id="searchMedicalRecordsModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.ems_fd.search_med_rec}</h5>
-        <XButton />
-      </div>
-
+    <Modal title={lang.ems_fd.search_med_rec} size="xl" id={ModalIds.SearchMedicalRecords}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <Select

@@ -1,10 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import Modal, { XButton } from "..";
+import Modal from "..";
 import Citizen from "../../../interfaces/Citizen";
 import State from "../../../interfaces/State";
 import { getAllCitizens } from "../../../lib/actions/admin";
 import { createMedicalRecord } from "../../../lib/actions/citizen";
+import { modal } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
 import Select from "../../select";
 
 interface Props {
@@ -21,7 +23,6 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
   const [citizenId, setCitizenId] = React.useState("");
   const [type, setType] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
     getAllCitizens();
@@ -41,7 +42,7 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
     );
 
     if (success) {
-      btnRef.current?.click();
+      modal(ModalIds.AddMedicalRecord).hide();
 
       setCitizenId("");
       setType("");
@@ -50,12 +51,7 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
   }
 
   return (
-    <Modal id="addMedicalRecord" size="lg">
-      <div className="modal-header">
-        <h5 className="modal-title">{window.lang.citizen.medical.add}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={window.lang.citizen.medical.add} id={ModalIds.AddMedicalRecord} size="lg">
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

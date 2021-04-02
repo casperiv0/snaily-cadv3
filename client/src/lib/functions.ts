@@ -108,3 +108,12 @@ export function filterCodes(codes: Code10[]) {
     }
   });
 }
+
+export function modal(id: string) {
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error("modal el could not be found");
+  }
+
+  return window.bootstrap.Modal.getInstance(el);
+}

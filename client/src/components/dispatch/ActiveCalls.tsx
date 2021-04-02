@@ -7,7 +7,7 @@ import { getActive911Calls } from "../../lib/actions/911-calls";
 import { connect } from "react-redux";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: Call[];
@@ -15,6 +15,8 @@ interface Props {
 }
 
 const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
+  const [tempCall, setTempCall] = React.useState<Call | null>(null);
+
   React.useEffect(() => {
     getActive911Calls();
   }, [getActive911Calls]);
@@ -83,7 +85,8 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
                         type="button"
                         className="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target={`#update911Call${call.id}`}
+                        data-bs-target={`#${ModalIds.Update911Call}`}
+                        onClick={() => setTempCall(call)}
                       >
                         {lang.dispatch.update_call}
                       </button>
@@ -96,13 +99,7 @@ const ActiveCalls: React.FC<Props> = ({ calls, getActive911Calls }) => {
         )}
       </ul>
 
-      {calls.map((call: Call) => {
-        return (
-          <div key={call.id} id={`call-${call.id}`}>
-            <Update911Call id={call.id} call={call} />
-          </div>
-        );
-      })}
+      <Update911Call call={tempCall as Call} />
     </>
   );
 };

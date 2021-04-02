@@ -3,11 +3,13 @@ import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import Field from "../../../interfaces/Field";
 import { connect } from "react-redux";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import { createTicket } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
 import PenalCode from "../../../interfaces/PenalCode";
 import Select, { Value } from "../../select";
+import { modal } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   officer: Officer | null;
@@ -28,7 +30,6 @@ const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, names, create
   const [violations, setViolations] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const btnRef = React.useRef<HTMLButtonElement>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -43,7 +44,7 @@ const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, names, create
     });
 
     if (created === true) {
-      btnRef.current?.click();
+      modal(ModalIds.CreateTicket).hide();
 
       setNotes("");
       setName(null);
@@ -71,12 +72,7 @@ const CreateTicketModal: React.FC<Props> = ({ officer, penalCodes, names, create
   ];
 
   return (
-    <Modal size="lg" id="createTicketModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.create_ticket}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.global.create_ticket} size="lg" id={ModalIds.CreateTicket}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

@@ -1,8 +1,9 @@
 import * as React from "react";
 import lang from "../../../language.json";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import { connect } from "react-redux";
 import { deleteAccount } from "../../../lib/actions/auth";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   deleteAccount: () => void;
@@ -14,12 +15,7 @@ const DeleteAccountModal: React.FC<Props> = ({ deleteAccount }) => {
   }
 
   return (
-    <Modal id="deleteAccountModal">
-      <div className="modal-header">
-        <h5>{lang.auth.account.delete_acc}</h5>
-        <XButton />
-      </div>
-
+    <Modal title={lang.auth.account.delete_acc} id={ModalIds.DeleteAccount}>
       <div className="modal-body">{lang.auth.account.delete_acc_confirm}</div>
 
       <div className="modal-footer">

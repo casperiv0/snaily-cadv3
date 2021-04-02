@@ -128,11 +128,9 @@ const CitizensPage: React.FC<Props> = (props) => {
         )}
       </ul>
 
-      <div id="modals">
-        {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CallTowModal /> : null}
-        {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CallTaxiModal /> : null}
-        <Call911Modal />
-      </div>
+      {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CallTowModal /> : null}
+      {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CallTaxiModal /> : null}
+      <Call911Modal />
     </Layout>
   );
 };

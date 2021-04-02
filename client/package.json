@@ -33,6 +33,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.0.12",
     "@types/jquery": "^3.5.5",
     "@types/leaflet": "^1.7.0",
     "@types/leaflet.markercluster": "^1.4.4",

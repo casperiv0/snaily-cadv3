@@ -11,6 +11,8 @@ interface Props {
 }
 
 const AllCitizensTab: React.FC<Props> = ({ citizens }) => {
+  const [tempCitizen, setTempCitizen] = React.useState<Partial<Citizen> | null>(null);
+
   return (
     <>
       {!citizens[0] ? (
@@ -90,7 +92,8 @@ const AllCitizensTab: React.FC<Props> = ({ citizens }) => {
                     type="button"
                     className="btn btn-danger"
                     data-bs-toggle="modal"
-                    data-bs-target={`#deleteCitizenModal${citizen.id}`}
+                    data-bs-target={"#deleteCitizenModal"}
+                    onClick={() => setTempCitizen(citizen)}
                   >
                     {lang.citizen.delete_citizen}
                   </button>
@@ -108,11 +111,8 @@ const AllCitizensTab: React.FC<Props> = ({ citizens }) => {
               </li>
             );
           })}
-          {citizens.map((citizen: Citizen) => {
-            return (
-              <DeleteCitizenModal key={citizen.id} name={citizen.full_name} id={citizen.id || ""} />
-            );
-          })}
+
+          <DeleteCitizenModal name={tempCitizen?.full_name} id={tempCitizen?.id} />
         </ul>
       )}
     </>

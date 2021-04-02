@@ -1,5 +1,5 @@
 import * as React from "react";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import Vehicle from "../../../interfaces/Vehicle";
 import State from "../../../interfaces/State";
@@ -7,6 +7,7 @@ import AlertMessage from "../../alert-message";
 import { searchPlate } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
+import { ModalIds } from "../../../lib/types";
 
 export interface Search extends Vehicle {
   type: "plate";
@@ -18,7 +19,6 @@ interface Props {
 
 const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
   const [plate, setPlate] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -27,12 +27,7 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
   }
 
   return (
-    <Modal size="lg" id="plateSearchModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.plate_search}</h5>
-        <XButton ref={btnRef}></XButton>
-      </div>
-
+    <Modal title={lang.global.plate_search} size="lg" id={ModalIds.PlateSearch}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

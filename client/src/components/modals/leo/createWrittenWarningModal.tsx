@@ -3,11 +3,13 @@ import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import Field from "../../../interfaces/Field";
 import { connect } from "react-redux";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import { createWrittenWarning } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
 import PenalCode from "../../../interfaces/PenalCode";
 import Select, { Value } from "../../select";
+import { ModalIds } from "../../../lib/types";
+import { modal } from "../../../lib/functions";
 
 interface Props {
   officer: Officer | null;
@@ -33,7 +35,6 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
   const [infractions, setInfractions] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const btnRef = React.useRef<HTMLButtonElement>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -48,7 +49,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
     });
 
     if (created === true) {
-      btnRef.current?.click();
+      modal(ModalIds.CreateWrittenWarning).hide();
 
       setNotes("");
       setName(null);
@@ -76,12 +77,7 @@ const CreateWrittenWarningModal: React.FC<Props> = ({
   ];
 
   return (
-    <Modal size="lg" id="createWrittenWarningModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.create_written_warning}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.global.create_written_warning} size="lg" id={ModalIds.CreateWrittenWarning}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

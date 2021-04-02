@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import Field from "../../../interfaces/Field";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import { creatArrestReport } from "../../../lib/actions/records";
 import Officer from "../../../interfaces/Officer";
 import Select, { Value } from "../../select";
 import PenalCode from "../../../interfaces/PenalCode";
+import { ModalIds } from "../../../lib/types";
+import { modal } from "../../../lib/functions";
 
 interface Props {
   officer: Officer | null;
@@ -33,7 +35,6 @@ const CreateArrestReportModal: React.FC<Props> = ({
   const [charges, setCharges] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const btnRef = React.useRef<HTMLButtonElement>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -48,7 +49,7 @@ const CreateArrestReportModal: React.FC<Props> = ({
     });
 
     if (created === true) {
-      btnRef.current?.click();
+      modal(ModalIds.CreateArrestReport).hide();
 
       setNotes("");
       setName(null);
@@ -76,12 +77,7 @@ const CreateArrestReportModal: React.FC<Props> = ({
   ];
 
   return (
-    <Modal size="lg" id="createArrestReportModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.create_arrest_report}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.global.create_arrest_report} size="lg" id={ModalIds.CreateArrestReport}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

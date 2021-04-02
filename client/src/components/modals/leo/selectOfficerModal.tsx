@@ -1,13 +1,14 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
 import { connect } from "react-redux";
 import { getMyOfficers, setStatus } from "../../../lib/actions/officer";
 import Select, { Value } from "../../select";
-import { notify } from "../../../lib/functions";
+import { modal, notify } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   officers: Officer[];
@@ -17,11 +18,14 @@ interface Props {
 
 const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatus }) => {
   const [selected, setSelected] = React.useState<Value | null>(null);
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
     getMyOfficers();
   }, [getMyOfficers]);
+
+  function closeModal() {
+    modal(ModalIds.SelectOfficer).hide();
+  }
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,15 +35,11 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
 
     setStatus(selected?.value, "on-duty", "10-8");
 
-    btnRef.current?.click();
+    closeModal();
   }
 
   return (
-    <Modal id="selectOfficerModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.officers.select_officer_msg}</h5>
-        <XButton ref={btnRef} />
-      </div>
+    <Modal title={lang.officers.select_officer_msg} id={ModalIds.SelectOfficer}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
@@ -50,7 +50,7 @@ const SelectOfficerModal: React.FC<Props> = ({ officers, getMyOfficers, setStatu
             {!officers[0] ? (
               <p className="font-weight-bold">
                 You do not have any officers!{" "}
-                <Link onClick={() => btnRef.current?.click()} to="/leo/officers/create">
+                <Link onClick={closeModal} to="/leo/officers/create">
                   Create one here
                 </Link>
               </p>

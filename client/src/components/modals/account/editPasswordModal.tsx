@@ -1,8 +1,9 @@
 import * as React from "react";
 import lang from "../../../language.json";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import { connect } from "react-redux";
 import { updatePassword } from "../../../lib/actions/auth";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   updatePassword: (data: object) => void;
@@ -24,12 +25,7 @@ const EditPasswordModal: React.FC<Props> = ({ updatePassword }) => {
   }
 
   return (
-    <Modal id="editPasswordModal">
-      <div className="modal-header">
-        <h5>{lang.auth.account.edit_password}</h5>
-        <XButton />
-      </div>
-
+    <Modal title={lang.auth.account.edit_password} id={ModalIds.EditPassword}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

@@ -1,4 +1,5 @@
 import lang from "./language.json";
+import Bootstrap from "bootstrap";
 
 declare global {
   interface Window {
@@ -6,6 +7,7 @@ declare global {
      * The imported language file for SnailyCAD
      */
     lang: any;
+    bootstrap: typeof Bootstrap;
   }
 }
 

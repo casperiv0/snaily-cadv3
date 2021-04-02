@@ -1,8 +1,10 @@
 import * as React from "react";
-import Modal, { XButton } from "./index";
+import Modal from "./index";
 import lang from "../../language.json";
 import { createTowCall } from "../../lib/actions/tow-calls";
 import { connect } from "react-redux";
+import { ModalIds } from "../../lib/types";
+import { modal } from "../../lib/functions";
 
 interface Props {
   createTowCall: (data: object) => void;
@@ -12,7 +14,6 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,20 +24,14 @@ const CallTowModal: React.FC<Props> = ({ createTowCall }) => {
       caller,
     });
 
-    btnRef.current?.click();
-
+    modal(ModalIds.CallTow).hide();
     setDescription("");
     setLocation("");
     setCaller("");
   }
 
   return (
-    <Modal size="lg" id="callTowModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.calls.tow_service}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.calls.tow_service} size="lg" id={ModalIds.CallTow}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
