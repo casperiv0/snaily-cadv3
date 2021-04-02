@@ -4,7 +4,7 @@ import lang from "../../language.json";
 import { create911Call } from "../../lib/actions/911-calls";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
-import Select from "../select";
+import Select, { Value as SelectValue } from "../select";
 import State from "../../interfaces/State";
 import Value from "../../interfaces/Value";
 import { getCallTypes } from "../../lib/actions/values";
@@ -21,6 +21,7 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
+  const [type, setType] = React.useState<SelectValue | null>(null);
   const locationPath = useLocation();
 
   React.useEffect(() => {
@@ -34,6 +35,7 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
       description,
       location,
       caller,
+      type: type?.value,
     });
 
     if (created === true) {
@@ -93,8 +95,10 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
 
             {locationPath.pathname === "/dispatch" ? (
               <div className="mt-3 mb-3">
+                <label className="form-label">{lang.admin.values["call-types"].name}</label>
                 <Select
-                  onChange={(v) => null}
+                  value={type}
+                  onChange={setType}
                   isMulti={false}
                   isClearable={false}
                   options={callTypes.map((type) => ({
