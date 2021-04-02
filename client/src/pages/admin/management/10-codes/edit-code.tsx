@@ -7,7 +7,11 @@ import State from "../../../../interfaces/State";
 import Code10 from "../../../../interfaces/Code10";
 import { Link, useHistory, useParams } from "react-router-dom";
 import AlertMessage from "../../../../components/alert-message";
-import { colorOptions, options, shouldDoOptions } from "./add-code";
+import {
+  colorOptions,
+  shouldDoOptions,
+  options,
+} from "../../../../components/modals/admin/Create10CodeModal";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import { notify } from "../../../../lib/functions";
 

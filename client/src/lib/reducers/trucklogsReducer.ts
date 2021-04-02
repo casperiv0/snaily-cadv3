@@ -13,20 +13,18 @@ type Actions =
       logs: TruckLog[];
     }
   | {
-      type: typeof CREATE_TRUCK_LOG;
+      type: typeof DELETE_TRUCK_LOG;
+      logs: TruckLog[];
     }
   | {
-      type: typeof DELETE_TRUCK_LOG;
+      type: typeof CREATE_TRUCK_LOG;
       logs: TruckLog[];
     };
 
 export default function trucklogsReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_TRUCK_LOGS":
-      return {
-        ...state,
-        logs: action.logs,
-      };
+    case "CREATE_TRUCK_LOG":
     case "DELETE_TRUCK_LOG":
       return {
         ...state,

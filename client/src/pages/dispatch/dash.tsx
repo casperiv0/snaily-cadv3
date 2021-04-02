@@ -79,7 +79,7 @@ const DispatchDash: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <Layout fluid classes="pb-5 mt-5">
+    <Layout fluid>
       {panic !== null ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
           {panic.officer_name} {window.lang.global.panic_button}

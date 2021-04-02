@@ -211,4 +211,8 @@ export enum ModalIds {
   CreateMedicalCreate = "createMedicalRecordModal",
   RegisterVehicle = "registerVehicleModal",
   RegisterWeapon = "registerWeaponModal",
+  CreateTruckLog = "createTruckLogModal",
+  CreateOfficer = "createOfficerModal",
+  Create10Code = "create10CodeModal",
+  CreatePenalCode = "createPenalCodeModal",
 }

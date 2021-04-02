@@ -41,7 +41,6 @@ const LeoDash = React.lazy(() => import("./pages/leo/dash"));
 const OfficerLogsPage = React.lazy(() => import("./pages/leo/logs"));
 const PenalCodesPage = React.lazy(() => import("./pages/leo/penal-codes"));
 const MyOfficersPage = React.lazy(() => import("./pages/leo/my-officers"));
-const CreateOfficerPage = React.lazy(() => import("./pages/leo/create-officer"));
 
 const DispatchDash = React.lazy(() => import("./pages/dispatch/dash"));
 
@@ -63,7 +62,6 @@ const TransferVehiclePage = React.lazy(() => import("./pages/citizen/vehicles/tr
 const TowDash = React.lazy(() => import("./pages/tow/dash"));
 
 const TruckLogsDash = React.lazy(() => import("./pages/truck-logs/dash"));
-const CreateTruckLogPage = React.lazy(() => import("./pages/truck-logs/create-truck-log"));
 
 const EmsFdDash = React.lazy(() => import("./pages/ems-fd/dash"));
 const MyEmsDeputiesPage = React.lazy(() => import("./pages/ems-fd/my-deputies"));
@@ -93,7 +91,6 @@ const TaxiDash = React.lazy(() => import("./pages/taxi/dash"));
 const CourthousePage = React.lazy(() => import("./pages/Court"));
 
 const Codes10Management = React.lazy(() => import("./pages/admin/management/10-codes"));
-const Add10Code = React.lazy(() => import("./pages/admin/management/10-codes/add-code"));
 const Edit10Code = React.lazy(() => import("./pages/admin/management/10-codes/edit-code"));
 
 const PenalCodesManagement = React.lazy(() => import("./pages/admin/management/penal-codes"));
@@ -127,23 +124,15 @@ ReactDOM.render(
             <AuthRoute path="/bleeter" Component={BleeterPage} />
             <AuthRoute path="/bleet/edit/:id" Component={EditBleet} />
             <AuthRoute path="/bleet/:id" Component={BleetPage} />
-
             <AuthRoute requirement="leo" path="/leo/my-logs" Component={OfficerLogsPage} />
             <AuthRoute requirement="leo" path="/leo/dash" Component={LeoDash} />
             <AuthRoute requirement="leo" path="/leo/penal-codes" Component={PenalCodesPage} />
             <AuthRoute requirement="leo" path="/leo/my-officers" Component={MyOfficersPage} />
-            <AuthRoute
-              requirement="leo"
-              path="/leo/officers/create"
-              Component={CreateOfficerPage}
-            />
 
             <AuthRoute requirement="dispatch" path="/dispatch/map" Component={Map} />
             <AuthRoute requirement="dispatch" path="/dispatch" Component={DispatchDash} />
-
             <Route path="/court" render={() => (window.location.pathname = "/courthouse")} />
             <AuthRoute path="/courthouse" Component={CourthousePage} />
-
             <AuthRoute
               path="/company/:citizenId/:companyId/manage/:id"
               Component={ManageEmployeePage}
@@ -159,16 +148,11 @@ ReactDOM.render(
             <AuthRoute path="/citizen/:id/edit" Component={EditCitizenPage} />
             <AuthRoute path="/citizen/:id" Component={CitizenInfoPage} />
             <AuthRoute path="/citizen" Component={CitizensPage} />
-
             <AuthRoute path="/vehicles/edit/:id" Component={EditVehiclePage} />
             <AuthRoute path="/vehicles/transfer/:id" Component={TransferVehiclePage} />
-
             <AuthRoute requirement="tow" path="/tow" Component={TowDash} />
             <AuthRoute path="/taxi" Component={TaxiDash} />
-
-            <AuthRoute path="/truck-logs/create" Component={CreateTruckLogPage} />
             <AuthRoute path="/truck-logs" Component={TruckLogsDash} />
-
             <AuthRoute requirement="ems_fd" path="/ems-fd/dash" Component={EmsFdDash} />
             <AuthRoute
               requirement="ems_fd"
@@ -176,9 +160,7 @@ ReactDOM.render(
               Component={CreateDeputyPage}
             />
             <AuthRoute requirement="ems_fd" path="/ems-fd/deputies" Component={MyEmsDeputiesPage} />
-
             <AuthRoute path="/account" Component={AccountPage} />
-
             <AuthRoute
               path="/admin/manage/members/:id"
               requirement="admin"
@@ -209,23 +191,16 @@ ReactDOM.render(
               requirement="supervisor"
               Component={SupervisorPanelPage}
             />
-
             <AuthRoute
               path="/admin/manage/10-codes/edit/:id"
               requirement="supervisor"
               Component={Edit10Code}
             />
             <AuthRoute
-              path="/admin/manage/10-codes/add"
-              requirement="supervisor"
-              Component={Add10Code}
-            />
-            <AuthRoute
               path="/admin/manage/10-codes"
               requirement="supervisor"
               Component={Codes10Management}
             />
-
             <AuthRoute
               path="/admin/manage/penal-codes/edit/:id"
               requirement="supervisor"
@@ -241,7 +216,6 @@ ReactDOM.render(
               requirement="supervisor"
               Component={PenalCodesManagement}
             />
-
             <AuthRoute
               path="/admin/values/:path/:id/edit"
               requirement="admin"
@@ -255,7 +229,6 @@ ReactDOM.render(
             <AuthRoute path="/admin/values/:path" requirement="admin" Component={ValuesPage} />
             <AuthRoute path="/admin/cad-settings" requirement="admin" Component={CadSettingsPage} />
             <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
-
             <Route path="/logout" component={LogoutPage} />
             <Route path="/forbidden" component={ForbiddenPage} />
             <Route path="/not-enabled" component={NotEnabledPage} />

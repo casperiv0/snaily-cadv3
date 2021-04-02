@@ -23,17 +23,9 @@ type Actions =
 
 export default function boloReducer(state = initState, action: Actions) {
   switch (action.type) {
-    case "GET_BOLOS":
-      return {
-        ...state,
-        bolos: action.bolos,
-      };
     case "CREATE_BOLO":
-      return {
-        ...state,
-        bolos: action.bolos,
-      };
     case "DELETE_BOLO":
+    case "GET_BOLOS":
       return {
         ...state,
         bolos: action.bolos,

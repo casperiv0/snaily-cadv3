@@ -52,15 +52,8 @@ export default function authReducer(state = initState, action: Actions) {
         ...state,
         loading: action.loading,
       };
-    case "LOGOUT":
-      return {
-        ...state,
-        user: null,
-        error: null,
-        loading: false,
-        isAuth: false,
-      };
     case "DELETE_ACCOUNT":
+    case "LOGOUT":
       return {
         ...state,
         user: null,

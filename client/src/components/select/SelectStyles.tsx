@@ -43,6 +43,8 @@ const SelectStyles = (
   multiValue: (base) => ({
     ...base,
     color: "#fff",
+    backgroundColor: "#2f2f2F",
+    borderColor: "#2f2f2F",
   }),
   noOptionsMessage: (base) => ({
     ...base,

@@ -49,7 +49,7 @@ const CitizensPage: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <Layout classes="mt-5">
+    <Layout>
       <div>
         <h3>
           {lang.auth.welcome} - AOP: {aop}

@@ -42,7 +42,7 @@ const TaxiDash: React.FC<Props> = (props) => {
   }, [getTaxiCalls]);
 
   return (
-    <Layout fluid classes="mt-5">
+    <Layout fluid>
       <h3>
         {window.lang.taxi.dash} - AOP: {aop}
       </h3>

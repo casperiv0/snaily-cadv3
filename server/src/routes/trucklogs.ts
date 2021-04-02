@@ -22,9 +22,9 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
       [id, name, date, co_driver ?? "None", start_time, plate, req.userId],
     );
 
-    return res.json({
-      status: "success",
-    });
+    const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [req.userId]);
+
+    return res.json({ status: "success", logs });
   } else {
     return res.json({
       error: "Please fill in all required fields",

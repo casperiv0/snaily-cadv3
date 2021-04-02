@@ -60,46 +60,22 @@ type Actions =
 export default function callsReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_911_CALLS":
-      return {
-        ...state,
-        calls_911: action.calls,
-      };
-    case "CREATE_911_CALL":
-      return {
-        ...state,
-        calls: action.calls,
-      };
     case "UPDATE_911_CALL":
-      return {
-        ...state,
-        calls_911: action.calls,
-      };
+    case "CREATE_911_CALL":
     case "END_911_CALL":
       return {
         ...state,
         calls_911: action.calls,
       };
     case "CREATE_TOW_CALL":
-      return {
-        ...state,
-        tow_calls: action.calls,
-      };
     case "GET_TOW_CALLS":
-      return {
-        ...state,
-        tow_calls: action.calls,
-      };
     case "END_TOW_CALL":
       return {
         ...state,
         tow_calls: action.calls,
       };
-    case "GET_TAXI_CALLS": {
-      return {
-        ...state,
-        taxi_calls: action.calls,
-      };
-    }
+
+    case "GET_TAXI_CALLS":
     case "END_TAXI_CALL":
       return {
         ...state,

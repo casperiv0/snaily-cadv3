@@ -46,7 +46,6 @@ interface State {
     status2: string | null;
     officers: Officer[];
     departments: Department[];
-    error: string | null;
     search: any;
     activeOfficer: Officer | null;
     names: string[];

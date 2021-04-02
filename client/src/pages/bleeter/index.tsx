@@ -28,7 +28,7 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
   }
 
   return (
-    <Layout classes="mt-5">
+    <Layout>
       <div className="pb-3 d-flex justify-content-between">
         <h3>{window.lang.nav.bleeter}</h3>
         <Link className="btn btn-primary" to="/bleeter/create">

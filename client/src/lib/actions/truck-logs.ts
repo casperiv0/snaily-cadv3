@@ -34,6 +34,7 @@ export const createTruckLog = (data: object) => async (
     if (isSuccess(res)) {
       dispatch({
         type: CREATE_TRUCK_LOG,
+        logs: res.data.logs,
       });
 
       notify("Successfully created truck-log").success();

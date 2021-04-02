@@ -124,7 +124,7 @@ export const createOfficer = (data: object) => async (
     const res = await handleRequest("/officer/my-officers", "POST", data);
 
     if (isSuccess(res)) {
-      dispatch({ type: CREATE_OFFICER });
+      dispatch({ type: CREATE_OFFICER, officers: res.data.officers });
 
       return true;
     } else {

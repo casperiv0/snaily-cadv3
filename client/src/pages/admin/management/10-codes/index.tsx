@@ -7,9 +7,14 @@ import State from "../../../../interfaces/State";
 import AlertMessage from "../../../../components/alert-message";
 import { Link } from "react-router-dom";
 import { Item, Span } from "../../../citizen/citizen-info";
-import { colorOptions, shouldDoOptions } from "./add-code";
+import {
+  colorOptions,
+  shouldDoOptions,
+} from "../../../../components/modals/admin/Create10CodeModal";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import Loader from "../../../../components/loader";
+import Create10CodeModal from "../../../../components/modals/admin/Create10CodeModal";
+import { ModalIds } from "../../../../lib/types";
 
 interface Props {
   codes: Code10[];
@@ -30,9 +35,13 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
       <div className="d-flex justify-content-between mb-3">
         <h1 className="h3">10 codes</h1>
         <div>
-          <Link to="/admin/manage/10-codes/add" className="btn btn-primary">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target={`#${ModalIds.Create10Code}`}
+            className="btn btn-primary"
+          >
             Add code
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -101,6 +110,8 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
           </>
         )}
       </ul>
+
+      <Create10CodeModal />
     </AdminLayout>
   );
 };

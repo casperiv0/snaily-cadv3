@@ -18,12 +18,8 @@ type Actions =
 
 export default function notificationReducer(state = initState, action: Actions) {
   switch (action.type) {
-    case "GET_NOTIFICATIONS":
-      return {
-        ...state,
-        items: action.notifications,
-      };
     case "REMOVE_NOTIFICATION":
+    case "GET_NOTIFICATIONS":
       return {
         ...state,
         items: action.notifications,

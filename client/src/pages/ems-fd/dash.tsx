@@ -63,7 +63,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
   }, [get10Codes]);
 
   return (
-    <Layout fluid classes="mt-5">
+    <Layout fluid>
       <div className="card bg-dark mb-4">
         <div className="card-header">
           <h4>
