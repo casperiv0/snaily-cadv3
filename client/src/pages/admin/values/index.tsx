@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import AlertMessage from "../../../components/alert-message";
 import Layout from "../../../components/Layout";
 import Match from "../../../interfaces/Match";
@@ -8,7 +8,6 @@ import Value from "../../../interfaces/Value";
 import lang from "../../../language.json";
 import AdminLayout from "../../../components/admin/AdminLayout";
 import ValuePaths from "../../../interfaces/ValuePaths";
-import { connect } from "react-redux";
 import { getDepartments } from "../../../lib/actions/officer";
 import {
   getEthnicities,
@@ -22,6 +21,9 @@ import {
 import useDocTitle from "../../../hooks/useDocTitle";
 import Loader from "../../../components/loader";
 import { useObserver } from "../../../hooks/useObserver";
+import AddValueModal from "../../../components/modals/admin/values/AddValueModal";
+import { ModalIds } from "../../../lib/types";
+import EditValueModal from "../../../components/modals/admin/values/EditValueModal";
 
 interface Props {
   values: any;
@@ -60,10 +62,13 @@ const Values: React.FC<Props> = ({
   getCallTypes,
   deleteValue,
 }) => {
+  const [tempValue, setTempValue] = React.useState<Value | null>(null);
   const [filtered, setFiltered] = React.useState<any>([]);
   const [filter, setFilter] = React.useState<string>("");
   const path: ValuePaths = match.params.path;
-  const { ref, length } = useObserver<Value>(values);
+  const { ref, length } = useObserver<Value>(
+    values[path].sort((a: Value, _b: Value) => a?.defaults === "1"),
+  );
   useDocTitle(lang.admin.values[path].manage);
 
   React.useEffect(() => {
@@ -147,9 +152,13 @@ const Values: React.FC<Props> = ({
         </div>
 
         <div>
-          <Link className="btn btn-primary" to={`/admin/values/${path}/add`}>
+          <button
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target={`#${ModalIds.AddValue}`}
+          >
             {lang.admin.values[path].add}
-          </Link>
+          </button>
         </div>
       </header>
 
@@ -167,43 +176,44 @@ const Values: React.FC<Props> = ({
           <Loader />
         ) : (
           <ul className="list-group">
-            {filtered
-              .slice(0, length)
-              .sort((a: Value, _b: Value) => a?.defaults === "1")
-              .sort((a: Value, _b: Value) => a?.defaults === "1")
-              .map((value: Value, idx: number) => {
-                return (
-                  <li
-                    ref={ref}
-                    className="list-group-item bg-dark border-secondary d-flex justify-content-between"
-                    key={idx}
-                    id={`${idx}`}
-                  >
-                    <div>
-                      {++idx} | {value.name}
-                    </div>
+            {filtered.slice(0, length).map((value: Value, idx: number) => {
+              return (
+                <li
+                  ref={ref}
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                  key={idx}
+                  id={`${idx}`}
+                >
+                  <div>
+                    {++idx} | {value.name}
+                  </div>
 
-                    <div>
-                      {value?.defaults && value.defaults === "0" ? (
-                        <>
-                          <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
-                            {lang.global.delete}
-                          </button>
-                          <Link
-                            className="btn btn-success ms-2"
-                            to={`/admin/values/${path}/${value.id}/edit`}
-                          >
-                            {lang.global.edit}
-                          </Link>
-                        </>
-                      ) : null}
-                    </div>
-                  </li>
-                );
-              })}
+                  <div>
+                    {value?.defaults && value.defaults === "0" ? (
+                      <>
+                        <button onClick={() => handleDelete(value.id)} className="btn btn-danger">
+                          {lang.global.delete}
+                        </button>
+                        <button
+                          className="btn btn-success ms-2"
+                          data-bs-target={`#${ModalIds.EditValue}`}
+                          data-bs-toggle="modal"
+                          onClick={() => setTempValue(value)}
+                        >
+                          {lang.global.edit}
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
+
+      <EditValueModal value={tempValue} path={path} />
+      <AddValueModal />
     </AdminLayout>
   );
 };

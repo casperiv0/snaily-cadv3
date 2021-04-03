@@ -6,7 +6,7 @@ import socket from "../../lib/socket";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { endTaxiCall, getTaxiCalls } from "../../lib/actions/taxi-calls";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import useDocTitle from "../../hooks/useDocTitle";
 import { SOCKET_EVENTS } from "../../lib/types";
 

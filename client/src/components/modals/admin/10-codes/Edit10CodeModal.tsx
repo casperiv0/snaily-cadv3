@@ -9,10 +9,10 @@ import {
   shouldDoOptions,
   options,
 } from "../../../../components/modals/admin/10-codes/Create10CodeModal";
-import useDocTitle from "../../../../hooks/useDocTitle";
 import { modal } from "../../../../lib/functions";
 import Modal from "../..";
 import { ModalIds } from "../../../../lib/types";
+import { useModalOpen } from "../../../../hooks/useModalOpen";
 
 interface Props {
   update10Code: (id: string, data: Partial<Code10>) => Promise<boolean>;
@@ -26,7 +26,7 @@ const Edit10CodeModal: React.FC<Props> = ({ update10Code, code: data, codes }) =
   const [color, setColor] = React.useState("");
   const [shouldDo, setShouldDo] = React.useState("");
   const [position, setPosition] = React.useState(0);
-  useDocTitle(window.lang.codes.edit_10_code);
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.Edit10Code);
 
   const value = {
     value: colorOptions.find((clr) => clr.value === color)?.value,
@@ -83,6 +83,7 @@ const Edit10CodeModal: React.FC<Props> = ({ update10Code, code: data, codes }) =
               {window.lang.codes.code}
             </label>
             <input
+              ref={ref}
               id="code"
               value={code}
               onChange={(e) => setCode(e.currentTarget.value)}

@@ -4,6 +4,7 @@ import Modal from "../index";
 import { connect } from "react-redux";
 import { updatePassword } from "../../../lib/actions/auth";
 import { ModalIds } from "../../../lib/types";
+import { useModalOpen } from "../../../hooks/useModalOpen";
 
 interface Props {
   updatePassword: (data: object) => void;
@@ -13,6 +14,7 @@ const EditPasswordModal: React.FC<Props> = ({ updatePassword }) => {
   const [oldPassword, setOldPassword] = React.useState<string>("");
   const [newPassword, setNewPassword] = React.useState<string>("");
   const [newPassword2, setNewPassword2] = React.useState<string>("");
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.EditPassword);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -33,6 +35,7 @@ const EditPasswordModal: React.FC<Props> = ({ updatePassword }) => {
               {lang.auth.enter_old_password}
             </label>
             <input
+              ref={ref}
               id="old_password"
               type="password"
               value={oldPassword}

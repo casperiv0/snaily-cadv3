@@ -12,7 +12,6 @@ import {
   GET_WEAPONS,
   DELETE_VALUE,
   ADD_VALUE,
-  GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
   VALUES_SET_LOADING,
   GET_CALL_TYPES,
@@ -42,8 +41,8 @@ export const deleteValue = (id: string, path: ValuePaths) => async (
     if (isSuccess(res)) {
       dispatch({
         type: DELETE_VALUE,
-        path: path,
         values: res.data.values,
+        path,
       });
 
       notify(lang.admin.values[path].deleted).success();
@@ -62,6 +61,8 @@ export const addValue = (path: string, data: { name: string }) => async (
     if (isSuccess(res)) {
       dispatch({
         type: ADD_VALUE,
+        values: res.data.values,
+        path,
       });
 
       notify(`Successfully added ${data.name} to ${path}`).success();
@@ -76,30 +77,19 @@ export const addValue = (path: string, data: { name: string }) => async (
   }
 };
 
-export const getValueById = (path: string, id: string) => async (dispatch: Dispatch<IDispatch>) => {
-  try {
-    const res = await handleRequest(`/values/${path}/${id}`, "GET");
-
-    if (isSuccess(res)) {
-      dispatch({
-        type: GET_VALUE_BY_ID,
-        value: res.data.value,
-      });
-    }
-  } catch (e) {
-    Logger.error(GET_VALUE_BY_ID, e);
-  }
-};
-
 export const updateValueById = (path: string, id: string, data: { name: string }) => async (
   dispatch: Dispatch<IDispatch>,
 ): Promise<boolean> => {
+  dispatch({ type: VALUES_SET_LOADING, loading: true });
+
   try {
     const res = await handleRequest(`/values/${path}/${id}`, "PUT", data);
 
     if (isSuccess(res)) {
       dispatch({
         type: UPDATE_VALUE_BY_ID,
+        values: res.data.values,
+        path,
       });
 
       notify("Successfully updated value").success();
@@ -112,6 +102,8 @@ export const updateValueById = (path: string, id: string, data: { name: string }
   } catch (e) {
     Logger.error(UPDATE_VALUE_BY_ID, e);
     return false;
+  } finally {
+    dispatch({ type: VALUES_SET_LOADING, loading: false });
   }
 };
 

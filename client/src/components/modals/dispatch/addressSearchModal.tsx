@@ -8,6 +8,7 @@ import State from "../../../interfaces/State";
 import AlertMessage from "../../alert-message";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 import { ModalIds } from "../../../lib/types";
+import { useModalOpen } from "../../../hooks/useModalOpen";
 
 interface Props {
   search: Citizen[];
@@ -16,6 +17,7 @@ interface Props {
 
 const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
   const [address, setAddress] = React.useState("");
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.AddressSearch);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,6 +34,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
               {lang.dispatch.enter_address}
             </label>
             <input
+              ref={ref}
               value={address}
               className="form-control bg-secondary border-secondary text-light"
               id="address"

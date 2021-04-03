@@ -15,21 +15,6 @@ router.get("/:path", useAuth, useValidPath, async (req: IRequest, res: Response)
   return res.json({ values, status: "success" });
 });
 
-router.get(
-  "/:path/:id",
-  useAuth,
-  usePermission(["admin", "owner", "moderator"]),
-  useValidPath,
-  async (req: IRequest, res: Response) => {
-    const { id } = req.params;
-    const parsedPath = req.parsedPath;
-
-    const value = await processQuery(`SELECT * FROM \`${parsedPath}\` WHERE \`id\` = ?`, [id]);
-
-    return res.json({ status: "success", value: value[0] });
-  },
-);
-
 router.post(
   "/:path",
   useAuth,
@@ -40,19 +25,20 @@ router.post(
     const parsedPath = req.parsedPath;
     const id = uuidv4();
 
-    if (name) {
-      await processQuery(
-        `INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`,
-        [id, name, "0"],
-      );
-
-      return res.json({ status: "success" });
-    } else {
+    if (!name) {
       return res.json({
         error: "Please fill in all all fields",
         status: "error",
       });
     }
+
+    await processQuery(
+      `INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`,
+      [id, name, "0"],
+    );
+
+    const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+    return res.json({ status: "success", values: updated });
   },
 );
 
@@ -66,13 +52,14 @@ router.put(
     const { name } = req.body;
     const parsedPath = req.parsedPath;
 
-    if (name) {
-      await processQuery(`UPDATE \`${parsedPath}\` SET \`name\` = ? WHERE \`id\` = ?`, [name, id]);
-
-      return res.json({ status: "success" });
-    } else {
+    if (!name) {
       return res.json({ error: "Please fill in all fields", status: "error" });
     }
+
+    await processQuery(`UPDATE \`${parsedPath}\` SET \`name\` = ? WHERE \`id\` = ?`, [name, id]);
+
+    const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+    return res.json({ status: "success", values: updated });
   },
 );
 
@@ -88,7 +75,6 @@ router.delete(
     await processQuery(`DELETE FROM \`${parsedPath}\` WHERE \`id\` = ?`, [id]);
 
     const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
-
     return res.json({ status: "success", values: updated });
   },
 );

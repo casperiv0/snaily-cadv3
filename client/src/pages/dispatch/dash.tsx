@@ -10,7 +10,7 @@ import ActiveUnits from "../../components/dispatch/ActiveUnits";
 import socket from "../../lib/socket";
 import ActiveCalls from "../../components/dispatch/ActiveCalls";
 import ActiveBolos from "../../components/active-bolos";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
 import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import AddressSearchModal from "../../components/modals/dispatch/addressSearchModal";

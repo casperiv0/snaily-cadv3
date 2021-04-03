@@ -5,7 +5,7 @@ import TowCall from "../../interfaces/TowCall";
 import socket from "../../lib/socket";
 import { connect } from "react-redux";
 import { getTowCalls, endTowCall } from "../../lib/actions/tow-calls";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import useDocTitle from "../../hooks/useDocTitle";
 import { SOCKET_EVENTS } from "../../lib/types";
 

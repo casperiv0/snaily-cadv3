@@ -8,6 +8,7 @@ import { searchPlate } from "../../../lib/actions/officer";
 import { connect } from "react-redux";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 import { ModalIds } from "../../../lib/types";
+import { useModalOpen } from "../../../hooks/useModalOpen";
 
 export interface Search extends Vehicle {
   type: "plate";
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.PlateSearch);
   const [plate, setPlate] = React.useState("");
 
   function onSubmit(e: React.FormEvent) {
@@ -35,6 +37,7 @@ const PlateSearchModal: React.FC<Props> = ({ search, searchPlate }) => {
               {window.lang.officers.plate_or_vin}
             </label>
             <input
+              ref={ref}
               type="search"
               className="form-control bg-secondary border-secondary text-light"
               id="plate"

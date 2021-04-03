@@ -120,7 +120,6 @@ export const GET_CAD_INFO = "GET_CAD_INFO";
 /* All values */
 export const DELETE_VALUE = "DELETE_VALUE";
 export const ADD_VALUE = "ADD_VALUE";
-export const GET_VALUE_BY_ID = "GET_VALUE_BY_ID";
 export const UPDATE_VALUE_BY_ID = "UPDATE_VALUE_BY_ID";
 export const VALUES_SET_LOADING = "VALUES_SET_LOADING";
 
@@ -217,4 +216,6 @@ export enum ModalIds {
   CreatePenalCode = "createPenalCodeModal",
   Edit10Code = "edit10CodeModal",
   EditPenalCode = "editPenalCodeModal",
+  AddValue = "addValueModal",
+  EditValue = "editValueModal",
 }

@@ -71,8 +71,6 @@ const AccountPage = React.lazy(() => import("./pages/account/index"));
 const LogoutPage = React.lazy(() => import("./pages/logout"));
 
 const ValuesPage = React.lazy(() => import("./pages/admin/values/index"));
-const AddValuePage = React.lazy(() => import("./pages/admin/values/add-value"));
-const EditValuePage = React.lazy(() => import("./pages/admin/values/edit-value"));
 const AdminPage = React.lazy(() => import("./pages/admin/index"));
 const ManageMembersPage = React.lazy(() => import("./pages/admin/management/members/index"));
 const ManageMemberPage = React.lazy(() => import("./pages/admin/management/members/manage-member"));
@@ -197,16 +195,6 @@ ReactDOM.render(
               path="/admin/manage/penal-codes"
               requirement="supervisor"
               Component={PenalCodesManagement}
-            />
-            <AuthRoute
-              path="/admin/values/:path/:id/edit"
-              requirement="admin"
-              Component={EditValuePage}
-            />
-            <AuthRoute
-              path="/admin/values/:path/add"
-              requirement="admin"
-              Component={AddValuePage}
             />
             <AuthRoute path="/admin/values/:path" requirement="admin" Component={ValuesPage} />
             <AuthRoute path="/admin/cad-settings" requirement="admin" Component={CadSettingsPage} />

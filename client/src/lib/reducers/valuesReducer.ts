@@ -11,7 +11,6 @@ import {
   GET_ADMIN_DEPARTMENTS,
   DELETE_VALUE,
   ADD_VALUE,
-  GET_VALUE_BY_ID,
   UPDATE_VALUE_BY_ID,
   VALUES_SET_LOADING,
   GET_CALL_TYPES,
@@ -68,13 +67,13 @@ type Actions =
     }
   | {
       type: typeof ADD_VALUE;
-    }
-  | {
-      type: typeof GET_VALUE_BY_ID;
-      value: Value;
+      values: Value[];
+      path: string;
     }
   | {
       type: typeof UPDATE_VALUE_BY_ID;
+      values: Value[];
+      path: string;
     }
   | {
       type: typeof VALUES_SET_LOADING;
@@ -131,18 +130,11 @@ export default function valuesReducer(state = initState, action: Actions): State
         loading: false,
       };
     case "DELETE_VALUE":
+    case "UPDATE_VALUE_BY_ID":
+    case "ADD_VALUE":
       return {
         ...state,
         [action.path]: action.values,
-      };
-    case "GET_VALUE_BY_ID":
-      return {
-        ...state,
-        value: action.value,
-      };
-    case "UPDATE_VALUE_BY_ID":
-      return {
-        ...state,
       };
     case "VALUES_SET_LOADING":
       return {

@@ -9,7 +9,7 @@ import ActiveBolos from "../../components/active-bolos";
 import SelectOfficerModal from "../../components/modals/leo/selectOfficerModal";
 import CreateWarrant from "../../components/leo/CreateWarrant";
 import socket from "../../lib/socket";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
 import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
 import NameSearchModal from "../../components/modals/leo/nameSearchModal";

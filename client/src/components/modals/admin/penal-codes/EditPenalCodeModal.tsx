@@ -2,10 +2,10 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { updatePenalCode } from "../../../../lib/actions/admin";
 import PenalCode from "../../../../interfaces/PenalCode";
-import useDocTitle from "../../../../hooks/useDocTitle";
 import Modal from "../..";
 import { ModalIds } from "../../../../lib/types";
 import { modal } from "../../../../lib/functions";
+import { useModalOpen } from "../../../../hooks/useModalOpen";
 
 interface Props {
   updatePenalCode: (id: string, data: Partial<PenalCode>) => Promise<boolean>;
@@ -15,7 +15,7 @@ interface Props {
 const EditPenalCode: React.FC<Props> = ({ updatePenalCode, code }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState<string>("");
-  useDocTitle(window.lang.codes.edit_penal_code);
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.EditPenalCode);
 
   React.useEffect(() => {
     if (!code) return;
@@ -47,6 +47,7 @@ const EditPenalCode: React.FC<Props> = ({ updatePenalCode, code }) => {
               {window.lang.global.title}
             </label>
             <input
+              ref={ref}
               id="title"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}

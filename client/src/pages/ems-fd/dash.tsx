@@ -6,7 +6,7 @@ import State from "../../interfaces/State";
 import socket from "../../lib/socket";
 import lang from "../../language.json";
 import Statuses from "../../components/ems-fd/Statuses";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import SelectEmsFdModal from "../../components/modals/ems-fd/selectEmsFdModal";
 import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRecords";
 import Active911Calls from "../../components/active-911-calls";

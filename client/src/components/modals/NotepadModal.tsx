@@ -21,7 +21,7 @@ const NotepadModal: React.FC = () => {
         <textarea
           className="form-control bg-secondary border-secondary text-light"
           cols={30}
-          rows={30}
+          rows={15}
           value={note}
           onChange={(e) => setNote(e.target.value)}
         ></textarea>

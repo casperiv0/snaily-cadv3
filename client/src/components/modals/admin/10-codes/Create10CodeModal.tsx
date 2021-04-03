@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { add10Code } from "../../../../lib/actions/admin";
 import Select, { Value } from "../../../select";
 import Code10 from "../../../../interfaces/Code10";
-import useDocTitle from "../../../../hooks/useDocTitle";
 import State from "../../../../interfaces/State";
 import Modal from "../..";
 import { ModalIds } from "../../../../lib/types";
 import { modal } from "../../../../lib/functions";
+import { useModalOpen } from "../../../../hooks/useModalOpen";
 
 export const options = [
   {
@@ -57,7 +57,7 @@ const Create10CodeModal: React.FC<Props> = ({ codesLength, add10Code }) => {
   const [color, setColor] = React.useState<Value | null>(null);
   const [shouldDo, setShouldDo] = React.useState<Value | null>(null);
   const [position, setPosition] = React.useState<Value | null>(null);
-  useDocTitle(window.lang.codes.add_10_code);
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.Create10Code);
 
   const length = React.useCallback(() => {
     const arr = [];
@@ -100,6 +100,7 @@ const Create10CodeModal: React.FC<Props> = ({ codesLength, add10Code }) => {
               {window.lang.codes.code}
             </label>
             <input
+              ref={ref}
               id="code"
               value={code}
               onChange={(e) => setCode(e.currentTarget.value)}

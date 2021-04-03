@@ -5,6 +5,7 @@ import PenalCode from "../../../../interfaces/PenalCode";
 import { modal } from "../../../../lib/functions";
 import { ModalIds } from "../../../../lib/types";
 import Modal from "../..";
+import { useModalOpen } from "../../../../hooks/useModalOpen";
 
 interface Props {
   addPenalCode: (data: Partial<PenalCode>) => Promise<boolean>;
@@ -13,6 +14,7 @@ interface Props {
 const CreatePenalCodeModal: React.FC<Props> = ({ addPenalCode }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState("");
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.CreatePenalCode);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -38,6 +40,7 @@ const CreatePenalCodeModal: React.FC<Props> = ({ addPenalCode }) => {
               {window.lang.global.title}
             </label>
             <input
+              ref={ref}
               id="title"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}

@@ -8,6 +8,7 @@ import Weapon from "../../../interfaces/Weapon";
 import AlertMessage from "../../alert-message";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 import { ModalIds } from "../../../lib/types";
+import { useModalOpen } from "../../../hooks/useModalOpen";
 
 interface Search extends Weapon {
   type: "weapon";
@@ -20,6 +21,7 @@ interface Props {
 
 const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
   const [serialNumber, setSerialNumber] = React.useState("");
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.WeaponSearch);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,6 +38,7 @@ const WeaponSearchModal: React.FC<Props> = ({ weaponSearch, search }) => {
               {lang.citizen.weapon.serial_number}
             </label>
             <input
+              ref={ref}
               id="serialNumber"
               type="weapon"
               value={serialNumber}
