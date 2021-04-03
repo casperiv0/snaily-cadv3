@@ -7,21 +7,12 @@ const initState: State["truck_logs"] = {
   error: null,
 };
 
-type Actions =
-  | {
-      type: typeof GET_TRUCK_LOGS;
-      logs: TruckLog[];
-    }
-  | {
-      type: typeof DELETE_TRUCK_LOG;
-      logs: TruckLog[];
-    }
-  | {
-      type: typeof CREATE_TRUCK_LOG;
-      logs: TruckLog[];
-    };
+type Actions = {
+  type: typeof GET_TRUCK_LOGS | typeof CREATE_TRUCK_LOG | typeof DELETE_TRUCK_LOG;
+  logs: TruckLog[];
+};
 
-export default function trucklogsReducer(state = initState, action: Actions) {
+export default function trucklogsReducer(state = initState, action: Actions): State["truck_logs"] {
   switch (action.type) {
     case "GET_TRUCK_LOGS":
     case "CREATE_TRUCK_LOG":

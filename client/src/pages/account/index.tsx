@@ -5,7 +5,7 @@ import State from "../../interfaces/State";
 import User from "../../interfaces/User";
 import lang from "../../language.json";
 import DeleteAccountModal from "../../components/modals/account/deleteAccountModal";
-import EditPasswordModal from "../../components/modals/account/editPasswordModal";
+import EditPasswordModal from "../../components/modals/account/EditPasswordModal";
 import { Item, Span } from "../citizen/citizen-info";
 import useDocTitle from "../../hooks/useDocTitle";
 import { unlinkSteam } from "../../lib/actions/auth";

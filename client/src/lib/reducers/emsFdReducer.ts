@@ -32,15 +32,8 @@ type Actions =
       status2: string;
     }
   | {
-      type: typeof GET_MY_EMS_FD;
+      type: typeof GET_MY_EMS_FD | typeof DELETE_EMS_DEPUTY | typeof CREATE_EMS_FD_DEPUTY;
       deputies: Deputy[];
-    }
-  | {
-      type: typeof DELETE_EMS_DEPUTY;
-      deputies: Deputy[];
-    }
-  | {
-      type: typeof CREATE_EMS_FD_DEPUTY;
     }
   | {
       type: typeof SEARCH_MEDICAL_RECORD;
@@ -63,18 +56,11 @@ export default function emsFdReducer(state = initState, action: Actions) {
         status2: action.status2,
       };
     case "GET_MY_EMS_FD":
-      return {
-        ...state,
-        deputies: action.deputies,
-      };
     case "DELETE_EMS_DEPUTY":
-      return {
-        ...state,
-        deputies: action.deputies,
-      };
     case "CREATE_EMS_FD_DEPUTY":
       return {
         ...state,
+        deputies: action.deputies,
       };
     case "SEARCH_MEDICAL_RECORD":
       return {

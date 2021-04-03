@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import Citizen from "../../interfaces/Citizen";
 import Company, { CompanyPost } from "../../interfaces/Company";
 import Vehicle from "../../interfaces/Vehicle";
-import { handleRequest, isSuccess, notify } from "../functions";
+import { handleRequest, isSuccess, modal, notify } from "../functions";
 import lang from "../../language.json";
 import Logger from "../Logger";
 import {
@@ -18,6 +18,7 @@ import {
   FIRE_EMPLOYEE,
   ACCEPT_EMPLOYEE,
   DECLINE_EMPLOYEE,
+  ModalIds,
 } from "../types";
 
 interface IDispatch {
@@ -113,8 +114,10 @@ export const createCompanyPost = (data: object) => async (dispatch: Dispatch<IDi
     if (isSuccess(res)) {
       dispatch({
         type: CREATE_COMPANY_POST,
+        posts: res.data.posts,
       });
-      window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
+
+      modal(ModalIds.CreateCompanyPost).hide();
     } else {
       notify(res.data.error).warn();
     }

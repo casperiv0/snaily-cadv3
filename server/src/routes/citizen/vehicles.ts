@@ -30,7 +30,7 @@ router.get("/i/:id", useAuth, async (req: IRequest, res: Response) => {
 });
 
 router.post("/", useAuth, async (req: IRequest, res: Response) => {
-  const { plate, status, color, vehicle, citizenId, businessId } = req.body;
+  const { plate, status, color, vehicle, citizenId, companyId } = req.body;
 
   if (plate && status && color && vehicle && citizenId) {
     // replace "0" with "O"
@@ -59,8 +59,8 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
       });
     }
 
-    if (businessId?.trim() !== "") {
-      const company = await processQuery("SELECT * FROM `businesses` WHERE `id` = ?", [businessId]);
+    if (companyId) {
+      const company = await processQuery("SELECT * FROM `businesses` WHERE `id` = ?", [companyId]);
 
       if (!company[0]) {
         return res.json({
@@ -99,7 +99,7 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
         parsedPlate,
         color,
         req.userId,
-        businessId,
+        companyId ?? "",
       ],
     );
 

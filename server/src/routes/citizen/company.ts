@@ -155,10 +155,15 @@ router.post("/post", useAuth, async (req: IRequest, res: Response) => {
     ],
   );
 
+  const updated = await processQuery(
+    "SELECT * FROM `posts` WHERE `business_id` = ? ORDER BY `uploaded_at` DESC",
+    [company_id],
+  );
   return res.json({
     status: "success",
     companyId: company_id,
     citizenId: citizen_id,
+    posts: updated,
   });
 });
 

@@ -1,7 +1,7 @@
 import Logger from "../Logger";
 import User from "../../interfaces/User";
 import { Dispatch } from "react";
-import { handleRequest, isSuccess, notify } from "../functions";
+import { handleRequest, isSuccess, modal, notify } from "../functions";
 import {
   AUTHENTICATE,
   LOGOUT,
@@ -9,6 +9,7 @@ import {
   DELETE_ACCOUNT,
   UPDATE_PASSWORD,
   UNLINK_STEAM,
+  ModalIds,
 } from "../types";
 
 interface IDispatch {
@@ -139,6 +140,7 @@ export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispa
         type: UPDATE_PASSWORD,
       });
 
+      modal(ModalIds.EditPassword).hide();
       notify("Successfully updated password").success();
     } else {
       notify(res.data.error).warn;

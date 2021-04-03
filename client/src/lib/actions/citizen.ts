@@ -296,6 +296,7 @@ export const registerVehicle = (data: object) => async (
         vehicles: res.data.vehicles,
       });
 
+      notify(lang.citizen.vehicle.added_veh).success();
       return true;
     } else {
       notify(res.data.error).warn();

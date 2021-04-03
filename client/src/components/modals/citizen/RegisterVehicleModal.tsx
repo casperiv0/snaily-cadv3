@@ -74,8 +74,8 @@ const RegisterVehicleModal: React.FC<Props> = ({
       status,
       color,
       vehicle,
-      citizenId,
-      businessId: companyId,
+      citizenId: citizenId?.value,
+      companyId,
     });
 
     if (success === true) {

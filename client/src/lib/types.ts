@@ -184,6 +184,7 @@ export enum ModalIds {
   EditPassword = "editPasswordModal",
   DeleteCitizen = "deleteCitizenModal",
   CreateCompany = "createCompanyModal",
+  CreateCompanyPost = "createCompanyPostModal",
   JoinCompany = "joinCompanyModal",
   RequestExpungement = "requestExpungementModal",
   AddressSearch = "addressSearchModal",
@@ -201,4 +202,5 @@ export enum ModalIds {
   EditPenalCode = "editPenalCodeModal",
   AddValue = "addValueModal",
   EditValue = "editValueModal",
+  CreateEmsFd = "createEmsFdModal",
 }

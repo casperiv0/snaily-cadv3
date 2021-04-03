@@ -32,7 +32,10 @@ router.post(
         [id, name, req.userId, "off-duty", "--------"],
       );
 
-      return res.json({ status: "success" });
+      const updated = await processQuery("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [
+        req.userId,
+      ]);
+      return res.json({ status: "success", deputies: updated });
     } else {
       return res.json({ status: "error", error: "Please fill in all fields" });
     }

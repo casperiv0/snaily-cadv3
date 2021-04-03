@@ -1,9 +1,10 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { modal } from "../../lib/functions";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
-  id: string;
+  id: ModalIds;
   title: string;
   size?: "sm" | "lg" | "xl";
 }

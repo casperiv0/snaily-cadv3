@@ -38,17 +38,20 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
 
   return (
     <Layout classes="mt-5 pb-5">
-      <Link className="btn btn-secondary mb-2" to="/leo/dash">
-        {window.lang.global.go_back}
-      </Link>
+      <div className="d-flex mb-2 gap-2">
+        <Link className="btn btn-secondary col-2" to="/leo/dash">
+          {window.lang.global.go_back}
+        </Link>
 
-      <ul className="list-group">
         <input
           placeholder={lang.global.search}
           type="search"
-          className="form-control bg-dark border-secondary mb-3 text-light"
+          className="form-control bg-dark border-secondary text-light"
           onChange={(e) => handleSearch(e.target.value)}
         />
+      </div>
+
+      <ul className="list-group">
         {filtered?.slice(0, length)?.map((code: PenalCode, idx: number) => {
           return (
             <li

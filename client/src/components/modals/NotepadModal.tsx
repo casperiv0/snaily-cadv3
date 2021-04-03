@@ -1,6 +1,7 @@
 import * as React from "react";
 import Modal from "./index";
 import lang from "../../language.json";
+import { ModalIds } from "../../lib/types";
 
 const NotepadModal: React.FC = () => {
   const local = localStorage.getItem("snailycad_notepad") || "";
@@ -16,7 +17,7 @@ const NotepadModal: React.FC = () => {
   }
 
   return (
-    <Modal title={lang.global.notepad} size="lg" id="notepad">
+    <Modal title={lang.global.notepad} size="lg" id={ModalIds.Notepad}>
       <div className="modal-body">
         <textarea
           className="form-control bg-secondary border-secondary text-light"

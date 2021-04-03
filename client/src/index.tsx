@@ -65,7 +65,6 @@ const TruckLogsDash = React.lazy(() => import("./pages/truck-logs/dash"));
 
 const EmsFdDash = React.lazy(() => import("./pages/ems-fd/dash"));
 const MyEmsDeputiesPage = React.lazy(() => import("./pages/ems-fd/my-deputies"));
-const CreateDeputyPage = React.lazy(() => import("./pages/ems-fd/create-deputy"));
 
 const AccountPage = React.lazy(() => import("./pages/account/index"));
 const LogoutPage = React.lazy(() => import("./pages/logout"));
@@ -149,12 +148,8 @@ ReactDOM.render(
             <AuthRoute path="/taxi" Component={TaxiDash} />
             <AuthRoute path="/truck-logs" Component={TruckLogsDash} />
             <AuthRoute requirement="ems_fd" path="/ems-fd/dash" Component={EmsFdDash} />
-            <AuthRoute
-              requirement="ems_fd"
-              path="/ems-fd/deputies/create"
-              Component={CreateDeputyPage}
-            />
             <AuthRoute requirement="ems_fd" path="/ems-fd/deputies" Component={MyEmsDeputiesPage} />
+
             <AuthRoute path="/account" Component={AccountPage} />
             <AuthRoute
               path="/admin/manage/members/:id"

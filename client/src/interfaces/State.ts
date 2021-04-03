@@ -24,7 +24,6 @@ interface State {
     isAuth: boolean;
     loading: boolean;
     user: User | null;
-    error: string | null;
   };
   bleets: {
     bleets: Bleet[];
