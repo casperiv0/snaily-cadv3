@@ -5,44 +5,45 @@ import Officer from "../../interfaces/Officer";
 import lang from "../../language.json";
 import User from "../../interfaces/User";
 import { adminRanks } from "../AuthRoute";
+import { ModalIds } from "../../lib/types";
 
 export interface MButton {
   name: string;
-  target: string;
+  target: ModalIds;
 }
 
 const modalButtons: MButton[] = [
   {
     name: lang.global.name_search,
-    target: "#nameSearchModal",
+    target: ModalIds.NameSearch,
   },
   {
     name: lang.global.plate_search,
-    target: "#plateSearchModal",
+    target: ModalIds.PlateSearch,
   },
   {
     name: lang.global.weapon_search,
-    target: "#weaponSearchModal",
+    target: ModalIds.WeaponSearch,
   },
   {
     name: lang.global.create_written_warning,
-    target: "#createWrittenWarningModal",
+    target: ModalIds.CreateWrittenWarning,
   },
   {
     name: lang.global.create_ticket,
-    target: "#createTicketModal",
+    target: ModalIds.CreateTicket,
   },
   {
     name: lang.global.create_arrest_report,
-    target: "#createArrestReportModal",
+    target: ModalIds.CreateArrestReport,
   },
   {
     name: lang.global.create_bolo,
-    target: "#createBoloModal",
+    target: ModalIds.CreateBolo,
   },
   {
     name: lang.global.notepad,
-    target: "#notepad",
+    target: ModalIds.Notepad,
   },
 ];
 

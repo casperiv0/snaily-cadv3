@@ -38,6 +38,7 @@ import User from "../../interfaces/User";
 import blipTypes from "../../components/dispatch/map/blips";
 import { notify } from "../../lib/functions";
 import Loader from "../../components/loader";
+import { ModalIds } from "../../lib/types";
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 
 /* 
@@ -706,7 +707,7 @@ class MapClass extends Component<Props, MapState> {
           </button>
           <button
             data-bs-toggle="modal"
-            data-bs-target="#call911Modal"
+            data-bs-target={`#${ModalIds.Call911}`}
             className="btn btn-primary mx-2"
           >
             {window.lang.global.create_911_call}

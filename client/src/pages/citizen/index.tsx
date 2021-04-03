@@ -91,7 +91,7 @@ const CitizensPage: React.FC<Props> = (props) => {
           {isCadFeatureEnabled(cadInfo?.features, "tow") ? (
             <button
               data-bs-toggle="modal"
-              data-bs-target="#callTowModal"
+              data-bs-target={`#${ModalIds.CallTow}`}
               className="col ms-1 btn btn-primary"
             >
               {lang.citizen.call_tow}
@@ -99,7 +99,7 @@ const CitizensPage: React.FC<Props> = (props) => {
           ) : null}
           <button
             data-bs-toggle="modal"
-            data-bs-target="#call911Modal"
+            data-bs-target={`#${ModalIds.Call911}`}
             className="col ms-1 btn btn-primary"
           >
             {lang.citizen.call_911}
@@ -107,7 +107,7 @@ const CitizensPage: React.FC<Props> = (props) => {
           {isCadFeatureEnabled(cadInfo?.features, "taxi") ? (
             <button
               data-bs-toggle="modal"
-              data-bs-target="#callTaxiModal"
+              data-bs-target={`#${ModalIds.CallTaxi}`}
               className="col ms-1 btn btn-primary"
             >
               {window.lang.taxi.create_taxi_call}

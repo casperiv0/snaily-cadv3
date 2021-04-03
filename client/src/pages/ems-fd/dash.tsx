@@ -15,7 +15,7 @@ import { get10Codes } from "../../lib/actions/admin";
 import AddMedicalRecordModal from "../../components/modals/ems-fd/addMedicalRecordModal";
 import useDocTitle from "../../hooks/useDocTitle";
 import { notify, playSound } from "../../lib/functions";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   aop: string | null;
@@ -82,7 +82,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
           </Link>
           <button
             className="btn btn-secondary col-md-3"
-            data-bs-target="#searchMedicalRecordsModal"
+            data-bs-target={`#${ModalIds.SearchMedicalRecords}`}
             data-bs-toggle="modal"
           >
             {lang.global.medical_search}
@@ -92,14 +92,14 @@ const EmsFdDash: React.FC<Props> = (props) => {
             type="button"
             className="btn btn-secondary col-md-3"
             data-bs-toggle="modal"
-            data-bs-target="#addMedicalRecord"
+            data-bs-target={`#${ModalIds.AddMedicalRecord}`}
           >
             {window.lang.ems_fd.add_medical_record}
           </button>
 
           <button
             className="btn btn-secondary col-md-3"
-            data-bs-target="#notepad"
+            data-bs-target={`#${ModalIds.Notepad}`}
             data-bs-toggle="modal"
           >
             {lang.global.notepad}

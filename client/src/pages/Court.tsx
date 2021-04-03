@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import RequestExpungementModal from "../components/modals/court/RequestExpungementModal";
 import State from "../interfaces/State";
 import useDocTitle from "../hooks/useDocTitle";
+import { ModalIds } from "../lib/types";
 
 interface Props {
   requests: ExpungementRequest[];
@@ -26,7 +27,7 @@ const CourthousePage: React.FC<Props> = ({ requests, getExpungementRequests }) =
           <button
             type="button"
             data-bs-toggle="modal"
-            data-bs-target="#requestExpungementModal"
+            data-bs-target={`#${ModalIds.RequestExpungement}`}
             className="btn btn-primary"
           >
             {window.lang.court.request_expungement}

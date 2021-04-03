@@ -640,7 +640,7 @@ const NameSearchModal: React.FC<Props> = ({
               <button
                 type="button"
                 className="btn btn-danger"
-                data-bs-target="#createTicketModal"
+                data-bs-target={`#${ModalIds.CreateTicket}`}
                 data-bs-toggle="modal"
               >
                 {lang.global.create_ticket}
@@ -648,7 +648,7 @@ const NameSearchModal: React.FC<Props> = ({
               <button
                 type="button"
                 className="btn btn-danger"
-                data-bs-target="#createArrestReportModal"
+                data-bs-target={`#${ModalIds.CreateArrestReport}`}
                 data-bs-toggle="modal"
               >
                 {lang.global.create_arrest_report}

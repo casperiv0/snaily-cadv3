@@ -9,6 +9,7 @@ import EditPasswordModal from "../../components/modals/account/EditPasswordModal
 import { Item, Span } from "../citizen/citizen-info";
 import useDocTitle from "../../hooks/useDocTitle";
 import { unlinkSteam } from "../../lib/actions/auth";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
   user: User | null;
@@ -33,7 +34,7 @@ const AccountPage: React.FC<Props> = ({ user, unlinkSteam }) => {
           <div className="d-flex">
             <button
               data-bs-toggle="modal"
-              data-bs-target="#editPasswordModal"
+              data-bs-target={`#${ModalIds.EditPassword}`}
               className="btn btn-primary me-2"
             >
               {lang.auth.account.edit_password}
@@ -43,7 +44,7 @@ const AccountPage: React.FC<Props> = ({ user, unlinkSteam }) => {
             ) : (
               <button
                 data-bs-toggle="modal"
-                data-bs-target="#deleteAccountModal"
+                data-bs-target={`#${ModalIds.DeleteAccount}`}
                 className="btn btn-danger"
               >
                 {lang.auth.account.delete_acc}

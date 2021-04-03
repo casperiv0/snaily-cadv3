@@ -67,7 +67,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
                       <div>
                         <button
                           data-bs-toggle="modal"
-                          data-bs-target="#nameSearchModal"
+                          data-bs-target={`#${ModalIds.NameSearch}`}
                           className="btn btn-primary"
                         >
                           {window.lang.dispatch.open_name_search}

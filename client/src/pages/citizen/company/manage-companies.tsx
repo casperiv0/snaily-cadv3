@@ -7,6 +7,7 @@ import CreateCompanyModal from "../../../components/modals/company/createCompany
 import lang from "../../../language.json";
 import { getCompanyData } from "../../../lib/actions/company";
 import useDocTitle from "../../../hooks/useDocTitle";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   message: string;
@@ -28,7 +29,7 @@ const ManageCompaniesPage: React.FC<Props> = ({ message, getCompanyData }) => {
         type="button"
         className="btn btn-dark p-2 container mb-2"
         data-bs-toggle="modal"
-        data-bs-target="#joinCompanyModal"
+        data-bs-target={`#${ModalIds.JoinCompany}`}
       >
         {lang.citizen.company.join}
       </button>
@@ -36,7 +37,7 @@ const ManageCompaniesPage: React.FC<Props> = ({ message, getCompanyData }) => {
         type="button"
         className="btn btn-dark p-2 container"
         data-bs-toggle="modal"
-        data-bs-target="#createCompanyModal"
+        data-bs-target={`#${ModalIds.CreateCompany}`}
       >
         {lang.citizen.company.create}
       </button>

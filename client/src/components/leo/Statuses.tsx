@@ -8,7 +8,7 @@ import { get10Codes } from "../../lib/actions/admin";
 import { getCurrentOfficer, setStatus } from "../../lib/actions/officer";
 import { filterCodes } from "../../lib/functions";
 import socket from "../../lib/socket";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   status: string | null;
@@ -73,7 +73,7 @@ const Statuses: React.FC<Props> = ({
         <button
           type="button"
           data-bs-toggle="modal"
-          data-bs-target="#selectOfficerModal"
+          data-bs-target={`#${ModalIds.SelectOfficer}`}
           className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
         >
           10-8
