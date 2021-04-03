@@ -7,8 +7,9 @@ import { getBleetPosts } from "../../lib/actions/bleeter";
 import BleetItem from "../../components/bleeter/bleetItem";
 import Loader from "../../components/loader";
 import AlertMessage from "../../components/alert-message";
-import { Link } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import CreateBleetModal from "../../components/modals/bleeter/CreateBleetModal";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
   bleets: Bleet[];
@@ -31,9 +32,13 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
     <Layout>
       <div className="pb-3 d-flex justify-content-between">
         <h3>{window.lang.nav.bleeter}</h3>
-        <Link className="btn btn-primary" to="/bleeter/create">
+        <button
+          className="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target={`#${ModalIds.CreateBleet}`}
+        >
           {window.lang.bleeter.create_bleet}
-        </Link>
+        </button>
       </div>
 
       {!bleets[0] ? (
@@ -44,6 +49,8 @@ const BleetPage: React.FC<Props> = ({ bleets, loading, getBleetPosts }) => {
           return <BleetItem key={idx} bleet={bleet} idx={idx} />;
         })
       )}
+
+      <CreateBleetModal />
     </Layout>
   );
 };

@@ -32,8 +32,6 @@ const NotEnabledPage = React.lazy(() => import("./pages/not-enabled"));
 
 const BleeterPage = React.lazy(() => import("./pages/bleeter"));
 const BleetPage = React.lazy(() => import("./pages/bleeter/bleet"));
-const EditBleet = React.lazy(() => import("./pages/bleeter/edit-bleet"));
-const CreateBleetPage = React.lazy(() => import("./pages/bleeter/create-bleet"));
 const Login = React.lazy(() => import("./pages/auth/login"));
 const Register = React.lazy(() => import("./pages/auth/register"));
 
@@ -114,9 +112,7 @@ ReactDOM.render(
             <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
-            <AuthRoute path="/bleeter/create" Component={CreateBleetPage} />
             <AuthRoute path="/bleeter" Component={BleeterPage} />
-            <AuthRoute path="/bleet/edit/:id" Component={EditBleet} />
             <AuthRoute path="/bleet/:id" Component={BleetPage} />
             <AuthRoute requirement="leo" path="/leo/my-logs" Component={OfficerLogsPage} />
             <AuthRoute requirement="leo" path="/leo/dash" Component={LeoDash} />

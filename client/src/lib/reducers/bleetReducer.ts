@@ -1,6 +1,12 @@
 import Bleet from "../../interfaces/Bleet";
 import State from "../../interfaces/State";
-import { GET_BLEETS, SET_LOADING_BLEETS, GET_BLEET_BY_ID } from "../types";
+import {
+  GET_BLEETS,
+  SET_LOADING_BLEETS,
+  GET_BLEET_BY_ID,
+  CREATE_BLEET,
+  UPDATE_BLEET,
+} from "../types";
 
 const initState: State["bleets"] = {
   bleets: [],
@@ -11,7 +17,7 @@ const initState: State["bleets"] = {
 
 type Actions =
   | {
-      type: typeof GET_BLEETS;
+      type: typeof GET_BLEETS | typeof CREATE_BLEET;
       bleets: Bleet[];
     }
   | {
@@ -19,13 +25,14 @@ type Actions =
       loading: boolean;
     }
   | {
-      type: typeof GET_BLEET_BY_ID;
+      type: typeof GET_BLEET_BY_ID | typeof UPDATE_BLEET;
       bleet: Bleet;
     };
 
 export default function bleetReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_BLEETS":
+    case "CREATE_BLEET":
       return {
         ...state,
         bleets: action.bleets,
@@ -36,6 +43,7 @@ export default function bleetReducer(state = initState, action: Actions) {
         loading: action.loading,
       };
     case "GET_BLEET_BY_ID":
+    case "UPDATE_BLEET":
       return {
         ...state,
         bleet: action.bleet,

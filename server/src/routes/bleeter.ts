@@ -56,7 +56,8 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
       file.mv(`./public/bleeter-images/${imageId}`);
     }
 
-    return res.json({ status: "success", id: id });
+    const bleets = await processQuery("SELECT * FROM `bleets` ORDER BY `id` DESC");
+    return res.json({ status: "success", bleets });
   } else {
     return res.json({
       error: "Please fill in all fields",
@@ -68,6 +69,9 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
   const { id } = req.params;
   const bleet = await processQuery("SELECT * FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
+  const uploadedBy = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+    bleet[0].user_id,
+  ]);
 
   if (!bleet[0]) {
     return res.json({
@@ -108,7 +112,14 @@ router.put("/:id", useAuth, async (req: IRequest, res: Response) => {
       file.mv(`./public/bleeter/${fileName}`);
     }
 
-    return res.json({ status: "success", bleet });
+    const updated = await processQuery("SELECT * FROM `bleets` WHERE `bleets`.`id` = ?", [id]);
+    return res.json({
+      status: "success",
+      bleet: {
+        uploadedBy: uploadedBy[0].username,
+        ...updated[0],
+      },
+    });
   } else {
     return res.json({ error: "Please fill in all fields", status: "error" });
   }

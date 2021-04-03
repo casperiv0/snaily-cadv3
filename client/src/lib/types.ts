@@ -203,4 +203,6 @@ export enum ModalIds {
   AddValue = "addValueModal",
   EditValue = "editValueModal",
   CreateEmsFd = "createEmsFdModal",
+  CreateBleet = "createBleetModal",
+  EditBleet = "editBleetModal",
 }

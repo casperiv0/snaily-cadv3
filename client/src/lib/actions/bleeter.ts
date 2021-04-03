@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { handleRequest, isSuccess, notify } from "../functions";
+import { handleRequest, isSuccess, modal, notify } from "../functions";
 import {
   GET_BLEETS,
   GET_BLEET_BY_ID,
@@ -7,6 +7,7 @@ import {
   UPDATE_BLEET,
   DELETE_BLEET_BY_ID,
   CREATE_BLEET,
+  ModalIds,
 } from "../types";
 import Bleet from "../../interfaces/Bleet";
 import Logger from "../Logger";
@@ -59,7 +60,7 @@ export const getBleetById = (id: string) => async (dispatch: Dispatch<IDispatch>
 
 export const createBleet = (data: { title: string; body: string; image: any }) => async (
   dispatch: Dispatch<IDispatch>,
-): Promise<boolean | string> => {
+): Promise<boolean> => {
   try {
     const { title, body, image } = data;
 
@@ -76,9 +77,10 @@ export const createBleet = (data: { title: string; body: string; image: any }) =
     if (isSuccess(res)) {
       dispatch({
         type: CREATE_BLEET,
+        bleets: res.data.bleets,
       });
 
-      return `/bleet/${res.data.id}`;
+      return true;
     } else {
       notify(res.data.error).warn();
       return false;
@@ -89,19 +91,18 @@ export const createBleet = (data: { title: string; body: string; image: any }) =
   }
 };
 
-export const updateBleet = (data: object, id: string) => async (
-  dispatch: Dispatch<IDispatch>,
-): Promise<boolean | string> => {
+export const updateBleet = (id: string, data: object) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/bleeter/${id}`, "PUT", data);
 
     if (isSuccess(res)) {
       dispatch({
         type: UPDATE_BLEET,
+        bleet: res.data.bleet,
       });
 
       notify("Successfully updated bleet").success();
-      return `/bleet/${id}`;
+      modal(ModalIds.EditBleet).hide();
     } else {
       notify(res.data.error).warn();
       return false;
