@@ -26,6 +26,7 @@ import {
   REMOVE_USER,
   SET_ADMIN_LOADING,
   UPDATE_PENAL_CODES,
+  GET_TEMP_PASSWORD,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -54,6 +55,7 @@ interface IDispatch {
   penalCodes?: PenalCode[];
   loading?: boolean;
   unit?: Officer | Deputy;
+  tempPassword?: string;
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -92,7 +94,7 @@ export const getMemberById = (id: string) => async (dispatch: Dispatch<IDispatch
   }
 };
 
-export const updateMemberPerms = (id: string, data: object) => async (
+export const updateMemberPerms = (id: string, data: Record<string, unknown>) => async (
   dispatch: Dispatch<IDispatch>,
 ) => {
   try {
@@ -108,6 +110,22 @@ export const updateMemberPerms = (id: string, data: object) => async (
     }
   } catch (e) {
     Logger.error(UPDATE_MEMBER_PERMS, e);
+  }
+};
+
+export const getTempPassword = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    dispatch({ type: SET_ADMIN_LOADING, loading: true });
+    const res = await handleRequest(`/admin/management/members/temp-password/${id}`, "POST");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_TEMP_PASSWORD,
+        tempPassword: res.data.tempPassword,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_TEMP_PASSWORD, e);
   }
 };
 

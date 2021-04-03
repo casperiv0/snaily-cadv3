@@ -453,6 +453,7 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `rank` varchar(255) NOT NULL,
+  `edit_passwords` varchar(255) NOT NULL,
   `leo` varchar(255) NOT NULL,
   `supervisor` varchar(255) NOT NULL,
   `ems_fd` varchar(255) NOT NULL,

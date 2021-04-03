@@ -147,6 +147,8 @@ export const CREATE_10_CODE = "CREATE_10_CODE";
 export const DELETE_10_CODE = "DELETE_10_CODE";
 export const UPDATE_10_CODE = "UPDATE_10_CODE";
 
+export const GET_TEMP_PASSWORD = "GET_TEMP_PASSWORD";
+
 export enum SOCKET_EVENTS {
   CHECK_CONNECTION = "CHECK_CONNECTION",
   CONNECTION_ERROR = "connection_error",

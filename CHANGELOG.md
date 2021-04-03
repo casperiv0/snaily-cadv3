@@ -4,6 +4,7 @@
 
 ## 1.5.0
 
+- New: Selected admins can add temp passwords (if a user has lost their password)
 - Major: Replaced several pages with modals (popups)
 - Major: Improvements to modals
 - Major: Tons of bug fixes and improvements to code

@@ -11,7 +11,10 @@ import usePermission from "../hooks/usePermission";
 import { createNotification } from "./notifications";
 import { v4 } from "uuid";
 import Code10 from "../interfaces/Code10";
+import { generateString } from "../lib/functions";
+import { hashSync } from "bcryptjs";
 const router: Router = Router();
+import { saltRounds } from "./auth/";
 
 export interface Item {
   value: string;
@@ -82,7 +85,7 @@ router.get(
   usePermission(["admin", "owner", "moderator"]),
   async (_req: IRequest, res: Response) => {
     const members = await processQuery<IUser>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`  FROM `users` ORDER BY `username` ASC",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`, `edit_passwords`  FROM `users` ORDER BY `username` ASC",
     );
 
     return res.json({ status: "success", members });
@@ -96,7 +99,7 @@ router.get(
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
     const member = await processQuery<IUser>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`, `edit_passwords` FROM `users` WHERE `id` = ?",
       [id],
     );
 
@@ -110,7 +113,7 @@ router.put(
   usePermission(["admin", "owner", "moderator"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
-    const { rank, leo, dispatch, emsFd, tow, supervisor, steam_id } = req.body;
+    const { rank, leo, dispatch, emsFd, tow, supervisor, steam_id, edit_passwords } = req.body;
 
     const previous = await processQuery<IUser>("SELECT `rank` FROM `users` WHERE `id` = ?", [id]);
 
@@ -135,7 +138,7 @@ router.put(
       }
 
       await processQuery(
-        "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ?, `supervisor` = ?, `steam_id` = ? WHERE `id` = ?",
+        "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ?, `supervisor` = ?, `steam_id` = ?, `edit_passwords` = ? WHERE `id` = ?",
         [
           rank,
           leo ?? previous,
@@ -144,12 +147,13 @@ router.put(
           tow,
           supervisor,
           steam_id ?? previous[0].steam_id,
+          ["admin", "owner"].includes(rank) ? edit_passwords : "0",
           id,
         ],
       );
 
       const updated = await processQuery<IUser>(
-        "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`  FROM `users` WHERE `id` = ?",
+        "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`, `edit_passwords`  FROM `users` WHERE `id` = ?",
         [id],
       );
 
@@ -232,14 +236,44 @@ router.put(
     }
 
     const members = await processQuery<IUser>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`  FROM `users`",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `edit_passwords`  FROM `users`",
     );
     const updated = await processQuery<IUser>(
-      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url` FROM `users` WHERE `id` = ?",
+      "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `edit_passwords` FROM `users` WHERE `id` = ?",
       [id],
     );
 
     return res.json({ status: "success", member: updated[0], members });
+  },
+);
+
+router.post(
+  "/members/temp-password/:id",
+  useAuth,
+  usePermission(["admin", "owner"]),
+  async (req: IRequest, res: Response) => {
+    const user = await processQuery<IUser>(
+      "SELECT `rank`, `edit_passwords` FROM `users` WHERE `id` = ?",
+      [req.userId],
+    );
+
+    if (user[0].edit_passwords === "1" || ["admin", "owner"].includes(user[0].rank)) {
+      const randomString = generateString(8, "#@&§è!çà-_$ù£=/?:");
+
+      const hash = hashSync(randomString, saltRounds);
+
+      await processQuery("UPDATE `users` SET `password` = ? WHERE `id` = ?", [hash, req.params.id]);
+
+      return res.json({
+        status: "success",
+        tempPassword: randomString,
+      });
+    } else {
+      return res.json({
+        status: "error",
+        error: "Forbidden",
+      });
+    }
   },
 );
 

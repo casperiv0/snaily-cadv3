@@ -60,6 +60,7 @@ async function updateDb() {
   
   `);
 
+  updateLine("ALTER TABLE `users` ADD `edit_passwords` varchar(255) NOT NULL AFTER `rank`;");
   updateLine("ALTER TABLE `911calls` ADD `type` varchar(255) NOT NULL AFTER `status`;");
   updateLine("ALTER TABLE `10_codes` ADD `position` int(255) NOT NULL AFTER `should_do`;");
   updateLine("ALTER TABLE `officers` DROP `started_at`;");

@@ -31,6 +31,7 @@ import {
   SET_ADMIN_LOADING,
   UPDATE_10_CODE,
   UPDATE_PENAL_CODES,
+  GET_TEMP_PASSWORD,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -46,6 +47,7 @@ const initState: State["admin"] = {
   loading: false,
   ems_fd: [],
   unit: null,
+  tempPassword: null,
 };
 
 type Actions =
@@ -101,9 +103,13 @@ type Actions =
   | {
       type: typeof SET_ADMIN_LOADING;
       loading: boolean;
+    }
+  | {
+      type: typeof GET_TEMP_PASSWORD;
+      tempPassword: string;
     };
 
-export default function adminReducer(state = initState, action: Actions) {
+export default function adminReducer(state = initState, action: Actions): State["admin"] {
   switch (action.type) {
     case "GET_COMPANIES":
     case "DELETE_COMPANY":
@@ -183,6 +189,12 @@ export default function adminReducer(state = initState, action: Actions) {
       return {
         ...state,
         loading: action.loading,
+      };
+    case "GET_TEMP_PASSWORD":
+      return {
+        ...state,
+        tempPassword: action.tempPassword,
+        loading: false,
       };
     default:
       return {

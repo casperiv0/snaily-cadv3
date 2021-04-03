@@ -7,11 +7,12 @@ import { io } from "../server";
 import { WhitelistedChars } from "./constants";
 import { WebHook, WebHookData } from "../interfaces/Discord";
 
-export function generateString(length: number): string {
+export function generateString(length: number, extraChars: string = ""): string {
   let result = "";
+  const allChars = chars + extraChars;
 
   for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+    result += allChars.charAt(Math.floor(Math.random() * allChars.length));
   }
 
   return result;

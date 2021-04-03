@@ -125,6 +125,8 @@ interface State {
            */
           logs?: OfficerLog[];
         });
+
+    tempPassword: string | null;
   };
   notifications: {
     items: Notification[];
