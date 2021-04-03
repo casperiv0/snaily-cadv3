@@ -5,7 +5,7 @@ import Call, { Unit } from "../../../interfaces/Call";
 import { connect } from "react-redux";
 import { end911Call, update911Call } from "../../../lib/actions/911-calls";
 import { addCallEvent } from "../../../lib/actions/dispatch";
-import { getCallTypes } from "../../../lib/actions/values";
+import { getValuesByPath } from "../../../lib/actions/values";
 import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
 import Deputy from "../../../interfaces/Deputy";
@@ -13,13 +13,14 @@ import Select, { Value as SelectValue } from "../../select";
 import Value from "../../../interfaces/Value";
 import { modal } from "../../../lib/functions";
 import { ModalIds } from "../../../lib/types";
+import ValuePaths from "../../../interfaces/ValuePaths";
 
 interface Props {
   call: Call | null;
   officers: Officer[];
   ems_fd: Deputy[];
   callTypes: Value[];
-  getCallTypes: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   end911Call: (id: string) => void;
   update911Call: (id: string, data: Partial<Call>) => void;
   addCallEvent: (callId: string, text: string) => void;
@@ -30,7 +31,7 @@ const Update911Call: React.FC<Props> = ({
   officers: activeOfficers,
   ems_fd: activeEmsFdDeputies,
   callTypes,
-  getCallTypes,
+  getValuesByPath,
   end911Call,
   update911Call,
   addCallEvent,
@@ -53,8 +54,8 @@ const Update911Call: React.FC<Props> = ({
   }, [call]);
 
   React.useEffect(() => {
-    getCallTypes();
-  }, [getCallTypes]);
+    getValuesByPath("call-types");
+  }, [getValuesByPath]);
 
   React.useEffect(() => {
     setActiveUnits([...activeEmsFdDeputies, ...activeOfficers]);
@@ -244,6 +245,6 @@ const mapToProps = (state: State) => ({
   callTypes: state.values["call-types"],
 });
 
-export default connect(mapToProps, { end911Call, update911Call, addCallEvent, getCallTypes })(
+export default connect(mapToProps, { end911Call, update911Call, addCallEvent, getValuesByPath })(
   Update911Call,
 );

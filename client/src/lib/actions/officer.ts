@@ -11,14 +11,13 @@ import {
   GET_MY_OFFICERS,
   DELETE_OFFICER_BY_ID,
   CREATE_OFFICER,
-  GET_DEPARTMENTS,
   NAME_SEARCH,
   PLATE_SEARCH,
   WEAPON_SEARCH,
-  GET_ADMIN_DEPARTMENTS,
   SAVE_NOTE,
   GET_MY_OFFICER_LOGS,
   REMOVE_RECORD,
+  GET_DEPARTMENTS,
 } from "../types";
 import PenalCode from "../../interfaces/PenalCode";
 
@@ -117,7 +116,7 @@ export const getMyOfficerLogs = () => async (dispatch: Dispatch<IDispatch>) => {
   }
 };
 
-export const createOfficer = (data: object) => async (
+export const createOfficer = (data: Record<string, unknown>) => async (
   dispatch: Dispatch<IDispatch>,
 ): Promise<boolean> => {
   try {
@@ -126,6 +125,7 @@ export const createOfficer = (data: object) => async (
     if (isSuccess(res)) {
       dispatch({ type: CREATE_OFFICER, officers: res.data.officers });
 
+      notify(`${lang.officers.create_officer_success} ${data.name}`).success();
       return true;
     } else {
       notify(res.data.error).warn();
@@ -154,13 +154,13 @@ export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IDispatch
   }
 };
 
-export const getDepartments = (type: "admin" | "leo") => async (dispatch: Dispatch<IDispatch>) => {
+export const getDepartments = () => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest("/officer/departments", "GET");
 
     if (isSuccess(res)) {
       dispatch({
-        type: type === "admin" ? GET_ADMIN_DEPARTMENTS : GET_DEPARTMENTS,
+        type: GET_DEPARTMENTS,
         departments: res.data.departments,
       });
     }

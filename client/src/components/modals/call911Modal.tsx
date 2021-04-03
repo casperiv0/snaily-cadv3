@@ -7,17 +7,18 @@ import { useLocation } from "react-router";
 import Select, { Value as SelectValue } from "../select";
 import State from "../../interfaces/State";
 import Value from "../../interfaces/Value";
-import { getCallTypes } from "../../lib/actions/values";
+import { getValuesByPath } from "../../lib/actions/values";
 import { modal } from "../../lib/functions";
 import { ModalIds } from "../../lib/types";
+import ValuePaths from "../../interfaces/ValuePaths";
 
 interface Props {
   callTypes: Value[];
-  getCallTypes: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   create911Call: (data: object) => Promise<boolean>;
 }
 
-const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call }) => {
+const Call911Modal: React.FC<Props> = ({ callTypes, getValuesByPath, create911Call }) => {
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
@@ -25,9 +26,8 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
   const locationPath = useLocation();
 
   React.useEffect(() => {
-    getCallTypes();
-  }, [getCallTypes]);
-
+    getValuesByPath("call-types");
+  }, [getValuesByPath]);
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -128,4 +128,4 @@ const mapToProps = (state: State) => ({
   callTypes: state.values["call-types"],
 });
 
-export default connect(mapToProps, { create911Call, getCallTypes })(Call911Modal);
+export default connect(mapToProps, { create911Call, getValuesByPath })(Call911Modal);

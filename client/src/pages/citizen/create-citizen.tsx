@@ -7,18 +7,17 @@ import Citizen from "../../interfaces/Citizen";
 import Field from "../../interfaces/Field";
 import { createCitizen } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
-import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
+import { getValuesByPath } from "../../lib/actions/values";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 import Select from "../../components/select";
+import ValuePaths from "../../interfaces/ValuePaths";
 
 interface Props {
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
-  getGenders: () => void;
-  getEthnicities: () => void;
-  getLegalStatuses: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
 }
 
@@ -26,9 +25,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   genders,
   ethnicities,
   legalStatuses,
-  getGenders,
-  getEthnicities,
-  getLegalStatuses,
+  getValuesByPath,
   createCitizen,
 }) => {
   useDocTitle(window.lang.citizen.create_citizen);
@@ -50,10 +47,10 @@ const CreateCitizenPage: React.FC<Props> = ({
   const history = useHistory();
 
   React.useEffect(() => {
-    getGenders();
-    getEthnicities();
-    getLegalStatuses();
-  }, [getGenders, getEthnicities, getLegalStatuses]);
+    getValuesByPath("ethnicities");
+    getValuesByPath("genders");
+    getValuesByPath("legal-statuses");
+  }, [getValuesByPath]);
 
   const fields: Field[] = [
     {
@@ -289,8 +286,6 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  getGenders,
-  getEthnicities,
-  getLegalStatuses,
+  getValuesByPath,
   createCitizen,
 })(CreateCitizenPage);

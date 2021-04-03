@@ -5,20 +5,21 @@ import State from "../../../interfaces/State";
 import Value from "../../../interfaces/Value";
 import lang from "../../../language.json";
 import Citizen from "../../../interfaces/Citizen";
-import { getLegalStatuses, getWeapons } from "../../../lib/actions/values";
+import { getValuesByPath } from "../../../lib/actions/values";
 import { getCitizens, registerWeapon } from "../../../lib/actions/citizen";
-import Select from "../../../components/select";
+import Select, { Value as SelectValue } from "../../../components/select";
 import Modal from "..";
 import { ModalIds } from "../../../lib/types";
 import { modal } from "../../../lib/functions";
+import ValuePaths from "../../../interfaces/ValuePaths";
 
 interface Props {
   weapons: Value[];
   legalStatuses: Value[];
   owners: Citizen[];
+  citizen: Citizen | null;
 
-  getWeapons: () => void;
-  getLegalStatuses: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   getCitizens: () => void;
   registerWeapon: (data: object) => Promise<boolean>;
 }
@@ -27,32 +28,38 @@ const RegisterWeaponModal: React.FC<Props> = ({
   weapons,
   legalStatuses,
   owners,
-  getWeapons,
+  citizen,
+  getValuesByPath,
   getCitizens,
   registerWeapon,
-  getLegalStatuses,
 }) => {
   const [weapon, setWeapon] = React.useState<string>("");
-  const [citizenId, setCitizenId] = React.useState<string>("");
+  const [citizenId, setCitizenId] = React.useState<SelectValue | null>(null);
   const [status, setStatus] = React.useState<string>("");
   const [serial, setSerial] = React.useState<string>("");
   const location = useLocation();
 
+  React.useEffect(() => {}, [citizen]);
+
   React.useEffect(() => {
-    getWeapons();
+    getValuesByPath("weapons");
+    if (citizen) {
+      setCitizenId({ value: citizen.id, label: citizen.full_name });
+    }
 
     if (location.pathname === "/citizen") {
       getCitizens();
-      getLegalStatuses();
+      getValuesByPath("legal-statuses");
+      setCitizenId(null);
     }
-  }, [getWeapons, getCitizens, getLegalStatuses, location]);
+  }, [getValuesByPath, getCitizens, location, citizen]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     const success = await registerWeapon({
       weapon,
-      citizenId,
+      citizenId: citizenId?.value,
       status,
       serial_number: serial.toUpperCase(),
     });
@@ -60,7 +67,7 @@ const RegisterWeaponModal: React.FC<Props> = ({
     if (success === true) {
       modal(ModalIds.RegisterWeapon).hide();
       setWeapon("");
-      setCitizenId("");
+      setCitizenId(null);
       setStatus("");
       setSerial("");
     }
@@ -92,9 +99,11 @@ const RegisterWeaponModal: React.FC<Props> = ({
             </label>
 
             <Select
+              disabled={location.pathname !== "/citizen" && !!citizen}
               isMulti={false}
               isClearable={false}
-              onChange={(v) => setCitizenId(v.value)}
+              value={citizenId}
+              onChange={(v) => setCitizenId(v)}
               options={owners.map((owner) => ({
                 value: owner.id,
                 label: owner.full_name,
@@ -148,11 +157,11 @@ const mapToProps = (state: State) => ({
   owners: state.citizen.citizens,
   weapons: state.values.weapons,
   legalStatuses: state.values["legal-statuses"],
+  citizen: state.citizen.citizen,
 });
 
 export default connect(mapToProps, {
-  getWeapons,
+  getValuesByPath,
   getCitizens,
   registerWeapon,
-  getLegalStatuses,
 })(RegisterWeaponModal);

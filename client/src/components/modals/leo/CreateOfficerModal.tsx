@@ -10,7 +10,7 @@ import Modal from "..";
 
 interface Props {
   departments: Department[];
-  createOfficer: (data: object) => Promise<boolean>;
+  createOfficer: (data: Record<string, unknown>) => Promise<boolean>;
   getDepartments: (type: "admin" | "leo") => void;
 }
 
@@ -33,6 +33,10 @@ const CreateOfficerModal: React.FC<Props> = ({ departments, createOfficer, getDe
     });
 
     if (created === true) {
+      setOfficerDept(null);
+      setOfficerName("");
+      setCallSign("");
+
       modal(ModalIds.CreateOfficer).hide();
     }
   }

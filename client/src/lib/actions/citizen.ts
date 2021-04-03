@@ -293,6 +293,7 @@ export const registerVehicle = (data: object) => async (
     if (isSuccess(res)) {
       dispatch({
         type: REGISTER_VEHICLE,
+        vehicles: res.data.vehicles,
       });
 
       return true;
@@ -365,6 +366,7 @@ export const registerWeapon = (data: object) => async (
     if (isSuccess(res)) {
       dispatch({
         type: REGISTER_WEAPON,
+        weapons: res.data.weapons,
       });
 
       notify("Successfully registered weapon").success();

@@ -4,15 +4,17 @@ import lang from "../../../language.json";
 import Value from "../../../interfaces/Value";
 import Citizen from "../../../interfaces/Citizen";
 import { connect } from "react-redux";
-import { getVehicles } from "../../../lib/actions/values";
+import { getValuesByPath } from "../../../lib/actions/values";
 import { getCitizens, registerVehicle } from "../../../lib/actions/citizen";
 import Company from "../../../interfaces/Company";
 import { getCompanies } from "../../../lib/actions/admin";
 import CadInfo from "../../../interfaces/CadInfo";
-import Select from "../../../components/select";
+import Select, { Value as SelectValue } from "../../../components/select";
 import Modal from "..";
 import { ModalIds } from "../../../lib/types";
 import { modal } from "../../../lib/functions";
+import ValuePaths from "../../../interfaces/ValuePaths";
+import { useLocation } from "react-router";
 
 interface Props {
   owners: Citizen[];
@@ -20,7 +22,9 @@ interface Props {
   legalStatuses: Value[];
   companies: Company[];
   cadInfo: CadInfo | null;
-  getVehicles: () => void;
+  citizen: Citizen | null;
+
+  getValuesByPath: (path: ValuePaths) => void;
   getCitizens: () => void;
   getCompanies: () => void;
   registerVehicle: (data: object) => Promise<boolean>;
@@ -32,7 +36,8 @@ const RegisterVehicleModal: React.FC<Props> = ({
   legalStatuses,
   companies,
   cadInfo,
-  getVehicles,
+  citizen,
+  getValuesByPath,
   getCitizens,
   registerVehicle,
   getCompanies,
@@ -41,14 +46,25 @@ const RegisterVehicleModal: React.FC<Props> = ({
   const [status, setStatus] = React.useState("");
   const [color, setColor] = React.useState("");
   const [vehicle, setVehicle] = React.useState("");
-  const [citizenId, setCitizenId] = React.useState("");
+  const [citizenId, setCitizenId] = React.useState<SelectValue | null>(null);
   const [companyId, setCompanyId] = React.useState("");
+  const location = useLocation();
 
   React.useEffect(() => {
-    getVehicles();
+    getValuesByPath("vehicles");
     getCitizens();
     getCompanies();
-  }, [getVehicles, getCitizens, getCompanies]);
+  }, [getValuesByPath, getCitizens, getCompanies]);
+
+  React.useEffect(() => {
+    if (citizen) {
+      setCitizenId({ label: citizen?.full_name, value: citizen?.id });
+    }
+
+    if (location.pathname === "/citizen") {
+      setCitizenId(null);
+    }
+  }, [location.pathname, citizen]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -67,7 +83,7 @@ const RegisterVehicleModal: React.FC<Props> = ({
       setStatus("");
       setColor("");
       setVehicle("");
-      setCitizenId("");
+      setCitizenId(null);
       setCompanyId("");
 
       modal(ModalIds.RegisterVehicle).hide();
@@ -134,10 +150,12 @@ const RegisterVehicleModal: React.FC<Props> = ({
             </label>
 
             <Select
+              disabled={location.pathname !== "/citizen" && !!citizen}
+              value={citizenId}
               id="owner"
               isMulti={false}
               isClearable={false}
-              onChange={(v) => setCitizenId(v.value)}
+              onChange={setCitizenId}
               options={owners.map((owner: Citizen) => ({
                 value: owner.id,
                 label: owner.full_name,
@@ -197,10 +215,11 @@ const mapToProps = (state: State) => ({
   legalStatuses: state.values["legal-statuses"],
   companies: state.admin.companies,
   cadInfo: state.global.cadInfo,
+  citizen: state.citizen.citizen,
 });
 
 export default connect(mapToProps, {
-  getVehicles,
+  getValuesByPath,
   getCitizens,
   registerVehicle,
   getCompanies,

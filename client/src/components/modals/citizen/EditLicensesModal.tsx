@@ -5,24 +5,25 @@ import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import Value from "../../../interfaces/Value";
 import Field from "../../../interfaces/Field";
-import { getLegalStatuses } from "../../../lib/actions/values";
+import { getValuesByPath } from "../../../lib/actions/values";
 import Select from "../../select";
 import Modal from "..";
 import { ModalIds } from "../../../lib/types";
 import { modal } from "../../../lib/functions";
 import { updateLicenses } from "../../../lib/actions/citizen";
+import ValuePaths from "../../../interfaces/ValuePaths";
 
 interface Props {
   citizen: Citizen | null;
   legalStatuses: Value[];
-  getLegalStatuses: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   updateLicenses: (id: string, data: object) => Promise<boolean>;
 }
 
 const EditLicensesModal: React.FC<Props> = ({
   citizen,
   legalStatuses,
-  getLegalStatuses,
+  getValuesByPath,
   updateLicenses,
 }) => {
   const [dmv, setDmv] = React.useState("");
@@ -78,8 +79,8 @@ const EditLicensesModal: React.FC<Props> = ({
   ];
 
   React.useEffect(() => {
-    getLegalStatuses();
-  }, [getLegalStatuses]);
+    getValuesByPath("legal-statuses");
+  }, [getValuesByPath]);
 
   React.useEffect(() => {
     if (citizen !== null) {
@@ -152,6 +153,6 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  getLegalStatuses,
+  getValuesByPath,
   updateLicenses,
 })(EditLicensesModal);

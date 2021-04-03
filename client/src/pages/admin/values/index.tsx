@@ -8,16 +8,7 @@ import Value from "../../../interfaces/Value";
 import lang from "../../../language.json";
 import AdminLayout from "../../../components/admin/AdminLayout";
 import ValuePaths from "../../../interfaces/ValuePaths";
-import { getDepartments } from "../../../lib/actions/officer";
-import {
-  getEthnicities,
-  getGenders,
-  getLegalStatuses,
-  getVehicles,
-  getWeapons,
-  getCallTypes,
-  deleteValue,
-} from "../../../lib/actions/values";
+import { deleteValue, getValuesByPath } from "../../../lib/actions/values";
 import useDocTitle from "../../../hooks/useDocTitle";
 import Loader from "../../../components/loader";
 import { useObserver } from "../../../hooks/useObserver";
@@ -29,14 +20,8 @@ interface Props {
   values: any;
   match: Match;
   loading: boolean;
-  getDepartments: (type: "admin" | "leo") => void;
-  getEthnicities: () => void;
-  getGenders: () => void;
-  getLegalStatuses: () => void;
-  getVehicles: () => void;
-  getWeapons: () => void;
-  getCallTypes: () => void;
   deleteValue: (id: string, path: ValuePaths) => void;
+  getValuesByPath: (path: ValuePaths) => void;
 }
 
 const paths: string[] = [
@@ -53,14 +38,9 @@ const Values: React.FC<Props> = ({
   values,
   match,
   loading,
-  getDepartments,
-  getEthnicities,
-  getGenders,
-  getLegalStatuses,
-  getVehicles,
-  getWeapons,
-  getCallTypes,
+
   deleteValue,
+  getValuesByPath,
 }) => {
   const [tempValue, setTempValue] = React.useState<Value | null>(null);
   const [filtered, setFiltered] = React.useState<any>([]);
@@ -78,47 +58,8 @@ const Values: React.FC<Props> = ({
   }, [values, path]);
 
   React.useEffect(() => {
-    switch (path) {
-      case "departments": {
-        getDepartments("admin");
-        break;
-      }
-      case "ethnicities": {
-        getEthnicities();
-        break;
-      }
-      case "genders": {
-        getGenders();
-        break;
-      }
-      case "legal-statuses": {
-        getLegalStatuses();
-        break;
-      }
-      case "vehicles": {
-        getVehicles();
-        break;
-      }
-      case "weapons": {
-        getWeapons();
-        break;
-      }
-      case "call-types": {
-        getCallTypes();
-        break;
-      }
-      default:
-    }
-  }, [
-    path,
-    getDepartments,
-    getEthnicities,
-    getGenders,
-    getLegalStatuses,
-    getVehicles,
-    getWeapons,
-    getCallTypes,
-  ]);
+    getValuesByPath(path);
+  }, [path, getValuesByPath]);
 
   function handleDelete(id: string) {
     deleteValue(id, path);
@@ -224,12 +165,6 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  getDepartments,
-  getEthnicities,
-  getGenders,
-  getLegalStatuses,
-  getVehicles,
-  getWeapons,
-  getCallTypes,
   deleteValue,
+  getValuesByPath,
 })(Values);

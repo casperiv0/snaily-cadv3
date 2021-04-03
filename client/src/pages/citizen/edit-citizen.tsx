@@ -8,11 +8,12 @@ import Citizen from "../../interfaces/Citizen";
 import Field from "../../interfaces/Field";
 import { updateCitizen, getCitizenById } from "../../lib/actions/citizen";
 import { connect } from "react-redux";
-import { getEthnicities, getGenders, getLegalStatuses } from "../../lib/actions/values";
+import { getValuesByPath } from "../../lib/actions/values";
 import Match from "../../interfaces/Match";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
 import Select, { Value as SelectValue } from "../../components/select";
+import ValuePaths from "../../interfaces/ValuePaths";
 
 interface Props {
   genders: Value[];
@@ -20,9 +21,7 @@ interface Props {
   legalStatuses: Value[];
   match: Match;
   citizen: Citizen | null;
-  getGenders: () => void;
-  getEthnicities: () => void;
-  getLegalStatuses: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   updateCitizen: (id: string, data: Partial<Citizen>) => Promise<boolean>;
   getCitizenById: (id: string) => void;
 }
@@ -33,9 +32,7 @@ const CreateCitizenPage: React.FC<Props> = ({
   legalStatuses,
   citizen,
   match,
-  getGenders,
-  getEthnicities,
-  getLegalStatuses,
+  getValuesByPath,
   updateCitizen,
   getCitizenById,
 }) => {
@@ -60,11 +57,11 @@ const CreateCitizenPage: React.FC<Props> = ({
   useDocTitle(`${citizen?.id ? `${window.lang.citizen.editing_citizen}: ${name}` : ""}`);
 
   React.useEffect(() => {
-    getGenders();
-    getEthnicities();
-    getLegalStatuses();
+    getValuesByPath("ethnicities");
+    getValuesByPath("genders");
+    getValuesByPath("legal-statuses");
     getCitizenById(citizenId);
-  }, [getGenders, getEthnicities, getLegalStatuses, getCitizenById, citizenId]);
+  }, [getValuesByPath, getCitizenById, citizenId]);
 
   React.useEffect(() => {
     if (citizen !== null) {
@@ -332,9 +329,7 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  getGenders,
-  getEthnicities,
-  getLegalStatuses,
+  getValuesByPath,
   updateCitizen,
   getCitizenById,
 })(CreateCitizenPage);

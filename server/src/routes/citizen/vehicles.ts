@@ -103,7 +103,12 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
       ],
     );
 
-    return res.json({ status: "success", citizenId });
+    const updated = await processQuery(
+      "SELECT * FROM `registered_cars` WHERE `citizen_id` = ? AND `user_id` = ?",
+      [citizenId, req.userId],
+    );
+
+    return res.json({ status: "success", citizenId, vehicles: updated });
   } else {
     return res.json({ status: "error", error: "Please fill in all fields" });
   }

@@ -10,16 +10,17 @@ import {
   UpdateOfficerData,
   get10Codes,
 } from "../../../../lib/actions/admin";
+import { getValuesByPath } from "../../../../lib/actions/values";
 import Officer, { OfficerLog } from "../../../../interfaces/Officer";
 import lang from "../../../../language.json";
 import Department from "../../../../interfaces/Department";
-import { getDepartments } from "../../../../lib/actions/officer";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import { Item, Span } from "../../../citizen/citizen-info";
 import Code10 from "../../../../interfaces/Code10";
 import Select, { Value } from "../../../../components/select";
 import Loader from "../../../../components/loader";
 import Deputy from "../../../../interfaces/Deputy";
+import ValuePaths from "../../../../interfaces/ValuePaths";
 
 interface Props {
   unit: (Officer | Deputy) | null;
@@ -29,7 +30,7 @@ interface Props {
   loading: boolean;
   getUnitById: (id: string) => void;
   updateUnitById: (officerId: string, data: UpdateOfficerData) => Promise<boolean>;
-  getDepartments: (type: "admin" | "leo") => void;
+  getValuesByPath: (path: ValuePaths) => void;
   get10Codes: () => void;
 }
 
@@ -41,7 +42,7 @@ const ManageOfficerPage: React.FC<Props> = ({
   loading,
   getUnitById,
   updateUnitById,
-  getDepartments,
+  getValuesByPath,
   get10Codes,
 }) => {
   const { id } = useParams<{ id: string }>();
@@ -59,9 +60,9 @@ const ManageOfficerPage: React.FC<Props> = ({
 
   React.useEffect(() => {
     getUnitById(id);
-    getDepartments("leo");
+    getValuesByPath("departments");
     get10Codes();
-  }, [id, getUnitById, getDepartments, get10Codes]);
+  }, [id, getUnitById, getValuesByPath, get10Codes]);
 
   React.useEffect(() => {
     if (unit) {
@@ -246,7 +247,7 @@ const ManageOfficerPage: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   unit: state.admin.unit,
-  departments: state.officers.departments,
+  departments: state.values.departments,
   logs: state.admin.unit?.logs,
   codes: state.admin.codes,
   loading: state.admin.loading,
@@ -255,6 +256,6 @@ const mapToProps = (state: State) => ({
 export default connect(mapToProps, {
   getUnitById,
   updateUnitById,
-  getDepartments,
+  getValuesByPath,
   get10Codes,
 })(ManageOfficerPage);

@@ -21,39 +21,19 @@ const initState: State["calls"] = {
 
 type Actions =
   | {
-      type: typeof GET_911_CALLS;
+      type:
+        | typeof GET_911_CALLS
+        | typeof CREATE_911_CALL
+        | typeof UPDATE_911_CALL
+        | typeof END_911_CALL;
       calls: Call[];
     }
   | {
-      type: typeof CREATE_911_CALL;
-      calls: Call[];
-    }
-  | {
-      type: typeof UPDATE_911_CALL;
-      calls: Call[];
-    }
-  | {
-      type: typeof END_911_CALL;
-      calls: Call[];
-    }
-  | {
-      type: typeof CREATE_TOW_CALL;
+      type: typeof CREATE_TOW_CALL | typeof GET_TOW_CALLS | typeof END_TOW_CALL;
       calls: TowCall[];
     }
   | {
-      type: typeof GET_TOW_CALLS;
-      calls: TowCall[];
-    }
-  | {
-      type: typeof END_TOW_CALL;
-      calls: TowCall[];
-    }
-  | {
-      type: typeof GET_TAXI_CALLS;
-      calls: TowCall[];
-    }
-  | {
-      type: typeof END_TAXI_CALL;
+      type: typeof GET_TAXI_CALLS | typeof END_TAXI_CALL;
       calls: TowCall[];
     };
 
