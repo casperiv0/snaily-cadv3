@@ -6,28 +6,29 @@ import Select from "../../../components/select";
 import State from "../../../interfaces/State";
 import Modal from "..";
 import { ModalIds } from "../../../lib/types";
+import { modal } from "../../../lib/functions";
 
 interface Props {
   citizenId: string | undefined;
-  createMedicalRecord: (data: object, id: string, shouldReturn: boolean) => void;
+  createMedicalRecord: (id: string, data: Record<string, unknown>) => Promise<boolean>;
 }
 
 const CreateMedicalRecordModal: React.FC<Props> = ({ citizenId, createMedicalRecord }) => {
   const [type, setType] = React.useState("Allergy");
   const [shortInfo, setShortInfo] = React.useState("");
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!citizenId) return;
 
-    createMedicalRecord(
-      {
-        type,
-        shortInfo,
-      },
-      citizenId,
-      true,
-    );
+    const created = await createMedicalRecord(citizenId, {
+      type,
+      shortInfo,
+    });
+
+    if (created === true) {
+      modal(ModalIds.CreateMedicalCreate).hide();
+    }
   }
 
   return (

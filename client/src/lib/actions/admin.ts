@@ -27,6 +27,7 @@ import {
   SET_ADMIN_LOADING,
   UPDATE_PENAL_CODES,
   GET_TEMP_PASSWORD,
+  CREATE_PENAL_CODE,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -470,7 +471,7 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispa
 
     if (isSuccess(res)) {
       dispatch({
-        type: GET_10_CODES,
+        type: CREATE_PENAL_CODE,
         penalCodes: res.data.penalCodes,
       });
 
@@ -480,7 +481,7 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispa
       return false;
     }
   } catch (e) {
-    Logger.error(GET_10_CODES, e);
+    Logger.error(CREATE_PENAL_CODE, e);
     notify(e).error();
     return false;
   }

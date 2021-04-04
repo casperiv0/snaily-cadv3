@@ -19,6 +19,7 @@ import {
   GET_VEHICLE_BY_ID,
   GET_ALL_CITIZENS,
   SEARCH_CITIZEN,
+  CREATE_MEDICAL_RECORD,
 } from "../types";
 
 const initState: State["citizen"] = {
@@ -57,7 +58,10 @@ type Actions =
       weapons: Weapon[];
     }
   | {
-      type: typeof GET_MEDICAL_RECORDS | typeof DELETE_MEDICAL_RECORD;
+      type:
+        | typeof GET_MEDICAL_RECORDS
+        | typeof DELETE_MEDICAL_RECORD
+        | typeof CREATE_MEDICAL_RECORD;
       medicalRecords: MedicalRecord[];
     }
   | {
@@ -112,6 +116,7 @@ export default function citizenReducer(state = initState, action: Actions) {
       };
     case "GET_MEDICAL_RECORDS":
     case "DELETE_MEDICAL_RECORD":
+    case "CREATE_MEDICAL_RECORD":
       return {
         ...state,
         medicalRecords: action.medicalRecords,

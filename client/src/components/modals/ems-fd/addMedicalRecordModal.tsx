@@ -12,11 +12,7 @@ import Select from "../../select";
 interface Props {
   citizens: Citizen[];
   getAllCitizens: () => void;
-  createMedicalRecord: (
-    data: object,
-    citizenId: string,
-    shouldReturn?: boolean,
-  ) => Promise<boolean | string>;
+  createMedicalRecord: (id: string, data: Record<string, unknown>) => Promise<boolean | string>;
 }
 
 const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMedicalRecord }) => {
@@ -32,14 +28,10 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
     e.preventDefault();
     if (!citizenId) return;
 
-    const success = await createMedicalRecord(
-      {
-        type,
-        shortInfo: description,
-      },
-      citizenId,
-      false,
-    );
+    const success = await createMedicalRecord(citizenId, {
+      type,
+      shortInfo: description,
+    });
 
     if (success) {
       modal(ModalIds.AddMedicalRecord).hide();

@@ -32,6 +32,7 @@ import {
   UPDATE_10_CODE,
   UPDATE_PENAL_CODES,
   GET_TEMP_PASSWORD,
+  CREATE_PENAL_CODE,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -97,7 +98,11 @@ type Actions =
       codes: Code10[];
     }
   | {
-      type: typeof DELETE_PENAL_CODE | typeof GET_PENAL_CODES | typeof UPDATE_PENAL_CODES;
+      type:
+        | typeof DELETE_PENAL_CODE
+        | typeof GET_PENAL_CODES
+        | typeof UPDATE_PENAL_CODES
+        | typeof CREATE_PENAL_CODE;
       penalCodes: PenalCode[];
     }
   | {
@@ -180,6 +185,7 @@ export default function adminReducer(state = initState, action: Actions): State[
     case "DELETE_PENAL_CODE":
     case "GET_PENAL_CODES":
     case "UPDATE_PENAL_CODES":
+    case "CREATE_PENAL_CODE":
       return {
         ...state,
         penalCodes: action.penalCodes,
