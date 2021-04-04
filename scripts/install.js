@@ -9,7 +9,7 @@ const serverInstall = `cd ${serverDir} && npm install`;
 const clientInstall = `cd ${clientDir} && npm install`;
 
 // this should fix issues such as: "'x' is not recognized as an internal or external command"
-const requiredDeps = "npm install -g ts-node nodemon";
+const requiredDeps = "npm install ts-node nodemon";
 
 async function install() {
   console.log(
