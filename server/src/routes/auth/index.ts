@@ -123,6 +123,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
         Whitelist.accepted /* whitelist_status */,
         "" /* steam_id */,
         "" /* avatar_url */,
+        "1",
       ]);
 
       const token = useToken({ id });
