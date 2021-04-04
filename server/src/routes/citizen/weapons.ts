@@ -31,7 +31,11 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
       [id, citizen[0].full_name, citizenId, weapon, serial, status, req.userId],
     );
 
-    return res.json({ status: "success", citizenId });
+    const weapons = await processQuery(
+      "SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?",
+      [citizenId],
+    );
+    return res.json({ status: "success", citizenId, weapons });
   } else {
     return res.json({ status: "error", error: "Please fill in all fields" });
   }

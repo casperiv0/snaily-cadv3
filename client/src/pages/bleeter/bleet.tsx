@@ -12,6 +12,8 @@ import User from "../../interfaces/User";
 import AlertMessage from "../../components/alert-message";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
+import EditBleetModal from "../../components/modals/bleeter/EditBleetModal";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
   bleet: IBleet | null;
@@ -68,9 +70,14 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
         </div>
         <div>
           {bleet?.id && user?.id === bleet?.user_id ? (
-            <Link className="btn btn-success mx-2" type="button" to={`/bleet/edit/${bleet.id}`}>
+            <button
+              className="btn btn-success mx-2"
+              type="button"
+              data-bs-target={`#${ModalIds.EditBleet}`}
+              data-bs-toggle="modal"
+            >
               {window.lang.bleeter.edit_bleet}
-            </Link>
+            </button>
           ) : null}
           {(user?.id && ["owner", "admin", "moderator"].includes(user.rank)) ||
           bleet?.user_id === user?.id ? (
@@ -93,6 +100,8 @@ const Bleet: React.FC<Props> = ({ loading, bleet, match, user, getBleetById, del
       <Markdown allowDangerousHtml className="mt-3">
         {bleet?.markdown ?? ""}
       </Markdown>
+
+      <EditBleetModal bleet={bleet} />
     </Layout>
   );
 };

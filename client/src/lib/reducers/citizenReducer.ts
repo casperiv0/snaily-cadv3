@@ -15,11 +15,11 @@ import {
   REGISTER_VEHICLE,
   GET_MEDICAL_RECORDS,
   DELETE_MEDICAL_RECORD,
-  DELETE_CITIZEN,
   UPDATE_VEHICLE,
   GET_VEHICLE_BY_ID,
   GET_ALL_CITIZENS,
   SEARCH_CITIZEN,
+  CREATE_MEDICAL_RECORD,
 } from "../types";
 
 const initState: State["citizen"] = {
@@ -44,37 +44,25 @@ type Actions =
       citizen: Citizen;
     }
   | {
-      type: typeof REGISTER_VEHICLE;
-    }
-  | {
-      type: typeof GET_REGISTERED_VEHICLES;
+      type:
+        | typeof GET_REGISTERED_VEHICLES
+        | typeof DELETE_REGISTERED_VEHICLE
+        | typeof REGISTER_VEHICLE;
       vehicles: Vehicle[];
     }
   | {
-      type: typeof DELETE_REGISTERED_VEHICLE;
-      vehicles: Vehicle[];
-    }
-  | {
-      type: typeof REGISTER_WEAPON;
-    }
-  | {
-      type: typeof GET_REGISTERED_WEAPONS;
+      type:
+        | typeof REGISTER_WEAPON
+        | typeof GET_REGISTERED_WEAPONS
+        | typeof DELETE_REGISTERED_WEAPON;
       weapons: Weapon[];
     }
   | {
-      type: typeof DELETE_REGISTERED_WEAPON;
-      weapons: Weapon[];
-    }
-  | {
-      type: typeof GET_MEDICAL_RECORDS;
+      type:
+        | typeof GET_MEDICAL_RECORDS
+        | typeof DELETE_MEDICAL_RECORD
+        | typeof CREATE_MEDICAL_RECORD;
       medicalRecords: MedicalRecord[];
-    }
-  | {
-      type: typeof DELETE_MEDICAL_RECORD;
-      medicalRecords: MedicalRecord[];
-    }
-  | {
-      type: typeof DELETE_CITIZEN;
     }
   | {
       type: typeof UPDATE_VEHICLE;
@@ -113,46 +101,25 @@ export default function citizenReducer(state = initState, action: Actions) {
         citizen: action.citizen,
       };
     case "REGISTER_WEAPON":
-      return {
-        ...state,
-      };
     case "GET_REGISTERED_WEAPONS":
-      return {
-        ...state,
-        weapons: action.weapons,
-      };
     case "DELETE_REGISTERED_WEAPON":
       return {
         ...state,
         weapons: action.weapons,
       };
     case "GET_REGISTERED_VEHICLES":
-      return {
-        ...state,
-        vehicles: action.vehicles,
-      };
     case "REGISTER_VEHICLE":
-      return {
-        ...state,
-      };
     case "DELETE_REGISTERED_VEHICLE":
       return {
         ...state,
         vehicles: action.vehicles,
       };
     case "GET_MEDICAL_RECORDS":
-      return {
-        ...state,
-        medicalRecords: action.medicalRecords,
-      };
     case "DELETE_MEDICAL_RECORD":
+    case "CREATE_MEDICAL_RECORD":
       return {
         ...state,
         medicalRecords: action.medicalRecords,
-      };
-    case "DELETE_CITIZEN":
-      return {
-        ...state,
       };
     case "UPDATE_VEHICLE":
       return {

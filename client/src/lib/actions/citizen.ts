@@ -222,25 +222,20 @@ export const getMedicalRecords = (id: string) => async (dispatch: Dispatch<IDisp
   }
 };
 
-export const createMedicalRecord = (
-  data: object,
-  citizenId: string,
-  shouldReturn?: boolean,
-) => async (dispatch: Dispatch<IDispatch>) => {
+export const createMedicalRecord = (id: string, data: Record<string, unknown>) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
   try {
-    const res = await handleRequest(`/citizen/medical-records/${citizenId}`, "POST", data);
+    const res = await handleRequest(`/citizen/medical-records/${id}`, "POST", data);
 
     if (isSuccess(res)) {
       dispatch({
         type: CREATE_MEDICAL_RECORD,
+        medicalRecords: res.data.records,
       });
 
-      if (shouldReturn) {
-        return (window.location.href = `/citizen/${citizenId}`);
-      } else {
-        notify("Successfully added medical record").success();
-        return true;
-      }
+      notify("Successfully added medical record").success();
+      return true;
     } else {
       notify(res.data.error).warn();
       return false;
@@ -284,20 +279,27 @@ export const getRegisteredVehicles = (id: string) => async (dispatch: Dispatch<I
   }
 };
 
-export const registerVehicle = (data: object) => async (dispatch: Dispatch<IDispatch>) => {
+export const registerVehicle = (data: object) => async (
+  dispatch: Dispatch<IDispatch>,
+): Promise<boolean> => {
   try {
     const res = await handleRequest("/citizen/vehicles", "POST", data);
 
     if (isSuccess(res)) {
       dispatch({
         type: REGISTER_VEHICLE,
+        vehicles: res.data.vehicles,
       });
-      return (window.location.href = `/citizen/${res.data.citizenId}`);
+
+      notify(lang.citizen.vehicle.added_veh).success();
+      return true;
     } else {
       notify(res.data.error).warn();
+      return false;
     }
   } catch (e) {
     Logger.error(REGISTER_VEHICLE, e);
+    return false;
   }
 };
 
@@ -360,6 +362,7 @@ export const registerWeapon = (data: object) => async (
     if (isSuccess(res)) {
       dispatch({
         type: REGISTER_WEAPON,
+        weapons: res.data.weapons,
       });
 
       notify("Successfully registered weapon").success();

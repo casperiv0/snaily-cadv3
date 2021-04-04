@@ -6,6 +6,7 @@ interface IUser {
   username: string;
   password: string;
   rank: RanksType;
+  edit_passwords: Perm;
   leo: Perm;
   supervisor: Perm;
   ems_fd: Perm;

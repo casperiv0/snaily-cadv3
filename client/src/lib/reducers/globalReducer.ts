@@ -9,11 +9,7 @@ const initState: State["global"] = {
 
 type Actions =
   | {
-      type: typeof UPDATE_AOP;
-      aop: string;
-    }
-  | {
-      type: typeof GET_AOP;
+      type: typeof UPDATE_AOP | typeof GET_AOP;
       aop: string;
     }
   | {
@@ -24,10 +20,6 @@ type Actions =
 export default function globalReducer(state = initState, action: Actions) {
   switch (action.type) {
     case "GET_AOP":
-      return {
-        ...state,
-        aop: action.aop,
-      };
     case "UPDATE_AOP":
       return {
         ...state,

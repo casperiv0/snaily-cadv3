@@ -1,12 +1,18 @@
 import * as React from "react";
+import ReactDOM from "react-dom";
+import { modal } from "../../lib/functions";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
-  id: string;
+  id: ModalIds;
+  title: string;
   size?: "sm" | "lg" | "xl";
 }
 
-const Modal: React.FC<Props> = ({ id, size, children }) => {
-  return (
+const el = document.getElementById("modal-portal");
+
+const Modal: React.FC<Props> = ({ id, size, title, children }) => {
+  return ReactDOM.createPortal(
     <div
       id={id}
       className="modal fade"
@@ -14,29 +20,25 @@ const Modal: React.FC<Props> = ({ id, size, children }) => {
       aria-labelledby={`${id}-label`}
       aria-hidden="true"
     >
-      <div className={`modal-dialog modal-${size}`}>
-        <div className="modal-content bg-dark border-dark">{children}</div>
+      <div className={`modal-dialog modal-${size} modal-dialog-centered`}>
+        <div className="modal-content bg-dark border-dark">
+          <div className="modal-header">
+            <h5 className="modal-title">{title}</h5>
+            <button
+              type="button"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              className="btn-close btn-close-white"
+              onClick={() => modal(id).hide()}
+            ></button>
+          </div>
+
+          {children}
+        </div>
       </div>
-    </div>
+    </div>,
+    el as Element,
   );
 };
 
-function closeModal() {
-  document.body.classList.remove("modal-open");
-}
-
-const XButton = React.forwardRef((_props, ref: React.Ref<HTMLButtonElement>) => {
-  return (
-    <button
-      ref={ref}
-      type="button"
-      data-bs-dismiss="modal"
-      aria-label="Close"
-      className="btn-close btn-close-white"
-      onClick={closeModal}
-    ></button>
-  );
-});
-
-export { XButton };
 export default Modal;

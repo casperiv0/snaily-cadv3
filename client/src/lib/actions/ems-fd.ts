@@ -31,6 +31,7 @@ export const createEmsFdDeputy = (data: object) => async (dispatch: Dispatch<IDi
     if (isSuccess(res)) {
       dispatch({
         type: CREATE_EMS_FD_DEPUTY,
+        deputies: res.data.deputies,
       });
 
       notify("Successfully created EMS/FD member").success();

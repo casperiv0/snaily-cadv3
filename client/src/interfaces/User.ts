@@ -5,6 +5,7 @@ interface User {
   username: string;
   password: string;
   rank: "owner" | "admin" | "moderator" | "user";
+  edit_passwords: Perm;
   leo: Perm;
   ems_fd: Perm;
   supervisor: Perm;

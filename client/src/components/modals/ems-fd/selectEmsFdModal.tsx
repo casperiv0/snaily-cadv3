@@ -1,12 +1,13 @@
 import * as React from "react";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import { connect } from "react-redux";
 import { getMyDeputies, setEmsStatus } from "../../../lib/actions/ems-fd";
 import Deputy from "../../../interfaces/Deputy";
 import Select, { Value } from "../../select";
-import { notify } from "../../../lib/functions";
+import { modal, notify } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   deputies: Deputy[];
@@ -16,7 +17,6 @@ interface Props {
 
 const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsStatus }) => {
   const [selected, setSelected] = React.useState<Value | null>(null);
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
     getMyDeputies();
@@ -29,16 +29,11 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
     }
 
     setEmsStatus(selected?.value, "on-duty", "10-8");
-
-    btnRef.current?.click();
+    modal(ModalIds.SelectEmsFd).hide();
   }
 
   return (
-    <Modal id="selectEmsFdModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.ems_fd.select_dept}</h5>
-        <XButton ref={btnRef} />
-      </div>
+    <Modal title={lang.ems_fd.select_dept} id={ModalIds.SelectEmsFd}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

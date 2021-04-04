@@ -1,31 +1,33 @@
 import * as React from "react";
-import Modal, { XButton } from "./index";
+import Modal from "./index";
 import lang from "../../language.json";
 import { create911Call } from "../../lib/actions/911-calls";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
-import Select from "../select";
+import Select, { Value as SelectValue } from "../select";
 import State from "../../interfaces/State";
 import Value from "../../interfaces/Value";
-import { getCallTypes } from "../../lib/actions/values";
+import { getValuesByPath } from "../../lib/actions/values";
+import { modal } from "../../lib/functions";
+import { ModalIds } from "../../lib/types";
+import ValuePaths from "../../interfaces/ValuePaths";
 
 interface Props {
   callTypes: Value[];
-  getCallTypes: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   create911Call: (data: object) => Promise<boolean>;
 }
 
-const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call }) => {
+const Call911Modal: React.FC<Props> = ({ callTypes, getValuesByPath, create911Call }) => {
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
-  const btnRef = React.createRef<HTMLButtonElement>();
+  const [type, setType] = React.useState<SelectValue | null>(null);
   const locationPath = useLocation();
 
   React.useEffect(() => {
-    getCallTypes();
-  }, [getCallTypes]);
-
+    getValuesByPath("call-types");
+  }, [getValuesByPath]);
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -33,10 +35,11 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
       description,
       location,
       caller,
+      type: type?.value,
     });
 
     if (created === true) {
-      btnRef.current?.click();
+      modal(ModalIds.Call911).hide();
 
       setDescription("");
       setLocation("");
@@ -45,12 +48,7 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
   }
 
   return (
-    <Modal size="lg" id="call911Modal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.citizen.call_911} </h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.citizen.call_911} size="lg" id={ModalIds.Call911}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
@@ -97,8 +95,10 @@ const Call911Modal: React.FC<Props> = ({ callTypes, getCallTypes, create911Call 
 
             {locationPath.pathname === "/dispatch" ? (
               <div className="mt-3 mb-3">
+                <label className="form-label">{lang.admin.values["call-types"].name}</label>
                 <Select
-                  onChange={(v) => null}
+                  value={type}
+                  onChange={setType}
                   isMulti={false}
                   isClearable={false}
                   options={callTypes.map((type) => ({
@@ -128,4 +128,4 @@ const mapToProps = (state: State) => ({
   callTypes: state.values["call-types"],
 });
 
-export default connect(mapToProps, { create911Call, getCallTypes })(Call911Modal);
+export default connect(mapToProps, { create911Call, getValuesByPath })(Call911Modal);

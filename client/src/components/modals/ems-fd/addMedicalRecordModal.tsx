@@ -1,27 +1,24 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import Modal, { XButton } from "..";
+import Modal from "..";
 import Citizen from "../../../interfaces/Citizen";
 import State from "../../../interfaces/State";
 import { getAllCitizens } from "../../../lib/actions/admin";
 import { createMedicalRecord } from "../../../lib/actions/citizen";
+import { modal } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
 import Select from "../../select";
 
 interface Props {
   citizens: Citizen[];
   getAllCitizens: () => void;
-  createMedicalRecord: (
-    data: object,
-    citizenId: string,
-    shouldReturn?: boolean,
-  ) => Promise<boolean | string>;
+  createMedicalRecord: (id: string, data: Record<string, unknown>) => Promise<boolean | string>;
 }
 
 const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMedicalRecord }) => {
   const [citizenId, setCitizenId] = React.useState("");
   const [type, setType] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
     getAllCitizens();
@@ -31,17 +28,13 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
     e.preventDefault();
     if (!citizenId) return;
 
-    const success = await createMedicalRecord(
-      {
-        type,
-        shortInfo: description,
-      },
-      citizenId,
-      false,
-    );
+    const success = await createMedicalRecord(citizenId, {
+      type,
+      shortInfo: description,
+    });
 
     if (success) {
-      btnRef.current?.click();
+      modal(ModalIds.AddMedicalRecord).hide();
 
       setCitizenId("");
       setType("");
@@ -50,12 +43,7 @@ const AddMedicalRecord: React.FC<Props> = ({ citizens, getAllCitizens, createMed
   }
 
   return (
-    <Modal id="addMedicalRecord" size="lg">
-      <div className="modal-header">
-        <h5 className="modal-title">{window.lang.citizen.medical.add}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={window.lang.citizen.medical.add} id={ModalIds.AddMedicalRecord} size="lg">
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

@@ -25,6 +25,9 @@ import {
   DELETE_PENAL_CODE,
   REMOVE_USER,
   SET_ADMIN_LOADING,
+  UPDATE_PENAL_CODES,
+  GET_TEMP_PASSWORD,
+  CREATE_PENAL_CODE,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -53,6 +56,7 @@ interface IDispatch {
   penalCodes?: PenalCode[];
   loading?: boolean;
   unit?: Officer | Deputy;
+  tempPassword?: string;
 }
 
 export const getMembers = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -91,7 +95,7 @@ export const getMemberById = (id: string) => async (dispatch: Dispatch<IDispatch
   }
 };
 
-export const updateMemberPerms = (id: string, data: object) => async (
+export const updateMemberPerms = (id: string, data: Record<string, unknown>) => async (
   dispatch: Dispatch<IDispatch>,
 ) => {
   try {
@@ -107,6 +111,22 @@ export const updateMemberPerms = (id: string, data: object) => async (
     }
   } catch (e) {
     Logger.error(UPDATE_MEMBER_PERMS, e);
+  }
+};
+
+export const getTempPassword = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
+  try {
+    dispatch({ type: SET_ADMIN_LOADING, loading: true });
+    const res = await handleRequest(`/admin/management/members/temp-password/${id}`, "POST");
+
+    if (isSuccess(res)) {
+      dispatch({
+        type: GET_TEMP_PASSWORD,
+        tempPassword: res.data.tempPassword,
+      });
+    }
+  } catch (e) {
+    Logger.error(GET_TEMP_PASSWORD, e);
   }
 };
 
@@ -451,7 +471,7 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispa
 
     if (isSuccess(res)) {
       dispatch({
-        type: GET_10_CODES,
+        type: CREATE_PENAL_CODE,
         penalCodes: res.data.penalCodes,
       });
 
@@ -461,7 +481,7 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispa
       return false;
     }
   } catch (e) {
-    Logger.error(GET_10_CODES, e);
+    Logger.error(CREATE_PENAL_CODE, e);
     notify(e).error();
     return false;
   }
@@ -493,7 +513,7 @@ export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
 
     if (isSuccess(res)) {
       dispatch({
-        type: DELETE_PENAL_CODE,
+        type: UPDATE_PENAL_CODES,
         penalCodes: res.data.penalCodes,
       });
 

@@ -6,24 +6,18 @@ const initState: State["notifications"] = {
   items: [],
 };
 
-type Actions =
-  | {
-      type: typeof GET_NOTIFICATIONS;
-      notifications: Notification[];
-    }
-  | {
-      type: typeof REMOVE_NOTIFICATION;
-      notifications: Notification[];
-    };
+type Actions = {
+  type: typeof GET_NOTIFICATIONS | typeof REMOVE_NOTIFICATION;
+  notifications: Notification[];
+};
 
-export default function notificationReducer(state = initState, action: Actions) {
+export default function notificationReducer(
+  state = initState,
+  action: Actions,
+): State["notifications"] {
   switch (action.type) {
-    case "GET_NOTIFICATIONS":
-      return {
-        ...state,
-        items: action.notifications,
-      };
     case "REMOVE_NOTIFICATION":
+    case "GET_NOTIFICATIONS":
       return {
         ...state,
         items: action.notifications,

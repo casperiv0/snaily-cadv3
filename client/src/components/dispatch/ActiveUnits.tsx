@@ -7,7 +7,7 @@ import socket from "../../lib/socket";
 import UpdateStatusModal from "../modals/dispatch/UpdateStatus";
 import { connect } from "react-redux";
 import { getActiveUnits } from "../../lib/actions/dispatch";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   officers: Officer[];
@@ -16,6 +16,8 @@ interface Props {
 }
 
 const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
+  const [tempUnit, setTempUnit] = React.useState<any>(null);
+
   React.useEffect(() => {
     getActiveUnits();
   }, [getActiveUnits]);
@@ -64,7 +66,8 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
                         type="button"
                         className="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target={"#updateStatus" + officer.id}
+                        data-bs-target={`#${ModalIds.UpdateStatus}`}
+                        onClick={() => setTempUnit(officer)}
                       >
                         {lang.dispatch.edit_status}
                       </button>
@@ -76,7 +79,6 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
           </table>
         )}
       </ul>
-
       {/* Active EMS/FD */}
       <ul className="list-group overflow-auto mt-0" style={{ maxHeight: "25rem" }}>
         <li className="list-group-item bg-secondary border-secondary sticky-top">
@@ -107,7 +109,8 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
                         type="button"
                         className="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target={"#updateStatus" + deputy.id}
+                        data-bs-target={`#${ModalIds.UpdateStatus}`}
+                        onClick={() => setTempUnit(deputy)}
                       >
                         {lang.dispatch.edit_status}
                       </button>
@@ -120,29 +123,10 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
         )}
       </ul>
 
-      {/* modals */}
-      {officers.map((officer: Officer, idx: number) => {
-        return (
-          <UpdateStatusModal
-            type="officers"
-            key={idx}
-            id={officer.id}
-            status={officer.status}
-            status2={officer.status2}
-          />
-        );
-      })}
-      {ems_fd.map((deputy: Deputy, idx: number) => {
-        return (
-          <UpdateStatusModal
-            type="ems-fd"
-            key={idx}
-            id={deputy.id}
-            status={deputy.status}
-            status2={deputy.status2}
-          />
-        );
-      })}
+      <UpdateStatusModal
+        type={tempUnit && "officer_name" in tempUnit ? "officers" : "ems-fd"}
+        data={tempUnit}
+      />
     </>
   );
 };

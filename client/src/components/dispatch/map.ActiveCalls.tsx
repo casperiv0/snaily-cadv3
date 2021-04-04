@@ -8,16 +8,23 @@ import { end911Call, getActive911Calls } from "../../lib/actions/911-calls";
 import State from "../../interfaces/State";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface CallItemProps {
   call: Call;
   end911Call: (id: string) => void;
   setMarker: (call: Call, type: "remove" | "place") => void;
   hasMarker: (id: string) => boolean;
+  setTempCall: React.Dispatch<React.SetStateAction<Call | null>>;
 }
 
-const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMarker }) => {
+const CallItem: React.FC<CallItemProps> = ({
+  call,
+  end911Call,
+  setMarker,
+  hasMarker,
+  setTempCall,
+}) => {
   const assignedUnits = React.useMemo(() => {
     return call.assigned_unit.map((c, i) => {
       const comma = i !== call.assigned_unit.length - 1 ? ", " : " ";
@@ -30,9 +37,10 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
     });
   }, [call]);
 
-  function updateZIndex() {
-    J(".active-units").css("z-index", 9000);
-    J(".active-calls").css("z-index", 9999);
+  function updateZIndex(call: Call) {
+    J("#modal-portal").css("z-index", 999);
+
+    setTempCall(call);
   }
 
   return (
@@ -81,9 +89,9 @@ const CallItem: React.FC<CallItemProps> = ({ call, end911Call, setMarker, hasMar
           <div className="d-flex gap-2 mt-2">
             <button
               data-bs-toggle="modal"
-              data-bs-target={`#update911CallMap-call-${call.id}`}
+              data-bs-target={`#${ModalIds.Update911Call}`}
               className="btn btn-success w-50"
-              onClick={updateZIndex}
+              onClick={() => updateZIndex(call)}
             >
               {window.lang.dispatch.update_call}
             </button>
@@ -120,6 +128,8 @@ const Active911MapCalls: React.FC<Props> = ({
   setMarker,
   hasMarker,
 }) => {
+  const [tempCall, setTempCall] = React.useState<Call | null>(null);
+
   React.useEffect(() => {
     getActive911Calls();
 
@@ -147,6 +157,7 @@ const Active911MapCalls: React.FC<Props> = ({
           {calls.map((call) => {
             return (
               <CallItem
+                setTempCall={setTempCall}
                 hasMarker={hasMarker}
                 setMarker={setMarker}
                 end911Call={end911Call}
@@ -157,12 +168,7 @@ const Active911MapCalls: React.FC<Props> = ({
           })}
         </>
       )}
-
-      <div id="modals">
-        {calls.map((call: Call) => {
-          return <Update911Call id={`Map-call-${call.id}`} key={call.id} call={call} />;
-        })}
-      </div>
+      <Update911Call call={tempCall} />
     </div>
   );
 };

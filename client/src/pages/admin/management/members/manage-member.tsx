@@ -17,6 +17,7 @@ import {
   banMember,
   unBanMember,
   removeUser,
+  getTempPassword,
 } from "../../../../lib/actions/admin";
 import { Item, Span } from "../../../citizen/citizen-info";
 
@@ -26,11 +27,14 @@ interface Props {
   match: Match;
   cad: CadInfo | null;
   loading: boolean;
+  tempPw: string | null;
+
   getMemberById: (id: string) => void;
-  updateMemberPerms: (id: string, data: object) => void;
+  updateMemberPerms: (id: string, data: Record<string, unknown>) => void;
   unBanMember: (id: string) => void;
   banMember: (id: string, banReason: string) => void;
   removeUser: (id: string) => Promise<boolean>;
+  getTempPassword: (id: string) => void;
 }
 
 const ManageMember: React.FC<Props> = ({
@@ -39,16 +43,19 @@ const ManageMember: React.FC<Props> = ({
   match,
   cad,
   loading,
+  tempPw,
   getMemberById,
   updateMemberPerms,
   banMember,
   unBanMember,
   removeUser,
+  getTempPassword,
 }) => {
   const id = match.params.id;
   const [rank, setRank] = React.useState("");
   const [leo, setLeo] = React.useState("");
   const [supervisor, setSupervisor] = React.useState("");
+  const [editPasswords, setEditPasswords] = React.useState("");
   const [dispatch, setDispatch] = React.useState("");
   const [emsFd, setEmsFd] = React.useState("");
   const [tow, setTow] = React.useState("");
@@ -70,6 +77,7 @@ const ManageMember: React.FC<Props> = ({
       setTow(member?.tow);
       setSupervisor(member.supervisor);
       setSteamId(member.steam_id);
+      setEditPasswords(member.edit_passwords);
     }
   }, [member]);
 
@@ -84,6 +92,7 @@ const ManageMember: React.FC<Props> = ({
       tow,
       supervisor,
       steam_id: steamId,
+      edit_passwords: editPasswords,
     });
   }
 
@@ -150,6 +159,29 @@ const ManageMember: React.FC<Props> = ({
             />
           )}
         </div>
+        {rank === "admin" ? (
+          <div className="mb-3">
+            <label className="form-label" htmlFor="edit_passwords">
+              {window.lang.admin.edit_passwords}
+            </label>
+
+            <Select
+              id="edit_passwords"
+              theme="dark"
+              isMulti={false}
+              value={{
+                label: editPasswords === "1" ? lang.global.yes : lang.global.no,
+                value: editPasswords,
+              }}
+              isClearable={false}
+              onChange={(v) => setEditPasswords(v.value)}
+              options={[
+                { label: lang.global.yes, value: "1" },
+                { label: lang.global.no, value: "0" },
+              ]}
+            />
+          </div>
+        ) : null}
         <div className="mb-3">
           <label className="form-label" htmlFor="leo">
             {lang.auth.account.police_access}
@@ -318,7 +350,7 @@ const ManageMember: React.FC<Props> = ({
       <div style={{ marginTop: "2rem", width: "100%" }}>
         <div className="card bg-dark border-dark">
           <div className="card-header">
-            <h5 className="card-title">{window.lang.admin.remove_user}</h5>
+            <h5 className="card-title">{window.lang.admin.danger_zone}</h5>
           </div>
 
           <div className="card-body">
@@ -331,9 +363,24 @@ const ManageMember: React.FC<Props> = ({
                 message={{ msg: window.lang.admin.cannot_remove_owner_acc, type: "warning" }}
               />
             ) : (
-              <button onClick={handleRemove} className="btn btn-danger mt-2 col">
-                {window.lang.admin.remove_user}
-              </button>
+              <div className="mt-2">
+                <button onClick={handleRemove} className="btn btn-danger col">
+                  {window.lang.admin.remove_user}
+                </button>
+
+                {["owner", "admin"].includes(authenticatedUser?.rank!) ? (
+                  <>
+                    <button
+                      onClick={() => getTempPassword(member?.id!)}
+                      className="btn btn-danger mx-2"
+                    >
+                      {window.lang.admin.give_temp_password}
+                    </button>
+
+                    {tempPw && <p className="mt-2">Password: {tempPw}</p>}
+                  </>
+                ) : null}
+              </div>
             )}
           </div>
         </div>
@@ -347,6 +394,7 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
   cad: state.global.cadInfo,
   loading: state.admin.loading,
+  tempPw: state.admin.tempPassword,
 });
 
 export default connect(mapToProps, {
@@ -355,4 +403,5 @@ export default connect(mapToProps, {
   banMember,
   unBanMember,
   removeUser,
+  getTempPassword,
 })(ManageMember);

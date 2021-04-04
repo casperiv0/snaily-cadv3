@@ -1,11 +1,11 @@
 import * as React from "react";
-import Modal, { XButton } from "./index";
+import Modal from "./index";
 import lang from "../../language.json";
+import { ModalIds } from "../../lib/types";
 
 const NotepadModal: React.FC = () => {
   const local = localStorage.getItem("snailycad_notepad") || "";
   const [note, setNote] = React.useState<string>(String(local));
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   function saveToLocal() {
     localStorage.setItem("snailycad_notepad", String(note));
@@ -17,17 +17,12 @@ const NotepadModal: React.FC = () => {
   }
 
   return (
-    <Modal size="lg" id="notepad">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.notepad}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.global.notepad} size="lg" id={ModalIds.Notepad}>
       <div className="modal-body">
         <textarea
           className="form-control bg-secondary border-secondary text-light"
           cols={30}
-          rows={30}
+          rows={15}
           value={note}
           onChange={(e) => setNote(e.target.value)}
         ></textarea>

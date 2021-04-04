@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import Citizen from "../../interfaces/Citizen";
 import lang from "../../language.json";
+import { ModalIds } from "../../lib/types";
 import { Item, Span } from "../../pages/citizen/citizen-info";
 
 interface Props {
@@ -23,9 +23,13 @@ const LicenseCard: React.FC<Props> = ({ citizen }) => {
         <h1 className="h4">{lang.citizen.licenses}</h1>
 
         <div>
-          <Link className="btn btn-primary" to={`/licenses/edit/${citizen.id}`}>
+          <button
+            className="btn btn-primary"
+            data-bs-target={`#${ModalIds.EditLicenses}`}
+            data-bs-toggle="modal"
+          >
             {lang.citizen.license.edit}
-          </Link>
+          </button>
         </div>
       </div>
 

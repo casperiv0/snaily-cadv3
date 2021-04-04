@@ -6,7 +6,7 @@ import State from "../../interfaces/State";
 import socket from "../../lib/socket";
 import lang from "../../language.json";
 import Statuses from "../../components/ems-fd/Statuses";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import SelectEmsFdModal from "../../components/modals/ems-fd/selectEmsFdModal";
 import SearchMedicalRecord from "../../components/modals/ems-fd/searchMedicalRecords";
 import Active911Calls from "../../components/active-911-calls";
@@ -15,7 +15,7 @@ import { get10Codes } from "../../lib/actions/admin";
 import AddMedicalRecordModal from "../../components/modals/ems-fd/addMedicalRecordModal";
 import useDocTitle from "../../hooks/useDocTitle";
 import { notify, playSound } from "../../lib/functions";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   aop: string | null;
@@ -63,7 +63,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
   }, [get10Codes]);
 
   return (
-    <Layout fluid classes="mt-5">
+    <Layout fluid>
       <div className="card bg-dark mb-4">
         <div className="card-header">
           <h4>
@@ -82,7 +82,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
           </Link>
           <button
             className="btn btn-secondary col-md-3"
-            data-bs-target="#searchMedicalRecordsModal"
+            data-bs-target={`#${ModalIds.SearchMedicalRecords}`}
             data-bs-toggle="modal"
           >
             {lang.global.medical_search}
@@ -92,14 +92,14 @@ const EmsFdDash: React.FC<Props> = (props) => {
             type="button"
             className="btn btn-secondary col-md-3"
             data-bs-toggle="modal"
-            data-bs-target="#addMedicalRecord"
+            data-bs-target={`#${ModalIds.AddMedicalRecord}`}
           >
             {window.lang.ems_fd.add_medical_record}
           </button>
 
           <button
             className="btn btn-secondary col-md-3"
-            data-bs-target="#notepad"
+            data-bs-target={`#${ModalIds.Notepad}`}
             data-bs-toggle="modal"
           >
             {lang.global.notepad}
@@ -113,13 +113,10 @@ const EmsFdDash: React.FC<Props> = (props) => {
 
       <Active911Calls />
 
-      {/* Modals */}
-      <div id="modals">
-        <SearchMedicalRecord />
-        <SelectEmsFdModal />
-        <NotepadModal />
-        <AddMedicalRecordModal />
-      </div>
+      <SearchMedicalRecord />
+      <SelectEmsFdModal />
+      <NotepadModal />
+      <AddMedicalRecordModal />
     </Layout>
   );
 };

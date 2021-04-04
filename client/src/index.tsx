@@ -1,4 +1,5 @@
 import lang from "./language.json";
+import Bootstrap from "bootstrap";
 
 declare global {
   interface Window {
@@ -6,6 +7,7 @@ declare global {
      * The imported language file for SnailyCAD
      */
     lang: any;
+    bootstrap: typeof Bootstrap;
   }
 }
 
@@ -30,8 +32,6 @@ const NotEnabledPage = React.lazy(() => import("./pages/not-enabled"));
 
 const BleeterPage = React.lazy(() => import("./pages/bleeter"));
 const BleetPage = React.lazy(() => import("./pages/bleeter/bleet"));
-const EditBleet = React.lazy(() => import("./pages/bleeter/edit-bleet"));
-const CreateBleetPage = React.lazy(() => import("./pages/bleeter/create-bleet"));
 const Login = React.lazy(() => import("./pages/auth/login"));
 const Register = React.lazy(() => import("./pages/auth/register"));
 
@@ -39,7 +39,6 @@ const LeoDash = React.lazy(() => import("./pages/leo/dash"));
 const OfficerLogsPage = React.lazy(() => import("./pages/leo/logs"));
 const PenalCodesPage = React.lazy(() => import("./pages/leo/penal-codes"));
 const MyOfficersPage = React.lazy(() => import("./pages/leo/my-officers"));
-const CreateOfficerPage = React.lazy(() => import("./pages/leo/create-officer"));
 
 const DispatchDash = React.lazy(() => import("./pages/dispatch/dash"));
 
@@ -55,33 +54,20 @@ const ManageEmployeePage = React.lazy(
   () => import("./pages/citizen/company/manage/manage-employee"),
 );
 
-const CreateMedicalRecordPage = React.lazy(
-  () => import("./pages/citizen/medical-records/create-medical-record"),
-);
-
-const EditLicensesPage = React.lazy(() => import("./pages/citizen/edit-licenses"));
-
-const RegisterWeaponPage = React.lazy(() => import("./pages/citizen/weapons/register-weapon"));
-
-const RegisterVehiclePage = React.lazy(() => import("./pages/citizen/vehicles/register-vehicle"));
 const EditVehiclePage = React.lazy(() => import("./pages/citizen/vehicles/edit-vehicle"));
 const TransferVehiclePage = React.lazy(() => import("./pages/citizen/vehicles/transfer-vehicle"));
 
 const TowDash = React.lazy(() => import("./pages/tow/dash"));
 
 const TruckLogsDash = React.lazy(() => import("./pages/truck-logs/dash"));
-const CreateTruckLogPage = React.lazy(() => import("./pages/truck-logs/create-truck-log"));
 
 const EmsFdDash = React.lazy(() => import("./pages/ems-fd/dash"));
 const MyEmsDeputiesPage = React.lazy(() => import("./pages/ems-fd/my-deputies"));
-const CreateDeputyPage = React.lazy(() => import("./pages/ems-fd/create-deputy"));
 
 const AccountPage = React.lazy(() => import("./pages/account/index"));
 const LogoutPage = React.lazy(() => import("./pages/logout"));
 
 const ValuesPage = React.lazy(() => import("./pages/admin/values/index"));
-const AddValuePage = React.lazy(() => import("./pages/admin/values/add-value"));
-const EditValuePage = React.lazy(() => import("./pages/admin/values/edit-value"));
 const AdminPage = React.lazy(() => import("./pages/admin/index"));
 const ManageMembersPage = React.lazy(() => import("./pages/admin/management/members/index"));
 const ManageMemberPage = React.lazy(() => import("./pages/admin/management/members/manage-member"));
@@ -100,12 +86,8 @@ const TaxiDash = React.lazy(() => import("./pages/taxi/dash"));
 const CourthousePage = React.lazy(() => import("./pages/Court"));
 
 const Codes10Management = React.lazy(() => import("./pages/admin/management/10-codes"));
-const Add10Code = React.lazy(() => import("./pages/admin/management/10-codes/add-code"));
-const Edit10Code = React.lazy(() => import("./pages/admin/management/10-codes/edit-code"));
 
 const PenalCodesManagement = React.lazy(() => import("./pages/admin/management/penal-codes"));
-const AddPenalCode = React.lazy(() => import("./pages/admin/management/penal-codes/add-code"));
-const EditPenalCode = React.lazy(() => import("./pages/admin/management/penal-codes/edit-code"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -130,27 +112,17 @@ ReactDOM.render(
             <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
-            <AuthRoute path="/bleeter/create" Component={CreateBleetPage} />
             <AuthRoute path="/bleeter" Component={BleeterPage} />
-            <AuthRoute path="/bleet/edit/:id" Component={EditBleet} />
             <AuthRoute path="/bleet/:id" Component={BleetPage} />
-
             <AuthRoute requirement="leo" path="/leo/my-logs" Component={OfficerLogsPage} />
             <AuthRoute requirement="leo" path="/leo/dash" Component={LeoDash} />
             <AuthRoute requirement="leo" path="/leo/penal-codes" Component={PenalCodesPage} />
             <AuthRoute requirement="leo" path="/leo/my-officers" Component={MyOfficersPage} />
-            <AuthRoute
-              requirement="leo"
-              path="/leo/officers/create"
-              Component={CreateOfficerPage}
-            />
 
             <AuthRoute requirement="dispatch" path="/dispatch/map" Component={Map} />
             <AuthRoute requirement="dispatch" path="/dispatch" Component={DispatchDash} />
-
             <Route path="/court" render={() => (window.location.pathname = "/courthouse")} />
             <AuthRoute path="/courthouse" Component={CourthousePage} />
-
             <AuthRoute
               path="/company/:citizenId/:companyId/manage/:id"
               Component={ManageEmployeePage}
@@ -166,33 +138,15 @@ ReactDOM.render(
             <AuthRoute path="/citizen/:id/edit" Component={EditCitizenPage} />
             <AuthRoute path="/citizen/:id" Component={CitizenInfoPage} />
             <AuthRoute path="/citizen" Component={CitizensPage} />
-
-            <AuthRoute path="/licenses/edit/:id" Component={EditLicensesPage} />
-
-            <AuthRoute path="/weapons/register" Component={RegisterWeaponPage} />
-
-            <AuthRoute path="/vehicles/register" Component={RegisterVehiclePage} />
             <AuthRoute path="/vehicles/edit/:id" Component={EditVehiclePage} />
             <AuthRoute path="/vehicles/transfer/:id" Component={TransferVehiclePage} />
-
-            <AuthRoute path="/medical-records/create/:id" Component={CreateMedicalRecordPage} />
-
             <AuthRoute requirement="tow" path="/tow" Component={TowDash} />
             <AuthRoute path="/taxi" Component={TaxiDash} />
-
-            <AuthRoute path="/truck-logs/create" Component={CreateTruckLogPage} />
             <AuthRoute path="/truck-logs" Component={TruckLogsDash} />
-
             <AuthRoute requirement="ems_fd" path="/ems-fd/dash" Component={EmsFdDash} />
-            <AuthRoute
-              requirement="ems_fd"
-              path="/ems-fd/deputies/create"
-              Component={CreateDeputyPage}
-            />
             <AuthRoute requirement="ems_fd" path="/ems-fd/deputies" Component={MyEmsDeputiesPage} />
 
             <AuthRoute path="/account" Component={AccountPage} />
-
             <AuthRoute
               path="/admin/manage/members/:id"
               requirement="admin"
@@ -223,53 +177,19 @@ ReactDOM.render(
               requirement="supervisor"
               Component={SupervisorPanelPage}
             />
-
-            <AuthRoute
-              path="/admin/manage/10-codes/edit/:id"
-              requirement="supervisor"
-              Component={Edit10Code}
-            />
-            <AuthRoute
-              path="/admin/manage/10-codes/add"
-              requirement="supervisor"
-              Component={Add10Code}
-            />
             <AuthRoute
               path="/admin/manage/10-codes"
               requirement="supervisor"
               Component={Codes10Management}
-            />
-
-            <AuthRoute
-              path="/admin/manage/penal-codes/edit/:id"
-              requirement="supervisor"
-              Component={EditPenalCode}
-            />
-            <AuthRoute
-              path="/admin/manage/penal-codes/add"
-              requirement="supervisor"
-              Component={AddPenalCode}
             />
             <AuthRoute
               path="/admin/manage/penal-codes"
               requirement="supervisor"
               Component={PenalCodesManagement}
             />
-
-            <AuthRoute
-              path="/admin/values/:path/:id/edit"
-              requirement="admin"
-              Component={EditValuePage}
-            />
-            <AuthRoute
-              path="/admin/values/:path/add"
-              requirement="admin"
-              Component={AddValuePage}
-            />
             <AuthRoute path="/admin/values/:path" requirement="admin" Component={ValuesPage} />
             <AuthRoute path="/admin/cad-settings" requirement="admin" Component={CadSettingsPage} />
             <AuthRoute path="/admin" requirement="admin" Component={AdminPage} />
-
             <Route path="/logout" component={LogoutPage} />
             <Route path="/forbidden" component={ForbiddenPage} />
             <Route path="/not-enabled" component={NotEnabledPage} />

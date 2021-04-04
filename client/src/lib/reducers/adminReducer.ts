@@ -29,6 +29,10 @@ import {
   DELETE_PENAL_CODE,
   GET_PENAL_CODES,
   SET_ADMIN_LOADING,
+  UPDATE_10_CODE,
+  UPDATE_PENAL_CODES,
+  GET_TEMP_PASSWORD,
+  CREATE_PENAL_CODE,
 } from "../types";
 
 const initState: State["admin"] = {
@@ -44,23 +48,16 @@ const initState: State["admin"] = {
   loading: false,
   ems_fd: [],
   unit: null,
+  tempPassword: null,
 };
 
 type Actions =
   | {
-      type: typeof GET_COMPANIES;
+      type: typeof GET_COMPANIES | typeof DELETE_COMPANY;
       companies: Company[];
     }
   | {
-      type: typeof DELETE_COMPANY;
-      companies: Company[];
-    }
-  | {
-      type: typeof GET_CITIZENS;
-      citizens: Citizen[];
-    }
-  | {
-      type: typeof DELETE_CITIZEN;
+      type: typeof GET_CITIZENS | typeof DELETE_CITIZEN;
       citizens: Citizen[];
     }
   | {
@@ -68,27 +65,15 @@ type Actions =
       members: User[];
     }
   | {
-      type: typeof GET_MEMBER_BY_ID;
+      type:
+        | typeof GET_MEMBER_BY_ID
+        | typeof BAN_MEMBER
+        | typeof UN_BAN_MEMBER
+        | typeof UPDATE_MEMBER_PERMS;
       member: User;
     }
   | {
-      type: typeof UPDATE_MEMBER_PERMS;
-      member: User;
-    }
-  | {
-      type: typeof BAN_MEMBER;
-      member: User;
-    }
-  | {
-      type: typeof UN_BAN_MEMBER;
-      member: User;
-    }
-  | {
-      type: typeof ACCEPT_USER;
-      members: User[];
-    }
-  | {
-      type: typeof DECLINE_USER;
+      type: typeof ACCEPT_USER | typeof DECLINE_USER;
       members: User[];
     }
   | {
@@ -101,60 +86,49 @@ type Actions =
       unit: Officer | Deputy;
     }
   | {
-      type: typeof GET_ALl_EXPUNGEMENT_REQUESTS;
+      type: typeof GET_ALl_EXPUNGEMENT_REQUESTS | typeof ACCEPT_OR_DECLINE_REQUEST;
       expungementRequests: ExpungementRequest[];
     }
   | {
-      type: typeof ACCEPT_OR_DECLINE_REQUEST;
-      expungementRequests: ExpungementRequest[];
-    }
-  | {
-      type: typeof GET_10_CODES;
+      type:
+        | typeof GET_10_CODES
+        | typeof CREATE_10_CODE
+        | typeof UPDATE_10_CODE
+        | typeof DELETE_10_CODE;
       codes: Code10[];
     }
   | {
-      type: typeof CREATE_10_CODE;
-    }
-  | {
-      type: typeof DELETE_10_CODE;
-      codes: Code10[];
-    }
-  | {
-      type: typeof DELETE_PENAL_CODE;
-      penalCodes: PenalCode[];
-    }
-  | {
-      type: typeof GET_PENAL_CODES;
+      type:
+        | typeof DELETE_PENAL_CODE
+        | typeof GET_PENAL_CODES
+        | typeof UPDATE_PENAL_CODES
+        | typeof CREATE_PENAL_CODE;
       penalCodes: PenalCode[];
     }
   | {
       type: typeof SET_ADMIN_LOADING;
       loading: boolean;
+    }
+  | {
+      type: typeof GET_TEMP_PASSWORD;
+      tempPassword: string;
     };
 
-export default function adminReducer(state = initState, action: Actions) {
+export default function adminReducer(state = initState, action: Actions): State["admin"] {
   switch (action.type) {
     case "GET_COMPANIES":
-      return {
-        ...state,
-        companies: action.companies,
-        loading: false,
-      };
     case "DELETE_COMPANY":
       return {
         ...state,
         companies: action.companies,
-      };
-    case "GET_CITIZENS":
-      return {
-        ...state,
-        citizens: action.citizens,
         loading: false,
       };
+    case "GET_CITIZENS":
     case "DELETE_CITIZEN":
       return {
         ...state,
         citizens: action.citizens,
+        loading: false,
       };
     case "GET_MEMBERS":
       return {
@@ -163,31 +137,16 @@ export default function adminReducer(state = initState, action: Actions) {
         loading: false,
       };
     case "GET_MEMBER_BY_ID":
+    case "UPDATE_MEMBER_PERMS":
+    case "BAN_MEMBER":
+    case "UN_BAN_MEMBER":
       return {
         ...state,
         member: action.member,
         loading: false,
       };
-    case "UPDATE_MEMBER_PERMS":
-      return {
-        ...state,
-        member: action.member,
-      };
-    case "BAN_MEMBER":
-      return {
-        ...state,
-        member: action.member,
-      };
-    case "UN_BAN_MEMBER":
-      return {
-        ...state,
-        member: action.member,
-      };
+
     case "ACCEPT_USER":
-      return {
-        ...state,
-        members: action.members,
-      };
     case "DECLINE_USER":
       return {
         ...state,
@@ -206,43 +165,42 @@ export default function adminReducer(state = initState, action: Actions) {
         unit: action.unit,
         loading: false,
       };
+    case "ACCEPT_OR_DECLINE_REQUEST":
     case "GET_ALl_EXPUNGEMENT_REQUESTS":
       return {
         ...state,
         expungementRequests: action.expungementRequests,
         loading: false,
       };
-    case "ACCEPT_OR_DECLINE_REQUEST":
-      return {
-        ...state,
-        expungementRequests: action.expungementRequests,
-      };
     case "GET_10_CODES":
-      return {
-        ...state,
-        codes: action.codes,
-        loading: false,
-      };
     case "DELETE_10_CODE":
+    case "CREATE_10_CODE":
+    case "UPDATE_10_CODE":
       return {
         ...state,
         codes: action.codes,
+        loading: false,
       };
+
+    case "DELETE_PENAL_CODE":
     case "GET_PENAL_CODES":
+    case "UPDATE_PENAL_CODES":
+    case "CREATE_PENAL_CODE":
       return {
         ...state,
         penalCodes: action.penalCodes,
         loading: false,
-      };
-    case "DELETE_PENAL_CODE":
-      return {
-        ...state,
-        penalCodes: action.penalCodes,
       };
     case "SET_ADMIN_LOADING":
       return {
         ...state,
         loading: action.loading,
+      };
+    case "GET_TEMP_PASSWORD":
+      return {
+        ...state,
+        tempPassword: action.tempPassword,
+        loading: false,
       };
     default:
       return {

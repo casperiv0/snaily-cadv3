@@ -6,9 +6,9 @@ import AlertMessage from "../../components/alert-message";
 import socket from "../../lib/socket";
 import { getTruckLogs, deleteTruckLog } from "../../lib/actions/truck-logs";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import useDocTitle from "../../hooks/useDocTitle";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
+import CreateTuckLogModal from "../../components/modals/truck-logs/CreateTuckLogModal";
 
 interface Props {
   aop: string | null;
@@ -37,14 +37,18 @@ const TruckLogsDash: React.FC<Props> = (props) => {
   }, [getTruckLogs]);
 
   return (
-    <Layout fluid classes="mt-5">
+    <Layout fluid>
       <div className="d-flex justify-content-between mb-3">
         <h3>
           {window.lang.nav.trucklogs} - AOP: {aop}
         </h3>
-        <Link className="btn btn-secondary" to="/truck-logs/create">
+        <button
+          data-bs-toggle="modal"
+          data-bs-target={`#${ModalIds.CreateTruckLog}`}
+          className="btn btn-secondary"
+        >
           {window.lang.truck_logs.create_truck_log}
-        </Link>
+        </button>
       </div>
 
       {!logs[0] ? (
@@ -88,6 +92,8 @@ const TruckLogsDash: React.FC<Props> = (props) => {
           </tbody>
         </table>
       )}
+
+      <CreateTuckLogModal />
     </Layout>
   );
 };

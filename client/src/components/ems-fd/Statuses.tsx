@@ -6,7 +6,7 @@ import { setEmsStatus, getCurrentEmsStatus } from "../../lib/actions/ems-fd";
 import socket from "../../lib/socket";
 import Code10 from "../../interfaces/Code10";
 import Deputy from "../../interfaces/Deputy";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 import { filterCodes } from "../../lib/functions";
 
 interface Props {
@@ -66,7 +66,7 @@ const Statuses: React.FC<Props> = ({
         <button
           type="button"
           data-bs-toggle="modal"
-          data-bs-target="#selectEmsFdModal"
+          data-bs-target={`#${ModalIds.SelectEmsFd}`}
           className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
         >
           10-8

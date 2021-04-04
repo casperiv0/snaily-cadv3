@@ -1,7 +1,7 @@
 import { Styles, GroupTypeBase } from "react-select";
 
 const DARK = "#212529";
-const LIGHT = "#6C757D";
+const LIGHT = "#3e464e";
 
 function color(theme: string) {
   return theme.toLowerCase() === "light" ? LIGHT : DARK;
@@ -29,7 +29,7 @@ const SelectStyles = (
     borderRadius: "0.2rem",
     marginTop: "0.2rem",
     ":hover": {
-      backgroundColor: "#565D64",
+      backgroundColor: "#353c42",
     },
   }),
   menu: (prov) => ({
@@ -43,6 +43,8 @@ const SelectStyles = (
   multiValue: (base) => ({
     ...base,
     color: "#fff",
+    backgroundColor: "#2f2f2F",
+    borderColor: "#2f2f2F",
   }),
   noOptionsMessage: (base) => ({
     ...base,
@@ -83,12 +85,12 @@ const SelectStyles = (
     ...base,
     background: color(theme),
     border: `1px solid ${color(theme)}`,
-    boxShadow: state.isFocused ? "0 0 0 .25rem rgba(13,110,253,.25)" : "",
+    boxShadow: state.isFocused ? "0 0 0 .25rem rgba(130,138,145,.5)" : "",
     ":hover": {
       borderColor: `${color(theme)}`,
     },
     ":focus": {
-      boxShadow: "0 0 0 .25rem rgba(13,110,253,.25)",
+      boxShadow: "0 0 0 .25rem rgba(130,138,145,.5)",
     },
   }),
   placeholder: (base) => ({

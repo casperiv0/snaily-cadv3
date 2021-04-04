@@ -7,6 +7,8 @@ import lang from "../../language.json";
 import { connect } from "react-redux";
 import { getMyOfficers, deleteOfficer } from "../../lib/actions/officer";
 import useDocTitle from "../../hooks/useDocTitle";
+import CreateOfficerModal from "../../components/modals/leo/CreateOfficerModal";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
   officers: Officer[];
@@ -23,15 +25,23 @@ const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer, getMyOfficer
   return (
     <Layout classes="mt-5">
       <h3>{lang.officers.my_officers}</h3>
-      <Link className="btn btn-primary text-light w-100 p-2" to="/leo/dash">
-        {lang.global.back_to_dashboard}
-      </Link>
-      <Link className="btn btn-primary text-light w-100 p-2 my-2" to="/leo/my-logs">
-        {window.lang.officers.logs}
-      </Link>
-      <Link className="btn btn-dark text-light w-100 p-2" to="/leo/officers/create">
+
+      <div className="d-flex justify-content-between mb-2">
+        <Link className="btn btn-primary text-light w-100" to="/leo/dash">
+          {lang.global.back_to_dashboard}
+        </Link>
+        <Link className="btn btn-primary text-light w-100 ms-2" to="/leo/my-logs">
+          {window.lang.officers.logs}
+        </Link>
+      </div>
+
+      <button
+        data-bs-toggle="modal"
+        data-bs-target={`#${ModalIds.CreateOfficer}`}
+        className="btn btn-dark text-light w-100 p-2"
+      >
         {lang.officers.create_an_officer}
-      </Link>
+      </button>
 
       <ul className="list-group mt-2">
         {!officers[0] ? (
@@ -58,6 +68,8 @@ const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer, getMyOfficer
           })
         )}
       </ul>
+
+      <CreateOfficerModal />
     </Layout>
   );
 };

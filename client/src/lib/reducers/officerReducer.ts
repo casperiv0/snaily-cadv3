@@ -23,7 +23,6 @@ const initState: State["officers"] = {
   status2: "" /* '10-11', '10-5', '10-6', .. */,
   officers: [],
   departments: [],
-  error: "",
   search: null,
   activeOfficer: null,
   names: [],
@@ -56,6 +55,7 @@ type Actions =
     }
   | {
       type: typeof CREATE_OFFICER;
+      officers: Officer[];
     }
   | {
       type: typeof CREATE_WARRANT;
@@ -109,6 +109,7 @@ export default function officerReducer(state = initState, action: Actions): Stat
         ...state,
         logs: action.logs,
       };
+    case "CREATE_OFFICER":
     case "GET_MY_OFFICERS":
       return {
         ...state,
@@ -124,15 +125,9 @@ export default function officerReducer(state = initState, action: Actions): Stat
         ...state,
         departments: action.departments,
       };
-    case "CREATE_OFFICER":
-      return {
-        ...state,
-        error: null,
-      };
     case "CREATE_WARRANT":
       return {
         ...state,
-        error: null,
       };
     case "NAME_SEARCH":
       return {
@@ -152,17 +147,14 @@ export default function officerReducer(state = initState, action: Actions): Stat
     case "CREATE_WRITTEN_WARNING":
       return {
         ...state,
-        error: null,
       };
     case "CREATE_ARREST_REPORT":
       return {
         ...state,
-        error: null,
       };
     case "CREATE_TICKET":
       return {
         ...state,
-        error: null,
       };
     case "SEARCH_NAMES":
       return {

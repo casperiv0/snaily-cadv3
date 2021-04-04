@@ -4,12 +4,14 @@ import { getPenalCodes, deletePenalCode } from "../../../../lib/actions/admin";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import State from "../../../../interfaces/State";
 import AlertMessage from "../../../../components/alert-message";
-import { Link } from "react-router-dom";
 import { Span } from "../../../citizen/citizen-info";
 import PenalCode from "../../../../interfaces/PenalCode";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import Loader from "../../../../components/loader";
 import { useObserver } from "../../../../hooks/useObserver";
+import CreatePenalCodeModal from "../../../../components/modals/admin/penal-codes/CreatePenalCodeModal";
+import { ModalIds } from "../../../../lib/types";
+import EditPenalCodeModal from "../../../../components/modals/admin/penal-codes/EditPenalCodeModal";
 
 interface Props {
   codes: PenalCode[];
@@ -24,6 +26,7 @@ const PenalCodesManagement: React.FC<Props> = ({
   getPenalCodes,
   deletePenalCode,
 }) => {
+  const [tempCode, setTempCode] = React.useState<PenalCode | null>(null);
   const [filtered, setFiltered] = React.useState(codes);
   const [filter, setFilter] = React.useState("");
   const { ref, length } = useObserver<PenalCode>(codes);
@@ -51,9 +54,13 @@ const PenalCodesManagement: React.FC<Props> = ({
       <div className="d-flex justify-content-between mb-3">
         <h1 className="h3">{window.lang.global.penal_codes}</h1>
         <div>
-          <Link to="/admin/manage/penal-codes/add" className="btn btn-primary">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target={`#${ModalIds.CreatePenalCode}`}
+            className="btn btn-primary"
+          >
             {window.lang.codes.add_penal_code}
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -97,12 +104,14 @@ const PenalCodesManagement: React.FC<Props> = ({
                     >
                       {window.lang.global.delete}
                     </button>
-                    <Link
-                      to={`/admin/manage/penal-codes/edit/${code.id}`}
+                    <button
+                      onClick={() => setTempCode(code)}
+                      data-bs-toggle="modal"
+                      data-bs-target={`#${ModalIds.EditPenalCode}`}
                       className="btn btn-success"
                     >
                       {window.lang.global.edit}
-                    </Link>
+                    </button>
                   </div>
                 </li>
               );
@@ -110,6 +119,9 @@ const PenalCodesManagement: React.FC<Props> = ({
           </ul>
         )}
       </div>
+
+      <EditPenalCodeModal code={tempCode} />
+      <CreatePenalCodeModal />
     </AdminLayout>
   );
 };

@@ -1,12 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import Citizen from "../../../interfaces/Citizen";
 import Company from "../../../interfaces/Company";
 import State from "../../../interfaces/State";
 import { joinCompany } from "../../../lib/actions/company";
 import Select, { Value } from "../../select";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   citizens: Citizen[];
@@ -30,12 +31,7 @@ const JoinCompanyModal: React.FC<Props> = ({ citizens, companies, joinCompany })
   }
 
   return (
-    <Modal id="joinCompanyModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.citizen.company.join}</h5>
-        <XButton />
-      </div>
-
+    <Modal title={lang.citizen.company.join} id={ModalIds.JoinCompany}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

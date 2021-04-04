@@ -1,63 +1,74 @@
 import * as React from "react";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
-import Call from "../../../interfaces/Call";
+import Call, { Unit } from "../../../interfaces/Call";
 import { connect } from "react-redux";
 import { end911Call, update911Call } from "../../../lib/actions/911-calls";
 import { addCallEvent } from "../../../lib/actions/dispatch";
-import { getCallTypes } from "../../../lib/actions/values";
+import { getValuesByPath } from "../../../lib/actions/values";
 import Officer from "../../../interfaces/Officer";
 import State from "../../../interfaces/State";
 import Deputy from "../../../interfaces/Deputy";
 import Select, { Value as SelectValue } from "../../select";
 import Value from "../../../interfaces/Value";
+import { modal } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
+import ValuePaths from "../../../interfaces/ValuePaths";
 
 interface Props {
-  id: string;
-  call: Call;
+  call: Call | null;
   officers: Officer[];
   ems_fd: Deputy[];
   callTypes: Value[];
-  getCallTypes: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   end911Call: (id: string) => void;
   update911Call: (id: string, data: Partial<Call>) => void;
   addCallEvent: (callId: string, text: string) => void;
 }
 
 const Update911Call: React.FC<Props> = ({
-  id,
   call,
   officers: activeOfficers,
   ems_fd: activeEmsFdDeputies,
   callTypes,
-  getCallTypes,
+  getValuesByPath,
   end911Call,
   update911Call,
   addCallEvent,
 }) => {
-  const [location, setLocation] = React.useState(call.location);
-  const [description, setDescription] = React.useState(call.description);
-  const [assignedUnits, setAssignedUnits] = React.useState(call.assigned_unit);
+  const [location, setLocation] = React.useState<string>("");
+  const [description, setDescription] = React.useState<string>("");
+  const [type, setType] = React.useState<SelectValue | null>(null);
+  const [assignedUnits, setAssignedUnits] = React.useState<Unit[]>([]);
+
+  const [eventText, setEventText] = React.useState<string>("");
   const [activeUnits, setActiveUnits] = React.useState<(Officer | Deputy)[]>([]);
   const [showAdd, setShowAdd] = React.useState<boolean>(false);
-  const [eventText, setEventText] = React.useState<string>("");
-  const [type, setType] = React.useState<SelectValue | null>(null);
-  const btnRef = React.createRef<HTMLButtonElement>();
   const inputRef = React.createRef<HTMLInputElement>();
 
   React.useEffect(() => {
-    getCallTypes();
+    setLocation(call?.location ?? "");
+    setDescription(call?.description ?? "");
+    setType({ label: call?.type ?? "", value: call?.type ?? "" });
+    setAssignedUnits(call?.assigned_unit!);
+  }, [call]);
 
-    setType({ label: call.type, value: call.type });
-  }, [getCallTypes, call.type]);
+  React.useEffect(() => {
+    getValuesByPath("call-types");
+  }, [getValuesByPath]);
 
   React.useEffect(() => {
     setActiveUnits([...activeEmsFdDeputies, ...activeOfficers]);
   }, [activeOfficers, activeEmsFdDeputies]);
 
+  function closeModal() {
+    modal(ModalIds.Update911Call).hide();
+  }
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    btnRef.current?.click();
+    if (!call) return;
+    closeModal();
 
     update911Call(call.id, {
       location,
@@ -69,8 +80,9 @@ const Update911Call: React.FC<Props> = ({
   }
 
   function handleCancelCall() {
-    btnRef.current?.click();
+    if (!call) return;
 
+    closeModal();
     end911Call(call.id);
   }
 
@@ -79,19 +91,15 @@ const Update911Call: React.FC<Props> = ({
   }
 
   function handleAddEvent() {
-    addCallEvent(call.id, eventText);
+    if (!call) return;
 
+    addCallEvent(call.id, eventText);
     setEventText("");
     inputRef.current?.focus();
   }
 
   return (
-    <Modal size="lg" id={`update911Call${id}`}>
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.dispatch.update_911_call}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.dispatch.update_911_call} size="lg" id={ModalIds.Update911Call}>
       <form id="updateCallForm" onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
@@ -137,6 +145,7 @@ const Update911Call: React.FC<Props> = ({
               <p>{lang.dispatch.no_units}</p>
             ) : (
               <Select
+                value={assignedUnits}
                 closeMenuOnSelect={false}
                 defaultValue={assignedUnits}
                 onChange={handleClick}
@@ -193,10 +202,10 @@ const Update911Call: React.FC<Props> = ({
             ) : null}
 
             <ul style={{ maxHeight: "15rem" }} className="list-group overflow-auto">
-              {call.events && call.events.length <= 0 ? (
+              {call?.events && call.events.length <= 0 ? (
                 <p>{window.lang.dispatch.no_events}</p>
               ) : (
-                call.events
+                call?.events
                   ?.sort((a, b) => Number(b.date) - Number(a.date))
                   .map((event) => {
                     const date = new Date(Number(event.date));
@@ -236,6 +245,6 @@ const mapToProps = (state: State) => ({
   callTypes: state.values["call-types"],
 });
 
-export default connect(mapToProps, { end911Call, update911Call, addCallEvent, getCallTypes })(
+export default connect(mapToProps, { end911Call, update911Call, addCallEvent, getValuesByPath })(
   Update911Call,
 );

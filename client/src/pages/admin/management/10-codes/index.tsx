@@ -5,11 +5,16 @@ import AdminLayout from "../../../../components/admin/AdminLayout";
 import Code10 from "../../../../interfaces/Code10";
 import State from "../../../../interfaces/State";
 import AlertMessage from "../../../../components/alert-message";
-import { Link } from "react-router-dom";
 import { Item, Span } from "../../../citizen/citizen-info";
-import { colorOptions, shouldDoOptions } from "./add-code";
+import {
+  colorOptions,
+  shouldDoOptions,
+} from "../../../../components/modals/admin/10-codes/Create10CodeModal";
 import useDocTitle from "../../../../hooks/useDocTitle";
 import Loader from "../../../../components/loader";
+import Create10CodeModal from "../../../../components/modals/admin/10-codes/Create10CodeModal";
+import { ModalIds } from "../../../../lib/types";
+import Edit10CodeModal from "../../../../components/modals/admin/10-codes/Edit10CodeModal";
 
 interface Props {
   codes: Code10[];
@@ -19,6 +24,7 @@ interface Props {
 }
 
 const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete10Code }) => {
+  const [tempCode, setTempCode] = React.useState<Code10 | null>(null);
   useDocTitle("10 Codes Management");
 
   React.useEffect(() => {
@@ -30,9 +36,13 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
       <div className="d-flex justify-content-between mb-3">
         <h1 className="h3">10 codes</h1>
         <div>
-          <Link to="/admin/manage/10-codes/add" className="btn btn-primary">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target={`#${ModalIds.Create10Code}`}
+            className="btn btn-primary"
+          >
             Add code
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -87,12 +97,14 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
                       <button onClick={() => delete10Code(code.id)} className="btn btn-danger mx-2">
                         {window.lang.global.delete}
                       </button>
-                      <Link
-                        to={`/admin/manage/10-codes/edit/${code.id}`}
+                      <button
+                        onClick={() => setTempCode(code)}
+                        data-bs-toggle="modal"
+                        data-bs-target={`#${ModalIds.Edit10Code}`}
                         className="btn btn-success"
                       >
                         {window.lang.global.edit}
-                      </Link>
+                      </button>
                     </div>
                   </li>
                 );
@@ -101,6 +113,9 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
           </>
         )}
       </ul>
+
+      <Create10CodeModal />
+      <Edit10CodeModal code={tempCode} />
     </AdminLayout>
   );
 };

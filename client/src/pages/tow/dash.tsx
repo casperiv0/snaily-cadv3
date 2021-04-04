@@ -5,9 +5,9 @@ import TowCall from "../../interfaces/TowCall";
 import socket from "../../lib/socket";
 import { connect } from "react-redux";
 import { getTowCalls, endTowCall } from "../../lib/actions/tow-calls";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import useDocTitle from "../../hooks/useDocTitle";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: TowCall[];
@@ -48,7 +48,11 @@ const TowDash: React.FC<Props> = (props) => {
         <li className="list-group-item bg-secondary d-flex justify-content-between">
           <h4>{window.lang.tow.active_tow_calls}</h4>
 
-          <button data-bs-toggle="modal" data-bs-target="#notepad" className="btn btn-dark">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target={`#${ModalIds.Notepad}`}
+            className="btn btn-dark"
+          >
             {window.lang.global.notepad}
           </button>
         </li>

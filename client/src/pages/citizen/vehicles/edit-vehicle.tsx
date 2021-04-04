@@ -7,17 +7,18 @@ import lang from "../../../language.json";
 import Value from "../../../interfaces/Value";
 import Match from "../../../interfaces/Match";
 import { connect } from "react-redux";
-import { getLegalStatuses } from "../../../lib/actions/values";
+import { getValuesByPath } from "../../../lib/actions/values";
 import { getVehicleById, updateVehicleById } from "../../../lib/actions/citizen";
 import { Link, useHistory } from "react-router-dom";
 import useDocTitle from "../../../hooks/useDocTitle";
 import Select, { Value as SelectValue } from "../../../components/select";
+import ValuePaths from "../../../interfaces/ValuePaths";
 
 interface Props {
   vehicle: Vehicle | null;
   legalStatuses: Value[];
   match: Match;
-  getLegalStatuses: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   getVehicleById: (id: string) => void;
   updateVehicleById: (id: string, data: object) => Promise<boolean>;
 }
@@ -26,7 +27,7 @@ const EditVehiclePage: React.FC<Props> = ({
   vehicle,
   legalStatuses,
   match,
-  getLegalStatuses,
+  getValuesByPath,
   getVehicleById,
   updateVehicleById,
 }) => {
@@ -39,9 +40,9 @@ const EditVehiclePage: React.FC<Props> = ({
   useDocTitle(window.lang.citizen.edit_reg_vehicle);
 
   React.useEffect(() => {
-    getLegalStatuses();
+    getValuesByPath("legal-statuses");
     getVehicleById(vehicleId);
-  }, [getLegalStatuses, getVehicleById, vehicleId]);
+  }, [getValuesByPath, getVehicleById, vehicleId]);
 
   React.useEffect(() => {
     if (vehicle !== null) {
@@ -141,7 +142,7 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  getLegalStatuses,
+  getValuesByPath,
   getVehicleById,
   updateVehicleById,
 })(EditVehiclePage);

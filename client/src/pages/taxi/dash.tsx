@@ -6,9 +6,9 @@ import socket from "../../lib/socket";
 import lang from "../../language.json";
 import { connect } from "react-redux";
 import { endTaxiCall, getTaxiCalls } from "../../lib/actions/taxi-calls";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import useDocTitle from "../../hooks/useDocTitle";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   calls: TowCall[];
@@ -42,7 +42,7 @@ const TaxiDash: React.FC<Props> = (props) => {
   }, [getTaxiCalls]);
 
   return (
-    <Layout fluid classes="mt-5">
+    <Layout fluid>
       <h3>
         {window.lang.taxi.dash} - AOP: {aop}
       </h3>
@@ -51,7 +51,11 @@ const TaxiDash: React.FC<Props> = (props) => {
         <li className="list-group-item bg-secondary d-flex justify-content-between">
           <h4>{window.lang.taxi.active_calls}</h4>
 
-          <button data-bs-toggle="modal" data-bs-target="#notepad" className="btn btn-dark">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target={`#${ModalIds.Notepad}`}
+            className="btn btn-dark"
+          >
             {lang.global.notepad}
           </button>
         </li>

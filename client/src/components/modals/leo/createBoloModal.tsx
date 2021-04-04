@@ -1,9 +1,11 @@
 import * as React from "react";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import { createBolo } from "../../../lib/actions/bolos";
 import { connect } from "react-redux";
 import Select, { Value } from "../../select";
+import { modal } from "../../../lib/functions";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   createBolo: (data: object) => Promise<boolean>;
@@ -18,7 +20,6 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
   const [plate, setPlate] = React.useState("");
   const [color, setColor] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const btnRef = React.useRef<HTMLButtonElement>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,7 +33,7 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
     });
 
     if (created === true) {
-      btnRef.current?.click();
+      modal(ModalIds.CreateBolo).hide();
 
       setType({
         label: lang.global.person,
@@ -46,12 +47,7 @@ const CreateBoloModal: React.FC<Props> = ({ createBolo }) => {
   }
 
   return (
-    <Modal size="lg" id="createBoloModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.create_bolo}</h5>
-        <XButton ref={btnRef}></XButton>
-      </div>
-
+    <Modal title={lang.global.create_bolo} size="lg" id={ModalIds.CreateBolo}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

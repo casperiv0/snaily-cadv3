@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AlertMessage from "../../../components/alert-message";
 import Layout from "../../../components/Layout";
+import CreatePostModal from "../../../components/modals/company/CreatePostModal";
 import useDocTitle from "../../../hooks/useDocTitle";
 import Citizen from "../../../interfaces/Citizen";
 import Company, { CompanyPost } from "../../../interfaces/Company";
@@ -11,6 +12,7 @@ import State from "../../../interfaces/State";
 import lang from "../../../language.json";
 import { getCitizenById } from "../../../lib/actions/citizen";
 import { getCompanyById } from "../../../lib/actions/company";
+import { ModalIds } from "../../../lib/types";
 import { Span } from "../citizen-info";
 
 interface Props {
@@ -22,6 +24,8 @@ interface Props {
   getCitizenById: (id: string) => void;
   getCompanyById: (id: string, citizenId: string) => void;
 }
+
+const ranks = ["owner", "manager"];
 
 const CompanyPage: React.FC<Props> = ({
   citizen,
@@ -61,12 +65,16 @@ const CompanyPage: React.FC<Props> = ({
       <div className="d-flex justify-content-between">
         <h3>{company?.name}</h3>
         <div>
-          <a
-            className="btn btn-primary me-2"
-            href={`/company/${citizenId}/${companyId}/create-post`}
-          >
-            {lang.citizen.company.create_a_post}
-          </a>
+          {ranks.includes(citizen?.rank!) || citizen?.posts === "1" ? (
+            <button
+              className="btn btn-primary me-2"
+              data-bs-toggle="modal"
+              data-bs-target={`#${ModalIds.CreateCompanyPost}`}
+            >
+              {lang.citizen.company.create_a_post}
+            </button>
+          ) : null}
+
           {citizen?.rank === "manager" || citizen?.rank === "owner" ? (
             <Link className="btn btn-secondary" to={`/company/${citizenId}/${companyId}/manage`}>
               {lang.citizen.company.manage_company}
@@ -92,6 +100,8 @@ const CompanyPage: React.FC<Props> = ({
           );
         })}
       </div>
+
+      <CreatePostModal />
     </Layout>
   );
 };

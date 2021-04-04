@@ -1,8 +1,10 @@
 import * as React from "react";
-import Modal, { XButton } from "./index";
+import Modal from "./index";
 import lang from "../../language.json";
 import { createTaxiCall } from "../../lib/actions/taxi-calls";
 import { connect } from "react-redux";
+import { modal } from "../../lib/functions";
+import { ModalIds } from "../../lib/types";
 
 interface Props {
   createTaxiCall: (data: object) => void;
@@ -12,7 +14,6 @@ const CallTaxiModal: React.FC<Props> = ({ createTaxiCall }) => {
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,20 +24,14 @@ const CallTaxiModal: React.FC<Props> = ({ createTaxiCall }) => {
       caller,
     });
 
-    btnRef.current?.click();
-
+    modal(ModalIds.CallTaxi).hide();
     setDescription("");
     setLocation("");
     setCaller("");
   }
 
   return (
-    <Modal size="lg" id="callTaxiModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{window.lang.taxi.taxi_service}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={window.lang.taxi.taxi_service} size="lg" id={ModalIds.CallTaxi}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

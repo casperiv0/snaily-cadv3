@@ -46,7 +46,11 @@ router.post(
         [id, name, department, callsign, req.userId, "off-duty", "", "officer"],
       );
 
-      return res.json({ status: "success" });
+      const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [
+        req.userId,
+      ]);
+
+      return res.json({ status: "success", officers });
     } else {
       return res.json({
         error: "Please fill in all fields",

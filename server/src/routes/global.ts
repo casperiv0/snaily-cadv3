@@ -12,8 +12,8 @@ import { checkVersion } from "../lib/checks";
 
 const router: Router = Router();
 
-export function mapCalls(calls: Call[]): Call[] {
-  return calls.map((call) => {
+export function mapCalls(calls: Call[]) {
+  calls = calls.map((call) => {
     try {
       call.assigned_unit = JSON.parse(
         (typeof call.assigned_unit === "string" && call.assigned_unit) || "[]",
@@ -29,18 +29,12 @@ export function mapCalls(calls: Call[]): Call[] {
 
     return call;
   });
-}
-
-router.get("/911-calls", async (_req: IRequest, res: Response) => {
-  const calls = await processQuery<Call>("SELECT * FROM `911calls`");
-
-  const mappedCalls = mapCalls(calls);
 
   const callsWithEvents = async () => {
     const arr: any[] = [];
 
     await Promise.all(
-      mappedCalls.map(async (call) => {
+      calls.map(async (call) => {
         const events = await processQuery("SELECT * FROM `call_events` WHERE `call_id` = ?", [
           call.id,
         ]);
@@ -55,7 +49,15 @@ router.get("/911-calls", async (_req: IRequest, res: Response) => {
     return arr;
   };
 
-  return res.json({ calls: await callsWithEvents(), status: "success" });
+  return callsWithEvents();
+}
+
+router.get("/911-calls", async (_req: IRequest, res: Response) => {
+  const calls = await processQuery<Call>("SELECT * FROM `911calls`");
+
+  const mappedCalls = await mapCalls(calls);
+
+  return res.json({ calls: mappedCalls, status: "success" });
 });
 
 router.post("/911-calls", async (req: IRequest, res: Response) => {
@@ -87,7 +89,9 @@ router.post("/911-calls", async (req: IRequest, res: Response) => {
   io.sockets.emit("NEW_911_CALL");
   io.sockets.emit("UPDATE_911_CALLS");
 
-  return res.json({ status: "success" });
+  const calls = await processQuery<Call>("SELECT * FROM `911calls`");
+  const mappedCalls = await mapCalls(calls);
+  return res.json({ status: "success", calls: mappedCalls });
 });
 
 router.post("/cad-info", useAuth, async (_req: IRequest, res: Response) => {

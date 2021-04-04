@@ -2,7 +2,7 @@ import * as React from "react";
 import { useLocation } from "react-router-dom";
 import format from "date-fns/format";
 import { connect } from "react-redux";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import AlertMessage from "../../alert-message";
@@ -19,6 +19,7 @@ import {
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "../../../interfaces/Record";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
 import Select, { Value } from "../../select";
+import { ModalIds } from "../../../lib/types";
 
 interface NameSearch {
   type: "name";
@@ -52,7 +53,6 @@ const NameSearchModal: React.FC<Props> = ({
 }) => {
   const [name, setName] = React.useState<Value | null>(null);
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
-  const btnRef = React.createRef<HTMLButtonElement>();
   const location = useLocation();
   const isSuspended = React.useCallback(
     (type: string) => {
@@ -93,12 +93,7 @@ const NameSearchModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal size="lg" id="nameSearchModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.name_search}</h5>
-        <XButton ref={btnRef}></XButton>
-      </div>
-
+    <Modal title={lang.global.name_search} size="lg" id={ModalIds.NameSearch}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           {showResults && search?.warrants[0] ? (
@@ -645,7 +640,7 @@ const NameSearchModal: React.FC<Props> = ({
               <button
                 type="button"
                 className="btn btn-danger"
-                data-bs-target="#createTicketModal"
+                data-bs-target={`#${ModalIds.CreateTicket}`}
                 data-bs-toggle="modal"
               >
                 {lang.global.create_ticket}
@@ -653,7 +648,7 @@ const NameSearchModal: React.FC<Props> = ({
               <button
                 type="button"
                 className="btn btn-danger"
-                data-bs-target="#createArrestReportModal"
+                data-bs-target={`#${ModalIds.CreateArrestReport}`}
                 data-bs-toggle="modal"
               >
                 {lang.global.create_arrest_report}

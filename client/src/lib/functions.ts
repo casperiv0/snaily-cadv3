@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { toast, ToastOptions } from "react-toastify";
 import Call from "../interfaces/Call";
 import Code10 from "../interfaces/Code10";
+import { ModalIds } from "./types";
 
 type AllowedMethods = "GET" | "POST" | "DELETE" | "PUT";
 let url: string | undefined = "/";
@@ -107,4 +108,13 @@ export function filterCodes(codes: Code10[]) {
       return a.position - b.position;
     }
   });
+}
+
+export function modal(id: ModalIds) {
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error("modal el could not be found");
+  }
+
+  return window.bootstrap.Modal.getInstance(el);
 }

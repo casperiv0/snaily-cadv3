@@ -68,6 +68,7 @@ export const UPDATE_CITIZEN = "UPDATE_CITIZEN";
 export const DELETE_CITIZEN = "DELETE_CITIZEN";
 export const UPDATE_LICENSES = "UPDATE_LICENSES";
 export const GET_VEHICLE_BY_ID = "GET_VEHICLE_BY_ID";
+export const UPDATE_VEHICLE = "UPDATE_VEHICLE";
 export const GET_ALL_CITIZENS = "GET_ALL_CITIZENS";
 export const TRANSFER_VEHICLE = "TRANSFER_VEHICLE";
 export const REPORT_AS_STOLEN = "REPORT_AS_STOLEN";
@@ -120,30 +121,11 @@ export const GET_CAD_INFO = "GET_CAD_INFO";
 /* All values */
 export const DELETE_VALUE = "DELETE_VALUE";
 export const ADD_VALUE = "ADD_VALUE";
-export const GET_VALUE_BY_ID = "GET_VALUE_BY_ID";
 export const UPDATE_VALUE_BY_ID = "UPDATE_VALUE_BY_ID";
 export const VALUES_SET_LOADING = "VALUES_SET_LOADING";
+export const GET_VALUES = "GET_VALUES";
 
 export const GET_DEPARTMENTS = "GET_DEPARTMENTS";
-export const GET_ADMIN_DEPARTMENTS = "GET_ADMIN_DEPARTMENTS";
-export const UPDATE_DEPARTMENT = "UPDATE_DEPARTMENT";
-
-export const GET_GENDERS = "GET_GENDERS";
-export const UPDATE_GENDER = "UPDATE_GENDER";
-
-export const GET_ETHNICITIES = "GET_ETHNICITIES";
-export const UPDATE_ETHNICITY = "UPDATE_ETHNICITY";
-
-export const GET_WEAPONS = "GET_WEAPONS";
-export const UPDATE_WEAPON = "UPDATE_WEAPON";
-
-export const GET_VEHICLES = "GET_VEHICLES";
-export const UPDATE_VEHICLE = "UPDATE_VEHICLE";
-
-export const GET_CALL_TYPES = "GET_CALL_TYPES";
-
-export const GET_LEGAL_STATUSES = "GET_LEGAL_STATUSES";
-export const UPDATE_LEGAL_STATUS = "UPDATE_LEGAL_STATUS";
 
 export const GET_ALL_UNITS = "GET_ALL_UNITS";
 export const ADMIN_UPDATE_UNIT = "ADMIN_UPDATE_UNIT";
@@ -158,12 +140,15 @@ export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
 
 export const GET_PENAL_CODES = "GET_PENAL_CODES";
+export const CREATE_PENAL_CODE = "CREATE_PENAL_CODE";
 export const UPDATE_PENAL_CODES = "UPDATE_PENAL_CODES";
 export const DELETE_PENAL_CODE = "DELETE_PENAL_CODE";
 export const GET_10_CODES = "GET_10_CODES";
 export const CREATE_10_CODE = "CREATE_10_CODE";
 export const DELETE_10_CODE = "DELETE_10_CODE";
 export const UPDATE_10_CODE = "UPDATE_10_CODE";
+
+export const GET_TEMP_PASSWORD = "GET_TEMP_PASSWORD";
 
 export enum SOCKET_EVENTS {
   CHECK_CONNECTION = "CHECK_CONNECTION",
@@ -180,4 +165,47 @@ export enum SOCKET_EVENTS {
   UPDATE_ASSIGNED_UNITS = "UPDATE_ASSIGNED_UNITS",
   UPDATE_TAXI_CALLS = "UPDATE_TAXI_CALLS",
   UPDATE_TOW_CALLS = "UPDATE_TOW_CALLS",
+}
+
+export enum ModalIds {
+  CreateArrestReport = "createArrestReportModal",
+  CreateBolo = "createBoloModal",
+  CreateTicket = "createTicketModal",
+  CreateWrittenWarning = "createWrittenWarningModal",
+  NameSearch = "nameSearchModal",
+  PlateSearch = "plateSearchModal",
+  WeaponSearch = "weaponSearchModal",
+  SelectOfficer = "selectOfficerModal",
+  Call911 = "call911Modal",
+  CallTaxi = "callTaxiModal",
+  CallTow = "callTowModal",
+  Notepad = "notepadModal",
+  AddMedicalRecord = "addMedicalRecordModal",
+  SearchMedicalRecords = "searchMedicalRecordsModal",
+  SelectEmsFd = "selectEmsFdModal",
+  DeleteAccount = "deleteAccountModal",
+  EditPassword = "editPasswordModal",
+  DeleteCitizen = "deleteCitizenModal",
+  CreateCompany = "createCompanyModal",
+  CreateCompanyPost = "createCompanyPostModal",
+  JoinCompany = "joinCompanyModal",
+  RequestExpungement = "requestExpungementModal",
+  AddressSearch = "addressSearchModal",
+  Update911Call = "update911CallModal",
+  UpdateStatus = "updateStatusModal",
+  EditLicenses = "editLicensesModal",
+  CreateMedicalCreate = "createMedicalRecordModal",
+  RegisterVehicle = "registerVehicleModal",
+  RegisterWeapon = "registerWeaponModal",
+  CreateTruckLog = "createTruckLogModal",
+  CreateOfficer = "createOfficerModal",
+  Create10Code = "create10CodeModal",
+  CreatePenalCode = "createPenalCodeModal",
+  Edit10Code = "edit10CodeModal",
+  EditPenalCode = "editPenalCodeModal",
+  AddValue = "addValueModal",
+  EditValue = "editValueModal",
+  CreateEmsFd = "createEmsFdModal",
+  CreateBleet = "createBleetModal",
+  EditBleet = "editBleetModal",
 }

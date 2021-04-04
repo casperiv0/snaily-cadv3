@@ -1,47 +1,39 @@
 import * as React from "react";
-import Layout from "../../components/Layout";
-import Citizen from "../../interfaces/Citizen";
-import Match from "../../interfaces/Match";
-import State from "../../interfaces/State";
-import lang from "../../language.json";
-import Value from "../../interfaces/Value";
-import Field from "../../interfaces/Field";
 import { connect } from "react-redux";
-import { getCitizenById, updateLicenses } from "../../lib/actions/citizen";
-import { getLegalStatuses } from "../../lib/actions/values";
-import { Link, useHistory } from "react-router-dom";
-import useDocTitle from "../../hooks/useDocTitle";
-import Select from "../../components/select";
+import Citizen from "../../../interfaces/Citizen";
+import State from "../../../interfaces/State";
+import lang from "../../../language.json";
+import Value from "../../../interfaces/Value";
+import Field from "../../../interfaces/Field";
+import { getValuesByPath } from "../../../lib/actions/values";
+import Select from "../../select";
+import Modal from "..";
+import { ModalIds } from "../../../lib/types";
+import { modal } from "../../../lib/functions";
+import { updateLicenses } from "../../../lib/actions/citizen";
+import ValuePaths from "../../../interfaces/ValuePaths";
 
 interface Props {
   citizen: Citizen | null;
-  match: Match;
   legalStatuses: Value[];
-  getCitizenById: (id: string) => void;
-  getLegalStatuses: () => void;
+  getValuesByPath: (path: ValuePaths) => void;
   updateLicenses: (id: string, data: object) => Promise<boolean>;
 }
 
-const EditLicensesPage: React.FC<Props> = ({
-  match,
+const EditLicensesModal: React.FC<Props> = ({
   citizen,
   legalStatuses,
-  getCitizenById,
-  getLegalStatuses,
+  getValuesByPath,
   updateLicenses,
 }) => {
-  useDocTitle(window.lang.citizen.license.edit);
   const [dmv, setDmv] = React.useState("");
   const [fireArms, setFireArms] = React.useState("");
   const [pilot, setPilot] = React.useState("");
   const [ccw, setCcw] = React.useState("");
-  const history = useHistory();
 
   const isSuspended = React.useCallback((type: string) => {
     return type === "1";
   }, []);
-
-  const citizenId = match.params.id;
 
   const fields: Field[] = [
     {
@@ -87,9 +79,8 @@ const EditLicensesPage: React.FC<Props> = ({
   ];
 
   React.useEffect(() => {
-    getCitizenById(citizenId);
-    getLegalStatuses();
-  }, [getCitizenById, getLegalStatuses, citizenId]);
+    getValuesByPath("legal-statuses");
+  }, [getValuesByPath]);
 
   React.useEffect(() => {
     if (citizen !== null) {
@@ -102,8 +93,9 @@ const EditLicensesPage: React.FC<Props> = ({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!citizen) return;
 
-    const updated = await updateLicenses(citizenId, {
+    const updated = await updateLicenses(citizen?.id, {
       dmv,
       fire_license: fireArms,
       pilot_license: pilot,
@@ -111,45 +103,47 @@ const EditLicensesPage: React.FC<Props> = ({
     });
 
     if (updated === true) {
-      history.push(`/citizen/${citizenId}`);
+      modal(ModalIds.EditLicenses).hide();
     }
   }
 
   return (
-    <Layout>
+    <Modal size="lg" id={ModalIds.EditLicenses} title={window.lang.citizen.license.edit}>
       <form onSubmit={onSubmit}>
-        {fields.map((field: Field, idx: number) => {
-          return (
-            <div key={idx} id={`${idx}`} className="mb-3">
-              <label className="form-label" htmlFor={field.id}>
-                {field.label}
-              </label>
+        <div className="modal-body">
+          {fields.map((field: Field, idx: number) => {
+            return (
+              <div key={idx} id={`${idx}`} className="mb-3">
+                <label className="form-label" htmlFor={field.id}>
+                  {field.label}
+                </label>
 
-              <Select
-                isClearable={false}
-                isMulti={false}
-                theme="dark"
-                value={{ value: field.value, label: field.value }}
-                onChange={field.onChange}
-                options={legalStatuses.map((status) => ({
-                  value: status.name,
-                  label: status.name,
-                }))}
-              />
-            </div>
-          );
-        })}
+                <Select
+                  id={field.id}
+                  isClearable={false}
+                  isMulti={false}
+                  value={{ value: field.value, label: field.value }}
+                  onChange={field.onChange}
+                  options={legalStatuses.map((status) => ({
+                    value: status.name,
+                    label: status.name,
+                  }))}
+                />
+              </div>
+            );
+          })}
+        </div>
 
-        <div className="mb-3 float-end">
-          <Link className="btn btn-danger" to={`/citizen/${citizenId}`}>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
-          </Link>
-          <button type="submit" className="btn btn-primary ms-2">
+          </button>
+          <button type="submit" className="btn btn-primary">
             {lang.global.update}
           </button>
         </div>
       </form>
-    </Layout>
+    </Modal>
   );
 };
 
@@ -159,7 +153,6 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  getCitizenById,
-  getLegalStatuses,
+  getValuesByPath,
   updateLicenses,
-})(EditLicensesPage);
+})(EditLicensesModal);

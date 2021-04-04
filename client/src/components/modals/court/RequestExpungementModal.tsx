@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import Modal, { XButton } from "..";
+import Modal from "..";
 import { CourtResults, searchCitizen, requestExpungement } from "../../../lib/actions/court";
 import State from "../../../interfaces/State";
 import Select from "../../select";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   searchCitizen: (name: string) => void;
@@ -21,7 +22,6 @@ const RequestExpungementModal: React.FC<Props> = ({
   const [arrReports, setArrReports] = React.useState([]);
   const [warrants, setWarrants] = React.useState([]);
   const [disabled, setDisabled] = React.useState(true);
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
     if (courtResult !== null) {
@@ -54,12 +54,7 @@ const RequestExpungementModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal size="xl" id="requestExpungementModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{window.lang.court.request_expungement}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={window.lang.court.request_expungement} size="xl" id={ModalIds.RequestExpungement}>
       <div className="modal-body">
         <form id="name-form" onSubmit={onSubmit}>
           <div className="mb-3">

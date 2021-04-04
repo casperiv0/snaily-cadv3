@@ -10,7 +10,7 @@ import ActiveUnits from "../../components/dispatch/ActiveUnits";
 import socket from "../../lib/socket";
 import ActiveCalls from "../../components/dispatch/ActiveCalls";
 import ActiveBolos from "../../components/active-bolos";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
 import NameSearchModal from "../../components/modals/leo/nameSearchModal";
 import AddressSearchModal from "../../components/modals/dispatch/addressSearchModal";
@@ -79,7 +79,7 @@ const DispatchDash: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <Layout fluid classes="pb-5 mt-5">
+    <Layout fluid>
       {panic !== null ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
           {panic.officer_name} {window.lang.global.panic_button}
@@ -117,16 +117,13 @@ const DispatchDash: React.FC<Props> = (props) => {
       <ActiveCalls />
       <ActiveBolos />
 
-      {/* modals */}
-      <div id="modals">
-        <NotepadModal />
-        <AddressSearchModal />
-        <NameSearchModal />
-        <PlateSearchModal />
-        <WeaponSearchModal />
-        <CreateBoloModal />
-        <Call911Modal />
-      </div>
+      <NotepadModal />
+      <AddressSearchModal />
+      <NameSearchModal />
+      <PlateSearchModal />
+      <WeaponSearchModal />
+      <CreateBoloModal />
+      <Call911Modal />
     </Layout>
   );
 };

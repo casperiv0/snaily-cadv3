@@ -1,11 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import lang from "../../../language.json";
 import State from "../../../interfaces/State";
 import Citizen from "../../../interfaces/Citizen";
 import { createCompany } from "../../../lib/actions/company";
 import Select, { Value } from "../../select";
+import { ModalIds } from "../../../lib/types";
 
 interface Props {
   citizens: Citizen[];
@@ -17,7 +18,6 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, createCompany }) => {
   const [name, setName] = React.useState<string>("");
   const [whitelist, setWhitelist] = React.useState<string>("no");
   const [ownerId, setOwnerId] = React.useState<Value | null>(null);
-  const btnRef = React.createRef<HTMLButtonElement>();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,12 +31,7 @@ const CreateCompanyModal: React.FC<Props> = ({ citizens, createCompany }) => {
   }
 
   return (
-    <Modal id="createCompanyModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.citizen.company.create}</h5>
-        <XButton ref={btnRef} />
-      </div>
-
+    <Modal title={lang.citizen.company.create} id={ModalIds.CreateCompany}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">

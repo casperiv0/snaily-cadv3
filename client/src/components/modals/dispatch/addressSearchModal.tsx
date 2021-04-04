@@ -1,12 +1,14 @@
 import * as React from "react";
 import lang from "../../../language.json";
 import Citizen from "../../../interfaces/Citizen";
-import Modal, { XButton } from "../index";
+import Modal from "../index";
 import { searchAddress } from "../../../lib/actions/dispatch";
 import { connect } from "react-redux";
 import State from "../../../interfaces/State";
 import AlertMessage from "../../alert-message";
 import { Item, Span } from "../../../pages/citizen/citizen-info";
+import { ModalIds } from "../../../lib/types";
+import { useModalOpen } from "../../../hooks/useModalOpen";
 
 interface Props {
   search: Citizen[];
@@ -15,7 +17,7 @@ interface Props {
 
 const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
   const [address, setAddress] = React.useState("");
-  const btnRef = React.createRef<HTMLButtonElement>();
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.AddressSearch);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -24,12 +26,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
   }
 
   return (
-    <Modal size="lg" id="addressSearchModal">
-      <div className="modal-header">
-        <h5 className="modal-title">{lang.global.address_search}</h5>
-        <XButton ref={btnRef}></XButton>
-      </div>
-
+    <Modal title={lang.global.address_search} size="lg" id={ModalIds.AddressSearch}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
@@ -37,6 +34,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
               {lang.dispatch.enter_address}
             </label>
             <input
+              ref={ref}
               value={address}
               className="form-control bg-secondary border-secondary text-light"
               id="address"
@@ -69,7 +67,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
                       <div>
                         <button
                           data-bs-toggle="modal"
-                          data-bs-target="#nameSearchModal"
+                          data-bs-target={`#${ModalIds.NameSearch}`}
                           className="btn btn-primary"
                         >
                           {window.lang.dispatch.open_name_search}

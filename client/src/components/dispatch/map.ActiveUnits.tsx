@@ -7,7 +7,7 @@ import socket from "../../lib/socket";
 import Officer from "../../interfaces/Officer";
 import Deputy from "../../interfaces/Deputy";
 import UpdateStatusModal from "../modals/dispatch/UpdateStatus";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 interface Props {
   officers: Officer[];
@@ -16,6 +16,8 @@ interface Props {
 }
 
 const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) => {
+  const [tempUnit, setTempUnit] = React.useState<any>(null);
+
   React.useEffect(() => {
     getActiveUnits();
   }, [getActiveUnits]);
@@ -29,9 +31,10 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
     };
   }, [getActiveUnits]);
 
-  function updateZIndex() {
-    J(".active-calls").css("z-index", 9000);
-    J(".active-units").css("z-index", 9999);
+  function updateZIndex(unit: any) {
+    J("#modal-portal").css("z-index", 999);
+
+    setTempUnit(unit);
   }
 
   return (
@@ -60,9 +63,9 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
               </div>
               <button
                 data-bs-toggle="modal"
-                data-bs-target={`#updateStatus${value.id}`}
+                data-bs-target={`#${ModalIds.UpdateStatus}`}
                 className="active-units-edit"
-                onClick={updateZIndex}
+                onClick={() => updateZIndex(value)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -84,30 +87,10 @@ const ActiveUnitsMap: React.FC<Props> = ({ ems_fd, officers, getActiveUnits }) =
         );
       })}
 
-      <div id="modals">
-        {officers.map((officer: Officer, idx: number) => {
-          return (
-            <UpdateStatusModal
-              type="officers"
-              key={idx}
-              id={officer.id}
-              status={officer.status}
-              status2={officer.status2}
-            />
-          );
-        })}
-        {ems_fd.map((deputy: Deputy, idx: number) => {
-          return (
-            <UpdateStatusModal
-              type="ems-fd"
-              key={idx}
-              id={deputy.id}
-              status={deputy.status}
-              status2={deputy.status2}
-            />
-          );
-        })}
-      </div>
+      <UpdateStatusModal
+        type={tempUnit && "officer_name" in tempUnit ? "officers" : "ems-fd"}
+        data={tempUnit}
+      />
     </div>
   );
 };

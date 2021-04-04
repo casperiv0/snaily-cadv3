@@ -9,7 +9,7 @@ import ActiveBolos from "../../components/active-bolos";
 import SelectOfficerModal from "../../components/modals/leo/selectOfficerModal";
 import CreateWarrant from "../../components/leo/CreateWarrant";
 import socket from "../../lib/socket";
-import NotepadModal from "../../components/modals/notepad";
+import NotepadModal from "../../components/modals/NotepadModal";
 import CreateBoloModal from "../../components/modals/leo/createBoloModal";
 import PlateSearchModal from "../../components/modals/leo/plateSearchModal";
 import NameSearchModal from "../../components/modals/leo/nameSearchModal";
@@ -156,18 +156,15 @@ const LeoDash: React.FC<Props> = (props) => {
         </div>
       </div>
 
-      {/* Modals */}
-      <div id="modals">
-        <SelectOfficerModal />
-        <NotepadModal />
-        <CreateBoloModal />
-        <WeaponSearchModal />
-        <PlateSearchModal />
-        <NameSearchModal />
-        <CreateWrittenWarningModal />
-        <CreateArrestReportModal />
-        <CreateTicketModal />
-      </div>
+      <SelectOfficerModal />
+      <NotepadModal />
+      <CreateBoloModal />
+      <WeaponSearchModal />
+      <PlateSearchModal />
+      <NameSearchModal />
+      <CreateWrittenWarningModal />
+      <CreateArrestReportModal />
+      <CreateTicketModal />
     </Layout>
   );
 };

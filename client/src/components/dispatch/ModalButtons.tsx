@@ -6,37 +6,37 @@ import { Perm } from "../../interfaces/User";
 import lang from "../../language.json";
 import { playSound } from "../../lib/functions";
 import socket from "../../lib/socket";
-import { SOCKET_EVENTS } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 import { MButton } from "../leo/ModalButtons";
 
 const modalButtons: MButton[] = [
   {
     name: lang.global.name_search,
-    target: "#nameSearchModal",
+    target: ModalIds.NameSearch,
   },
   {
     name: lang.global.plate_search,
-    target: "#plateSearchModal",
+    target: ModalIds.PlateSearch,
   },
   {
     name: lang.global.weapon_search,
-    target: "#weaponSearchModal",
+    target: ModalIds.WeaponSearch,
   },
   {
     name: lang.global.address_search,
-    target: "#addressSearchModal",
+    target: ModalIds.AddressSearch,
   },
   {
     name: lang.global.create_bolo,
-    target: "#createBoloModal",
+    target: ModalIds.CreateBolo,
   },
   {
     name: lang.global.create_911_call,
-    target: "#call911Modal",
+    target: ModalIds.Call911,
   },
   {
     name: lang.global.notepad,
-    target: "#notepad",
+    target: ModalIds.Notepad,
   },
 ];
 
@@ -88,7 +88,7 @@ const ModalButtons: React.FC<Props> = ({ cadInfo }) => {
             id={`${idx}`}
             key={idx}
             className="btn btn-secondary col-md-2"
-            data-bs-target={mButton.target}
+            data-bs-target={`#${mButton.target}`}
             data-bs-toggle="modal"
           >
             {mButton.name}

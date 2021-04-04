@@ -10,7 +10,7 @@ import IUser from "../../interfaces/IUser";
 import Citizen from "../../interfaces/Citizen";
 import { checkForInvalidChars, logoutActiveUnits, serializeUsername } from "../../lib/functions";
 
-const saltRounds = genSaltSync(10);
+export const saltRounds = genSaltSync(10);
 const router: Router = Router();
 
 router.post("/register", async (req: IRequest, res: Response) => {
@@ -43,7 +43,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
     const hash = hashSync(password, saltRounds);
     const users = await processQuery<IUser>("SELECT `username` FROM `users`");
     const insertSQL =
-      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `supervisor`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `supervisor`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `edit_passwords`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // There are existing users - create the account at user level
     if (users?.length > 0) {
@@ -67,6 +67,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
         whitelistStatus /* whitelist_status */,
         "" /* steam_id */,
         "" /* avatar_url */,
+        "0" /* edit_passwords */,
       ]);
 
       if (cadInfo[0].whitelisted === "1") {
