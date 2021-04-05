@@ -58,7 +58,7 @@ const PenalCodesPage: React.FC<Props> = ({ penalCodes, getPenalCodes }) => {
               ref={ref}
               key={idx}
               id={`${idx}`}
-              className="list-group-item bg-dark border-secondary"
+              className="list-group-item bg-dark border-secondary text-white"
             >
               <h4>{code.title}</h4>
               <div className="mt-4 py-2">

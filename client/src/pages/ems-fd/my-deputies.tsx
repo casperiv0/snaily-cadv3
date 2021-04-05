@@ -45,7 +45,7 @@ const MyDeputiesPage: React.FC<Props> = ({ deputies, getMyDeputies, deleteEmsFdD
             <li
               key={idx}
               id={`${idx}`}
-              className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+              className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
             >
               <p>
                 {++idx} | {deputy.name}

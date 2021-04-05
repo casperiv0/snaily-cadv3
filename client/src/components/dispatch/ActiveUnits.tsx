@@ -36,12 +36,14 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
     <>
       {/* Active officers */}
       <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
-        <li className="list-group-item bg-secondary border-secondary sticky-top">
+        <li className="list-group-item bg-secondary border-secondary sticky-top text-white">
           <h5>{lang.global.active_officers}</h5>
         </li>
 
         {!officers[0] ? (
-          <li className="list-group-item bg-dark border-dark mb-3">{lang.global.no_officers}</li>
+          <li className="list-group-item bg-dark border-dark mb-3 text-white">
+            {lang.global.no_officers}
+          </li>
         ) : (
           <table className="table table-dark">
             <thead>
@@ -81,12 +83,14 @@ const ActiveUnits: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
       </ul>
       {/* Active EMS/FD */}
       <ul className="list-group overflow-auto mt-0" style={{ maxHeight: "25rem" }}>
-        <li className="list-group-item bg-secondary border-secondary sticky-top">
-          <h5>{lang.global.active_ems_fd}</h5>
+        <li className="list-group-item bg-secondary border-secondary sticky-top text-white">
+          <h6>{lang.global.active_ems_fd}</h6>
         </li>
 
         {!ems_fd[0] ? (
-          <li className="list-group-item bg-dark border-dark mb-3">{lang.global.no_ems_fd}</li>
+          <li className="list-group-item bg-dark border-dark mb-3 text-white">
+            {lang.global.no_ems_fd}
+          </li>
         ) : (
           <table className="table table-dark">
             <thead>

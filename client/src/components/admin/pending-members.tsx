@@ -25,7 +25,7 @@ const PendingMembersTab: React.FC<Props> = ({ members, acceptUser, declineUser }
               return (
                 <li
                   key={idx}
-                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
                 >
                   <div>
                     {++idx} | {member.username}

@@ -26,7 +26,7 @@ const AllCitizensTab: React.FC<Props> = ({ citizens }) => {
               <li
                 key={idx}
                 id={`${idx}`}
-                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
               >
                 <div>
                   <div>

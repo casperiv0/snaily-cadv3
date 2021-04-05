@@ -121,7 +121,7 @@ const Values: React.FC<Props> = ({
               return (
                 <li
                   ref={ref}
-                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
                   key={idx}
                   id={`${idx}`}
                 >

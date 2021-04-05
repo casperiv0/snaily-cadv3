@@ -58,7 +58,7 @@ const Codes10Management: React.FC<Props> = ({ codes, loading, get10Codes, delete
                 return (
                   <li
                     key={code.id}
-                    className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                    className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
                   >
                     <div>
                       <div className="mb-0">

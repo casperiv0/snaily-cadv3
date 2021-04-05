@@ -40,12 +40,12 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant, activeOfficer }) => {
 
   return (
     <div className="list-group">
-      <div className="list-group-item bg-secondary border-secondary">
+      <div className="list-group-item bg-secondary border-secondary text-white">
         {lang.global.create_warrant}
       </div>
       <form onSubmit={onSubmit} className="list-group-item bg-dark border-dark">
         <div className="mb-3">
-          <label className="form-label" htmlFor="warrant_name">
+          <label className="form-label text-white" htmlFor="warrant_name">
             {lang.record.enter_full_name}
           </label>
           <input
@@ -57,7 +57,7 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant, activeOfficer }) => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label" htmlFor="status">
+          <label className="form-label text-white" htmlFor="status">
             {lang.record.select_status}
           </label>
 
@@ -79,7 +79,7 @@ const CreateWarrant: React.FC<Props> = ({ createWarrant, activeOfficer }) => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label" htmlFor="details">
+          <label className="form-label text-white" htmlFor="details">
             {lang.record.enter_details}
           </label>
           <input
