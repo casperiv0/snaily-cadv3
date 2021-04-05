@@ -1,6 +1,7 @@
 # builds 
 dist
 build
+.next
 
 # env
 .env

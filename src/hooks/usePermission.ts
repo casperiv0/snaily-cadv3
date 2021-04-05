@@ -3,13 +3,13 @@ import IRequest from "../interfaces/IRequest";
 import IUser, { Perm } from "../interfaces/IUser";
 import { RanksArr, RanksType } from "../lib/constants";
 import { processQuery } from "../lib/database";
-import Logger from "../lib/Logger";
+import { logger } from "../lib/logger";
 
 // rank, leo, ems_fd, dispatch, tow
 type UserPermsArr = [RanksType, Perm, Perm, Perm, Perm, Perm];
 type Permissions = RanksType | "leo" | "ems_fd" | "dispatch" | "tow" | "supervisor";
 
-const usePermission = (perms: Permissions[]) => async (
+export const usePermission = (perms: Permissions[]) => async (
   req: IRequest,
   res: Response,
   next: NextFunction,
@@ -102,7 +102,7 @@ const usePermission = (perms: Permissions[]) => async (
     }
 
     if (invalid) {
-      return res.json({
+      return res.status(401).json({
         error: "Forbidden",
         needed_permissions: perms.map((p) => `'${p}'`).join(" or "),
         status: "error",
@@ -112,12 +112,10 @@ const usePermission = (perms: Permissions[]) => async (
 
     next();
   } catch (e) {
-    Logger.error("USE_PERMISSION", e);
-    return res.json({
+    logger.error("USE_PERMISSION", e);
+    return res.status(500).json({
       error: "An error occurred checking the user's permission",
       status: "error",
     });
   }
 };
-
-export default usePermission;
