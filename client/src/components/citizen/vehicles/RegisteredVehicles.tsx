@@ -35,7 +35,7 @@ const RegisteredVehicles: React.FC<Props> = ({
 
       <div className="card-body">
         {!vehicles[0] ? (
-          <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
+          <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between text-white">
             {lang.citizen.vehicle.no_veh}
             <button
               data-bs-target={`#${ModalIds.RegisterVehicle}`}
@@ -70,7 +70,7 @@ const RegisteredVehicles: React.FC<Props> = ({
                   <li
                     key={idx}
                     id={`${idx}`}
-                    className="list-group-item bg-secondary border-dark d-flex justify-content-between"
+                    className="list-group-item bg-secondary border-dark d-flex justify-content-between text-white"
                   >
                     <div>
                       <Item id="vehicle">

@@ -48,7 +48,7 @@ const TaxiDash: React.FC<Props> = (props) => {
       </h3>
 
       <ul className="list-group">
-        <li className="list-group-item bg-secondary d-flex justify-content-between">
+        <li className="list-group-item bg-secondary d-flex justify-content-between text-white">
           <h4>{window.lang.taxi.active_calls}</h4>
 
           <button
@@ -60,7 +60,9 @@ const TaxiDash: React.FC<Props> = (props) => {
           </button>
         </li>
         {!calls[0] ? (
-          <li className="list-group-item bg-dark border-secondary">{lang.tow.no_calls}</li>
+          <li className="list-group-item bg-dark border-secondary text-white">
+            {lang.tow.no_calls}
+          </li>
         ) : (
           <table className="table table-dark">
             <thead>

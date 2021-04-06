@@ -41,7 +41,9 @@ const MedicalRecordsCard: React.FC<Props> = ({
 
       <div className="card-body">
         {!medicalRecords[0] ? (
-          <div className="list-group-item bg-dark border-dark">{lang.citizen.medical.no_med}</div>
+          <div className="list-group-item bg-dark border-dark text-white">
+            {lang.citizen.medical.no_med}
+          </div>
         ) : (
           <table className="table table-dark">
             <thead>

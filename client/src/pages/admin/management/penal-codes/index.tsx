@@ -83,7 +83,7 @@ const PenalCodesManagement: React.FC<Props> = ({
                 <li
                   ref={ref}
                   key={code.id}
-                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
                 >
                   <div>
                     <div className="mb-0">

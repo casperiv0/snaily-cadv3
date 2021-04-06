@@ -51,7 +51,7 @@ const CreateBoloModal: React.FC<Props> = ({ search, searchAddress }) => {
                   return (
                     <li
                       key={idx}
-                      className="list-group-item bg-secondary border-dark d-flex justify-content-between"
+                      className="list-group-item bg-secondary border-dark d-flex justify-content-between text-white"
                     >
                       <div>
                         <Item id="address">

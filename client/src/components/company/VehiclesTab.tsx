@@ -18,7 +18,7 @@ const VehiclesTab: React.FC<Props> = ({ vehicles }) => {
       ) : (
         vehicles.map((vehicle: Vehicle, idx: number) => {
           return (
-            <li key={idx} className="list-group-item bg-dark border-secondary">
+            <li key={idx} className="list-group-item bg-dark border-secondary text-white">
               {++idx} | {vehicle.vehicle}
               <Item id="plate">
                 <Span>{lang.global.plate}: </Span>

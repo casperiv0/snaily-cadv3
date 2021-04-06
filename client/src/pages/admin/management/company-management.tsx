@@ -74,7 +74,7 @@ const CompanyManagementPage: React.FC<Props> = ({
               return (
                 <li
                   key={idx}
-                  className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
                 >
                   <div>
                     {++idx} | {company.name}

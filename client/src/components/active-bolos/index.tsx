@@ -32,10 +32,12 @@ const ActiveBolos: React.FC<Props> = ({ bolos, activeOfficer, getActiveBolos, de
 
   return (
     <ul className="list-group mt-2 overflow-auto" style={{ maxHeight: "25rem" }}>
-      <li className="list-group-item bg-secondary border-secondary">{lang.global.active_bolos}</li>
+      <li className="list-group-item bg-secondary border-secondary text-white">
+        <h6>{lang.global.active_bolos}</h6>
+      </li>
 
       {!bolos[0] ? (
-        <li className="list-group-item bg-dark border-dark">{lang.global.no_bolos}</li>
+        <li className="list-group-item bg-dark border-dark text-white">{lang.global.no_bolos}</li>
       ) : (
         <>
           {bolos.map((bolo, idx) => {

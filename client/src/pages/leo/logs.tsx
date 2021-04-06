@@ -39,7 +39,11 @@ const OfficerLogsPage: React.FC<Props> = ({ officers, logs, getMyOfficers, getMy
             const officer = officers.find((off) => off.id === log.officer_id);
 
             return (
-              <li key={idx} id={`${idx}`} className="list-group-item bg-dark border-secondary ">
+              <li
+                key={idx}
+                id={`${idx}`}
+                className="list-group-item bg-dark border-secondary text-white"
+              >
                 <Item id="officer_name">
                   <Span>{lang.dispatch.officer_name}: </Span>
                   {officer?.officer_name}

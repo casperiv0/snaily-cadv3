@@ -32,7 +32,7 @@ const RegisteredWeapons: React.FC<Props> = ({
 
       <div className="card-body">
         {!weapons[0] ? (
-          <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between">
+          <div className="list-group-item bg-secondary border-secondary mt-2 d-flex justify-content-between text-white">
             {lang.citizen.weapon.no_weapons}
             <button
               data-bs-target={`#${ModalIds.RegisterWeapon}`}
@@ -68,7 +68,7 @@ const RegisteredWeapons: React.FC<Props> = ({
                   <li
                     key={idx}
                     id={`${idx}`}
-                    className="list-group-item bg-secondary border-dark d-flex justify-content-between"
+                    className="list-group-item bg-secondary border-dark d-flex justify-content-between text-white"
                   >
                     <div>
                       <Item id="weapon">

@@ -216,7 +216,11 @@ const ManageOfficerPage: React.FC<Props> = ({
             ) : (
               logs?.map((log, idx) => {
                 return (
-                  <li key={idx} id={`${idx}`} className="list-group-item bg-dark border-secondary ">
+                  <li
+                    key={idx}
+                    id={`${idx}`}
+                    className="list-group-item bg-dark border-secondary text-white"
+                  >
                     <Item id="started_at">
                       <Span>{window.lang.officers.started_at}: </Span>
                       {new Date(+log.started_at).toLocaleString()}

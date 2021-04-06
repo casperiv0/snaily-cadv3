@@ -61,11 +61,11 @@ const Active911Calls: React.FC<Props> = ({
 
   return (
     <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
-      <li className="bg-secondary border-secondary list-group-item sticky-top">
-        {window.lang.global.active_erm_calls}
+      <li className="bg-secondary border-secondary list-group-item sticky-top text-white">
+        <h6>{window.lang.global.active_erm_calls}</h6>
       </li>
       {!calls[0] ? (
-        <li className="list-group-item bg-dark">{window.lang.global.no_calls}</li>
+        <li className="list-group-item bg-dark text-white">{window.lang.global.no_calls}</li>
       ) : (
         <table className="table table-dark">
           <thead>

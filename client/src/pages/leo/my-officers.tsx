@@ -52,7 +52,7 @@ const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer, getMyOfficer
               <li
                 key={idx}
                 id={`${idx}`}
-                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
               >
                 <p>
                   {++idx} | {officer.callsign || "None"} | {officer.officer_dept} |{" "}

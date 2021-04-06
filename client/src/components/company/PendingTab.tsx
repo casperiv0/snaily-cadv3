@@ -41,7 +41,7 @@ const PendingTab: React.FC<Props> = ({ employees, match, updateEmployeeStatus })
           return (
             <li
               key={idx}
-              className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+              className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
             >
               <p>
                 {++idx} | {employee.full_name}
