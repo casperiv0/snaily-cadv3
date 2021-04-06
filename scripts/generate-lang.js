@@ -2,7 +2,7 @@
 // The generator below will add them to the translation file
 const path = require("path");
 const fs = require("fs");
-let file = require("../client/src/language.json");
+let file = require("../src/language.json");
 
 console.log("[TRANSLATION]: Checking language file...");
 
@@ -247,6 +247,6 @@ if (fileHasChanged === true) {
   console.log("[TRANSLATION]: Some keys were not found in the language file, adding them now...");
 }
 
-fs.writeFileSync(path.resolve("client/src/language.json"), JSON.stringify(file, null, 4));
+fs.writeFileSync(path.resolve("./src/language.json"), JSON.stringify(file, null, 4));
 
 console.log("[TRANSLATION]: Successfully checked translation file.");

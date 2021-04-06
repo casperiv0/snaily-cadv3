@@ -9,7 +9,7 @@ const dompurify = createDompurify(window);
  * @param {string} data
  * @returns {string} Sanitized body and converted to markdown
  */
-export function (data: string): string {
+export function useMarkdown(data: string): string {
   return dompurify.sanitize(marked(data), {
     FORBID_ATTR: ["style", "onerror", "onload"],
     FORBID_TAGS: [

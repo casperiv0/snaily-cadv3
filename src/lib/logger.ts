@@ -3,8 +3,10 @@ class Logger {
     return "";
   }
 
-  error(type: string, error: string) {
-    return "Errorr";
+  error(type: string, error: Error | string) {
+    console.error(
+      `[${type.toUpperCase()}][${this.now}]: ${typeof error === "string" ? error : error.stack}`,
+    );
   }
 }
 

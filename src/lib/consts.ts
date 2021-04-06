@@ -6,6 +6,7 @@ export const Auth = {
   SaltRounds: genSaltSync(10),
 };
 
+export const RanksArr = ["owner", "admin", "moderator"];
 export enum Ranks {
   User = "user",
   Owner = "owner",
@@ -26,3 +27,5 @@ export const AnError = {
 
 export const SaveUserQueryData =
   "`id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`";
+
+export const features = ["bleeter", "tow", "taxi", "courthouse", "truck-logs"];

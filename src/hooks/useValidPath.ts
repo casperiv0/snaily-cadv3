@@ -18,7 +18,6 @@ export function useValidPath(req: IRequest): Promise<string> {
   }
 
   const parsedPath = (path as string).replace("-", "_");
-
   req.parsedPath = parsedPath;
 
   return Promise.resolve("success");

@@ -1,9 +1,10 @@
+import { Ranks } from "@lib/consts";
 import { Perm } from "./Perm";
 
 export interface User {
   id: string;
   username: string;
-  rank: string;
+  rank: Ranks;
   edit_passwords: Perm;
   leo: Perm;
   supervisor: Perm;

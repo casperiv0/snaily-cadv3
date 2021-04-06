@@ -1,38 +1,35 @@
-import { NextFunction, Response } from "express";
-import IRequest from "../interfaces/IRequest";
-import IUser, { Perm } from "../interfaces/IUser";
-import { RanksArr, RanksType } from "../lib/constants";
+import { IRequest } from "../interfaces/IRequest";
+import { User } from "types/User";
+import { AnError, RanksArr, Ranks } from "@lib/consts";
 import { processQuery } from "../lib/database";
 import { logger } from "../lib/logger";
+import { Perm } from "types/Perm";
+import { IError } from "types/IError";
 
 // rank, leo, ems_fd, dispatch, tow
-type UserPermsArr = [RanksType, Perm, Perm, Perm, Perm, Perm];
-type Permissions = RanksType | "leo" | "ems_fd" | "dispatch" | "tow" | "supervisor";
+type UserPermsArr = [Ranks, Perm, Perm, Perm, Perm, Perm];
+type Permissions = Ranks | "leo" | "ems_fd" | "dispatch" | "tow" | "supervisor";
 
-export const usePermission = (perms: Permissions[]) => async (
-  req: IRequest,
-  res: Response,
-  next: NextFunction,
-): Promise<void | Response> => {
+export const usePermission = (perms: Permissions[]) => async (req: IRequest): Promise<IError> => {
   try {
-    const user = await processQuery<IUser>(
+    const [user] = await processQuery<User>(
       "SELECT `rank`, `leo`, `dispatch`, `tow`, `ems_fd`, `supervisor` FROM `users` WHERE `id` = ?",
       [req.userId],
     );
 
     const userPerms: UserPermsArr = [
-      user[0].rank,
-      user[0].leo,
-      user[0].ems_fd,
-      user[0].dispatch,
-      user[0].tow,
-      user[0].supervisor,
+      user.rank,
+      user.leo,
+      user.ems_fd,
+      user.dispatch,
+      user.tow,
+      user.supervisor,
     ];
 
-    if (!user[0]) {
-      return res.json({
-        error: "user was not found",
-        status: "error",
+    if (!user) {
+      return Promise.reject({
+        code: 401,
+        msg: "user was not found",
       });
     }
 
@@ -87,7 +84,7 @@ export const usePermission = (perms: Permissions[]) => async (
         }
         default: {
           // 0 = rank | defaults to 'default'
-          if (!RanksArr.includes(user[0].rank)) {
+          if (!RanksArr.includes(user.rank)) {
             invalid = true;
           } else {
             invalid = false;
@@ -102,20 +99,21 @@ export const usePermission = (perms: Permissions[]) => async (
     }
 
     if (invalid) {
-      return res.status(401).json({
-        error: "Forbidden",
-        needed_permissions: perms.map((p) => `'${p}'`).join(" or "),
-        status: "error",
+      return Promise.reject({
+        code: 401,
+        msg: "Forbidden",
+        required_permissions: perms.map((p) => `'${p}'`).join(" or "),
       });
     }
     invalidPerms.length = 0;
 
-    next();
+    return Promise.resolve({ code: 200, msg: "Permission accepted" });
   } catch (e) {
     logger.error("USE_PERMISSION", e);
-    return res.status(500).json({
-      error: "An error occurred checking the user's permission",
-      status: "error",
+
+    return Promise.reject({
+      msg: AnError,
+      code: 500,
     });
   }
 };

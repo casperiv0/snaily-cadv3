@@ -1,57 +1,57 @@
-import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
+import { NextApiResponse } from "next";
 import { processQuery } from "../lib/database";
 import config from "../lib/config";
-import IRequest from "../interfaces/IRequest";
-import IUser from "../interfaces/IUser";
-import { Whitelist } from "../lib/constants";
-import { logoutActiveUnits } from "../lib/functions";
+import { IRequest } from "types/IRequest";
+import { User } from "types/User";
+import { Whitelist } from "@lib/consts";
 
-async function useAuth(req: IRequest, res: Response, next: NextFunction): Promise<void | Response> {
-  const token = req.cookies["snaily-cad-session"];
+// TODO: add this
+// import { logoutActiveUnits } from "@lib/utils";
+import { IError } from "src/interfaces/IError";
+
+async function useAuth(req: IRequest, res: NextApiResponse): Promise<IError> {
+  const token = req.cookies["snaily-cad-session"] || req.headers["session"];
   const secret = config.jwtSecret;
 
   if (!token) {
-    return res
-      .json({ server_error: "invalid token", status: "error", invalid_token: true })
-      .status(401);
+    return Promise.reject({ msg: "invalid token", code: 401, invalid_token: true });
   }
 
   try {
-    const vToken = jwt.verify(token, secret) as IUser;
-    const user = await processQuery<IUser>("SELECT `id`  FROM `users` WHERE `id` = ?", [vToken.id]);
+    const vToken = jwt.verify(token as string, secret) as { id: string };
+    const [user] = await processQuery<User>("SELECT `id`  FROM `users` WHERE `id` = ?", [
+      vToken.id,
+    ]);
 
-    if (!user[0]) {
-      return res.json({
-        invalid_token: true,
-        server_error: "user does not exist",
-        status: "error",
+    if (!user) {
+      return Promise.reject({
+        msg: "user does not exist",
+        code: 400,
       });
     }
 
-    if (user[0].whitelist_status === Whitelist.pending) {
+    if (user.whitelist_status === Whitelist.Pending) {
       return Promise.reject({
         error: "user is still pending access for CAD",
         status: "error",
       });
     }
 
-    if (user[0].banned === "1") {
-      return res.json({
-        status: "error",
-        error: `This account was banned, reason: ${user[0].ban_reason}`,
+    if (user.banned === "1") {
+      return Promise.reject({
+        msg: `This account was banned, reason: ${user.ban_reason}`,
+        code: 401,
       });
     }
 
-    req.userId = user[0].id;
+    req.userId = user.id;
 
-    next();
+    return Promise.resolve({ msg: "Authenticated", code: 200 });
   } catch (e) {
-    await logoutActiveUnits(req.userId);
+    // await logoutActiveUnits(req.userId);
 
-    return res
-      .json({ invalid_token: true, server_error: "invalid token", status: "error" })
-      .status(401);
+    return Promise.reject({ msg: "invalid token", code: 401, invalid_token: true });
   }
 }
 
