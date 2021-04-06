@@ -120,7 +120,26 @@ class MapClass extends Component<Props, MapState> {
       return;
     }
 
-    this.MAPSocket = new WebSocket(`${live_map_url}`);
+    const socket = new WebSocket(`${live_map_url}`);
+
+    socket.addEventListener("close", () => {
+      notify("Disconnected from live-map").error();
+    });
+
+    socket.addEventListener("error", (e) => {
+      notify("An error occurred when trying to connect to the live_map").error();
+      console.error("LIVE_MAP", `${JSON.stringify(e)}`);
+    });
+
+    socket.addEventListener("message", (e) => {
+      this.onMessage(e);
+    });
+
+    this.MAPSocket = socket;
+
+    this.setState({
+      loading: false,
+    });
   }
 
   handleCADSocket() {
@@ -550,13 +569,16 @@ class MapClass extends Component<Props, MapState> {
           if (!player.identifier) return;
           if (!player.name) return;
 
-          const marker = this.state.MarkerStore.find((marker) => {
+          const marker = this.state?.MarkerStore?.find((marker) => {
             return marker.payload?.player?.identifier === player.identifier;
           });
 
           let member: Partial<User> | null | undefined = null;
-          if (!this.state.showAllPlayers) {
-            member = this.props.steam_ids.find((m) => `steam:${m.steam_id}` === player?.identifier);
+          if (!this.state?.showAllPlayers) {
+            member = this.props?.steam_ids?.find(
+              (m) => `steam:${m.steam_id}` === player?.identifier,
+            );
+
             if (!member) return;
             if (member.leo === "0" || member.ems_fd === "0") return;
           }
@@ -641,8 +663,8 @@ class MapClass extends Component<Props, MapState> {
     this.initMap();
 
     // Get all values from backend
-    !this.state.ran && this.props.getActiveUnits();
-    !this.state.ran && this.props.getSteamIds();
+    !this.state.ran && this.props?.getActiveUnits();
+    !this.state.ran && this.props?.getSteamIds();
 
     this.handleCalls();
     this.initBlips();
@@ -651,22 +673,10 @@ class MapClass extends Component<Props, MapState> {
     this.CADSocket?.on("END_911_CALL", (callId: string) => {
       this.remove911Call(callId);
     });
-
-    if (!this.MAPSocket) return;
-    this.MAPSocket.onclose = () => {
-      notify("Disconnected from live-map").error();
-    };
-
-    this.MAPSocket.onerror = (e) => {
-      notify("An error occurred when trying to connect to the live_map").error();
-      console.error("LIVE_MAP", `${JSON.stringify(e)}`);
-    };
-
-    this.MAPSocket.addEventListener("message", this.onMessage);
   }
 
   componentDidUpdate() {
-    if (this.props.calls) {
+    if (this.props?.calls) {
       this.handleCalls();
     }
   }
@@ -674,7 +684,7 @@ class MapClass extends Component<Props, MapState> {
   componentWillUnmount() {
     this.state.map?.remove();
     this.MAPSocket?.close();
-    this.MAPSocket = null;
+    // this.state.MAPSocket = null;
 
     this.setState({
       MarkerStore: [],
@@ -712,7 +722,7 @@ class MapClass extends Component<Props, MapState> {
           >
             {window.lang.global.create_911_call}
           </button>
-          {["owner", "admin", "moderator"].includes(`${this.props.user?.rank}`) ? (
+          {["owner", "admin", "moderator"].includes(`${this.props?.user?.rank}`) ? (
             <button
               onClick={() => {
                 if (this.state.showAllPlayers === true) {
