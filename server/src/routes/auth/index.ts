@@ -91,7 +91,7 @@ router.post("/register", async (req: IRequest, res: Response) => {
     } else {
       // no users found - create the account at owner level
       const id = uuidv4();
-      const features = ["bleeter", "tow", "taxi", "courthouse", "truck-logs"];
+      const features = ["bleeter", "tow", "taxi", "courthouse", "truck-logs", "company"];
       await processQuery(
         "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `live_map_url`, `plate_length`, `signal_100`, `steam_api_key`, `features`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [

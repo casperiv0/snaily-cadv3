@@ -17,10 +17,13 @@ import EditLicensesModal from "../../components/modals/citizen/EditLicensesModal
 import CreateMedicalRecordModal from "../../components/modals/citizen/CreateMedicalRecordModal";
 import RegisterVehicleModal from "../../components/modals/citizen/RegisterVehicleModal";
 import RegisterWeaponModal from "../../components/modals/citizen/RegisterWeaponModal";
+import { isCadFeatureEnabled } from "../../lib/functions";
+import CadInfo from "../../interfaces/CadInfo";
 
 interface Props {
   citizen: Citizen | null;
   match: Match;
+  cadInfo: CadInfo | null;
   getCitizenById: (id: string) => void;
   deleteCitizen: (id: string) => void;
 }
@@ -35,7 +38,13 @@ export const Item: React.FC<{ id: string }> = ({ id, children }) => {
   );
 };
 
-const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, deleteCitizen }) => {
+const CitizenInfoPage: React.FC<Props> = ({
+  citizen,
+  cadInfo,
+  match,
+  getCitizenById,
+  deleteCitizen,
+}) => {
   useDocTitle(citizen?.id ? `Viewing citizen: ${citizen.full_name}` : "Citizens");
   const citizenId = match.params.id;
 
@@ -123,14 +132,19 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
               <Span>{lang.citizen.weight}: </Span>
               {citizen.weight}
             </Item>
-            <Item id="height">
-              <Span>{lang.citizen.employer}: </Span>
-              {citizen.business !== "none" ? (
-                <Link to={`/company/${citizen.id}/${citizen.business_id}`}>{citizen.business}</Link>
-              ) : (
-                lang.citizen.not_working
-              )}
-            </Item>
+
+            {isCadFeatureEnabled(cadInfo?.features, "company") ? (
+              <Item id="height">
+                <Span>{lang.citizen.employer}: </Span>
+                {citizen.business !== "none" ? (
+                  <Link to={`/company/${citizen.id}/${citizen.business_id}`}>
+                    {citizen.business}
+                  </Link>
+                ) : (
+                  lang.citizen.not_working
+                )}
+              </Item>
+            ) : null}
           </div>
         </div>
       </div>
@@ -151,6 +165,7 @@ const CitizenInfoPage: React.FC<Props> = ({ citizen, match, getCitizenById, dele
 
 const mapToProps = (state: State) => ({
   citizen: state.citizen.citizen,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps, { getCitizenById, deleteCitizen })(CitizenInfoPage);

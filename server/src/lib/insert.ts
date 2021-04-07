@@ -2,6 +2,7 @@
 import { processQuery } from "./database";
 import fs from "fs";
 import Logger from "./Logger";
+import ICad from "../interfaces/ICad";
 
 (async function insert() {
   try {
@@ -19,20 +20,66 @@ import Logger from "./Logger";
           }
         }
       });
-    if (inserted) return;
+    if (!inserted) {
+      const featuresArr = ["tow", "truck-logs", "bleeter", "taxi", "courthouse", "company"];
 
-    const featuresArr = ["tow", "truck-logs", "bleeter", "taxi", "courthouse"];
+      await processQuery("UPDATE `cad_info` SET `features` = ?", [JSON.stringify(featuresArr)]);
 
-    await processQuery("UPDATE `cad_info` SET `features` = ?", [JSON.stringify(featuresArr)]);
-
-    const data = {
-      ...json,
-      features: true,
-      about: "do NOT delete this file if you have added custom penal codes!",
-    };
-    fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
+      const data = {
+        ...json,
+        features: true,
+        about: "do NOT delete this file if you have added custom penal codes!",
+      };
+      fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
+    }
   } catch (e) {
     Logger.error("INSERT_PENAL_CODES", e);
+  }
+
+  try {
+    let inserted = false;
+    let json = { companyF: null };
+    fs.readdirSync(".")
+      .filter((f) => f.endsWith(".json"))
+      .forEach((f) => {
+        if (f === "data.json") {
+          const buffer = fs.readFileSync("data.json");
+          json = JSON.parse(buffer.toString());
+
+          if (json.companyF === true) {
+            inserted = true;
+          }
+        }
+      });
+
+    if (!inserted) {
+      const [cad] = await processQuery<ICad>("SELECT `features` FROM `cad_info`");
+      let features = [];
+
+      console.log("here");
+
+      try {
+        features = JSON.parse(`${cad.features}`);
+      } catch {
+        features = ["bleeter", "tow", "taxi", "courthouse", "truck-logs"];
+      }
+      if (features.includes("company")) return;
+
+      console.log("here");
+
+      await processQuery("UPDATE `cad_info` SET `features` = ?", [
+        JSON.stringify([...features, "company"]),
+      ]);
+
+      const data = {
+        ...json,
+        companyF: true,
+        about: "do NOT delete this file if you have added custom penal codes!",
+      };
+      fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
+    }
+  } catch (e) {
+    console.log(e);
   }
 
   try {
