@@ -188,6 +188,8 @@ const ProbablyNotInTheTranslateFile = {
     show_all_players: "Show all players",
     call: "Call",
     citizen_call: "Citizen Call",
+    assign_self_to_call: "Assign self to call",
+    unassign_from_call: "Unassign from call",
   },
   nav: {
     ...file.nav,

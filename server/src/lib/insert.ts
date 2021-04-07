@@ -56,8 +56,6 @@ import ICad from "../interfaces/ICad";
       const [cad] = await processQuery<ICad>("SELECT `features` FROM `cad_info`");
       let features = [];
 
-      console.log("here");
-
       try {
         features = JSON.parse(`${cad.features}`);
       } catch {

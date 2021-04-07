@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Call from "../../interfaces/Call";
 import State from "../../interfaces/State";
 import { connect } from "react-redux";
-import { end911Call, getActive911Calls } from "../../lib/actions/911-calls";
+import { end911Call, getActive911Calls, update911Call } from "../../lib/actions/911-calls";
 import socket from "../../lib/socket";
 import { playSound } from "../../lib/functions";
 import Officer from "../../interfaces/Officer";
@@ -16,6 +16,7 @@ interface Props {
   activeDeputy: Deputy | null;
   getActive911Calls: () => void;
   end911Call: (id: string) => void;
+  update911Call: (id: string, call: Call, notify?: boolean) => void;
 }
 
 const Active911Calls: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const Active911Calls: React.FC<Props> = ({
   activeDeputy,
   getActive911Calls,
   end911Call,
+  update911Call,
 }) => {
   const location = useLocation();
   const disabled = React.useMemo(() => {
@@ -112,6 +114,42 @@ const Active911Calls: React.FC<Props> = ({
                     >
                       {window.lang.dispatch.mark_code_4}
                     </button>
+                    <button
+                      disabled={disabled}
+                      title={disabled ? "Go on-duty first!" : ""}
+                      onClick={() => {
+                        if (!activeOfficer) return;
+
+                        if (call.assigned_unit.find((u) => u.value === activeOfficer.id)) {
+                          return update911Call(call.id, {
+                            ...call,
+                            assigned_unit: call.assigned_unit.filter(
+                              (v) => v.value !== activeOfficer.id,
+                            ),
+                          });
+                        } else {
+                          update911Call(
+                            call.id,
+                            {
+                              ...call,
+                              assigned_unit: [
+                                ...call.assigned_unit,
+                                {
+                                  label: `${activeOfficer?.callsign} ${activeOfficer?.officer_name}`,
+                                  value: activeOfficer?.id,
+                                },
+                              ],
+                            },
+                            false,
+                          );
+                        }
+                      }}
+                      className="btn btn-success mx-2"
+                    >
+                      {call.assigned_unit.find((u) => u.value === activeOfficer?.id)
+                        ? window.lang.dispatch.unassign_from_call
+                        : window.lang.dispatch.assign_self_to_call}
+                    </button>
                   </td>
                 </tr>
               );
@@ -131,4 +169,4 @@ const mapToProps = (state: State) => ({
 
 const Memoized = React.memo(Active911Calls);
 
-export default connect(mapToProps, { getActive911Calls, end911Call })(Memoized);
+export default connect(mapToProps, { getActive911Calls, end911Call, update911Call })(Memoized);

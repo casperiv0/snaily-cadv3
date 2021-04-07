@@ -4,8 +4,9 @@
 
 ## 1.5.2
 
-- Owner can disable companies CAD wide (If you don't need/want it)
-- Owner can set a limit of creatable citizens
+- New: Owner can disable companies CAD wide (If you don't need/want it)
+- New: Owner can set a limit of creatable citizens
+- New: Officer is able to self-assign to a call
 
 ## 1.5.1
 
