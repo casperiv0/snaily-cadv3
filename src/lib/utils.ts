@@ -11,7 +11,7 @@ export function handleRequest(
     | RequestData
     | {
         cookie: string;
-      } = {},
+      } = {}
 ) {
   return axios({
     url: `${process.env.NEXT_PUBLIC_PROD_ORIGIN}/api${path}`,
@@ -57,4 +57,16 @@ export const notify = {
 
 export function getErrorFromResponse(e: any) {
   return e?.response?.data?.error ?? e;
+}
+
+export function generateString(length: number) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+  const allChars = chars;
+
+  for (let i = 0; i < length; i++) {
+    result += allChars.charAt(Math.floor(Math.random() * allChars.length));
+  }
+
+  return result;
 }

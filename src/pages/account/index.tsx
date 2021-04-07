@@ -3,20 +3,19 @@ import { connect } from "react-redux";
 import { verifyAuth } from "@state/items/auth/AuthActions";
 import { initializeStore } from "@state/useStore";
 import { GetServerSideProps } from "next";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { User } from "types/User";
 import { Layout } from "src/components/Layout";
 import lang from "../../language.json";
 import { ModalIds } from "types/ModalIds";
 import { Item, Span } from "src/components/Item";
+import { getCadInfo } from "@actions/global/GlobalActions";
 
 interface Props {
-  user: User | null;
+  user: Nullable<User>;
 }
 
 const AccountPage = ({ user }: Props) => {
-  console.log(user);
-
   return (
     <Layout>
       <h3>{lang.auth.account.account_info}</h3>
@@ -124,6 +123,7 @@ const AccountPage = ({ user }: Props) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const store = initializeStore();
   await verifyAuth(req.headers.cookie)(store.dispatch);
+  await getCadInfo(req.headers.cookie)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

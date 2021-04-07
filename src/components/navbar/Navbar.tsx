@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import lang from "src/language.json";
 import { User } from "types/User";
 import { Cad } from "types/Cad";
@@ -10,6 +10,8 @@ import { Cad } from "types/Cad";
 interface Props {
   isAuth: boolean;
   loading: boolean;
+  cadInfo: Nullable<Cad>;
+  user: Nullable<User>;
 }
 
 interface Path {
@@ -19,6 +21,8 @@ interface Path {
   show: (user: User | null) => boolean;
   enabled: (cad: Cad | null) => boolean;
 }
+
+const pages = ["/404", "/"];
 
 export const paths: Path[] = [
   {
@@ -77,11 +81,18 @@ export const paths: Path[] = [
   },
 ];
 
-const NavbarC = ({ isAuth, loading }: Props) => {
+const NavbarC = ({ isAuth, loading, cadInfo, user }: Props) => {
   const router = useRouter();
+  const ref = React.useRef<HTMLButtonElement>(null);
+
+  const isActive = React.useCallback(() => {
+    const el = document.getElementById("nav-items");
+    return el?.classList.contains("show");
+  }, []);
 
   React.useEffect(() => {
     if (loading) return;
+    if (pages.includes(router.pathname)) return;
     if (!loading && !isAuth) {
       router.push("/auth/login");
     }
@@ -93,8 +104,7 @@ const NavbarC = ({ isAuth, loading }: Props) => {
     <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
       <div className="container-fluid">
         <Link href="/">
-          <a>home</a>
-          {/* <a className="navbar-brand">{cadInfo?.cad_name ? cadInfo?.cad_name : "Home"}</a> */}
+          <a className="navbar-brand">{cadInfo?.cad_name ? cadInfo?.cad_name : "Home"}</a>
         </Link>
         <button
           className="navbar-toggler"
@@ -104,11 +114,11 @@ const NavbarC = ({ isAuth, loading }: Props) => {
           aria-controls="nav-items"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          //   ref={ref}
+          ref={ref}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        {/* <div className="collapse navbar-collapse" id="nav-items">
+        <div className="collapse navbar-collapse" id="nav-items">
           <ul className="navbar-nav w-100">
             {paths.map((path: Path, idx: number) => {
               if (!path.enabled(cadInfo)) return null;
@@ -119,12 +129,13 @@ const NavbarC = ({ isAuth, loading }: Props) => {
 
               return (
                 <li id={path.name} key={idx} className="nav-item">
-                  <Link
-                    onClick={() => isActive() && ref.current?.click()}
-                    className={"nav-link active text-light"}
-                    to={path.href}
-                  >
-                    {path.name}
+                  <Link href={path.href}>
+                    <a
+                      onClick={() => isActive() && ref.current?.click()}
+                      className={"nav-link active text-light"}
+                    >
+                      {path.name}
+                    </a>
                   </Link>
                 </li>
               );
@@ -133,18 +144,18 @@ const NavbarC = ({ isAuth, loading }: Props) => {
             user?.supervisor === "1" ? (
               <li id="admin" key={paths.length + 1} className="nav-item">
                 {["admin", "owner", "moderator"].includes(user.rank) ? (
-                  <Link className="nav-link active text-light" to="/admin">
-                    {window.lang.nav.admin}
+                  <Link href="/admin">
+                    <a className="nav-link active text-light">{lang.nav.admin}</a>
                   </Link>
                 ) : (
-                  <Link className="nav-link active text-light" to="/admin/manage/units">
-                    {window.lang.nav.leo_management}
+                  <Link href="/admin/manage/units">
+                    <a className="nav-link active text-light">{lang.nav.leo_management}</a>
                   </Link>
                 )}
               </li>
             ) : null}
-            <NavbarDropdown loading={loading} isAuth={isAuth} />
-            <div className="nc-container">
+            {/* <NavbarDropdown loading={loading} isAuth={isAuth} /> */}
+            {/* <div className="nc-container">
               <button
                 onClick={() => setShowNotis((v) => !v)}
                 className="btn btn-secondary mx-1"
@@ -159,17 +170,19 @@ const NavbarC = ({ isAuth, loading }: Props) => {
               {showNotis ? (
                 <NotificationsCenter closeNotifications={() => setShowNotis(false)} />
               ) : null}
-            </div>
+            </div> */}
           </ul>
-        </div> */}
+        </div>
       </div>
     </nav>
   );
 };
 
 const mapToProps = (state: State) => ({
+  user: state.auth.user,
   isAuth: state.auth.isAuth,
   loading: state.auth.loading,
+  cadInfo: state.global?.cadInfo,
 });
 
 export const Navbar = connect(mapToProps)(NavbarC);
