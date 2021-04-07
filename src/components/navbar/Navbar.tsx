@@ -1,23 +1,170 @@
 import { useRouter } from "next/router";
 import * as React from "react";
 import { connect } from "react-redux";
+import Link from "next/link";
 import { State } from "types/State";
+import lang from "src/language.json";
+import { User } from "types/User";
+import { Cad } from "types/Cad";
 
 interface Props {
   isAuth: boolean;
   loading: boolean;
 }
 
+interface Path {
+  href: string;
+  name: string;
+  adminOnly?: boolean;
+  show: (user: User | null) => boolean;
+  enabled: (cad: Cad | null) => boolean;
+}
+
+export const paths: Path[] = [
+  {
+    href: "/leo/dash",
+    name: lang.nav.police_dept,
+    show: (user) => user?.leo === "1",
+    enabled: () => true,
+  },
+  {
+    href: "/dispatch",
+    name: lang.nav.dispatch,
+    show: (user) => user?.dispatch === "1",
+    enabled: () => true,
+  },
+  {
+    href: "/ems-fd/dash",
+    name: lang.nav.ems_fd,
+    show: (user) => user?.ems_fd === "1",
+    enabled: () => true,
+  },
+  {
+    href: "/citizen",
+    name: lang.nav.citizen,
+    show: () => true,
+    enabled: () => true,
+  },
+  {
+    href: "/tow",
+    name: lang.nav.tow,
+    show: () => true,
+    enabled: (cad) => cad?.features.includes("tow") ?? true,
+  },
+  {
+    href: "/truck-logs",
+    name: lang.nav.trucklogs,
+    show: () => true,
+    enabled: (cad) => cad?.features.includes("truck-logs") ?? true,
+  },
+  {
+    href: "/courthouse",
+    name: lang.nav.courthouse,
+    show: () => true,
+    enabled: (cad) => cad?.features.includes("courthouse") ?? true,
+  },
+  {
+    href: "/bleeter",
+    name: lang.nav.bleeter,
+    show: () => true,
+    enabled: (cad) => cad?.features.includes("bleeter") ?? true,
+  },
+  {
+    href: "/taxi",
+    name: "Taxi",
+    show: () => true,
+    enabled: (cad) => cad?.features.includes("taxi") ?? true,
+  },
+];
+
 const NavbarC = ({ isAuth, loading }: Props) => {
   const router = useRouter();
 
   React.useEffect(() => {
+    if (loading) return;
     if (!loading && !isAuth) {
       router.push("/auth/login");
     }
-  }, [isAuth, loading, router]);
 
-  return <div></div>;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuth, loading]);
+
+  return (
+    <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
+      <div className="container-fluid">
+        <Link href="/">
+          <a>home</a>
+          {/* <a className="navbar-brand">{cadInfo?.cad_name ? cadInfo?.cad_name : "Home"}</a> */}
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#nav-items"
+          aria-controls="nav-items"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          //   ref={ref}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        {/* <div className="collapse navbar-collapse" id="nav-items">
+          <ul className="navbar-nav w-100">
+            {paths.map((path: Path, idx: number) => {
+              if (!path.enabled(cadInfo)) return null;
+
+              if (!["admin", "owner", "moderator"].includes(`${user?.rank}`) && !path.show(user)) {
+                return null;
+              }
+
+              return (
+                <li id={path.name} key={idx} className="nav-item">
+                  <Link
+                    onClick={() => isActive() && ref.current?.click()}
+                    className={"nav-link active text-light"}
+                    to={path.href}
+                  >
+                    {path.name}
+                  </Link>
+                </li>
+              );
+            })}
+            {(user && ["admin", "owner", "moderator"].includes(user?.rank)) ||
+            user?.supervisor === "1" ? (
+              <li id="admin" key={paths.length + 1} className="nav-item">
+                {["admin", "owner", "moderator"].includes(user.rank) ? (
+                  <Link className="nav-link active text-light" to="/admin">
+                    {window.lang.nav.admin}
+                  </Link>
+                ) : (
+                  <Link className="nav-link active text-light" to="/admin/manage/units">
+                    {window.lang.nav.leo_management}
+                  </Link>
+                )}
+              </li>
+            ) : null}
+            <NavbarDropdown loading={loading} isAuth={isAuth} />
+            <div className="nc-container">
+              <button
+                onClick={() => setShowNotis((v) => !v)}
+                className="btn btn-secondary mx-1"
+                type="button"
+              >
+                <img
+                  style={{ width: "1.3rem", height: "1.3rem" }}
+                  src="/img/notifications.svg"
+                  alt="open menu"
+                />
+              </button>
+              {showNotis ? (
+                <NotificationsCenter closeNotifications={() => setShowNotis(false)} />
+              ) : null}
+            </div>
+          </ul>
+        </div> */}
+      </div>
+    </nav>
+  );
 };
 
 const mapToProps = (state: State) => ({

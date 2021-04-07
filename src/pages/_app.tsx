@@ -11,7 +11,6 @@ import { Navbar } from "src/components/navbar/Navbar";
 
 declare global {
   interface Window {
-    lang: any;
     bootstrap: typeof Bootstrap;
   }
 }

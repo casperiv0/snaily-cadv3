@@ -11,11 +11,10 @@ import { ModalIds } from "types/ModalIds";
 import { Item, Span } from "src/components/Item";
 
 interface Props {
-  isAuth: boolean;
   user: User | null;
 }
 
-const AccountPage = ({ isAuth, user }: Props) => {
+const AccountPage = ({ user }: Props) => {
   console.log(user);
 
   return (
@@ -130,7 +129,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 };
 
 const mapToProps = (state: State) => ({
-  isAuth: state.auth.isAuth,
   user: state.auth.user,
 });
 

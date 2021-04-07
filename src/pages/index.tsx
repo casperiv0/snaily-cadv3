@@ -5,6 +5,8 @@ import { initializeStore } from "@state/useStore";
 import { Layout } from "src/components/Layout";
 import { User } from "types/User";
 import lang from "../language.json";
+import { connect } from "react-redux";
+import { State } from "types/State";
 
 interface Props {
   isAuth: boolean;
@@ -54,4 +56,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return { props: { initialReduxState: store.getState() } };
 };
 
-export default IndexPage;
+const mapToProps = (state: State) => ({
+  isAuth: state.auth.isAuth,
+  user: state.auth.user,
+});
+
+export default connect(mapToProps)(IndexPage);
