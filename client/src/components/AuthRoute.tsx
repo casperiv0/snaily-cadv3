@@ -38,10 +38,22 @@ const AuthRoute: React.FC<Props> = ({
       .filter((v) => v !== "/")
       .join("")
       .toLowerCase();
+    const canCheck = !loading && cadInfo?.features;
 
     if (
-      !loading &&
-      cadInfo?.features &&
+      canCheck &&
+      [
+        "citizenmanage-companies",
+        "company:citizenid:companyidmanage",
+        "company:citizenid:companyid",
+      ].includes(parsedPath) &&
+      !cadInfo?.features.includes("company")
+    ) {
+      return history.push("/not-enabled");
+    }
+
+    if (
+      canCheck &&
       ["bleeter", "tow", "truck-logs", "courthouse", "taxi"].includes(parsedPath) &&
       !cadInfo?.features.includes(parsedPath)
     ) {

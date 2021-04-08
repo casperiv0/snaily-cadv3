@@ -12,7 +12,7 @@ import CadInfo from "../../../interfaces/CadInfo";
 import Select, { Value as SelectValue } from "../../../components/select";
 import Modal from "..";
 import { ModalIds } from "../../../lib/types";
-import { modal } from "../../../lib/functions";
+import { isCadFeatureEnabled, modal } from "../../../lib/functions";
 import ValuePaths from "../../../interfaces/ValuePaths";
 import { useLocation } from "react-router";
 
@@ -178,22 +178,25 @@ const RegisterVehicleModal: React.FC<Props> = ({
               }))}
             />
           </div>
-          <div className="mb-3">
-            <label className="form-label" htmlFor="vehicle_company">
-              {lang.citizen.vehicle.company}
-            </label>
 
-            <Select
-              id="vehicle_company"
-              isMulti={false}
-              isClearable
-              onChange={(v) => setCompanyId(v?.value)}
-              options={companies.map((company) => ({
-                value: company.id,
-                label: company.name,
-              }))}
-            />
-          </div>
+          {isCadFeatureEnabled(cadInfo?.features, "company") ? (
+            <div className="mb-3">
+              <label className="form-label" htmlFor="vehicle_company">
+                {lang.citizen.vehicle.company}
+              </label>
+
+              <Select
+                id="vehicle_company"
+                isMulti={false}
+                isClearable
+                onChange={(v) => setCompanyId(v?.value)}
+                options={companies.map((company) => ({
+                  value: company.id,
+                  label: company.name,
+                }))}
+              />
+            </div>
+          ) : null}
         </div>
 
         <div className="modal-footer">

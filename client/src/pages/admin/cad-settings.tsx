@@ -28,6 +28,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
   const [steamApiKey, setSteamApiKey] = React.useState("");
   const [showSteamKey, setShowSteamKey] = React.useState(false);
   const [features, setFeatures] = React.useState<string[]>([]);
+  const [maxCitizens, setMaxCitizens] = React.useState<string>("unlimited");
 
   React.useEffect(() => {
     if (cadInfo?.id) {
@@ -40,6 +41,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
       setPlateLength(cadInfo.plate_length !== 0 ? cadInfo.plate_length : 8);
       setSteamApiKey(cadInfo.steam_api_key || "");
       setFeatures(cadInfo.features || []);
+      setMaxCitizens(cadInfo.max_citizens ?? "unlimited");
     }
   }, [cadInfo]);
 
@@ -194,7 +196,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
               />
             </div>
             <div className="mb-3">
-              <label className="form-label" htmlFor="webhook_url">
+              <label className="form-label" htmlFor="steam_api_key">
                 {window.lang.admin.steam_api_key}
               </label>
 
@@ -217,6 +219,21 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
                 </button>
               </div>
             </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="max_citizens">
+                {window.lang.admin.max_citizens}
+              </label>
+              <input
+                type="text"
+                className="form-control bg-secondary border-dark text-light"
+                id="max_citizens"
+                value={maxCitizens}
+                placeholder="'unlimited' or number"
+                onChange={(e) => setMaxCitizens(e.target.value)}
+              />
+            </div>
+
             <div className="mb-3">
               <label className="form-label" htmlFor="whitelisted">
                 {lang.admin.cad_settings.cad_wl}
@@ -347,6 +364,21 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
               </label>
             </div>
             When enabled, this will allow citizens to create expungement requests
+          </div>
+          <div className="mb-3">
+            <div className="form-check form-switch">
+              <input
+                onChange={() => updateFeatures("company")}
+                checked={features.includes("company")}
+                className="form-check-input"
+                type="checkbox"
+                id="company-feature"
+              />
+              <label className="form-check-label" htmlFor="company-feature">
+                Company
+              </label>
+            </div>
+            When enabled, this will allow citizens to create companies
           </div>
 
           <div className="d-flex">

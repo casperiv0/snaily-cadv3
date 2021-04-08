@@ -50,6 +50,9 @@ async function updateLine(sql: string) {
 async function updateDb() {
   import("./insert");
 
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `max_citizens` varchar(255) NOT NULL DEFAULT 'unlimited' AFTER `plate_length`;",
+  );
   updateLine(`
   CREATE TABLE \`call_types\` (
     \`id\` varchar(255) NOT NULL,

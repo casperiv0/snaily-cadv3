@@ -85,14 +85,16 @@ const CitizensPage: React.FC<Props> = (props) => {
         </div>
 
         <div className="d-flex mt-1">
-          <Link to="/citizen/manage-companies" className="col btn btn-primary">
-            {lang.citizen.employment_status}
-          </Link>
+          {isCadFeatureEnabled(cadInfo?.features, "company") ? (
+            <Link to="/citizen/manage-companies" className="col btn ms-0 mx-1 btn-primary">
+              {lang.citizen.employment_status}
+            </Link>
+          ) : null}
           {isCadFeatureEnabled(cadInfo?.features, "tow") ? (
             <button
               data-bs-toggle="modal"
               data-bs-target={`#${ModalIds.CallTow}`}
-              className="col ms-1 btn btn-primary"
+              className="col btn btn-primary"
             >
               {lang.citizen.call_tow}
             </button>
