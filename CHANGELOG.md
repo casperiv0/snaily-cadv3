@@ -7,6 +7,7 @@
 - New: Owner can disable companies CAD wide (If you don't need/want it)
 - New: Owner can set a limit of creatable citizens
 - New: Officer is able to self-assign to a call
+- New: Officer is able to delete warrants
 
 ## 1.5.1
 

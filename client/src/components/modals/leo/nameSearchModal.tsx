@@ -517,7 +517,7 @@ const NameSearchModal: React.FC<Props> = ({
                               key={idx}
                               id={`${idx}`}
                             >
-                              <Item id="charges">
+                              <Item id="warrants">
                                 <Span>{lang.record.warrant}: </Span>
                                 {warrant.reason}
                               </Item>
@@ -526,6 +526,15 @@ const NameSearchModal: React.FC<Props> = ({
                                 <Span>{lang.dispatch.status}: </Span>
                                 {warrant.status}
                               </Item>
+
+                              <button
+                                type="button"
+                                onClick={deleteRecord(warrant.id, "warrant", warrant.name)}
+                                className="btn btn-danger"
+                                style={{ position: "absolute", bottom: "0.2rem", right: "0.2rem" }}
+                              >
+                                {window.lang.global.delete}
+                              </button>
                             </li>
                           );
                         })
