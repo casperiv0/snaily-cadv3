@@ -102,7 +102,7 @@ router.delete(
 router.put(
   "/calls/:id",
   useAuth,
-  usePermission(["dispatch"]),
+  usePermission(["dispatch", "leo"]),
   async (req: IRequest, res: Response) => {
     const { id } = req.params;
     const { location, assigned_unit, pos, hidden, type } = req.body;
