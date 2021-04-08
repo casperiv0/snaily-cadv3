@@ -81,3 +81,7 @@ export function generateString(length: number) {
 
   return result;
 }
+
+export function isCadFeatureEnabled(features: string[] | undefined, feature: string) {
+  return features?.includes(feature.toLowerCase());
+}
