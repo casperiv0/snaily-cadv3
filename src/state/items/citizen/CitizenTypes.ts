@@ -5,4 +5,9 @@ export interface GetUserCitizens {
   citizens: Citizen[];
 }
 
-export type Actions = GetUserCitizens;
+export interface GetCitizenById {
+  type: "GET_CITIZEN_BY_ID";
+  citizen: Citizen;
+}
+
+export type Actions = GetUserCitizens | GetCitizenById;

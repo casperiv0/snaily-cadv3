@@ -3,4 +3,5 @@ export default {
   host: "localhost",
   user: "root",
   password: "",
+  port: 3000,
 };

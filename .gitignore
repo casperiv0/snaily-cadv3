@@ -15,8 +15,8 @@ node_modules
 server/config.ts
 client/src/config.ts
 
-server/public/citizen-images/*
-server/public/bleeter-images/*
+public/citizen-images/*
+public/bleeter-images/*
 
 .DS_Store
 

@@ -15,6 +15,12 @@ export function CitizenReducer(state = initState, action: Actions): State["citiz
         citizens: action.citizens,
       };
     }
+    case "GET_CITIZEN_BY_ID": {
+      return {
+        ...state,
+        citizen: action.citizen,
+      };
+    }
     default: {
       return {
         ...state,

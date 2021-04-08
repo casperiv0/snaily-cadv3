@@ -1,8 +1,143 @@
+import { connect } from "react-redux";
 import * as React from "react";
+import Head from "next/head";
+import Link from "next/link";
+import { GetServerSideProps } from "next";
+import { verifyAuth } from "@actions/auth/AuthActions";
+import { getCitizenById } from "@actions/citizen/CitizenActions";
+import { getCadInfo } from "@actions/global/GlobalActions";
+import { initializeStore } from "@state/useStore";
 import { Layout } from "src/components/Layout";
+import { Citizen } from "types/Citizen";
+import { Nullable, State } from "types/State";
+import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import lang from "../../../language.json";
+import { Item, Span } from "@components/Item";
+import { isCadFeatureEnabled } from "@lib/utils";
+import { Cad } from "types/Cad";
 
-const CitizenInfoPage = () => {
-  return <Layout>Hello from citizen info</Layout>;
+interface Props {
+  citizen: Nullable<Citizen>;
+  cadInfo: Nullable<Cad>;
+}
+
+const CitizenInfoPage = ({ citizen, cadInfo }: Props) => {
+  console.log(citizen);
+
+  function handleDelete() {}
+
+  if (!citizen) {
+    return (
+      <Layout>
+        <AlertMessage message={{ msg: lang.citizen.not_found, type: "danger" }} />
+      </Layout>
+    );
+  }
+
+  return (
+    <Layout fluid>
+      <Head>
+        <title>{citizen?.id ? `Viewing citizen: ${citizen.full_name}` : "Citizens"}</title>
+      </Head>
+
+      <div className="card bg-dark border-dark">
+        <div className="card-header d-flex justify-content-between">
+          <h3>{lang.admin.cad_settings.general_info}</h3>
+
+          <div>
+            <Link href={`/citizen/${citizen?.id}/edit`}>
+              <a className="btn btn-success me-2">{lang.citizen.edit_citizen}</a>
+            </Link>
+            <button onClick={handleDelete} className="btn btn-danger">
+              {lang.citizen.delete_citizen}
+            </button>
+          </div>
+        </div>
+
+        <div style={{ display: "flex" }} className="card-body">
+          <img
+            style={{ width: "120px", height: "120px" }}
+            className="rounded-circle object-fit-center"
+            src={`/citizen-images/${citizen.image_id}`}
+            alt={citizen.image_id}
+          />
+
+          <div className="ms-4">
+            <Item id="full_name">
+              <Span>{lang.citizen.full_name}: </Span>
+              {citizen.full_name}
+            </Item>
+            <Item id="birth">
+              <Span>{lang.citizen.date_of_birth}: </Span>
+              {citizen.birth}
+            </Item>
+            <Item id="gender">
+              <Span>{lang.citizen.gender}: </Span>
+              {citizen.gender}
+            </Item>
+            <Item id="ethnicity">
+              <Span>{lang.citizen.ethnicity}: </Span>
+              {citizen.ethnicity}
+            </Item>
+            <Item id="hair_color">
+              <Span>{lang.citizen.hair_color}: </Span>
+              {citizen.hair_color}
+            </Item>
+            <Item id="phone_nr">
+              <Span>{lang.citizen.phone_number}: </Span>
+              {citizen.phone_nr || "None"}
+            </Item>
+          </div>
+
+          <div className="ms-4">
+            <Item id="eye_color">
+              <Span>{lang.citizen.eye_color}: </Span>
+              {citizen.eye_color}
+            </Item>
+            <Item id="address">
+              <Span>{lang.citizen.address}: </Span>
+              {citizen.address}
+            </Item>
+            <Item id="height">
+              <Span>{lang.citizen.height}: </Span>
+              {citizen.height}
+            </Item>
+            <Item id="weight">
+              <Span>{lang.citizen.weight}: </Span>
+              {citizen.weight}
+            </Item>
+
+            {isCadFeatureEnabled(cadInfo?.features, "company") ? (
+              <Item id="height">
+                <Span>{lang.citizen.employer}: </Span>
+                {citizen.business !== "none" ? (
+                  <Link href={`/company/${citizen.id}/${citizen.business_id}`}>
+                    <a>{citizen.business}</a>
+                  </Link>
+                ) : (
+                  lang.citizen.not_working
+                )}
+              </Item>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
-export default CitizenInfoPage;
+export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
+  const store = initializeStore();
+  await getCadInfo(req.headers.cookie)(store.dispatch);
+  await verifyAuth(req.headers.cookie)(store.dispatch);
+  await getCitizenById(`${query.id}`, req.headers.cookie)(store.dispatch);
+
+  return { props: { initialReduxState: store.getState() } };
+};
+
+const mapToProps = (state: State) => ({
+  citizen: state.citizen.citizen,
+  cadInfo: state.global.cadInfo,
+});
+
+export default connect(mapToProps)(CitizenInfoPage);
