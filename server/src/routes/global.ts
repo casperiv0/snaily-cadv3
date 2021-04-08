@@ -1,10 +1,9 @@
-import { NextFunction, Response, Router } from "express";
+import { Response, Router } from "express";
 import { v4 } from "uuid";
 import pkg from "../../../package.json";
 import { processQuery } from "../lib/database";
 import IRequest from "../interfaces/IRequest";
-import { useAuth } from "../hooks";
-import { RanksArr } from "../lib/constants";
+import { useAuth, usePermission } from "../hooks";
 import ICad from "../interfaces/ICad";
 import { io } from "../server";
 import Call from "../interfaces/Call";
@@ -121,39 +120,17 @@ router.get("/cad-features", async (_req: IRequest, res: Response) => {
   });
 });
 
-router.post("/update-aop", useAuth, adminOrDispatchAuth, async (req: IRequest, res: Response) => {
-  const { aop } = req.body;
+router.post(
+  "/update-aop",
+  useAuth,
+  usePermission(["admin", "moderator", "owner", "dispatch"]),
+  async (req: IRequest, res: Response) => {
+    const { aop } = req.body;
 
-  await processQuery("UPDATE `cad_info` SET `aop` = ?", [aop]);
+    await processQuery("UPDATE `cad_info` SET `aop` = ?", [aop]);
 
-  return res.json({ status: "success" });
-});
-
-export async function adminOrDispatchAuth(
-  req: IRequest,
-  res: Response,
-  next: NextFunction,
-): Promise<void | Response> {
-  const user: {
-    dispatch: string;
-    rank: string;
-  }[] = await processQuery("SELECT `dispatch`, `rank` from `users` WHERE `id` = ?", [req.userId]);
-
-  if (!user[0]) {
-    return res.json({
-      error: "user not found",
-      status: "error",
-    });
-  }
-
-  if (user[0].dispatch === "0" ?? !RanksArr.includes(user[0].rank)) {
-    return res.json({
-      error: "Forbidden",
-      status: "error",
-    });
-  }
-
-  next();
-}
+    return res.json({ status: "success" });
+  },
+);
 
 export default router;

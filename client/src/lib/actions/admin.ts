@@ -307,6 +307,7 @@ export interface UpdateCADSettings {
   plate_length: number;
   steam_api_key: string;
   features: string[];
+  max_citizens: string;
 }
 
 export const updateCadSettings = (data: UpdateCADSettings) => async (

@@ -53,11 +53,12 @@ router.put(
       live_map_url,
       steam_api_key,
       features,
+      max_citizens,
     } = req.body;
 
     if (cad_name && aop && tow_whitelisted && whitelisted) {
       await processQuery(
-        "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?",
+        "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?",
         [
           cad_name,
           aop,
@@ -68,6 +69,7 @@ router.put(
           live_map_url,
           steam_api_key,
           JSON.stringify(features) || JSON.stringify("[]"),
+          max_citizens,
         ],
       );
 
