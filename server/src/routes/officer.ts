@@ -99,7 +99,7 @@ router.put(
       id,
     ]);
 
-    if (user[0].leo === "1" && officer[0].user_id !== req.userId) {
+    if (user[0].dispatch === "0" && user[0].leo === "1" && officer[0].user_id !== req.userId) {
       return res.json({
         error: "This officer is not associated with your account.",
         status: "error",
