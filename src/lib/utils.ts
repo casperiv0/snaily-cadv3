@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast, ToastOptions } from "react-toastify";
+import { ModalIds } from "types/ModalIds";
 
 export type RequestData = Record<string, unknown>;
 export type AllowedMethods = "PATCH" | "PUT" | "DELETE" | "OPTIONS" | "GET" | "POST";
@@ -11,7 +12,7 @@ export function handleRequest(
     | RequestData
     | {
         cookie: string;
-      } = {}
+      } = {},
 ) {
   return axios({
     url: `${process.env.NEXT_PUBLIC_PROD_ORIGIN}/api${path}`,
@@ -57,6 +58,16 @@ export const notify = {
 
 export function getErrorFromResponse(e: any) {
   return e?.response?.data?.error ?? e;
+}
+
+export function modal(id: ModalIds) {
+  if (typeof window === "undefined") return;
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error("modal el could not be found");
+  }
+
+  return window.bootstrap.Modal.getInstance(el);
 }
 
 export function generateString(length: number) {

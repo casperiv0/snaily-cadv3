@@ -5,6 +5,7 @@ import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { User } from "types/User";
+import { compareSync, hashSync } from "bcryptjs";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -34,6 +35,36 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
         return res.status(500).json(AnError);
       }
+    }
+    case "PUT": {
+      const { oldPassword, newPassword, newPassword2 } = req.body;
+
+      if (!oldPassword || !newPassword || !newPassword2) {
+        return res.status(400).json({
+          error: "Please fill in all fields",
+          status: "error",
+        });
+      }
+
+      const [user] = await processQuery<User>("SELECT * FROM `users` WHERE `id` = ?", [req.userId]);
+
+      if (!user) {
+        return res.json({ error: "User was not found", status: "error" });
+      }
+
+      if (newPassword !== newPassword2) {
+        return res.status(400).json({ error: "New passwords do not match", status: "error" });
+      }
+
+      const isCorrect = compareSync(oldPassword, user.password);
+      if (!isCorrect) {
+        return res.json({ error: "Old Password does not match!" });
+      }
+
+      const hash = hashSync(newPassword);
+      await processQuery("UPDATE `users` SET `password` = ? WHERE `id` = ?", [hash, req.userId]);
+
+      return res.json({ status: "success" });
     }
     case "DELETE": {
       const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [

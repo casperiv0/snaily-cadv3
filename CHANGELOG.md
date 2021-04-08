@@ -2,6 +2,19 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.5.2
+
+- New: Owner can disable companies CAD wide (If you don't need/want it)
+- New: Owner can set a limit of creatable citizens
+- New: Officer is able to self-assign to a call
+- New: Officer is able to delete warrants
+
+## 1.5.1
+
+- Minor: Fixed issues with live map
+- New release of the [live_map resource](https://github.com/Dev-CasperTheGhost/live_map/releases/tag/1.1.0)
+- Minor: Updated to [Bootstrap 5 beta3](https://getbootstrap.com)
+
 ## 1.5.0
 
 - New: Selected admins can add temp passwords (if a user has lost their password)

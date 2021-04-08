@@ -12,6 +12,7 @@ import companyRouter from "./company";
 import { UploadedFile } from "express-fileupload";
 import { SupportedFileTypes } from "../../lib/constants";
 import Citizen from "../../interfaces/Citizen";
+import ICad from "../../interfaces/ICad";
 
 router.use("/weapons", citizenWeaponRouter);
 router.use("/vehicles", citizenVehicleRouter);
@@ -50,6 +51,20 @@ router.post("/", useAuth, async (req: IRequest, res: Response) => {
 
   const file = req.files?.image ? (req.files.image as UploadedFile) : null;
   const index = req.files?.image && file?.name.indexOf(".");
+  const [cadInfo] = await processQuery<ICad>("SELECT * FROM `cad_info`");
+
+  if (cadInfo.max_citizens !== "unlimited") {
+    const length = await processQuery("SELECT `id` FROM `citizens` WHERE `user_id` = ?", [
+      req.userId,
+    ]);
+
+    if (length.length > parseInt(cadInfo.max_citizens)) {
+      return res.json({
+        error: `You have reached your limited of citizens (Max: ${cadInfo.max_citizens})`,
+        status: "error",
+      });
+    }
+  }
 
   if (file && !SupportedFileTypes.includes(String(file.mimetype))) {
     return res.json({

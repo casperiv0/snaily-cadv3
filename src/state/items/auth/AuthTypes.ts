@@ -12,4 +12,8 @@ export interface VerifyAuth {
   isAuth: boolean;
 }
 
+export interface UpdatePassword {
+  type: "UPDATE_PASSWORD";
+}
+
 export type Actions = Authenticate | VerifyAuth;

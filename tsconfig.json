@@ -13,7 +13,8 @@
       "@actions/*": ["./src/state/items/*"],
       "@hooks/*": ["./src/hooks/*"],
       "types/*": ["./src/interfaces/*"],
-      "@state/*": ["./src/state/*"]
+      "@state/*": ["./src/state/*"],
+      "@components/*": ["./src/components/*"]
     },                         
     "esModuleInterop": true,
   

@@ -1,4 +1,5 @@
 import { Cad } from "./Cad";
+import { Citizen } from "./Citizen";
 import { User } from "./User";
 
 export type Nullable<T> = T | null;
@@ -12,5 +13,10 @@ export interface State {
   global: {
     aop: Nullable<string>;
     cadInfo: Nullable<Cad>;
+  };
+  citizen: {
+    citizens: Citizen[];
+    citizen: Nullable<Citizen>;
+    loading: boolean;
   };
 }

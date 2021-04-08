@@ -81,8 +81,8 @@ export const defaultTypes: Record<number, IIcon> = {
     popupAnchor: [0, 0],
   },
   6: {
-    iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon-2x.png",
-    iconSize: [30, 30],
+    iconUrl: "https://unpkg.com/leaflet@1.7.0/dist/images/marker-icon-2x.png",
+    iconSize: [25, 40],
     popupAnchor: [0, 2],
   },
   // TODO: add icon for these

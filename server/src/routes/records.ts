@@ -156,6 +156,8 @@ router.delete(
   async (req: IRequest, res: Response) => {
     const { type, id, citizenId } = req.params;
 
+    let citizen = await processQuery("SELECT * FROM `citizens` WHERE `id` = ?", [citizenId]);
+
     switch (type) {
       case "ticket": {
         await processQuery("DELETE FROM `leo_tickets` WHERE `id` = ?", [id]);
@@ -169,6 +171,11 @@ router.delete(
         await processQuery("DELETE FROM `written_warnings` WHERE `id` = ?", [id]);
         break;
       }
+      case "warrant": {
+        citizen = await processQuery("SELECT * FROM `citizens` WHERE `full_name` = ?", [citizenId]);
+        await processQuery("DELETE FROM `warrants` WHERE `id` = ?", [id]);
+        break;
+      }
       default: {
         return res
           .json({
@@ -178,8 +185,6 @@ router.delete(
           .status(400);
       }
     }
-
-    const citizen = await processQuery("SELECT * FROM `citizens` WHERE `id` = ?", [citizenId]);
 
     const [vehicles, weapons, warnings, arrestReports, tickets, warrants] = await Promise.all([
       processQuery("SELECT * FROM `registered_cars` WHERE `citizen_id` = ?", [citizenId]),

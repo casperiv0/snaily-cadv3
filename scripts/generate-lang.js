@@ -144,6 +144,7 @@ const ProbablyNotInTheTranslateFile = {
     supervisor_panel: "Supervisor Panel",
     edit_passwords: "Add temporary passwords (If the member lost their password)",
     give_temp_password: "Give temporary password",
+    max_citizens: "Maximum amount of citizens that can be created per user",
   },
   codes: {
     code: "Code",
@@ -187,6 +188,8 @@ const ProbablyNotInTheTranslateFile = {
     show_all_players: "Show all players",
     call: "Call",
     citizen_call: "Citizen Call",
+    assign_self_to_call: "Assign self to call",
+    unassign_from_call: "Unassign from call",
   },
   nav: {
     ...file.nav,

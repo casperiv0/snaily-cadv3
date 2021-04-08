@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import Image from "next/image";
 import { verifyAuth } from "@state/items/auth/AuthActions";
 import { initializeStore } from "@state/useStore";
 import { GetServerSideProps } from "next";
@@ -10,6 +11,8 @@ import lang from "../../language.json";
 import { ModalIds } from "types/ModalIds";
 import { Item, Span } from "src/components/Item";
 import { getCadInfo } from "@actions/global/GlobalActions";
+import { EditPasswordModal } from "@components/modals/account/EditPasswordModal";
+import { DeleteAccountModal } from "@components/modals/account/DeleteAccountModal";
 
 interface Props {
   user: Nullable<User>;
@@ -82,7 +85,11 @@ const AccountPage = ({ user }: Props) => {
             <button className="btn btn-danger mt-2">{lang.account.unlink_steam}</button>
           ) : (
             <a href="/api/auth/steam" className="d-block mt-2">
-              <img src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png" />
+              <Image
+                width="180"
+                height="35"
+                src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png"
+              />
             </a>
           )}
         </div>
@@ -116,6 +123,8 @@ const AccountPage = ({ user }: Props) => {
       </div>
 
       {/* TODO: add modals here */}
+      <EditPasswordModal />
+      <DeleteAccountModal />
     </Layout>
   );
 };

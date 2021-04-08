@@ -1,7 +1,8 @@
-import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
 import {} from "redux";
-import { Authenticate, VerifyAuth } from "./AuthTypes";
+import { ModalIds } from "types/ModalIds";
+import { Authenticate, UpdatePassword, VerifyAuth } from "./AuthTypes";
 
 export const login = (data: { username: string; password: string }) => async (
   dispatch: Dispatch<Authenticate>,
@@ -59,5 +60,41 @@ export const verifyAuth = (cookie?: string) => async (dispatch: Dispatch<VerifyA
   } catch (e) {
     const error = getErrorFromResponse(e);
     console.log(error);
+  }
+};
+
+export const deleteAccount = () => async (dispatch: Dispatch<Authenticate>) => {
+  try {
+    await handleRequest("/auth/user", "DELETE");
+
+    dispatch({
+      type: "AUTHENTICATE",
+      user: null,
+      isAuth: false,
+    });
+
+    modal(ModalIds.DeleteAccount)?.hide();
+    return (window.location.href = "/auth/login");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+
+    notify.error(error);
+  }
+};
+
+export const updatePassword = (data: RequestData) => async (dispatch: Dispatch<UpdatePassword>) => {
+  try {
+    await handleRequest("/auth/user", "PUT", data);
+
+    dispatch({
+      type: "UPDATE_PASSWORD",
+    });
+
+    modal(ModalIds.EditPassword)?.hide();
+    notify.success("Successfully updated password!");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+
+    notify.error(error);
   }
 };

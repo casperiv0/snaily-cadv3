@@ -6,6 +6,7 @@ import { Nullable, State } from "types/State";
 import lang from "src/language.json";
 import { User } from "types/User";
 import { Cad } from "types/Cad";
+import { NavbarDropdown } from "./NavbarDropdown";
 
 interface Props {
   isAuth: boolean;
@@ -154,7 +155,7 @@ const NavbarC = ({ isAuth, loading, cadInfo, user }: Props) => {
                 )}
               </li>
             ) : null}
-            {/* <NavbarDropdown loading={loading} isAuth={isAuth} /> */}
+            <NavbarDropdown loading={loading} isAuth={isAuth} />
             {/* <div className="nc-container">
               <button
                 onClick={() => setShowNotis((v) => !v)}
