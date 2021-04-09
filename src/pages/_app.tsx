@@ -8,7 +8,6 @@ import Bootstrap from "bootstrap";
 import { useStore } from "src/state/useStore";
 import "../styles/global.css";
 import { Navbar } from "src/components/navbar/Navbar";
-import "@lib/socket.client";
 
 declare global {
   interface Window {

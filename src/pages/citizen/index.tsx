@@ -15,11 +15,12 @@ import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import { isCadFeatureEnabled } from "@lib/utils";
 import { Cad } from "types/Cad";
 import { getCadInfo } from "@actions/global/GlobalActions";
-import { socket } from "@lib/socket.client";
+// import { socket } from "@lib/socket.client";
 import { SocketEvents } from "types/Socket";
 import { CreateTaxiCallModal } from "@components/modals/CreateTaxiCallModal";
 import { CreateTowCallModal } from "@components/modals/CreateTowCallModal";
 import { Create911Modal } from "@components/modals/Create911Modal";
+import { useSocket } from "@hooks/useSocket";
 
 interface Props {
   citizens: Citizen[];
@@ -29,15 +30,16 @@ interface Props {
 
 const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
+  const socket = useSocket();
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
-    socket.on(SocketEvents.UpdateAop, handler);
+    socket?.on(SocketEvents.UpdateAop, handler);
 
     return () => {
-      socket.off(SocketEvents.UpdateAop, handler);
+      socket?.off(SocketEvents.UpdateAop, handler);
     };
-  }, []);
+  }, [socket]);
 
   return (
     <Layout>
