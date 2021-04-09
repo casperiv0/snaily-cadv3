@@ -15,9 +15,8 @@
       "types/*": ["./src/interfaces/*"],
       "@state/*": ["./src/state/*"],
       "@components/*": ["./src/components/*"]
-    },                         
+    },
     "esModuleInterop": true,
-  
     "resolveJsonModule": true,
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true,

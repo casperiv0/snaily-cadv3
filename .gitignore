@@ -25,3 +25,6 @@ public/bleeter-images/*
 .vscode
 
 data.json
+
+server/
+client/
