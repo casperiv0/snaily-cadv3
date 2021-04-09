@@ -1,4 +1,5 @@
 import { Cad } from "./Cad";
+import { Call } from "./Call";
 import { Citizen } from "./Citizen";
 import { User } from "./User";
 
@@ -18,5 +19,8 @@ export interface State {
     citizens: Citizen[];
     citizen: Nullable<Citizen>;
     loading: boolean;
+  };
+  calls: {
+    calls: Call[];
   };
 }

@@ -7,7 +7,7 @@ export enum ModalIds {
   PlateSearch = "plateSearchModal",
   WeaponSearch = "weaponSearchModal",
   SelectOfficer = "selectOfficerModal",
-  Call911 = "call911Modal",
+  Create911 = "call911Modal",
   CallTaxi = "callTaxiModal",
   CallTow = "callTowModal",
   Notepad = "notepadModal",

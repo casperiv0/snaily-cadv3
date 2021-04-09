@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import * as React from "react";
-import Head from "next/head";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { verifyAuth } from "@actions/auth/AuthActions";
@@ -15,6 +14,7 @@ import lang from "../../../language.json";
 import { Item, Span } from "@components/Item";
 import { isCadFeatureEnabled } from "@lib/utils";
 import { Cad } from "types/Cad";
+import Seo from "@components/Seo";
 
 interface Props {
   citizen: Nullable<Citizen>;
@@ -22,8 +22,6 @@ interface Props {
 }
 
 const CitizenInfoPage = ({ citizen, cadInfo }: Props) => {
-  console.log(citizen);
-
   function handleDelete() {}
 
   if (!citizen) {
@@ -36,9 +34,7 @@ const CitizenInfoPage = ({ citizen, cadInfo }: Props) => {
 
   return (
     <Layout fluid>
-      <Head>
-        <title>{citizen?.id ? `Viewing citizen: ${citizen.full_name}` : "Citizens"}</title>
-      </Head>
+      <Seo title={citizen?.id ? `Viewing citizen: ${citizen.full_name}` : "Citizens"} />
 
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">

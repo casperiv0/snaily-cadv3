@@ -8,13 +8,18 @@ import { GetServerSideProps } from "next";
 import { Layout } from "src/components/Layout";
 import { Citizen } from "types/Citizen";
 import { Nullable, State } from "types/State";
-import lang from "../../language.json";
+import lang from "src/language.json";
 import Seo from "@components/Seo";
 import { ModalIds } from "types/ModalIds";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import { isCadFeatureEnabled } from "@lib/utils";
 import { Cad } from "types/Cad";
 import { getCadInfo } from "@actions/global/GlobalActions";
+import { socket } from "@lib/socket.client";
+import { SocketEvents } from "types/Socket";
+import { CreateTaxiCallModal } from "@components/modals/CreateTaxiCallModal";
+import { CreateTowCallModal } from "@components/modals/CreateTowCallModal";
+import { Create911Modal } from "@components/modals/Create911Modal";
 
 interface Props {
   citizens: Citizen[];
@@ -27,8 +32,11 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
+    socket.on(SocketEvents.UpdateAop, handler);
 
-    // TODO: add socket stuff
+    return () => {
+      socket.off(SocketEvents.UpdateAop, handler);
+    };
   }, []);
 
   return (
@@ -87,7 +95,7 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
 
         <button
           data-bs-toggle="modal"
-          data-bs-target={`#${ModalIds.Call911}`}
+          data-bs-target={`#${ModalIds.Create911}`}
           className="col ms-1 btn btn-primary"
         >
           {lang.citizen.call_911}
@@ -127,10 +135,10 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
       </ul>
 
       {/* TODO: */}
-      {/* {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CallTowModal /> : null}
-      {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CallTaxiModal /> : null}
-      <Call911Modal />
-      <RegisterWeaponModal />
+      {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CreateTaxiCallModal /> : null}
+      {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CreateTowCallModal /> : null}
+      <Create911Modal />
+      {/* <RegisterWeaponModal />
       <RegisterVehicleModal /> */}
     </Layout>
   );

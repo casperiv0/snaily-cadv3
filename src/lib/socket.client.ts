@@ -27,4 +27,4 @@ setInterval(() => {
   socket.emit(SocketEvents.CheckConnection, true);
 }, INTERVAL_1_MIN);
 
-export default socket;
+export { socket };
