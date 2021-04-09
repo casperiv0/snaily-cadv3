@@ -2,6 +2,13 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.5.2-patch1
+
+- Fix: fixed a bug not being able to see BOLO's
+- Fix: fixed a bug where `max_citizens` would not save to the DB
+- Fix: fixed a bug where officers could not assign themself to a call without dispatch permissions
+- Fix: fixed a bug where dispatchers could not update a status of an officer
+
 ## 1.5.2
 
 - New: Owner can disable companies CAD wide (If you don't need/want it)

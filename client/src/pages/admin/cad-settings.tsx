@@ -58,6 +58,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
       live_map_url: liveMapUrl,
       steam_api_key: steamApiKey,
       features: cadInfo?.features || [],
+      max_citizens: maxCitizens,
     });
   }
 
@@ -75,6 +76,7 @@ const CadSettingsPage: React.FC<Props> = ({ user, cadInfo, updateCadSettings }) 
       live_map_url: cadInfo.live_map_url,
       steam_api_key: cadInfo.steam_api_key,
       features,
+      max_citizens: cadInfo.max_citizens,
     });
   }
 
