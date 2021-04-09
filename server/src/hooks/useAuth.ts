@@ -44,11 +44,10 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
     }
 
     req.userId = user[0].id;
+    await logoutActiveUnits(req.userId);
 
     next();
   } catch (e) {
-    await logoutActiveUnits(req.userId);
-
     return res
       .json({ invalid_token: true, server_error: "invalid token", status: "error" })
       .status(401);

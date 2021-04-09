@@ -5,6 +5,7 @@
 ## 1.5.3
 
 - New: able to edit bolos
+- Minor: fixed a bug where it would not set the officer/ems-fd off-duty after the cookie expires.
 
 ## 1.5.2-patch1
 
