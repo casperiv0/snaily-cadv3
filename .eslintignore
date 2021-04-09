@@ -6,3 +6,5 @@ scripts
 docs
 **/*.json
 dist
+client/*
+server/*
