@@ -5,7 +5,7 @@ import Officer from "../../interfaces/Officer";
 import lang from "../../language.json";
 import User from "../../interfaces/User";
 import { adminRanks } from "../AuthRoute";
-import { ModalIds } from "../../lib/types";
+import { ModalIds, SOCKET_EVENTS } from "../../lib/types";
 
 export interface MButton {
   name: string;
@@ -54,7 +54,7 @@ interface Props {
 
 const ModalButtons: React.FC<Props> = ({ user, activeOfficer }) => {
   function panicButton() {
-    socket.emit("PANIC_BUTTON", activeOfficer);
+    socket.emit(SOCKET_EVENTS.PANIC_BUTTON, activeOfficer);
   }
 
   return (

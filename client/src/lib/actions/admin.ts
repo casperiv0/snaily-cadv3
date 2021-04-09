@@ -28,6 +28,7 @@ import {
   UPDATE_PENAL_CODES,
   GET_TEMP_PASSWORD,
   CREATE_PENAL_CODE,
+  SOCKET_EVENTS,
 } from "../types";
 import lang from "../../language.json";
 import Logger from "../Logger";
@@ -107,7 +108,7 @@ export const updateMemberPerms = (id: string, data: Record<string, unknown>) => 
         member: res.data.member,
       });
 
-      notify("Successfully updated member").success();
+      notify.success("Successfully updated member");
     }
   } catch (e) {
     Logger.error(UPDATE_MEMBER_PERMS, e);
@@ -144,9 +145,9 @@ export const banMember = (id: string, banReason: string) => async (
         member: res.data.member,
       });
 
-      notify(`${lang.admin.ban_success} ${res.data.member?.username ?? "Unknown"}`).success();
+      notify.success(`${lang.admin.ban_success} ${res.data.member?.username ?? "Unknown"}`);
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(BAN_MEMBER, e);
@@ -162,7 +163,7 @@ export const unBanMember = (id: string) => async (dispatch: Dispatch<IDispatch>)
         member: res.data.member,
       });
 
-      notify(`${lang.admin.un_ban_success} ${res.data.member?.username ?? "Unknown"}`).success();
+      notify.success(`${lang.admin.un_ban_success} ${res.data.member?.username ?? "Unknown"}`);
     }
   } catch (e) {
     Logger.error(UN_BAN_MEMBER, e);
@@ -180,7 +181,7 @@ export const removeUser = (id: string) => async (
         type: REMOVE_USER,
       });
 
-      notify(`Successfully removed user with ID: ${id}`).success();
+      notify.success(`Successfully removed user with ID: ${id}`);
 
       return true;
     } else {
@@ -202,7 +203,7 @@ export const acceptUser = (id: string) => async (dispatch: Dispatch<IDispatch>) 
         members: res.data.members,
       });
 
-      notify(lang.admin.accepted_member).success();
+      notify.success(lang.admin.accepted_member);
     }
   } catch (e) {
     Logger.error(ACCEPT_USER, e);
@@ -219,7 +220,7 @@ export const declineUser = (id: string) => async (dispatch: Dispatch<IDispatch>)
         members: res.data.members,
       });
 
-      notify(lang.admin.declined_member).success();
+      notify.success(lang.admin.declined_member);
     }
   } catch (e) {
     Logger.error(DECLINE_USER, e);
@@ -254,7 +255,7 @@ export const deleteCitizen = (id: string) => async (dispatch: Dispatch<IDispatch
         citizens: res.data.citizens,
       });
 
-      notify(lang.citizen.deleted_citizen).success();
+      notify.success(lang.citizen.deleted_citizen);
     }
   } catch (e) {
     Logger.error(DELETE_CITIZEN, e);
@@ -290,7 +291,7 @@ export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<IDisp
         companies: res.data.companies,
       });
 
-      notify(lang.admin.company.delete_success).success();
+      notify.success(lang.admin.company.delete_success);
     }
   } catch (e) {
     Logger.error(DELETE_COMPANY, e);
@@ -317,12 +318,12 @@ export const updateCadSettings = (data: UpdateCADSettings) => async (
     const res = await handleRequest("/admin/management/cad-settings", "PUT", data);
 
     if (isSuccess(res)) {
-      socket.emit("UPDATE_AOP", data.aop);
+      socket.emit(SOCKET_EVENTS.UPDATE_AOP, data.aop);
       dispatch({
         type: UPDATE_CAD_SETTINGS,
       });
 
-      notify(lang.admin.cad_settings.updated).success();
+      notify.success(lang.admin.cad_settings.updated);
     }
   } catch (e) {
     Logger.error(UPDATE_CAD_SETTINGS, e);
@@ -388,15 +389,15 @@ export const updateUnitById = (id: string, data: UpdateOfficerData) => async (
         type: ADMIN_UPDATE_UNIT,
       });
 
-      notify("Successfully updated officer").success();
+      notify.success("Successfully updated officer");
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
     Logger.error(GET_ALL_UNITS, e);
-    notify(e).error();
+    notify.error(e);
     return false;
   }
 };
@@ -437,11 +438,11 @@ export const acceptOrDeclineRequest = (
         expungementRequests: res.data.requests,
       });
 
-      notify(
+      notify.success(
         `Successfully ${type === "accept" ? "accepted" : "declined"} expungement request`,
-      ).success();
+      );
     } else {
-      notify("An error occurred when accepting the request").error();
+      notify.error("An error occurred when accepting the request");
     }
   } catch (e) {
     Logger.error(ACCEPT_OR_DECLINE_REQUEST, e);
@@ -478,12 +479,12 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (dispatch: Dispa
 
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
     Logger.error(CREATE_PENAL_CODE, e);
-    notify(e).error();
+    notify.error(e);
     return false;
   }
 };
@@ -498,11 +499,11 @@ export const deletePenalCode = (id: string) => async (dispatch: Dispatch<IDispat
         penalCodes: res.data.penalCodes,
       });
 
-      notify("Successfully deleted penal code").success();
+      notify.success("Successfully deleted penal code");
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
-    notify(e).error();
+    notify.error(e);
   }
 };
 
@@ -518,7 +519,7 @@ export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
         penalCodes: res.data.penalCodes,
       });
 
-      notify("Successfully updated penal code").success();
+      notify.success("Successfully updated penal code");
 
       return true;
     } else {
@@ -526,7 +527,7 @@ export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
     }
   } catch (e) {
     Logger.error(GET_10_CODES, e);
-    notify(e).error();
+    notify.error(e);
     return false;
   }
 };
@@ -561,11 +562,11 @@ export const add10Code = (data: Partial<Code10>) => async (
         codes: res.data.codes,
       });
 
-      notify("Successfully add 10 code").success();
+      notify.success("Successfully add 10 code");
 
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -586,7 +587,7 @@ export const update10Code = (id: string, data: Partial<Code10>) => async (
         codes: res.data.codes,
       });
 
-      notify("Successfully updated 10 code").success();
+      notify.success("Successfully updated 10 code");
 
       return true;
     } else {

@@ -123,7 +123,7 @@ export const createCitizen = (data: Partial<Citizen>) => async (
 
       return `/citizen/${res.data.citizenId}`;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -180,10 +180,10 @@ export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
         type: UPDATE_CITIZEN,
       });
 
-      notify("Successfully updated citizen").success();
+      notify.success("Successfully updated citizen");
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -234,10 +234,10 @@ export const createMedicalRecord = (id: string, data: Record<string, unknown>) =
         medicalRecords: res.data.records,
       });
 
-      notify("Successfully added medical record").success();
+      notify.success("Successfully added medical record");
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -258,7 +258,7 @@ export const deleteMedicalRecord = (citizenId: string, recordId: string) => asyn
         medicalRecords: res.data.medicalRecords,
       });
 
-      notify("Successfully deleted medical record").success();
+      notify.success("Successfully deleted medical record");
     }
   } catch (e) {
     Logger.error(DELETE_MEDICAL_RECORD, e);
@@ -291,10 +291,10 @@ export const registerVehicle = (data: object) => async (
         vehicles: res.data.vehicles,
       });
 
-      notify(lang.citizen.vehicle.added_veh).success();
+      notify.success(lang.citizen.vehicle.added_veh);
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -312,7 +312,7 @@ export const reportAsStolen = (id: string) => async (dispatch: Dispatch<IDispatc
         type: REPORT_AS_STOLEN,
       });
 
-      notify(lang.citizen.vehicle.reported_stolen).success();
+      notify.success(lang.citizen.vehicle.reported_stolen);
     }
   } catch (e) {
     Logger.error(REPORT_AS_STOLEN, e);
@@ -331,7 +331,7 @@ export const deleteVehicle = (citizenId: string, vehicleId: string) => async (
         vehicles: res.data.vehicles,
       });
 
-      notify(lang.citizen.vehicle.deleted_veh).success();
+      notify.success(lang.citizen.vehicle.deleted_veh);
     }
   } catch (e) {
     Logger.error(DELETE_REGISTERED_VEHICLE, e);
@@ -365,10 +365,10 @@ export const registerWeapon = (data: object) => async (
         weapons: res.data.weapons,
       });
 
-      notify("Successfully registered weapon").success();
+      notify.success("Successfully registered weapon");
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -389,7 +389,7 @@ export const deleteWeapon = (citizenId: string, weaponId: string) => async (
         weapons: res.data.weapons,
       });
 
-      notify(lang.citizen.weapon.deleted_weapon).success();
+      notify.success(lang.citizen.weapon.deleted_weapon);
     }
   } catch (e) {
     Logger.error(DELETE_REGISTERED_WEAPON, e);
@@ -407,7 +407,7 @@ export const updateLicenses = (id: string, data: object) => async (
         type: UPDATE_LICENSES,
       });
 
-      notify("Successfully updated licenses").success();
+      notify.success("Successfully updated licenses");
       return true;
     } else {
       return false;
@@ -446,7 +446,7 @@ export const updateVehicleById = (id: string, data: object) => async (
 
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -467,7 +467,7 @@ export const transferVehicle = (id: string, data: object) => async (
       });
       return (window.location.href = "/citizen");
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(TRANSFER_VEHICLE, e);

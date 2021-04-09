@@ -40,7 +40,7 @@ export const deleteValue = (id: string, path: ValuePaths) => async (
         path,
       });
 
-      notify(lang.admin.values[path].deleted).success();
+      notify.success(lang.admin.values[path].deleted);
     }
   } catch (e) {
     Logger.error(DELETE_VALUE, e);
@@ -60,10 +60,10 @@ export const addValue = (path: string, data: { name: string }) => async (
         path,
       });
 
-      notify(`Successfully added ${data.name} to ${path}`).success();
+      notify.success(`Successfully added ${data.name} to ${path}`);
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -85,11 +85,11 @@ export const updateValueById = (path: string, id: string, data: { name: string }
         path,
       });
 
-      notify("Successfully updated value").success();
+      notify.success("Successfully updated value");
 
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {

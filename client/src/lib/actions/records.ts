@@ -27,9 +27,9 @@ export const createWarrant = (data: {
         type: CREATE_WARRANT,
       });
 
-      notify(`${lang.record.created_warrant} ${data.fullName}`).success();
+      notify.success(`${lang.record.created_warrant} ${data.fullName}`);
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(CREATE_WARRANT, e);
@@ -51,10 +51,10 @@ export const createWrittenWarning = (data: {
         type: CREATE_WRITTEN_WARNING,
       });
 
-      notify(`${lang.record.created_warning} ${data.name}`).success();
+      notify.success(`${lang.record.created_warning} ${data.name}`);
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -78,10 +78,10 @@ export const creatArrestReport = (data: {
         type: CREATE_ARREST_REPORT,
       });
 
-      notify(`${lang.record.created_arrest_report} ${data.name}`).success();
+      notify.success(`${lang.record.created_arrest_report} ${data.name}`);
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -105,10 +105,10 @@ export const createTicket = (data: {
         type: CREATE_TICKET,
       });
 
-      notify(`${lang.record.created_ticket} ${data.name}`).success();
+      notify.success(`${lang.record.created_ticket} ${data.name}`);
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {

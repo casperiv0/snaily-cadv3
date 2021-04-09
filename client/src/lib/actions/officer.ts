@@ -18,8 +18,10 @@ import {
   GET_MY_OFFICER_LOGS,
   REMOVE_RECORD,
   GET_DEPARTMENTS,
+  SOCKET_EVENTS,
 } from "../types";
 import PenalCode from "../../interfaces/PenalCode";
+import Bolo from "../../interfaces/Bolo";
 
 interface IDispatch {
   type: string;
@@ -33,6 +35,7 @@ interface IDispatch {
   penalCodes?: PenalCode[];
   names?: string[];
   logs?: OfficerLog[];
+  bolos?: Bolo[];
 }
 
 export const getCurrentOfficer = () => async (dispatch: Dispatch<IDispatch>) => {
@@ -67,7 +70,7 @@ export const setStatus = (
     });
 
     if (isSuccess(res)) {
-      socket.emit("UPDATE_ACTIVE_UNITS");
+      socket.emit(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS);
 
       dispatch({
         type: SET_STATUS,
@@ -75,11 +78,12 @@ export const setStatus = (
         status2: res.data.officer.status2,
       });
 
-      notify(
+      notify.success(
         `Successfully updated status to ${status2.startsWith("----") ? status : status2}`,
-      ).success({
-        autoClose: 2000,
-      });
+        {
+          autoClose: 2000,
+        },
+      );
     }
   } catch (e) {
     Logger.error(SET_STATUS, e);
@@ -125,10 +129,10 @@ export const createOfficer = (data: Record<string, unknown>) => async (
     if (isSuccess(res)) {
       dispatch({ type: CREATE_OFFICER, officers: res.data.officers });
 
-      notify(`${lang.officers.create_officer_success} ${data.name}`).success();
+      notify.success(`${lang.officers.create_officer_success} ${data.name}`);
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -147,7 +151,7 @@ export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IDispatch
         officers: res.data.officers,
       });
 
-      notify(lang.officers.delete_officer_success).success();
+      notify.success(lang.officers.delete_officer_success);
     }
   } catch (e) {
     Logger.error(DELETE_OFFICER_BY_ID, e);
@@ -210,7 +214,7 @@ export const saveNote = (citizenId: string, note: string) => async (
         type: SAVE_NOTE,
       });
 
-      notify("Successfully added note").success();
+      notify.success("Successfully added note");
     }
   } catch (e) {
     Logger.error(SAVE_NOTE, e);
@@ -260,7 +264,7 @@ export const suspendLicense = (type: string, citizenId: string) => async (
         type: "SUSPEND_LICENSE",
       });
 
-      notify("Successfully suspended license.").success();
+      notify.success("Successfully suspended license.");
     }
   } catch (e) {
     Logger.error("SUSPEND_LICENSE", e);
@@ -285,7 +289,7 @@ export const deleteRecordById = (id: string, type: string, citizenId: string) =>
           : type === "arrest_report"
           ? "arrest report"
           : "written warning";
-      notify(`Successfully removed ${msg}.`).success();
+      notify.success(`Successfully removed ${msg}.`);
     }
   } catch (e) {
     Logger.error(REMOVE_RECORD, e);

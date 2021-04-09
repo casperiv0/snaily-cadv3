@@ -45,7 +45,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
     const unitsHandler = (unitIds: string[]) => {
       if (location.pathname !== "/ems-fd/dash") return;
       if (props.activeDeputy && unitIds.includes(props.activeDeputy?.id)) {
-        notify(window.lang.global.assigned_to_call).success();
+        notify.success(window.lang.global.assigned_to_call);
         successSound.play();
       }
     };

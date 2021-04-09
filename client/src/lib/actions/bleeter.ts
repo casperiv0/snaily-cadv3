@@ -82,7 +82,7 @@ export const createBleet = (data: { title: string; body: string; image: any }) =
 
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -101,10 +101,10 @@ export const updateBleet = (id: string, data: object) => async (dispatch: Dispat
         bleet: res.data.bleet,
       });
 
-      notify("Successfully updated bleet").success();
+      notify.success("Successfully updated bleet");
       modal(ModalIds.EditBleet).hide();
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -122,7 +122,7 @@ export const deleteBleet = (id: string) => async (dispatch: Dispatch<IDispatch>)
         type: DELETE_BLEET_BY_ID,
       });
 
-      notify("Successfully deleted bleet").success();
+      notify.success("Successfully deleted bleet");
       return true;
     } else {
       return false;

@@ -37,10 +37,10 @@ export const createTruckLog = (data: object) => async (
         logs: res.data.logs,
       });
 
-      notify("Successfully created truck-log").success();
+      notify.success("Successfully created truck-log");
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -58,7 +58,7 @@ export const deleteTruckLog = (id: string) => async (dispatch: Dispatch<IDispatc
         type: DELETE_TRUCK_LOG,
         logs: res.data.logs,
       });
-      notify(lang.truck_logs.deleted_truck_log).success();
+      notify.success(lang.truck_logs.deleted_truck_log);
     }
   } catch (e) {
     Logger.error(DELETE_TRUCK_LOG, e);

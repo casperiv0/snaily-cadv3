@@ -74,9 +74,9 @@ export const addCallEvent = (callId: string, text: string) => async (
         type: "ADD_CALL_EVENT",
       });
 
-      notify("Successfully added event").success();
+      notify.success("Successfully added event");
     } else {
-      notify("An error occurred creating the event").error();
+      notify.error("An error occurred creating the event");
     }
   } catch (e) {
     Logger.error("ADD_CALL_EVENT", e);

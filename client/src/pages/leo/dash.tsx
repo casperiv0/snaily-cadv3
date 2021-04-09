@@ -103,7 +103,7 @@ const LeoDash: React.FC<Props> = (props) => {
         const alreadyAssigned = isUnitAlreadyAssigned(props.activeOfficer.id, props.calls);
         if (alreadyAssigned) return;
 
-        notify(window.lang.global.assigned_to_call).success();
+        notify.success(window.lang.global.assigned_to_call);
         successSound.play();
       }
     };

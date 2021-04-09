@@ -17,7 +17,7 @@ const HomePage: React.FC<Props> = ({ isAuth, user }) => {
 
   React.useEffect(() => {
     if (location.search.includes("auth=success")) {
-      notify("Successfully connected with steam!").success();
+      notify.success("Successfully connected with steam!");
     }
   }, [location.search]);
 

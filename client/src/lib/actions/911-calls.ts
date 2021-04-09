@@ -4,7 +4,13 @@ import socket from "../socket";
 import lang from "../../language.json";
 import { Dispatch } from "redux";
 import { handleRequest, isSuccess, notify } from "../functions";
-import { GET_911_CALLS, END_911_CALL, UPDATE_911_CALL, CREATE_911_CALL } from "../types";
+import {
+  GET_911_CALLS,
+  END_911_CALL,
+  UPDATE_911_CALL,
+  CREATE_911_CALL,
+  SOCKET_EVENTS,
+} from "../types";
 
 interface IDispatch {
   type: string;
@@ -38,9 +44,10 @@ export const create911Call = (data: object) => async (
         calls: res.data.calls,
       });
 
-      notify(lang.citizen.call_created).success();
-      socket.emit("UPDATE_911_CALLS");
-      socket.emit("NEW_911_CALL", data);
+      notify.success(lang.citizen.call_created);
+      socket.emit(SOCKET_EVENTS.UPDATE_911_CALLS);
+      socket.emit(SOCKET_EVENTS.NEW_911_CALL, data);
+
       return true;
     } else {
       return false;
@@ -56,14 +63,14 @@ export const update911Call = (id: string, data: Partial<Call>, shouldNotify = tr
     const res = await handleRequest(`/dispatch/calls/${id}`, "PUT", data);
 
     if (isSuccess(res)) {
-      socket.emit("UPDATE_911_CALLS");
+      socket.emit(SOCKET_EVENTS.UPDATE_911_CALLS);
       socket.emit(
         "UPDATE_ASSIGNED_UNITS",
         data.assigned_unit?.map((u) => u.value),
       );
 
       if (shouldNotify === true) {
-        notify("Successfully updated call").success();
+        notify.success("Successfully updated call");
       }
     }
   } catch (e) {
@@ -74,10 +81,10 @@ export const update911Call = (id: string, data: Partial<Call>, shouldNotify = tr
 export const end911Call = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/dispatch/calls/${id}`, "DELETE");
-    socket.emit("END_911_CALL", id);
+    socket.emit(SOCKET_EVENTS.END_911_CALL, id);
 
     if (isSuccess(res)) {
-      socket.emit("UPDATE_911_CALLS");
+      socket.emit(SOCKET_EVENTS.UPDATE_911_CALLS);
       dispatch({ type: END_911_CALL, calls: res.data.calls });
     }
   } catch (e) {

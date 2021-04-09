@@ -12,6 +12,7 @@ import {
   DELETE_EMS_DEPUTY,
   CREATE_EMS_FD_DEPUTY,
   SEARCH_MEDICAL_RECORD,
+  SOCKET_EVENTS,
 } from "../types";
 
 interface IDispatch {
@@ -34,10 +35,10 @@ export const createEmsFdDeputy = (data: object) => async (dispatch: Dispatch<IDi
         deputies: res.data.deputies,
       });
 
-      notify("Successfully created EMS/FD member").success();
+      notify.success("Successfully created EMS/FD member");
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -89,7 +90,7 @@ export const setEmsStatus = (
     const res = await handleRequest(`/ems-fd/status/${id}`, "PUT", data);
 
     if (isSuccess(res)) {
-      socket.emit("UPDATE_ACTIVE_UNITS");
+      socket.emit(SOCKET_EVENTS.UPDATE_ACTIVE_UNITS);
 
       dispatch({
         type: SET_EMS_STATUS,
@@ -97,7 +98,7 @@ export const setEmsStatus = (
         status2: res.data.deputy.status2,
       });
 
-      notify(`Successfully updated status to ${status2}`).success({
+      notify.success(`Successfully updated status to ${status2}`, {
         autoClose: 2000,
       });
     }
@@ -116,7 +117,7 @@ export const deleteEmsFdDeputy = (id: string) => async (dispatch: Dispatch<IDisp
         deputies: res.data.deputies,
       });
 
-      notify(lang.ems_fd.deleted_dept).success();
+      notify.success(lang.ems_fd.deleted_dept);
     }
   } catch (e) {
     Logger.error(DELETE_EMS_DEPUTY, e);
@@ -137,7 +138,7 @@ export const searchMedicalRecord = (name: string) => async (dispatch: Dispatch<I
         }),
       });
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(SEARCH_MEDICAL_RECORD, e);
@@ -151,13 +152,13 @@ export const declareDeadOrAlive = (citizenId: string, type: "alive" | "dead") =>
     const res = await handleRequest(`/ems-fd/declare/${citizenId}/?declare=${type}`, "PUT");
 
     if (isSuccess(res)) {
-      notify(`Successfully declared ${type}`).success();
+      notify.success(`Successfully declared ${type}`);
 
       dispatch({
         type: "DECLARE_DEAD_OR_ALIVE",
       });
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(SEARCH_MEDICAL_RECORD, e);
