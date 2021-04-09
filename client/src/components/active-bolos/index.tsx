@@ -45,7 +45,7 @@ const ActiveBolos: React.FC<Props> = ({ bolos, activeOfficer, getActiveBolos, de
               <li
                 key={idx}
                 id={`${idx}`}
-                className="list-group-item bg-dark border-secondary d-flex justify-content-between"
+                className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
               >
                 <div className="d-flex">
                   {++idx} | &nbsp;
