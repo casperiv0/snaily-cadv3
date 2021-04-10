@@ -38,16 +38,19 @@ const RegisterWeaponModalC: React.FC<Props> = ({
   const router = useRouter();
 
   React.useEffect(() => {
-    getValuesByPath("weapons");
     if (citizen) {
       setCitizenId({ value: citizen.id, label: citizen.full_name });
     }
+  }, [citizen]);
+
+  React.useEffect(() => {
+    getValuesByPath("weapons");
 
     if (router.pathname === "/citizen") {
       getValuesByPath("legal-statuses");
       setCitizenId(null);
     }
-  }, [getValuesByPath, router, citizen]);
+  }, [getValuesByPath, router]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();

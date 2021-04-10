@@ -3,7 +3,11 @@ import * as React from "react";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCitizenById } from "@actions/citizen/CitizenActions";
+import {
+  getCitizenById,
+  getCitizenVehicles,
+  getCitizenWeapons,
+} from "@actions/citizen/CitizenActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { initializeStore } from "@state/useStore";
 import { Layout } from "src/components/Layout";
@@ -14,7 +18,13 @@ import lang from "../../../language.json";
 import { Item, Span } from "@components/Item";
 import { isCadFeatureEnabled } from "@lib/utils";
 import { Cad } from "types/Cad";
-import Seo from "@components/Seo";
+import { Seo } from "@components/Seo";
+import { RegisteredWeapons } from "@components/Citizen/RegisteredWeapons";
+import RegisteredVehicles from "@components/Citizen/RegisteredVehicles";
+import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponModal";
+import { RegisterVehicleModal } from "@components/modals/citizen/RegisterVehicleModal";
+import { LicenseCard } from "@components/Citizen/Licenses";
+import { EditLicensesModal } from "@components/modals/citizen/EditLicensesModal";
 
 interface Props {
   citizen: Nullable<Citizen>;
@@ -118,6 +128,15 @@ const CitizenInfoPage = ({ citizen, cadInfo }: Props) => {
           </div>
         </div>
       </div>
+
+      <LicenseCard citizen={citizen} />
+      <div>medical records</div>
+      <RegisteredWeapons />
+      <RegisteredVehicles />
+
+      <EditLicensesModal />
+      <RegisterWeaponModal />
+      <RegisterVehicleModal />
     </Layout>
   );
 };
@@ -127,12 +146,14 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
   await getCadInfo(req.headers.cookie)(store.dispatch);
   await verifyAuth(req.headers.cookie)(store.dispatch);
   await getCitizenById(`${query.id}`, req.headers.cookie)(store.dispatch);
+  await getCitizenWeapons(`${query.id}`, req.headers.cookie)(store.dispatch);
+  await getCitizenVehicles(`${query.id}`, req.headers.cookie)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };
 
 const mapToProps = (state: State) => ({
-  citizen: state.citizen.citizen,
+  citizen: state.citizen.citizen ?? null,
   cadInfo: state.global.cadInfo,
 });
 

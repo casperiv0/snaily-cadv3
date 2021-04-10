@@ -3,7 +3,6 @@ import { Actions } from "./AuthTypes";
 
 const initState: State["auth"] = {
   isAuth: false,
-  loading: false,
   user: null,
 };
 
@@ -13,9 +12,19 @@ export function AuthReducer(state = initState, action: Actions): State["auth"] {
     case "AUTHENTICATE": {
       return {
         ...state,
-        loading: false,
         user: action.user,
         isAuth: action.isAuth,
+      };
+    }
+    case "UNLINK_STEAM": {
+      return {
+        ...state,
+        user: state.user
+          ? {
+              ...state.user,
+              steam_id: "",
+            }
+          : null,
       };
     }
     default: {

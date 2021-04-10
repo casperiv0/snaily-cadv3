@@ -4,20 +4,20 @@ import { connect } from "react-redux";
 import Link from "next/link";
 import lang from "../../language.json";
 import { login } from "@actions/auth/AuthActions";
-import { State } from "types/State";
 
 interface Props {
-  loading: boolean;
   login: (data: { username: string; password: string }) => Promise<boolean>;
 }
 
-const LoginPage = ({ loading, login }: Props) => {
+const LoginPage = ({ login }: Props) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(false);
 
     const success = await login({
       username,
@@ -27,6 +27,8 @@ const LoginPage = ({ loading, login }: Props) => {
     if (success === true) {
       router.push("/");
     }
+
+    setLoading(false);
   }
 
   return (
@@ -82,8 +84,4 @@ const LoginPage = ({ loading, login }: Props) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  loading: state.auth.loading,
-});
-
-export default connect(mapToProps, { login })(LoginPage);
+export default connect(null, { login })(LoginPage);

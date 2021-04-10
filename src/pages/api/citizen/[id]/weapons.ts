@@ -2,11 +2,11 @@ import { v4 } from "uuid";
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { processQuery } from "@lib/database";
+import { IRequest } from "types/IRequest";
 import { formatRequired, generateString } from "@lib/utils";
 import { Citizen } from "types/Citizen";
-import { IRequest } from "types/IRequest";
-import { AnError } from "@lib/consts";
 import { logger } from "@lib/logger";
+import { AnError } from "@lib/consts";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method, query } = req;
@@ -35,13 +35,9 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         return res.status(500).json(AnError);
       }
     }
-
     case "POST": {
       try {
         const { weapon, status, serial_number } = req.body;
-        const citizenId = query.id;
-        const id = v4();
-        const serialNumber = serial_number ?? generateString(10);
 
         if (!weapon || !status) {
           return res.status(400).json({
@@ -51,41 +47,32 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         }
 
         const [citizen] = await processQuery<Citizen>(
-          "SELECT `full_name` FROM `citizens` WHERE `id` = ?",
-          [citizenId],
+          "SELECT `full_name` FROM `citizens` WHERE `user_id` = ? AND `id` = ?",
+          [req.userId, req.query.id],
         );
+
+        if (!citizen) {
+          return res.status(404).json({
+            error: "Citizen was not found",
+            status: "error",
+          });
+        }
+
+        const id = v4();
+        const serial = serial_number || generateString(10);
 
         await processQuery(
           "INSERT INTO `registered_weapons` (`id`, `owner`, `citizen_id`, `weapon`, `serial_number`, `status`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-          [id, citizen.full_name, citizenId, weapon, serialNumber, status, req.userId],
+          [id, citizen.full_name, req.query.id, weapon, serial, status, req.userId],
         );
 
         const weapons = await processQuery(
           "SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?",
-          [citizenId],
-        );
-        return res.json({ status: "success", citizenId, weapons });
-      } catch (e) {
-        logger.error("CREATE_WEAPON", e);
-
-        return res.status(500).json(AnError);
-      }
-    }
-
-    case "DELETE": {
-      try {
-        await processQuery("DELETE FROM `registered_weapons` WHERE `id` = ? AND `citizen_id` = ?", [
-          query.weaponId,
-          query.id,
-        ]);
-
-        const weapons = await processQuery(
-          "SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?",
-          [query.id],
+          [req.query.id],
         );
         return res.json({ status: "success", weapons });
       } catch (e) {
-        logger.error("DELETE_WEAPON", e);
+        logger.error("REGISTER_WEAPON", e);
 
         return res.status(500).json(AnError);
       }

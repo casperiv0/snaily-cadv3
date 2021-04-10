@@ -13,7 +13,6 @@ export interface State {
   auth: {
     isAuth: boolean;
     user: Nullable<User>;
-    loading: boolean;
   };
   global: {
     aop: Nullable<string>;

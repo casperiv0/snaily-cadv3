@@ -9,7 +9,7 @@ import { Layout } from "src/components/Layout";
 import { Citizen } from "types/Citizen";
 import { Nullable, State } from "types/State";
 import lang from "src/language.json";
-import Seo from "@components/Seo";
+import { Seo } from "@components/Seo";
 import { ModalIds } from "types/ModalIds";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import { isCadFeatureEnabled } from "@lib/utils";

@@ -5,7 +5,7 @@ import { initializeStore } from "@state/useStore";
 import { GetServerSideProps } from "next";
 import { Layout } from "src/components/Layout";
 import { Nullable, State } from "types/State";
-import Seo from "@components/Seo";
+import { Seo } from "@components/Seo";
 import { ModalIds } from "types/ModalIds";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";

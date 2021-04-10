@@ -13,7 +13,7 @@ const defaults: Props = {
   description: "A free, fast, simple and secure open source CAD/MDT",
 };
 
-const Seo: React.FC<Props> = (props) => {
+export const Seo: React.FC<Props> = (props) => {
   const tags = {
     ...defaults,
     ...props,
@@ -38,5 +38,3 @@ const Seo: React.FC<Props> = (props) => {
     </Head>
   );
 };
-
-export default Seo;

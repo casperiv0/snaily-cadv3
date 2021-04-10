@@ -77,7 +77,6 @@ export const deleteAccount = () => async (dispatch: Dispatch<Authenticate>) => {
     return (window.location.href = "/auth/login");
   } catch (e) {
     const error = getErrorFromResponse(e);
-
     notify.error(error);
   }
 };
@@ -94,8 +93,7 @@ export const updatePassword = (data: RequestData) => async (dispatch: Dispatch<U
     notify.success("Successfully updated password!");
   } catch (e) {
     const error = getErrorFromResponse(e);
-
-    notify.error(error);
+    notify.warn(error);
   }
 };
 
@@ -121,6 +119,8 @@ export const unLinkSteam = () => async (dispatch: Dispatch<UnlinkSteam>) => {
     dispatch({
       type: "UNLINK_STEAM",
     });
+
+    notify.success("Successfully unlinked steam");
   } catch (e) {
     const error = getErrorFromResponse(e);
     notify.error(error);

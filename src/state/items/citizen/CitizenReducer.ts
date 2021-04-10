@@ -17,16 +17,29 @@ export function CitizenReducer(state = initState, action: Actions): State["citiz
         citizens: action.citizens,
       };
     }
+    case "UPDATE_CITIZEN_LICENSES":
     case "GET_CITIZEN_BY_ID": {
       return {
         ...state,
-        citizen: action.citizen,
+        citizen: action.citizen ?? null,
       };
     }
+    case "GET_CITIZEN_VEHICLES":
+    case "DELETE_VEHICLE_BY_ID":
+    case "UPDATE_VEHICLE_BY_ID":
     case "REGISTER_VEHICLE": {
       return {
         ...state,
         vehicles: action.vehicles,
+      };
+    }
+    case "GET_CITIZEN_WEAPONS":
+    case "DELETE_WEAPON_BY_ID":
+    case "UPDATE_WEAPON_BY_ID":
+    case "REGISTER_WEAPON": {
+      return {
+        ...state,
+        weapons: action.weapons,
       };
     }
     default: {

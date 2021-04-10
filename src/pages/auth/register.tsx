@@ -4,21 +4,21 @@ import { connect } from "react-redux";
 import Link from "next/link";
 import lang from "../../language.json";
 import { register } from "@actions/auth/AuthActions";
-import { State } from "types/State";
 
 interface Props {
-  loading: boolean;
   register: (data: { username: string; password: string }) => Promise<boolean>;
 }
 
-const RegisterPage = ({ loading, register }: Props) => {
+const RegisterPage = ({ register }: Props) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [password2, setPassword2] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
 
     const success = await register({
       username,
@@ -28,6 +28,8 @@ const RegisterPage = ({ loading, register }: Props) => {
     if (success === true) {
       router.push("/");
     }
+
+    setLoading(false);
   }
 
   return (
@@ -91,8 +93,4 @@ const RegisterPage = ({ loading, register }: Props) => {
   );
 };
 
-const mapToProps = (state: State) => ({
-  loading: state.auth.loading,
-});
-
-export default connect(mapToProps, { register })(RegisterPage);
+export default connect(null, { register })(RegisterPage);
