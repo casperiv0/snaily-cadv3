@@ -1,6 +1,7 @@
 import { Cad } from "./Cad";
 import { Call } from "./Call";
 import { Citizen } from "./Citizen";
+import { TruckLog } from "./TruckLog";
 import { User } from "./User";
 
 export type Nullable<T> = T | null;
@@ -22,5 +23,8 @@ export interface State {
   };
   calls: {
     calls: Call[];
+  };
+  truckLogs: {
+    logs: TruckLog[];
   };
 }

@@ -4,7 +4,6 @@ import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
-import { Cad } from "types/Cad";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -17,24 +16,24 @@ export default async function (req: IRequest, res: NextApiResponse) {
   }
 
   switch (req.method) {
-    case "POST": {
+    case "DELETE": {
       try {
-        const [cad] = await processQuery<Cad>("SELECT * FROM `cad_info`");
+        await processQuery("DELETE FROM `truck_logs` WHERE `id` = ? AND `user_id` = ?", [
+          req.query.id,
+          req.userId,
+        ]);
 
-        return res.json({
-          cad,
-          status: "success",
-        });
+        const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [
+          req.userId,
+        ]);
+        return res.json({ status: "success", logs });
       } catch (e) {
         logger.error("cad-info", e);
 
         return res.status(500).json(AnError);
       }
     }
-    case "PUT": {
-      break;
-      // TODO:
-    }
+
     default: {
       return res.status(405).json({
         error: "Method not allowed",

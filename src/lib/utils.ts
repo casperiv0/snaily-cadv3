@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast, ToastOptions } from "react-toastify";
+import { IRequest } from "types/IRequest";
 import { ModalIds } from "types/ModalIds";
 
 export type RequestData = Record<string, unknown>;
@@ -84,4 +85,18 @@ export function generateString(length: number) {
 
 export function isCadFeatureEnabled(features: string[] | undefined, feature: string) {
   return features?.includes(feature.toLowerCase());
+}
+
+export function formatRequired(required: string[], body: IRequest["body"]) {
+  const arr: string[] = [];
+
+  required.map((v) => {
+    const item = body[v];
+
+    if (!item) {
+      arr.push(`\`${v}\``);
+    }
+  });
+
+  return `Properties: ${arr.join(", ")} are missing.`;
 }

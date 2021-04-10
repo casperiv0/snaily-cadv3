@@ -2,7 +2,7 @@ import { v4 } from "uuid";
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { processQuery } from "@lib/database";
-import { generateString } from "@lib/utils";
+import { formatRequired, generateString } from "@lib/utils";
 import { Citizen } from "types/Citizen";
 import { IRequest } from "types/IRequest";
 import { AnError } from "@lib/consts";
@@ -45,7 +45,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         if (!weapon || !status) {
           return res.status(400).json({
-            error: "Please fill in all fields",
+            error: formatRequired(["weapon", "status"], req.body),
+            status: "error",
           });
         }
 
