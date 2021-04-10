@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Image from "next/image";
-import { verifyAuth } from "@state/items/auth/AuthActions";
+import { unLinkSteam, verifyAuth } from "@state/items/auth/AuthActions";
 import { initializeStore } from "@state/useStore";
 import { GetServerSideProps } from "next";
 import { Nullable, State } from "types/State";
@@ -13,14 +13,18 @@ import { Item, Span } from "src/components/Item";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { EditPasswordModal } from "@components/modals/account/EditPasswordModal";
 import { DeleteAccountModal } from "@components/modals/account/DeleteAccountModal";
+import Seo from "@components/Seo";
 
 interface Props {
   user: Nullable<User>;
+  unLinkSteam: () => void;
 }
 
-const AccountPage = ({ user }: Props) => {
+const AccountPage = ({ user, unLinkSteam }: Props) => {
   return (
     <Layout>
+      <Seo title={lang.auth.account.account} />
+
       <h3>{lang.auth.account.account_info}</h3>
 
       <div className="card bg-dark border-dark">
@@ -81,8 +85,10 @@ const AccountPage = ({ user }: Props) => {
           </Item>
 
           {user?.steam_id ? (
-            // TODO: onClick={handleUnlink}
-            <button className="btn btn-danger mt-2">{lang.account.unlink_steam}</button>
+            // TODO:
+            <button onClick={unLinkSteam} className="btn btn-danger mt-2">
+              {lang.account.unlink_steam}
+            </button>
           ) : (
             <a href="/api/auth/steam" className="d-block mt-2">
               <Image
@@ -141,4 +147,4 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
 });
 
-export default connect(mapToProps)(AccountPage);
+export default connect(mapToProps, { unLinkSteam })(AccountPage);

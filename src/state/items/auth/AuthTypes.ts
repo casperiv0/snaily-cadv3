@@ -16,4 +16,8 @@ export interface UpdatePassword {
   type: "UPDATE_PASSWORD";
 }
 
-export type Actions = Authenticate | VerifyAuth;
+export interface UnlinkSteam {
+  type: "UNLINK_STEAM";
+}
+
+export type Actions = Authenticate | VerifyAuth | UnlinkSteam;

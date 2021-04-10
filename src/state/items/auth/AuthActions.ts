@@ -2,7 +2,7 @@ import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from 
 import { Dispatch } from "react";
 import {} from "redux";
 import { ModalIds } from "types/ModalIds";
-import { Authenticate, UpdatePassword, VerifyAuth } from "./AuthTypes";
+import { Authenticate, UnlinkSteam, UpdatePassword, VerifyAuth } from "./AuthTypes";
 
 export const login = (data: { username: string; password: string }) => async (
   dispatch: Dispatch<Authenticate>,
@@ -107,6 +107,19 @@ export const logout = () => async (dispatch: Dispatch<Authenticate>) => {
       type: "AUTHENTICATE",
       user: null,
       isAuth: false,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    notify.error(error);
+  }
+};
+
+export const unLinkSteam = () => async (dispatch: Dispatch<UnlinkSteam>) => {
+  try {
+    await handleRequest("/auth/steam/unlink", "DELETE");
+
+    dispatch({
+      type: "UNLINK_STEAM",
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
