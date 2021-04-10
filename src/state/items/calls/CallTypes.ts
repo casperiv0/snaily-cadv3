@@ -1,7 +1,7 @@
 import { Call } from "types/Call";
 
-interface GetCalls {
-  type: "GET_911_CALLS" | "GET_TOW_CALLS" | "GET_TAXI_CALLS";
+export interface GetCalls {
+  type: "GET_CALLS";
   calls: Call[];
 }
 

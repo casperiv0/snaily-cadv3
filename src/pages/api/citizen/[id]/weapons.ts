@@ -12,7 +12,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method, query } = req;
 
   try {
-    await useAuth(req, res);
+    await useAuth(req);
   } catch (e) {
     return res.status(e?.code ?? 400).json({
       status: "error",

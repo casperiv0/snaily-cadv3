@@ -1,10 +1,9 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
-import { Cad } from "types/Cad";
+import { useCookie } from "@hooks/useCookie";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -19,20 +18,17 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "POST": {
       try {
-        const [cad] = await processQuery<Cad>("SELECT * FROM `cad_info`");
+        useCookie(res, "");
 
         return res.json({
-          cad,
+          user: null,
           status: "success",
         });
       } catch (e) {
-        logger.error("cad-info", e);
+        logger.error("LOGIN", e);
 
         return res.status(500).json(AnError);
       }
-    }
-    case "PUT": {
-      break;
     }
     default: {
       return res.status(405).json({

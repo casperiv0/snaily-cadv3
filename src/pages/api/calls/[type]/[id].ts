@@ -1,12 +1,13 @@
 import { NextApiResponse } from "next";
+import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
 import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
-import { Cad } from "types/Cad";
+import { Call } from "types/Call";
+import { IRequest } from "types/IRequest";
+import { dbPath } from ".";
 
-export default async function (req: IRequest, res: NextApiResponse) {
+export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
     await useAuth(req);
   } catch (e) {
@@ -17,12 +18,15 @@ export default async function (req: IRequest, res: NextApiResponse) {
   }
 
   switch (req.method) {
-    case "POST": {
+    case "DELETE": {
       try {
-        const [cad] = await processQuery<Cad>("SELECT * FROM `cad_info`");
+        await processQuery(`DELETE FROM \`${dbPath(`${req.query.type}`)}\` WHERE \`id\` = ?`, [
+          req.query.id,
+        ]);
 
+        const calls = await processQuery<Call>(`SELECT * FROM \`${dbPath(`${req.query.type}`)}\``);
         return res.json({
-          cad,
+          calls,
           status: "success",
         });
       } catch (e) {
@@ -30,9 +34,6 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
         return res.status(500).json(AnError);
       }
-    }
-    case "PUT": {
-      break;
     }
     default: {
       return res.status(405).json({

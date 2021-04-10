@@ -98,3 +98,18 @@ export const updatePassword = (data: RequestData) => async (dispatch: Dispatch<U
     notify.error(error);
   }
 };
+
+export const logout = () => async (dispatch: Dispatch<Authenticate>) => {
+  try {
+    await handleRequest("/auth/logout", "POST");
+
+    dispatch({
+      type: "AUTHENTICATE",
+      user: null,
+      isAuth: false,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    notify.error(error);
+  }
+};

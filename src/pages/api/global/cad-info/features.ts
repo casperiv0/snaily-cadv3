@@ -8,7 +8,7 @@ import { Cad } from "types/Cad";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
-    await useAuth(req, res);
+    await useAuth(req);
   } catch (e) {
     return res.status(e?.code ?? 400).json({
       status: "error",

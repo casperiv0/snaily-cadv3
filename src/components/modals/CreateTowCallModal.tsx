@@ -8,7 +8,7 @@ import { ModalIds } from "types/ModalIds";
 import { CallTypes } from "@actions/calls/CallTypes";
 
 interface Props {
-  createCall: (type: CallTypes, data: RequestData) => void;
+  createCall: (type: CallTypes, data: RequestData) => Promise<boolean>;
 }
 
 const CreateTowCallModalC: React.FC<Props> = ({ createCall }) => {
@@ -16,19 +16,21 @@ const CreateTowCallModalC: React.FC<Props> = ({ createCall }) => {
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createCall("tow", {
+    const success = await createCall("tow", {
       description,
       location,
       caller,
     });
 
-    modal(ModalIds.CallTow)?.hide();
-    setDescription("");
-    setLocation("");
-    setCaller("");
+    if (success === true) {
+      modal(ModalIds.CallTow)?.hide();
+      setDescription("");
+      setLocation("");
+      setCaller("");
+    }
   }
 
   return (

@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { NextApiResponse } from "next";
 import { processQuery } from "../lib/database";
 import config from "../lib/config";
 import { IRequest } from "types/IRequest";
@@ -10,7 +9,7 @@ import { Whitelist } from "@lib/consts";
 // import { logoutActiveUnits } from "@lib/utils";
 import { IError } from "src/interfaces/IError";
 
-async function useAuth(req: IRequest, res: NextApiResponse): Promise<IError> {
+async function useAuth(req: IRequest): Promise<IError> {
   const token = req.cookies["snaily-cad-session"] || req.headers["session"];
   const secret = config.jwtSecret;
 

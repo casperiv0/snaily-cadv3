@@ -17,6 +17,7 @@ const Seo: React.FC<Props> = (props) => {
   const tags = {
     ...defaults,
     ...props,
+    title: props.title ? props.title + " - SnailyCAD" : defaults.title,
   };
 
   //   TODO: add support for custom text & images.

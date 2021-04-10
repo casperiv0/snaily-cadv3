@@ -1,10 +1,11 @@
 /* eslint-disable promise/always-return */
-import { Server as HttpServer } from "http";
-import next from "next";
 import cookieParser from "cookie-parser";
 import { Server as SocketServer } from "socket.io";
+import { Server as HttpServer } from "http";
+import next from "next";
 import config from "./lib/config";
 import { socketHandler, wrap } from "./lib/socket.server";
+import { logger } from "./lib/logger";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -19,6 +20,8 @@ app
     socketServer.on("connection", socketHandler);
     socketServer.use(wrap(cookieParser()));
 
-    httpServer.listen(config.port);
+    httpServer.listen(config.port, () =>
+      logger.log("APP", `Running on http://localhost:${config.port}/`),
+    );
   })
   .catch(console.error);

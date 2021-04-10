@@ -5,8 +5,9 @@ const initState: State["calls"] = {
   calls: [],
 };
 
-export function GlobalReducer(state = initState, action: Actions): State["calls"] {
+export function CallReducer(state = initState, action: Actions): State["calls"] {
   switch (action.type) {
+    case "GET_CALLS":
     case "CREATE_CALL": {
       return {
         ...state,
