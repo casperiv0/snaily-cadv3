@@ -8,12 +8,17 @@ import Bootstrap from "bootstrap";
 import { useStore } from "src/state/useStore";
 import "../styles/global.css";
 import { Navbar } from "src/components/navbar/Navbar";
+import { Router } from "next/router";
 
 declare global {
   interface Window {
     bootstrap: typeof Bootstrap;
   }
 }
+
+Router.events.on("routeChangeStart", () => document.body.classList.add("loading"));
+Router.events.on("routeChangeComplete", () => document.body.classList.remove("loading"));
+Router.events.on("routeChangeError", () => document.body.classList.remove("loading"));
 
 function App({ Component, pageProps }: AppProps) {
   const store = useStore(pageProps?.initialReduxState ?? pageProps);

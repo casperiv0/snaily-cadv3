@@ -15,12 +15,12 @@ import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import { isCadFeatureEnabled } from "@lib/utils";
 import { Cad } from "types/Cad";
 import { getCadInfo } from "@actions/global/GlobalActions";
-// import { socket } from "@lib/socket.client";
 import { SocketEvents } from "types/Socket";
 import { CreateTaxiCallModal } from "@components/modals/CreateTaxiCallModal";
 import { CreateTowCallModal } from "@components/modals/CreateTowCallModal";
 import { Create911Modal } from "@components/modals/Create911Modal";
 import { useSocket } from "@hooks/useSocket";
+import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponModal";
 
 interface Props {
   citizens: Citizen[];
@@ -140,6 +140,7 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
       {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CreateTaxiCallModal /> : null}
       {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CreateTowCallModal /> : null}
       <Create911Modal />
+      <RegisterWeaponModal />
       {/* <RegisterWeaponModal />
       <RegisterVehicleModal /> */}
     </Layout>

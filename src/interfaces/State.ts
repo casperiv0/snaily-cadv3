@@ -3,6 +3,7 @@ import { Call } from "./Call";
 import { Citizen } from "./Citizen";
 import { TruckLog } from "./TruckLog";
 import { User } from "./User";
+import { Value } from "./Value";
 
 export type Nullable<T> = T | null;
 
@@ -26,5 +27,17 @@ export interface State {
   };
   truckLogs: {
     logs: TruckLog[];
+  };
+  values: {
+    genders: Value[];
+    "legal-statuses": Value[];
+    "call-types": Value[];
+    ethnicities: Value[];
+    weapons: Value[];
+    vehicles: Value[];
+    departments: Value[];
+    error: Nullable<string>;
+    value: Nullable<Value>;
+    loading: boolean;
   };
 }

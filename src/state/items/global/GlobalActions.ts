@@ -1,5 +1,5 @@
-import { getErrorFromResponse, handleRequest } from "@lib/utils";
 import { Dispatch } from "react";
+import { getErrorFromResponse, handleRequest } from "@lib/utils";
 import { GetCadInfo, UpdateAop } from "./GlobalTypes";
 
 export const getCadInfo = (cookie?: string) => async (dispatch: Dispatch<GetCadInfo>) => {

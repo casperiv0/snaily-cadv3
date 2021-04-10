@@ -8,9 +8,17 @@ import { IError } from "types/IError";
 
 // rank, leo, ems_fd, dispatch, tow
 type UserPermsArr = [Ranks, Perm, Perm, Perm, Perm, Perm];
-type Permissions = Ranks | "leo" | "ems_fd" | "dispatch" | "tow" | "supervisor";
+type Permissions =
+  | "admin"
+  | "owner"
+  | "moderator"
+  | "leo"
+  | "ems_fd"
+  | "dispatch"
+  | "tow"
+  | "supervisor";
 
-export const usePermission = (perms: Permissions[]) => async (req: IRequest): Promise<IError> => {
+export const usePermission = async (req: IRequest, perms: Permissions[]): Promise<IError> => {
   try {
     const [user] = await processQuery<User>(
       "SELECT `rank`, `leo`, `dispatch`, `tow`, `ems_fd`, `supervisor` FROM `users` WHERE `id` = ?",

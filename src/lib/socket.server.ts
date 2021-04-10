@@ -10,8 +10,6 @@ export const wrap = (middleware: any) => (
 };
 
 export async function socketHandler(socket: Socket) {
-  console.log(socket.id);
-
   // @ts-expect-error ignore the line below
   const token = socket?.request?.cookies?.["snaily-cad-session"];
 

@@ -18,6 +18,10 @@ body {
   overflow-x: hidden;
 }
 
+body.loading {
+  cursor: wait !important;
+}
+
 .auth-btn:disabled {
   cursor: not-allowed;
 }
