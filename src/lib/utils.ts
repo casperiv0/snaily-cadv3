@@ -36,6 +36,7 @@ export const notify = {
       className: "alert-success",
       ...options,
     });
+    return true;
   },
   error: (message: string, options?: ToastOptions) => {
     toast.error(message, {
@@ -45,6 +46,7 @@ export const notify = {
       className: "alert-danger",
       ...options,
     });
+    return false;
   },
   warn: (message: string, options?: ToastOptions) => {
     toast.warn(message, {
@@ -54,6 +56,7 @@ export const notify = {
       className: "alert-warning",
       ...options,
     });
+    return false;
   },
 };
 

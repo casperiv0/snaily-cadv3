@@ -21,6 +21,7 @@ import { CreateTowCallModal } from "@components/modals/CreateTowCallModal";
 import { Create911Modal } from "@components/modals/Create911Modal";
 import { useSocket } from "@hooks/useSocket";
 import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponModal";
+import { RegisterVehicleModal } from "@components/modals/citizen/RegisterVehicleModal";
 
 interface Props {
   citizens: Citizen[];
@@ -141,8 +142,7 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
       {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CreateTowCallModal /> : null}
       <Create911Modal />
       <RegisterWeaponModal />
-      {/* <RegisterWeaponModal />
-      <RegisterVehicleModal /> */}
+      <RegisterVehicleModal />
     </Layout>
   );
 };

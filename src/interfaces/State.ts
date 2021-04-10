@@ -4,6 +4,8 @@ import { Citizen } from "./Citizen";
 import { TruckLog } from "./TruckLog";
 import { User } from "./User";
 import { Value } from "./Value";
+import { Vehicle } from "./Vehicle";
+import { Weapon } from "./Weapon";
 
 export type Nullable<T> = T | null;
 
@@ -21,6 +23,8 @@ export interface State {
     citizens: Citizen[];
     citizen: Nullable<Citizen>;
     loading: boolean;
+    vehicles: Vehicle[];
+    weapons: Weapon[];
   };
   calls: {
     calls: Call[];

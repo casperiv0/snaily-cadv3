@@ -20,8 +20,8 @@ export interface Citizen {
   business: string;
   business_id: string;
   rank: "owner" | "manager" | "employee" | "";
-  vehicle_reg: string;
-  posts: string;
+  vehicle_reg: Perm;
+  posts: Perm;
   image_id: string;
   b_status: string;
   note: string;

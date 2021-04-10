@@ -16,7 +16,10 @@ export async function connect(): Promise<mysql.Connection> {
   return await mysql.createConnection(options);
 }
 
-export async function processQuery<T = any>(query: string, data?: any[]): Promise<T[]> {
+export async function processQuery<T = any>(
+  query: string,
+  data?: any[],
+): Promise<(T | undefined)[]> {
   const conn = await connect();
   try {
     return await conn.query(query, data);

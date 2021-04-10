@@ -1,4 +1,5 @@
 import { Citizen } from "types/Citizen";
+import { Vehicle } from "types/Vehicle";
 import { Weapon } from "types/Weapon";
 
 export interface GetUserCitizens {
@@ -16,4 +17,9 @@ export interface RegisterWeapon {
   weapons: Weapon[];
 }
 
-export type Actions = GetUserCitizens | GetCitizenById;
+export interface RegisterVehicle {
+  type: "REGISTER_VEHICLE";
+  vehicles: Vehicle[];
+}
+
+export type Actions = GetUserCitizens | GetCitizenById | RegisterVehicle | RegisterWeapon;

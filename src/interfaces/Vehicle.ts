@@ -1,4 +1,4 @@
-interface Vehicle {
+export interface Vehicle {
   id: string;
   owner: string;
   vehicle: string;
@@ -10,5 +10,3 @@ interface Vehicle {
   citizen_id: string;
   company: string;
 }
-
-export default Vehicle;
