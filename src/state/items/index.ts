@@ -5,6 +5,7 @@ import { CitizenReducer } from "./citizen/CitizenReducer";
 import { CallReducer } from "./calls/CallReducer";
 import { TruckLogReducer } from "./truck-logs/TruckLogReducer";
 import { ValuesReducer } from "./values/ValuesReducer";
+import { CompanyReducer } from "./companies/CompanyReducer";
 
 export default combineReducers({
   auth: AuthReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   calls: CallReducer,
   truckLogs: TruckLogReducer,
   values: ValuesReducer,
+  companies: CompanyReducer,
 });

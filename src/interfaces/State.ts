@@ -1,6 +1,7 @@
 import { Cad } from "./Cad";
 import { Call } from "./Call";
 import { Citizen } from "./Citizen";
+import { Company } from "./Company";
 import { TruckLog } from "./TruckLog";
 import { User } from "./User";
 import { Value } from "./Value";
@@ -27,6 +28,10 @@ export interface State {
   };
   calls: {
     calls: Call[];
+  };
+  companies: {
+    companies: Company[];
+    company: Nullable<Company>;
   };
   truckLogs: {
     logs: TruckLog[];

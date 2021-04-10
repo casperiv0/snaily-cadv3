@@ -7,25 +7,25 @@ import { Citizen } from "types/Citizen";
 import { connect } from "react-redux";
 import { getValuesByPath } from "@actions/values/ValuesActions";
 import { registerVehicle } from "@actions/citizen/CitizenActions";
-// import { Company } from "types/Company";
-// import { getCompanies } from "@actions/admin";
+import { getCompanies } from "@actions/companies/CompanyActions";
 import { Cad } from "types/Cad";
 import { Select, SelectValue } from "@components/Select/Select";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
 import { isCadFeatureEnabled, modal, notify, RequestData } from "@lib/utils";
 import { ValuePaths } from "types/ValuePaths";
+import { Company } from "types/Company";
 
 interface Props {
   owners: Citizen[];
   vehicles: Value[];
   legalStatuses: Value[];
-  // companies: Company[];
+  companies: Company[];
   cadInfo: Nullable<Cad>;
   citizen: Nullable<Citizen>;
 
   getValuesByPath: (path: ValuePaths) => void;
-  // getCompanies: () => void;
+  getCompanies: () => void;
   registerVehicle: (data: RequestData) => Promise<boolean>;
 }
 
@@ -33,12 +33,12 @@ const RegisterVehicleModalC: React.FC<Props> = ({
   owners,
   vehicles,
   legalStatuses,
-  // companies,
+  companies,
   cadInfo,
   citizen,
   getValuesByPath,
   registerVehicle,
-  // getCompanies,
+  getCompanies,
 }) => {
   const [plate, setPlate] = React.useState("");
   const [status, setStatus] = React.useState("");
@@ -50,8 +50,8 @@ const RegisterVehicleModalC: React.FC<Props> = ({
 
   React.useEffect(() => {
     getValuesByPath("vehicles");
-    // getCompanies();
-  }, [getValuesByPath]);
+    getCompanies();
+  }, [getValuesByPath, getCompanies]);
 
   React.useEffect(() => {
     if (citizen) {
@@ -186,7 +186,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
                 {lang.citizen.vehicle.company}
               </label>
 
-              {/* <Select
+              <Select
                 id="vehicle_company"
                 isMulti={false}
                 isClearable
@@ -195,7 +195,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
                   value: company.id,
                   label: company.name,
                 }))}
-              /> */}
+              />
             </div>
           ) : null}
         </div>
@@ -217,7 +217,7 @@ const mapToProps = (state: State) => ({
   owners: state.citizen.citizens,
   vehicles: state.values.vehicles,
   legalStatuses: state.values["legal-statuses"],
-  // companies: state.admin.companies,
+  companies: state.companies.companies,
   cadInfo: state.global.cadInfo,
   citizen: state.citizen.citizen,
 });
@@ -225,5 +225,5 @@ const mapToProps = (state: State) => ({
 export const RegisterVehicleModal = connect(mapToProps, {
   getValuesByPath,
   registerVehicle,
-  // getCompanies,
+  getCompanies,
 })(RegisterVehicleModalC);
