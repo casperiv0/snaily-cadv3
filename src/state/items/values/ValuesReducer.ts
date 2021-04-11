@@ -23,6 +23,7 @@ export function ValuesReducer(state = initState, action: Actions): State["values
       return {
         ...state,
         [action.path]: action.values,
+        loading: false,
       };
     default: {
       return {

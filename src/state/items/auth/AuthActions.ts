@@ -25,7 +25,7 @@ export const login = (data: { username: string; password: string }) => async (
   }
 };
 
-export const register = (data: { username: string; password: string }) => async (
+export const register = (data: { username: string; password: string; password2: string }) => async (
   dispatch: Dispatch<Authenticate>,
 ) => {
   try {

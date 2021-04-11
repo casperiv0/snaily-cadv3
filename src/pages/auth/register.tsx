@@ -6,7 +6,7 @@ import lang from "../../language.json";
 import { register } from "@actions/auth/AuthActions";
 
 interface Props {
-  register: (data: { username: string; password: string }) => Promise<boolean>;
+  register: (data: { username: string; password: string; password2: string }) => Promise<boolean>;
 }
 
 const RegisterPage = ({ register }: Props) => {
@@ -23,6 +23,7 @@ const RegisterPage = ({ register }: Props) => {
     const success = await register({
       username,
       password,
+      password2,
     });
 
     if (success === true) {

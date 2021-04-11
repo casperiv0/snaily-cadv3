@@ -20,6 +20,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
     "lib": [
       "dom",
       "dom.iterable",
