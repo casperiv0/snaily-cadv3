@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { unLinkSteam, verifyAuth } from "@state/items/auth/AuthActions";
 import { initializeStore } from "@state/useStore";
 import { GetServerSideProps } from "next";
@@ -14,6 +15,7 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { EditPasswordModal } from "@components/modals/account/EditPasswordModal";
 import { DeleteAccountModal } from "@components/modals/account/DeleteAccountModal";
 import { Seo } from "@components/Seo";
+import { notify } from "@lib/utils";
 
 interface Props {
   user: Nullable<User>;
@@ -21,6 +23,14 @@ interface Props {
 }
 
 const AccountPage = ({ user, unLinkSteam }: Props) => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (router.asPath.includes("?auth=success")) {
+      notify.success("Successfully connected with steam");
+    }
+  }, [router]);
+
   return (
     <Layout>
       <Seo title={lang.auth.account.account} />

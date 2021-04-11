@@ -77,3 +77,20 @@ body.loading {
 .btn-secondary:disabled {
   opacity: 0.5 !important;
 }
+
+#page-loader {
+  z-index: 99999;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+
+  display: none;
+  place-items: center;
+}
+
+#page-loader.active {
+  display: grid;
+}

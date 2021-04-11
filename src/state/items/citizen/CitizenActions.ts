@@ -9,6 +9,7 @@ import {
   ICitizenVehicles,
   UpdateCitizenLicenses,
   CreateCitizen,
+  DeleteCitizenById,
 } from "./CitizenTypes";
 import lang from "src/language.json";
 import { Citizen } from "types/Citizen";
@@ -226,6 +227,22 @@ export const createCitizen = (data: Partial<Citizen>) => async (
     });
 
     return `/citizen/${res.data.citizenId}`;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+
+    return notify.warn(error);
+  }
+};
+
+export const deleteCitizenById = (id: string) => async (dispatch: Dispatch<DeleteCitizenById>) => {
+  try {
+    await handleRequest(`/citizen/${id}`, "DELETE");
+
+    dispatch({
+      type: "DELETE_CITIZEN_BY_ID",
+    });
+
+    return notify.success("Successfully deleted citizen");
   } catch (e) {
     const error = getErrorFromResponse(e);
 

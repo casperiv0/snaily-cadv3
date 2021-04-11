@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 import { connect } from "react-redux";
-import { useRouter } from "next/router";
 import * as React from "react";
 import Link from "next/link";
 import { verifyAuth } from "@actions/auth/AuthActions";
@@ -9,21 +8,12 @@ import { Layout } from "src/components/Layout";
 import { User } from "types/User";
 import lang from "../language.json";
 import { State } from "types/State";
-import { notify } from "@lib/utils";
 interface Props {
   isAuth: boolean;
   user: User | null;
 }
 
 const IndexPage = ({ isAuth, user }: Props) => {
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (router.asPath.includes("?auth=success")) {
-      notify.success("Successfully connected with steam!");
-    }
-  }, [router]);
-
   return (
     <Layout>
       {isAuth ? (

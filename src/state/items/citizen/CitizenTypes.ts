@@ -40,6 +40,10 @@ export interface RegisterVehicle {
   vehicles: Vehicle[];
 }
 
+export interface DeleteCitizenById {
+  type: "DELETE_CITIZEN_BY_ID";
+}
+
 export type Actions =
   | GetUserCitizens
   | GetCitizenById
@@ -47,4 +51,5 @@ export type Actions =
   | RegisterWeapon
   | ICitizenVehicles
   | ICitizenWeapons
-  | UpdateCitizenLicenses;
+  | UpdateCitizenLicenses
+  | DeleteCitizenById;

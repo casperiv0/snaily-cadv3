@@ -16,7 +16,14 @@ export function AdminReducer(state = initState, action: Actions): State["admin"]
         codes: action.codes,
       };
     }
-
+    case "DELETE_PENAL_CODE":
+    case "UPDATE_PENAL_CODE":
+    case "GET_PENAL_CODES": {
+      return {
+        ...state,
+        penalCodes: action.penalCodes,
+      };
+    }
     default: {
       return {
         ...state,

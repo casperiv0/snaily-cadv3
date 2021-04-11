@@ -1,3 +1,4 @@
+// TODO: correct this
 export default {
   jwtSecret: "hello",
   host: "localhost",

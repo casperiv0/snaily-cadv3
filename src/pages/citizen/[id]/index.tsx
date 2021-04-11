@@ -2,8 +2,11 @@ import { connect } from "react-redux";
 import * as React from "react";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import {
+  deleteCitizenById,
   getCitizenById,
   getCitizenVehicles,
   getCitizenWeapons,
@@ -29,10 +32,19 @@ import { EditLicensesModal } from "@components/modals/citizen/EditLicensesModal"
 interface Props {
   citizen: Nullable<Citizen>;
   cadInfo: Nullable<Cad>;
+  deleteCitizenById: (id: string) => Promise<boolean>;
 }
 
-const CitizenInfoPage = ({ citizen, cadInfo }: Props) => {
-  function handleDelete() {}
+const CitizenInfoPage = ({ citizen, cadInfo, deleteCitizenById }: Props) => {
+  const router = useRouter();
+
+  async function handleDelete() {
+    const deleted = await deleteCitizenById(citizen?.id!);
+
+    if (deleted === true) {
+      router.push("/citizen");
+    }
+  }
 
   if (!citizen) {
     return (
@@ -61,8 +73,11 @@ const CitizenInfoPage = ({ citizen, cadInfo }: Props) => {
         </div>
 
         <div style={{ display: "flex" }} className="card-body">
-          <img
-            style={{ width: "120px", height: "120px" }}
+          <Image
+            objectFit="cover"
+            width="120px"
+            height="120px"
+            layout="fixed"
             className="rounded-circle object-fit-center"
             src={`/citizen-images/${citizen.image_id}`}
             alt={citizen.image_id}
@@ -157,4 +172,4 @@ const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
 });
 
-export default connect(mapToProps)(CitizenInfoPage);
+export default connect(mapToProps, { deleteCitizenById })(CitizenInfoPage);

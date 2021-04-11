@@ -1,6 +1,6 @@
 {
   "name": "snaily-cadv3",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "An open source Computer Aided Dispatch (CAD) for FiveM, this is a web based integration for communities who love police roleplaying and dispatching. ",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,6 @@
     "auto-install": "node ./scripts/install.js && npm run translation:generate",
     "docker-build": "node ./scripts/install.js && npm run translation:generate && npm run start:client",
     "docker-start": "npm run start:server",
-    "update": "node ./scripts/auto-update.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",

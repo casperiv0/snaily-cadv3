@@ -7,7 +7,7 @@ module.exports = {
     return [
       {
         source: "/logout",
-        destination: "/api/auth/logout",
+        destination: "/auth/logout",
         permanent: true,
       },
     ];

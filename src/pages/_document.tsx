@@ -34,6 +34,12 @@ class SnailyCAD extends Document {
         <body>
           <Main />
           <NextScript />
+
+          <div id="page-loader">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         </body>
       </Html>
     );
