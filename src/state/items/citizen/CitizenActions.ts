@@ -8,8 +8,10 @@ import {
   RegisterWeapon,
   ICitizenVehicles,
   UpdateCitizenLicenses,
+  CreateCitizen,
 } from "./CitizenTypes";
 import lang from "src/language.json";
+import { Citizen } from "types/Citizen";
 
 export const getUserCitizens = (cookie?: string) => async (dispatch: Dispatch<GetUserCitizens>) => {
   try {
@@ -67,7 +69,7 @@ export const deleteWeaponById = (citizenId: string, id: string) => async (
   dispatch: Dispatch<ICitizenWeapons>,
 ) => {
   try {
-    const res = await handleRequest(`/citizen/${citizenId}?weaponId=${id}`, "DELETE");
+    const res = await handleRequest(`/citizen/${citizenId}/weapons?weaponId=${id}`, "DELETE");
 
     dispatch({
       type: "DELETE_WEAPON_BY_ID",
@@ -110,6 +112,30 @@ export const deleteVehicleById = (citizenId: string, id: string) => async (
   } catch (e) {
     const error = getErrorFromResponse(e);
     notify.error(error);
+  }
+};
+
+export const updateVehicleById = (
+  citizenId: string,
+  vehicleId: string,
+  data: RequestData,
+) => async (dispatch: Dispatch<ICitizenVehicles>) => {
+  try {
+    const res = await handleRequest(
+      `/citizen/${citizenId}/vehicles?vehicleId=${vehicleId}`,
+      "PUT",
+      data,
+    );
+
+    dispatch({
+      type: "UPDATE_VEHICLE_BY_ID",
+      vehicles: res.data.vehicles,
+    });
+
+    return notify.success(lang.citizen.vehicle.updated_veh);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
   }
 };
 
@@ -161,6 +187,45 @@ export const updateLicenses = (citizenId: string, data: RequestData) => async (
     });
 
     return notify.success("Successfully registered weapon");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+
+    return notify.warn(error);
+  }
+};
+
+export const createCitizen = (data: Partial<Citizen>) => async (
+  dispatch: Dispatch<CreateCitizen>,
+) => {
+  try {
+    const fd = new FormData();
+
+    if (data.image) {
+      fd.append("image", data.image, data.image?.name);
+    }
+
+    fd.append("full_name", data.full_name!);
+    fd.append("gender", data.gender!);
+    fd.append("ethnicity", data.ethnicity!);
+    fd.append("birth", data.birth!);
+    fd.append("hair_color", data.hair_color!);
+    fd.append("eye_color", data.eye_color!);
+    fd.append("address", data.address!);
+    fd.append("height", data.height!);
+    fd.append("weight", data.weight!);
+    fd.append("dmv", data.dmv!);
+    fd.append("pilot_license", data.pilot_license!);
+    fd.append("fire_license", data.fire_license!);
+    fd.append("ccw", data.ccw!);
+    fd.append("phone_nr", data.phone_nr!);
+
+    const res = await handleRequest("/citizen", "POST", (fd as unknown) as RequestData);
+
+    dispatch({
+      type: "CREATE_CITIZEN",
+    });
+
+    return `/citizen/${res.data.citizenId}`;
   } catch (e) {
     const error = getErrorFromResponse(e);
 

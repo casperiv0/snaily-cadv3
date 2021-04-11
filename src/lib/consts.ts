@@ -25,6 +25,8 @@ export const AnError = {
   status: "error",
 };
 
+export const SupportedFileTypes = ["image/png", "image/gif", "image/jpeg", "image/svg+xml"];
+
 export const SaveUserQueryData =
   "`id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`";
 

@@ -39,4 +39,5 @@ export enum ModalIds {
   CreateEmsFd = "createEmsFdModal",
   CreateBleet = "createBleetModal",
   EditBleet = "editBleetModal",
+  EditVehicle = "editVehicleModal",
 }

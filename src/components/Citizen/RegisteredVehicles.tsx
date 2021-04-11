@@ -4,23 +4,35 @@ import Link from "next/link";
 import { Nullable, State } from "types/State";
 import { Vehicle } from "types/Vehicle";
 import lang from "../../language.json";
-// import { reportAsStolen, deleteVehicle } from "@actions/citizen/CitizenActions";
+import { updateVehicleById, deleteVehicleById } from "@actions/citizen/CitizenActions";
 import { ModalIds } from "types/ModalIds";
 import { Item, Span } from "@components/Item";
+import { RequestData } from "@lib/utils";
+import { EditVehicleModal } from "@components/modals/citizen/EditVehicleModal";
 
 interface Props {
   citizenId: Nullable<string>;
   vehicles: Vehicle[];
-  reportAsStolen: (id: string) => void;
-  deleteVehicle: (citizenId: string, vehicleId: string) => void;
+  updateVehicleById: (citizenId: string, vehicleId: string, data: RequestData) => void;
+  deleteVehicleById: (citizenId: string, vehicleId: string) => void;
 }
 
 const RegisteredVehicles: React.FC<Props> = ({
   citizenId,
   vehicles,
-  reportAsStolen,
-  deleteVehicle,
+  updateVehicleById,
+  deleteVehicleById,
 }) => {
+  const [tempVehicle, setTempVehicle] = React.useState<Nullable<Vehicle>>(null);
+
+  function handleReport(vehicle: Vehicle) {
+    if (!citizenId) return;
+    updateVehicleById(citizenId, vehicle.id, {
+      ...vehicle,
+      in_status: "Reported stolen",
+    });
+  }
+
   return (
     <div className="card bg-dark border-dark mt-1 text-light">
       <div className="card-header">
@@ -95,22 +107,24 @@ const RegisteredVehicles: React.FC<Props> = ({
                       </Link>
 
                       {vehicle.in_status === "Reported stolen" ? null : (
-                        <button
-                          className="btn btn-dark me-2"
-                          onClick={() => reportAsStolen(vehicle.id)}
-                        >
+                        <button className="btn btn-dark me-2" onClick={() => handleReport(vehicle)}>
                           {lang.citizen.vehicle.report_stolen}
                         </button>
                       )}
                       <button
                         className="btn btn-danger"
-                        onClick={() => deleteVehicle(citizenId!, vehicle.id)}
+                        onClick={() => deleteVehicleById(citizenId!, vehicle.id)}
                       >
                         {lang.global.delete}
                       </button>
-                      <Link href={`/vehicles/edit/${vehicle.id}`}>
-                        <a className="btn btn-success ms-2">{lang.global.edit}</a>
-                      </Link>
+                      <button
+                        onClick={() => setTempVehicle(vehicle)}
+                        className="btn btn-success ms-2"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#${ModalIds.EditVehicle}`}
+                      >
+                        {lang.global.edit}
+                      </button>
                     </div>
                   </li>
                 );
@@ -119,6 +133,8 @@ const RegisteredVehicles: React.FC<Props> = ({
           </>
         )}
       </div>
+
+      <EditVehicleModal vehicle={tempVehicle} />
     </div>
   );
 };
@@ -129,6 +145,6 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  //   reportAsStolen,
-  //   deleteVehicle,
+  updateVehicleById,
+  deleteVehicleById,
 })(RegisteredVehicles);

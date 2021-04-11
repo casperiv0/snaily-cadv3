@@ -39,6 +39,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "PUT": {
       // TODO: update citizen
+
       break;
     }
     case "DELETE": {

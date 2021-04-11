@@ -13,4 +13,5 @@ export interface Cad {
   live_map_url: string;
   steam_api_key: string;
   features: string[];
+  max_citizens: string;
 }

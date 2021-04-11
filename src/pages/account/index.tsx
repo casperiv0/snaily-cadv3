@@ -13,7 +13,7 @@ import { Item, Span } from "src/components/Item";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { EditPasswordModal } from "@components/modals/account/EditPasswordModal";
 import { DeleteAccountModal } from "@components/modals/account/DeleteAccountModal";
-import Seo from "@components/Seo";
+import { Seo } from "@components/Seo";
 
 interface Props {
   user: Nullable<User>;

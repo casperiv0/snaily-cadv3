@@ -1,10 +1,7 @@
 import Link from "next/link";
 import lang from "src/language.json";
 
-export const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean }> = ({
-  loading,
-  isAuth,
-}) => {
+export const NavbarDropdown: React.FC<{ isAuth: boolean }> = ({ isAuth }) => {
   return (
     <li className="dropdown dropstart float-end">
       <button
@@ -17,7 +14,7 @@ export const NavbarDropdown: React.FC<{ loading: boolean; isAuth: boolean }> = (
         <img style={{ width: "1.5rem", height: "1.5rem" }} src="/img/avatar.svg" alt="open menu" />
       </button>
       <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-        {!loading && isAuth ? (
+        {isAuth ? (
           <>
             <li>
               <Link href="/account">

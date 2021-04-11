@@ -10,7 +10,6 @@ import { NavbarDropdown } from "./NavbarDropdown";
 
 interface Props {
   isAuth: boolean;
-  loading: boolean;
   cadInfo: Nullable<Cad>;
   user: Nullable<User>;
 }
@@ -82,7 +81,7 @@ export const paths: Path[] = [
   },
 ];
 
-const NavbarC = ({ isAuth, loading, cadInfo, user }: Props) => {
+const NavbarC = ({ isAuth, cadInfo, user }: Props) => {
   const router = useRouter();
   const ref = React.useRef<HTMLButtonElement>(null);
 
@@ -92,14 +91,13 @@ const NavbarC = ({ isAuth, loading, cadInfo, user }: Props) => {
   }, []);
 
   React.useEffect(() => {
-    if (loading) return;
     if (pages.includes(router.pathname)) return;
-    if (!loading && !isAuth) {
+    if (!isAuth) {
       router.push("/auth/login");
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuth, loading]);
+  }, [isAuth]);
 
   return (
     <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
@@ -155,7 +153,7 @@ const NavbarC = ({ isAuth, loading, cadInfo, user }: Props) => {
                 )}
               </li>
             ) : null}
-            <NavbarDropdown loading={loading} isAuth={isAuth} />
+            <NavbarDropdown isAuth={isAuth} />
             {/* <div className="nc-container">
               <button
                 onClick={() => setShowNotis((v) => !v)}
@@ -182,7 +180,6 @@ const NavbarC = ({ isAuth, loading, cadInfo, user }: Props) => {
 const mapToProps = (state: State) => ({
   user: state.auth.user,
   isAuth: state.auth.isAuth,
-  loading: state.auth.loading,
   cadInfo: state.global?.cadInfo,
 });
 

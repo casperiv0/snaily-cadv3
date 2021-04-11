@@ -8,6 +8,10 @@ export interface GetUserCitizens {
   citizens: Citizen[];
 }
 
+export interface CreateCitizen {
+  type: "CREATE_CITIZEN";
+}
+
 export interface GetCitizenById {
   type: "GET_CITIZEN_BY_ID";
   citizen: Citizen;

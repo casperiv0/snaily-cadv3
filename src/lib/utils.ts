@@ -1,4 +1,5 @@
 import axios from "axios";
+import { NextApiResponse } from "next";
 import { toast, ToastOptions } from "react-toastify";
 import { IRequest } from "types/IRequest";
 import { ModalIds } from "types/ModalIds";
@@ -102,4 +103,16 @@ export function formatRequired(required: string[], body: IRequest["body"]) {
   });
 
   return `Properties: ${arr.join(", ")} are missing.`;
+}
+
+export function runMiddleware(req: IRequest, res: NextApiResponse, fn: any) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: unknown) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
 }

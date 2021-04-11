@@ -136,6 +136,76 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
     }
+    case "PUT": {
+      try {
+        const { status, color, companyId } = req.body;
+
+        if (!status || !color || !req.query.vehicleId) {
+          return res.status(400).json({
+            error: formatRequired(["status", "color", "vehicleId"], req.body),
+            status: "error",
+          });
+        }
+
+        const [citizen] = await processQuery<Citizen>(
+          "SELECT `full_name` FROM `citizens` WHERE `user_id` = ? AND `id` = ?",
+          [req.userId, req.query.id],
+        );
+
+        if (!citizen) {
+          return res.status(404).json({
+            error: "Citizen was not found",
+            status: "error",
+          });
+        }
+
+        if (companyId) {
+          const [company] = await processQuery<Company>(
+            "SELECT * FROM `businesses` WHERE `id` = ?",
+            [companyId],
+          );
+
+          if (!company) {
+            return res.json({
+              error: "That company was not found",
+              status: "error",
+            });
+          }
+
+          if (citizen.business_id !== company.id) {
+            return res.json({
+              error: "You are not working at that company!",
+              status: "error",
+            });
+          }
+
+          if (citizen.vehicle_reg === "0") {
+            return res.json({
+              error: "You are not allowed to register vehicles for this company",
+              status: "error",
+            });
+          }
+        }
+
+        await processQuery(
+          "UPDATE `registered_cars` SET `in_status` = ?, `color` = ?, `business_id` = ? WHERE `id` = ?",
+          [status, color, companyId ?? "", req.query.vehicleId],
+        );
+
+        const updated = await processQuery(
+          "SELECT * FROM `registered_cars` WHERE `citizen_id` = ? AND `user_id` = ?",
+          [req.query.id, req.userId],
+        );
+
+        return res.json({ status: "success", vehicles: updated });
+      } catch (e) {
+        logger.error("UPDATE_VEHICLE", e);
+
+        return res.status(500).json({
+          error: AnError,
+        });
+      }
+    }
     default: {
       return res.status(405).json({
         error: "Method not allowed",
