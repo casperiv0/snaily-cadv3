@@ -11,7 +11,6 @@ interface Props {
 export const LicenseCard: React.FC<Props> = ({ citizen }) => {
   const isSuspended = React.useCallback(
     (type: string) => {
-      // @ts-expect-error ignore line below
       return citizen?.[type] === "1";
     },
     [citizen],

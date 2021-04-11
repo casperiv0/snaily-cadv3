@@ -1,6 +1,7 @@
 import { Cad } from "./Cad";
 import { Call } from "./Call";
 import { Citizen } from "./Citizen";
+import { Code10 } from "./Code10";
 import { Company } from "./Company";
 import { TruckLog } from "./TruckLog";
 import { User } from "./User";
@@ -14,6 +15,10 @@ export interface State {
   auth: {
     isAuth: boolean;
     user: Nullable<User>;
+  };
+  admin: {
+    codes: Code10[];
+    penalCodes: unknown[];
   };
   global: {
     aop: Nullable<string>;

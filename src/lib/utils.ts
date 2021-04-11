@@ -62,7 +62,7 @@ export const notify = {
 };
 
 export function getErrorFromResponse(e: any) {
-  return e?.response?.data?.error ?? e;
+  return e?.response?.data?.error ?? e?.message ?? e;
 }
 
 export function modal(id: ModalIds) {

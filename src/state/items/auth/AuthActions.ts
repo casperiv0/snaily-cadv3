@@ -1,6 +1,5 @@
 import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
-import {} from "redux";
 import { ModalIds } from "types/ModalIds";
 import { Authenticate, UnlinkSteam, UpdatePassword, VerifyAuth } from "./AuthTypes";
 
