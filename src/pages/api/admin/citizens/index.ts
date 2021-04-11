@@ -5,8 +5,8 @@ import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { usePermission } from "@hooks/usePermission";
-import { useValidPath } from "@hooks/useValidPath";
-import { formatRequired } from "@lib/utils.server";
+import { Citizen } from "types/Citizen";
+import { User } from "types/User";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -25,34 +25,39 @@ export default async function (req: IRequest, res: NextApiResponse) {
       error: e,
     });
   }
-  await useValidPath(req);
 
   switch (req.method) {
-    case "PUT": {
+    case "GET": {
       try {
-        const parsedPath = req.parsedPath;
-        const { name } = req.body;
+        const citizens = await processQuery("SELECT * FROM `citizens`");
 
-        if (!name) {
-          return res
-            .status(400)
-            .json({ error: formatRequired(["name"], req.body), status: "error" });
-        }
+        const parsedCitizens = async () => {
+          const arr: Citizen[] = [];
 
-        await processQuery(`UPDATE \`${parsedPath}\` SET \`name\` = ? WHERE \`id\` = ?`, [
-          name,
-          req.query.id,
-        ]);
+          await Promise.all(
+            // @ts-expect-error ignore
+            citizens.map(async (citizen: Citizen) => {
+              const [user] = await processQuery<User>(
+                "SELECT `username` FROM `users` WHERE `id` = ?",
+                [citizen.user_id],
+              );
 
-        const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
-        return res.json({ status: "success", values: updated });
+              citizen.user = user;
+
+              arr.push(citizen);
+            }),
+          );
+
+          return arr;
+        };
+
+        return res.json({ citizens: await parsedCitizens(), status: "success" });
       } catch (e) {
-        logger.error("cad-info", e);
+        logger.error("get_citizens", e);
 
         return res.status(500).json(AnError);
       }
     }
-
     default: {
       return res.status(405).json({
         error: "Method not allowed",

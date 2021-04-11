@@ -6,6 +6,7 @@ import { createCall } from "@actions/calls/CallActions";
 import { modal, RequestData } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { CallTypes } from "@actions/calls/CallTypes";
+import { useModalOpen } from "@hooks/useModalOpen";
 
 interface Props {
   createCall: (type: CallTypes, data: RequestData) => Promise<boolean>;
@@ -15,6 +16,7 @@ const CreateTowCallModalC: React.FC<Props> = ({ createCall }) => {
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
+  const ref = useModalOpen<HTMLTextAreaElement>(ModalIds.CallTow);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -42,6 +44,7 @@ const CreateTowCallModalC: React.FC<Props> = ({ createCall }) => {
               {lang.global.description}
             </label>
             <textarea
+              ref={ref}
               cols={30}
               rows={5}
               value={description}

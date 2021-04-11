@@ -137,7 +137,6 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
         )}
       </ul>
 
-      {/* TODO: */}
       {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CreateTaxiCallModal /> : null}
       {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CreateTowCallModal /> : null}
       <Create911Modal />

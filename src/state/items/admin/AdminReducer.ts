@@ -4,6 +4,9 @@ import { Actions } from "./AdminTypes";
 const initState: State["admin"] = {
   codes: [],
   penalCodes: [],
+  citizens: [],
+  expungementRequests: [],
+  members: [],
 };
 
 export function AdminReducer(state = initState, action: Actions): State["admin"] {
@@ -22,6 +25,26 @@ export function AdminReducer(state = initState, action: Actions): State["admin"]
       return {
         ...state,
         penalCodes: action.penalCodes,
+      };
+    }
+    case "GET_CITIZENS":
+    case "DELETE_CITIZEN": {
+      return {
+        ...state,
+        citizens: action.citizens,
+      };
+    }
+    case "GET_EXPUNGEMENT_REQUESTS":
+    case "UPDATE_EXPUNGEMENT_REQUEST": {
+      return {
+        ...state,
+        expungementRequests: action.expungementRequests,
+      };
+    }
+    case "GET_MEMBERS": {
+      return {
+        ...state,
+        members: action.members,
       };
     }
     default: {

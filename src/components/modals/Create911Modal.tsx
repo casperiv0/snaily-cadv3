@@ -1,25 +1,36 @@
 import { createCall } from "@actions/calls/CallActions";
 import { CallTypes } from "@actions/calls/CallTypes";
+import { getValuesByPath } from "@actions/values/ValuesActions";
 import { Modal } from "@components/Modal/Modal";
 import { Select, SelectValue } from "@components/Select/Select";
+import { useModalOpen } from "@hooks/useModalOpen";
 import { modal, RequestData } from "@lib/utils";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { connect } from "react-redux";
 import { ModalIds } from "types/ModalIds";
-import { Nullable } from "types/State";
+import { Nullable, State } from "types/State";
+import { Value } from "types/Value";
+import { ValuePaths } from "types/ValuePaths";
 import lang from "../../language.json";
 
 interface Props {
+  callTypes: Value[];
   createCall: (type: CallTypes, data: RequestData) => Promise<boolean>;
+  getValuesByPath: (path: ValuePaths) => void;
 }
 
-const Create911ModalC = ({ createCall }: Props) => {
+const Create911ModalC = ({ callTypes, getValuesByPath, createCall }: Props) => {
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
   const [caller, setCaller] = React.useState<string>("");
   const [type, setType] = React.useState<Nullable<SelectValue>>(null);
   const router = useRouter();
+  const ref = useModalOpen<HTMLTextAreaElement>(ModalIds.Create911);
+
+  React.useEffect(() => {
+    getValuesByPath("call-types");
+  }, [getValuesByPath]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -49,6 +60,7 @@ const Create911ModalC = ({ createCall }: Props) => {
               {lang.dispatch.call_desc}
             </label>
             <textarea
+              ref={ref}
               cols={30}
               rows={5}
               value={description}
@@ -94,13 +106,10 @@ const Create911ModalC = ({ createCall }: Props) => {
                   onChange={setType}
                   isMulti={false}
                   isClearable={false}
-                  options={[]}
-
-                  //   TODO:
-                  //   callTypes.map((type) => ({
-                  //     label: type.name,
-                  //     value: type.name,
-                  //   }))
+                  options={callTypes.map((type) => ({
+                    label: type.name,
+                    value: type.name,
+                  }))}
                 />
               </div>
             ) : null}
@@ -120,4 +129,8 @@ const Create911ModalC = ({ createCall }: Props) => {
   );
 };
 
-export const Create911Modal = connect(null, { createCall })(Create911ModalC);
+const mapToProps = (state: State) => ({
+  callTypes: state.values["call-types"],
+});
+
+export const Create911Modal = connect(mapToProps, { createCall, getValuesByPath })(Create911ModalC);

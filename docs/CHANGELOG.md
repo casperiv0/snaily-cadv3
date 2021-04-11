@@ -2,6 +2,12 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.0
+
+- New 404 page
+- Major: Rewritten to [new framework](https://nextjs.org) to improve developer experience and performance
+- Major: able to have custom Open graph tags - TODO: add link here
+
 ## 1.5.2-patch1
 
 - Fix: fixed a bug not being able to see BOLO's

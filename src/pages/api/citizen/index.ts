@@ -1,6 +1,6 @@
 import { NextApiResponse } from "next";
 import fileUpload from "express-fileupload";
-import { formatRequired, runMiddleware } from "@lib/utils";
+import { formatRequired, runMiddleware } from "@lib/utils.server";
 import useAuth from "@hooks/useAuth";
 import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";

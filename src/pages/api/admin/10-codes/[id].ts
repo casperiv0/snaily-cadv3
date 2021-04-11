@@ -6,7 +6,7 @@ import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { usePermission } from "@hooks/usePermission";
 import { Code10 } from "types/Code10";
-import { formatRequired } from "@lib/utils";
+import { formatRequired } from "@lib/utils.server";
 
 export function parse10Codes(codes: Code10[]): Code10[] {
   return codes.map((code) => {
@@ -26,7 +26,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
     });
   }
   try {
-    await usePermission(req, ["admin", "owner", "moderator"]);
+    await usePermission(req, ["admin", "owner", "moderator", "supervisor"]);
   } catch (e) {
     return res.status(e?.code ?? 400).json({
       status: "error",

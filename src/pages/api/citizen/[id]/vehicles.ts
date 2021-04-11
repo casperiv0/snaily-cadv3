@@ -2,7 +2,7 @@ import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
-import { formatRequired, generateString } from "@lib/utils";
+import { formatRequired, generateString } from "@lib/utils.server";
 import { v4 } from "uuid";
 import { Citizen } from "types/Citizen";
 import { Vehicle } from "types/Vehicle";

@@ -2,7 +2,7 @@ import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
-import { formatRequired } from "@lib/utils";
+import { formatRequired } from "@lib/utils.server";
 import { logger } from "@lib/logger";
 import { AnError } from "@lib/consts";
 

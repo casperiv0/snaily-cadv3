@@ -95,7 +95,6 @@ const AccountPage = ({ user, unLinkSteam }: Props) => {
           </Item>
 
           {user?.steam_id ? (
-            // TODO:
             <button onClick={unLinkSteam} className="btn btn-danger mt-2">
               {lang.account.unlink_steam}
             </button>
@@ -115,7 +114,7 @@ const AccountPage = ({ user, unLinkSteam }: Props) => {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-secondary text-light col-md-4 me-1"
-            href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/blob/main/CHANGELOG.md"
+            href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/blob/main/docs/CHANGELOG.md"
           >
             {lang.auth.account.changelog}
           </a>
@@ -138,7 +137,6 @@ const AccountPage = ({ user, unLinkSteam }: Props) => {
         </div>
       </div>
 
-      {/* TODO: add modals here */}
       <EditPasswordModal />
       <DeleteAccountModal />
     </Layout>

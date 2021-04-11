@@ -27,7 +27,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
     });
   }
   try {
-    await usePermission(req, ["admin", "owner", "moderator"]);
+    await usePermission(req, ["admin", "owner", "moderator", "supervisor"]);
   } catch (e) {
     return res.status(e?.code ?? 400).json({
       status: "error",

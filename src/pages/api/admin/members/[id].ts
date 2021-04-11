@@ -5,8 +5,7 @@ import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { usePermission } from "@hooks/usePermission";
-import { useValidPath } from "@hooks/useValidPath";
-import { formatRequired } from "@lib/utils.server";
+import { User } from "types/User";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -25,34 +24,26 @@ export default async function (req: IRequest, res: NextApiResponse) {
       error: e,
     });
   }
-  await useValidPath(req);
 
   switch (req.method) {
-    case "PUT": {
+    case "GET": {
       try {
-        const parsedPath = req.parsedPath;
-        const { name } = req.body;
+        const [member] = await processQuery<User>(
+          "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`, `edit_passwords` FROM `users` WHERE `id` = ?",
+          [req.query.id],
+        );
 
-        if (!name) {
-          return res
-            .status(400)
-            .json({ error: formatRequired(["name"], req.body), status: "error" });
-        }
-
-        await processQuery(`UPDATE \`${parsedPath}\` SET \`name\` = ? WHERE \`id\` = ?`, [
-          name,
-          req.query.id,
-        ]);
-
-        const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
-        return res.json({ status: "success", values: updated });
+        return res.json({ status: "success", member: member });
       } catch (e) {
-        logger.error("cad-info", e);
+        logger.error("get_members", e);
 
         return res.status(500).json(AnError);
       }
     }
-
+    case "PUT": {
+      // TODO:
+      break;
+    }
     default: {
       return res.status(405).json({
         error: "Method not allowed",

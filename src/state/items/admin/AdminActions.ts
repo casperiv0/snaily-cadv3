@@ -1,8 +1,9 @@
 import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { Dispatch } from "react";
 import { Code10 } from "types/Code10";
+import { ExpungementRequest } from "types/ExpungementRequest";
 import { PenalCode } from "types/PenalCode";
-import { I10Codes, IPenalCodes } from "./AdminTypes";
+import { I10Codes, IPenalCodes, ICitizens, IExpungementRequests, IMembers } from "./AdminTypes";
 
 export const get10Codes = (cookie?: string) => async (dispatch: Dispatch<I10Codes>) => {
   try {
@@ -135,5 +136,108 @@ export const deletePenalCode = (id: string) => async (dispatch: Dispatch<IPenalC
   } catch (e) {
     const error = getErrorFromResponse(e);
     console.log(error);
+  }
+};
+
+export const getCitizens = (cookie?: string) => async (dispatch: Dispatch<ICitizens>) => {
+  try {
+    const res = await handleRequest("/admin/citizens", "GET", { cookie });
+
+    dispatch({
+      type: "GET_CITIZENS",
+      citizens: res.data.citizens,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+  }
+};
+
+export const deleteCitizen = (id: string) => async (dispatch: Dispatch<ICitizens>) => {
+  try {
+    const res = await handleRequest(`/admin/citizens/${id}`, "DELETE");
+
+    dispatch({
+      type: "DELETE_CITIZEN",
+      citizens: res.data.citizens,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+  }
+};
+
+export const getAllExpungementRequests = (cookie?: string) => async (
+  dispatch: Dispatch<IExpungementRequests>,
+) => {
+  try {
+    const res = await handleRequest("/admin/expungement-requests", "GET", { cookie });
+
+    dispatch({
+      type: "GET_EXPUNGEMENT_REQUESTS",
+      expungementRequests: res.data.expungementRequests,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+  }
+};
+
+export const acceptOrDeclineRequest = (
+  type: "accept" | "decline",
+  request: ExpungementRequest,
+) => async (dispatch: Dispatch<IExpungementRequests>) => {
+  try {
+    const res = await handleRequest(`/admin/expungement-requests/${request.id}`, "PUT", {
+      warrants: request.warrants,
+      arrestReports: request.arrestReports,
+      tickets: request.tickets,
+    });
+
+    dispatch({
+      type: "UPDATE_EXPUNGEMENT_REQUEST",
+      expungementRequests: res.data.expungementRequests,
+    });
+
+    notify.success(
+      `Successfully ${type === "accept" ? "accepted" : "declined"} expungement request`,
+    );
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+    notify.error(error);
+  }
+};
+
+export const getMembers = (cookie?: string) => async (dispatch: Dispatch<IMembers>) => {
+  try {
+    const res = await handleRequest("/admin/members", "GET", { cookie });
+
+    dispatch({
+      type: "GET_MEMBERS",
+      members: res.data.members,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+  }
+};
+
+export const acceptOrDeclineUser = (type: "accept" | "decline", id: string) => async (
+  dispatch: Dispatch<IMembers>,
+) => {
+  try {
+    // TODO: add this endpoint.
+    const res = await handleRequest(`/admin/members/${id}?type=${type}`, "PUT");
+
+    dispatch({
+      type: "GET_MEMBERS",
+      members: res.data.members,
+    });
+
+    return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.error(error);
   }
 };

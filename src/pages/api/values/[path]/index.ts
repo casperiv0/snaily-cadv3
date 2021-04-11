@@ -7,7 +7,7 @@ import useAuth from "@hooks/useAuth";
 import { usePermission } from "@hooks/usePermission";
 import { useValidPath } from "@hooks/useValidPath";
 import { v4 } from "uuid";
-import { formatRequired } from "@lib/utils";
+import { formatRequired } from "@lib/utils.server";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {

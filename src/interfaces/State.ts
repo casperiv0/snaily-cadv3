@@ -3,6 +3,7 @@ import { Call } from "./Call";
 import { Citizen } from "./Citizen";
 import { Code10 } from "./Code10";
 import { Company } from "./Company";
+import { ExpungementRequest } from "./ExpungementRequest";
 import { PenalCode } from "./PenalCode";
 import { TruckLog } from "./TruckLog";
 import { User } from "./User";
@@ -20,6 +21,9 @@ export interface State {
   admin: {
     codes: Code10[];
     penalCodes: PenalCode[];
+    citizens: Citizen[];
+    expungementRequests: ExpungementRequest[];
+    members: User[];
   };
   global: {
     aop: Nullable<string>;

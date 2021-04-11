@@ -5,7 +5,7 @@ import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { v4 } from "uuid";
-import { formatRequired } from "@lib/utils";
+import { formatRequired } from "@lib/utils.server";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {

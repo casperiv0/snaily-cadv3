@@ -1,6 +1,8 @@
 import { Dispatch } from "react";
 import { getErrorFromResponse, handleRequest } from "@lib/utils";
 import { GetCadInfo, UpdateAop } from "./GlobalTypes";
+import { socket } from "@lib/socket.client";
+import { SocketEvents } from "types/Socket";
 
 export const getCadInfo = (cookie?: string) => async (dispatch: Dispatch<GetCadInfo>) => {
   try {
@@ -26,7 +28,7 @@ export const updateAop = (newAop: string) => async (dispatch: Dispatch<UpdateAop
       aop: newAop,
     });
 
-    // TOdo: socket.emit -> updateAOP
+    socket.emit(SocketEvents.UpdateAop, newAop);
     dispatch({
       type: "UPDATE_AOP",
       aop: res.data.aop,
