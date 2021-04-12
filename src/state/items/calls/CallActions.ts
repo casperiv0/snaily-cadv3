@@ -1,4 +1,4 @@
-import { getErrorFromResponse, handleRequest, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
 import { CallTypes, CreateCall, GetCalls } from "./CallTypes";
 
@@ -16,8 +16,7 @@ export const createCall = (type: CallTypes, data: RequestData) => async (
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
-    return false;
+    return notify.warn(error);
   }
 };
 
@@ -26,8 +25,8 @@ export const getCalls = (type: CallTypes, headers?: any) => async (
 ) => {
   try {
     const res = await handleRequest(`/calls/${type}`, "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -36,7 +35,7 @@ export const getCalls = (type: CallTypes, headers?: any) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -50,6 +49,6 @@ export const endCall = (type: CallTypes, id: string) => async (dispatch: Dispatc
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    notify.error(error);
   }
 };

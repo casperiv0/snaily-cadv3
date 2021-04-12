@@ -1,8 +1,13 @@
 import Link from "next/link";
+import Head from "next/head";
 
 const NotFound = () => {
   return (
     <div className="container-404">
+      <Head>
+        <title>404 - Page was not found</title>
+      </Head>
+
       <div>
         <h1>404</h1>
         <p>Whoops! That page could not be found</p>

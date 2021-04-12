@@ -19,8 +19,8 @@ import { MedicalRecord } from "types/MedicalRecord";
 export const getUserCitizens = (headers?: any) => async (dispatch: Dispatch<GetUserCitizens>) => {
   try {
     const res = await handleRequest("/citizen/", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -29,7 +29,7 @@ export const getUserCitizens = (headers?: any) => async (dispatch: Dispatch<GetU
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -38,8 +38,8 @@ export const getCitizenById = (id: string, headers?: any) => async (
 ) => {
   try {
     const res = await handleRequest(`/citizen/${id}`, "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -48,7 +48,7 @@ export const getCitizenById = (id: string, headers?: any) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -57,8 +57,8 @@ export const getCitizenWeapons = (citizenId: string, headers?: any) => async (
 ) => {
   try {
     const res = await handleRequest(`/citizen/${citizenId}/weapons`, "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -67,7 +67,7 @@ export const getCitizenWeapons = (citizenId: string, headers?: any) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -83,7 +83,7 @@ export const deleteWeaponById = (citizenId: string, id: string) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    return notify.error(error);
   }
 };
 
@@ -92,8 +92,8 @@ export const getCitizenVehicles = (citizenId: string, headers?: any) => async (
 ) => {
   try {
     const res = await handleRequest(`/citizen/${citizenId}/vehicles`, "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -102,7 +102,7 @@ export const getCitizenVehicles = (citizenId: string, headers?: any) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -118,7 +118,7 @@ export const deleteVehicleById = (citizenId: string, id: string) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    notify.error(error);
+    return notify.error(error);
   }
 };
 
@@ -261,8 +261,8 @@ export const getMedicalRecords = (citizenId: string, headers?: any) => async (
 ) => {
   try {
     const res = await handleRequest(`/citizen/${citizenId}/medical-records`, "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -271,7 +271,7 @@ export const getMedicalRecords = (citizenId: string, headers?: any) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 

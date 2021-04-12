@@ -17,8 +17,8 @@ import {
 export const get10Codes = (headers?: any) => async (dispatch: Dispatch<I10Codes>) => {
   try {
     const res = await handleRequest("/admin/10-codes", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -27,7 +27,7 @@ export const get10Codes = (headers?: any) => async (dispatch: Dispatch<I10Codes>
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -84,8 +84,8 @@ export const delete10Code = (id: string) => async (dispatch: Dispatch<I10Codes>)
 export const getPenalCodes = (headers?: any) => async (dispatch: Dispatch<IPenalCodes>) => {
   try {
     const res = await handleRequest("/admin/penal-codes", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -94,7 +94,7 @@ export const getPenalCodes = (headers?: any) => async (dispatch: Dispatch<IPenal
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -153,8 +153,8 @@ export const deletePenalCode = (id: string) => async (dispatch: Dispatch<IPenalC
 export const getCitizens = (headers?: any) => async (dispatch: Dispatch<ICitizens>) => {
   try {
     const res = await handleRequest("/admin/citizens", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -163,7 +163,7 @@ export const getCitizens = (headers?: any) => async (dispatch: Dispatch<ICitizen
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -186,8 +186,8 @@ export const getAllExpungementRequests = (headers?: any) => async (
 ) => {
   try {
     const res = await handleRequest("/admin/expungement-requests", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -196,7 +196,7 @@ export const getAllExpungementRequests = (headers?: any) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -228,8 +228,8 @@ export const acceptOrDeclineRequest = (
 export const getMembers = (headers?: any) => async (dispatch: Dispatch<IMembers>) => {
   try {
     const res = await handleRequest("/admin/members", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -238,7 +238,7 @@ export const getMembers = (headers?: any) => async (dispatch: Dispatch<IMembers>
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -266,8 +266,8 @@ export const getMemberById = (id: string, headers?: any) => async (
 ) => {
   try {
     const res = await handleRequest(`/admin/members/${id}`, "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -276,15 +276,15 @@ export const getMemberById = (id: string, headers?: any) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
 export const getAllUnits = (headers?: any) => async (dispatch: Dispatch<IUnits>) => {
   try {
     const res = await handleRequest("/admin/units", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -294,15 +294,15 @@ export const getAllUnits = (headers?: any) => async (dispatch: Dispatch<IUnits>)
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
 export const getUnitById = (id: string, headers?: any) => async (dispatch: Dispatch<IUnit>) => {
   try {
     const res = await handleRequest(`/admin/units/${id}`, "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -316,7 +316,7 @@ export const getUnitById = (id: string, headers?: any) => async (dispatch: Dispa
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 

@@ -6,8 +6,8 @@ import lang from "src/language.json";
 export const getBleets = (headers?: any) => async (dispatch: Dispatch<IBleeter>) => {
   try {
     const res = await handleRequest("/bleeter", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -16,7 +16,7 @@ export const getBleets = (headers?: any) => async (dispatch: Dispatch<IBleeter>)
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -25,8 +25,8 @@ export const getBleetById = (id: string, headers?: any) => async (
 ) => {
   try {
     const res = await handleRequest(`/bleeter/${id}`, "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -35,7 +35,7 @@ export const getBleetById = (id: string, headers?: any) => async (
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 

@@ -7,8 +7,8 @@ import { SocketEvents } from "types/Socket";
 export const getCadInfo = (headers?: any) => async (dispatch: Dispatch<GetCadInfo>) => {
   try {
     const res = await handleRequest("/global/cad-info", "POST", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({

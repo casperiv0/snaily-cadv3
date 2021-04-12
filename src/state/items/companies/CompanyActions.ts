@@ -6,8 +6,8 @@ import lang from "src/language.json";
 export const getCompanies = (headers?: any) => async (dispatch: Dispatch<GetCompanies>) => {
   try {
     const res = await handleRequest("/companies", "GET", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -18,7 +18,7 @@ export const getCompanies = (headers?: any) => async (dispatch: Dispatch<GetComp
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 

@@ -17,7 +17,6 @@ export const login = (data: { username: string; password: string }) => async (
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
 
     notify.warn(error);
     return false;
@@ -38,7 +37,6 @@ export const register = (data: { username: string; password: string; password2: 
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
 
     notify.warn(error);
     return false;
@@ -48,8 +46,8 @@ export const register = (data: { username: string; password: string; password2: 
 export const verifyAuth = (headers?: any) => async (dispatch: Dispatch<VerifyAuth>) => {
   try {
     const res = await handleRequest("/auth/user", "POST", {
-      cookie: headers.cookie,
-      url: headers.host,
+      cookie: headers?.cookie,
+      url: headers?.host,
     });
 
     dispatch({
@@ -59,7 +57,7 @@ export const verifyAuth = (headers?: any) => async (dispatch: Dispatch<VerifyAut
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    console.error(error);
   }
 };
 
