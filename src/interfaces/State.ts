@@ -1,3 +1,4 @@
+import { Bleet } from "./Bleet";
 import { Cad } from "./Cad";
 import { Call } from "./Call";
 import { Citizen } from "./Citizen";
@@ -60,5 +61,9 @@ export interface State {
     error: Nullable<string>;
     value: Nullable<Value>;
     loading: boolean;
+  };
+  bleeter: {
+    bleets: Bleet[];
+    bleet: Nullable<Bleet>;
   };
 }

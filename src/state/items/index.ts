@@ -7,6 +7,7 @@ import { TruckLogReducer } from "./truck-logs/TruckLogReducer";
 import { ValuesReducer } from "./values/ValuesReducer";
 import { CompanyReducer } from "./companies/CompanyReducer";
 import { AdminReducer } from "./admin/AdminReducer";
+import { BleeterReducer } from "./bleeter/BleeterReducer";
 
 export default combineReducers({
   auth: AuthReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   values: ValuesReducer,
   companies: CompanyReducer,
   admin: AdminReducer,
+  bleeter: BleeterReducer,
 });
