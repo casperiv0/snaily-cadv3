@@ -1,7 +1,7 @@
 import { Company } from "types/Company";
 
 export interface GetCompanies {
-  type: "GET_COMPANIES";
+  type: "GET_COMPANIES" | "DELETE_COMPANY_BY_ID";
   companies: Company[];
 }
 

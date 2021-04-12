@@ -8,6 +8,7 @@ const initState: State["companies"] = {
 
 export function CompanyReducer(state = initState, action: Actions): State["companies"] {
   switch (action.type) {
+    case "DELETE_COMPANY_BY_ID":
     case "GET_COMPANIES": {
       return {
         ...state,

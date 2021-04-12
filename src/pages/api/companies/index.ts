@@ -4,6 +4,24 @@ import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { Company } from "types/Company";
 
+export async function parseCompanies(data: Company[]) {
+  const arr: Company[] = [];
+
+  await Promise.all(
+    data.map(async (company) => {
+      const [user] = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
+        company.user_id,
+      ]);
+
+      company.user = user as { username: string };
+
+      arr.push(company);
+    }),
+  );
+
+  return arr;
+}
+
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;
 
@@ -20,26 +38,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     case "GET": {
       const companies = await processQuery<Company>("SELECT * FROM `businesses` ");
 
-      const parseCompanies = async () => {
-        const arr: Company[] = [];
-
-        await Promise.all(
-          companies.map(async (company) => {
-            const [user] = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
-              req.userId,
-            ]);
-
-            company.user = user as { username: string };
-
-            arr.push(company);
-          }),
-        );
-
-        return arr;
-      };
-
       return res.json({
-        companies: await parseCompanies(),
+        companies: await parseCompanies(companies),
         status: "success",
       });
     }

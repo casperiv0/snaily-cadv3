@@ -1,6 +1,7 @@
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { CreateCompany, GetCompanies, JoinCompany } from "./CompanyTypes";
+import lang from "src/language.json";
 
 export const getCompanies = (cookie?: string) => async (dispatch: Dispatch<GetCompanies>) => {
   try {
@@ -42,6 +43,22 @@ export const createCompany = (data: RequestData) => async (dispatch: Dispatch<Cr
     });
 
     return `/company/${res.data.citizenId}/${res.data.companyId}`;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.error(error);
+  }
+};
+
+export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<GetCompanies>) => {
+  try {
+    const res = await handleRequest(`/companies/${id}`, "DELETE");
+
+    dispatch({
+      type: "DELETE_COMPANY_BY_ID",
+      companies: res.data.companies,
+    });
+
+    return notify.success(lang.admin.company.delete_success);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.error(error);
