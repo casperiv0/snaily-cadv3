@@ -8,6 +8,10 @@ const initState: State["admin"] = {
   expungementRequests: [],
   members: [],
   member: null,
+
+  officers: [],
+  ems_fd: [],
+  unit: null,
 };
 
 export function AdminReducer(state = initState, action: Actions): State["admin"] {
@@ -52,6 +56,19 @@ export function AdminReducer(state = initState, action: Actions): State["admin"]
       return {
         ...state,
         member: action.member,
+      };
+    }
+    case "GET_ALL_UNITS": {
+      return {
+        ...state,
+        officers: action.officers,
+        ems_fd: action.ems_fd,
+      };
+    }
+    case "GET_UNIT_BY_ID": {
+      return {
+        ...state,
+        unit: action.unit,
       };
     }
     default: {

@@ -7,6 +7,7 @@ import lang from "src/language.json";
 import { User } from "types/User";
 import { Cad } from "types/Cad";
 import { NavbarDropdown } from "./NavbarDropdown";
+import { logger } from "@lib/logger";
 
 interface Props {
   isAuth: boolean;
@@ -89,6 +90,17 @@ const NavbarC = ({ isAuth, cadInfo, user }: Props) => {
     const el = document.getElementById("nav-items");
     return el?.classList.contains("show");
   }, []);
+
+  React.useEffect(() => {
+    if (cadInfo?.version) {
+      logger.log(
+        "VERSION",
+        `
+  - Your version: ${cadInfo?.version?.version}
+  - Updated version: ${cadInfo?.version?.updatedVersion}`,
+      );
+    }
+  }, [cadInfo?.version]);
 
   React.useEffect(() => {
     if (pages.includes(router.pathname)) return;

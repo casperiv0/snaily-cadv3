@@ -4,9 +4,7 @@ import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
-import { Cad } from "types/Cad";
-import { checkVersion } from "@lib/version.server";
-import pkg from "../../../../../package.json";
+import { usePermission } from "@hooks/usePermission";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -17,29 +15,27 @@ export default async function (req: IRequest, res: NextApiResponse) {
       error: e,
     });
   }
+  try {
+    await usePermission(req, ["admin", "owner", "moderator", "supervisor"]);
+  } catch (e) {
+    return res.status(e?.code ?? 400).json({
+      status: "error",
+      error: e,
+    });
+  }
 
   switch (req.method) {
-    case "POST": {
+    case "GET": {
       try {
-        const [cad] = await processQuery<Cad>("SELECT * FROM `cad_info`");
-        const updatedVersion = await checkVersion(false);
+        const officers = await processQuery("SELECT * FROM `officers`");
+        const ems_fd = await processQuery("SELECT * FROM `ems-fd`");
 
-        return res.json({
-          cad: {
-            ...cad,
-            version: { version: pkg.version, updatedVersion },
-          },
-          status: "success",
-        });
+        return res.json({ status: "success", officers, ems_fd });
       } catch (e) {
-        logger.error("cad-info", e);
+        logger.error("get_units", e);
 
         return res.status(500).json(AnError);
       }
-    }
-    case "PUT": {
-      break;
-      // TODO:
     }
     default: {
       return res.status(405).json({

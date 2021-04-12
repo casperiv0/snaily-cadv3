@@ -4,8 +4,10 @@ import { Call } from "./Call";
 import { Citizen } from "./Citizen";
 import { Code10 } from "./Code10";
 import { Company } from "./Company";
+import { Deputy } from "./Deputy";
 import { ExpungementRequest } from "./ExpungementRequest";
 import { MedicalRecord } from "./MedicalRecord";
+import { Officer, OfficerLog } from "./Officer";
 import { PenalCode } from "./PenalCode";
 import { TruckLog } from "./TruckLog";
 import { User } from "./User";
@@ -27,6 +29,17 @@ export interface State {
     expungementRequests: ExpungementRequest[];
     members: User[];
     member: Nullable<User>;
+
+    officers: Officer[];
+    ems_fd: Deputy[];
+    unit:
+      | null
+      | ((Officer | Deputy) & {
+          /**
+           * Only available when gotten from admin & when an officer
+           */
+          logs?: OfficerLog[];
+        });
   };
   global: {
     aop: Nullable<string>;

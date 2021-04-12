@@ -14,4 +14,9 @@ export interface Cad {
   steam_api_key: string;
   features: string[];
   max_citizens: string;
+
+  version: {
+    version: string;
+    updatedVersion: string;
+  };
 }

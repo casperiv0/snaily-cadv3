@@ -14,8 +14,6 @@ export const getCadInfo = (cookie?: string) => async (dispatch: Dispatch<GetCadI
       type: "GET_CAD_INFO",
       cadInfo: res.data.cad,
     });
-
-    // TODO: add version logger
   } catch (e) {
     const error = getErrorFromResponse(e);
     console.log(error);

@@ -1,4 +1,4 @@
-import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
 import { Code10 } from "types/Code10";
 import { ExpungementRequest } from "types/ExpungementRequest";
@@ -10,6 +10,8 @@ import {
   IExpungementRequests,
   IMembers,
   GetMemberById,
+  IUnits,
+  IUnit,
 } from "./AdminTypes";
 
 export const get10Codes = (cookie?: string) => async (dispatch: Dispatch<I10Codes>) => {
@@ -38,7 +40,6 @@ export const add10Code = (data: Partial<Code10>) => async (dispatch: Dispatch<I1
     return notify.success("Successfully added 10 code");
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
 
     return notify.warn(error);
   }
@@ -58,7 +59,6 @@ export const update10Code = (id: string, data: Partial<Code10>) => async (
     return notify.success("Successfully updated 10 code");
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
 
     return notify.warn(error);
   }
@@ -74,7 +74,7 @@ export const delete10Code = (id: string) => async (dispatch: Dispatch<I10Codes>)
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    notify.error(error);
   }
 };
 
@@ -106,7 +106,6 @@ export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
     return notify.success("Successfully updated penal code");
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
 
     return notify.warn(error);
   }
@@ -126,7 +125,6 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (
     return notify.success("Successfully added penal code");
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
 
     return notify.warn(error);
   }
@@ -142,7 +140,7 @@ export const deletePenalCode = (id: string) => async (dispatch: Dispatch<IPenalC
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    notify.error(error);
   }
 };
 
@@ -170,7 +168,7 @@ export const deleteCitizen = (id: string) => async (dispatch: Dispatch<ICitizens
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    notify.error(error);
   }
 };
 
@@ -211,7 +209,6 @@ export const acceptOrDeclineRequest = (
     );
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
     notify.error(error);
   }
 };
@@ -257,10 +254,61 @@ export const getMemberById = (id: string, cookie?: string) => async (
 
     dispatch({
       type: "GET_MEMBER_BY_ID",
-      member: res.data.member,
+      member: res.data.member ?? null,
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
     console.log(error);
+  }
+};
+
+export const getAllUnits = (cookie?: string) => async (dispatch: Dispatch<IUnits>) => {
+  try {
+    const res = await handleRequest("/admin/units", "GET", { cookie });
+
+    dispatch({
+      type: "GET_ALL_UNITS",
+      officers: res.data.officers,
+      ems_fd: res.data.ems_fd,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+  }
+};
+
+export const getUnitById = (id: string, cookie?: string) => async (dispatch: Dispatch<IUnit>) => {
+  try {
+    const res = await handleRequest(`/admin/units/${id}`, "GET", { cookie });
+
+    dispatch({
+      type: "GET_UNIT_BY_ID",
+      unit: res.data.unit
+        ? {
+            ...res.data.unit,
+            logs: res.data.logs,
+          }
+        : null,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+  }
+};
+
+export const updateUnitById = (id: string, data: RequestData) => async (
+  dispatch: Dispatch<any>,
+) => {
+  try {
+    await handleRequest(`/admin/units/${id}`, "PUT", data);
+
+    dispatch({
+      type: "UPDATE_UNIT_BY_ID",
+    });
+
+    return notify.success("Successfully updated unit");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
   }
 };

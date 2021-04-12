@@ -1,6 +1,8 @@
 import { Citizen } from "types/Citizen";
 import { Code10 } from "types/Code10";
+import { Deputy } from "types/Deputy";
 import { ExpungementRequest } from "types/ExpungementRequest";
+import { Officer } from "types/Officer";
 import { PenalCode } from "types/PenalCode";
 import { User } from "types/User";
 
@@ -34,10 +36,23 @@ export interface GetMemberById {
   member: User;
 }
 
+export interface IUnits {
+  type: "GET_ALL_UNITS";
+  ems_fd: Deputy[];
+  officers: Officer[];
+}
+
+export interface IUnit {
+  type: "GET_UNIT_BY_ID";
+  unit: Officer | Deputy;
+}
+
 export type Actions =
   | I10Codes
   | IPenalCodes
   | ICitizens
   | IExpungementRequests
   | IMembers
-  | GetMemberById;
+  | GetMemberById
+  | IUnits
+  | IUnit;
