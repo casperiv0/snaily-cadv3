@@ -24,6 +24,7 @@ import {
 } from "@actions/admin/AdminActions";
 import { Item, Span } from "@components/Item";
 import { Seo } from "@components/Seo";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   member: Nullable<User>;
@@ -60,6 +61,7 @@ const ManageMember: React.FC<Props> = ({
   const [tow, setTow] = React.useState("");
   const [banReason, setBanReason] = React.useState("");
   const [steamId, setSteamId] = React.useState("");
+  useClientPerms("admin");
 
   React.useEffect(() => {
     if (member?.id) {

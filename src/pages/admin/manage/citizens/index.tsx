@@ -13,6 +13,7 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { AllCitizensTab } from "@components/admin/AllCitizens";
 import { ExpungementRequest } from "types/ExpungementRequest";
 import { ExpungementRequestsTab } from "@components/admin/ExpungementRequestsTab";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   requests: ExpungementRequest[];
@@ -22,6 +23,7 @@ interface Props {
 const ManageCitizensPage: React.FC<Props> = ({ citizens, requests }) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<any>([]);
+  useClientPerms("admin");
 
   React.useEffect(() => {
     setFiltered(citizens);

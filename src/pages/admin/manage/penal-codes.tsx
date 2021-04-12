@@ -16,6 +16,7 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import lang from "src/language.json";
 import { Seo } from "@components/Seo";
 import { Span } from "@components/Item";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   codes: PenalCode[];
@@ -27,6 +28,7 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, deletePenalCode }) => {
   const [filtered, setFiltered] = React.useState(codes);
   const [filter, setFilter] = React.useState("");
   const { ref, length } = useObserver<PenalCode>(codes);
+  useClientPerms("supervisor");
 
   React.useEffect(() => {
     setFiltered(codes);

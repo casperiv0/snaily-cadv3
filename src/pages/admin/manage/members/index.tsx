@@ -13,6 +13,7 @@ import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { Seo } from "@components/Seo";
 import lang from "src/language.json";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   members: User[];
@@ -21,6 +22,7 @@ interface Props {
 const ManageMembersPage: React.FC<Props> = ({ members }) => {
   const [filtered, setFiltered] = React.useState<any[]>([]);
   const [filter, setFilter] = React.useState<string>("");
+  useClientPerms("admin");
 
   React.useEffect(() => {
     setFiltered(members);

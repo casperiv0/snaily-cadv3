@@ -19,6 +19,7 @@ import { GetServerSideProps } from "next";
 import { initializeStore } from "@state/useStore";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   codes: Code10[];
@@ -27,6 +28,7 @@ interface Props {
 
 const Codes10Management: React.FC<Props> = ({ codes, delete10Code }) => {
   const [tempCode, setTempCode] = React.useState<Code10 | null>(null);
+  useClientPerms("supervisor");
 
   return (
     <AdminLayout>

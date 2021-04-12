@@ -12,6 +12,7 @@ import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { Seo } from "@components/Seo";
 import { Item, Span } from "@components/Item";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   companies: Company[];
@@ -23,6 +24,7 @@ interface Props {
 const CompanyManagementPage: React.FC<Props> = ({ companies, deleteCompanyById }) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<any>([]);
+  useClientPerms("admin");
 
   React.useEffect(() => {
     if (companies[0]) {
