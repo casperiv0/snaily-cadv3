@@ -7,7 +7,7 @@ import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { usePermission } from "@hooks/usePermission";
 import { Code10 } from "types/Code10";
-import { formatRequired } from "@lib/utils";
+import { formatRequired } from "@lib/utils.server";
 
 export function parse10Codes(codes: Code10[]): Code10[] {
   return codes.map((code) => {
@@ -45,7 +45,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           penalCodes,
         });
       } catch (e) {
-        logger.error("get_10_Codes", e);
+        logger.error("get_penal_codes", e);
 
         return res.status(500).json(AnError);
       }
@@ -73,7 +73,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           penalCodes: updated,
         });
       } catch (e) {
-        logger.error("add_10_Codes", e);
+        logger.error("add_penal_codes", e);
 
         return res.status(500).json(AnError);
       }

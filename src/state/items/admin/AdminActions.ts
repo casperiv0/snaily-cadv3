@@ -3,7 +3,14 @@ import { Dispatch } from "react";
 import { Code10 } from "types/Code10";
 import { ExpungementRequest } from "types/ExpungementRequest";
 import { PenalCode } from "types/PenalCode";
-import { I10Codes, IPenalCodes, ICitizens, IExpungementRequests, IMembers } from "./AdminTypes";
+import {
+  I10Codes,
+  IPenalCodes,
+  ICitizens,
+  IExpungementRequests,
+  IMembers,
+  GetMemberById,
+} from "./AdminTypes";
 
 export const get10Codes = (cookie?: string) => async (dispatch: Dispatch<I10Codes>) => {
   try {
@@ -239,5 +246,21 @@ export const acceptOrDeclineUser = (type: "accept" | "decline", id: string) => a
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.error(error);
+  }
+};
+
+export const getMemberById = (id: string, cookie?: string) => async (
+  dispatch: Dispatch<GetMemberById>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/members/${id}`, "GET", { cookie });
+
+    dispatch({
+      type: "GET_MEMBER_BY_ID",
+      member: res.data.member,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
   }
 };

@@ -24,6 +24,7 @@ export interface State {
     citizens: Citizen[];
     expungementRequests: ExpungementRequest[];
     members: User[];
+    member: Nullable<User>;
   };
   global: {
     aop: Nullable<string>;

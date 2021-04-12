@@ -7,6 +7,7 @@ const initState: State["admin"] = {
   citizens: [],
   expungementRequests: [],
   members: [],
+  member: null,
 };
 
 export function AdminReducer(state = initState, action: Actions): State["admin"] {
@@ -45,6 +46,12 @@ export function AdminReducer(state = initState, action: Actions): State["admin"]
       return {
         ...state,
         members: action.members,
+      };
+    }
+    case "GET_MEMBER_BY_ID": {
+      return {
+        ...state,
+        member: action.member,
       };
     }
     default: {

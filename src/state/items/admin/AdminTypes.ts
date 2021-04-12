@@ -29,4 +29,15 @@ export interface IMembers {
   members: User[];
 }
 
-export type Actions = I10Codes | IPenalCodes | ICitizens | IExpungementRequests | IMembers;
+export interface GetMemberById {
+  type: "GET_MEMBER_BY_ID";
+  member: User;
+}
+
+export type Actions =
+  | I10Codes
+  | IPenalCodes
+  | ICitizens
+  | IExpungementRequests
+  | IMembers
+  | GetMemberById;
