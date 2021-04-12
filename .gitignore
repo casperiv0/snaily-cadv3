@@ -12,8 +12,7 @@ build
 node_modules
 
 # config
-server/config.ts
-client/src/config.ts
+src/config.ts
 
 public/citizen-images/*
 public/bleeter-images/*
@@ -26,5 +25,6 @@ public/bleeter-images/*
 
 data.json
 
+# old source
 server/
 client/
