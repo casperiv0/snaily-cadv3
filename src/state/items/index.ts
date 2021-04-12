@@ -8,6 +8,7 @@ import { ValuesReducer } from "./values/ValuesReducer";
 import { CompanyReducer } from "./companies/CompanyReducer";
 import { AdminReducer } from "./admin/AdminReducer";
 import { BleeterReducer } from "./bleeter/BleeterReducer";
+import { CourtReducer } from "./court/CourtReducer";
 
 export default combineReducers({
   auth: AuthReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
   companies: CompanyReducer,
   admin: AdminReducer,
   bleeter: BleeterReducer,
+  court: CourtReducer,
 });

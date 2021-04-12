@@ -14,9 +14,12 @@ import {
   IUnit,
 } from "./AdminTypes";
 
-export const get10Codes = (cookie?: string) => async (dispatch: Dispatch<I10Codes>) => {
+export const get10Codes = (headers?: any) => async (dispatch: Dispatch<I10Codes>) => {
   try {
-    const res = await handleRequest("/admin/10-codes", "GET", { cookie });
+    const res = await handleRequest("/admin/10-codes", "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_10_CODES",
@@ -78,9 +81,12 @@ export const delete10Code = (id: string) => async (dispatch: Dispatch<I10Codes>)
   }
 };
 
-export const getPenalCodes = (cookie?: string) => async (dispatch: Dispatch<IPenalCodes>) => {
+export const getPenalCodes = (headers?: any) => async (dispatch: Dispatch<IPenalCodes>) => {
   try {
-    const res = await handleRequest("/admin/penal-codes", "GET", { cookie });
+    const res = await handleRequest("/admin/penal-codes", "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_PENAL_CODES",
@@ -144,9 +150,12 @@ export const deletePenalCode = (id: string) => async (dispatch: Dispatch<IPenalC
   }
 };
 
-export const getCitizens = (cookie?: string) => async (dispatch: Dispatch<ICitizens>) => {
+export const getCitizens = (headers?: any) => async (dispatch: Dispatch<ICitizens>) => {
   try {
-    const res = await handleRequest("/admin/citizens", "GET", { cookie });
+    const res = await handleRequest("/admin/citizens", "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_CITIZENS",
@@ -172,14 +181,17 @@ export const deleteCitizen = (id: string) => async (dispatch: Dispatch<ICitizens
   }
 };
 
-export const getAllExpungementRequests = (cookie?: string) => async (
+export const getAllExpungementRequests = (headers?: any) => async (
   dispatch: Dispatch<IExpungementRequests>,
 ) => {
   try {
-    const res = await handleRequest("/admin/expungement-requests", "GET", { cookie });
+    const res = await handleRequest("/admin/expungement-requests", "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
-      type: "GET_EXPUNGEMENT_REQUESTS",
+      type: "GET_EXPUNGEMENT_REQUESTS_ADMIN",
       expungementRequests: res.data.expungementRequests,
     });
   } catch (e) {
@@ -213,9 +225,12 @@ export const acceptOrDeclineRequest = (
   }
 };
 
-export const getMembers = (cookie?: string) => async (dispatch: Dispatch<IMembers>) => {
+export const getMembers = (headers?: any) => async (dispatch: Dispatch<IMembers>) => {
   try {
-    const res = await handleRequest("/admin/members", "GET", { cookie });
+    const res = await handleRequest("/admin/members", "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_MEMBERS",
@@ -246,11 +261,14 @@ export const acceptOrDeclineUser = (type: "accept" | "decline", id: string) => a
   }
 };
 
-export const getMemberById = (id: string, cookie?: string) => async (
+export const getMemberById = (id: string, headers?: any) => async (
   dispatch: Dispatch<GetMemberById>,
 ) => {
   try {
-    const res = await handleRequest(`/admin/members/${id}`, "GET", { cookie });
+    const res = await handleRequest(`/admin/members/${id}`, "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_MEMBER_BY_ID",
@@ -262,9 +280,12 @@ export const getMemberById = (id: string, cookie?: string) => async (
   }
 };
 
-export const getAllUnits = (cookie?: string) => async (dispatch: Dispatch<IUnits>) => {
+export const getAllUnits = (headers?: any) => async (dispatch: Dispatch<IUnits>) => {
   try {
-    const res = await handleRequest("/admin/units", "GET", { cookie });
+    const res = await handleRequest("/admin/units", "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_ALL_UNITS",
@@ -277,9 +298,12 @@ export const getAllUnits = (cookie?: string) => async (dispatch: Dispatch<IUnits
   }
 };
 
-export const getUnitById = (id: string, cookie?: string) => async (dispatch: Dispatch<IUnit>) => {
+export const getUnitById = (id: string, headers?: any) => async (dispatch: Dispatch<IUnit>) => {
   try {
-    const res = await handleRequest(`/admin/units/${id}`, "GET", { cookie });
+    const res = await handleRequest(`/admin/units/${id}`, "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_UNIT_BY_ID",

@@ -169,9 +169,9 @@ const Values: React.FC<Props> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const store = initializeStore();
-  await verifyAuth(req.headers.cookie)(store.dispatch);
-  await getCadInfo(req.headers.cookie)(store.dispatch);
-  await getValuesByPath(`${query.path}` as ValuePaths, req.headers.cookie)(store.dispatch);
+  await verifyAuth(req.headers)(store.dispatch);
+  await getCadInfo(req.headers)(store.dispatch);
+  await getValuesByPath(`${query.path}` as ValuePaths, req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

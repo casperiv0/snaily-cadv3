@@ -12,10 +12,13 @@ export function handleRequest(
     | RequestData
     | {
         cookie: string;
+        url: string;
       } = {},
 ) {
+  const url = data?.url ? `http://${data?.url}/` : "/";
+
   return axios({
-    url: `${process.env.NEXT_PUBLIC_PROD_ORIGIN}/api${path}`,
+    url: `${url}api${path}`,
     method,
     data: data ? data : null,
     withCredentials: true,

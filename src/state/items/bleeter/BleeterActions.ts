@@ -3,9 +3,12 @@ import { Dispatch } from "react";
 import { GetBleetById, IBleeter, UpdateBleetById } from "./BleeterTypes";
 import lang from "src/language.json";
 
-export const getBleets = (cookie?: string) => async (dispatch: Dispatch<IBleeter>) => {
+export const getBleets = (headers?: any) => async (dispatch: Dispatch<IBleeter>) => {
   try {
-    const res = await handleRequest("/bleeter", "GET", { cookie });
+    const res = await handleRequest("/bleeter", "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_BLEETS",
@@ -17,11 +20,14 @@ export const getBleets = (cookie?: string) => async (dispatch: Dispatch<IBleeter
   }
 };
 
-export const getBleetById = (id: string, cookie?: string) => async (
+export const getBleetById = (id: string, headers?: any) => async (
   dispatch: Dispatch<GetBleetById>,
 ) => {
   try {
-    const res = await handleRequest(`/bleeter/${id}`, "GET", { cookie });
+    const res = await handleRequest(`/bleeter/${id}`, "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_BLEET_BY_ID",

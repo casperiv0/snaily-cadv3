@@ -116,9 +116,9 @@ const Codes10Management: React.FC<Props> = ({ codes, delete10Code }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const store = initializeStore();
-  await verifyAuth(req.headers.cookie)(store.dispatch);
-  await getCadInfo(req.headers.cookie)(store.dispatch);
-  await get10Codes(req.headers.cookie)(store.dispatch);
+  await verifyAuth(req.headers)(store.dispatch);
+  await getCadInfo(req.headers)(store.dispatch);
+  await get10Codes(req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

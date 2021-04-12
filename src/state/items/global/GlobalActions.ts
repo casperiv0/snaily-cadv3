@@ -4,10 +4,11 @@ import { GetCadInfo, UpdateAop } from "./GlobalTypes";
 import { socket } from "@lib/socket.client";
 import { SocketEvents } from "types/Socket";
 
-export const getCadInfo = (cookie?: string) => async (dispatch: Dispatch<GetCadInfo>) => {
+export const getCadInfo = (headers?: any) => async (dispatch: Dispatch<GetCadInfo>) => {
   try {
     const res = await handleRequest("/global/cad-info", "POST", {
-      cookie,
+      cookie: headers.cookie,
+      url: headers.host,
     });
 
     dispatch({

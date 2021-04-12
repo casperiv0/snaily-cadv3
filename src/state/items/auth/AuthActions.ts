@@ -45,10 +45,11 @@ export const register = (data: { username: string; password: string; password2: 
   }
 };
 
-export const verifyAuth = (cookie?: string) => async (dispatch: Dispatch<VerifyAuth>) => {
+export const verifyAuth = (headers?: any) => async (dispatch: Dispatch<VerifyAuth>) => {
   try {
     const res = await handleRequest("/auth/user", "POST", {
-      cookie,
+      cookie: headers.cookie,
+      url: headers.host,
     });
 
     dispatch({

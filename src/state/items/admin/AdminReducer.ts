@@ -39,7 +39,7 @@ export function AdminReducer(state = initState, action: Actions): State["admin"]
         citizens: action.citizens,
       };
     }
-    case "GET_EXPUNGEMENT_REQUESTS":
+    case "GET_EXPUNGEMENT_REQUESTS_ADMIN":
     case "UPDATE_EXPUNGEMENT_REQUEST": {
       return {
         ...state,

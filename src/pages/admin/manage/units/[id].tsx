@@ -241,10 +241,10 @@ const ManageOfficerPage: React.FC<Props> = ({
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const store = initializeStore();
-  await verifyAuth(req.headers.cookie)(store.dispatch);
-  await getCadInfo(req.headers.cookie)(store.dispatch);
-  await getUnitById(`${query.id}`, req.headers.cookie)(store.dispatch);
-  await get10Codes(req.headers.cookie)(store.dispatch);
+  await verifyAuth(req.headers)(store.dispatch);
+  await getCadInfo(req.headers)(store.dispatch);
+  await getUnitById(`${query.id}`, req.headers)(store.dispatch);
+  await get10Codes(req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

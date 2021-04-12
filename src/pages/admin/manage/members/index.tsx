@@ -110,9 +110,9 @@ const ManageMembersPage: React.FC<Props> = ({ members }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const store = initializeStore();
-  await verifyAuth(req.headers.cookie)(store.dispatch);
-  await getCadInfo(req.headers.cookie)(store.dispatch);
-  await getMembers(req.headers.cookie)(store.dispatch);
+  await verifyAuth(req.headers)(store.dispatch);
+  await getCadInfo(req.headers)(store.dispatch);
+  await getMembers(req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

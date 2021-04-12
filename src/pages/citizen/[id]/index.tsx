@@ -161,11 +161,11 @@ const CitizenInfoPage = ({ citizen, cadInfo, deleteCitizenById }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
   const store = initializeStore();
-  await getCadInfo(req.headers.cookie)(store.dispatch);
-  await verifyAuth(req.headers.cookie)(store.dispatch);
-  await getCitizenById(`${query.id}`, req.headers.cookie)(store.dispatch);
-  await getCitizenWeapons(`${query.id}`, req.headers.cookie)(store.dispatch);
-  await getCitizenVehicles(`${query.id}`, req.headers.cookie)(store.dispatch);
+  await getCadInfo(req.headers)(store.dispatch);
+  await verifyAuth(req.headers)(store.dispatch);
+  await getCitizenById(`${query.id}`, req.headers)(store.dispatch);
+  await getCitizenWeapons(`${query.id}`, req.headers)(store.dispatch);
+  await getCitizenVehicles(`${query.id}`, req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

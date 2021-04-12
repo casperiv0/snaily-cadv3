@@ -104,9 +104,9 @@ const BleetPage: React.FC<Props> = ({ bleet, user, deleteBleet }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const store = initializeStore();
-  await getCadInfo(req.headers.cookie)(store.dispatch);
-  await verifyAuth(req.headers.cookie)(store.dispatch);
-  await getBleetById(`${query.id}`, req.headers.cookie)(store.dispatch);
+  await getCadInfo(req.headers)(store.dispatch);
+  await verifyAuth(req.headers)(store.dispatch);
+  await getBleetById(`${query.id}`, req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

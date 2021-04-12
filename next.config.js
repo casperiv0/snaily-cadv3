@@ -10,6 +10,11 @@ module.exports = {
         destination: "/auth/logout",
         permanent: true,
       },
+      {
+        source: "/court",
+        destination: "/courthouse",
+        permanent: true,
+      },
     ];
   },
   images: {

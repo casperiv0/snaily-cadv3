@@ -1,3 +1,4 @@
+import { CourtResult } from "@actions/court/CourtTypes";
 import { Bleet } from "./Bleet";
 import { Cad } from "./Cad";
 import { Call } from "./Call";
@@ -78,5 +79,9 @@ export interface State {
   bleeter: {
     bleets: Bleet[];
     bleet: Nullable<Bleet>;
+  };
+  court: {
+    expungementRequests: ExpungementRequest[];
+    courtResult: Nullable<CourtResult>;
   };
 }

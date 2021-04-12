@@ -3,9 +3,12 @@ import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/u
 import { CreateCompany, GetCompanies, JoinCompany } from "./CompanyTypes";
 import lang from "src/language.json";
 
-export const getCompanies = (cookie?: string) => async (dispatch: Dispatch<GetCompanies>) => {
+export const getCompanies = (headers?: any) => async (dispatch: Dispatch<GetCompanies>) => {
   try {
-    const res = await handleRequest("/companies", "GET", { cookie });
+    const res = await handleRequest("/companies", "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_COMPANIES",

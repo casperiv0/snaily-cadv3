@@ -2,10 +2,11 @@ import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/u
 import { Dispatch } from "react";
 import { CreateTruckLog, GetTruckLogs, DeleteTruckLog } from "./TruckLogTypes";
 
-export const getTruckLogs = (cookie?: string) => async (dispatch: Dispatch<GetTruckLogs>) => {
+export const getTruckLogs = (headers?: any) => async (dispatch: Dispatch<GetTruckLogs>) => {
   try {
     const res = await handleRequest("/truck-logs", "GET", {
-      cookie,
+      cookie: headers.cookie,
+      url: headers.host,
     });
 
     dispatch({

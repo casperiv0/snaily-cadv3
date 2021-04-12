@@ -21,11 +21,14 @@ export const createCall = (type: CallTypes, data: RequestData) => async (
   }
 };
 
-export const getCalls = (type: CallTypes, cookie?: string) => async (
+export const getCalls = (type: CallTypes, headers?: any) => async (
   dispatch: Dispatch<GetCalls>,
 ) => {
   try {
-    const res = await handleRequest(`/calls/${type}`, "GET", { cookie });
+    const res = await handleRequest(`/calls/${type}`, "GET", {
+      cookie: headers.cookie,
+      url: headers.host,
+    });
 
     dispatch({
       type: "GET_CALLS",

@@ -22,7 +22,7 @@ export interface ICitizens {
 }
 
 export interface IExpungementRequests {
-  type: "GET_EXPUNGEMENT_REQUESTS" | "UPDATE_EXPUNGEMENT_REQUEST";
+  type: "GET_EXPUNGEMENT_REQUESTS_ADMIN" | "UPDATE_EXPUNGEMENT_REQUEST";
   expungementRequests: ExpungementRequest[];
 }
 

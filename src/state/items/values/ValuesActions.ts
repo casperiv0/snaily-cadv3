@@ -4,12 +4,13 @@ import { Value } from "types/Value";
 import { ValuePaths } from "types/ValuePaths";
 import { IValues } from "./ValuesTypes";
 
-export const getValuesByPath = (path: ValuePaths, cookie?: string) => async (
+export const getValuesByPath = (path: ValuePaths, headers?: any) => async (
   dispatch: Dispatch<IValues>,
 ) => {
   try {
     const res = await handleRequest(`/values/${path}`, "GET", {
-      cookie,
+      cookie: headers.cookie,
+      url: headers.host,
     });
 
     dispatch({
