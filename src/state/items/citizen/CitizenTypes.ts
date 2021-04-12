@@ -1,4 +1,5 @@
 import { Citizen } from "types/Citizen";
+import { MedicalRecord } from "types/MedicalRecord";
 import { Nullable } from "types/State";
 import { Vehicle } from "types/Vehicle";
 import { Weapon } from "types/Weapon";
@@ -44,6 +45,11 @@ export interface DeleteCitizenById {
   type: "DELETE_CITIZEN_BY_ID";
 }
 
+export interface IMedicalRecords {
+  type: "GET_MEDICAL_RECORDS" | "DELETE_MEDICAL_RECORDS" | "CREATE_MEDICAL_RECORD";
+  medicalRecords: MedicalRecord[];
+}
+
 export type Actions =
   | GetUserCitizens
   | GetCitizenById
@@ -52,4 +58,5 @@ export type Actions =
   | ICitizenVehicles
   | ICitizenWeapons
   | UpdateCitizenLicenses
-  | DeleteCitizenById;
+  | DeleteCitizenById
+  | IMedicalRecords;

@@ -7,6 +7,7 @@ const initState: State["citizen"] = {
   loading: false,
   vehicles: [],
   weapons: [],
+  medicalRecords: [],
 };
 
 export function CitizenReducer(state = initState, action: Actions): State["citizen"] {
@@ -40,6 +41,14 @@ export function CitizenReducer(state = initState, action: Actions): State["citiz
       return {
         ...state,
         weapons: action.weapons,
+      };
+    }
+    case "GET_MEDICAL_RECORDS":
+    case "CREATE_MEDICAL_RECORD":
+    case "DELETE_MEDICAL_RECORDS": {
+      return {
+        ...state,
+        medicalRecords: action.medicalRecords,
       };
     }
     default: {

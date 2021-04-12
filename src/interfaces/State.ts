@@ -4,6 +4,7 @@ import { Citizen } from "./Citizen";
 import { Code10 } from "./Code10";
 import { Company } from "./Company";
 import { ExpungementRequest } from "./ExpungementRequest";
+import { MedicalRecord } from "./MedicalRecord";
 import { PenalCode } from "./PenalCode";
 import { TruckLog } from "./TruckLog";
 import { User } from "./User";
@@ -36,6 +37,7 @@ export interface State {
     loading: boolean;
     vehicles: Vehicle[];
     weapons: Weapon[];
+    medicalRecords: MedicalRecord[];
   };
   calls: {
     calls: Call[];

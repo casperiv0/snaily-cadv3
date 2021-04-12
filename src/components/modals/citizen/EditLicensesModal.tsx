@@ -30,6 +30,7 @@ const EditLicensesModalC: React.FC<Props> = ({
   const [fireArms, setFireArms] = React.useState("");
   const [pilot, setPilot] = React.useState("");
   const [ccw, setCcw] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   const isSuspended = React.useCallback((type: string) => {
     return type === "1";
@@ -94,6 +95,7 @@ const EditLicensesModalC: React.FC<Props> = ({
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!citizen) return;
+    setLoading(true);
 
     const updated = await updateLicenses(citizen?.id, {
       dmv,
@@ -105,6 +107,8 @@ const EditLicensesModalC: React.FC<Props> = ({
     if (updated === true) {
       modal(ModalIds.EditLicenses)?.hide();
     }
+
+    setLoading(false);
   }
 
   return (
@@ -138,8 +142,8 @@ const EditLicensesModalC: React.FC<Props> = ({
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
-            {lang.global.update}
+          <button disabled={loading} type="submit" className="btn btn-primary">
+            {loading ? `${lang.global.loading}..` : lang.global.update}
           </button>
         </div>
       </form>

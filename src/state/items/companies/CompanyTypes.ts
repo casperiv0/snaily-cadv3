@@ -5,4 +5,12 @@ export interface GetCompanies {
   companies: Company[];
 }
 
-export type Actions = GetCompanies;
+export interface JoinCompany {
+  type: "JOIN_COMPANY";
+}
+
+export interface CreateCompany {
+  type: "CREATE_COMPANY";
+}
+
+export type Actions = GetCompanies | JoinCompany;

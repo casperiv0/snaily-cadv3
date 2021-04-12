@@ -46,6 +46,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
   const [vehicle, setVehicle] = React.useState("");
   const [citizenId, setCitizenId] = React.useState<SelectValue | null>(null);
   const [companyId, setCompanyId] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const location = useRouter();
 
   React.useEffect(() => {
@@ -70,6 +71,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
       return notify.warn("Please fill in all fields");
     }
 
+    setLoading(true);
     const success = await registerVehicle({
       plate,
       status,
@@ -89,6 +91,8 @@ const RegisterVehicleModalC: React.FC<Props> = ({
 
       modal(ModalIds.RegisterVehicle)?.hide();
     }
+
+    setLoading(false);
   }
 
   return (
@@ -204,8 +208,8 @@ const RegisterVehicleModalC: React.FC<Props> = ({
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
-            {lang.citizen.vehicle.reg_vehicle}
+          <button disabled={loading} type="submit" className="btn btn-primary">
+            {loading ? `${lang.global.loading}..` : lang.citizen.vehicle.reg_vehicle}
           </button>
         </div>
       </form>

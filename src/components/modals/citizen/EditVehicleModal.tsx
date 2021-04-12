@@ -35,6 +35,7 @@ const EditVehicleModalC: React.FC<Props> = ({
   const [color, setColor] = React.useState("");
   const [vehicle, setVehicle] = React.useState("");
   const [companyId, setCompanyId] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     setPlate(tempVehicle?.plate ?? "");
@@ -47,6 +48,7 @@ const EditVehicleModalC: React.FC<Props> = ({
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!tempVehicle) return;
+    setLoading(true);
 
     const success = await updateVehicleById(tempVehicle?.citizen_id, tempVehicle?.id, {
       status,
@@ -62,6 +64,8 @@ const EditVehicleModalC: React.FC<Props> = ({
 
       modal(ModalIds.EditVehicle)?.hide();
     }
+
+    setLoading(false);
   }
 
   return (
@@ -148,8 +152,8 @@ const EditVehicleModalC: React.FC<Props> = ({
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
-            {lang.global.update}
+          <button disabled={loading} type="submit" className="btn btn-primary">
+            {loading ? `${lang.global.loading}..` : lang.global.update}
           </button>
         </div>
       </form>

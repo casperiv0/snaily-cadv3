@@ -1,6 +1,6 @@
-import { getErrorFromResponse, handleRequest } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
-import { GetCompanies } from "./CompanyTypes";
+import { CreateCompany, GetCompanies, JoinCompany } from "./CompanyTypes";
 
 export const getCompanies = (cookie?: string) => async (dispatch: Dispatch<GetCompanies>) => {
   try {
@@ -15,5 +15,35 @@ export const getCompanies = (cookie?: string) => async (dispatch: Dispatch<GetCo
   } catch (e) {
     const error = getErrorFromResponse(e);
     console.log(error);
+  }
+};
+
+export const joinCompany = (data: RequestData) => async (dispatch: Dispatch<JoinCompany>) => {
+  try {
+    const res = await handleRequest("/companies/join", "POST", data);
+
+    dispatch({
+      type: "JOIN_COMPANY",
+    });
+
+    return `/company/${res.data.citizenId}/${res.data.companyId}`;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.error(error);
+  }
+};
+
+export const createCompany = (data: RequestData) => async (dispatch: Dispatch<CreateCompany>) => {
+  try {
+    const res = await handleRequest("/companies/create", "POST", data);
+
+    dispatch({
+      type: "CREATE_COMPANY",
+    });
+
+    return `/company/${res.data.citizenId}/${res.data.companyId}`;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.error(error);
   }
 };

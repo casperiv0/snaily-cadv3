@@ -10,9 +10,11 @@ import {
   UpdateCitizenLicenses,
   CreateCitizen,
   DeleteCitizenById,
+  IMedicalRecords,
 } from "./CitizenTypes";
 import lang from "src/language.json";
 import { Citizen } from "types/Citizen";
+import { MedicalRecord } from "types/MedicalRecord";
 
 export const getUserCitizens = (cookie?: string) => async (dispatch: Dispatch<GetUserCitizens>) => {
   try {
@@ -243,6 +245,63 @@ export const deleteCitizenById = (id: string) => async (dispatch: Dispatch<Delet
     });
 
     return notify.success("Successfully deleted citizen");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+
+    return notify.warn(error);
+  }
+};
+
+export const getMedicalRecords = (citizenId: string, cookie?: string) => async (
+  dispatch: Dispatch<IMedicalRecords>,
+) => {
+  try {
+    const res = await handleRequest(`/citizen/${citizenId}/medical-records`, "GET", { cookie });
+
+    dispatch({
+      type: "GET_MEDICAL_RECORDS",
+      medicalRecords: res.data.medicalRecords,
+    });
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+  }
+};
+
+export const createMedicalRecord = (citizenId: string, data: Partial<MedicalRecord>) => async (
+  dispatch: Dispatch<IMedicalRecords>,
+) => {
+  try {
+    const res = await handleRequest(`/citizen/${citizenId}/medical-records`, "POST", data);
+
+    dispatch({
+      type: "CREATE_MEDICAL_RECORD",
+      medicalRecords: res.data.medicalRecords,
+    });
+
+    return notify.success("Successfully created medical record");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+
+    return notify.warn(error);
+  }
+};
+
+export const deleteMedicalRecord = (recordId: string, citizenId: string) => async (
+  dispatch: Dispatch<IMedicalRecords>,
+) => {
+  try {
+    const res = await handleRequest(
+      `/citizen/${citizenId}/medical-records?recordId=${recordId}`,
+      "DELETE",
+    );
+
+    dispatch({
+      type: "DELETE_MEDICAL_RECORDS",
+      medicalRecords: res.data.medicalRecords,
+    });
+
+    return notify.success("Successfully deleted medical record");
   } catch (e) {
     const error = getErrorFromResponse(e);
 

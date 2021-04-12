@@ -28,6 +28,8 @@ import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponMo
 import { RegisterVehicleModal } from "@components/modals/citizen/RegisterVehicleModal";
 import { LicenseCard } from "@components/Citizen/Licenses";
 import { EditLicensesModal } from "@components/modals/citizen/EditLicensesModal";
+import { MedicalRecordsCard } from "@components/Citizen/MedicalRecords";
+import { CreateMedicalRecordModal } from "@components/modals/citizen/CreateMedicalRecordModal";
 
 interface Props {
   citizen: Nullable<Citizen>;
@@ -145,10 +147,11 @@ const CitizenInfoPage = ({ citizen, cadInfo, deleteCitizenById }: Props) => {
       </div>
 
       <LicenseCard citizen={citizen} />
-      <div>medical records</div>
+      <MedicalRecordsCard />
       <RegisteredWeapons />
       <RegisteredVehicles />
 
+      <CreateMedicalRecordModal />
       <EditLicensesModal />
       <RegisterWeaponModal />
       <RegisterVehicleModal />

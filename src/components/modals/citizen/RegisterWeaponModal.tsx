@@ -35,6 +35,7 @@ const RegisterWeaponModalC: React.FC<Props> = ({
   const [citizenId, setCitizenId] = React.useState<SelectValue | null>(null);
   const [status, setStatus] = React.useState<string>("");
   const [serial, setSerial] = React.useState<string>("");
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -59,6 +60,7 @@ const RegisterWeaponModalC: React.FC<Props> = ({
       return notify.warn("Please fill in all fields");
     }
 
+    setLoading(true);
     const success = await registerWeapon({
       weapon,
       citizenId: citizenId?.value,
@@ -73,6 +75,8 @@ const RegisterWeaponModalC: React.FC<Props> = ({
       setStatus("");
       setSerial("");
     }
+
+    setLoading(false);
   }
 
   return (
@@ -146,8 +150,8 @@ const RegisterWeaponModalC: React.FC<Props> = ({
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button type="submit" className="btn btn-primary">
-            {lang.citizen.weapon.reg_weapon}
+          <button disabled={loading} type="submit" className="btn btn-primary">
+            {loading ? `${lang.global.loading}..` : lang.citizen.weapon.reg_weapon}
           </button>
         </div>
       </form>
