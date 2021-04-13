@@ -79,3 +79,23 @@ export function modal(id: ModalIds) {
 export function isCadFeatureEnabled(features: string[] | undefined, feature: string) {
   return features?.includes(feature.toLowerCase());
 }
+
+export function playSound(src: string) {
+  const audio = new Audio(src);
+  audio.volume = 0.7;
+
+  const play = () => {
+    audio.play();
+
+    return true;
+  };
+
+  const stop = () => {
+    audio.pause();
+    audio.currentTime = 0;
+
+    return true;
+  };
+
+  return { stop, play, audio };
+}

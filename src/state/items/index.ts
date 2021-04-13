@@ -9,6 +9,9 @@ import { CompanyReducer } from "./companies/CompanyReducer";
 import { AdminReducer } from "./admin/AdminReducer";
 import { BleeterReducer } from "./bleeter/BleeterReducer";
 import { CourtReducer } from "./court/CourtReducer";
+import { DispatchReducer } from "./dispatch/DispatchReducer";
+import { OfficerReducer } from "./officer/OfficerReducer";
+import { BoloReducer } from "./bolos/BoloReducer";
 
 export default combineReducers({
   auth: AuthReducer,
@@ -21,4 +24,7 @@ export default combineReducers({
   admin: AdminReducer,
   bleeter: BleeterReducer,
   court: CourtReducer,
+  dispatch: DispatchReducer,
+  officers: OfficerReducer,
+  bolos: BoloReducer,
 });

@@ -1,5 +1,6 @@
 import { CourtResult } from "@actions/court/CourtTypes";
 import { Bleet } from "./Bleet";
+import { Bolo } from "./Bolo";
 import { Cad } from "./Cad";
 import { Call } from "./Call";
 import { Citizen } from "./Citizen";
@@ -83,5 +84,17 @@ export interface State {
   court: {
     expungementRequests: ExpungementRequest[];
     courtResult: Nullable<CourtResult>;
+  };
+  bolos: {
+    bolos: Bolo[];
+  };
+  dispatch: {
+    officers: Officer[];
+    ems_fd: Deputy[];
+    search: Nullable<any>;
+    steamIds: Partial<User>[];
+  };
+  officers: {
+    search: Nullable<any>;
   };
 }

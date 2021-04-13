@@ -3,9 +3,8 @@ import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
 import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
-import { Call } from "types/Call";
 import { IRequest } from "types/IRequest";
-import { dbPath, mapCalls } from ".";
+import { formatRequired } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
@@ -18,31 +17,35 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     });
   }
 
-  if (req.query.type === "911") {
-    try {
-      await usePermission(req, ["dispatch", "leo", "ems_fd"]);
-    } catch (e) {
-      return res.status(e?.code ?? 401).json({
-        status: "error",
-        error: e,
-      });
-    }
+  try {
+    await usePermission(req, ["dispatch", "leo"]);
+  } catch (e) {
+    return res.status(e?.code ?? 401).json({
+      status: "error",
+      error: e,
+    });
   }
-
   switch (req.method) {
-    case "DELETE": {
+    case "POST": {
       try {
-        await processQuery(`DELETE FROM \`${dbPath(`${req.query.type}`)}\` WHERE \`id\` = ?`, [
-          req.query.id,
+        const { serialNumber } = req.body;
+
+        if (!serialNumber) {
+          return res.status(400).json({
+            error: formatRequired(["serialNumber"], req.body),
+            status: "error",
+          });
+        }
+
+        const [
+          weapon,
+        ] = await processQuery("SELECT * FROM `registered_weapons` WHERE `serial_number` = ?", [
+          serialNumber,
         ]);
 
-        const calls = await processQuery<Call>(`SELECT * FROM \`${dbPath(`${req.query.type}`)}\``);
-        return res.json({
-          calls: req.query.type === "911" ? await mapCalls(calls) : calls,
-          status: "success",
-        });
+        return res.json({ weapon: weapon ?? {}, status: "success" });
       } catch (e) {
-        logger.error("cad-info", e);
+        logger.error("weapon_search", e);
 
         return res.status(500).json(AnError);
       }

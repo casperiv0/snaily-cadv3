@@ -13,7 +13,7 @@ import { useSocket } from "@hooks/useSocket";
 import { getCalls, endCall } from "@actions/calls/CallActions";
 import lang from "../language.json";
 import { Call } from "types/Call";
-import NotepadModal from "@components/modals/NotepadModal";
+import { NotepadModal } from "@components/modals/NotepadModal";
 import { CallTypes } from "@actions/calls/CallTypes";
 
 interface Props {
