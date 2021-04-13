@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast, ToastOptions } from "react-toastify";
+import { Call } from "types/Call";
 import { Code10 } from "types/Code10";
 import { ModalIds } from "types/ModalIds";
 
@@ -112,4 +113,10 @@ export function filterCodes(codes: Code10[]) {
       return a.position - b.position;
     }
   });
+}
+
+export function isUnitAlreadyAssigned(unitId: string, calls: Call[]) {
+  const unitIds = calls.flatMap((call) => call.assigned_unit.map((v) => v.value));
+
+  return unitIds.includes(unitId);
 }
