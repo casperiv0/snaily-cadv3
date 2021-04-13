@@ -133,7 +133,8 @@
     "bolos": {
         "remove_bolo": "Remove BOLO",
         "removed_bolo": "Successfully removed BOLO.",
-        "add_bolo": "Successfully Created BOLO"
+        "add_bolo": "Successfully Created BOLO",
+        "edit_bolo": "Edit Bolo"
     },
     "truck_logs": {
         "date": "Date",

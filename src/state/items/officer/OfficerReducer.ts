@@ -1,14 +1,12 @@
 import { State } from "types/State";
 import { Actions } from "./OfficerTypes";
 
-const initState: State["dispatch"] = {
-  officers: [],
-  ems_fd: [],
+const initState: State["officers"] = {
   search: null,
-  steamIds: [],
+  activeOfficer: null,
 };
 
-export function OfficerReducer(state = initState, action: Actions): State["dispatch"] {
+export function OfficerReducer(state = initState, action: Actions): State["officers"] {
   switch (action.type) {
     case "PLATE_SEARCH":
     case "WEAPON_SEARCH":
@@ -16,6 +14,13 @@ export function OfficerReducer(state = initState, action: Actions): State["dispa
       return {
         ...state,
         search: { type: action.searchType, ...action.search },
+      };
+    }
+    case "SET_STATUS":
+    case "GET_ACTIVE_OFFICER": {
+      return {
+        ...state,
+        activeOfficer: action.activeOfficer,
       };
     }
     default: {

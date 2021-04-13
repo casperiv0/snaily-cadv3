@@ -1,6 +1,6 @@
 import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { Dispatch } from "react";
-import { Search } from "./OfficerTypes";
+import { IOfficer, Search } from "./OfficerTypes";
 
 export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<Search>) => {
   try {
@@ -50,3 +50,7 @@ export const plateSearch = (plate: string) => async (dispatch: Dispatch<Search>)
     return notify.warn(error);
   }
 };
+
+export const setStatus = (id: string, status: string, status2: string) => async (
+  dispatch: Dispatch<IOfficer>,
+) => {};

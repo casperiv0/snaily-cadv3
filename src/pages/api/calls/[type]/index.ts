@@ -77,15 +77,15 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "POST": {
       try {
-        const { description = "N/A", caller, location } = req.body;
+        const { description = "N/A", caller, location, type = "1" } = req.body;
         const id = v4();
 
         if (req.query.type === "911") {
           await processQuery(
             `INSERT INTO \`${dbPath(
               `${req.query.type}`,
-            )}\` (\`id\`, \`description\`, \`name\`, \`location\`) VALUES (?, ?, ?, ?)`,
-            [id, description, caller, location],
+            )}\` (\`id\`, \`description\`, \`name\`, \`location\`, \`type\`) VALUES (?, ?, ?, ?, ?)`,
+            [id, description, caller, location, type],
           );
         } else {
           // TODO

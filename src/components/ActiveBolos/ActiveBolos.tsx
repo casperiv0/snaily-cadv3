@@ -1,10 +1,9 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { Bolo } from "types/Bolo";
 import { Nullable, State } from "types/State";
 import lang from "../../language.json";
 import { getBolos, deleteBolo } from "@actions/bolos/BoloActions";
-import { connect } from "react-redux";
-import { Officer } from "types/Officer";
 import { SocketEvents } from "types/Socket";
 import { useSocket } from "@hooks/useSocket";
 import { Item, Span } from "@components/Item";
@@ -13,12 +12,11 @@ import { EditBoloModal } from "@components/modals/leo/EditBoloModal";
 
 interface Props {
   bolos: Bolo[];
-  activeOfficer: Nullable<Officer>;
   getBolos: () => void;
   deleteBolo: (id: string) => void;
 }
 
-const ActiveBolosC: React.FC<Props> = ({ bolos, activeOfficer, getBolos, deleteBolo }) => {
+const ActiveBolosC: React.FC<Props> = ({ bolos, getBolos, deleteBolo }) => {
   const socket = useSocket();
   const [tempBolo, setTempBolo] = React.useState<Nullable<Bolo>>(null);
 

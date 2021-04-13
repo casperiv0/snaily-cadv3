@@ -2,9 +2,11 @@ import * as React from "react";
 import { Modal } from "@components/Modal/Modal";
 import lang from "../../language.json";
 import { ModalIds } from "types/ModalIds";
+import { useModalOpen } from "@hooks/useModalOpen";
 
 export const NotepadModal: React.FC = () => {
   const [note, setNote] = React.useState<string>(String(""));
+  const ref = useModalOpen<HTMLTextAreaElement>(ModalIds.Notepad);
 
   React.useEffect(() => {
     const local = localStorage.getItem("snailycad_notepad") || "";
@@ -25,6 +27,7 @@ export const NotepadModal: React.FC = () => {
     <Modal title={lang.global.notepad} size="lg" id={ModalIds.Notepad}>
       <div className="modal-body">
         <textarea
+          ref={ref}
           className="form-control bg-secondary border-secondary text-light"
           cols={30}
           rows={15}

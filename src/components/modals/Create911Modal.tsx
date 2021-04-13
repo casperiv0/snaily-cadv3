@@ -48,6 +48,7 @@ const Create911ModalC = ({ callTypes, getValuesByPath, createCall }: Props) => {
       setDescription("");
       setLocation("");
       setCaller("");
+      setType(null);
     }
   }
 

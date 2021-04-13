@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast, ToastOptions } from "react-toastify";
+import { Code10 } from "types/Code10";
 import { ModalIds } from "types/ModalIds";
 
 export type RequestData = Record<string, unknown>;
@@ -98,4 +99,17 @@ export function playSound(src: string) {
   };
 
   return { stop, play, audio };
+}
+
+export function filterCodes(codes: Code10[]) {
+  return codes.sort(function (a, b) {
+    if (a.position && b.position) {
+      return a.position - b.position;
+    } else {
+      b.position = 0;
+      a.position = 0;
+
+      return a.position - b.position;
+    }
+  });
 }

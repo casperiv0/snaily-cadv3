@@ -20,7 +20,7 @@ export function DispatchReducer(state = initState, action: Actions): State["disp
     case "ADDRESS_SEARCH": {
       return {
         ...state,
-        search: { type: "address", ...action.search },
+        search: action.search,
       };
     }
     case "GET_STEAM_IDS": {

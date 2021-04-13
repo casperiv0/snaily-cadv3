@@ -96,5 +96,6 @@ export interface State {
   };
   officers: {
     search: Nullable<any>;
+    activeOfficer: Nullable<Officer>;
   };
 }

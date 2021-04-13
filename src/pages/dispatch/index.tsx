@@ -6,7 +6,7 @@ import { ModalButtons } from "@components/dispatch/ModalButtons";
 import lang from "../../language.json";
 import { Nullable, State } from "types/State";
 import { UpdateAOP } from "@components/dispatch/UpdateAop";
-// import { ActiveUnits } from "@components/dispatch/ActiveUnits";
+import { ActiveUnits } from "@components/dispatch/ActiveUnits";
 import { ActiveCalls } from "@components/dispatch/ActiveCalls";
 import { ActiveBolos } from "@components/ActiveBolos/ActiveBolos";
 import { NotepadModal } from "@components/modals/NotepadModal";
@@ -29,6 +29,7 @@ import { useSocket } from "@hooks/useSocket";
 import { Seo } from "@components/Seo";
 import { getBolos } from "@actions/bolos/BoloActions";
 import { getCalls } from "@actions/calls/CallActions";
+import { getActiveUnits } from "@actions/dispatch/DispatchActions";
 
 interface Props {
   aop: Nullable<string>;
@@ -114,7 +115,9 @@ const DispatchDash: React.FC<Props> = (props) => {
       </div>
 
       <div className="row mt-2">
-        <div className="col-md-8">{/* <ActiveUnits /> */}</div>
+        <div className="col-md-8">
+          <ActiveUnits />
+        </div>
         <div className="col-md-4">
           <UpdateAOP />
         </div>
@@ -140,6 +143,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   await verifyAuth(req.headers)(store.dispatch);
   await getBolos(req.headers)(store.dispatch);
   await getCalls("911", req.headers)(store.dispatch);
+  await getActiveUnits(req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

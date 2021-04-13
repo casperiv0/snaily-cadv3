@@ -1,9 +1,10 @@
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
 import { IBolos } from "./BoloTypes";
 import lang from "src/language.json";
 import { socket } from "@lib/socket.client";
 import { SocketEvents } from "types/Socket";
+import { ModalIds } from "types/ModalIds";
 
 export const getBolos = (headers?: any) => async (dispatch: Dispatch<IBolos>) => {
   try {
@@ -66,6 +67,7 @@ export const updateBoloById = (id: string, data: RequestData) => async (
       bolos: res.data.bolos,
     });
     socket.emit(SocketEvents.UpdateBolos);
+    modal(ModalIds.EditBolo)?.hide();
 
     return notify.success("Successfully updated bolo");
   } catch (e) {
