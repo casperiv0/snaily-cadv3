@@ -1,6 +1,8 @@
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { CallTypes, CreateCall, GetCalls } from "./CallTypes";
+
+// TODO: add socket.emit for calls.
 
 export const createCall = (type: CallTypes, data: RequestData) => async (
   dispatch: Dispatch<CreateCall>,

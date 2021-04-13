@@ -9,7 +9,7 @@ import { Seo } from "@components/Seo";
 import { ModalIds } from "types/ModalIds";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";
-import { useSocket } from "@hooks/useSocket";
+import { socket } from "@hooks/useSocket";
 import lang from "../language.json";
 import { TruckLog } from "types/TruckLog";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
@@ -24,16 +24,15 @@ interface Props {
 
 const TruckLogsPage = ({ logs, deleteTruckLog, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
-  const socket = useSocket();
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
-    socket?.on(SocketEvents.UpdateAop, handler);
+    socket.on(SocketEvents.UpdateAop, handler);
 
     return () => {
-      socket?.off(SocketEvents.UpdateAop, handler);
+      socket.off(SocketEvents.UpdateAop, handler);
     };
-  }, [socket]);
+  }, []);
 
   return (
     <Layout>

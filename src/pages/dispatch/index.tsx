@@ -25,7 +25,7 @@ import { initializeStore } from "@state/useStore";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { Create911Modal } from "@components/modals/Create911Modal";
-import { useSocket } from "@hooks/useSocket";
+import { socket } from "@hooks/useSocket";
 import { Seo } from "@components/Seo";
 import { getBolos } from "@actions/bolos/BoloActions";
 import { getCalls } from "@actions/calls/CallActions";
@@ -41,7 +41,6 @@ const DispatchDash: React.FC<Props> = (props) => {
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const [panic, setPanic] = React.useState<Officer | null>(null);
   const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100 ?? "0");
-  const socket = useSocket();
   const time = useDashTime();
 
   React.useEffect(() => {
@@ -64,19 +63,19 @@ const DispatchDash: React.FC<Props> = (props) => {
       setSignal100(value);
     };
 
-    socket?.on(SocketEvents.UpdateAop, aopHandler);
-    socket?.on(SocketEvents.PanicButton, panicButtonHandler);
-    socket?.on(SocketEvents.Signal100, signal100Handler);
+    socket.on(SocketEvents.UpdateAop, aopHandler);
+    socket.on(SocketEvents.PanicButton, panicButtonHandler);
+    socket.on(SocketEvents.Signal100, signal100Handler);
 
     return () => {
-      socket?.off(SocketEvents.UpdateAop, aopHandler);
-      socket?.off(SocketEvents.PanicButton, panicButtonHandler);
-      socket?.off(SocketEvents.Signal100, signal100Handler);
+      socket.off(SocketEvents.UpdateAop, aopHandler);
+      socket.off(SocketEvents.PanicButton, panicButtonHandler);
+      socket.off(SocketEvents.Signal100, signal100Handler);
 
       panicSound.stop();
       signal100Sound.stop();
     };
-  }, [socket]);
+  }, []);
 
   return (
     <Layout fluid>

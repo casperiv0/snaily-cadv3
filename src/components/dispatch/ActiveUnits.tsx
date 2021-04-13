@@ -8,7 +8,7 @@ import { UpdateStatusModal } from "@components/modals/dispatch/UpdateStatus";
 import { getActiveUnits } from "@actions/dispatch/DispatchActions";
 import { ModalIds } from "types/ModalIds";
 import { SocketEvents } from "types/Socket";
-import { useSocket } from "@hooks/useSocket";
+import { socket } from "@hooks/useSocket";
 
 interface Props {
   officers: Officer[];
@@ -18,17 +18,16 @@ interface Props {
 
 const ActiveUnitsC: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => {
   const [tempUnit, setTempUnit] = React.useState<any>(null);
-  const socket = useSocket();
 
   React.useEffect(() => {
     const handler = () => getActiveUnits();
 
-    socket?.on(SocketEvents.UpdateActiveUnits, handler);
+    socket.on(SocketEvents.UpdateActiveUnits, handler);
 
     return () => {
-      socket?.off(SocketEvents.UpdateActiveUnits, handler);
+      socket.off(SocketEvents.UpdateActiveUnits, handler);
     };
-  }, [getActiveUnits, socket]);
+  }, [getActiveUnits]);
 
   return (
     <>

@@ -9,7 +9,7 @@ import { Seo } from "@components/Seo";
 import { ModalIds } from "types/ModalIds";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";
-import { useSocket } from "@hooks/useSocket";
+import { socket } from "@hooks/useSocket";
 import { getCalls, endCall } from "@actions/calls/CallActions";
 import lang from "../language.json";
 import { Call } from "types/Call";
@@ -24,20 +24,19 @@ interface Props {
 
 const TaxiDashPage = ({ calls, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
-  const socket = useSocket();
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
     const callHandler = () => getCalls("taxi");
 
-    socket?.on(SocketEvents.UpdateAop, handler);
-    socket?.on(SocketEvents.UpdateTaxiCalls, callHandler);
+    socket.on(SocketEvents.UpdateAop, handler);
+    socket.on(SocketEvents.UpdateTaxiCalls, callHandler);
 
     return () => {
-      socket?.off(SocketEvents.UpdateAop, handler);
-      socket?.off(SocketEvents.UpdateTaxiCalls, callHandler);
+      socket.off(SocketEvents.UpdateAop, handler);
+      socket.off(SocketEvents.UpdateTaxiCalls, callHandler);
     };
-  }, [socket]);
+  }, []);
 
   return (
     <Layout>

@@ -5,10 +5,10 @@ import { Nullable, State } from "types/State";
 import lang from "../../language.json";
 import { getBolos, deleteBolo } from "@actions/bolos/BoloActions";
 import { SocketEvents } from "types/Socket";
-import { useSocket } from "@hooks/useSocket";
 import { Item, Span } from "@components/Item";
 import { ModalIds } from "types/ModalIds";
 import { EditBoloModal } from "@components/modals/leo/EditBoloModal";
+import { socket } from "@hooks/useSocket";
 
 interface Props {
   bolos: Bolo[];
@@ -17,17 +17,17 @@ interface Props {
 }
 
 const ActiveBolosC: React.FC<Props> = ({ bolos, getBolos, deleteBolo }) => {
-  const socket = useSocket();
   const [tempBolo, setTempBolo] = React.useState<Nullable<Bolo>>(null);
 
   React.useEffect(() => {
     const handler = () => getBolos();
-    socket?.on(SocketEvents.UpdateBolos, handler);
+
+    socket.on(SocketEvents.UpdateBolos, handler);
 
     return () => {
-      socket?.off(SocketEvents.UpdateBolos, handler);
+      socket.off(SocketEvents.UpdateBolos, handler);
     };
-  }, [getBolos, socket]);
+  }, [getBolos]);
 
   return (
     <>

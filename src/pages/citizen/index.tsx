@@ -19,7 +19,7 @@ import { SocketEvents } from "types/Socket";
 import { CreateTaxiCallModal } from "@components/modals/CreateTaxiCallModal";
 import { CreateTowCallModal } from "@components/modals/CreateTowCallModal";
 import { Create911Modal } from "@components/modals/Create911Modal";
-import { useSocket } from "@hooks/useSocket";
+import { socket } from "@hooks/useSocket";
 import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponModal";
 import { RegisterVehicleModal } from "@components/modals/citizen/RegisterVehicleModal";
 
@@ -31,16 +31,15 @@ interface Props {
 
 const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
-  const socket = useSocket();
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
-    socket?.on(SocketEvents.UpdateAop, handler);
+    socket.on(SocketEvents.UpdateAop, handler);
 
     return () => {
-      socket?.off(SocketEvents.UpdateAop, handler);
+      socket.off(SocketEvents.UpdateAop, handler);
     };
-  }, [socket]);
+  }, []);
 
   return (
     <Layout>

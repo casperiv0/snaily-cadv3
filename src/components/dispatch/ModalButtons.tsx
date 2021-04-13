@@ -8,7 +8,7 @@ import { playSound } from "@lib/utils";
 import { SocketEvents } from "types/Socket";
 import { ModalIds } from "types/ModalIds";
 import { MButton } from "../leo/ModalButtons";
-import { useSocket } from "@hooks/useSocket";
+import { socket } from "@hooks/useSocket";
 
 const modalButtons: MButton[] = [
   {
@@ -46,7 +46,6 @@ interface Props {
 }
 
 const ModalButtonsC: React.FC<Props> = ({ cadInfo }) => {
-  const socket = useSocket();
   const [signal100, setSignal100] = React.useState<Perm>(cadInfo?.signal_100 ?? "0");
 
   React.useEffect(() => {
@@ -62,13 +61,13 @@ const ModalButtonsC: React.FC<Props> = ({ cadInfo }) => {
       setSignal100(value);
     };
 
-    socket?.on(SocketEvents.Signal100, handler);
+    socket.on(SocketEvents.Signal100, handler);
 
     return () => {
-      socket?.off(SocketEvents.Signal100, handler);
+      socket.off(SocketEvents.Signal100, handler);
       sound.stop();
     };
-  }, [socket]);
+  }, []);
 
   function signal100Func() {
     const value = signal100 === "1" ? "0" : "1";

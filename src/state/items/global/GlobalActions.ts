@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { getErrorFromResponse, handleRequest } from "@lib/utils";
 import { GetCadInfo, UpdateAop } from "./GlobalTypes";
-import { socket } from "@lib/socket.client";
+import { socket } from "@hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 
 export const getCadInfo = (headers?: any) => async (dispatch: Dispatch<GetCadInfo>) => {

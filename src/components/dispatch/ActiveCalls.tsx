@@ -8,7 +8,7 @@ import { getCalls } from "@actions/calls/CallActions";
 import { playSound } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { SocketEvents } from "types/Socket";
-import { useSocket } from "@hooks/useSocket";
+import { socket } from "@hooks/useSocket";
 import { CallTypes } from "@actions/calls/CallTypes";
 
 interface Props {
@@ -17,7 +17,6 @@ interface Props {
 }
 
 const ActiveCallsC: React.FC<Props> = ({ calls, getCalls }) => {
-  const socket = useSocket();
   const [tempCall, setTempCall] = React.useState<Call | null>(null);
 
   React.useEffect(() => {
@@ -29,15 +28,15 @@ const ActiveCallsC: React.FC<Props> = ({ calls, getCalls }) => {
     const callHandler = () => getCalls("911");
     const newCallHandler = () => sound.play();
 
-    socket?.on(SocketEvents.Update911Calls, callHandler);
-    socket?.on(SocketEvents.New911Call, newCallHandler);
+    socket.on(SocketEvents.Update911Calls, callHandler);
+    socket.on(SocketEvents.New911Call, newCallHandler);
 
     return () => {
-      socket?.off(SocketEvents.Update911Calls, callHandler);
-      socket?.off(SocketEvents.New911Call, newCallHandler);
+      socket.off(SocketEvents.Update911Calls, callHandler);
+      socket.off(SocketEvents.New911Call, newCallHandler);
       sound.stop();
     };
-  }, [getCalls, socket]);
+  }, [getCalls]);
 
   return (
     <>

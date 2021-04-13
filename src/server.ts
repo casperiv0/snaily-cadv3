@@ -17,8 +17,8 @@ app
     const httpServer = new HttpServer((req, res) => handle(req, res));
 
     const socketServer = new SocketServer(httpServer);
-    socketServer.on("connection", socketHandler);
     socketServer.use(wrap(cookieParser()));
+    socketServer.on("connection", (s) => socketHandler(s, socketServer));
 
     httpServer.listen(config.port, () =>
       logger.log("APP", `Running on http://localhost:${config.port}/`),

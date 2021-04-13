@@ -2,16 +2,20 @@ import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from 
 import { Dispatch } from "react";
 import { IBolos } from "./BoloTypes";
 import lang from "src/language.json";
-import { socket } from "@lib/socket.client";
+import { socket } from "@hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 import { ModalIds } from "types/ModalIds";
 
 export const getBolos = (headers?: any) => async (dispatch: Dispatch<IBolos>) => {
   try {
-    const res = await handleRequest("/bolos", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(
+      "/bolos",
+      "GET",
+      headers && {
+        cookie: headers?.cookie,
+        url: headers?.host,
+      },
+    );
 
     dispatch({
       type: "GET_BOLOS",
@@ -32,6 +36,7 @@ export const deleteBolo = (id: string) => async (dispatch: Dispatch<IBolos>) => 
       bolos: res.data.bolos,
     });
 
+    socket.emit(SocketEvents.UpdateBolos);
     return notify.success(lang.bolos.removed_bolo);
   } catch (e) {
     const error = getErrorFromResponse(e);

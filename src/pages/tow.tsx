@@ -9,7 +9,7 @@ import { Seo } from "@components/Seo";
 import { ModalIds } from "types/ModalIds";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";
-import { useSocket } from "@hooks/useSocket";
+import { socket } from "@hooks/useSocket";
 import { getCalls, endCall } from "@actions/calls/CallActions";
 import lang from "../language.json";
 import { Call } from "types/Call";
@@ -24,20 +24,19 @@ interface Props {
 
 const TowDashPage = ({ calls, endCall, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
-  const socket = useSocket();
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
     const callHandler = () => getCalls("tow");
 
-    socket?.on(SocketEvents.UpdateAop, handler);
-    socket?.on(SocketEvents.UpdateTowCalls, callHandler);
+    socket.on(SocketEvents.UpdateAop, handler);
+    socket.on(SocketEvents.UpdateTowCalls, callHandler);
 
     return () => {
-      socket?.off(SocketEvents.UpdateAop, handler);
-      socket?.off(SocketEvents.UpdateTowCalls, callHandler);
+      socket.off(SocketEvents.UpdateAop, handler);
+      socket.off(SocketEvents.UpdateTowCalls, callHandler);
     };
-  }, [socket]);
+  }, []);
 
   return (
     <Layout>
