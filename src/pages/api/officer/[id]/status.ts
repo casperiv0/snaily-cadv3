@@ -11,6 +11,7 @@ import { User } from "types/User";
 import { Officer, OfficerLog } from "types/Officer";
 import { Cad } from "types/Cad";
 import { Code10 } from "types/Code10";
+import { useCookie } from "@hooks/useCookie";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -108,6 +109,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           "SELECT * FROM `officers` WHERE `id` = ?",
           [req.query.id],
         );
+
+        if (code?.should_do === "set_off_duty") {
+          useCookie(res, "", "active-officer", new Date(Date.now()));
+        } else {
+          useCookie(res, updatedOfficer.id, "active-officer");
+        }
 
         webhook &&
           postWebhook(webhook, {

@@ -95,6 +95,8 @@ export interface State {
     steamIds: Partial<User>[];
   };
   officers: {
+    officers: Officer[];
+    logs: OfficerLog[];
     search: Nullable<any>;
     activeOfficer: Nullable<Officer>;
   };

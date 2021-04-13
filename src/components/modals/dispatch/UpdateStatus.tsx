@@ -1,22 +1,23 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { Modal } from "@components/Modal/Modal";
 import lang from "../../../language.json";
 // import { setEmsStatus } from "@actions/ems-fd/EmsFdActions";
 import { setStatus } from "@actions/officer/OfficerActions";
-import { connect } from "react-redux";
 import { Code10 } from "types/Code10";
 import { Nullable, State } from "types/State";
 import { get10Codes } from "@actions/admin/AdminActions";
 import { Select, SelectValue } from "@components/Select/Select";
 import { filterCodes, modal } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
+import { Officer } from "types/Officer";
 
 interface Props {
   type: "ems-fd" | "officers";
   data: { id: string; status: string; status2: string } | null;
   statuses: Code10[];
-  setStatus: (id: string, status: string, status2: string) => void;
-  setEmsStatus: (id: string, status: string, status2: string) => void;
+  setStatus: (officer: Pick<Officer, "status" | "status2" | "id">) => Promise<boolean>;
+  setEmsStatus: (id: string, status: string, status2: string) => Promise<boolean>;
   get10Codes: () => void;
 }
 
@@ -24,6 +25,7 @@ const UpdateStatusModalC: React.FC<Props> = (props) => {
   const { get10Codes } = props;
   const [status, setStatus] = React.useState<Nullable<SelectValue>>(null);
   const [status2, setStatus2] = React.useState<Nullable<SelectValue>>(null);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     setStatus({ label: props.data?.status ?? "", value: props.data?.status ?? "" });
@@ -34,9 +36,10 @@ const UpdateStatusModalC: React.FC<Props> = (props) => {
     get10Codes();
   }, [get10Codes]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!status || !status2 || !props.data) return;
+    setLoading(true);
 
     const conf = {
       id: props.data?.id,
@@ -45,11 +48,12 @@ const UpdateStatusModalC: React.FC<Props> = (props) => {
     };
 
     if (props.type === "ems-fd") {
-      props.setEmsStatus(conf.id, conf.status, conf.status2);
+      await props.setEmsStatus(conf.id, conf.status, conf.status2);
     } else if (props.type === "officers") {
-      props.setStatus(conf.id, conf.status, conf.status2);
+      await props.setStatus(conf);
     }
 
+    setLoading(false);
     modal(ModalIds.UpdateStatus)?.hide();
   }
 
@@ -104,8 +108,8 @@ const UpdateStatusModalC: React.FC<Props> = (props) => {
             <button type="button" className="btn btn-secondary me-2" data-bs-dismiss="modal">
               {lang.global.cancel}
             </button>
-            <button type="submit" className="btn btn-primary">
-              {lang.dispatch.update_status}
+            <button disabled={loading} type="submit" className="btn btn-primary">
+              {loading ? `${lang.global.loading}..` : lang.dispatch.update_status}
             </button>
           </div>
         </div>

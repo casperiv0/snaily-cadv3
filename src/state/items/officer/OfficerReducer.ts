@@ -4,6 +4,8 @@ import { Actions } from "./OfficerTypes";
 const initState: State["officers"] = {
   search: null,
   activeOfficer: null,
+  officers: [],
+  logs: [],
 };
 
 export function OfficerReducer(state = initState, action: Actions): State["officers"] {
@@ -21,6 +23,14 @@ export function OfficerReducer(state = initState, action: Actions): State["offic
       return {
         ...state,
         activeOfficer: action.activeOfficer,
+      };
+    }
+    case "DELETE_OFFICER":
+    case "CREATE_OFFICER":
+    case "GET_MY_OFFICERS": {
+      return {
+        ...state,
+        officers: action.officers,
       };
     }
     default: {

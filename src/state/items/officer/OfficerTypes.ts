@@ -11,4 +11,9 @@ export interface IOfficer {
   activeOfficer: Officer;
 }
 
-export type Actions = Search | IOfficer;
+export interface IOfficers {
+  type: "GET_MY_OFFICERS" | "DELETE_OFFICER" | "CREATE_OFFICER";
+  officers: Officer[];
+}
+
+export type Actions = Search | IOfficer | IOfficers;

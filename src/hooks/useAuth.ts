@@ -4,13 +4,16 @@ import config from "../lib/config";
 import { IRequest } from "types/IRequest";
 import { User } from "types/User";
 import { Whitelist } from "@lib/consts";
+import { parse } from "cookie";
 
-// TODO: add this
-// import { logoutActiveUnits } from "@lib/utils";
+import { logoutActiveUnits } from "@lib/utils.server";
 import { IError } from "src/interfaces/IError";
 
 async function useAuth(req: IRequest): Promise<IError> {
-  const token = req.cookies["snaily-cad-session"] || req.headers["session"];
+  const token =
+    req.cookies["snaily-cad-session"] ||
+    parse(`${req.headers.session}` ?? "")?.["snaily-cad-session"];
+
   const secret = config.jwtSecret;
 
   if (!token) {
@@ -48,7 +51,7 @@ async function useAuth(req: IRequest): Promise<IError> {
 
     return Promise.resolve({ msg: "Authenticated", code: 200 });
   } catch (e) {
-    // await logoutActiveUnits(req.userId);
+    await logoutActiveUnits(req.userId);
 
     return Promise.reject({ msg: "invalid token", code: 401, invalid_token: true });
   }

@@ -24,7 +24,7 @@ export function handleRequest(
     data: data ? data : null,
     withCredentials: true,
     headers: {
-      Session: (data?.cookie as string)?.split("snaily-cad-session=")?.[1] ?? "",
+      Session: data?.cookie ?? "",
       "Content-Type": "application/json",
     },
   });

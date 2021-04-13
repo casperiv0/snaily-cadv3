@@ -1,4 +1,4 @@
-import { IUnits } from "@actions/admin/AdminTypes";
+import { GetActiveUnits } from "./DispatchTypes";
 import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { Dispatch } from "react";
 import { Call } from "types/Call";
@@ -56,7 +56,7 @@ export const addressSearch = (address: string) => async (dispatch: Dispatch<Addr
   }
 };
 
-export const getActiveUnits = (headers?: any) => async (dispatch: Dispatch<IUnits>) => {
+export const getActiveUnits = (headers?: any) => async (dispatch: Dispatch<GetActiveUnits>) => {
   try {
     const res = await handleRequest("/dispatch/units", "GET", {
       cookie: headers?.cookie,
@@ -64,7 +64,7 @@ export const getActiveUnits = (headers?: any) => async (dispatch: Dispatch<IUnit
     });
 
     dispatch({
-      type: "GET_ALL_UNITS",
+      type: "GET_ACTIVE_UNITS",
       ems_fd: res.data.ems_fd,
       officers: res.data.officers,
     });

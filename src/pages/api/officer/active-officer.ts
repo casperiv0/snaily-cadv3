@@ -6,6 +6,7 @@ import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
 import { Officer } from "types/Officer";
+import { parse } from "cookie";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -28,14 +29,16 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
+        const id = parse(`${req.headers["cookie"]}`)?.["active-officer"];
+
         const [officer] = await processQuery<Officer>(
           "SELECT * FROM `officers` WHERE `user_id` = ? AND `id` = ?",
-          [req.userId, req.query.id],
+          [req.userId, id],
         );
 
         return res.json({ officer, status: "success" });
       } catch (e) {
-        logger.error("name_search", e);
+        logger.error("get_active_officer", e);
 
         return res.status(500).json(AnError);
       }
