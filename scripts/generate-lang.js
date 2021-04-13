@@ -196,6 +196,10 @@ const ProbablyNotInTheTranslateFile = {
     courthouse: "Courthouse",
     leo_management: "LEO Management",
   },
+  bolos: {
+    ...file.bolos,
+    edit_bolo: "Edit Bolo",
+  },
 };
 
 const keys = Object.keys(ProbablyNotInTheTranslateFile);

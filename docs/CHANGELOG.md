@@ -8,6 +8,11 @@
 - Major: Rewritten to [new framework](https://nextjs.org) to improve developer experience and performance
 - Major: able to have custom Open graph tags - TODO: add link here
 
+## 1.5.3
+
+- New: able to edit bolos
+- Minor: fixed a bug where it would not set the officer/ems-fd off-duty after the cookie expires.
+
 ## 1.5.2-patch1
 
 - Fix: fixed a bug not being able to see BOLO's
