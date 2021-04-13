@@ -2,7 +2,7 @@ import format from "date-fns/format";
 
 class Logger {
   get now() {
-    return format(Date.now(), "yyyy-MM-dd hh:mm:ss");
+    return format(Date.now(), "yyyy-MM-dd HH:mm:ss");
   }
 
   error(type: string, error: Error | string) {

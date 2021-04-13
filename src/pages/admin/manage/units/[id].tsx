@@ -213,12 +213,12 @@ const ManageOfficerPage: React.FC<Props> = ({
                   >
                     <Item id="started_at">
                       <Span>{lang.officers.started_at}: </Span>
-                      {format(+log.started_at, "yyyy-MM-dd hh:mm:ss")}
+                      {format(+log.started_at, "yyyy-MM-dd HH:mm:ss")}
                     </Item>
                     <Item id="ended_at">
                       <Span>{lang.officers.ended_at}: </Span>
                       {log.ended_at !== "0"
-                        ? format(+log.ended_at, "yyyy-MM-dd hh:mm:ss")
+                        ? format(+log.ended_at, "yyyy-MM-dd HH:mm:ss")
                         : lang.officers.not_ended_yet}
                     </Item>
 

@@ -30,6 +30,7 @@ import { Seo } from "@components/Seo";
 import { getBolos } from "@actions/bolos/BoloActions";
 import { getCalls } from "@actions/calls/CallActions";
 import { getActiveUnits } from "@actions/dispatch/DispatchActions";
+import { useDashTime } from "@hooks/useDashTime";
 
 interface Props {
   aop: Nullable<string>;
@@ -37,23 +38,15 @@ interface Props {
 }
 
 const DispatchDash: React.FC<Props> = (props) => {
-  const [time, setTime] = React.useState<Date>(new Date());
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const [panic, setPanic] = React.useState<Officer | null>(null);
   const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100 ?? "0");
   const socket = useSocket();
+  const time = useDashTime();
 
   React.useEffect(() => {
     setSignal100(props.cadInfo?.signal_100 ?? "0");
   }, [props.cadInfo]);
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date());
-    }, 900);
-
-    return () => clearInterval(interval);
-  }, [time]);
 
   React.useEffect(() => {
     const panicSound = playSound("/sounds/panic-button.mp3");
@@ -107,7 +100,7 @@ const DispatchDash: React.FC<Props> = (props) => {
           <h4>
             {lang.global.utility_panel} - AOP: {aop}
           </h4>
-          <span>{time.toLocaleString()}</span>
+          <span>{time}</span>
         </div>
         <div className="card-body row gap-2 px-4">
           <ModalButtons />
