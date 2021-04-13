@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 1.5.3
+
+- New: able to edit bolos
+- Minor: fixed a bug where it would not set the officer/ems-fd off-duty after the cookie expires.
+
 ## 1.5.2-patch1
 
 - Fix: fixed a bug not being able to see BOLO's

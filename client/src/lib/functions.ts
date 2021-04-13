@@ -52,8 +52,8 @@ export function playSound(src: string) {
   return { stop, play, audio };
 }
 
-export function notify(message: string) {
-  const success = (options?: ToastOptions) =>
+export const notify = {
+  success: (message: string, options?: ToastOptions) => {
     toast.success(message, {
       style: {
         background: "#D1E7DD",
@@ -61,8 +61,8 @@ export function notify(message: string) {
       className: "alert-success",
       ...options,
     });
-
-  const error = (options?: ToastOptions) =>
+  },
+  error: (message: string, options?: ToastOptions) => {
     toast.error(message, {
       style: {
         background: "#F8D7DA",
@@ -70,8 +70,8 @@ export function notify(message: string) {
       className: "alert-danger",
       ...options,
     });
-
-  const warn = (options?: ToastOptions) =>
+  },
+  warn: (message: string, options?: ToastOptions) => {
     toast.warn(message, {
       style: {
         background: "#FFF3CD",
@@ -79,13 +79,8 @@ export function notify(message: string) {
       className: "alert-warning",
       ...options,
     });
-
-  return {
-    success,
-    error,
-    warn,
-  };
-}
+  },
+};
 
 export function isCadFeatureEnabled(features: string[] | undefined, feature: string) {
   return features?.includes(feature.toLowerCase());

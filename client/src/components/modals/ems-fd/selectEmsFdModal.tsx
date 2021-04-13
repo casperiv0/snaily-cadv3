@@ -25,7 +25,7 @@ const SelectOfficerModal: React.FC<Props> = ({ deputies, getMyDeputies, setEmsSt
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!selected?.value) {
-      return notify("Must select an EMS/FD member before continuing").warn();
+      return notify.warn("Must select an EMS/FD member before continuing");
     }
 
     setEmsStatus(selected?.value, "on-duty", "10-8");

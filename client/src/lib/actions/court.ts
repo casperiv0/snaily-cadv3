@@ -52,7 +52,7 @@ export const searchCitizen = (name: string) => async (dispatch: Dispatch<IDispat
         },
       });
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error("SEARCH_CITIZEN", e);
@@ -70,7 +70,7 @@ export const requestExpungement = (citizenId: string, data: object) => async (
         type: "REQUEST_EXPUNGEMENT",
       });
 
-      notify("Successfully requested expungement").success();
+      notify.success("Successfully requested expungement");
     }
   } catch (e) {
     Logger.error("REQUEST_EXPUNGEMENT", e);

@@ -38,11 +38,11 @@ export const login = (data: object, requestedPath: string) => async (
 
       return (window.location.href = requestedPath ?? "/citizen");
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
-    notify(e).error;
+    notify.error(e);
     Logger.error("LOGIN", e);
   } finally {
     dispatch({ type: SET_LOADING, loading: false });
@@ -66,7 +66,7 @@ export const register = (data: object) => async (dispatch: Dispatch<IDispatch>) 
 
       return (window.location.href = "/citizen");
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -111,7 +111,7 @@ export const logout = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(LOGOUT, e);
-    notify(e).error();
+    notify.error(e);
   }
 };
 
@@ -127,7 +127,7 @@ export const deleteAccount = () => async (dispatch: Dispatch<IDispatch>) => {
     }
   } catch (e) {
     Logger.error(DELETE_ACCOUNT, e);
-    notify(e).error();
+    notify.error(e);
   }
 };
 
@@ -141,13 +141,13 @@ export const updatePassword = (data: object) => async (dispatch: Dispatch<IDispa
       });
 
       modal(ModalIds.EditPassword).hide();
-      notify("Successfully updated password").success();
+      notify.success("Successfully updated password");
     } else {
-      notify(res.data.error).warn;
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(UPDATE_PASSWORD, e);
-    notify(e).error();
+    notify.error(e);
   }
 };
 
@@ -160,12 +160,12 @@ export const unlinkSteam = () => async (dispatch: Dispatch<IDispatch>) => {
         type: UNLINK_STEAM,
       });
 
-      notify("Successfully unlinked Steam").success();
+      notify.success("Successfully unlinked Steam");
     } else {
-      notify(res.data.error).warn;
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(UNLINK_STEAM, e);
-    notify(e).error();
+    notify.error(e);
   }
 };

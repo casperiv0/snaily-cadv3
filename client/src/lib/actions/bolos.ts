@@ -1,8 +1,15 @@
 import Bolo from "../../interfaces/Bolo";
 import Logger from "../Logger";
-import { CREATE_BOLO, GET_BOLOS, DELETE_BOLO } from "../types";
+import {
+  CREATE_BOLO,
+  GET_BOLOS,
+  DELETE_BOLO,
+  UPDATE_BOLOS,
+  ModalIds,
+  SOCKET_EVENTS,
+} from "../types";
 import { Dispatch } from "react";
-import { handleRequest, isSuccess, notify } from "../functions";
+import { handleRequest, isSuccess, modal, notify } from "../functions";
 import socket from "../socket";
 import lang from "../../language.json";
 
@@ -34,17 +41,17 @@ export const createBolo = (data: object) => async (
     const res = await handleRequest("/dispatch/bolos", "POST", data);
 
     if (isSuccess(res)) {
-      socket.emit("UPDATE_BOLOS");
+      socket.emit(SOCKET_EVENTS.UPDATE_BOLOS);
       dispatch({
         type: CREATE_BOLO,
         bolos: res.data.bolos,
       });
 
-      notify(lang.bolos.add_bolo).success();
+      notify.success(lang.bolos.add_bolo);
 
       return true;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
       return false;
     }
   } catch (e) {
@@ -53,18 +60,40 @@ export const createBolo = (data: object) => async (
   }
 };
 
+export const updateBoloById = (id: string, data: Record<string, unknown>) => async (
+  dispatch: Dispatch<IDispatch>,
+) => {
+  try {
+    const res = await handleRequest(`/dispatch/bolos/${id}`, "PUT", data);
+
+    if (isSuccess(res)) {
+      socket.emit(SOCKET_EVENTS.UPDATE_BOLOS);
+
+      dispatch({
+        type: UPDATE_BOLOS,
+        bolos: res.data.bolos,
+      });
+
+      notify.success("Successfully updated bolo");
+      modal(ModalIds.EditBolo).hide();
+    }
+  } catch (e) {
+    Logger.error(UPDATE_BOLOS, e);
+  }
+};
+
 export const deleteBolo = (id: string) => async (dispatch: Dispatch<IDispatch>) => {
   try {
     const res = await handleRequest(`/dispatch/bolos/${id}`, "DELETE");
 
     if (isSuccess(res)) {
-      socket.emit("UPDATE_BOLOS");
+      socket.emit(SOCKET_EVENTS.UPDATE_BOLOS);
       dispatch({
         type: DELETE_BOLO,
         bolos: res.data.bolos,
       });
 
-      notify(lang.bolos.removed_bolo).success();
+      notify.success(lang.bolos.removed_bolo);
     }
   } catch (e) {
     Logger.error(DELETE_BOLO, e);

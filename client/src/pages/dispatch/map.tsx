@@ -107,13 +107,13 @@ class MapClass extends Component<Props, MapState> {
 
     const live_map_url = this.props.cadInfo?.live_map_url;
     if (!live_map_url) {
-      notify("There was no live_map_url provided from the CAD-Settings.").error({
+      notify.error("There was no live_map_url provided from the CAD-Settings.", {
         autoClose: false,
       });
       return;
     }
     if (!live_map_url.startsWith("ws")) {
-      notify("The live_map_url did not start with ws. Make sure it is a WebSocket protocol").error({
+      notify.error("The live_map_url did not start with ws. Make sure it is a WebSocket protocol", {
         autoClose: false,
       });
 
@@ -122,12 +122,8 @@ class MapClass extends Component<Props, MapState> {
 
     const socket = new WebSocket(`${live_map_url}`);
 
-    socket.addEventListener("close", () => {
-      notify("Disconnected from live-map").error();
-    });
-
     socket.addEventListener("error", (e) => {
-      notify("An error occurred when trying to connect to the live_map").error();
+      notify.error("An error occurred when trying to connect to the live_map");
       console.error("LIVE_MAP", `${JSON.stringify(e)}`);
     });
 

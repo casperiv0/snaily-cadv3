@@ -44,6 +44,7 @@ export const SET_STATUS = "SET_STATUS";
 export const GET_BOLOS = "GET_BOLOS";
 export const CREATE_BOLO = "CREATE_BOLO";
 export const DELETE_BOLO = "DELETE_BOLO";
+export const UPDATE_BOLOS = "UPDATE_BOLOS";
 
 export const CREATE_WARRANT = "CREATE_WARRANT";
 
@@ -165,11 +166,13 @@ export enum SOCKET_EVENTS {
   UPDATE_ASSIGNED_UNITS = "UPDATE_ASSIGNED_UNITS",
   UPDATE_TAXI_CALLS = "UPDATE_TAXI_CALLS",
   UPDATE_TOW_CALLS = "UPDATE_TOW_CALLS",
+  END_911_CALL = "END_911_CALL",
 }
 
 export enum ModalIds {
   CreateArrestReport = "createArrestReportModal",
   CreateBolo = "createBoloModal",
+  EditBolo = "editBoloModal",
   CreateTicket = "createTicketModal",
   CreateWrittenWarning = "createWrittenWarningModal",
   NameSearch = "nameSearchModal",

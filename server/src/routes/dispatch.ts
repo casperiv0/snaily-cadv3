@@ -67,6 +67,39 @@ router.post(
   },
 );
 
+router.put(
+  "/bolos/:id",
+  useAuth,
+  usePermission(["leo", "dispatch"]),
+  async (req: IRequest, res: Response) => {
+    const { type, description, name, color, plate } = req.body;
+
+    if (!description) {
+      return res.json({
+        error: "`description` is required.",
+        status: "error",
+      });
+    }
+    const bolo = await processQuery("SELECT `id` FROM `bolos` WHERE `id` = ?", [req.params.id]);
+
+    if (!bolo[0]) {
+      return res.json({
+        error: "bolo was not found",
+        status: "error",
+      });
+    }
+
+    await processQuery(
+      "UPDATE `bolos` SET `type` = ?, `description` = ?, `name` = ?, `color` = ?, `plate` = ? WHERE `id` = ?",
+      [type, description, name, color, plate, bolo[0].id],
+    );
+
+    const bolos = await processQuery("SELECT * FROM `bolos`");
+
+    return res.json({ status: "success", bolos });
+  },
+);
+
 router.delete(
   "/bolos/:id",
   useAuth,

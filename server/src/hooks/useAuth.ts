@@ -12,6 +12,8 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
   const secret = config.jwtSecret;
 
   if (!token) {
+    await logoutActiveUnits(req.userId);
+
     return res
       .json({ server_error: "invalid token", status: "error", invalid_token: true })
       .status(401);
@@ -37,6 +39,8 @@ async function useAuth(req: IRequest, res: Response, next: NextFunction): Promis
     }
 
     if (user[0].banned === "1") {
+      await logoutActiveUnits(req.userId);
+
       return res.json({
         status: "error",
         error: `This account was banned, reason: ${user[0].ban_reason}`,

@@ -58,7 +58,7 @@ export const joinCompany = (data: object) => async (dispatch: Dispatch<IDispatch
       });
       window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(JOIN_COMPANY, e);
@@ -75,7 +75,7 @@ export const createCompany = (data: object) => async (dispatch: Dispatch<IDispat
       });
       window.location.href = `/company/${res.data.citizenId}/${res.data.companyId}`;
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(CREATE_COMPANY, e);
@@ -119,7 +119,7 @@ export const createCompanyPost = (data: object) => async (dispatch: Dispatch<IDi
 
       modal(ModalIds.CreateCompanyPost).hide();
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(CREATE_COMPANY_POST, e);
@@ -137,9 +137,9 @@ export const updateCompany = (id: string, data: object) => async (
         type: UPDATE_COMPANY,
       });
 
-      notify(lang.citizen.company.updated_company).success();
+      notify.success(lang.citizen.company.updated_company);
     } else {
-      notify(res.data.error).warn();
+      notify.warn(res.data.error);
     }
   } catch (e) {
     Logger.error(UPDATE_COMPANY, e);
@@ -201,7 +201,7 @@ export const fireEmployee = (employeeId: string, companyId: string, citizenId: s
         employees: res.data.employees,
       });
 
-      notify(lang.citizen.company.fired_em).success();
+      notify.success(lang.citizen.company.fired_em);
     }
   } catch (e) {
     Logger.error(FIRE_EMPLOYEE, e);
@@ -225,9 +225,9 @@ export const updateEmployeeStatus = (
         employees: res.data.employees,
       });
 
-      notify(
+      notify.success(
         type === "ACCEPT" ? lang.citizen.company.accepted : lang.citizen.company.declined,
-      ).success();
+      );
     }
   } catch (e) {
     Logger.error(`${ACCEPT_EMPLOYEE} | ${DECLINE_EMPLOYEE}`, e);
