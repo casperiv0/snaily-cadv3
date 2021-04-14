@@ -1,5 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
+import { useSelector } from "react-redux";
+import { State } from "types/State";
 
 interface Props {
   title?: string;
@@ -8,16 +10,19 @@ interface Props {
   url?: string;
 }
 
-const defaults: Props = {
-  title: "SnailyCAD - Free open source CAD/MDT",
-  description: "A free, fast, simple and secure open source CAD/MDT",
-};
-
 export const Seo: React.FC<Props> = (props) => {
+  const cad = useSelector((s: State) => s.global.cadInfo);
+
+  const defaults: Props = {
+    title: (cad as any).seo?.title,
+    description: (cad as any).seo?.description,
+    url: (cad as any).seo?.url,
+  };
+
   const tags = {
     ...defaults,
     ...props,
-    title: props.title ? props.title + " - SnailyCAD" : defaults.title,
+    title: props.title ? props.title + ` - ${cad?.cad_name ?? "SnailyCAD"}` : defaults.title,
   };
 
   //   TODO: add support for custom text & images.

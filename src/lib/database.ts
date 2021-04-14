@@ -14,7 +14,10 @@ async function connect(): Promise<Connection> {
   return await mysql.createConnection(options);
 }
 
-export async function processQuery<T = unknown>(query: string, data?: unknown[]): Promise<T[]> {
+export async function processQuery<T = unknown>(
+  query: string,
+  data?: unknown[],
+): Promise<(T | undefined)[]> {
   const connection = await connect();
 
   try {
@@ -33,3 +36,26 @@ async function select1() {
     logger.error("DB_ERROR", e);
   });
 }
+
+async function updateLine(sql: string) {
+  try {
+    await processQuery(sql);
+  } catch (e) {
+    const saveCodes = ["ER_TABLE_EXISTS_ERROR", "ER_DUP_FIELDNAME", "ER_CANT_DROP_FIELD_OR_KEY"];
+    if (saveCodes.includes(e.code)) return;
+
+    console.log(e);
+  }
+}
+
+async function updateDb() {
+  updateLine(`
+  CREATE TABLE \`seo_tags\` (
+    \`title\` varchar(255) DEFAULT 'SnailyCAD',
+    \`description\` text DEFAULT 'A free, fast, simple and secure open source CAD/MDT',
+    \`site_name\` varchar(255) DEFAULT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `);
+}
+
+updateDb();

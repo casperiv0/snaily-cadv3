@@ -5,19 +5,24 @@ import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import { Cad } from "types/Cad";
 
+export function parseFeatures(cad: Cad): string[] {
+  let features: string[];
+
+  try {
+    features = JSON.parse(`${cad?.features}`);
+  } catch {
+    features = [];
+  }
+
+  return features;
+}
+
 export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
         const [cad] = await processQuery<Cad>("SELECT `features` FROM `cad_info`");
-
-        let features;
-
-        try {
-          features = JSON.parse(`${cad.features}`);
-        } catch {
-          features = [];
-        }
+        const features = parseFeatures(cad!);
 
         return res.json({
           features,

@@ -56,7 +56,7 @@ export async function socketHandler(socket: Socket, server: Server) {
       "SELECT `signal_100` FROM `cad_info`",
     );
 
-    server.sockets.emit(SocketEvents.Signal100, updated.signal_100);
+    server.sockets.emit(SocketEvents.Signal100, updated?.signal_100);
 
     if (config.env === "dev") {
       logger.log("SOCKET_EVENT", SocketEvents.Signal100);

@@ -8,6 +8,7 @@ const initState: State["global"] = {
 
 export function GlobalReducer(state = initState, action: Actions): State["global"] {
   switch (action.type) {
+    case "UPDATE_CAD_SETTINGS":
     case "GET_CAD_INFO": {
       return {
         ...state,

@@ -80,7 +80,7 @@ body.loading {
 
 #page-loader {
   z-index: 99999;
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   top: 0;
