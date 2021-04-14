@@ -1,4 +1,5 @@
 import { CourtResult } from "@actions/court/CourtTypes";
+import { Name } from "@actions/officer/OfficerTypes";
 import { Bleet } from "./Bleet";
 import { Bolo } from "./Bolo";
 import { Cad } from "./Cad";
@@ -99,6 +100,10 @@ export interface State {
     logs: OfficerLog[];
     search: Nullable<any>;
     activeOfficer: Nullable<Officer>;
-    names: string[];
+    names: Name[];
+  };
+  ems_fd: {
+    activeDeputy: Nullable<Deputy>;
+    deputies: Deputy[];
   };
 }

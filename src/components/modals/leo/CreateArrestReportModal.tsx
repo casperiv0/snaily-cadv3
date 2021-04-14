@@ -11,11 +11,12 @@ import { PenalCode } from "types/PenalCode";
 import { ModalIds } from "types/ModalIds";
 import { modal } from "@lib/utils";
 import { ArrestReport } from "types/Record";
+import { Name } from "@actions/officer/OfficerTypes";
 
 interface Props {
   officer: Officer | null;
   penalCodes: PenalCode[];
-  names: string[];
+  names: Name[];
 
   creatArrestReport: (
     data: Omit<ArrestReport, "id" | "citizen_id" | "user_id" | "date">,
@@ -90,9 +91,9 @@ const CreateArrestReportModalC: React.FC<Props> = ({
               isMulti={false}
               value={name}
               onChange={(v) => setName(v)}
-              options={names.map((fullName) => ({
-                value: fullName,
-                label: fullName,
+              options={names.map(({ full_name }) => ({
+                value: full_name,
+                label: full_name,
               }))}
             />
           </div>

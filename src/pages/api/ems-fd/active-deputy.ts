@@ -19,7 +19,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   try {
-    await usePermission(req, ["leo"]);
+    await usePermission(req, ["ems_fd"]);
   } catch (e) {
     return res.status(e?.code ?? 401).json({
       status: "error",
@@ -31,17 +31,17 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     case "GET": {
       try {
         const id =
-          parse(`${req.headers["session"]}`)?.["active-officer"] ||
-          parse(`${req.headers["cookie"]}`)?.["active-officer"];
+          parse(`${req.headers["session"]}`)?.["active-deputy"] ||
+          parse(`${req.headers["cookie"]}`)?.["active-deputy"];
 
-        const [officer] = await processQuery<Officer>(
-          "SELECT * FROM `officers` WHERE `user_id` = ? AND `id` = ?",
+        const [deputy] = await processQuery<Officer>(
+          "SELECT * FROM `ems-fd` WHERE `user_id` = ? AND `id` = ?",
           [req.userId, id],
         );
 
-        return res.json({ officer, status: "success" });
+        return res.json({ deputy, status: "success" });
       } catch (e) {
-        logger.error("get_active_officer", e);
+        logger.error("get_active_deputy", e);
 
         return res.status(500).json(AnError);
       }

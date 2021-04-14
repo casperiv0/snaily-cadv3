@@ -11,11 +11,12 @@ import { Select, SelectValue } from "@components/Select/Select";
 import { ModalIds } from "types/ModalIds";
 import { modal } from "@lib/utils";
 import { WrittenWarning } from "types/Record";
+import { Name } from "@actions/officer/OfficerTypes";
 
 interface Props {
   officer: Nullable<Officer>;
   penalCodes: PenalCode[];
-  names: string[];
+  names: Name[];
 
   createWrittenWarning: (
     data: Omit<WrittenWarning, "id" | "citizen_id" | "user_id" | "date">,
@@ -90,9 +91,9 @@ const CreateWrittenWarningModalC: React.FC<Props> = ({
               isMulti={false}
               value={name}
               onChange={(v) => setName(v)}
-              options={names.map((fullName) => ({
-                value: fullName,
-                label: fullName,
+              options={names.map(({ full_name }) => ({
+                value: full_name,
+                label: full_name,
               }))}
             />
           </div>

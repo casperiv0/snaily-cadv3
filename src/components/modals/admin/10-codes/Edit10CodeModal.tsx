@@ -114,7 +114,7 @@ const Edit10CodeModalC: React.FC<Props> = ({ update10Code, code: data, codes }) 
               closeMenuOnSelect
               isMulti={false}
               options={colorOptions}
-              onChange={(v: any) => setColor(v.value)}
+              onChange={(v) => setColor(v.value)}
               value={value as any}
             />
           </div>
@@ -127,7 +127,7 @@ const Edit10CodeModalC: React.FC<Props> = ({ update10Code, code: data, codes }) 
               closeMenuOnSelect
               isMulti={false}
               options={shouldDoOptions}
-              onChange={(v: any) => setShouldDo(v.value)}
+              onChange={(v) => setShouldDo(v.value)}
               value={shouldDoValue as any}
             />
           </div>

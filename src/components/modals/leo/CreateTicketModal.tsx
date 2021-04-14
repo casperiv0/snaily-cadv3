@@ -10,11 +10,12 @@ import { PenalCode } from "types/PenalCode";
 import { Select, SelectValue } from "@components/Select/Select";
 import { ModalIds } from "types/ModalIds";
 import { modal } from "@lib/utils";
+import { Name } from "@actions/officer/OfficerTypes";
 
 interface Props {
   officer: Officer | null;
   penalCodes: PenalCode[];
-  names: string[];
+  names: Name[];
 
   createTicket: (data: {
     name: string;
@@ -88,9 +89,9 @@ const CreateTicketModalC: React.FC<Props> = ({ officer, penalCodes, names, creat
               isMulti={false}
               value={name}
               onChange={(v) => setName(v)}
-              options={names.map((fullName) => ({
-                value: fullName,
-                label: fullName,
+              options={names.map(({ full_name }) => ({
+                value: full_name,
+                label: full_name,
               }))}
             />
           </div>

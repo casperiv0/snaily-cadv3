@@ -21,9 +21,14 @@ export interface GetOfficerLogs {
   logs: OfficerLog[];
 }
 
+export interface Name {
+  id: string;
+  full_name: string;
+}
+
 export interface SearchNames {
   type: "SEARCH_NAMES";
-  names: string[];
+  names: Name[];
 }
 
 export type Actions = Search | IOfficer | IOfficers | SearchNames | GetOfficerLogs;
