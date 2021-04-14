@@ -1,9 +1,9 @@
 import { Server, Socket } from "socket.io";
-import { useSocketAuth } from "../hooks/useSocketAuth";
+import { useSocketAuth } from "../hooks/useSocketAuth.server";
 import { ExtendedError } from "socket.io/dist/namespace";
 import { processQuery } from "./database";
 import { logger } from "./logger";
-import config from "../lib/config";
+import config from "./config.server";
 import { Perm } from "../interfaces/Perm";
 import { Officer } from "../interfaces/Officer";
 import { Cad } from "../interfaces/Cad";

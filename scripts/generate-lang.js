@@ -2,7 +2,13 @@
 // The generator below will add them to the translation file
 const path = require("path");
 const fs = require("fs");
-let file = require("../src/language.json");
+let file;
+
+try {
+  file = require("../src/language.json");
+} catch (e) {
+  file = fs.writeFileSync("./src/language.json");
+}
 
 console.log("[TRANSLATION]: Checking language file...");
 

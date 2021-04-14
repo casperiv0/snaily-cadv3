@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import config from "../lib/config";
+import config from "../lib/config.server";
 
 function useToken(userId: string): string {
   return jwt.sign(

@@ -18,7 +18,7 @@ const defaultHost = "localhost";
 const defaultUser = "root";
 const defaultDatabaseName = "snaily-cad";
 const defaultProfile = "production";
-const defaultSecret = "super cool bongo cat";
+const defaultSecret = "super@cool#bongo!catqsd";
 const empty = "";
 
 let config: ServerConfig;
@@ -34,7 +34,7 @@ try {
     jwtSecret: conf.default.jwtSecret || defaultSecret,
     env: conf.default.env || defaultProfile,
   };
-} catch (_) {
+} catch (e) {
   config = {
     port: process.env.PORT ? Number(process.env.PORT) : defaultPort,
     host: process.env.DB_HOST || defaultHost,

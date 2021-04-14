@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { processQuery } from "../lib/database";
-import config from "../lib/config";
+import config from "../lib/config.server";
 import { IRequest } from "types/IRequest";
 import { User } from "types/User";
 import { Whitelist } from "@lib/consts";
