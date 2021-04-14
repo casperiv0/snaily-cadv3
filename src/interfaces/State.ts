@@ -105,5 +105,6 @@ export interface State {
   ems_fd: {
     activeDeputy: Nullable<Deputy>;
     deputies: Deputy[];
+    medicalRecords: MedicalRecord[];
   };
 }

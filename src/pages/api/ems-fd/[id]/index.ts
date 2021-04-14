@@ -17,28 +17,29 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   try {
-    await usePermission(req, ["dispatch", "leo", "ems_fd"]);
+    await usePermission(req, ["ems_fd"]);
   } catch (e) {
     return res.status(e?.code ?? 401).json({
       status: "error",
       error: e,
     });
   }
+
   switch (req.method) {
-    case "GET": {
+    case "DELETE": {
       try {
-        const found = await processQuery<{ full_name: string }>(
-          "SELECT `id`, `full_name` FROM `citizens`",
-          [],
-        );
+        await processQuery("DELETE FROM `ems-fd` WHERE `id` = ? AND `user_id` = ?", [
+          req.query.id,
+          req.userId,
+        ]);
 
-        return res.json({
-          names: found,
-          status: "success",
-        });
+        const deputies = await processQuery("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [
+          req.userId,
+        ]);
+
+        return res.json({ status: "success", deputies });
       } catch (e) {
-        logger.error("name_search", e);
-
+        logger.error("update_call", e);
         return res.status(500).json(AnError);
       }
     }

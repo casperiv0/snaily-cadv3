@@ -2,7 +2,6 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Modal } from "@components/Modal/Modal";
 import lang from "../../../language.json";
-// import { setEmsStatus } from "@actions/ems-fd/EmsFdActions";
 import { setStatus } from "@actions/officer/OfficerActions";
 import { Code10 } from "types/Code10";
 import { Nullable, State } from "types/State";
@@ -11,13 +10,15 @@ import { Select, SelectValue } from "@components/Select/Select";
 import { filterCodes, modal } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { Officer } from "types/Officer";
+import { setEmsStatus } from "@actions/ems-fd/EmsFdActions";
+import { Deputy } from "types/Deputy";
 
 interface Props {
   type: "ems-fd" | "officers";
   data: { id: string; status: string; status2: string } | null;
   statuses: Code10[];
   setStatus: (officer: Pick<Officer, "status" | "status2" | "id">) => Promise<boolean>;
-  setEmsStatus: (id: string, status: string, status2: string) => Promise<boolean>;
+  setEmsStatus: (deputy: Pick<Deputy, "status" | "status2" | "id">) => Promise<boolean>;
   get10Codes: () => void;
 }
 
@@ -48,7 +49,7 @@ const UpdateStatusModalC: React.FC<Props> = (props) => {
     };
 
     if (props.type === "ems-fd") {
-      await props.setEmsStatus(conf.id, conf.status, conf.status2);
+      await props.setEmsStatus(conf);
     } else if (props.type === "officers") {
       await props.setStatus(conf);
     }
@@ -122,5 +123,8 @@ const mapToProps = (state: State) => ({
   statuses: state.admin.codes,
 });
 
-// setEmsStatus
-export const UpdateStatusModal = connect(mapToProps, { setStatus, get10Codes })(UpdateStatusModalC);
+export const UpdateStatusModal = connect(mapToProps, {
+  setStatus,
+  get10Codes,
+  setEmsStatus,
+})(UpdateStatusModalC);

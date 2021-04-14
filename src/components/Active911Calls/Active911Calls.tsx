@@ -167,7 +167,7 @@ const Active911CallsC: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   calls: state.calls.calls,
   activeOfficer: state.officers.activeOfficer,
-  //   activeDeputy: state.ems_fd.activeDeputy,
+  activeDeputy: state.ems_fd.activeDeputy,
 });
 
 const Memoized = React.memo(Active911CallsC);

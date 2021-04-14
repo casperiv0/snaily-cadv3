@@ -12,6 +12,7 @@ import { CourtReducer } from "./court/CourtReducer";
 import { DispatchReducer } from "./dispatch/DispatchReducer";
 import { OfficerReducer } from "./officer/OfficerReducer";
 import { BoloReducer } from "./bolos/BoloReducer";
+import { EmsFdReducer } from "./ems-fd/EmsFdReducer";
 
 export default combineReducers({
   auth: AuthReducer,
@@ -27,4 +28,5 @@ export default combineReducers({
   dispatch: DispatchReducer,
   officers: OfficerReducer,
   bolos: BoloReducer,
+  ems_fd: EmsFdReducer,
 });

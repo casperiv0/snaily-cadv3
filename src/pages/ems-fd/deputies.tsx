@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { initializeStore } from "@state/useStore";
-import { getEmsFdDeputies } from "@actions/ems-fd/EmsFdActions";
+import { getEmsFdDeputies, deleteEmsFdDeputy } from "@actions/ems-fd/EmsFdActions";
 import { Layout } from "@components/Layout";
 import { Deputy } from "types/Deputy";
 import lang from "src/language.json";
 import { ModalIds } from "types/ModalIds";
 import { CreateDeputyModal } from "@components/modals/ems-fd/CreateDeputyModal";
+import { State } from "types/State";
 
 interface Props {
   deputies: Deputy[];
@@ -69,4 +70,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return { props: { initialReduxState: store.getState() } };
 };
 
-export default connect()(MyDeputies);
+const mapToProps = (state: State) => ({
+  deputies: state.ems_fd.deputies,
+});
+
+export default connect(mapToProps, { deleteEmsFdDeputy })(MyDeputies);

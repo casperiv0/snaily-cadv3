@@ -1,57 +1,56 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import State from "../../interfaces/State";
-import { setEmsStatus, getCurrentEmsStatus } from "../../lib/actions/ems-fd";
-import Code10 from "../../interfaces/Code10";
-import Deputy from "../../interfaces/Deputy";
+import { Nullable, State } from "types/State";
+import Link from "next/link";
+import { setEmsStatus, getActiveEmsFd } from "@actions/ems-fd/EmsFdActions";
+import { Code10 } from "types/Code10";
+import { Deputy } from "types/Deputy";
 import { SocketEvents } from "types/Socket";
-
 import { filterCodes } from "@lib/utils";
 import { socket } from "@hooks/useSocket";
+import { ModalIds } from "types/ModalIds";
 
 interface Props {
-  status: string | null;
-  status2: string | null;
-  activeDeputy: Deputy | null;
+  activeDeputy: Nullable<Deputy>;
   statuses: Code10[];
-  setEmsStatus: (id: string, status: "on-duty" | "off-duty" | string, status2: string) => void;
-  getCurrentEmsStatus: () => void;
+
+  setEmsStatus: (deputy: Pick<Deputy, "id" | "status" | "status2">) => void;
+  getActiveEmsFd: () => void;
 }
 
-const StatusesC: React.FC<Props> = ({
-  status: currentStatus,
-  activeDeputy,
-  status2,
-  setEmsStatus,
-  getCurrentEmsStatus,
-  statuses,
-}) => {
-  const deputyId = String(localStorage.getItem("on-duty-ems-fd"));
-
+const StatusesC: React.FC<Props> = ({ activeDeputy, setEmsStatus, getActiveEmsFd, statuses }) => {
   React.useEffect(() => {
-    const handler = () => getCurrentEmsStatus();
+    const handler = () => getActiveEmsFd();
     socket.on(SocketEvents.UpdateActiveUnits, handler);
 
     return () => {
       socket.off(SocketEvents.UpdateActiveUnits, handler);
     };
-  }, [getCurrentEmsStatus]);
+  }, [getActiveEmsFd]);
 
   function updateStatus(e: any) {
     const status = e.target.value;
 
     /* little spam protection */
-    if (status2 === status) return;
+    if (activeDeputy?.status2 === status) return;
+    if (!activeDeputy) return;
 
-    setEmsStatus(deputyId, "on-duty", status);
+    setEmsStatus({
+      id: activeDeputy.id,
+      status: "on-duty",
+      status2: status,
+    });
   }
 
   return (
     <>
       {activeDeputy ? (
         <button
-          className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
+          className={
+            activeDeputy?.status2 === "10-8"
+              ? "btn btn-primary col-sm-1"
+              : "btn btn-secondary col-sm-1"
+          }
           type="button"
           onClick={updateStatus}
           value="10-8"
@@ -63,7 +62,7 @@ const StatusesC: React.FC<Props> = ({
           type="button"
           data-bs-toggle="modal"
           data-bs-target={`#${ModalIds.SelectEmsFd}`}
-          className={status2 === "10-8" ? "btn btn-primary col-sm-1" : "btn btn-secondary col-sm-1"}
+          className="btn btn-secondary col-sm-1"
         >
           10-8
         </button>
@@ -71,7 +70,9 @@ const StatusesC: React.FC<Props> = ({
       {statuses.length <= 0 ? (
         <p>
           You can now have custom 10 codes for your CAD!{" "}
-          <Link to="/admin/manage/10-codes">If you&apos;re an admin, please add them here</Link>
+          <Link href="/admin/manage/10-codes">
+            <a>If you&apos;re an admin, please add them here</a>
+          </Link>
         </p>
       ) : (
         <>
@@ -86,9 +87,9 @@ const StatusesC: React.FC<Props> = ({
             .map((code: Code10, idx: number) => {
               return (
                 <button
-                  disabled={currentStatus === "off-duty"}
+                  disabled={!activeDeputy || activeDeputy?.status === "off-duty"}
                   className={
-                    status2 === code.code
+                    activeDeputy?.status2 === code.code
                       ? "btn btn-primary col-sm-1"
                       : `btn ${code.color} col-sm-1`
                   }
@@ -109,12 +110,10 @@ const StatusesC: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  status: state.ems_fd.status,
-  status2: state.ems_fd.status2,
   statuses: state.admin.codes,
   activeDeputy: state.ems_fd.activeDeputy,
 });
 
 const Memoized = React.memo(StatusesC);
 
-export const Statuses = connect(mapToProps, { setEmsStatus, getCurrentEmsStatus })(Memoized);
+export const Statuses = connect(mapToProps, { setEmsStatus, getActiveEmsFd })(Memoized);

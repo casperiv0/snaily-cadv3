@@ -2,6 +2,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
+import { GetServerSideProps } from "next";
 import { Layout } from "@components/Layout";
 import { State } from "types/State";
 import { socket } from "@hooks/useSocket";
@@ -9,19 +10,19 @@ import lang from "src/language.json";
 import { Statuses } from "@components/ems-fd/Statuses";
 import { NotepadModal } from "@components/modals/NotepadModal";
 import { SelectEmsFdModal } from "@components/modals/ems-fd/SelectEmsFdModal";
-import { SearchMedicalRecord } from "@components/modals/ems-fd/SearchMedicalRecords";
+import { SearchMedicalRecordsModal } from "@components/modals/ems-fd/SearchMedicalRecords";
 import { Active911Calls } from "@components/Active911Calls/Active911Calls";
 import { Deputy } from "types/Deputy";
 import { get10Codes } from "@actions/admin/AdminActions";
-import AddMedicalRecordModal from "@components/modals/ems-fd/AddMedicalRecordModal";
+import { AddMedicalRecordModal } from "@components/modals/ems-fd/AddMedicalRecordModal";
 import { notify, playSound } from "@lib/utils";
 import { SocketEvents } from "types/Socket";
 import { ModalIds } from "types/ModalIds";
 import { Seo } from "@components/Seo";
-import { GetServerSideProps } from "next";
 import { initializeStore } from "@state/useStore";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
+import { getActiveEmsFd } from "@actions/ems-fd/EmsFdActions";
 
 interface Props {
   aop: string | null;
@@ -36,7 +37,6 @@ const EmsFdDash: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
-
     socket.on(SocketEvents.UpdateAop, handler);
 
     return () => {
@@ -120,7 +120,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
 
       <Active911Calls />
 
-      <SearchMedicalRecord />
+      <SearchMedicalRecordsModal />
       <SelectEmsFdModal />
       <NotepadModal />
       <AddMedicalRecordModal />
@@ -139,7 +139,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
-  activeDeputy: state.ems_fd.activeDeputy,
+  activeDeputy: state.ems_fd.activeDeputy ?? null,
 });
 
 export default connect(mapToProps, { get10Codes })(EmsFdDash);

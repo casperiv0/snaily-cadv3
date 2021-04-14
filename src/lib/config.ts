@@ -18,6 +18,7 @@ const defaultHost = "localhost";
 const defaultUser = "root";
 const defaultDatabaseName = "snaily-cad";
 const defaultProfile = "production";
+const defaultSecret = "super cool bongo cat";
 const empty = "";
 
 let config: ServerConfig;
@@ -30,7 +31,7 @@ try {
     user: conf.default.user || defaultUser,
     password: conf.default.password || empty,
     databaseName: conf.default.databaseName || defaultDatabaseName,
-    jwtSecret: conf.default.jwtSecret || empty,
+    jwtSecret: conf.default.jwtSecret || defaultSecret,
     env: conf.default.env || defaultProfile,
   };
 } catch (_) {
@@ -40,7 +41,7 @@ try {
     user: process.env.DB_USER || defaultUser,
     password: process.env.DB_PASSWORD || empty,
     databaseName: process.env.DB_NAME || defaultDatabaseName,
-    jwtSecret: process.env.JWT_SECRET || empty,
+    jwtSecret: process.env.JWT_SECRET || defaultSecret,
     env: process.env.PROFILE || defaultProfile,
   };
 }

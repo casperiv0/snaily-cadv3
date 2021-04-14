@@ -56,7 +56,7 @@ const CreateDeputyModalC: React.FC<Props> = ({ createEmsFdDeputy }) => {
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>
-          <button className="btn btn-primary ms-2" type="submit">
+          <button disabled={loading} className="btn btn-primary ms-2" type="submit">
             {loading ? `${lang.global.loading}..` : lang.ems_fd.create_ems}
           </button>
         </div>
