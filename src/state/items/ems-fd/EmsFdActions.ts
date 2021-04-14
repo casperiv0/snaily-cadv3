@@ -117,12 +117,12 @@ export const searchMedicalRecord = (name: string) => async (
 };
 
 export const declareDeadOrAlive = (citizenId: string, type: "alive" | "dead") => async (
-  dispatch: Dispatch<{}>,
+  dispatch: Dispatch<{ type: "DECLARE_DEAD_OR_ALIVE" }>,
 ) => {
   try {
     await handleRequest(`/ems-fd/declare?citizenId=${citizenId}&type=${type}`, "PUT");
 
-    dispatch({});
+    dispatch({ type: "DECLARE_DEAD_OR_ALIVE" });
 
     return notify.success(`Successfully declared ${type}`);
   } catch (e) {

@@ -12,7 +12,7 @@ import { Name } from "@actions/officer/OfficerTypes";
 
 interface Props {
   medicalRecords: MedicalRecord[];
-  searchMedicalRecord: (name: string) => void;
+  searchMedicalRecord: (name: string) => Promise<boolean>;
   declareDeadOrAlive: (citizenId: string, type: "dead" | "alive") => Promise<boolean>;
   searchNames: () => void;
   names: Name[];
@@ -26,16 +26,20 @@ const SearchMedicalRecords: React.FC<Props> = ({
   searchNames,
 }) => {
   const [name, setName] = React.useState<string>("");
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     searchNames();
   }, [searchNames]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name) return;
+    setLoading(true);
 
-    searchMedicalRecord(name);
+    await searchMedicalRecord(name);
+
+    setLoading(false);
   }
 
   function handleDeclare(type: "dead" | "alive") {
@@ -112,7 +116,7 @@ const SearchMedicalRecords: React.FC<Props> = ({
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">
-            {lang.global.search}
+            {loading ? `${lang.global.loading}..` : lang.global.search}
           </button>
         </div>
       </form>
