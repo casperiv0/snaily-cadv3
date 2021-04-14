@@ -59,7 +59,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        if (user.dispatch === "0" && user.leo === "1" && officer.user_id !== req.userId) {
+        if (user?.dispatch === "0" && user?.leo === "1" && officer.user_id !== req.userId) {
           return res.json({
             error: "This officer is not associated with your account.",
             status: "error",
@@ -72,7 +72,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
 
         const [cadInfo] = await processQuery<Cad>("SELECT * FROM `cad_info`");
-        const webhook = cadInfo.webhook_url && (await getWebhookData(cadInfo.webhook_url));
+        const webhook = cadInfo?.webhook_url && (await getWebhookData(cadInfo?.webhook_url));
 
         const [code] = await processQuery<Code10>("SELECT * FROM `10_codes` WHERE `code` = ?", [
           status2,
@@ -113,7 +113,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         if (code?.should_do === "set_off_duty") {
           useCookie(res, "", "active-officer", new Date(Date.now()));
         } else {
-          useCookie(res, updatedOfficer.id, "active-officer");
+          useCookie(res, updatedOfficer?.id ?? "", "active-officer");
         }
 
         webhook &&
@@ -124,16 +124,16 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
               {
                 title: "Status Change",
                 type: "rich",
-                description: `Officer ** ${updatedOfficer.officer_dept} - ${updatedOfficer.callsign} ${updatedOfficer.officer_name}** has changed their status to ${status2}`,
+                description: `Officer ** ${updatedOfficer?.officer_dept} - ${updatedOfficer?.callsign} ${updatedOfficer?.officer_name}** has changed their status to ${status2}`,
                 fields: [
                   {
                     name: "ON/OFF duty",
-                    value: updatedOfficer.status,
+                    value: updatedOfficer?.status ?? "",
                     inline: true,
                   },
                   {
                     name: "Status",
-                    value: updatedOfficer.status2,
+                    value: updatedOfficer?.status2 ?? "",
                     inline: true,
                   },
                 ],

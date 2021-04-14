@@ -66,7 +66,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const calls = await processQuery<Call>(`SELECT * FROM \`${dbPath(`${req.query.type}`)}\``);
 
         return res.json({
-          calls: req.query.type === "911" ? await mapCalls(calls) : calls,
+          calls: req.query.type === "911" ? await mapCalls(calls as Call[]) : calls,
           status: "success",
         });
       } catch (e) {
@@ -93,7 +93,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         const calls = await processQuery<Call>(`SELECT * FROM \`${dbPath(`${req.query.type}`)}\``);
         return res.json({
-          calls: req.query.type === "911" ? await mapCalls(calls) : calls,
+          calls: req.query.type === "911" ? await mapCalls(calls as Call[]) : calls,
           status: "success",
         });
       } catch (e) {

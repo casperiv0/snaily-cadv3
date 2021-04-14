@@ -71,7 +71,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         req.userId,
       ]);
 
-      if (user.rank === "owner") {
+      if (user?.rank === "owner") {
         return res.json({
           error: "The owner is not able to delete their account!",
           status: "error",

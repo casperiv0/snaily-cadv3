@@ -39,7 +39,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       const companies = await processQuery<Company>("SELECT * FROM `businesses` ");
 
       return res.json({
-        companies: await parseCompanies(companies),
+        companies: await parseCompanies(companies as Company[]),
         status: "success",
       });
     }

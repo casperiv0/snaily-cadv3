@@ -58,7 +58,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         if (code?.should_do === "set_off_duty") {
           useCookie(res, "", "active-deputy", new Date(Date.now()));
         } else {
-          useCookie(res, updated.id, "active-deputy");
+          useCookie(res, updated?.id ?? "", "active-deputy");
         }
 
         return res.json({ status: "success", deputy: updated });

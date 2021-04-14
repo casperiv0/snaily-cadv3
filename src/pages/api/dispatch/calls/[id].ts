@@ -88,7 +88,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
 
         const calls = await processQuery<Call>("SELECT * FROM `911calls`");
-        const mappedCalls = await mapCalls(calls);
+        const mappedCalls = await mapCalls(calls as Call[]);
 
         return res.json({ status: "success", calls: mappedCalls });
       } catch (e) {

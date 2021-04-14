@@ -42,7 +42,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
         return res.json({
           status: "success",
-          codes: parse10Codes(codes),
+          codes: parse10Codes(codes as Code10[]),
         });
       } catch (e) {
         logger.error("get_10_Codes", e);
@@ -81,7 +81,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const codes = await processQuery<Code10>("SELECT * FROM `10_codes`");
         return res.json({
           status: "success",
-          codes: parse10Codes(codes),
+          codes: parse10Codes(codes as Code10[]),
         });
       } catch (e) {
         logger.error("add_10_Codes", e);

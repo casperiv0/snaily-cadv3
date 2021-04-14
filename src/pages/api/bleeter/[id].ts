@@ -30,7 +30,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
         const [uploadedBy] = await processQuery<User>(
           "SELECT `username` FROM `users` WHERE `id` = ?",
-          [bleet.user_id],
+          [bleet?.user_id],
         );
 
         return res.json({
@@ -51,7 +51,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
         const [uploadedBy] = await processQuery<{ username: string }>(
           "SELECT `username` FROM `users` WHERE `id` = ?",
-          [bleet.user_id],
+          [bleet?.user_id],
         );
 
         if (!bleet) {
@@ -91,7 +91,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           status: "success",
           bleet: {
             ...updated,
-            uploadedBy: uploadedBy.username,
+            uploadedBy: uploadedBy?.username,
           },
         });
       } catch (e) {
@@ -105,7 +105,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [
           req.userId,
         ]);
-        const rank = user.rank;
+        const rank = user?.rank ?? "user";
         const [bleet] = await processQuery<Bleet>("SELECT * FROM `bleets` WHERE `id` = ?", [
           req.query.id,
         ]);

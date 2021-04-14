@@ -48,17 +48,17 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
       await processQuery(
         "UPDATE `citizens` SET `business` = ?, `business_id` = ?, `rank` = ?, `b_status` = ? WHERE `id` = ?",
-        [name, businessId, "owner", "accepted", citizen.id],
+        [name, businessId, "owner", "accepted", citizen?.id],
       );
       await processQuery(
         "INSERT INTO `businesses` (`id`, `name`, `owner`, `user_id`, `citizen_id`, `whitelisted`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [businessId, name, citizen.full_name, req.userId, citizen.id, whitelist, address],
+        [businessId, name, citizen?.full_name, req.userId, citizen?.id, whitelist, address],
       );
 
       return res.json({
         status: "success",
         companyId: businessId,
-        citizenId: citizen.id,
+        citizenId: citizen?.id,
       });
     }
     default: {

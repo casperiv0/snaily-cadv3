@@ -57,7 +57,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const codes = await processQuery<Code10>("SELECT * FROM `10_codes`");
         return res.json({
           status: "success",
-          codes: parse10Codes(codes),
+          codes: parse10Codes(codes as Code10[]),
         });
       } catch (e) {
         logger.error("update_10_code", e);
@@ -72,7 +72,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const codes = await processQuery<Code10>("SELECT * FROM `10_codes`");
         return res.json({
           status: "success",
-          codes: parse10Codes(codes),
+          codes: parse10Codes(codes as Code10[]),
         });
       } catch (e) {
         logger.error("delete_10_code", e);

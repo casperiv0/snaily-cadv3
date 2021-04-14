@@ -50,7 +50,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        if (cadInfo.whitelisted === "1" && user.whitelist_status === Whitelist.Pending) {
+        if (cadInfo?.whitelisted === "1" && user.whitelist_status === Whitelist.Pending) {
           return res.status(400).json({
             error: "This account is still pending access",
             status: "error",

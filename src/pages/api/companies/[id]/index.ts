@@ -31,7 +31,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         citizenId,
       ]);
 
-      if (!RanksArr.includes(user.rank)) {
+      if (!RanksArr.includes(user?.rank ?? "user")) {
         if (!citizen) {
           return res.json({
             error: "Citizen was not found",
@@ -55,7 +55,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
       const companies = await processQuery<Company>("SELECT * FROM `businesses`");
       return res.json({
-        companies: await parseCompanies(companies),
+        companies: await parseCompanies(companies as Company[]),
         status: "success",
       });
     }

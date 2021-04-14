@@ -54,8 +54,8 @@ export default async function (req: IRequest, res: NextApiResponse) {
           (await processQuery<Cad>("SELECT * FROM `cad_info`"))[0] ??
           (await createCADAndReturn(username));
 
-        const whitelistStatus = cad.whitelisted === "1" ? "pending" : "accepted";
-        const towAccess = cad.tow_whitelisted === "1" ? "0" : "1";
+        const whitelistStatus = cad?.whitelisted === "1" ? "pending" : "accepted";
+        const towAccess = cad?.tow_whitelisted === "1" ? "0" : "1";
         const id = uuid();
         const hash = hashSync(password, Auth.SaltRounds);
         const perm = accountLevel === Ranks.Owner ? "1" : "0";
@@ -82,7 +82,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           ],
         );
 
-        if (cad.whitelisted === "1") {
+        if (cad?.whitelisted === "1") {
           return res.status(401).json({
             status: "error",
             error:

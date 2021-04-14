@@ -26,12 +26,12 @@ export const usePermission = async (req: IRequest, perms: Permissions[]): Promis
     );
 
     const userPerms: UserPermsArr = [
-      user.rank,
-      user.leo,
-      user.ems_fd,
-      user.dispatch,
-      user.tow,
-      user.supervisor,
+      user!.rank,
+      user!.leo,
+      user!.ems_fd,
+      user!.dispatch,
+      user!.tow,
+      user!.supervisor,
     ];
 
     if (!user) {

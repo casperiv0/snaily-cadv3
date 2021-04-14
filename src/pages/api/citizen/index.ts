@@ -92,14 +92,14 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
 
-      if (cadInfo.max_citizens !== "unlimited") {
+      if (cadInfo?.max_citizens !== "unlimited") {
         const length = await processQuery("SELECT `id` FROM `citizens` WHERE `user_id` = ?", [
           req.userId,
         ]);
 
-        if (length.length > parseInt(cadInfo.max_citizens)) {
+        if (length.length > parseInt(cadInfo?.max_citizens ?? "0")) {
           return res.status(400).json({
-            error: `You have reached your limited of citizens (Max: ${cadInfo.max_citizens})`,
+            error: `You have reached your limited of citizens (Max: ${cadInfo?.max_citizens})`,
             status: "error",
           });
         }

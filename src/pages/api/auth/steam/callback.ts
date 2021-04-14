@@ -23,7 +23,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
       try {
         const [cad] = await processQuery<Cad>("SELECT `steam_api_key` FROM `cad_info`");
 
-        if (!cad.steam_api_key) {
+        if (!cad?.steam_api_key) {
           return res.json({
             error: "CAD-Owner: Please add your steam API key in the CAD-settings",
             status: "error",
@@ -34,7 +34,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           ?.toString()
           .replace("https://steamcommunity.com/openid/id/", "");
         const steamRes = await fetch(
-          `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${cad.steam_api_key}&steamids=${userSteamId}`,
+          `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${cad?.steam_api_key}&steamids=${userSteamId}`,
         );
         const json = await steamRes.json();
 

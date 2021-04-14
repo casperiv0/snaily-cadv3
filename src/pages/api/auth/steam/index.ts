@@ -23,7 +23,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const callbackUrl = `http://${host}/api/auth/steam/callback?next=http://${host}/account?auth=success`;
         const [cad] = await processQuery<Cad>("SELECT `steam_api_key` from `cad_info`");
 
-        if (!cad.steam_api_key) {
+        if (!cad?.steam_api_key) {
           return res.json({
             error: "CAD-Owner: Please add your steam API key in the CAD-settings",
             status: "error",
