@@ -30,7 +30,10 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const id = parse(`${req.headers["session"]}`)?.["active-officer"];
+        const id =
+          parse(`${req.headers["session"]}`)?.["active-officer"] ||
+          parse(`${req.headers["cookie"]}`)?.["active-officer"];
+        console.log(id);
 
         const [officer] = await processQuery<Officer>(
           "SELECT * FROM `officers` WHERE `user_id` = ? AND `id` = ?",

@@ -3,6 +3,7 @@ import { Dispatch } from "react";
 import { ArrestReport, Ticket, Warrant, WrittenWarning } from "types/Record";
 import { IRecord } from "./RecordTypes";
 import lang from "src/language.json";
+import { Search } from "@actions/officer/OfficerTypes";
 
 export const createWarrant = (data: Omit<Warrant, "id">) => async (
   dispatch: Dispatch<IRecord>,
@@ -66,6 +67,27 @@ export const createTicket = (
     });
 
     return notify.success(`${lang.record.created_ticket} ${data.name}`);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const deleteRecordById = (id: string, type: string, citizenId: string) => async (
+  dispatch: Dispatch<Search>,
+): Promise<boolean> => {
+  try {
+    const res = await handleRequest(`/record/${id}?type=${type}&citizenId=${citizenId}`, "DELETE");
+
+    dispatch({
+      type: "NAME_SEARCH",
+      search: res.data,
+      searchType: "name",
+    });
+
+    const msg =
+      type === "ticket" ? "ticket" : type === "arrest_report" ? "arrest report" : "written warning";
+    return notify.success(`Successfully removed ${msg}.`);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

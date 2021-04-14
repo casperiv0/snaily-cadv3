@@ -8,6 +8,7 @@ const initState: State["calls"] = {
 export function CallReducer(state = initState, action: Actions): State["calls"] {
   switch (action.type) {
     case "GET_CALLS":
+    case "UPDATE_CALL":
     case "CREATE_CALL": {
       return {
         ...state,

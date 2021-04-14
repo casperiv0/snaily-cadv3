@@ -32,7 +32,6 @@ const StatusesC: React.FC<Props> = ({
 
   React.useEffect(() => {
     const handler = () => getActiveOfficer();
-
     socket.on(SocketEvents.UpdateActiveUnits, handler);
 
     return () => {

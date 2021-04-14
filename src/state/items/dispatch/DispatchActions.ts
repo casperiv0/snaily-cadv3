@@ -1,8 +1,8 @@
-import { GetActiveUnits } from "./DispatchTypes";
+import { GetActiveUnits, AddressSearch } from "./DispatchTypes";
 import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { Dispatch } from "react";
 import { Call } from "types/Call";
-import { AddressSearch } from "./DispatchTypes";
+import { UpdateCall } from "../calls/CallTypes";
 
 export const addCallEvent = (callId: string, text: string) => async (dispatch: Dispatch<any>) => {
   try {
@@ -20,13 +20,14 @@ export const addCallEvent = (callId: string, text: string) => async (dispatch: D
 };
 
 export const update911Call = (callId: string, data: Partial<Call>, shouldNotify = true) => async (
-  dispatch: Dispatch<any>,
+  dispatch: Dispatch<UpdateCall>,
 ) => {
   try {
-    await handleRequest(`/dispatch/calls/${callId}`, "PUT", data);
+    const res = await handleRequest(`/dispatch/calls/${callId}`, "PUT", data);
 
     dispatch({
-      type: "ADD_CALL_EVENT",
+      type: "UPDATE_CALL",
+      calls: res.data.calls,
     });
 
     if (shouldNotify) {

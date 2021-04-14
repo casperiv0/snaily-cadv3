@@ -10,5 +10,10 @@ export interface CreateCall {
   calls: Call[];
 }
 
+export interface UpdateCall {
+  type: "UPDATE_CALL";
+  calls: Call[];
+}
+
 export type CallTypes = "911" | "tow" | "taxi";
-export type Actions = CreateCall | GetCalls;
+export type Actions = CreateCall | GetCalls | UpdateCall;

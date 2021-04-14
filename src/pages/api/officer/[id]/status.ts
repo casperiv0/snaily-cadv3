@@ -143,7 +143,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         return res.json({ status: "success", officer: updatedOfficer });
       } catch (e) {
-        logger.error("name_search", e);
+        logger.error("set_status", e);
 
         return res.status(500).json(AnError);
       }
