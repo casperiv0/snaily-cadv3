@@ -1,11 +1,14 @@
+import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { connect } from "react-redux";
 import * as React from "react";
+
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getBolos } from "@actions/bolos/BoloActions";
 import { getCalls } from "@actions/calls/CallActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
-import { getActiveOfficer } from "@actions/officer/OfficerActions";
+import { getActiveOfficer, searchNames } from "@actions/officer/OfficerActions";
+import { getPenalCodes } from "@actions/admin/AdminActions";
 import { initializeStore } from "@state/useStore";
 
 import { Active911Calls } from "@components/Active911Calls/Active911Calls";
@@ -14,20 +17,18 @@ import lang from "../../language.json";
 import { ModalButtons } from "@components/leo/ModalButtons";
 import { Statuses } from "@components/leo/Statuses";
 import { ActiveBolos } from "@components/ActiveBolos/ActiveBolos";
-// import { SelectOfficerModal } from "@components/modals/leo/selectOfficerModal";
-// import { CreateWarrant } from "@components/leo/CreateWarrant";
+import { CreateWarrant } from "@components/leo/CreateWarrant";
 import { socket } from "@hooks/useSocket";
 import { NotepadModal } from "../../components/modals/NotepadModal";
 import { CreateBoloModal } from "@components/modals/leo/CreateBoloModal";
 import { PlateSearchModal } from "@components/modals/leo/PlateSearchModal";
 // import { NameSearchModal } from "@components/modals/leo/NameSearchModal";
 import { WeaponSearchModal } from "@components/modals/leo/WeaponSearchModal";
-// import { CreateWrittenWarningModal } from "@components/modals/leo/CreateWrittenWarningModal";
-// import { CreateArrestReportModal } from "@components/modals/leo/CreateArrestReportModal";
-// import { CreateTicketModal } from "@components/modals/leo/CreateTicketModal";
+import { CreateWrittenWarningModal } from "@components/modals/leo/CreateWrittenWarningModal";
+import { CreateArrestReportModal } from "@components/modals/leo/CreateArrestReportModal";
+import { CreateTicketModal } from "@components/modals/leo/CreateTicketModal";
 import { Officer } from "types/Officer";
 import { isUnitAlreadyAssigned, notify, playSound } from "@lib/utils";
-import { getPenalCodes } from "@actions/admin/AdminActions";
 import { User } from "types/User";
 import { Cad } from "types/Cad";
 import { DismissAlertBtn } from "@components/AlertMessage/AlertMessage";
@@ -35,7 +36,8 @@ import { SocketEvents } from "types/Socket";
 import { Call } from "types/Call";
 import { Perm } from "types/Perm";
 import { Layout } from "@components/Layout";
-import { useRouter } from "next/router";
+import { SelectOfficerModal } from "@components/modals/leo/SelectOfficerModal";
+import { Seo } from "@components/Seo";
 
 interface Props {
   aop: Nullable<string>;
@@ -43,12 +45,14 @@ interface Props {
   cadInfo: Nullable<Cad>;
   user: User | null;
   calls: Call[];
+
+  searchNames: () => void;
   getPenalCodes: () => void;
 }
 
 const LeoDash: React.FC<Props> = (props) => {
   const router = useRouter();
-  const { getPenalCodes } = props;
+  const { getPenalCodes, searchNames } = props;
   const [time, setTime] = React.useState<Date>(new Date());
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const [panic, setPanic] = React.useState<Officer | null>(null);
@@ -68,7 +72,8 @@ const LeoDash: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     getPenalCodes();
-  }, [getPenalCodes]);
+    searchNames();
+  }, [getPenalCodes, searchNames]);
 
   React.useEffect(() => {
     const panicSound = playSound("/sounds/panic-button.mp3");
@@ -125,6 +130,8 @@ const LeoDash: React.FC<Props> = (props) => {
 
   return (
     <Layout fluid>
+      <Seo title="LEO Dashboard" />
+
       {panic !== null ? (
         <div role="alert" className="alert alert-danger alert-dismissible">
           {panic.officer_name} {lang.global.panic_button}
@@ -158,18 +165,20 @@ const LeoDash: React.FC<Props> = (props) => {
           <Active911Calls />
           <ActiveBolos />
         </div>
-        <div className="col-md-3 mt-2">{/* <CreateWarrant /> */}</div>
+        <div className="col-md-3 mt-2">
+          <CreateWarrant />
+        </div>
       </div>
 
-      {/* <SelectOfficerModal /> */}
+      <SelectOfficerModal />
       <NotepadModal />
       <CreateBoloModal />
       <WeaponSearchModal />
       <PlateSearchModal />
       {/* <NameSearchModal /> */}
-      {/* <CreateWrittenWarningModal /> */}
-      {/* <CreateArrestReportModal /> */}
-      {/* <CreateTicketModal /> */}
+      <CreateWrittenWarningModal />
+      <CreateArrestReportModal />
+      <CreateTicketModal />
     </Layout>
   );
 };
@@ -193,4 +202,4 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return { props: { initialReduxState: store.getState() } };
 };
 
-export default connect(mapToProps, { getPenalCodes })(React.memo(LeoDash));
+export default connect(mapToProps, { getPenalCodes, searchNames })(React.memo(LeoDash));

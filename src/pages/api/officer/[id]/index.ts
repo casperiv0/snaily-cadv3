@@ -6,7 +6,7 @@ import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
 import { Officer } from "types/Officer";
-import { parse } from "cookie";
+import { useCookie } from "@hooks/useCookie";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -19,27 +19,41 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   try {
-    await usePermission(req, ["leo"]);
+    await usePermission(req, ["dispatch", "leo"]);
   } catch (e) {
     return res.status(e?.code ?? 401).json({
       status: "error",
       error: e,
     });
   }
-
   switch (req.method) {
-    case "GET": {
+    case "DELETE": {
       try {
-        const id = parse(`${req.headers["session"]}`)?.["active-officer"];
-
         const [officer] = await processQuery<Officer>(
-          "SELECT * FROM `officers` WHERE `user_id` = ? AND `id` = ?",
-          [req.userId, id],
+          "SELECT * FROM `officers` WHERE `id` = ? AND `user_id` = ?",
+          [req.query.id, req.userId],
         );
 
-        return res.json({ officer, status: "success" });
+        if (!officer) {
+          return res.status(404).json({
+            error: "Officer was not found",
+            status: "error",
+          });
+        }
+
+        await processQuery("DELETE FROM `officers` WHERE `id` = ? AND `user_id` = ?", [
+          req.query.id,
+          req.userId,
+        ]);
+        useCookie(res, "", "active-officer", new Date(Date.now()));
+
+        const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [
+          req.userId,
+        ]);
+
+        return res.json({ status: "success", officers });
       } catch (e) {
-        logger.error("get_active_officer", e);
+        logger.error("delete_officer", e);
 
         return res.status(500).json(AnError);
       }

@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { getErrorFromResponse, handleRequest } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { GetCadInfo, UpdateAop } from "./GlobalTypes";
 import { socket } from "@hooks/useSocket";
 import { SocketEvents } from "types/Socket";
@@ -23,7 +23,7 @@ export const getCadInfo = (headers?: any) => async (dispatch: Dispatch<GetCadInf
 
 export const updateAop = (newAop: string) => async (dispatch: Dispatch<UpdateAop>) => {
   try {
-    const res = await handleRequest("/global/cad-info/aop", "POST", {
+    const res = await handleRequest("/global/cad-info/aop", "PUT", {
       aop: newAop,
     });
 
@@ -32,8 +32,10 @@ export const updateAop = (newAop: string) => async (dispatch: Dispatch<UpdateAop
       type: "UPDATE_AOP",
       aop: res.data.aop,
     });
+
+    return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
-    console.log(error);
+    return notify.warn(error);
   }
 };

@@ -4,16 +4,21 @@ import lang from "src/language.json";
 import { updateAop } from "@actions/global/GlobalActions";
 
 interface Props {
-  updateAop: (aop: string) => void;
+  updateAop: (aop: string) => Promise<boolean>;
 }
 
 const UpdateAOPC: React.FC<Props> = ({ updateAop }) => {
   const [aop, setAop] = React.useState<string>("");
+  const [loading, setLoading] = React.useState(false);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
 
-    updateAop(aop);
+    await updateAop(aop);
+
+    setLoading(false);
+
     setTimeout(() => {
       setAop("");
     }, 200);
@@ -41,8 +46,8 @@ const UpdateAOPC: React.FC<Props> = ({ updateAop }) => {
             />
           </div>
           <div className="mb-3">
-            <button className="btn btn-secondary w-100" type="submit">
-              {lang.dispatch.update_aop}
+            <button disabled={loading} className="btn btn-secondary w-100" type="submit">
+              {loading ? `${lang.global.loading}..` : lang.dispatch.update_aop}
             </button>
           </div>
         </form>

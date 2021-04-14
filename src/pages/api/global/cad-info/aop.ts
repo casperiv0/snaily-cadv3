@@ -1,14 +1,13 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
 import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
-import { IRequest } from "types/IRequest";
+import { IRequest } from "src/interfaces/IRequest";
+import useAuth from "@hooks/useAuth";
+import { formatRequired } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
-import { Officer } from "types/Officer";
-import { parse } from "cookie";
 
-export default async function handler(req: IRequest, res: NextApiResponse) {
+export default async function (req: IRequest, res: NextApiResponse) {
   try {
     await useAuth(req);
   } catch (e) {
@@ -19,7 +18,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   try {
-    await usePermission(req, ["leo"]);
+    await usePermission(req, ["dispatch", "owner", "admin"]);
   } catch (e) {
     return res.status(e?.code ?? 401).json({
       status: "error",
@@ -28,18 +27,25 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   switch (req.method) {
-    case "GET": {
+    case "PUT": {
       try {
-        const id = parse(`${req.headers["session"]}`)?.["active-officer"];
+        const { aop } = req.body;
 
-        const [officer] = await processQuery<Officer>(
-          "SELECT * FROM `officers` WHERE `user_id` = ? AND `id` = ?",
-          [req.userId, id],
-        );
+        if (!aop) {
+          return res.status(400).json({
+            error: formatRequired(["aop"], req.body),
+            status: "error",
+          });
+        }
 
-        return res.json({ officer, status: "success" });
+        await processQuery("UPDATE `cad_info` SET `AOP` = ?", [aop]);
+
+        return res.json({
+          status: "success",
+          aop,
+        });
       } catch (e) {
-        logger.error("get_active_officer", e);
+        logger.error("update_aop", e);
 
         return res.status(500).json(AnError);
       }

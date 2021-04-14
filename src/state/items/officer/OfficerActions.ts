@@ -3,7 +3,8 @@ import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { Dispatch } from "react";
 import { Officer } from "types/Officer";
 import { SocketEvents } from "types/Socket";
-import { IOfficer, Search, IOfficers } from "./OfficerTypes";
+import { IOfficer, Search, IOfficers, SearchNames, GetOfficerLogs } from "./OfficerTypes";
+import lang from "src/language.json";
 
 export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<Search>) => {
   try {
@@ -112,7 +113,74 @@ export const getMyOfficers = (headers?: any) => async (dispatch: Dispatch<IOffic
 
     dispatch({
       type: "GET_MY_OFFICERS",
-      officers: res.data.officers ?? null,
+      officers: res.data.officers,
+    });
+
+    return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const getMyOfficerLogs = (headers?: any) => async (dispatch: Dispatch<GetOfficerLogs>) => {
+  try {
+    const res = await handleRequest("/officer/logs", "GET", {
+      cookie: headers?.cookie,
+      url: headers?.host,
+    });
+
+    dispatch({
+      type: "GET_MY_OFFICER_LOGS",
+      logs: res.data.logs,
+    });
+
+    return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IOfficers>) => {
+  try {
+    const res = await handleRequest(`/officer/${id}`, "DELETE");
+
+    dispatch({
+      type: "DELETE_OFFICER",
+      officers: res.data.officers,
+    });
+
+    return notify.success(lang.officers.delete_officer_success);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const createOfficer = (data: Partial<Officer>) => async (dispatch: Dispatch<IOfficers>) => {
+  try {
+    const res = await handleRequest("/officer", "POST", data);
+
+    dispatch({
+      type: "CREATE_OFFICER",
+      officers: res.data.officers,
+    });
+
+    return notify.success(lang.officers.create_officer_success);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const searchNames = () => async (dispatch: Dispatch<SearchNames>) => {
+  try {
+    const res = await handleRequest("/search/names");
+
+    dispatch({
+      type: "SEARCH_NAMES",
+      names: res.data.names,
     });
 
     return true;

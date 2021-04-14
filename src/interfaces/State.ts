@@ -99,5 +99,6 @@ export interface State {
     logs: OfficerLog[];
     search: Nullable<any>;
     activeOfficer: Nullable<Officer>;
+    names: string[];
   };
 }

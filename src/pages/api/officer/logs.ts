@@ -5,8 +5,6 @@ import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
-import { Officer } from "types/Officer";
-import { parse } from "cookie";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -30,20 +28,17 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const id = parse(`${req.headers["session"]}`)?.["active-officer"];
+        const logs = await processQuery("SELECT * FROM `officer_logs` WHERE `user_id` = ?", [
+          req.userId,
+        ]);
 
-        const [officer] = await processQuery<Officer>(
-          "SELECT * FROM `officers` WHERE `user_id` = ? AND `id` = ?",
-          [req.userId, id],
-        );
-
-        return res.json({ officer, status: "success" });
+        return res.json({ status: "success", logs });
       } catch (e) {
-        logger.error("get_active_officer", e);
-
+        logger.error("get_officer_logs", e);
         return res.status(500).json(AnError);
       }
     }
+
     default: {
       return res.status(405).json({
         error: "Method not allowed",

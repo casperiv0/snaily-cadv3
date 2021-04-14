@@ -6,6 +6,7 @@ const initState: State["officers"] = {
   activeOfficer: null,
   officers: [],
   logs: [],
+  names: [],
 };
 
 export function OfficerReducer(state = initState, action: Actions): State["officers"] {
@@ -31,6 +32,18 @@ export function OfficerReducer(state = initState, action: Actions): State["offic
       return {
         ...state,
         officers: action.officers,
+      };
+    }
+    case "SEARCH_NAMES": {
+      return {
+        ...state,
+        names: action.names,
+      };
+    }
+    case "GET_MY_OFFICER_LOGS": {
+      return {
+        ...state,
+        logs: action.logs,
       };
     }
     default: {

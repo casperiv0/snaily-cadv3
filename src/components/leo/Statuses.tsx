@@ -45,8 +45,13 @@ const StatusesC: React.FC<Props> = ({
 
     /* little spam protection */
     if (status === activeOfficer?.status2) return;
+    if (!activeOfficer) return;
 
-    setStatus(activeOfficer!);
+    setStatus({
+      id: activeOfficer?.id,
+      status: activeOfficer.status,
+      status2: status,
+    });
   }
 
   return (
