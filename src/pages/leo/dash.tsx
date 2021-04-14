@@ -22,7 +22,7 @@ import { socket } from "@hooks/useSocket";
 import { NotepadModal } from "../../components/modals/NotepadModal";
 import { CreateBoloModal } from "@components/modals/leo/CreateBoloModal";
 import { PlateSearchModal } from "@components/modals/leo/PlateSearchModal";
-// import { NameSearchModal } from "@components/modals/leo/NameSearchModal";
+import { NameSearchModal } from "@components/modals/leo/NameSearchModal";
 import { WeaponSearchModal } from "@components/modals/leo/WeaponSearchModal";
 import { CreateWrittenWarningModal } from "@components/modals/leo/CreateWrittenWarningModal";
 import { CreateArrestReportModal } from "@components/modals/leo/CreateArrestReportModal";
@@ -168,7 +168,7 @@ const LeoDash: React.FC<Props> = (props) => {
       <CreateBoloModal />
       <WeaponSearchModal />
       <PlateSearchModal />
-      {/* <NameSearchModal /> */}
+      <NameSearchModal />
       <CreateWrittenWarningModal />
       <CreateArrestReportModal />
       <CreateTicketModal />

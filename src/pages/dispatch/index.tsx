@@ -11,7 +11,7 @@ import { ActiveCalls } from "@components/dispatch/ActiveCalls";
 import { ActiveBolos } from "@components/ActiveBolos/ActiveBolos";
 import { NotepadModal } from "@components/modals/NotepadModal";
 import { PlateSearchModal } from "@components/modals/leo/PlateSearchModal";
-// import { NameSearchModal } from "@components/modals/leo/NameSearchModal";
+import { NameSearchModal } from "@components/modals/leo/NameSearchModal";
 import { AddressSearchModal } from "@components/modals/dispatch/AddressSearchModal";
 import { WeaponSearchModal } from "@components/modals/leo/WeaponSearchModal";
 import { CreateBoloModal } from "@components/modals/leo/CreateBoloModal";
@@ -120,7 +120,7 @@ const DispatchDash: React.FC<Props> = (props) => {
 
       <NotepadModal />
       <AddressSearchModal />
-      {/* <NameSearchModal /> */}
+      <NameSearchModal />
       <PlateSearchModal />
       <WeaponSearchModal />
       <CreateBoloModal />

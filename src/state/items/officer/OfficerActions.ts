@@ -32,6 +32,8 @@ export const nameSearch = (name: string) => async (dispatch: Dispatch<Search>) =
       search: res.data,
       searchType: "name",
     });
+
+    return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);
@@ -184,6 +186,42 @@ export const searchNames = () => async (dispatch: Dispatch<SearchNames>) => {
     });
 
     return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const suspendLicense = (type: string, citizenId: string) => async (
+  dispatch: Dispatch<{ type: "SUSPEND_LICENSE" }>,
+) => {
+  try {
+    await handleRequest(`/officer/suspend-license/${citizenId}`, "PUT", {
+      type,
+    });
+
+    dispatch({
+      type: "SUSPEND_LICENSE",
+    });
+
+    return notify.success("Successfully suspended license.");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const saveNote = (citizenId: string, note: string) => async (
+  dispatch: Dispatch<{ type: "SAVE_NOTE" }>,
+) => {
+  try {
+    await handleRequest(`/officer/note/${citizenId}`, "PUT", { note });
+
+    dispatch({
+      type: "SAVE_NOTE",
+    });
+
+    return notify.success("Successfully added note");
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);
