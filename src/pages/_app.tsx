@@ -9,6 +9,7 @@ import Bootstrap from "bootstrap";
 import { useStore } from "src/state/useStore";
 import "../styles/global.css";
 import { Navbar } from "src/components/navbar/Navbar";
+import { GlobalSearch } from "@components/GlobalSearch/GlobalSearch";
 
 declare global {
   interface Window {
@@ -49,6 +50,7 @@ function App({ Component, pageProps }: AppProps) {
       />
       <ReduxProvider store={store}>
         <Navbar />
+        <GlobalSearch />
         <Component {...pageProps} />
       </ReduxProvider>
     </>
