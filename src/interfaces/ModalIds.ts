@@ -41,4 +41,5 @@ export enum ModalIds {
   EditBleet = "editBleetModal",
   EditVehicle = "editVehicleModal",
   EditBolo = "editBoloModal",
+  ManageEmployee = "manageEmployeeModal",
 }

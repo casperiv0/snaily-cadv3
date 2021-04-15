@@ -3,6 +3,7 @@ import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/u
 import {
   CreateCompany,
   CreateCompanyPost,
+  DeclineOrAcceptEmployee,
   GetCompanies,
   GetCompanyById,
   JoinCompany,
@@ -58,9 +59,11 @@ export const createCompany = (data: RequestData) => async (dispatch: Dispatch<Cr
   }
 };
 
-export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<GetCompanies>) => {
+export const deleteCompanyById = (id: string, citizenId?: string) => async (
+  dispatch: Dispatch<GetCompanies>,
+) => {
   try {
-    const res = await handleRequest(`/companies/${id}`, "DELETE");
+    const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "DELETE");
 
     dispatch({
       type: "DELETE_COMPANY_BY_ID",
@@ -107,6 +110,50 @@ export const createCompanyPost = (id: string, citizenId: string, data: RequestDa
     dispatch({
       type: "CREATE_COMPANY_POST",
       posts: res.data.posts,
+    });
+
+    return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const updateCompany = (id: string, citizenId: string, data: RequestData) => async (
+  dispatch: Dispatch<CreateCompanyPost>,
+) => {
+  try {
+    const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "PUT", data);
+
+    dispatch({
+      type: "CREATE_COMPANY_POST",
+      posts: res.data.posts,
+    });
+
+    return notify.success(lang.citizen.company.updated_company);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const updateEmployeeStatus = (
+  companyId: string,
+  citizenId: string,
+  employeeId: string,
+  type: "ACCEPT" | "DECLINE" | "FIRE" | "UPDATE",
+  data?: RequestData,
+) => async (dispatch: Dispatch<DeclineOrAcceptEmployee>) => {
+  try {
+    const res = await handleRequest(
+      `/companies/${companyId}/${employeeId}?citizenId=${citizenId}&type=${type}`,
+      "PUT",
+      data,
+    );
+
+    dispatch({
+      type: "ACCEPT_OR_DECLINE_EMPLOYEE",
+      employees: res.data.employees,
     });
 
     return true;

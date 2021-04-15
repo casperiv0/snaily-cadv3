@@ -7,6 +7,7 @@ import { RanksArr, Whitelist } from "@lib/consts";
 import { User } from "types/User";
 import { parseCompanies } from "..";
 import { Company } from "types/Company";
+import { formatRequired } from "@lib/utils.server";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;
@@ -87,6 +88,79 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         status: "success",
       });
     }
+    case "PUT": {
+      const companyId = req.query.id;
+      const citizenId = req.query.citizenId;
+      const { name, whitelisted, address } = req.body;
+
+      if (!name || !whitelisted || !address) {
+        return res.json({
+          error: formatRequired(["name", "whitelisted", "address"], req.body),
+          status: "error",
+        });
+      }
+
+      if (!citizenId) {
+        return res.status(400).json({
+          error: "`citizenId` must be provided",
+          status: "error",
+        });
+      }
+
+      const [citizen] = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `id` = ?", [
+        citizenId,
+      ]);
+      const [company] = await processQuery<Company>("SELECT * FROM `businesses` WHERE `id` = ?", [
+        companyId,
+      ]);
+
+      if (!citizen) {
+        return res.status(404).json({
+          error: "Citizen was not found",
+          status: "error",
+        });
+      }
+
+      if (!company) {
+        return res.status(404).json({
+          error: "Company was not found",
+          status: "error",
+        });
+      }
+
+      if (citizen.business_id !== company.id) {
+        return res.status(401).json({
+          error: "You are not working at this company!",
+          status: "error",
+        });
+      }
+
+      if (citizen.rank !== "owner") {
+        return res.status(401).json({
+          error: "Forbidden",
+          status: "error",
+        });
+      }
+
+      if (name.toLowerCase() !== company.name.toLowerCase()) {
+        const existing = await processQuery("SELECT * FROM `businesses` WHERE `name` = ?", [name]);
+
+        if (existing[0]) {
+          return res.json({
+            error: "Name is already in use",
+            status: "error",
+          });
+        }
+      }
+
+      await processQuery(
+        "UPDATE `businesses` SET `name` = ?, `address` = ?, `whitelisted` = ? WHERE `id` = ?",
+        [name, address, whitelisted, companyId],
+      );
+
+      return res.json({ status: "success" });
+    }
+
     case "DELETE": {
       const citizenId = req.query.citizenId;
 

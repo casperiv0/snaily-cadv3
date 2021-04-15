@@ -137,6 +137,7 @@ const NameSearchModalC: React.FC<Props> = ({
                   <div className="list-group" id="general_info">
                     <div id="image_id">
                       <Image
+                        objectFit="cover"
                         layout="fixed"
                         width="100px"
                         height="100px"

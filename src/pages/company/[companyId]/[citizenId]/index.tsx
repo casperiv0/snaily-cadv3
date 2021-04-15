@@ -12,7 +12,7 @@ import { Layout } from "@components/Layout";
 import { CreatePostModal } from "@components/modals/company/CreatePostModal";
 import { Citizen } from "types/Citizen";
 import { Company, CompanyPost } from "types/Company";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import lang from "src/language.json";
 import { getCitizenById } from "@actions/citizen/CitizenActions";
 import { getCompanyById } from "@actions/companies/CompanyActions";
@@ -21,10 +21,10 @@ import { Span } from "@components/Item";
 import { Seo } from "@components/Seo";
 
 interface Props {
-  company: Company | null;
-  citizen: Citizen | null;
+  company: Nullable<Company>;
+  citizen: Nullable<Citizen>;
   posts: CompanyPost[];
-  returnError: string | null;
+  returnError: Nullable<string>;
 }
 
 const ranks = ["owner", "manager"];
@@ -66,7 +66,7 @@ const CompanyPage: React.FC<Props> = ({ citizen, company, posts, returnError }) 
           ) : null}
 
           {citizen?.rank === "manager" || citizen?.rank === "owner" ? (
-            <Link href={`/company/${citizenId}/${companyId}/manage`}>
+            <Link href={`/company/${companyId}/${citizenId}/manage`}>
               <a className="btn btn-secondary">{lang.citizen.company.manage_company}</a>
             </Link>
           ) : null}

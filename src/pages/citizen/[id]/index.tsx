@@ -134,7 +134,7 @@ const CitizenInfoPage = ({ citizen, cadInfo, deleteCitizenById }: Props) => {
               <Item id="height">
                 <Span>{lang.citizen.employer}: </Span>
                 {citizen.business !== "none" ? (
-                  <Link href={`/company/${citizen.id}/${citizen.business_id}`}>
+                  <Link href={`/company/${citizen.business_id}/${citizen.id}`}>
                     <a>{citizen.business}</a>
                   </Link>
                 ) : (

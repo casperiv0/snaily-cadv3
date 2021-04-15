@@ -8,6 +8,8 @@ import { Layout } from "src/components/Layout";
 import { User } from "types/User";
 import lang from "../language.json";
 import { State } from "types/State";
+import { Seo } from "@components/Seo";
+import { getCadInfo } from "@actions/global/GlobalActions";
 interface Props {
   isAuth: boolean;
   user: User | null;
@@ -16,6 +18,8 @@ interface Props {
 const IndexPage = ({ isAuth, user }: Props) => {
   return (
     <Layout>
+      <Seo />
+
       {isAuth ? (
         <>
           <h2>Welcome Back {user?.username}!</h2>
@@ -52,6 +56,7 @@ const Credits: React.FC = () => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const store = initializeStore();
   await verifyAuth(req.headers)(store.dispatch);
+  await getCadInfo(req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };
