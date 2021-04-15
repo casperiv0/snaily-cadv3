@@ -8,6 +8,7 @@ const initState: State["citizen"] = {
   vehicles: [],
   weapons: [],
   medicalRecords: [],
+  companies: [],
 };
 
 export function CitizenReducer(state = initState, action: Actions): State["citizen"] {
@@ -49,6 +50,13 @@ export function CitizenReducer(state = initState, action: Actions): State["citiz
       return {
         ...state,
         medicalRecords: action.medicalRecords,
+      };
+    }
+
+    case "GET_USER_COMPANIES": {
+      return {
+        ...state,
+        companies: action.companies ?? [],
       };
     }
     default: {

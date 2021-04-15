@@ -1,4 +1,5 @@
 import { Citizen } from "types/Citizen";
+import { Company } from "types/Company";
 import { MedicalRecord } from "types/MedicalRecord";
 import { Nullable } from "types/State";
 import { Vehicle } from "types/Vehicle";
@@ -50,6 +51,11 @@ export interface IMedicalRecords {
   medicalRecords: MedicalRecord[];
 }
 
+export interface GetUserCompanies {
+  type: "GET_USER_COMPANIES";
+  companies: Company[];
+}
+
 export type Actions =
   | GetUserCitizens
   | GetCitizenById
@@ -59,4 +65,5 @@ export type Actions =
   | ICitizenWeapons
   | UpdateCitizenLicenses
   | DeleteCitizenById
-  | IMedicalRecords;
+  | IMedicalRecords
+  | GetUserCompanies;

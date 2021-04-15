@@ -11,6 +11,7 @@ import {
   CreateCitizen,
   DeleteCitizenById,
   IMedicalRecords,
+  GetUserCompanies,
 } from "./CitizenTypes";
 import lang from "src/language.json";
 import { Citizen } from "types/Citizen";
@@ -351,5 +352,23 @@ export const deleteMedicalRecord = (citizenId: string, recordId: string) => asyn
     const error = getErrorFromResponse(e);
 
     return notify.warn(error);
+  }
+};
+
+export const getUserCompanies = (headers?: any) => async (dispatch: Dispatch<GetUserCompanies>) => {
+  try {
+    const res = await handleRequest("/citizen/companies", "GET", {
+      cookie: headers?.cookie,
+      url: headers?.host,
+    });
+
+    dispatch({
+      type: "GET_USER_COMPANIES",
+      companies: res.data.companies,
+    });
+    return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
   }
 };
