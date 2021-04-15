@@ -7,7 +7,7 @@ import { AlertMessage } from "../AlertMessage/AlertMessage";
 
 interface Props {
   members: User[];
-  acceptOrDeclineUser: (type: "accept" | "decline", id: string) => Promise<boolean>;
+  acceptOrDeclineUser: (id: string, type: "accept" | "decline") => Promise<boolean>;
 }
 
 const PendingMembersTabC: React.FC<Props> = ({ members, acceptOrDeclineUser }) => {
@@ -35,7 +35,7 @@ const PendingMembersTabC: React.FC<Props> = ({ members, acceptOrDeclineUser }) =
                       className="btn btn-success"
                       type="button"
                       onClick={() => {
-                        acceptOrDeclineUser("accept", member.id);
+                        acceptOrDeclineUser(member.id, "accept");
                       }}
                     >
                       {lang.global.accept}
@@ -44,7 +44,7 @@ const PendingMembersTabC: React.FC<Props> = ({ members, acceptOrDeclineUser }) =
                       className="btn btn-danger ms-2"
                       type="button"
                       onClick={() => {
-                        acceptOrDeclineUser("decline", member.id);
+                        acceptOrDeclineUser(member.id, "decline");
                       }}
                     >
                       {lang.global.decline}

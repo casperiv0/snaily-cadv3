@@ -15,16 +15,15 @@ import { User } from "types/User";
 import lang from "../../../../language.json";
 import {
   getMemberById,
-  // TODO:
-  // updateMemberPerms,
-  // banMember,
-  // unBanMember,
-  // removeUser,
+  updateMemberById,
+  banUnbanMember,
+  removeUser,
   // getTempPassword,
 } from "@actions/admin/AdminActions";
 import { Item, Span } from "@components/Item";
 import { Seo } from "@components/Seo";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { RequestData } from "@lib/utils";
 
 interface Props {
   member: Nullable<User>;
@@ -32,9 +31,8 @@ interface Props {
   cad: Nullable<Cad>;
   tempPw: Nullable<string>;
 
-  updateMemberPerms: (id: string, data: Record<string, unknown>) => void;
-  unBanMember: (id: string) => void;
-  banMember: (id: string, banReason: string) => void;
+  updateMemberById: (id: string, data: RequestData) => Promise<boolean>;
+  banUnbanMember: (id: string, type: "ban" | "unban", reason?: string) => void;
   removeUser: (id: string) => Promise<boolean>;
   getTempPassword: (id: string) => void;
 }
@@ -44,9 +42,8 @@ const ManageMember: React.FC<Props> = ({
   user: authenticatedUser,
   cad,
   tempPw,
-  updateMemberPerms,
-  banMember,
-  unBanMember,
+  updateMemberById,
+  banUnbanMember,
   removeUser,
   getTempPassword,
 }) => {
@@ -61,6 +58,7 @@ const ManageMember: React.FC<Props> = ({
   const [tow, setTow] = React.useState("");
   const [banReason, setBanReason] = React.useState("");
   const [steamId, setSteamId] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   useClientPerms("admin");
 
   React.useEffect(() => {
@@ -76,10 +74,11 @@ const ManageMember: React.FC<Props> = ({
     }
   }, [member]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
 
-    updateMemberPerms(id, {
+    await updateMemberById(id, {
       rank,
       leo,
       dispatch,
@@ -89,16 +88,19 @@ const ManageMember: React.FC<Props> = ({
       steam_id: steamId,
       edit_passwords: editPasswords,
     });
+
+    setLoading(false);
   }
 
   function handleBan(e: React.FormEvent) {
     e.preventDefault();
 
-    banMember(member?.id!, banReason);
+    setBanReason("");
+    banUnbanMember(member?.id!, "ban", banReason);
   }
 
   function handleUnban() {
-    unBanMember(member?.id!);
+    banUnbanMember(member?.id!, "unban");
   }
 
   async function handleRemove() {
@@ -109,7 +111,7 @@ const ManageMember: React.FC<Props> = ({
     }
   }
 
-  if (member !== null && !member) {
+  if (!member) {
     return (
       <AdminLayout>
         <AlertMessage message={{ msg: lang.admin.mem_not_found, type: "danger" }} />
@@ -290,8 +292,8 @@ const ManageMember: React.FC<Props> = ({
           <Link href="/admin/manage/members">
             <a className="btn btn-danger me-2">{lang.global.cancel}</a>
           </Link>
-          <button type="submit" className="btn btn-primary">
-            {lang.admin.update_perms}
+          <button disabled={loading} type="submit" className="btn btn-primary">
+            {loading ? `${lang.global.loading}..` : lang.admin.update_perms}
           </button>
         </div>
       </form>
@@ -393,9 +395,8 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  // updateMemberPerms,
-  // banMember,
-  // unBanMember,
-  // removeUser,
+  updateMemberById,
+  banUnbanMember,
+  removeUser,
   // getTempPassword,
 })(ManageMember);

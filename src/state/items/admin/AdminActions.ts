@@ -12,6 +12,7 @@ import {
   GetMemberById,
   IUnits,
   IUnit,
+  UpdateMemberById,
 } from "./AdminTypes";
 import lang from "src/language.json";
 
@@ -243,25 +244,6 @@ export const getMembers = (headers?: any) => async (dispatch: Dispatch<IMembers>
   }
 };
 
-export const acceptOrDeclineUser = (type: "accept" | "decline", id: string) => async (
-  dispatch: Dispatch<IMembers>,
-) => {
-  try {
-    // TODO: add this endpoint.
-    const res = await handleRequest(`/admin/members/${id}?type=${type}`, "PUT");
-
-    dispatch({
-      type: "GET_MEMBERS",
-      members: res.data.members,
-    });
-
-    return true;
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.error(error);
-  }
-};
-
 export const getMemberById = (id: string, headers?: any) => async (
   dispatch: Dispatch<GetMemberById>,
 ) => {
@@ -332,6 +314,78 @@ export const updateUnitById = (id: string, data: RequestData) => async (
     });
 
     return notify.success(lang.admin.updated_unit);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const updateMemberById = (id: string, data: RequestData) => async (
+  dispatch: Dispatch<UpdateMemberById>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/members/${id}`, "PUT", data);
+
+    dispatch({
+      type: "UPDATE_MEMBER_PERMS",
+      member: res.data.member,
+    });
+
+    return notify.success("Successfully updated member");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const banUnbanMember = (id: string, type: "ban" | "unban", reason?: string) => async (
+  dispatch: Dispatch<UpdateMemberById>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/members/${id}/${type}`, "POST", { reason });
+
+    dispatch({
+      type: "UPDATE_MEMBER_PERMS",
+      member: res.data.member,
+    });
+
+    const msg = type === "ban" ? lang.admin.ban_success : lang.admin.un_ban_success;
+    return notify.success(`${msg} ${res.data.member?.username ?? "Unknown"}`);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const removeUser = (id: string) => async (dispatch: Dispatch<UpdateMemberById>) => {
+  try {
+    const res = await handleRequest(`/admin/members/${id}/remove`, "POST");
+
+    dispatch({
+      type: "UPDATE_MEMBER_PERMS",
+      member: res.data.member,
+    });
+
+    return notify.success(`Successfully removed user with ID: ${id}`);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const acceptOrDeclineUser = (id: string, type: "accept" | "decline") => async (
+  dispatch: Dispatch<IMembers>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/members/${id}/${type}`, "POST");
+
+    dispatch({
+      type: "GET_MEMBERS",
+      members: res.data.members,
+    });
+
+    const msg = type === "accept" ? lang.admin.accepted_member : lang.admin.declined_member;
+    return notify.success(msg);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

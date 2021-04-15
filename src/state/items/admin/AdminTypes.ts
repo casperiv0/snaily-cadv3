@@ -47,6 +47,11 @@ export interface IUnit {
   unit: Officer | Deputy;
 }
 
+export interface UpdateMemberById {
+  type: "UPDATE_MEMBER_PERMS";
+  member: User;
+}
+
 export type Actions =
   | I10Codes
   | IPenalCodes
@@ -55,4 +60,5 @@ export type Actions =
   | IMembers
   | GetMemberById
   | IUnits
-  | IUnit;
+  | IUnit
+  | UpdateMemberById;

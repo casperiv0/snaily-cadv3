@@ -52,6 +52,7 @@ export function AdminReducer(state = initState, action: Actions): State["admin"]
         members: action.members,
       };
     }
+    case "UPDATE_MEMBER_PERMS":
     case "GET_MEMBER_BY_ID": {
       return {
         ...state,
