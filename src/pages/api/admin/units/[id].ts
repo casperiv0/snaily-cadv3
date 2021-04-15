@@ -31,7 +31,9 @@ export default async function (req: IRequest, res: NextApiResponse) {
         let [unit] = await processQuery("SELECT * FROM `officers` WHERE `id` = ?", [req.query.id]);
 
         if (!unit) {
-          unit = await processQuery("SELECT * FROM `ems-fd` WHERE `id` = ?", [req.query.id]);
+          unit = await (
+            await processQuery("SELECT * FROM `ems-fd` WHERE `id` = ?", [req.query.id])
+          )?.[0];
         }
 
         if (!unit) {
@@ -66,10 +68,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
           unitId,
         ]);
         if (!unit) {
-          unit = await processQuery<any>("SELECT * FROM `ems-fd` WHERE `id` = ?", [unitId])?.[0];
+          unit = await (
+            await processQuery<any>("SELECT * FROM `ems-fd` WHERE `id` = ?", [unitId])
+          )?.[0];
         }
         if (!unit) {
-          return res.json({
+          return res.status(404).json({
             error: "Unit not found",
             status: "error",
           });
@@ -77,7 +81,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
         if (unit.officer_name) {
           if (!callsign || !department) {
-            return res.json({
+            return res.status(400).json({
               error: "Please fill in all fields",
               status: "error",
             });
@@ -97,11 +101,10 @@ export default async function (req: IRequest, res: NextApiResponse) {
           }
         } else {
           if (status && status2) {
-            await processQuery("UPDATE `ems-fd` SET `status` = ?, `status2` = ? WHERE `id` = ?", [
-              status,
-              status2,
-              unitId,
-            ]);
+            await processQuery(
+              "UPDATE `ems-fd` SET `status` = ?, `status2` = ?, `callsign` = ? WHERE `id` = ?",
+              [status, status2, callsign, unitId],
+            );
           }
         }
 

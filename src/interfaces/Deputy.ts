@@ -4,4 +4,5 @@ export interface Deputy {
   user_id: string;
   status: string;
   status2: string;
+  callsign: string;
 }

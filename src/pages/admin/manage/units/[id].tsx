@@ -56,7 +56,7 @@ const ManageOfficerPage: React.FC<Props> = ({
 
   React.useEffect(() => {
     if (unit) {
-      setCallSign(("officer_name" in unit! && unit?.callsign) || "");
+      setCallSign(unit?.callsign || "");
       setRank(("officer_name" in unit! && unit?.rank) || "");
       setDepartment({
         label: ("officer_name" in unit! && unit?.officer_dept) || "",
@@ -144,6 +144,18 @@ const ManageOfficerPage: React.FC<Props> = ({
           </div>
         </div>
 
+        <div className="mb-3">
+          <label className="form-label" htmlFor="tow">
+            {lang.officers.callsign}
+          </label>
+          <input
+            placeholder="callsign"
+            value={callSign}
+            onChange={(e) => setCallSign(e.currentTarget.value)}
+            className="form-control bg-dark border-dark text-light"
+          />
+        </div>
+
         {"officer_name" in unit! ? (
           <>
             <div className="mb-3">
@@ -158,17 +170,6 @@ const ManageOfficerPage: React.FC<Props> = ({
                 isMulti={false}
                 onChange={(v) => setDepartment(v)}
                 options={departments.map((dep) => ({ value: dep.name, label: dep.name }))}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="tow">
-                {lang.officers.callsign}
-              </label>
-              <input
-                placeholder="callsign"
-                value={callSign}
-                onChange={(e) => setCallSign(e.currentTarget.value)}
-                className="form-control bg-dark border-dark text-light"
               />
             </div>
             <div className="mb-3">

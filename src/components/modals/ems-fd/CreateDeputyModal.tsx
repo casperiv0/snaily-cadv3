@@ -13,6 +13,7 @@ interface Props {
 
 const CreateDeputyModalC: React.FC<Props> = ({ createEmsFdDeputy }) => {
   const [name, setName] = React.useState<string>("");
+  const [callsign, setCallSign] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const ref = useModalOpen<HTMLInputElement>(ModalIds.CreateEmsFd);
 
@@ -22,9 +23,11 @@ const CreateDeputyModalC: React.FC<Props> = ({ createEmsFdDeputy }) => {
 
     const created = await createEmsFdDeputy({
       name,
+      callsign: callsign,
     });
 
     if (created) {
+      setCallSign("");
       setName("");
       modal(ModalIds.CreateEmsFd)?.hide();
     }
@@ -46,6 +49,21 @@ const CreateDeputyModalC: React.FC<Props> = ({ createEmsFdDeputy }) => {
               value={name}
               id="name"
               onChange={(e) => setName(e.target.value)}
+              className="form-control text-light bg-secondary border-secondary"
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label" htmlFor="callSign">
+              {lang.officers.callsign}
+            </label>
+            <input
+              ref={ref}
+              type="text"
+              value={callsign}
+              id="callSign"
+              onChange={(e) => setCallSign(e.target.value)}
               className="form-control text-light bg-secondary border-secondary"
               required
             />

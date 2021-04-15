@@ -78,12 +78,10 @@ const SupervisorPanelPage: React.FC<Props> = ({ officers, ems_fd }) => {
                         </Item>
                       ) : null}
 
-                      {"callsign" in unit ? (
-                        <Item id="callsign">
-                          <Span>{lang.officers.callsign}: </Span>
-                          {unit.callsign || lang.global.none_set}
-                        </Item>
-                      ) : null}
+                      <Item id="callsign">
+                        <Span>{lang.officers.callsign}: </Span>
+                        {unit.callsign || lang.global.none_set}
+                      </Item>
 
                       {"rank" in unit ? (
                         <Item id="rank">

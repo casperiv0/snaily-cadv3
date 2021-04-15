@@ -49,6 +49,8 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine("ALTER TABLE `ems-fd` ADD `callsign` varchar(255) NOT NULL AFTER `name`;");
+
   updateLine(`
   CREATE TABLE \`seo_tags\` (
     \`title\` varchar(255) DEFAULT 'SnailyCAD',

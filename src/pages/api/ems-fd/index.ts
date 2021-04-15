@@ -42,11 +42,11 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "POST": {
       try {
-        const { name } = req.body;
+        const { name, callsign } = req.body;
 
-        if (!name) {
+        if (!name || !callsign) {
           return res.status(400).json({
-            error: formatRequired(["name"], req.body),
+            error: formatRequired(["name", "callsign"], req.body),
             status: "error",
           });
         }
