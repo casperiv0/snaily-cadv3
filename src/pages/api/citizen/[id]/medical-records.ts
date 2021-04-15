@@ -78,13 +78,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         const medicalRecords = await processQuery(
-          "SELECT * FROM `medical_records` WHERE `citizen_id` = ?",
-          [req.query.id],
+          "SELECT * FROM `medical_records` WHERE `citizen_id` = ? AND `user_id` = ?",
+          [req.query.id, req.userId],
         );
 
         return res.json({ medicalRecords, status: "success" });
       } catch (e) {
-        logger.error("REGISTER_VEHICLE", e);
+        logger.error("update_medical_records", e);
 
         return res.status(500).json({
           error: AnError,

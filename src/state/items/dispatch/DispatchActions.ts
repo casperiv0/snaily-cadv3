@@ -31,7 +31,7 @@ export const update911Call = (callId: string, data: Partial<Call>, shouldNotify 
     });
 
     if (shouldNotify) {
-      notify.success("Successfully added event");
+      notify.success("Successfully updated 911 call");
     }
 
     return true;

@@ -1,29 +1,32 @@
 import * as React from "react";
-import { Layout } from "../../components/Layout";
+import { Layout } from "@components/Layout";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { State } from "types/State";
-import lang from "../../language.json";
+import { Nullable, State } from "types/State";
+import lang from "src/language.json";
 import { Value } from "types/Value";
 import { Citizen } from "types/Citizen";
 import { Field } from "types/Field";
-import { createCitizen } from "@actions/citizen/CitizenActions";
+import { getCitizenById, updateCitizen } from "@actions/citizen/CitizenActions";
 import { getValuesByPath } from "@actions/values/ValuesActions";
-import { Select } from "@components/Select/Select";
+import { Select, SelectValue } from "@components/Select/Select";
 import { ValuePaths } from "types/ValuePaths";
 import { Seo } from "@components/Seo";
 import { GetServerSideProps } from "next";
 import { initializeStore } from "@state/useStore";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
+import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 
 interface Props {
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
+  citizen: Nullable<Citizen>;
+
   getValuesByPath: (path: ValuePaths) => void;
-  createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
+  updateCitizen: (id: string, data: Partial<Citizen>) => Promise<boolean | string>;
 }
 
 const CreateCitizenPage = ({
@@ -31,25 +34,45 @@ const CreateCitizenPage = ({
   ethnicities,
   legalStatuses,
   getValuesByPath,
-  createCitizen,
+  updateCitizen,
+  citizen,
 }: Props) => {
   const [image, setImage] = React.useState<any>(null);
   const [name, setName] = React.useState<string>("");
-  const [gender, setGender] = React.useState<string>("");
-  const [ethnicity, setEthnicity] = React.useState<string>("");
+  const [gender, setGender] = React.useState<SelectValue | null>(null);
+  const [ethnicity, setEthnicity] = React.useState<SelectValue | null>(null);
   const [birth, setBirth] = React.useState<string>("");
   const [hairColor, setHairColor] = React.useState<string>("");
   const [eyeColor, setEyeColor] = React.useState<string>("");
   const [address, setAddress] = React.useState<string>("");
   const [height, setHeight] = React.useState<string>("");
   const [weight, setWeight] = React.useState<string>("");
-  const [dmv, setDmv] = React.useState<string>("");
-  const [pilotsLicense, setPilotsLicense] = React.useState<string>("");
-  const [firearmsLicense, setFirearmsLicense] = React.useState<string>("");
-  const [ccw, setCcw] = React.useState<string>("");
+  const [dmv, setDmv] = React.useState<SelectValue | null>(null);
+  const [pilotsLicense, setPilotsLicense] = React.useState<SelectValue | null>(null);
+  const [firearmsLicense, setFirearmsLicense] = React.useState<SelectValue | null>(null);
+  const [ccw, setCcw] = React.useState<SelectValue | null>(null);
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const router = useRouter();
+
+  React.useEffect(() => {
+    if (citizen !== null) {
+      setName(citizen?.full_name!);
+      setGender({ label: citizen?.gender, value: citizen?.gender });
+      setEthnicity({ label: citizen?.ethnicity, value: citizen?.ethnicity });
+      setBirth(citizen?.birth!);
+      setHairColor(citizen?.hair_color!);
+      setEyeColor(citizen?.eye_color!);
+      setAddress(citizen?.address!);
+      setHeight(citizen?.height!);
+      setWeight(citizen?.weight!);
+      setDmv({ label: citizen?.dmv, value: citizen?.dmv });
+      setFirearmsLicense({ label: citizen?.fire_license, value: citizen?.fire_license });
+      setPilotsLicense({ label: citizen?.pilot_license, value: citizen?.pilot_license });
+      setCcw({ label: citizen?.ccw, value: citizen?.ccw });
+      setPhoneNumber(citizen?.phone_nr || "");
+    }
+  }, [citizen]);
 
   React.useEffect(() => {
     getValuesByPath("ethnicities");
@@ -64,11 +87,12 @@ const CreateCitizenPage = ({
       onChange: (e) => setName(e.target.value),
       label: lang.record.enter_full_name,
       id: "full_name",
+      disabled: true,
     },
     {
       type: "text",
-      value: gender,
-      onChange: (e) => setGender(e?.value),
+      value: (gender as unknown) as string,
+      onChange: (e) => setGender(e),
       label: lang.citizen.gender,
       selectLabel: lang.citizen.select_gender,
       id: "gender",
@@ -77,8 +101,8 @@ const CreateCitizenPage = ({
     },
     {
       type: "text",
-      value: ethnicity,
-      onChange: (e) => setEthnicity(e?.value),
+      value: (ethnicity as unknown) as string,
+      onChange: (e) => setEthnicity(e),
       label: lang.citizen.ethnicity,
       selectLabel: lang.citizen.select_ethnicity,
       id: "ethnicity",
@@ -139,8 +163,8 @@ const CreateCitizenPage = ({
   const licenseFields: Field[] = [
     {
       type: "text",
-      value: dmv,
-      onChange: (e) => setDmv(e?.value),
+      value: (dmv as unknown) as string,
+      onChange: (e) => setDmv(e),
       id: "dmv",
       label: lang.citizen.drivers_license,
       select: true,
@@ -148,8 +172,8 @@ const CreateCitizenPage = ({
     },
     {
       type: "text",
-      value: firearmsLicense,
-      onChange: (e) => setFirearmsLicense(e?.value),
+      value: (firearmsLicense as unknown) as string,
+      onChange: (e) => setFirearmsLicense(e),
       id: "firearmsLicense",
       label: lang.citizen.firearms_license,
       select: true,
@@ -157,8 +181,8 @@ const CreateCitizenPage = ({
     },
     {
       type: "text",
-      value: pilotsLicense,
-      onChange: (e) => setPilotsLicense(e?.value),
+      value: (pilotsLicense as unknown) as string,
+      onChange: (e) => setPilotsLicense(e),
       id: "pilotsLicense",
       label: lang.citizen.pilot_license,
       select: true,
@@ -166,8 +190,8 @@ const CreateCitizenPage = ({
     },
     {
       type: "text",
-      value: ccw,
-      onChange: (e) => setCcw(e?.value),
+      value: (ccw as unknown) as string,
+      onChange: (e) => setCcw(e),
       id: "ccw",
       label: lang.citizen.ccw,
       select: true,
@@ -177,31 +201,40 @@ const CreateCitizenPage = ({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!citizen) return;
     setLoading(true);
 
-    const created = await createCitizen({
+    const updated = await updateCitizen(citizen?.id, {
       image: image,
       full_name: name,
-      gender,
-      ethnicity,
+      gender: gender?.value,
+      ethnicity: ethnicity?.value,
       birth,
       hair_color: hairColor,
       eye_color: eyeColor,
       address,
       height,
       weight,
-      dmv,
-      pilot_license: pilotsLicense,
-      fire_license: firearmsLicense,
-      ccw,
+      dmv: dmv?.value,
+      pilot_license: pilotsLicense?.value,
+      fire_license: firearmsLicense?.value,
+      ccw: ccw?.value,
       phone_nr: phoneNumber,
     });
 
-    if (typeof created === "string") {
-      router.push(created);
+    if (updated === true) {
+      router.push(`/citizen/${citizen.id}`);
     }
 
     setLoading(false);
+  }
+
+  if (!citizen) {
+    return (
+      <Layout>
+        <AlertMessage message={{ msg: lang.citizen.citizen_not_found_by_name, type: "danger" }} />
+      </Layout>
+    );
   }
 
   return (
@@ -232,6 +265,7 @@ const CreateCitizenPage = ({
                   theme="dark"
                   closeMenuOnSelect
                   isClearable={false}
+                  value={(field.value as unknown) as SelectValue}
                   onChange={field.onChange}
                   options={field.data?.map((item: Value) => ({
                     label: item.name,
@@ -281,7 +315,7 @@ const CreateCitizenPage = ({
           </Link>
 
           <button disabled={loading} className="btn btn-primary ms-2" type="submit">
-            {loading ? `${lang.global.loading}...` : lang.citizen.create_citizen}
+            {loading ? `${lang.global.loading}...` : lang.citizen.update_citizen}
           </button>
         </div>
       </form>
@@ -289,10 +323,11 @@ const CreateCitizenPage = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const store = initializeStore();
   await getCadInfo(req.headers)(store.dispatch);
   await verifyAuth(req.headers)(store.dispatch);
+  await getCitizenById(`${query.id}`, req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };
@@ -301,9 +336,10 @@ const mapToProps = (state: State) => ({
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   legalStatuses: state.values["legal-statuses"],
+  citizen: state.citizen.citizen,
 });
 
 export default connect(mapToProps, {
   getValuesByPath,
-  createCitizen,
+  updateCitizen,
 })(CreateCitizenPage);

@@ -26,6 +26,9 @@ const ProbablyNotInTheTranslateFile = {
     citizen_name: "Citizen name",
     error_username: "Could not get username",
     error_citizen: "Could not get citizen name",
+    connected_steam: "Successfully connected with Steam",
+    unlinked_steam: "Successfuly unlinked Steam",
+    updated_password: "Successfully updated your password",
   },
   global: {
     ...file.global,
@@ -75,6 +78,7 @@ const ProbablyNotInTheTranslateFile = {
     add_medical_record: "Add medical record",
     declare_dead: "Declare dead",
     declare_alive: "Declare alive",
+    deleted_ems_fd: "Successfully deleted EMS/FD member"
   },
   account: {
     owner_cannot_delete_account: "The owner is not able to delete their account.",
@@ -86,6 +90,7 @@ const ProbablyNotInTheTranslateFile = {
     delete_bleet: "Delete bleet",
     uploaded_by: "Uploaded by",
     bleet_not_found: "Bleet was not found",
+    deleted_bleet_success: "Successfully deleted bleet",
   },
   citizen: {
     ...file.citizen,
@@ -101,6 +106,8 @@ const ProbablyNotInTheTranslateFile = {
     weapon_custom_serial: "Custom Serial number (Optional)",
     phone_number: "Phone number",
     editing_citizen: "Editing citizen",
+    updated_licenses: "Successfully updated licenses",
+    deleted_medical_record: "Successfully deleted medical record",
   },
   officers: {
     ...file.officers,
@@ -151,6 +158,7 @@ const ProbablyNotInTheTranslateFile = {
     edit_passwords: "Add temporary passwords (If the member lost their password)",
     give_temp_password: "Give temporary password",
     max_citizens: "Maximum amount of citizens that can be created per user",
+    updated_unit: "Successfully updated unit",
   },
   codes: {
     code: "Code",
@@ -171,6 +179,10 @@ const ProbablyNotInTheTranslateFile = {
     color: "Color",
     codes_10: "10 Codes",
     position: "Position",
+    success_10_code: "Successfully added 10 code",
+    updated_10_code: "Successfully updated 10 code",
+    success_penal_code: "Successfully added penal code",
+    updated_penal_code: "Successfully updated 10 code",
   },
   dispatch: {
     ...file.dispatch,

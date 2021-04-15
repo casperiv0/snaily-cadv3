@@ -174,7 +174,7 @@ export const registerWeapon = (data: RequestData) => async (dispatch: Dispatch<R
       weapons: res.data.weapons,
     });
 
-    return notify.success("Successfully registered weapon");
+    return notify.success(lang.citizen.weapon.added_weapon);
   } catch (e) {
     const error = getErrorFromResponse(e);
 
@@ -193,7 +193,7 @@ export const updateLicenses = (citizenId: string, data: RequestData) => async (
       citizen: res.data.citizen,
     });
 
-    return notify.success("Successfully registered weapon");
+    return notify.success(lang.citizen.updated_licenses);
   } catch (e) {
     const error = getErrorFromResponse(e);
 
@@ -240,6 +240,44 @@ export const createCitizen = (data: Partial<Citizen>) => async (
   }
 };
 
+export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
+  dispatch: Dispatch<{ type: "UPDATE_CITIZEN_BY_ID" }>,
+) => {
+  try {
+    const fd = new FormData();
+
+    if (data.image) {
+      fd.append("image", data.image, data.image?.name);
+    }
+
+    fd.append("full_name", data.full_name!);
+    fd.append("gender", data.gender!);
+    fd.append("ethnicity", data.ethnicity!);
+    fd.append("birth", data.birth!);
+    fd.append("hair_color", data.hair_color!);
+    fd.append("eye_color", data.eye_color!);
+    fd.append("address", data.address!);
+    fd.append("height", data.height!);
+    fd.append("weight", data.weight!);
+    fd.append("dmv", data.dmv!);
+    fd.append("pilot_license", data.pilot_license!);
+    fd.append("fire_license", data.fire_license!);
+    fd.append("ccw", data.ccw!);
+    fd.append("phone_nr", data.phone_nr!);
+
+    await handleRequest(`/citizen/${id}`, "PUT", (fd as unknown) as RequestData);
+
+    dispatch({
+      type: "UPDATE_CITIZEN_BY_ID",
+    });
+
+    return notify.success(`${lang.citizen.update_success} ${data.full_name}`);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
 export const deleteCitizenById = (id: string) => async (dispatch: Dispatch<DeleteCitizenById>) => {
   try {
     await handleRequest(`/citizen/${id}`, "DELETE");
@@ -248,7 +286,7 @@ export const deleteCitizenById = (id: string) => async (dispatch: Dispatch<Delet
       type: "DELETE_CITIZEN_BY_ID",
     });
 
-    return notify.success("Successfully deleted citizen");
+    return notify.success(lang.citizen.deleted_citizen);
   } catch (e) {
     const error = getErrorFromResponse(e);
 
@@ -286,7 +324,7 @@ export const createMedicalRecord = (citizenId: string, data: Partial<MedicalReco
       medicalRecords: res.data.medicalRecords,
     });
 
-    return notify.success("Successfully created medical record");
+    return notify.success(lang.citizen.medical.add_med);
   } catch (e) {
     const error = getErrorFromResponse(e);
 
@@ -294,7 +332,7 @@ export const createMedicalRecord = (citizenId: string, data: Partial<MedicalReco
   }
 };
 
-export const deleteMedicalRecord = (recordId: string, citizenId: string) => async (
+export const deleteMedicalRecord = (citizenId: string, recordId: string) => async (
   dispatch: Dispatch<IMedicalRecords>,
 ) => {
   try {
@@ -308,7 +346,7 @@ export const deleteMedicalRecord = (recordId: string, citizenId: string) => asyn
       medicalRecords: res.data.medicalRecords,
     });
 
-    return notify.success("Successfully deleted medical record");
+    return notify.success(lang.citizen.deleted_medical_record);
   } catch (e) {
     const error = getErrorFromResponse(e);
 

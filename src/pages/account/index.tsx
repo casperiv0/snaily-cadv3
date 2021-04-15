@@ -27,7 +27,7 @@ const AccountPage = ({ user, unLinkSteam }: Props) => {
 
   React.useEffect(() => {
     if (router.asPath.includes("?auth=success")) {
-      notify.success("Successfully connected with steam");
+      notify.success(lang.auth.connected_steam);
     }
   }, [router]);
 

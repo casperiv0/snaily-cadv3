@@ -65,7 +65,7 @@ export const deleteBleet = (id: string) => async (dispatch: Dispatch<any>) => {
       type: "DELETE_BLEET_BY_ID",
     });
 
-    return notify.success("Successfully deleted bleet");
+    return notify.success(lang.bleeter.deleted_bleet_success);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

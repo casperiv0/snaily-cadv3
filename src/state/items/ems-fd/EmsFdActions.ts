@@ -5,6 +5,7 @@ import { Deputy } from "types/Deputy";
 import { MedicalRecord } from "types/MedicalRecord";
 import { SocketEvents } from "types/Socket";
 import { GetActiveDeputy, IEmsFd, SearchMedicalRecords, SetEmsFdStatus } from "./EmsFdTypes";
+import lang from "src/language.json";
 
 export const getEmsFdDeputies = (headers?: any) => async (dispatch: Dispatch<IEmsFd>) => {
   try {
@@ -49,7 +50,7 @@ export const createEmsFdDeputy = (data: RequestData) => async (dispatch: Dispatc
       deputies: res.data.deputies,
     });
 
-    return notify.success("Successfully created EMS/FD member");
+    return notify.success(`${lang.ems_fd.created_ems} ${data.name}`);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);
@@ -65,7 +66,7 @@ export const deleteEmsFdDeputy = (id: string) => async (dispatch: Dispatch<IEmsF
       deputies: res.data.deputies,
     });
 
-    return notify.success("Successfully deleted EMS/FD member");
+    return notify.success(lang.ems_fd.deleted_ems_fd);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

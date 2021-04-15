@@ -13,6 +13,7 @@ import {
   IUnits,
   IUnit,
 } from "./AdminTypes";
+import lang from "src/language.json";
 
 export const get10Codes = (headers?: any) => async (dispatch: Dispatch<I10Codes>) => {
   try {
@@ -40,7 +41,7 @@ export const add10Code = (data: Partial<Code10>) => async (dispatch: Dispatch<I1
       codes: res.data.codes,
     });
 
-    return notify.success("Successfully added 10 code");
+    return notify.success(lang.codes.success_10_code);
   } catch (e) {
     const error = getErrorFromResponse(e);
 
@@ -59,7 +60,7 @@ export const update10Code = (id: string, data: Partial<Code10>) => async (
       codes: res.data.codes,
     });
 
-    return notify.success("Successfully updated 10 code");
+    return notify.success(lang.codes.updated_10_code);
   } catch (e) {
     const error = getErrorFromResponse(e);
 
@@ -109,7 +110,7 @@ export const updatePenalCode = (id: string, data: Partial<PenalCode>) => async (
       penalCodes: res.data.penalCodes,
     });
 
-    return notify.success("Successfully updated penal code");
+    return notify.success(lang.codes.updated_penal_code);
   } catch (e) {
     const error = getErrorFromResponse(e);
 
@@ -128,7 +129,7 @@ export const addPenalCode = (data: Partial<PenalCode>) => async (
       penalCodes: res.data.penalCodes,
     });
 
-    return notify.success("Successfully added penal code");
+    return notify.success(lang.codes.success_penal_code);
   } catch (e) {
     const error = getErrorFromResponse(e);
 
@@ -330,7 +331,7 @@ export const updateUnitById = (id: string, data: RequestData) => async (
       type: "UPDATE_UNIT_BY_ID",
     });
 
-    return notify.success("Successfully updated unit");
+    return notify.success(lang.admin.updated_unit);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

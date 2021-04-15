@@ -2,6 +2,7 @@ import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from 
 import { Dispatch } from "react";
 import { ModalIds } from "types/ModalIds";
 import { Authenticate, UnlinkSteam, UpdatePassword, VerifyAuth } from "./AuthTypes";
+import lang from "src/language.json";
 
 export const login = (data: { username: string; password: string }) => async (
   dispatch: Dispatch<Authenticate>,
@@ -88,10 +89,10 @@ export const updatePassword = (data: RequestData) => async (dispatch: Dispatch<U
     });
 
     modal(ModalIds.EditPassword)?.hide();
-    notify.success("Successfully updated password!");
+    notify.success(lang.auth.updated_password);
   } catch (e) {
     const error = getErrorFromResponse(e);
-    notify.warn(error);
+    return notify.warn(error);
   }
 };
 
@@ -106,7 +107,7 @@ export const logout = () => async (dispatch: Dispatch<Authenticate>) => {
     });
   } catch (e) {
     const error = getErrorFromResponse(e);
-    notify.error(error);
+    return notify.error(error);
   }
 };
 
@@ -118,9 +119,9 @@ export const unLinkSteam = () => async (dispatch: Dispatch<UnlinkSteam>) => {
       type: "UNLINK_STEAM",
     });
 
-    notify.success("Successfully unlinked steam");
+    return notify.success(lang.auth.unlinked_steam);
   } catch (e) {
     const error = getErrorFromResponse(e);
-    notify.error(error);
+    return notify.error(error);
   }
 };
