@@ -104,7 +104,7 @@ const ActiveUnitsC: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => 
                 return (
                   <tr key={idx} id={`${idx}`}>
                     <th scope="row">{++idx}</th>
-                    <td>{deputy.name}</td>
+                    <td>{`${deputy.callsign} ${deputy.name}`}</td>
                     <td>{deputy.status2}</td>
                     <td>
                       <button

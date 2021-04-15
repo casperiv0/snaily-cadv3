@@ -6,7 +6,7 @@ import { Cad } from "./Cad";
 import { Call } from "./Call";
 import { Citizen } from "./Citizen";
 import { Code10 } from "./Code10";
-import { Company } from "./Company";
+import { Company, CompanyPost } from "./Company";
 import { Deputy } from "./Deputy";
 import { ExpungementRequest } from "./ExpungementRequest";
 import { MedicalRecord } from "./MedicalRecord";
@@ -63,6 +63,10 @@ export interface State {
   companies: {
     companies: Company[];
     company: Nullable<Company>;
+    posts: CompanyPost[];
+    employees: Citizen[];
+    vehicles: Vehicle[];
+    error: Nullable<string>;
   };
   truckLogs: {
     logs: TruckLog[];

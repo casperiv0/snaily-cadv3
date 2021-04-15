@@ -1,6 +1,12 @@
 import { Dispatch } from "react";
 import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
-import { CreateCompany, GetCompanies, JoinCompany } from "./CompanyTypes";
+import {
+  CreateCompany,
+  CreateCompanyPost,
+  GetCompanies,
+  GetCompanyById,
+  JoinCompany,
+} from "./CompanyTypes";
 import lang from "src/language.json";
 
 export const getCompanies = (headers?: any) => async (dispatch: Dispatch<GetCompanies>) => {
@@ -65,5 +71,47 @@ export const deleteCompanyById = (id: string) => async (dispatch: Dispatch<GetCo
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.error(error);
+  }
+};
+
+export const getCompanyById = (id: string, citizenId: string, headers?: any) => async (
+  dispatch: Dispatch<GetCompanyById>,
+) => {
+  try {
+    const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "GET", {
+      cookie: headers?.cookie,
+      url: headers?.host,
+    });
+
+    dispatch({
+      type: "GET_COMPANY_BY_ID",
+      company: res.data.company,
+      employees: res.data.employees,
+      posts: res.data.posts,
+      vehicles: res.data.vehicles,
+    });
+
+    return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    console.log(error);
+  }
+};
+
+export const createCompanyPost = (id: string, citizenId: string, data: RequestData) => async (
+  dispatch: Dispatch<CreateCompanyPost>,
+) => {
+  try {
+    const res = await handleRequest(`/companies/${id}/posts?citizenId=${citizenId}`, "POST", data);
+
+    dispatch({
+      type: "CREATE_COMPANY_POST",
+      posts: res.data.posts,
+    });
+
+    return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
   }
 };
