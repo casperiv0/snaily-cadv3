@@ -44,7 +44,7 @@ const MyDeputies = ({ deputies, deleteEmsFdDeputy }: Props) => {
               className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
             >
               <p>
-                {++idx} | {deputy.name}
+                {++idx} | {deputy.callsign} {deputy.name}
               </p>
               <div>
                 <button onClick={() => deleteEmsFdDeputy(deputy.id)} className="btn btn-danger">

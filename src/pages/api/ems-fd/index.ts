@@ -53,8 +53,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         const id = v4();
         await processQuery(
-          "INSERT INTO `ems-fd` (`id`, `name`, `user_id`, `status`, `status2`) VALUES (?, ?, ?, ?, ?)",
-          [id, name, req.userId, "off-duty", "--------"],
+          "INSERT INTO `ems-fd` (`id`, `name`, `user_id`, `status`, `status2`, `callsign`) VALUES (?, ?, ?, ?, ?, ?)",
+          [id, name, req.userId, "off-duty", "--------", callsign],
         );
 
         const updated = await processQuery("SELECT * FROM `ems-fd` WHERE `user_id` = ?", [

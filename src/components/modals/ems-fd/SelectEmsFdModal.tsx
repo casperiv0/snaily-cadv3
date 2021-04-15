@@ -57,7 +57,10 @@ const SelectEmsFdModalC: React.FC<Props> = ({ deputies, getEmsFdDeputies, setEms
                 isMulti={false}
                 onChange={(v) => setSelected(v)}
                 value={selected}
-                options={deputies.map((dep) => ({ label: dep.name, value: dep.id }))}
+                options={deputies.map((dep) => ({
+                  label: `${dep.callsign} ${dep.name}`,
+                  value: dep.id,
+                }))}
               />
             )}
           </div>
