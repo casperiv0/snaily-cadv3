@@ -16,6 +16,8 @@ src/config.ts
 
 public/citizen-images/*
 public/bleeter-images/*
+!public/bleeter-images/.gitkeep
+!public/citizen-images/.gitkeep
 
 .DS_Store
 
