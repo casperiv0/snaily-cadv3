@@ -1,5 +1,5 @@
 import * as React from "react";
-import Markdown from "react-markdown/with-html";
+import Markdown from "react-markdown";
 import { connect } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
@@ -93,9 +93,7 @@ const BleetPage: React.FC<Props> = ({ bleet, user, deleteBleet }) => {
         />
       ) : null}
 
-      <Markdown allowDangerousHtml className="mt-3">
-        {bleet?.markdown ?? ""}
-      </Markdown>
+      <Markdown className="mt-3">{bleet?.body ?? ""}</Markdown>
 
       {bleet?.id && user?.id === bleet.user_id ? <EditBleetModal bleet={bleet} /> : null}
     </Layout>

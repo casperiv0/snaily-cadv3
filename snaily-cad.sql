@@ -76,7 +76,6 @@ CREATE TABLE `bleets` (
   `id` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `body` text NOT NULL,
-  `markdown` text NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `uploaded_at` varchar(255) NOT NULL,
   `image_id` text NOT NULL,

@@ -7,7 +7,6 @@ import { AnError, RanksArr } from "@lib/consts";
 import { Bleet } from "types/Bleet";
 import { User } from "types/User";
 import { formatRequired } from "@lib/utils.server";
-import { useMarkdown } from "@hooks/useMarkdown";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;
@@ -77,11 +76,11 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const markdown = useMarkdown(body);
-        await processQuery(
-          "UPDATE `bleets` SET `title` = ?, `body` = ?, `markdown` = ? WHERE `bleets`.`id` = ?",
-          [title, body, markdown, req.query.id],
-        );
+        await processQuery("UPDATE `bleets` SET `title` = ?, `body` = ? WHERE `bleets`.`id` = ?", [
+          title,
+          body,
+          req.query.id,
+        ]);
 
         const [updated] = await processQuery<Bleet>(
           "SELECT * FROM `bleets` WHERE `bleets`.`id` = ?",

@@ -49,6 +49,7 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine("ALTER TABLE `bleets` DROP `markdown`;");
   updateLine("ALTER TABLE `ems-fd` ADD `callsign` varchar(255) NOT NULL AFTER `name`;");
 
   updateLine(`

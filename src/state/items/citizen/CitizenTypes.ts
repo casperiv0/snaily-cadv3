@@ -28,18 +28,18 @@ export interface RegisterWeapon {
   weapons: Weapon[];
 }
 export interface ICitizenVehicles {
-  type: "GET_CITIZEN_VEHICLES" | "DELETE_VEHICLE_BY_ID" | "UPDATE_VEHICLE_BY_ID";
+  type:
+    | "GET_CITIZEN_VEHICLES"
+    | "DELETE_VEHICLE_BY_ID"
+    | "UPDATE_VEHICLE_BY_ID"
+    | "REGISTER_VEHICLE"
+    | "TRANSFER_VEHICLE";
   vehicles: Vehicle[];
 }
 
 export interface UpdateCitizenLicenses {
   type: "UPDATE_CITIZEN_LICENSES";
   citizen: Nullable<Citizen>;
-}
-
-export interface RegisterVehicle {
-  type: "REGISTER_VEHICLE";
-  vehicles: Vehicle[];
 }
 
 export interface DeleteCitizenById {
@@ -59,7 +59,6 @@ export interface GetUserCompanies {
 export type Actions =
   | GetUserCitizens
   | GetCitizenById
-  | RegisterVehicle
   | RegisterWeapon
   | ICitizenVehicles
   | ICitizenWeapons

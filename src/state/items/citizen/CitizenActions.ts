@@ -4,7 +4,6 @@ import {
   GetCitizenById,
   ICitizenWeapons,
   GetUserCitizens,
-  RegisterVehicle,
   RegisterWeapon,
   ICitizenVehicles,
   UpdateCitizenLicenses,
@@ -148,7 +147,7 @@ export const updateVehicleById = (
 };
 
 export const registerVehicle = (data: RequestData) => async (
-  dispatch: Dispatch<RegisterVehicle>,
+  dispatch: Dispatch<ICitizenVehicles>,
 ) => {
   try {
     const res = await handleRequest(`/citizen/${data.citizenId}/vehicles`, "POST", data);
@@ -370,5 +369,23 @@ export const getUserCompanies = (headers?: any) => async (dispatch: Dispatch<Get
   } catch (e) {
     const error = getErrorFromResponse(e);
     console.log(error);
+  }
+};
+
+export const transferVehicle = (id: string, data: RequestData) => async (
+  dispatch: Dispatch<ICitizenVehicles>,
+) => {
+  try {
+    const res = await handleRequest(`/citizen/transfer-vehicle/${id}`, "PUT", data);
+
+    dispatch({
+      type: "TRANSFER_VEHICLE",
+      vehicles: res.data.vehicles,
+    });
+
+    return notify.success("Successfully transferred vehicle");
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
   }
 };

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import Link from "next/link";
 import { Nullable, State } from "types/State";
 import { Vehicle } from "types/Vehicle";
 import lang from "../../language.json";
@@ -9,6 +8,7 @@ import { ModalIds } from "types/ModalIds";
 import { Item, Span } from "@components/Item";
 import { RequestData } from "@lib/utils";
 import { EditVehicleModal } from "@components/modals/citizen/EditVehicleModal";
+import { TransferVehicleModal } from "@components/modals/citizen/TransferVehicleModal";
 
 interface Props {
   citizenId: Nullable<string>;
@@ -24,6 +24,7 @@ const RegisteredVehicles: React.FC<Props> = ({
   deleteVehicleById,
 }) => {
   const [tempVehicle, setTempVehicle] = React.useState<Nullable<Vehicle>>(null);
+  const [transferVehicle, setTransferVehicle] = React.useState<Nullable<Vehicle>>(null);
 
   function handleReport(vehicle: Vehicle) {
     if (!citizenId) return;
@@ -102,9 +103,14 @@ const RegisteredVehicles: React.FC<Props> = ({
 
                     {/* actions */}
                     <div id="actions">
-                      <Link href={`/vehicles/transfer/${vehicle.id}`}>
-                        <a className="btn btn-dark me-2">{lang.citizen.vehicle.transfer}</a>
-                      </Link>
+                      <button
+                        onClick={() => setTransferVehicle(vehicle)}
+                        className="btn btn-success mx-2"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#${ModalIds.TransferVehicle}`}
+                      >
+                        {lang.citizen.vehicle.transfer}
+                      </button>
 
                       {vehicle.in_status === "Reported stolen" ? null : (
                         <button className="btn btn-dark me-2" onClick={() => handleReport(vehicle)}>
@@ -134,6 +140,7 @@ const RegisteredVehicles: React.FC<Props> = ({
         )}
       </div>
 
+      <TransferVehicleModal vehicle={transferVehicle} />
       <EditVehicleModal vehicle={tempVehicle} />
     </div>
   );

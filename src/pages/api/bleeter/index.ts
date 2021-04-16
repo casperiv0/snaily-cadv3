@@ -7,7 +7,6 @@ import { IRequest } from "types/IRequest";
 import { logger } from "@lib/logger";
 import { AnError, SupportedFileTypes } from "@lib/consts";
 import { formatRequired, runMiddleware } from "@lib/utils.server";
-import { useMarkdown } from "@hooks/useMarkdown";
 
 export const config = {
   api: {
@@ -62,12 +61,11 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const markdown = useMarkdown(body);
         const id = v4();
 
         await processQuery(
-          "INSERT INTO `bleets` (`id`, `title`, `body`, `markdown`, `user_id`, `uploaded_at`, `image_id`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          [id, title, body, markdown, user_id, uploadedAt, imageId, false, 0],
+          "INSERT INTO `bleets` (`id`, `title`, `body`, `user_id`, `uploaded_at`, `image_id`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+          [id, title, body, user_id, uploadedAt, imageId, false, 0],
         );
 
         if (file) {
