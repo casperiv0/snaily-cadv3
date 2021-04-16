@@ -6,11 +6,12 @@ import lang from "src/language.json";
 import { deleteCompanyById, updateCompany } from "@actions/companies/CompanyActions";
 import { Select, SelectValue } from "@components/Select/Select";
 import { RequestData } from "@lib/utils";
+import { useRouter } from "next/router";
 
 interface Props {
   company: Nullable<Company>;
   citizenId: string;
-  deleteCompanyById: (id: string, citizenId: string) => void;
+  deleteCompanyById: (id: string, citizenId: string) => Promise<boolean>;
   updateCompany: (id: string, citizenId: string, data: RequestData) => Promise<boolean>;
 }
 
@@ -24,6 +25,7 @@ const EditCompanyTabC: React.FC<Props> = ({
   const [whitelisted, setWhitelisted] = React.useState<Nullable<SelectValue>>(null);
   const [address, setAddress] = React.useState<string>("");
   const [loading, setLoading] = React.useState(false);
+  const router = useRouter();
 
   React.useEffect(() => {
     if (company?.name) {
@@ -52,11 +54,16 @@ const EditCompanyTabC: React.FC<Props> = ({
     setLoading(false);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (!company?.id) {
       return alert("An error occurred EDIT_COMPANY_TAB_LINE_52#handleDelete");
     }
-    deleteCompanyById(company?.id, citizenId);
+
+    const success = await deleteCompanyById(company?.id, citizenId);
+
+    if (success === true) {
+      router.push(`/citizen/${citizenId}`);
+    }
   }
 
   return (

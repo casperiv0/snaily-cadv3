@@ -33,6 +33,13 @@ export default async function (req: IRequest, res: NextApiResponse) {
           req.query.id,
         ]);
 
+        if (!request) {
+          return res.status(404).json({
+            error: "request was not found",
+            status: "error",
+          });
+        }
+
         switch (req.query.type) {
           case "accept": {
             // value to remove from the citizen
@@ -53,7 +60,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
               "Expungement request accepted",
               `Your expungement was accepted for citizen with id: ${request.citizen_id}`,
               "/court",
-              request[0].user_id,
+              request.user_id,
             );
 
             break;
@@ -62,15 +69,15 @@ export default async function (req: IRequest, res: NextApiResponse) {
             await processQuery("DELETE FROM `court_requests` WHERE `id` = ?", [req.query.id]);
             await createNotification(
               "Expungement request declined",
-              `Your expungement was declined for citizen with id: ${request[0].citizen_id}`,
+              `Your expungement was declined for citizen with id: ${request.citizen_id}`,
               "/court",
-              request[0].user_id,
+              request.user_id,
             );
 
             break;
           }
           default: {
-            return res.json({
+            return res.status(400).json({
               error: "invalid type",
               status: "error",
             });

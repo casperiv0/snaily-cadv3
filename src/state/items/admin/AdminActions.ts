@@ -207,11 +207,15 @@ export const acceptOrDeclineRequest = (
   request: ExpungementRequest,
 ) => async (dispatch: Dispatch<IExpungementRequests>) => {
   try {
-    const res = await handleRequest(`/admin/expungement-requests/${request.id}`, "PUT", {
-      warrants: request.warrants,
-      arrestReports: request.arrestReports,
-      tickets: request.tickets,
-    });
+    const res = await handleRequest(
+      `/admin/expungement-requests/${request.id}?type=${type}`,
+      "PUT",
+      {
+        warrants: request.warrants,
+        arrestReports: request.arrestReports,
+        tickets: request.tickets,
+      },
+    );
 
     dispatch({
       type: "UPDATE_EXPUNGEMENT_REQUEST",

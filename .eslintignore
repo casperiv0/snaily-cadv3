@@ -5,5 +5,4 @@ scripts
 .github
 **/*.json
 dist
-client/*
-server/*
+.next
