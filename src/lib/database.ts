@@ -7,7 +7,7 @@ const options: ConnectionConfig = {
   host: config.host,
   user: config.user,
   password: config.password,
-  database: "snaily-cad",
+  database: config.databaseName,
 };
 
 async function connect(): Promise<Connection> {
