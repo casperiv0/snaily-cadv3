@@ -20,6 +20,8 @@ app
     socketServer.use(wrap(cookieParser()));
     socketServer.on("connection", (s) => socketHandler(s, socketServer));
 
+    (global as any).io = socketServer;
+
     httpServer.listen(config.port, () =>
       logger.log("APP", `Running on http://localhost:${config.port}/`),
     );

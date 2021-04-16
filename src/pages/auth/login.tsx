@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Link from "next/link";
 import lang from "../../language.json";
 import { login } from "@actions/auth/AuthActions";
+import { Seo } from "@components/Seo";
 
 interface Props {
   login: (data: { username: string; password: string }) => Promise<boolean>;
@@ -37,6 +38,8 @@ const LoginPage = ({ login }: Props) => {
       className="mt-3 mx-auto"
       style={{ width: "500px", maxWidth: "95%" }}
     >
+      <Seo title={lang.auth.login_2} />
+
       <h2>{lang.auth.login_2}</h2>
       <div className="mb-3">
         <label className="form-label" htmlFor="username">

@@ -4,6 +4,7 @@ import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { useCookie } from "@hooks/useCookie";
+import { logoutActiveUnits } from "@lib/utils.server";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -19,6 +20,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
     case "POST": {
       try {
         useCookie(res, "");
+        await logoutActiveUnits(req.userId);
 
         return res.json({
           user: null,

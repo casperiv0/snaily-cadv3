@@ -1,8 +1,8 @@
 import { Dispatch } from "react";
 import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { CallTypes, CreateCall, GetCalls } from "./CallTypes";
-
-// TODO: add socket.emit for calls.
+import { socket } from "@hooks/useSocket";
+import { SocketEvents } from "types/Socket";
 
 export const createCall = (type: CallTypes, data: RequestData) => async (
   dispatch: Dispatch<CreateCall>,
@@ -15,6 +15,7 @@ export const createCall = (type: CallTypes, data: RequestData) => async (
       calls: res.data.calls,
     });
 
+    socket.emit(SocketEvents.Update911Calls);
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
@@ -49,8 +50,11 @@ export const endCall = (type: CallTypes, id: string) => async (dispatch: Dispatc
       type: "GET_CALLS",
       calls: res.data.calls,
     });
+
+    socket.emit(SocketEvents.Update911Calls);
+    return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
-    notify.error(error);
+    return notify.error(error);
   }
 };

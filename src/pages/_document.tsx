@@ -11,6 +11,7 @@ class SnailyCAD extends Document {
       <Html lang="en">
         <Head>
           <link rel="shortcut icon" href="/favicon.png" />
+          <meta property="og:image" content="/favicon.png" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link rel="preconnect" href="https://code.jquery.com" />
           <link rel="preconnect" href="https://cdn.jsdelivr.net" />

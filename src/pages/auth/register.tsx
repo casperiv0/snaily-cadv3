@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Link from "next/link";
 import lang from "../../language.json";
 import { register } from "@actions/auth/AuthActions";
+import { Seo } from "@components/Seo";
 
 interface Props {
   register: (data: { username: string; password: string; password2: string }) => Promise<boolean>;
@@ -39,6 +40,7 @@ const RegisterPage = ({ register }: Props) => {
       className="mt-3 mx-auto"
       style={{ width: "500px", maxWidth: "95%" }}
     >
+      <Seo title={lang.auth.register} />
       <h2>{lang.auth.register}</h2>
       <div className="mb-3">
         <label className="form-label" htmlFor="username">

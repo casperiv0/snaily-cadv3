@@ -140,6 +140,5 @@ export async function logoutActiveUnits(userId: string | undefined): Promise<voi
       }),
   );
 
-  // TODO
-  // io.sockets.emit("UPDATE_ACTIVE_UNITS");
+  (global as any)?.io?.sockets?.emit?.("UPDATE_ACTIVE_UNITS");
 }

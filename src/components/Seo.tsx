@@ -26,7 +26,6 @@ export const Seo: React.FC<Props> = (props) => {
   };
 
   // TODO: make seo endpoint public
-  //   TODO: add support for custom text & images.
 
   return (
     <Head>

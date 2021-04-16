@@ -331,7 +331,8 @@
         "give_temp_password": "Give temporary password",
         "max_citizens": "Maximum amount of citizens that can be created per user",
         "updated_unit": "Successfully updated unit",
-        "updated_member": "Successfully updated member"
+        "updated_member": "Successfully updated member",
+        "temp_password_success": "Successfully created a temp password"
     },
     "bleeter": {
         "not_found": "Bleet was not found",
