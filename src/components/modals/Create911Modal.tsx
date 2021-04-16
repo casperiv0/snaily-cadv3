@@ -99,7 +99,7 @@ const Create911ModalC = ({ callTypes, getValuesByPath, createCall }: Props) => {
               />
             </div>
 
-            {router.pathname === "/dispatch" ? (
+            {["/dispatch", "/dispatch/map"].includes(router.pathname) ? (
               <div className="mt-3 mb-3">
                 <label className="form-label">{lang.admin.values["call-types"].name}</label>
                 <Select

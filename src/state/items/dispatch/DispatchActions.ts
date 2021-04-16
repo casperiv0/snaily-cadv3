@@ -1,4 +1,4 @@
-import { GetActiveUnits, AddressSearch } from "./DispatchTypes";
+import { GetActiveUnits, AddressSearch, GetSteamIds } from "./DispatchTypes";
 import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { Dispatch } from "react";
 import { Call } from "types/Call";
@@ -68,6 +68,25 @@ export const getActiveUnits = (headers?: any) => async (dispatch: Dispatch<GetAc
       type: "GET_ACTIVE_UNITS",
       ems_fd: res.data.ems_fd,
       officers: res.data.officers,
+    });
+
+    return true;
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const getSteamIds = (headers?: any) => async (dispatch: Dispatch<GetSteamIds>) => {
+  try {
+    const res = await handleRequest("/dispatch/steam_ids", "GET", {
+      cookie: headers?.cookie,
+      url: headers?.host,
+    });
+
+    dispatch({
+      type: "GET_STEAM_IDS",
+      steamIds: res.data.members,
     });
 
     return true;
