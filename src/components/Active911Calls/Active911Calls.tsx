@@ -1,7 +1,8 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { useRouter } from "next/router";
 import { Call } from "types/Call";
 import { State } from "types/State";
-import { connect } from "react-redux";
 import { endCall, getCalls } from "@actions/calls/CallActions";
 import { update911Call } from "@actions/dispatch/DispatchActions";
 import { socket } from "@hooks/useSocket";
@@ -9,7 +10,6 @@ import { playSound } from "@lib/utils";
 import { Officer } from "types/Officer";
 import { Deputy } from "types/Deputy";
 import { SocketEvents } from "types/Socket";
-import { useRouter } from "next/router";
 import { CallTypes } from "@actions/calls/CallTypes";
 import lang from "src/language.json";
 
@@ -121,15 +121,19 @@ const Active911CallsC: React.FC<Props> = ({
                       disabled={disabled}
                       title={disabled ? "Go on-duty first!" : ""}
                       onClick={() => {
-                        if (!activeOfficer) return;
+                        if (!activeOfficer || !activeDeputy) return;
 
                         if (call.assigned_unit.find((u) => u.value === activeOfficer.id)) {
-                          return update911Call(call.id, {
-                            ...call,
-                            assigned_unit: call.assigned_unit.filter(
-                              (v) => v.value !== activeOfficer.id,
-                            ),
-                          });
+                          return update911Call(
+                            call.id,
+                            {
+                              ...call,
+                              assigned_unit: call.assigned_unit.filter(
+                                (v) => v.value !== activeOfficer.id,
+                              ),
+                            },
+                            false,
+                          );
                         } else {
                           update911Call(
                             call.id,

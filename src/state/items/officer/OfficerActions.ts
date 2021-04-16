@@ -204,7 +204,7 @@ export const suspendLicense = (type: string, citizenId: string) => async (
       type: "SUSPEND_LICENSE",
     });
 
-    return notify.success("Successfully suspended license.");
+    return notify.success(lang.officers.suspend_license_success);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);
@@ -221,7 +221,7 @@ export const saveNote = (citizenId: string, note: string) => async (
       type: "SAVE_NOTE",
     });
 
-    return notify.success("Successfully added note");
+    return notify.success(lang.officers.added_note);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

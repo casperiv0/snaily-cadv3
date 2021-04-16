@@ -117,22 +117,12 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
         </div>
 
         <div className="card-body">
-          <a download className="btn btn-primary mt-2 mb-2" href="/downloads/snailyCADv3-tow.zip">
-            FiveM Call tow (/calltow)
-          </a>
           <a
-            download
-            className="btn btn-primary mt-2 mb-2 ms-2"
-            href="/downloads/snailyCADv3-911.zip"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://github.com/Dev-CasperTheGhost/snaily-cadv3/tree/main/public/downloads"
           >
-            FiveM Call 911 (/call911)
-          </a>
-          <a
-            download
-            className="btn btn-primary mt-2 mb-2 ms-2"
-            href="/downloads/snailyCADv3-taxi.zip"
-          >
-            FiveM Call Taxi (/calltaxi)
+            FiveM addons (download via GitHub)
           </a>
           <a
             rel="noreferrer noopener"

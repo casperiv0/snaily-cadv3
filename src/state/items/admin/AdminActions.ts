@@ -331,7 +331,7 @@ export const updateMemberById = (id: string, data: RequestData) => async (
       member: res.data.member,
     });
 
-    return notify.success("Successfully updated member");
+    return notify.success(lang.admin.updated_member);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

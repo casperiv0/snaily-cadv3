@@ -74,7 +74,7 @@ export const updateBoloById = (id: string, data: RequestData) => async (
     socket.emit(SocketEvents.UpdateBolos);
     modal(ModalIds.EditBolo)?.hide();
 
-    return notify.success("Successfully updated bolo");
+    return notify.success(lang.bolos.updated_bolo);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.error(error);

@@ -3,6 +3,7 @@ import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { Dispatch } from "react";
 import { Call } from "types/Call";
 import { UpdateCall } from "../calls/CallTypes";
+import lang from "src/language.json";
 
 export const addCallEvent = (callId: string, text: string) => async (dispatch: Dispatch<any>) => {
   try {
@@ -12,7 +13,7 @@ export const addCallEvent = (callId: string, text: string) => async (dispatch: D
       type: "ADD_CALL_EVENT",
     });
 
-    return notify.success("Successfully added event");
+    return notify.success(lang.dispatch.added_event);
   } catch (e) {
     const error = getErrorFromResponse(e);
     notify.warn(error);
@@ -31,7 +32,7 @@ export const update911Call = (callId: string, data: Partial<Call>, shouldNotify 
     });
 
     if (shouldNotify) {
-      notify.success("Successfully updated 911 call");
+      notify.success(lang.dispatch.updated_call);
     }
 
     return true;

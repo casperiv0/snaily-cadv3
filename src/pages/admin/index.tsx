@@ -9,6 +9,8 @@ import { AdminLayout } from "@components/admin/AdminLayout";
 import { Nullable, State } from "types/State";
 import { User } from "types/User";
 import { RanksArr } from "@lib/consts";
+import { Seo } from "@components/Seo";
+import lang from "src/language.json";
 
 interface Props {
   user: Nullable<User>;
@@ -23,7 +25,11 @@ const AdminPage = ({ user }: Props) => {
     }
   }, [router, user]);
 
-  return <AdminLayout></AdminLayout>;
+  return (
+    <AdminLayout>
+      <Seo title={lang.nav.admin} />
+    </AdminLayout>
+  );
 };
 
 const mapToProps = (state: State) => ({

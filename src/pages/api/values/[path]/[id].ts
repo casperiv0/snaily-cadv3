@@ -47,7 +47,21 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
         return res.json({ status: "success", values: updated });
       } catch (e) {
-        logger.error("cad-info", e);
+        logger.error("update_value", e);
+
+        return res.status(500).json(AnError);
+      }
+    }
+    case "DELETE": {
+      try {
+        const parsedPath = req.parsedPath;
+
+        await processQuery(`DELETE FROM \`${parsedPath}\` WHERE \`id\` = ?`, [req.query.id]);
+
+        const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+        return res.json({ status: "success", values: updated });
+      } catch (e) {
+        logger.error("delete_value", e);
 
         return res.status(500).json(AnError);
       }

@@ -23,7 +23,7 @@ interface Path {
   enabled: (cad: Cad | null) => boolean;
 }
 
-const pages = ["/404", "/"];
+const pages = ["/404", "/", "/403"];
 
 export const paths: Path[] = [
   {

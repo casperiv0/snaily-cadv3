@@ -29,11 +29,11 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "POST": {
       try {
-        const { name, officer_name, charges, postal, notes = "" } = req.body;
+        const { name, officer_name, infractions, postal, notes = "" } = req.body;
 
-        if (!name || !charges || !postal || !officer_name) {
+        if (!name || !infractions || !postal || !officer_name) {
           return res.status(400).json({
-            error: formatRequired(["name", "officer_name", "charges", "postal"], req.body),
+            error: formatRequired(["name", "officer_name", "infractions", "postal"], req.body),
             status: "error",
           });
         }
@@ -53,7 +53,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         await processQuery(
           "INSERT INTO `written_warnings` (`id`, `name`, `citizen_id`, `date`, `infractions`, `officer_name`, `notes`, `postal`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-          [id, name, citizen.id, Date.now(), charges, officer_name, notes, postal],
+          [id, name, citizen.id, Date.now(), infractions, officer_name, notes, postal],
         );
 
         return res.json({ status: "success" });

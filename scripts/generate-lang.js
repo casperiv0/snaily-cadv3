@@ -58,6 +58,7 @@ const ProbablyNotInTheTranslateFile = {
     no_warrants: "You don't have any warrants.",
     no_arr_reports: "You don't have any arrest reports.",
     no_tickets: "You don't have any tickets.",
+    request_success: "Successfully requested expungement",
   },
   notifications: {
     center: "Notification Center",
@@ -78,7 +79,7 @@ const ProbablyNotInTheTranslateFile = {
     add_medical_record: "Add medical record",
     declare_dead: "Declare dead",
     declare_alive: "Declare alive",
-    deleted_ems_fd: "Successfully deleted EMS/FD member"
+    deleted_ems_fd: "Successfully deleted EMS/FD member",
   },
   account: {
     owner_cannot_delete_account: "The owner is not able to delete their account.",
@@ -108,6 +109,7 @@ const ProbablyNotInTheTranslateFile = {
     editing_citizen: "Editing citizen",
     updated_licenses: "Successfully updated licenses",
     deleted_medical_record: "Successfully deleted medical record",
+    transfer_vehicle_success: "Successfully transferred vehicle",
   },
   officers: {
     ...file.officers,
@@ -129,6 +131,8 @@ const ProbablyNotInTheTranslateFile = {
     select_office: "Must select an officer before continuing",
     suspend_license: "Suspend License",
     suspended: "Suspended",
+    suspend_license_success: "Successfully suspended license",
+    added_note: "Successfully added note",
   },
   admin: {
     ...file.admin,
@@ -159,6 +163,7 @@ const ProbablyNotInTheTranslateFile = {
     give_temp_password: "Give temporary password",
     max_citizens: "Maximum amount of citizens that can be created per user",
     updated_unit: "Successfully updated unit",
+    updated_member: "Successfully updated member",
   },
   codes: {
     code: "Code",
@@ -208,6 +213,8 @@ const ProbablyNotInTheTranslateFile = {
     citizen_call: "Citizen Call",
     assign_self_to_call: "Assign self to call",
     unassign_from_call: "Unassign from call",
+    added_event: "Successfully added event to call",
+    updated_call: "Successfully updated 911 call",
   },
   nav: {
     ...file.nav,
@@ -217,6 +224,7 @@ const ProbablyNotInTheTranslateFile = {
   bolos: {
     ...file.bolos,
     edit_bolo: "Edit Bolo",
+    updated_bolo: "Successfully updated bolo",
   },
 };
 

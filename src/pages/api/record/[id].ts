@@ -27,7 +27,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "DELETE": {
       try {
-        const recordId = req.query;
+        const recordId = req.query.id;
         const { type, citizenId } = req.query;
 
         if (!type || !citizenId) {
@@ -87,7 +87,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           status: "success",
         });
       } catch (e) {
-        logger.error("create_written_warning", e);
+        logger.error("delete_record", e);
 
         return res.status(500).json(AnError);
       }

@@ -8,7 +8,7 @@ import { Value } from "types/Value";
 import lang from "src/language.json";
 import { AdminLayout } from "@components/admin/AdminLayout";
 import { ValuePaths } from "types/ValuePaths";
-import { getValuesByPath } from "@actions/values/ValuesActions";
+import { getValuesByPath, deleteValueById } from "@actions/values/ValuesActions";
 import { Loader } from "@components/Loader/Loader";
 import { useObserver } from "@hooks/useObserver";
 import { ModalIds } from "types/ModalIds";
@@ -27,7 +27,7 @@ interface Props {
   loading: boolean;
   user: Nullable<User>;
 
-  deleteValue: (id: string, path: ValuePaths) => void;
+  deleteValueById: (path: ValuePaths, id: string) => void;
 }
 
 const paths: string[] = [
@@ -45,7 +45,7 @@ const Values: React.FC<Props> = ({
   loading,
   user,
 
-  deleteValue,
+  deleteValueById,
 }) => {
   const [tempValue, setTempValue] = React.useState<Value | null>(null);
   const [filtered, setFiltered] = React.useState<any>([]);
@@ -69,7 +69,7 @@ const Values: React.FC<Props> = ({
   }, [values, path]);
 
   function handleDelete(id: string) {
-    deleteValue(id, path);
+    deleteValueById(path, id);
   }
 
   function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
@@ -183,5 +183,5 @@ const mapToProps = (state: State) => ({
 });
 
 export default connect(mapToProps, {
-  // deleteValue,
+  deleteValueById,
 })(Values);

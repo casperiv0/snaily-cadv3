@@ -383,7 +383,7 @@ export const transferVehicle = (id: string, data: RequestData) => async (
       vehicles: res.data.vehicles,
     });
 
-    return notify.success("Successfully transferred vehicle");
+    return notify.success(lang.citizen.transfer_vehicle_success);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

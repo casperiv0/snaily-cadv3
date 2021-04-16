@@ -19,7 +19,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   try {
-    await usePermission(req, ["dispatch"]);
+    // allow LEO & EMS_FD to assign themselves to the call. Might need to create custom endpoint for security
+    await usePermission(req, ["dispatch", "ems_fd", "leo"]);
   } catch (e) {
     return res.status(e?.code ?? 401).json({
       status: "error",

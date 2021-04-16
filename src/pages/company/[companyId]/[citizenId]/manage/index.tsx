@@ -32,7 +32,7 @@ const ManageCompanyPage: React.FC<Props> = ({ company, citizen, error }) => {
 
   React.useEffect(() => {
     if (citizen?.id && !["owner", "manager"].includes(String(citizen.rank))) {
-      router.push("/forbidden");
+      router.push("/403");
     }
   }, [citizen, router]);
 

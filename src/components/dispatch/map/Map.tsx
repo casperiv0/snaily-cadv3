@@ -42,7 +42,6 @@ import { CallInfoHTML, PlayerInfoHTML, BlipInfoHTML } from "@components/dispatch
 import { User } from "types/User";
 import { blipTypes } from "@components/dispatch/map/blips";
 import { notify } from "@lib/utils";
-import { Loader } from "@components/Loader/Loader";
 import { ModalIds } from "types/ModalIds";
 /* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
 
@@ -708,8 +707,6 @@ class MapClass extends Component<Props, MapState> {
 
     return (
       <>
-        {/* TODO: make loader fullscreen */}
-        {this.state.loading ? <Loader /> : null}
         <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
 
         <div className="map-blips-container">

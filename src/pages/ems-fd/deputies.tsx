@@ -11,6 +11,7 @@ import lang from "src/language.json";
 import { ModalIds } from "types/ModalIds";
 import { CreateDeputyModal } from "@components/modals/ems-fd/CreateDeputyModal";
 import { State } from "types/State";
+import { Seo } from "@components/Seo";
 
 interface Props {
   deputies: Deputy[];
@@ -20,6 +21,7 @@ interface Props {
 const MyDeputies = ({ deputies, deleteEmsFdDeputy }: Props) => {
   return (
     <Layout>
+      <Seo title={lang.ems_fd.my_ems_fd} />
       <h4 className="card-title mt-3">{lang.ems_fd.my_deputies}</h4>
 
       <div className="d-flex gap-2 mb-2">

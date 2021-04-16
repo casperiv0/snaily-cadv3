@@ -1,6 +1,7 @@
 import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
 import { RequestExpungement, SearchCitizen, GetExpungementRequests } from "./CourtTypes";
+import lang from "src/language.json";
 
 export const requestExpungement = (citizenId: string, data: RequestData) => async (
   dispatch: Dispatch<RequestExpungement>,
@@ -12,7 +13,7 @@ export const requestExpungement = (citizenId: string, data: RequestData) => asyn
       type: "REQUEST_EXPUNGEMENT",
     });
 
-    return notify.success("Successfully requested expungement");
+    return notify.success(lang.court.request_success);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

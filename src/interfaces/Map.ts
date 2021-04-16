@@ -85,7 +85,6 @@ export const defaultTypes: Record<number, IIcon> = {
     iconSize: [25, 40],
     popupAnchor: [0, 2],
   },
-  // TODO: add icon for these
   // Police car
   // 5: {},
   // Fire truck
