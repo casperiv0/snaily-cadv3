@@ -51,6 +51,9 @@ async function updateLine(sql: string) {
 async function updateDb() {
   updateLine("ALTER TABLE `bleets` DROP `markdown`;");
   updateLine("ALTER TABLE `ems-fd` ADD `callsign` varchar(255) NOT NULL AFTER `name`;");
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `max_citizens` varchar(255) NOT NULL DEFAULT 'unlimited' AFTER `plate_length`;",
+  );
 
   updateLine(`
   CREATE TABLE \`seo_tags\` (
