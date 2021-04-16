@@ -6,6 +6,7 @@ import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { Call } from "types/Call";
 import { IRequest } from "types/IRequest";
+import { SocketEvents } from "types/Socket";
 
 export const dbPath = (path: string) =>
   path === "911" ? "911calls" : path === "taxi" ? "taxi_calls" : "tow_calls";
@@ -51,13 +52,15 @@ export async function mapCalls(calls: Call[]) {
 }
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
-  try {
-    await useAuth(req);
-  } catch (e) {
-    return res.status(e?.code ?? 400).json({
-      status: "error",
-      error: e,
-    });
+  if (req.method !== "POST") {
+    try {
+      await useAuth(req);
+    } catch (e) {
+      return res.status(e?.code ?? 400).json({
+        status: "error",
+        error: e,
+      });
+    }
   }
 
   switch (req.method) {
@@ -80,15 +83,39 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const { description = "N/A", caller, location, type = "1" } = req.body;
         const id = v4();
 
-        if (req.query.type === "911") {
-          await processQuery(
-            `INSERT INTO \`${dbPath(
-              `${req.query.type}`,
-            )}\` (\`id\`, \`description\`, \`name\`, \`location\`, \`type\`) VALUES (?, ?, ?, ?, ?)`,
-            [id, description, caller, location, type],
-          );
-        } else {
-          // TODO
+        switch (req.query.type) {
+          case "911": {
+            await processQuery(
+              `INSERT INTO \`${dbPath(
+                `${req.query.type}`,
+              )}\` (\`id\`, \`description\`, \`name\`, \`location\`, \`type\`) VALUES (?, ?, ?, ?, ?)`,
+              [id, description, caller, location, type],
+            );
+            (global as any)?.io?.socket?.emit?.(SocketEvents.Update911Calls);
+            break;
+          }
+          case "tow": {
+            await processQuery(
+              "INSERT INTO `tow_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
+              [id, description, caller, location],
+            );
+            (global as any)?.io?.socket?.emit?.(SocketEvents.UpdateTowCalls);
+            break;
+          }
+          case "taxi": {
+            await processQuery(
+              "INSERT INTO `taxi_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
+              [id, description, caller, location],
+            );
+            (global as any)?.io?.socket?.emit?.(SocketEvents.UpdateTaxiCalls);
+            break;
+          }
+          default: {
+            return res.status(400).json({
+              error: "Invalid type",
+              status: "error",
+            });
+          }
         }
 
         const calls = await processQuery<Call>(`SELECT * FROM \`${dbPath(`${req.query.type}`)}\``);
