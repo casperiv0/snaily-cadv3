@@ -59,6 +59,110 @@ async function updateDb() {
     \`site_name\` varchar(255) DEFAULT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);
+
+  updateLine("ALTER TABLE `911calls` ADD `type` varchar(255) NOT NULL AFTER `status`;");
+  updateLine("ALTER TABLE `10_codes` ADD `position` int(255) NOT NULL AFTER `should_do`;");
+  updateLine("ALTER TABLE `officers` DROP `started_at`;");
+  updateLine(`
+CREATE TABLE \`call_events\` (
+  \`id\` varchar(255) NOT NULL,
+  \`call_id\` varchar(255) NOT NULL,
+  \`date\` varchar(255) NOT NULL,
+  \`text\` text NOT NULL,
+  PRIMARY KEY (\`id\`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
+  updateLine("ALTER TABLE `citizens` ADD `dead_on` varchar(255) NOT NULL AFTER `phone_nr`;");
+  updateLine("ALTER TABLE `citizens` ADD `dead` varchar(255) NOT NULL AFTER `phone_nr`;");
+  updateLine("ALTER TABLE `cad_info` ADD `features` text NOT NULL AFTER `plate_length`;");
+  updateLine("ALTER TABLE `users` ADD `supervisor` varchar(255) NOT NULL AFTER `leo`;");
+  updateLine("ALTER TABLE `officers` ADD `rank` varchar(255) NOT NULL AFTER `callsign`;");
+  updateLine("ALTER TABLE `citizens` ADD `phone_nr` varchar(255) NOT NULL AFTER `note`;");
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `steam_api_key` varchar(255) NOT NULL AFTER `webhook_url`;",
+  );
+  updateLine("ALTER TABLE `911calls` ADD `hidden` varchar(255) NOT NULL AFTER `assigned_unit`;");
+  updateLine(
+    "ALTER TABLE `users` ADD `avatar_url` varchar(255) NOT NULL AFTER `whitelist_status`;",
+  );
+  updateLine("ALTER TABLE `users` ADD `steam_id` varchar(255) NOT NULL AFTER `whitelist_status`;");
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `live_map_url` varchar(255) NOT NULL AFTER `webhook_url`;",
+  );
+  updateLine("ALTER TABLE `911calls` ADD `pos` text NOT NULL AFTER `assigned_unit`;");
+  updateLine(" ALTER TABLE `cad_info` ADD `plate_length` int(255) NOT NULL AFTER `webhook_url`;");
+  updateLine("ALTER TABLE `cad_info` ADD `signal_100` varchar(255) NOT NULL AFTER `plate_length`;");
+  updateLine(`
+  CREATE TABLE \`10_codes\` (
+    \`id\` varchar(64) NOT NULL,
+    \`code\` varchar(255) NOT NULL,
+    \`color\` varchar(255) NOT NULL,
+    \`what_pages\` text,
+    \`should_do\` text,
+    PRIMARY KEY (\`id\`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
+
+  updateLine(`
+    CREATE TABLE \`penal_codes\` (
+      \`id\` varchar(64) NOT NULL,
+      \`title\` longtext,
+      \`des\` longtext,
+      PRIMARY KEY (\`id\`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+  updateLine(`
+  CREATE TABLE \`officer_logs\` (
+    \`id\` varchar(255) NOT NULL,
+    \`officer_id\` varchar(255) NOT NULL,
+    \`started_at\` varchar(255) NOT NULL,
+    \`ended_at\` varchar(255) NOT NULL,
+    \`active\` varchar(255) NOT NULL,
+    \`user_id\` varchar(255) NOT NULL,
+    PRIMARY KEY (\`id\`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+  updateLine(`
+    ALTER TABLE \`911calls\` CHANGE \`assigned_unit\` \`assigned_unit\` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL; 
+    --
+    -- Table structure for table \`notifications\`
+    --
+    
+    CREATE TABLE \`notifications\` (
+      \`id\` varchar(255) NOT NULL,
+      \`title\` varchar(255) NOT NULL,
+      \`text\` text NOT NULL,
+      \`href\` text NOT NULL,
+      \`user_id\` varchar(255) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    
+    -- --------------------------------------------------------
+    
+    --
+    -- Indexes for table \`notifications\`
+    --
+    ALTER TABLE \`notifications\`
+      ADD PRIMARY KEY (\`id\`);
+    `);
+  updateLine(
+    `
+      CREATE TABLE \`court_requests\` (
+        \`id\` varchar(255) NOT NULL,
+        \`warrants\` varchar(2500) NOT NULL,
+        \`arrest_reports\` varchar(2500) NOT NULL,
+        \`tickets\` varchar(2500) NOT NULL,
+        \`citizen_id\` varchar(255) NOT NULL,
+        \`user_id\` varchar(255) NOT NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      
+      -- ------------
+      
+      --
+      -- Indexes for table \`court_requests\`
+      --
+      ALTER TABLE \`court_requests\`
+        ADD PRIMARY KEY (\`id\`);
+      ALTER TABLE \`citizens\` ADD \`note\` VARCHAR(255) NOT NULL AFTER \`b_status\`;ALTER TABLE \`officers\` ADD \`callsign\` VARCHAR(255) NOT NULL AFTER \`officer_dept\`;`,
+  );
 }
 
 updateDb();
