@@ -8,7 +8,7 @@
 - New: See all the companies your citizens work at in one view (Citizen -> Manage employment status -> See it!)
 - Major: Tons of bug fixes
 - Major: Rewritten to [new framework](https://nextjs.org) to improve developer experience and performance
-- Major: able to have custom Open graph tags - TODO: add link here
+- Major: able to have custom Open graph tags
 
 ## 1.5.3
 

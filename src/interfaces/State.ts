@@ -32,6 +32,7 @@ export interface State {
     expungementRequests: ExpungementRequest[];
     members: User[];
     member: Nullable<User>;
+    tempPassword: Nullable<string>;
 
     officers: Officer[];
     ems_fd: Deputy[];

@@ -50,10 +50,10 @@ export function runMiddleware(req: IRequest, res: NextApiResponse, fn: any) {
   });
 }
 
-export function generateString(length: number) {
+export function generateString(length: number, extraChars: string = "") {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let result = "";
-  const allChars = chars;
+  const allChars = chars + extraChars;
 
   for (let i = 0; i < length; i++) {
     result += allChars.charAt(Math.floor(Math.random() * allChars.length));

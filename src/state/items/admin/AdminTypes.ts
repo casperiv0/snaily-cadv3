@@ -52,6 +52,11 @@ export interface UpdateMemberById {
   member: User;
 }
 
+export interface GetTempPassword {
+  type: "GET_TEMP_PASSWORD";
+  tempPassword: string;
+}
+
 export type Actions =
   | I10Codes
   | IPenalCodes
@@ -61,4 +66,5 @@ export type Actions =
   | GetMemberById
   | IUnits
   | IUnit
-  | UpdateMemberById;
+  | UpdateMemberById
+  | GetTempPassword;

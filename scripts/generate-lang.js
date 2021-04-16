@@ -161,6 +161,7 @@ const ProbablyNotInTheTranslateFile = {
     supervisor_panel: "Supervisor Panel",
     edit_passwords: "Add temporary passwords (If the member lost their password)",
     give_temp_password: "Give temporary password",
+    temp_password_success: "Successfully created a temp password",
     max_citizens: "Maximum amount of citizens that can be created per user",
     updated_unit: "Successfully updated unit",
     updated_member: "Successfully updated member",

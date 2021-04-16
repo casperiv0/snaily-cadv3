@@ -8,6 +8,7 @@ const initState: State["admin"] = {
   expungementRequests: [],
   members: [],
   member: null,
+  tempPassword: null,
 
   officers: [],
   ems_fd: [],
@@ -70,6 +71,12 @@ export function AdminReducer(state = initState, action: Actions): State["admin"]
       return {
         ...state,
         unit: action.unit,
+      };
+    }
+    case "GET_TEMP_PASSWORD": {
+      return {
+        ...state,
+        tempPassword: action.tempPassword,
       };
     }
     default: {

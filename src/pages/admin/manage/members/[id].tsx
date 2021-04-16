@@ -18,7 +18,7 @@ import {
   updateMemberById,
   banUnbanMember,
   removeUser,
-  // getTempPassword,
+  getTempPassword,
 } from "@actions/admin/AdminActions";
 import { Item, Span } from "@components/Item";
 import { Seo } from "@components/Seo";
@@ -391,12 +391,12 @@ const mapToProps = (state: State) => ({
   member: state.admin.member,
   user: state.auth.user,
   cad: state.global.cadInfo,
-  // tempPw: state.admin.tempPassword,
+  tempPw: state.admin.tempPassword,
 });
 
 export default connect(mapToProps, {
   updateMemberById,
   banUnbanMember,
   removeUser,
-  // getTempPassword,
+  getTempPassword,
 })(ManageMember);

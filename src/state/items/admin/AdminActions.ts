@@ -13,6 +13,7 @@ import {
   IUnits,
   IUnit,
   UpdateMemberById,
+  GetTempPassword,
 } from "./AdminTypes";
 import lang from "src/language.json";
 
@@ -390,6 +391,24 @@ export const acceptOrDeclineUser = (id: string, type: "accept" | "decline") => a
 
     const msg = type === "accept" ? lang.admin.accepted_member : lang.admin.declined_member;
     return notify.success(msg);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const getTempPassword = (memberId: string) => async (
+  dispatch: Dispatch<GetTempPassword>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/members/${memberId}/temp-password`, "POST");
+
+    dispatch({
+      type: "GET_TEMP_PASSWORD",
+      tempPassword: res.data.tempPassword,
+    });
+
+    return notify.success(lang.admin.temp_password_success);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);
