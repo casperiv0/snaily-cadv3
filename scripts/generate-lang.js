@@ -2,7 +2,13 @@
 // The generator below will add them to the translation file
 const path = require("path");
 const fs = require("fs");
-let file = require("../client/src/language.json");
+let file;
+
+try {
+  file = require("../src/language.json");
+} catch (e) {
+  file = fs.writeFileSync("./src/language.json");
+}
 
 console.log("[TRANSLATION]: Checking language file...");
 
@@ -20,6 +26,9 @@ const ProbablyNotInTheTranslateFile = {
     citizen_name: "Citizen name",
     error_username: "Could not get username",
     error_citizen: "Could not get citizen name",
+    connected_steam: "Successfully connected with Steam",
+    unlinked_steam: "Successfuly unlinked Steam",
+    updated_password: "Successfully updated your password",
   },
   global: {
     ...file.global,
@@ -49,6 +58,7 @@ const ProbablyNotInTheTranslateFile = {
     no_warrants: "You don't have any warrants.",
     no_arr_reports: "You don't have any arrest reports.",
     no_tickets: "You don't have any tickets.",
+    request_success: "Successfully requested expungement",
   },
   notifications: {
     center: "Notification Center",
@@ -69,6 +79,7 @@ const ProbablyNotInTheTranslateFile = {
     add_medical_record: "Add medical record",
     declare_dead: "Declare dead",
     declare_alive: "Declare alive",
+    deleted_ems_fd: "Successfully deleted EMS/FD member",
   },
   account: {
     owner_cannot_delete_account: "The owner is not able to delete their account.",
@@ -80,6 +91,7 @@ const ProbablyNotInTheTranslateFile = {
     delete_bleet: "Delete bleet",
     uploaded_by: "Uploaded by",
     bleet_not_found: "Bleet was not found",
+    deleted_bleet_success: "Successfully deleted bleet",
   },
   citizen: {
     ...file.citizen,
@@ -95,6 +107,9 @@ const ProbablyNotInTheTranslateFile = {
     weapon_custom_serial: "Custom Serial number (Optional)",
     phone_number: "Phone number",
     editing_citizen: "Editing citizen",
+    updated_licenses: "Successfully updated licenses",
+    deleted_medical_record: "Successfully deleted medical record",
+    transfer_vehicle_success: "Successfully transferred vehicle",
   },
   officers: {
     ...file.officers,
@@ -116,6 +131,8 @@ const ProbablyNotInTheTranslateFile = {
     select_office: "Must select an officer before continuing",
     suspend_license: "Suspend License",
     suspended: "Suspended",
+    suspend_license_success: "Successfully suspended license",
+    added_note: "Successfully added note",
   },
   admin: {
     ...file.admin,
@@ -144,7 +161,10 @@ const ProbablyNotInTheTranslateFile = {
     supervisor_panel: "Supervisor Panel",
     edit_passwords: "Add temporary passwords (If the member lost their password)",
     give_temp_password: "Give temporary password",
+    temp_password_success: "Successfully created a temp password",
     max_citizens: "Maximum amount of citizens that can be created per user",
+    updated_unit: "Successfully updated unit",
+    updated_member: "Successfully updated member",
   },
   codes: {
     code: "Code",
@@ -165,6 +185,10 @@ const ProbablyNotInTheTranslateFile = {
     color: "Color",
     codes_10: "10 Codes",
     position: "Position",
+    success_10_code: "Successfully added 10 code",
+    updated_10_code: "Successfully updated 10 code",
+    success_penal_code: "Successfully added penal code",
+    updated_penal_code: "Successfully updated 10 code",
   },
   dispatch: {
     ...file.dispatch,
@@ -190,6 +214,8 @@ const ProbablyNotInTheTranslateFile = {
     citizen_call: "Citizen Call",
     assign_self_to_call: "Assign self to call",
     unassign_from_call: "Unassign from call",
+    added_event: "Successfully added event to call",
+    updated_call: "Successfully updated 911 call",
   },
   nav: {
     ...file.nav,
@@ -199,6 +225,7 @@ const ProbablyNotInTheTranslateFile = {
   bolos: {
     ...file.bolos,
     edit_bolo: "Edit Bolo",
+    updated_bolo: "Successfully updated bolo",
   },
 };
 
@@ -254,6 +281,6 @@ if (fileHasChanged === true) {
   console.log("[TRANSLATION]: Some keys were not found in the language file, adding them now...");
 }
 
-fs.writeFileSync(path.resolve("client/src/language.json"), JSON.stringify(file, null, 4));
+fs.writeFileSync(path.resolve("./src/language.json"), JSON.stringify(file, null, 4));
 
 console.log("[TRANSLATION]: Successfully checked translation file.");

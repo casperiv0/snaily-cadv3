@@ -1,0 +1,199 @@
+import { NextApiResponse } from "next";
+import { v4 } from "uuid";
+import fileUpload from "express-fileupload";
+import useAuth from "@hooks/useAuth";
+import { processQuery } from "@lib/database";
+import { IRequest } from "types/IRequest";
+import { logger } from "@lib/logger";
+import { AnError, SupportedFileTypes } from "@lib/consts";
+import { formatRequired, runMiddleware } from "@lib/utils.server";
+import { Citizen } from "types/Citizen";
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default async function handler(req: IRequest, res: NextApiResponse) {
+  const { method, query } = req;
+
+  try {
+    await useAuth(req);
+  } catch (e) {
+    return res.status(e?.code ?? 400).json({
+      status: "error",
+      error: e,
+    });
+  }
+  await runMiddleware(req, res, fileUpload());
+
+  switch (method) {
+    case "GET": {
+      try {
+        const [
+          citizen,
+        ] = await processQuery("SELECT * FROM `citizens` WHERE `id` = ? AND `user_id` = ?", [
+          query.id,
+          req.userId,
+        ]);
+
+        return res.json({
+          citizen,
+          status: "success",
+        });
+      } catch (e) {
+        logger.error("GET_CITIZENS", e);
+
+        return res.status(500).json(AnError);
+      }
+    }
+    case "PUT": {
+      try {
+        const {
+          full_name,
+          gender,
+          ethnicity,
+          birth,
+          hair_color,
+          eye_color,
+          address,
+          height,
+          weight,
+          dmv,
+          pilot_license,
+          fire_license,
+          ccw,
+          phone_nr,
+        } = req.body;
+
+        if (
+          !full_name ||
+          !gender ||
+          !ethnicity ||
+          !birth ||
+          !hair_color ||
+          !eye_color ||
+          !address ||
+          !height ||
+          !weight
+        ) {
+          return res.status(400).json({
+            error: formatRequired(
+              [
+                "full_name",
+                "gender",
+                "ethnicity",
+                "birth",
+                "hair_color",
+                "eye_color",
+                "address",
+                "heigh",
+                "weight",
+              ],
+              req.body,
+            ),
+            status: "error",
+          });
+        }
+
+        const file = req.files?.image ? req.files.image : null;
+        const index = req.files?.image && file?.name.indexOf(".");
+
+        if (file && !SupportedFileTypes.includes(String(file.mimetype))) {
+          return res.json({
+            status: "error",
+            error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
+          });
+        }
+
+        const imageId = file ? `${v4()}${file.name.slice(index)}` : "default.svg";
+        const [citizen] = await processQuery<Citizen>(
+          "SELECT * FROM `citizens` WHERE `id` = ? AND `user_id` = ?",
+          [req.query.id, req.userId],
+        );
+
+        if (!citizen) {
+          return res.json({
+            error: "Citizen was not found",
+            status: "error",
+          });
+        }
+
+        const query =
+          "UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ?, `phone_nr` = ? WHERE `id` = ?";
+
+        await processQuery(query, [
+          birth /* birth */,
+          gender /* gender */,
+          ethnicity /* ethnicity */,
+          hair_color /* hair_color */,
+          eye_color /* eye_color */,
+          address /* address */,
+          height /* height */,
+          weight /* weight */,
+          dmv /* dmv */,
+          fire_license /* fire_license */,
+          pilot_license /* pilot_license */,
+          ccw /* ccw */,
+          phone_nr /* phone number */,
+          req.query.id /* id */,
+        ]);
+
+        if (file) {
+          await processQuery("UPDATE `citizens` SET `image_id` = ? WHERE `id` = ?", [
+            imageId,
+            req.query.id,
+          ]);
+
+          file.mv("./public/citizen-images/" + imageId, (err: string) => {
+            if (err) {
+              logger.error("MOVE_CITIZEN_IMAGE", err);
+            }
+          });
+        }
+
+        return res.json({ status: "success", citizenId: req.query.id });
+      } catch (e) {
+        logger.error("DELETE_CITIZEN", e);
+
+        return res.status(500).json(AnError);
+      }
+    }
+    case "DELETE": {
+      try {
+        const [
+          citizen,
+        ] = await processQuery("SELECT * FROM `citizens` WHERE `id` = ? AND `user_id` = ?", [
+          query.id,
+          req.userId,
+        ]);
+
+        if (!citizen) {
+          return res.status(404).json({
+            error: "Citizen was not found",
+            status: "error",
+          });
+        }
+
+        await processQuery("DELETE FROM `registered_weapons` WHERE `citizen_id` = ?", [query.id]);
+        await processQuery("DELETE FROM `registered_cars` WHERE `citizen_id` = ?", [query.id]);
+        await processQuery("DELETE FROM `court_requests` WHERE `citizen_id` = ?", [query.id]);
+        await processQuery("DELETE FROM `posts` WHERE `citizen_id` = ?", [query.id]);
+        await processQuery("DELETE FROM `citizens` WHERE `id` = ?", [query.id]);
+
+        return res.json({ status: "success" });
+      } catch (e) {
+        logger.error("DELETE_CITIZEN", e);
+
+        return res.status(500).json(AnError);
+      }
+    }
+    default: {
+      return res.status(405).json({
+        error: "Method not allowed",
+        status: "error",
+      });
+    }
+  }
+}

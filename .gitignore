@@ -1,6 +1,7 @@
 # builds 
 dist
 build
+.next
 
 # env
 .env
@@ -11,11 +12,10 @@ build
 node_modules
 
 # config
-server/config.ts
-client/src/config.ts
+src/config.ts
 
-server/public/citizen-images/*
-server/public/bleeter-images/*
+public/citizen-images/*
+public/bleeter-images/*
 
 .DS_Store
 
@@ -24,3 +24,7 @@ server/public/bleeter-images/*
 .vscode
 
 data.json
+
+# old source
+server/
+client/

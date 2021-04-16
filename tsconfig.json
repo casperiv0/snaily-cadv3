@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "removeComments": true ,
+    "strict": true,
+    "noUnusedLocals": true ,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@lib/*": ["./src/lib/*"],
+      "@actions/*": ["./src/state/items/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "types/*": ["./src/interfaces/*"],
+      "@state/*": ["./src/state/*"],
+      "@components/*": ["./src/components/*"]
+    },
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "noEmit": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "config.example.ts",
+    "node_modules"
+  ]
+}

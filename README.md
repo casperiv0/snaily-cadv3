@@ -19,7 +19,7 @@ This is a web based integration for communities who love police roleplaying and 
 - [Troubleshooting](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Troubleshooting)
 - [Features](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/%E2%9C%A8-Features)
 - [Contributing](#contributing)
-- [Changelog](./CHANGELOG.md)
+- [Changelog](./docs/CHANGELOG.md)
 - [Bugs](#bugs)
 - [License](#license)
 
@@ -33,7 +33,7 @@ This is a web based integration for communities who love police roleplaying and 
 
 ## Contributing
 
-[View CONTRIBUTING.md](./CONTRIBUTING.md)
+[View CONTRIBUTING.md](./docs/CONTRIBUTING.md)
 
 ## Bugs
 

@@ -58,7 +58,7 @@
       }
     },
     {
-      "files": ["./server/**/*.ts"],
+      "files": ["./src/pages/api/**/*.ts", "./src/lib/socket.server.ts"],
       "rules": {
         "react-hooks/rules-of-hooks": "off",
         "react-hooks/exhaustive-deps": "off",

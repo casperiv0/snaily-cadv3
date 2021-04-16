@@ -3,6 +3,6 @@ build
 public
 scripts
 .github
-docs
 **/*.json
 dist
+.next
