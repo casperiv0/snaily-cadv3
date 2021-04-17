@@ -12,7 +12,8 @@ export function useCookie(
     expires: expires,
     httpOnly: true,
     path: "/",
-    sameSite: "lax",
+    sameSite: "none",
+    secure: true,
   };
 
   res.setHeader("Set-Cookie", serialize(name, token, options));

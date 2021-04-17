@@ -137,6 +137,10 @@ const ProbablyNotInTheTranslateFile = {
     incidents: "Incidents",
     create_incident: "Create incident",
     created_incident: "Successfully created incident",
+    involved_officers: "Involved officers",
+    arrests_made: "Arrest(s) Made",
+    injuries_fatalities: "Injuries or Fatalities",
+    firearms_involved: "Firearm(s) Involved",
   },
   admin: {
     ...file.admin,

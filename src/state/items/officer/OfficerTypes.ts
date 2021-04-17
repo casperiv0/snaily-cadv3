@@ -31,9 +31,22 @@ export interface SearchNames {
   type: "SEARCH_NAMES";
   names: Name[];
 }
+
+export interface GetAllOfficers {
+  type: "GET_ALL_OFFICERS";
+  officers: Officer[];
+}
+
 export interface IIncidents {
   type: "GET_INCIDENTS" | "CREATE_INCIDENT" | "UPDATE_INCIDENT";
   incidents: OfficerIncident[];
 }
 
-export type Actions = Search | IOfficer | IOfficers | SearchNames | GetOfficerLogs | IIncidents;
+export type Actions =
+  | Search
+  | IOfficer
+  | IOfficers
+  | SearchNames
+  | GetOfficerLogs
+  | IIncidents
+  | GetAllOfficers;

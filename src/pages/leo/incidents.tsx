@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Layout } from "@components/Layout";
 import { State } from "types/State";
 import lang from "src/language.json";
-import { getIncidents, getMyOfficers } from "@actions/officer/OfficerActions";
+import { getAllOfficers, getIncidents } from "@actions/officer/OfficerActions";
 import { ModalIds } from "types/ModalIds";
 import { Seo } from "@components/Seo";
 import { GetServerSideProps } from "next";
@@ -13,12 +13,21 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { OfficerIncident } from "types/OfficerIncident";
 import { CreateIncidentModal } from "@components/modals/leo/CreateIncidentModal";
+import { useObserver } from "@hooks/useObserver";
+import { Item, Span } from "@components/Item";
+import { Perm } from "types/Perm";
 
 interface Props {
   incidents: OfficerIncident[];
 }
 
 const MyOfficersPage: React.FC<Props> = ({ incidents }) => {
+  const { ref, length } = useObserver(incidents);
+
+  const value = React.useCallback((value: Perm) => {
+    return value === "1" ? lang.global.yes : lang.global.no;
+  }, []);
+
   return (
     <Layout classes="mt-5">
       <Seo title={lang.officers.incidents} />
@@ -32,27 +41,62 @@ const MyOfficersPage: React.FC<Props> = ({ incidents }) => {
         <button
           data-bs-toggle="modal"
           data-bs-target={`#${ModalIds.CreateIncident}`}
-          className="btn btn-dark text-light w-100 p-2 mx-2"
+          className="btn btn-dark text-light w-100 ms-2"
         >
           {lang.officers.create_incident}
         </button>
       </div>
 
+      {/* //TODO: add search? */}
+      {/* <input  /> */}
+
       <ul className="list-group mt-2">
         {!incidents[0] ? (
           <p>{lang.officers.no_incidents}</p>
         ) : (
-          incidents.map((incident, idx: number) => {
+          incidents.slice(0, length).map((incident, idx: number) => {
             return (
               <li
+                ref={ref}
                 key={idx}
                 id={`${incident.case_number}`}
                 className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
               >
-                <p>
-                  <a href={`#${incident.case_number}`}>#{incident.case_number}</a>
-                </p>
-                <div></div>
+                <div>
+                  <a href={`#${incident.case_number}`}>Case: #{incident.case_number}</a>
+
+                  <Item>
+                    <Span>{lang.global.description}: </Span>
+                    {incident.narrative}
+                  </Item>
+                  <Item>
+                    <Span>Officer: </Span>
+                    {incident.officer_dept} - {incident.officer_name}
+                  </Item>
+                  <Item>
+                    <Span>{lang.officers.involved_officers}: </Span>
+                    {typeof incident.involved_officers !== "string" &&
+                      incident.involved_officers.map((v) => v).join(", ")}
+                  </Item>
+                  <Item>
+                    <Span>{lang.officers.firearms_involved}: </Span>
+                    {value(incident.firearms_involved)}
+                  </Item>
+                  <Item>
+                    <Span>{lang.officers.injuries_fatalities}: </Span>
+                    {value(incident.injuries)}
+                  </Item>
+                  <Item>
+                    <Span>{lang.officers.arrests_made}: </Span>
+                    {value(incident.arrests_made)}
+                  </Item>
+                  <Item>
+                    <Span>{lang.truck_logs.date}: </Span>
+                    {incident.full_date}
+                  </Item>
+                </div>
+
+                <div>{}</div>
               </li>
             );
           })
@@ -68,7 +112,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const store = initializeStore();
   await getCadInfo(req.headers)(store.dispatch);
   await verifyAuth(req.headers)(store.dispatch);
-  // TODO:
   await getAllOfficers(req.headers)(store.dispatch);
   await getIncidents(req.headers)(store.dispatch);
 

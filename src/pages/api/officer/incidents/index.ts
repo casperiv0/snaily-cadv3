@@ -45,7 +45,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const incidents = await processQuery("SELECT * FROM `incidents`");
+        const incidents = await processQuery("SELECT * FROM `leo_incidents`");
 
         return res.json({
           incidents: formatIncidents(incidents as OfficerIncident[]),
@@ -58,11 +58,36 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "POST": {
       try {
-        const { full_date, narrative, involved_officers, location } = req.body;
+        const {
+          full_date,
+          narrative,
+          involved_officers,
+          location,
+          arrests_made,
+          firearms_involved,
+          injuries,
+        } = req.body as OfficerIncident;
 
-        if (!full_date || !narrative || !location) {
+        if (
+          !full_date ||
+          !narrative ||
+          !location ||
+          !arrests_made ||
+          !firearms_involved ||
+          !injuries
+        ) {
           return res.status(400).json({
-            error: formatRequired(["full_date", "narrative", "location"], req.body),
+            error: formatRequired(
+              [
+                "full_date",
+                "narrative",
+                "location",
+                "arrests_made",
+                "firearms_involved",
+                "injuries",
+              ],
+              req.body,
+            ),
             status: "error",
           });
         }
@@ -82,10 +107,10 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const total = await processQuery("SELECT * FROM `incidents`");
+        const total = await processQuery("SELECT * FROM `leo_incidents`");
 
         await processQuery(
-          "INSERT INTO `incidents` (`id`, `full_date`, `narrative`, `involved_officers`, `location`, `officer_name`, `officer_dept`, `case_number`, `officer_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO `leo_incidents` (`id`, `full_date`, `narrative`, `involved_officers`, `location`, `officer_name`, `officer_dept`, `case_number`, `officer_id`, `firearms_involved`, `arrests_made`, `injuries`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             v4(),
             full_date,
@@ -96,10 +121,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             officer.officer_dept,
             total.length + 1,
             officer.id,
+            arrests_made,
+            firearms_involved,
+            injuries,
           ],
         );
 
-        const incidents = await processQuery<OfficerIncident>("SELECT * FROM `incidents`");
+        const incidents = await processQuery<OfficerIncident>("SELECT * FROM `leo_incidents`");
         return res.json({
           incidents: formatIncidents(incidents as OfficerIncident[]),
           status: "success",

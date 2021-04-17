@@ -64,7 +64,12 @@ async function updateDb() {
     \`full_date\` text NOT NULL,
     \`involved_officers\` text NOT NULL,
     \`location\` varchar(255) NOT NULL,
-    \`officer_id\` varchar(255) NOT NULL
+    \`officer_id\` varchar(255) NOT NULL,
+    \`narrative\` text NOT NULL,
+    \`injuries\` varchar(255) NOT NULL,
+    \`arrests_made\` varchar(255) NOT NULL,
+    \`firearms_involved\` varchar(255) NOT NULL,
+    PRIMARY KEY (\`id\`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);
 

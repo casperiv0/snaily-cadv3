@@ -21,6 +21,9 @@ const CreateIncidentModalC: React.FC<Props> = ({ createIncident, officers }) => 
   const [narrative, setNarrative] = React.useState("");
   const [involvedOfficers, setInvolvedOfficers] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [arrestsMade, setArrestsMade] = React.useState(false);
+  const [injuries, setInjuries] = React.useState(false);
+  const [firearms, setFireArms] = React.useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,16 +34,22 @@ const CreateIncidentModalC: React.FC<Props> = ({ createIncident, officers }) => 
       location,
       full_date: date,
       involved_officers: involvedOfficers.map((v: any) => v.value),
+      arrests_made: arrestsMade === true ? "1" : "0",
+      injuries: injuries === true ? "1" : "0",
+      firearms_involved: firearms === true ? "1" : "0",
     });
 
     if (created === true) {
-      modal(ModalIds.CreateTicket)?.hide();
+      modal(ModalIds.CreateIncident)?.hide();
 
       setNarrative("");
       setDate("");
       setLocation("");
       setNarrative("");
       setInvolvedOfficers([]);
+      setArrestsMade(false);
+      setInjuries(false);
+      setFireArms(false);
     }
 
     setLoading(false);
@@ -90,16 +99,56 @@ const CreateIncidentModalC: React.FC<Props> = ({ createIncident, officers }) => 
 
           <div className="mb-3">
             <label className="form-label" htmlFor="location">
-              {lang.officers.select_officer}
+              {lang.officers.involved_officers}
             </label>
 
             <Select
+              closeMenuOnSelect={false}
               onChange={(v: any) => setInvolvedOfficers(v)}
               options={officers.map((officer) => ({
                 label: `${officer.callsign} ${officer.officer_name} - ${officer.officer_dept}`,
                 value: `${officer.callsign} ${officer.officer_name} - ${officer.officer_dept}`,
               }))}
             />
+          </div>
+
+          <div className="form-check">
+            <input
+              checked={arrestsMade}
+              onChange={() => setArrestsMade((v) => !v)}
+              className="form-check-input"
+              type="checkbox"
+              id="arrests_made"
+            />
+            <label className="form-check-label" htmlFor="arrests_made">
+              {lang.officers.arrests_made}
+            </label>
+          </div>
+
+          <div className="form-check">
+            <input
+              checked={injuries}
+              onChange={() => setInjuries((v) => !v)}
+              className="form-check-input"
+              type="checkbox"
+              id="injuries"
+            />
+            <label className="form-check-label" htmlFor="injuries">
+              {lang.officers.injuries_fatalities}
+            </label>
+          </div>
+
+          <div className="form-check">
+            <input
+              checked={firearms}
+              onChange={() => setFireArms((v) => !v)}
+              className="form-check-input"
+              type="checkbox"
+              id="firearms_involved"
+            />
+            <label className="form-check-label" htmlFor="firearms_involved">
+              {lang.officers.firearms_involved}
+            </label>
           </div>
         </div>
 

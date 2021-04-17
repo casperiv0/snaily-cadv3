@@ -10,6 +10,7 @@ import {
   SearchNames,
   GetOfficerLogs,
   IIncidents,
+  GetAllOfficers,
 } from "./OfficerTypes";
 import lang from "src/language.json";
 import { OfficerIncident } from "types/OfficerIncident";
@@ -233,6 +234,24 @@ export const saveNote = (citizenId: string, note: string) => async (
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);
+  }
+};
+
+export const getAllOfficers = (headers?: any) => async (dispatch: Dispatch<GetAllOfficers>) => {
+  try {
+    const res = await handleRequest("/officer/all", "GET", {
+      cookie: headers?.cookie,
+      url: headers?.host,
+    });
+
+    dispatch({
+      type: "GET_ALL_OFFICERS",
+      officers: res.data.officers,
+    });
+
+    return true;
+  } catch (e) {
+    return false;
   }
 };
 

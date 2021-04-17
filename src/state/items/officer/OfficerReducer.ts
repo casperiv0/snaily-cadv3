@@ -55,6 +55,12 @@ export function OfficerReducer(state = initState, action: Actions): State["offic
         incidents: action.incidents,
       };
     }
+    case "GET_ALL_OFFICERS": {
+      return {
+        ...state,
+        officers: action.officers,
+      };
+    }
     default: {
       return {
         ...state,

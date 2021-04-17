@@ -79,6 +79,12 @@ export const ModalButtons: React.FC<Props> = ({ user, activeOfficer }) => {
         </Link>
       ) : null}
 
+      <Link href="/leo/incidents">
+        <a className={`btn btn-secondary col-md-2 ${!activeOfficer ? "disabled" : ""}`}>
+          {lang.officers.incidents}
+        </a>
+      </Link>
+
       {/* modals */}
       {modalButtons.map((mButton: MButton, idx: number) => {
         return (
