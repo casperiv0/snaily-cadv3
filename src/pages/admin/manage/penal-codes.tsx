@@ -17,6 +17,7 @@ import lang from "src/language.json";
 import { Seo } from "@components/Seo";
 import { Span } from "@components/Item";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   codes: PenalCode[];
@@ -25,23 +26,9 @@ interface Props {
 
 const PenalCodesManagement: React.FC<Props> = ({ codes, deletePenalCode }) => {
   const [tempCode, setTempCode] = React.useState<PenalCode | null>(null);
-  const [filtered, setFiltered] = React.useState(codes);
-  const [filter, setFilter] = React.useState("");
+  const { onChange, search, filtered } = useSearch<PenalCode>("title", codes);
   const { ref, length } = useObserver<PenalCode>(codes);
   useClientPerms("supervisor");
-
-  React.useEffect(() => {
-    setFiltered(codes);
-  }, [codes]);
-
-  function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
-    setFilter(e.target.value);
-
-    const filteredItems = codes.filter((code: PenalCode) =>
-      code.title.toLowerCase().includes(e.target.value.toLowerCase()),
-    );
-    setFiltered(filteredItems);
-  }
 
   return (
     <AdminLayout>
@@ -63,8 +50,8 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, deletePenalCode }) => {
       <div className="pb-5">
         <input
           type="text"
-          value={filter}
-          onChange={handleFilter}
+          value={search}
+          onChange={onChange}
           className="form-control bg-dark border-dark mb-2 text-light"
           placeholder={`${lang.global.search}...`}
         />

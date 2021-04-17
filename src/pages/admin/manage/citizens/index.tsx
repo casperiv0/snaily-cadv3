@@ -14,6 +14,7 @@ import { AllCitizensTab } from "@components/admin/AllCitizens";
 import { ExpungementRequest } from "types/ExpungementRequest";
 import { ExpungementRequestsTab } from "@components/admin/ExpungementRequestsTab";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   requests: ExpungementRequest[];
@@ -21,22 +22,8 @@ interface Props {
 }
 
 const ManageCitizensPage: React.FC<Props> = ({ citizens, requests }) => {
-  const [filter, setFilter] = React.useState<string>("");
-  const [filtered, setFiltered] = React.useState<any>([]);
+  const { search, filtered, onChange } = useSearch<Citizen>("full_name", citizens);
   useClientPerms("admin");
-
-  React.useEffect(() => {
-    setFiltered(citizens);
-  }, [citizens]);
-
-  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    setFilter(e.target.value);
-
-    const filteredItems = citizens.filter((citizen: Citizen) =>
-      citizen.full_name.toLowerCase().includes(e.target.value.toLowerCase()),
-    );
-    setFiltered(filteredItems);
-  }
 
   return (
     <AdminLayout>
@@ -45,8 +32,8 @@ const ManageCitizensPage: React.FC<Props> = ({ citizens, requests }) => {
         <input
           className="form-control bg-dark border-secondary text-light mb-2"
           type="search"
-          value={filter}
-          onChange={handleSearch}
+          value={search}
+          onChange={onChange}
           placeholder={`${lang.global.search}..`}
         />
 

@@ -13,6 +13,7 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { Seo } from "@components/Seo";
 import { Item, Span } from "@components/Item";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   companies: Company[];
@@ -22,24 +23,8 @@ interface Props {
 }
 
 const CompanyManagementPage: React.FC<Props> = ({ companies, deleteCompanyById }) => {
-  const [filter, setFilter] = React.useState<string>("");
-  const [filtered, setFiltered] = React.useState<any>([]);
+  const { filtered, onChange, search } = useSearch<Company>("name", companies);
   useClientPerms("admin");
-
-  React.useEffect(() => {
-    if (companies[0]) {
-      setFiltered(companies);
-    }
-  }, [companies]);
-
-  function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
-    setFilter(e.target.value);
-
-    const filteredItems = companies.filter((company: Company) =>
-      company.name.toLowerCase().includes(e.target.value.toLowerCase()),
-    );
-    setFiltered(filteredItems);
-  }
 
   function handleDelete(id: string) {
     deleteCompanyById(id);
@@ -51,11 +36,12 @@ const CompanyManagementPage: React.FC<Props> = ({ companies, deleteCompanyById }
       <div>
         <input
           type="text"
-          value={filter}
-          onChange={handleFilter}
+          value={search}
+          onChange={onChange}
           className="form-control bg-dark border-secondary mb-2 text-light"
           placeholder={lang.global.search}
         />
+
         {!companies[0] ? (
           <AlertMessage message={{ msg: lang.admin.company.no_companies, type: "warning" }} />
         ) : !filtered[0] ? (
