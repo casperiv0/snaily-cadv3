@@ -5,8 +5,24 @@
 ## 2.0.2
 
 - New: officer incidents
+- Minor: fixed bug where you couldn't use the CAD within an `iframe`
 - Minor: don't show navbar when not logged in to avoid confusion
 - Minor: remove redundant console logs
+
+**Allow the CAD to be used in an iframe**
+
+1. Open your config.ts file
+2. add the following to your config:
+
+(Check the config.example.ts for reference)
+
+```ts
+allowIframes: true; // Make sure this is 'true' to allow iframes,
+```
+
+3. Save the config.
+4. Restart the CAD
+5. Should be working!
 
 ## 2.0.1
 

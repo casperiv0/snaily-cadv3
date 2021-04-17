@@ -11,6 +11,7 @@ const config = {
   databaseName: process.env.DB_NAME || "snaily-cad",
   jwtSecret: process.env.JWT_SECRET || "bongo super cat",
   env: process.env.PROFILE || "production",
+  allowIframes: false, // true or false
 };
 
 export default config;
