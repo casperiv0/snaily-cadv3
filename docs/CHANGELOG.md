@@ -4,6 +4,7 @@
 
 ## 2.0.2
 
+- Minor: don't show navbar when not logged in to avoid confusion
 - Minor: remove redundant console logs
 
 ## 2.0.1
