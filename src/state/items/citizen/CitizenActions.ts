@@ -28,8 +28,7 @@ export const getUserCitizens = (headers?: any) => async (dispatch: Dispatch<GetU
       citizens: res.data.citizens,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -47,8 +46,7 @@ export const getCitizenById = (id: string, headers?: any) => async (
       citizen: res.data.citizen,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -66,8 +64,7 @@ export const getCitizenWeapons = (citizenId: string, headers?: any) => async (
       weapons: res.data.weapons,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -101,8 +98,7 @@ export const getCitizenVehicles = (citizenId: string, headers?: any) => async (
       vehicles: res.data.vehicles,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -308,8 +304,7 @@ export const getMedicalRecords = (citizenId: string, headers?: any) => async (
       medicalRecords: res.data.medicalRecords,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 

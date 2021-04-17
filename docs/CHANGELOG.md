@@ -2,6 +2,10 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.2
+
+- Minor: remove redundant console logs
+
 ## 2.0.1
 
 - Minor: fixed not being able to create tow & taxi calls
