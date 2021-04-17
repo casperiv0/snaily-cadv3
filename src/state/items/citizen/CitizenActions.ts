@@ -362,8 +362,7 @@ export const getUserCompanies = (headers?: any) => async (dispatch: Dispatch<Get
     });
     return true;
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.log(error);
+    return false;
   }
 };
 

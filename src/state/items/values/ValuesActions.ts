@@ -20,8 +20,7 @@ export const getValuesByPath = (path: ValuePaths, headers?: any) => async (
       path,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.log(error);
+    return false;
   }
 };
 

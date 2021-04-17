@@ -55,7 +55,6 @@ export const getExpungementRequests = (headers?: any) => async (
       expungementRequests: res.data.requests,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.log(error);
+    return false;
   }
 };
