@@ -30,6 +30,7 @@ export enum ModalIds {
   RegisterWeapon = "registerWeaponModal",
   CreateTruckLog = "createTruckLogModal",
   CreateOfficer = "createOfficerModal",
+  CreateIncident = "createIncidentModal",
   Create10Code = "create10CodeModal",
   CreatePenalCode = "createPenalCodeModal",
   Edit10Code = "edit10CodeModal",

@@ -56,6 +56,26 @@ async function updateDb() {
   );
 
   updateLine(`
+  CREATE TABLE \`leo_incidents\` (
+    \`id\` varchar(255) NOT NULL,
+    \`case_number\` int(11) NOT NULL,
+    \`officer_dept\` varchar(255) NOT NULL,
+    \`officer_name\` varchar(255) NOT NULL,
+    \`full_date\` text NOT NULL,
+    \`involved_officers\` text NOT NULL,
+    \`location\` varchar(255) NOT NULL,
+    \`officer_id\` varchar(255) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `);
+
+  updateLine(`
+  CREATE TABLE \`seo_tags\` (
+    \`title\` varchar(255) DEFAULT 'SnailyCAD',
+    \`description\` text DEFAULT 'A free, fast, simple and secure open source CAD/MDT',
+    \`site_name\` varchar(255) DEFAULT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `);
+  updateLine(`
   CREATE TABLE \`seo_tags\` (
     \`title\` varchar(255) DEFAULT 'SnailyCAD',
     \`description\` text DEFAULT 'A free, fast, simple and secure open source CAD/MDT',

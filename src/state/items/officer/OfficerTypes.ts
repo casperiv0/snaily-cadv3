@@ -1,4 +1,5 @@
 import { Officer, OfficerLog } from "types/Officer";
+import { OfficerIncident } from "types/OfficerIncident";
 
 export interface Search {
   type: "PLATE_SEARCH" | "NAME_SEARCH" | "WEAPON_SEARCH";
@@ -30,5 +31,9 @@ export interface SearchNames {
   type: "SEARCH_NAMES";
   names: Name[];
 }
+export interface IIncidents {
+  type: "GET_INCIDENTS" | "CREATE_INCIDENT" | "UPDATE_INCIDENT";
+  incidents: OfficerIncident[];
+}
 
-export type Actions = Search | IOfficer | IOfficers | SearchNames | GetOfficerLogs;
+export type Actions = Search | IOfficer | IOfficers | SearchNames | GetOfficerLogs | IIncidents;

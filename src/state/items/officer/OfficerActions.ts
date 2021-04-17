@@ -3,8 +3,16 @@ import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
 import { Dispatch } from "react";
 import { Officer } from "types/Officer";
 import { SocketEvents } from "types/Socket";
-import { IOfficer, Search, IOfficers, SearchNames, GetOfficerLogs } from "./OfficerTypes";
+import {
+  IOfficer,
+  Search,
+  IOfficers,
+  SearchNames,
+  GetOfficerLogs,
+  IIncidents,
+} from "./OfficerTypes";
 import lang from "src/language.json";
+import { OfficerIncident } from "types/OfficerIncident";
 
 export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<Search>) => {
   try {
@@ -222,6 +230,42 @@ export const saveNote = (citizenId: string, note: string) => async (
     });
 
     return notify.success(lang.officers.added_note);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const getIncidents = (headers?: any) => async (dispatch: Dispatch<IIncidents>) => {
+  try {
+    const res = await handleRequest("/officer/incidents", "GET", {
+      cookie: headers?.cookie,
+      url: headers?.host,
+    });
+
+    dispatch({
+      type: "GET_INCIDENTS",
+      incidents: res.data.incidents,
+    });
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export const createIncident = (data: Partial<OfficerIncident>) => async (
+  dispatch: Dispatch<IIncidents>,
+) => {
+  try {
+    const res = await handleRequest("/officer/incidents", "POST", data);
+
+    dispatch({
+      type: "CREATE_INCIDENT",
+      incidents: res.data.incidents,
+    });
+
+    return notify.success(lang.officers.created_incident);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

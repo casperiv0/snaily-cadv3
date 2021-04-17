@@ -133,6 +133,10 @@ const ProbablyNotInTheTranslateFile = {
     suspended: "Suspended",
     suspend_license_success: "Successfully suspended license",
     added_note: "Successfully added note",
+    no_incidents: "No incidents have been reported",
+    incidents: "Incidents",
+    create_incident: "Create incident",
+    created_incident: "Successfully created incident",
   },
   admin: {
     ...file.admin,
