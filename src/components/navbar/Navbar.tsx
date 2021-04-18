@@ -111,6 +111,10 @@ const NavbarC = ({ isAuth, cadInfo, user }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
 
+  if (!isAuth) {
+    return null;
+  }
+
   return (
     <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
       <div className="container-fluid">

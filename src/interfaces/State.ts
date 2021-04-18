@@ -11,6 +11,7 @@ import { Deputy } from "./Deputy";
 import { ExpungementRequest } from "./ExpungementRequest";
 import { MedicalRecord } from "./MedicalRecord";
 import { Officer, OfficerLog } from "./Officer";
+import { OfficerIncident } from "./OfficerIncident";
 import { PenalCode } from "./PenalCode";
 import { TruckLog } from "./TruckLog";
 import { User } from "./User";
@@ -107,6 +108,7 @@ export interface State {
     search: Nullable<any>;
     activeOfficer: Nullable<Officer>;
     names: Name[];
+    incidents: OfficerIncident[];
   };
   ems_fd: {
     activeDeputy: Nullable<Deputy>;

@@ -21,6 +21,7 @@ import { EditValueModal } from "@components/modals/admin/EditValueModal";
 import AddValueModal from "@components/modals/admin/AddValueModal";
 import { RanksArr } from "@lib/consts";
 import { User } from "types/User";
+import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   values: any;
@@ -48,10 +49,9 @@ const Values: React.FC<Props> = ({
   deleteValueById,
 }) => {
   const [tempValue, setTempValue] = React.useState<Value | null>(null);
-  const [filtered, setFiltered] = React.useState<any>([]);
-  const [filter, setFilter] = React.useState<string>("");
   const router = useRouter();
   const path = `${router.query.path}` as ValuePaths;
+  const { filtered, onChange, search } = useSearch<Value>("name", values[path]);
   const { ref, length } = useObserver<Value>(
     values[path]?.sort((a: Value, _b: Value) => a?.defaults === "1"),
   );
@@ -62,23 +62,8 @@ const Values: React.FC<Props> = ({
     }
   }, [router, user]);
 
-  React.useEffect(() => {
-    if (values[path]) {
-      setFiltered(values[path]);
-    }
-  }, [values, path]);
-
   function handleDelete(id: string) {
     deleteValueById(path, id);
-  }
-
-  function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
-    setFilter(e.target.value);
-
-    const filteredValues = values[path].filter((value: Value) =>
-      value.name.toLowerCase().includes(e.target.value.toLowerCase()),
-    );
-    setFiltered(filteredValues);
   }
 
   if (!paths.includes(path)) {
@@ -114,11 +99,12 @@ const Values: React.FC<Props> = ({
       <div className="mt-3">
         <input
           type="text"
-          value={filter}
-          onChange={handleFilter}
+          value={search}
+          onChange={onChange}
           className="form-control bg-dark border-secondary mb-2 text-light"
           placeholder={lang.global.search}
         />
+
         {!values[path]?.[0] ? (
           <AlertMessage message={{ msg: lang.admin.values[path].none, type: "warning" }} />
         ) : loading ? (

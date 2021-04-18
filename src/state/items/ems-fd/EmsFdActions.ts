@@ -19,8 +19,7 @@ export const getEmsFdDeputies = (headers?: any) => async (dispatch: Dispatch<IEm
       deputies: res.data.deputies,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.log(error);
+    return false;
   }
 };
 
@@ -36,8 +35,7 @@ export const getActiveEmsFd = (headers?: any) => async (dispatch: Dispatch<GetAc
       deputy: res.data.deputy ?? null,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.log(error);
+    return false;
   }
 };
 

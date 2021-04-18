@@ -1,6 +1,7 @@
 import { NextApiResponse } from "next";
 import { serialize, CookieSerializeOptions } from "cookie";
 import { Auth } from "@lib/consts";
+import config from "@lib/config.server";
 
 export function useCookie(
   res: NextApiResponse,
@@ -12,7 +13,7 @@ export function useCookie(
     expires: expires,
     httpOnly: true,
     path: "/",
-    sameSite: "lax",
+    sameSite: config.allowIframes === true ? "none" : "lax",
   };
 
   res.setHeader("Set-Cookie", serialize(name, token, options));

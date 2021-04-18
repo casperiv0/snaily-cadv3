@@ -20,6 +20,7 @@ import { initializeStore } from "@state/useStore";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   codes: Code10[];
@@ -28,6 +29,7 @@ interface Props {
 
 const Codes10Management: React.FC<Props> = ({ codes, delete10Code }) => {
   const [tempCode, setTempCode] = React.useState<Code10 | null>(null);
+  const { search, filtered, onChange } = useSearch<Code10>("code", codes);
   useClientPerms("supervisor");
 
   return (
@@ -47,10 +49,18 @@ const Codes10Management: React.FC<Props> = ({ codes, delete10Code }) => {
       </div>
 
       <ul className="list-group pb-5">
+        <input
+          type="text"
+          value={search}
+          onChange={onChange}
+          className="form-control bg-dark border-dark mb-2 text-light"
+          placeholder={`${lang.global.search}...`}
+        />
+
         {codes?.length <= 0 ? (
           <AlertMessage message={{ msg: "This CAD doesn't have any 10 codes", type: "warning" }} />
         ) : (
-          codes?.map((code: Code10, idx: number) => {
+          filtered?.map((code: Code10, idx: number) => {
             return (
               <li
                 key={code.id}

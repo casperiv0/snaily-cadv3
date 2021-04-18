@@ -17,8 +17,7 @@ export const getCadInfo = (headers?: any) => async (dispatch: Dispatch<GetCadInf
       cadInfo: res.data.cad,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.log(error);
+    return false;
   }
 };
 

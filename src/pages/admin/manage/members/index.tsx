@@ -14,28 +14,15 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { Seo } from "@components/Seo";
 import lang from "src/language.json";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   members: User[];
 }
 
 const ManageMembersPage: React.FC<Props> = ({ members }) => {
-  const [filtered, setFiltered] = React.useState<any[]>([]);
-  const [filter, setFilter] = React.useState<string>("");
+  const { search, onChange, filtered } = useSearch<User>("username", members);
   useClientPerms("admin");
-
-  React.useEffect(() => {
-    setFiltered(members);
-  }, [members]);
-
-  function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
-    setFilter(e.target.value);
-
-    const filteredItems = members.filter((member: User) =>
-      member.username.toLowerCase().includes(e.target.value.toLowerCase()),
-    );
-    setFiltered(filteredItems);
-  }
 
   return (
     <AdminLayout>
@@ -43,8 +30,8 @@ const ManageMembersPage: React.FC<Props> = ({ members }) => {
 
       <input
         type="text"
-        value={filter}
-        onChange={handleFilter}
+        value={search}
+        onChange={onChange}
         className="form-control bg-dark border-dark mb-2 text-light"
         placeholder={`${lang.global.search}..`}
       />

@@ -14,8 +14,7 @@ export const getTruckLogs = (headers?: any) => async (dispatch: Dispatch<GetTruc
       logs: res.data.logs,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.log(error);
+    return false;
   }
 };
 

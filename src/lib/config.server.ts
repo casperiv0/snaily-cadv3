@@ -6,6 +6,7 @@ interface ServerConfig {
   databaseName: string;
   jwtSecret: string;
   env: string;
+  allowIframes: boolean;
 }
 
 /**
@@ -33,6 +34,7 @@ try {
     databaseName: conf.default.databaseName || defaultDatabaseName,
     jwtSecret: conf.default.jwtSecret || defaultSecret,
     env: conf.default.env || defaultProfile,
+    allowIframes: conf.default.allowIframes ?? false,
   };
 } catch (e) {
   config = {
@@ -43,6 +45,7 @@ try {
     databaseName: process.env.DB_NAME || defaultDatabaseName,
     jwtSecret: process.env.JWT_SECRET || defaultSecret,
     env: process.env.PROFILE || defaultProfile,
+    allowIframes: process.env.ALLOW_IFRAMES === "true" ?? false,
   };
 }
 

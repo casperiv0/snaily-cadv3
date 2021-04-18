@@ -29,8 +29,7 @@ export const get10Codes = (headers?: any) => async (dispatch: Dispatch<I10Codes>
       codes: res.data.codes,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -96,8 +95,7 @@ export const getPenalCodes = (headers?: any) => async (dispatch: Dispatch<IPenal
       penalCodes: res.data.penalCodes,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -165,8 +163,7 @@ export const getCitizens = (headers?: any) => async (dispatch: Dispatch<ICitizen
       citizens: res.data.citizens,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -198,8 +195,7 @@ export const getAllExpungementRequests = (headers?: any) => async (
       expungementRequests: res.data.expungementRequests,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -244,8 +240,7 @@ export const getMembers = (headers?: any) => async (dispatch: Dispatch<IMembers>
       members: res.data.members,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -263,8 +258,7 @@ export const getMemberById = (id: string, headers?: any) => async (
       member: res.data.member ?? null,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -281,8 +275,7 @@ export const getAllUnits = (headers?: any) => async (dispatch: Dispatch<IUnits>)
       ems_fd: res.data.ems_fd,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -303,8 +296,7 @@ export const getUnitById = (id: string, headers?: any) => async (dispatch: Dispa
         : null,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 

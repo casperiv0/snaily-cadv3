@@ -22,8 +22,7 @@ export const getBolos = (headers?: any) => async (dispatch: Dispatch<IBolos>) =>
       bolos: res.data.bolos,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 

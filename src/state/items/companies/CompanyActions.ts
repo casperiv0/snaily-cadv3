@@ -96,8 +96,7 @@ export const getCompanyById = (id: string, citizenId: string, headers?: any) => 
 
     return true;
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.log(error);
+    return false;
   }
 };
 

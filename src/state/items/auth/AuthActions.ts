@@ -57,8 +57,7 @@ export const verifyAuth = (headers?: any) => async (dispatch: Dispatch<VerifyAut
       isAuth: !!res.data.user,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 

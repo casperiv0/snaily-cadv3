@@ -15,8 +15,7 @@ export const getBleets = (headers?: any) => async (dispatch: Dispatch<IBleeter>)
       bleets: res.data.bleets,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
@@ -34,8 +33,7 @@ export const getBleetById = (id: string, headers?: any) => async (
       bleet: res.data.bleet ?? null,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 

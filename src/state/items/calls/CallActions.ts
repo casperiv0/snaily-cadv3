@@ -37,8 +37,7 @@ export const getCalls = (type: CallTypes, headers?: any) => async (
       calls: res.data.calls,
     });
   } catch (e) {
-    const error = getErrorFromResponse(e);
-    console.error(error);
+    return false;
   }
 };
 
