@@ -24,6 +24,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       error: e,
     });
   }
+
   switch (req.method) {
     case "GET": {
       try {

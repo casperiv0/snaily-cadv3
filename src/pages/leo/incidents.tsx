@@ -13,16 +13,16 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { OfficerIncident } from "types/OfficerIncident";
 import { CreateIncidentModal } from "@components/modals/leo/CreateIncidentModal";
-import { useObserver } from "@hooks/useObserver";
 import { Item, Span } from "@components/Item";
 import { Perm } from "types/Perm";
+import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   incidents: OfficerIncident[];
 }
 
 const MyOfficersPage: React.FC<Props> = ({ incidents }) => {
-  const { ref, length } = useObserver(incidents);
+  const { search, onChange, filtered } = useSearch<OfficerIncident>("case_number", incidents);
 
   const value = React.useCallback((value: Perm) => {
     return value === "1" ? lang.global.yes : lang.global.no;
@@ -47,17 +47,20 @@ const MyOfficersPage: React.FC<Props> = ({ incidents }) => {
         </button>
       </div>
 
-      {/* //TODO: add search? */}
-      {/* <input  /> */}
+      <input
+        className="form-control bg-dark border-dark text-light"
+        onChange={onChange}
+        value={search}
+        placeholder={`${lang.global.search}..`}
+      />
 
       <ul className="list-group mt-2">
         {!incidents[0] ? (
           <p>{lang.officers.no_incidents}</p>
         ) : (
-          incidents.slice(0, length).map((incident, idx: number) => {
+          filtered.map((incident, idx: number) => {
             return (
               <li
-                ref={ref}
                 key={idx}
                 id={`${incident.case_number}`}
                 className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"

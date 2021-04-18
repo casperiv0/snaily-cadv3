@@ -13,7 +13,7 @@ export function useSearch<T = object>(key: keyof T, items: T[]) {
     } else {
       setFiltered(
         items.filter((v) =>
-          ((v[key] as unknown) as string).toLowerCase().includes(value.toLowerCase()),
+          ((v[key] as unknown) as string).toString().toLowerCase().includes(value.toLowerCase()),
         ),
       );
     }
