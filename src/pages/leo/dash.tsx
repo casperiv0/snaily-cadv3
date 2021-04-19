@@ -141,7 +141,7 @@ const LeoDash: React.FC<Props> = (props) => {
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>
-            {lang.global.utility_panel} - AOP: {aop}
+            {lang.global.utility_panel} {props.cadInfo?.show_aop === "1" ? `- AOP: ${aop}` : null}
           </h4>
           <span>{time}</span>
         </div>

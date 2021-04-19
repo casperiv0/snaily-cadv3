@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.3
+
+- New: added new features to disable
+- Minor: fixed minor bugs
+
 ## 2.0.2
 
 - New: officer incidents

@@ -46,7 +46,7 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
       <Seo title="Citizen - View all your citizens" />
 
       <h3>
-        {lang.auth.welcome} - AOP: {aop}
+        {lang.auth.welcome} {cadInfo?.show_aop === "1" ? ` - AOP: ${aop}` : null}
       </h3>
 
       <div className="d-flex">

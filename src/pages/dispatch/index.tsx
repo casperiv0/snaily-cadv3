@@ -97,7 +97,7 @@ const DispatchDash: React.FC<Props> = (props) => {
       <div className="card bg-dark border-dark">
         <div className="card-header d-flex justify-content-between">
           <h4>
-            {lang.global.utility_panel} - AOP: {aop}
+            {lang.global.utility_panel} {props.cadInfo?.show_aop === "1" ? `- AOP: ${aop}` : null}
           </h4>
           <span>{time}</span>
         </div>
@@ -107,12 +107,14 @@ const DispatchDash: React.FC<Props> = (props) => {
       </div>
 
       <div className="row mt-2">
-        <div className="col-md-8">
+        <div className={props.cadInfo?.show_aop === "1" ? "col-md-8" : "col"}>
           <ActiveUnits />
         </div>
-        <div className="col-md-4">
-          <UpdateAOP />
-        </div>
+        {props.cadInfo?.show_aop === "1" ? (
+          <div className="col-md-4">
+            <UpdateAOP />
+          </div>
+        ) : null}
       </div>
 
       <ActiveCalls />
