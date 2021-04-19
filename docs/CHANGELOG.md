@@ -5,7 +5,10 @@
 ## 2.0.3
 
 - New: added new features to disable
+- New: added citizen images in /citizen page
+- New: added search input for /citizen page
 - Minor: fixed minor bugs
+- Minor: removed database timeouts
 
 ## 2.0.2
 
