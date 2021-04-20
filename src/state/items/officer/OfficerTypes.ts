@@ -38,7 +38,7 @@ export interface GetAllOfficers {
 }
 
 export interface IIncidents {
-  type: "GET_INCIDENTS" | "CREATE_INCIDENT" | "UPDATE_INCIDENT";
+  type: "GET_INCIDENTS" | "CREATE_INCIDENT" | "UPDATE_INCIDENT" | "DELETE_INCIDENT";
   incidents: OfficerIncident[];
 }
 

@@ -82,7 +82,10 @@ const TaxiDashPage = ({ calls, ...rest }: Props) => {
                     <td>{call.name}</td>
                     <td>{call.description}</td>
                     <td>
-                      <button onClick={() => endCall("taxi", call.id)} className="btn btn-success">
+                      <button
+                        onClick={() => rest.endCall("taxi", call.id)}
+                        className="btn btn-success"
+                      >
                         {lang.tow.end_call}
                       </button>
                     </td>

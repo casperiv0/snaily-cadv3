@@ -98,8 +98,6 @@ const MyOfficersPage: React.FC<Props> = ({ incidents }) => {
                     {incident.full_date}
                   </Item>
                 </div>
-
-                <div>{}</div>
               </li>
             );
           })

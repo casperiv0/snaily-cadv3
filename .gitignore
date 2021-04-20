@@ -18,6 +18,7 @@ public/citizen-images/*
 public/bleeter-images/*
 !public/bleeter-images/.gitkeep
 !public/citizen-images/.gitkeep
+!public/citizen-images/default.svg
 
 .DS_Store
 

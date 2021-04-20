@@ -26,6 +26,14 @@ const StatusesC: React.FC<Props> = ({
   setStatus,
   get10Codes,
 }) => {
+  const isDisabled = React.useMemo(() => {
+    if (!activeOfficer?.id) return true;
+    if (activeOfficer.status === "off-duty") return true;
+    if (activeOfficer.status2.startsWith("---")) return true;
+
+    return false;
+  }, [activeOfficer]);
+
   React.useEffect(() => {
     get10Codes();
   }, [get10Codes]);
@@ -99,7 +107,7 @@ const StatusesC: React.FC<Props> = ({
             .map((code: Code10, idx: number) => {
               return (
                 <button
-                  disabled={!activeOfficer || activeOfficer?.status === "off-duty"}
+                  disabled={isDisabled}
                   className={
                     activeOfficer?.status2 === code.code
                       ? "btn btn-primary col-sm-1"

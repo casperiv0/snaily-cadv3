@@ -141,6 +141,7 @@ const ProbablyNotInTheTranslateFile = {
     arrests_made: "Arrest(s) Made",
     injuries_fatalities: "Injuries or Fatalities",
     firearms_involved: "Firearm(s) Involved",
+    deleted_incident: "Successfully deleted incident",
   },
   admin: {
     ...file.admin,
@@ -173,6 +174,7 @@ const ProbablyNotInTheTranslateFile = {
     max_citizens: "Maximum amount of citizens that can be created per user",
     updated_unit: "Successfully updated unit",
     updated_member: "Successfully updated member",
+    registration_code: "Registration code",
   },
   codes: {
     code: "Code",

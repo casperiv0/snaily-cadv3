@@ -86,7 +86,7 @@ const CreateCitizenPage = ({
       data: ethnicities,
     },
     {
-      type: "text",
+      type: "date",
       value: birth,
       onChange: (e) => setBirth(e.target.value),
       label: lang.citizen.date_of_birth,

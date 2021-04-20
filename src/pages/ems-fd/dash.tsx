@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { GetServerSideProps } from "next";
 import { Layout } from "@components/Layout";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { socket } from "@hooks/useSocket";
 import lang from "src/language.json";
 import { Statuses } from "@components/ems-fd/Statuses";
@@ -23,10 +23,12 @@ import { initializeStore } from "@state/useStore";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getActiveEmsFd } from "@actions/ems-fd/EmsFdActions";
+import { Cad } from "types/Cad";
 
 interface Props {
-  aop: string | null;
-  activeDeputy: Deputy | null;
+  aop: Nullable<string>;
+  activeDeputy: Nullable<Deputy>;
+  cadInfo: Nullable<Cad>;
   get10Codes: () => void;
 }
 
@@ -74,7 +76,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
       <div className="card bg-dark mb-4">
         <div className="card-header">
           <h4>
-            {lang.global.utility_panel} - AOP: {aop}
+            {lang.global.utility_panel} {props.cadInfo?.show_aop === "1" ? `- AOP: ${aop}` : null}
           </h4>
         </div>
 
@@ -139,6 +141,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
 const mapToProps = (state: State) => ({
   aop: state.global.aop,
+  cadInfo: state.global.cadInfo,
   activeDeputy: state.ems_fd.activeDeputy ?? null,
 });
 

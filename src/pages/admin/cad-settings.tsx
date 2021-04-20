@@ -33,6 +33,9 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
   const [showSteamKey, setShowSteamKey] = React.useState(false);
   const [features, setFeatures] = React.useState<string[]>([]);
   const [maxCitizens, setMaxCitizens] = React.useState<string>("unlimited");
+  const [registrationCode, setRegCode] = React.useState("");
+  const [showAop, setShowAop] = React.useState("");
+  const [showRegCode, setShowRegCode] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -47,6 +50,8 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       setSteamApiKey(cadInfo.steam_api_key || "");
       setFeatures(cadInfo.features || []);
       setMaxCitizens(cadInfo.max_citizens ?? "unlimited");
+      setShowAop(cadInfo.show_aop);
+      setRegCode(cadInfo.registration_code);
     }
   }, [cadInfo]);
 
@@ -65,6 +70,8 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       steam_api_key: steamApiKey,
       features: cadInfo?.features || [],
       max_citizens: maxCitizens,
+      show_aop: showAop,
+      registration_code: registrationCode,
     });
 
     setLoading(false);
@@ -76,16 +83,9 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
     setLoading(true);
 
     await updateCadSettings({
-      cad_name: cadInfo.cad_name,
-      aop: cadInfo.AOP,
-      whitelisted: cadInfo.whitelisted,
-      tow_whitelisted: cadInfo.tow_whitelisted,
-      webhook_url: cadInfo.webhook_url,
-      plate_length: cadInfo.plate_length,
-      live_map_url: cadInfo.live_map_url,
-      steam_api_key: cadInfo.steam_api_key,
+      ...cadInfo,
+      show_aop: showAop,
       features,
-      max_citizens: cadInfo.max_citizens,
     });
 
     setLoading(false);
@@ -279,6 +279,30 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
               />
             </div>
             <div className="mb-3">
+              <label className="form-label" htmlFor="tow_whitelisted">
+                {lang.admin.registration_code}
+              </label>
+
+              <div className="input-group mb-3">
+                <input
+                  type={showRegCode ? "text" : "password"}
+                  className="form-control bg-secondary border-dark text-light"
+                  id="steam_api_key"
+                  value={registrationCode}
+                  onChange={(e) => setRegCode(e.target.value)}
+                  aria-describedby="show-reg-code"
+                />
+                <button
+                  onClick={() => setShowRegCode((v) => !v)}
+                  className="btn btn-outline-secondary bg-light text-dark"
+                  type="button"
+                  id="show-reg-code"
+                >
+                  {showRegCode ? lang.global.hide : lang.global.show}
+                </button>
+              </div>
+            </div>
+            <div className="mb-3">
               <button disabled={loading} className="btn btn-primary col" type="submit">
                 {loading ? `${lang.global.loading}..` : lang.admin.save}
               </button>
@@ -293,6 +317,21 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
         </div>
 
         <div className="card-body">
+          <div className="mb-3">
+            <div className="form-check form-switch">
+              <input
+                onChange={() => setShowAop(showAop === "1" ? "0" : "1")}
+                checked={showAop === "1"}
+                className="form-check-input"
+                type="checkbox"
+                id="show-aop-feature"
+              />
+              <label className="form-check-label" htmlFor="show-aop-feature">
+                Show AOP
+              </label>
+            </div>
+            When disabled, this will hide &quot;- AOP: aop here &quot;
+          </div>
           <div className="mb-3">
             <div className="form-check form-switch">
               <input

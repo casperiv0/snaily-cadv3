@@ -26,11 +26,17 @@ export default async function (req: IRequest, res: NextApiResponse) {
       try {
         const [cad] = await processQuery<Cad>("SELECT * FROM `cad_info`");
         const [seoTags] = await processQuery<object>("SELECT * FROM `seo_tags`");
+        const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [
+          req.userId,
+        ]);
         const updatedVersion = await checkVersion(false);
+        const code =
+          user?.rank === "owner" ? cad?.registration_code ?? "" : !!cad?.registration_code;
 
         return res.json({
           cad: {
             ...cad,
+            registration_code: code,
             seo: seoTags,
             features: parseFeatures(cad!),
             version: { version: pkg.version, updatedVersion },
@@ -67,6 +73,8 @@ export default async function (req: IRequest, res: NextApiResponse) {
           steam_api_key,
           features,
           max_citizens,
+          show_aop,
+          registration_code = null,
         } = req.body;
 
         if (!cad_name && !aop && !tow_whitelisted && !whitelisted) {
@@ -77,7 +85,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         }
 
         await processQuery(
-          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?",
+          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?, `show_aop` = ?, `registration_code` = ?",
           [
             cad_name,
             aop,
@@ -89,16 +97,21 @@ export default async function (req: IRequest, res: NextApiResponse) {
             steam_api_key,
             JSON.stringify(features) || JSON.stringify("[]"),
             max_citizens,
+            show_aop,
+            registration_code,
           ],
         );
 
         const [updated] = await processQuery<Cad>("SELECT * FROM `cad_info`");
         const updatedFeatures = parseFeatures(updated!);
+        const code =
+          user?.rank === "owner" ? updated?.registration_code ?? "" : !!updated?.registration_code;
 
         return res.json({
           status: "success",
           cad: {
             ...updated,
+            registration_code: code,
             features: updatedFeatures,
           },
         });

@@ -7,14 +7,21 @@ import lang from "src/language.json";
 
 export const getCadInfo = (headers?: any) => async (dispatch: Dispatch<GetCadInfo>) => {
   try {
-    const res = await handleRequest("/global/cad-info", "POST", {
+    const cadInfoRes = await handleRequest("/global/cad-info", "POST", {
+      cookie: headers?.cookie,
+      url: headers?.host,
+    }).catch(() => null);
+    const featuresRes = await handleRequest("/global/cad-info/features", "GET", {
       cookie: headers?.cookie,
       url: headers?.host,
     });
 
     dispatch({
       type: "GET_CAD_INFO",
-      cadInfo: res.data.cad,
+      cadInfo: {
+        ...(cadInfoRes?.data.cad ?? {}),
+        ...featuresRes.data,
+      },
     });
   } catch (e) {
     return false;

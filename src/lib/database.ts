@@ -8,6 +8,7 @@ const options: ConnectionConfig = {
   user: config.user,
   password: config.password,
   database: config.databaseName,
+  timeout: 0,
 };
 
 async function connect(): Promise<Connection> {
@@ -49,6 +50,12 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `registration_code` varchar(255) DEFAULT NULL AFTER `plate_length`;",
+  );
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `show_aop` varchar(255) NOT NULL DEFAULT '1' AFTER `plate_length`;",
+  );
   updateLine("ALTER TABLE `bleets` DROP `markdown`;");
   updateLine("ALTER TABLE `ems-fd` ADD `callsign` varchar(255) NOT NULL AFTER `name`;");
   updateLine(

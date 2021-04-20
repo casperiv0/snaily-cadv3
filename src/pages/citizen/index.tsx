@@ -22,6 +22,7 @@ import { Create911Modal } from "@components/modals/Create911Modal";
 import { socket } from "@hooks/useSocket";
 import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponModal";
 import { RegisterVehicleModal } from "@components/modals/citizen/RegisterVehicleModal";
+import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   citizens: Citizen[];
@@ -31,6 +32,7 @@ interface Props {
 
 const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
+  const { search, onChange, filtered } = useSearch<Citizen>("full_name", citizens);
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
@@ -46,7 +48,7 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
       <Seo title="Citizen - View all your citizens" />
 
       <h3>
-        {lang.auth.welcome} - AOP: {aop}
+        {lang.auth.welcome} {cadInfo?.show_aop === "1" ? ` - AOP: ${aop}` : null}
       </h3>
 
       <div className="d-flex">
@@ -114,27 +116,47 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
         ) : null}
       </div>
 
-      <ul className="list-group mt-3">
-        {!citizens[0] ? (
-          <AlertMessage message={{ msg: lang.citizen.no_citizens_found, type: "warning" }} />
-        ) : (
-          citizens.map((citizen: Citizen, idx: number) => {
-            return (
-              <li
-                key={idx}
-                id={`${idx}`}
-                className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
-              >
-                {citizen.full_name}
+      <div className="mt-3" id="citizens">
+        <input
+          className="form-control bg-dark border-dark text-light"
+          value={search}
+          onChange={onChange}
+          placeholder={lang.global.search}
+          type="search"
+        />
 
-                <Link href={`/citizen/${citizen.id}`}>
-                  <a className="btn btn-primary">{lang.citizen.more_info}</a>
-                </Link>
-              </li>
-            );
-          })
-        )}
-      </ul>
+        <ul className="list-group mt-2">
+          {!citizens[0] ? (
+            <AlertMessage message={{ msg: lang.citizen.no_citizens_found, type: "warning" }} />
+          ) : (
+            filtered.map((citizen: Citizen, idx: number) => {
+              return (
+                <li
+                  key={idx}
+                  id={`${idx}`}
+                  className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
+                >
+                  <div className="d-flex align-items-center">
+                    <img
+                      src={`/citizen-images/${citizen.image_id}`}
+                      style={{ width: "60px", height: "60px" }}
+                      className="object-fit-center rounded-circle"
+                    />
+
+                    <h1 className="ms-3 h5">{citizen.full_name}</h1>
+                  </div>
+
+                  <div>
+                    <Link href={`/citizen/${citizen.id}`}>
+                      <a className="btn btn-primary">{lang.citizen.more_info}</a>
+                    </Link>
+                  </div>
+                </li>
+              );
+            })
+          )}
+        </ul>
+      </div>
 
       {isCadFeatureEnabled(cadInfo?.features, "taxi") ? <CreateTaxiCallModal /> : null}
       {isCadFeatureEnabled(cadInfo?.features, "tow") ? <CreateTowCallModal /> : null}

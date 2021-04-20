@@ -23,7 +23,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "POST": {
       try {
-        const { username, password, password2 } = req.body;
+        const { username, password, password2, registration_code } = req.body;
 
         if (!username || !password || !password2) {
           return res.status(400).json({
@@ -53,6 +53,21 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const cad =
           (await processQuery<Cad>("SELECT * FROM `cad_info`"))[0] ??
           (await createCADAndReturn(username));
+
+        if (cad?.registration_code) {
+          if (!registration_code)
+            return res.status(400).json({
+              error: "Please provide the registration code.",
+              status: "error",
+            });
+
+          if (cad?.registration_code !== registration_code) {
+            return res.status(400).json({
+              error: "Invalid code",
+              status: "error",
+            });
+          }
+        }
 
         const whitelistStatus = cad?.whitelisted === "1" ? "pending" : "accepted";
         const towAccess = cad?.tow_whitelisted === "1" ? "0" : "1";
