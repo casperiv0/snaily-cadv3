@@ -33,7 +33,9 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
   const [showSteamKey, setShowSteamKey] = React.useState(false);
   const [features, setFeatures] = React.useState<string[]>([]);
   const [maxCitizens, setMaxCitizens] = React.useState<string>("unlimited");
+  const [registrationCode, setRegCode] = React.useState("");
   const [showAop, setShowAop] = React.useState("");
+  const [showRegCode, setShowRegCode] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -49,6 +51,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       setFeatures(cadInfo.features || []);
       setMaxCitizens(cadInfo.max_citizens ?? "unlimited");
       setShowAop(cadInfo.show_aop);
+      setRegCode(cadInfo.registration_code);
     }
   }, [cadInfo]);
 
@@ -68,6 +71,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       features: cadInfo?.features || [],
       max_citizens: maxCitizens,
       show_aop: showAop,
+      registration_code: registrationCode,
     });
 
     setLoading(false);
@@ -273,6 +277,30 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
                   { label: lang.global.no, value: "0" },
                 ]}
               />
+            </div>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="tow_whitelisted">
+                {lang.admin.registration_code}
+              </label>
+
+              <div className="input-group mb-3">
+                <input
+                  type={showRegCode ? "text" : "password"}
+                  className="form-control bg-secondary border-dark text-light"
+                  id="steam_api_key"
+                  value={registrationCode}
+                  onChange={(e) => setRegCode(e.target.value)}
+                  aria-describedby="show-reg-code"
+                />
+                <button
+                  onClick={() => setShowRegCode((v) => !v)}
+                  className="btn btn-outline-secondary bg-light text-dark"
+                  type="button"
+                  id="show-reg-code"
+                >
+                  {showRegCode ? lang.global.hide : lang.global.show}
+                </button>
+              </div>
             </div>
             <div className="mb-3">
               <button disabled={loading} className="btn btn-primary col" type="submit">

@@ -19,6 +19,14 @@ interface Props {
 }
 
 const StatusesC: React.FC<Props> = ({ activeDeputy, setEmsStatus, getActiveEmsFd, statuses }) => {
+  const isDisabled = React.useMemo(() => {
+    if (!activeDeputy?.id) return true;
+    if (activeDeputy.status === "off-duty") return true;
+    if (activeDeputy.status2.startsWith("---")) return true;
+
+    return false;
+  }, [activeDeputy]);
+
   React.useEffect(() => {
     const handler = () => getActiveEmsFd();
     socket.on(SocketEvents.UpdateActiveUnits, handler);
@@ -87,7 +95,7 @@ const StatusesC: React.FC<Props> = ({ activeDeputy, setEmsStatus, getActiveEmsFd
             .map((code: Code10, idx: number) => {
               return (
                 <button
-                  disabled={!activeDeputy || activeDeputy?.status === "off-duty"}
+                  disabled={isDisabled}
                   className={
                     activeDeputy?.status2 === code.code
                       ? "btn btn-primary col-sm-1"

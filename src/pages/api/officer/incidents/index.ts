@@ -34,7 +34,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   try {
-    await usePermission(req, ["leo"]);
+    await usePermission(req, ["leo", "admin", "moderator", "owner"]);
   } catch (e) {
     return res.status(e?.code ?? 401).json({
       status: "error",

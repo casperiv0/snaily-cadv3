@@ -80,6 +80,15 @@ const AdminSidebarC: React.FC<Props> = ({ user }) => {
                   {lang.admin.company_management}
                 </a>
               </Link>
+              <Link href="/admin/manage/incidents">
+                <a
+                  className={`text-decoration-none p-2 rounded admin-link ${isActive(
+                    "/manage/incidents",
+                  )} `}
+                >
+                  {lang.officers.incidents}
+                </a>
+              </Link>
             </>
           ) : null}
 

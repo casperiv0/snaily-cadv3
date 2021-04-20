@@ -49,6 +49,7 @@ export function OfficerReducer(state = initState, action: Actions): State["offic
     }
     case "GET_INCIDENTS":
     case "CREATE_INCIDENT":
+    case "DELETE_INCIDENT":
     case "UPDATE_INCIDENT": {
       return {
         ...state,

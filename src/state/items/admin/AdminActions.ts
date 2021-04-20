@@ -16,6 +16,7 @@ import {
   GetTempPassword,
 } from "./AdminTypes";
 import lang from "src/language.json";
+import { IIncidents } from "@actions/officer/OfficerTypes";
 
 export const get10Codes = (headers?: any) => async (dispatch: Dispatch<I10Codes>) => {
   try {
@@ -401,6 +402,22 @@ export const getTempPassword = (memberId: string) => async (
     });
 
     return notify.success(lang.admin.temp_password_success);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const deleteIncident = (id: string) => async (dispatch: Dispatch<IIncidents>) => {
+  try {
+    const res = await handleRequest(`/officer/incidents/${id}`, "DELETE");
+
+    dispatch({
+      type: "DELETE_INCIDENT",
+      incidents: res.data.incidents,
+    });
+
+    return notify.success(lang.officers.deleted_incident);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

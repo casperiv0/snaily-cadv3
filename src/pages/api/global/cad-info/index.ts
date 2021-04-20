@@ -68,6 +68,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           features,
           max_citizens,
           show_aop,
+          registration_code,
         } = req.body;
 
         if (!cad_name && !aop && !tow_whitelisted && !whitelisted) {
@@ -78,7 +79,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         }
 
         await processQuery(
-          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?, `show_aop` = ?",
+          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?, `show_aop` = ?, `registration_code` = ?",
           [
             cad_name,
             aop,
@@ -91,6 +92,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
             JSON.stringify(features) || JSON.stringify("[]"),
             max_citizens,
             show_aop,
+            registration_code,
           ],
         );
 
@@ -101,6 +103,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           status: "success",
           cad: {
             ...updated,
+            registration_code: !!updated?.registration_code,
             features: updatedFeatures,
           },
         });

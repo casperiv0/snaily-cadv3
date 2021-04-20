@@ -21,10 +21,13 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const [cad] = await processQuery<Cad>("SELECT `features` FROM `cad_info`");
+        const [cad] = await processQuery<Cad>(
+          "SELECT `features`, `registration_code` FROM `cad_info`",
+        );
         const features = parseFeatures(cad!);
 
         return res.json({
+          registration_code: !!cad?.registration_code,
           features,
           status: "success",
         });
