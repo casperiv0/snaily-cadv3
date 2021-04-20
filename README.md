@@ -10,6 +10,10 @@
 
 This is a web based integration for communities who love police roleplaying and dispatching.
 
+<a href="https://discord.gg/eGnrPqEH7U ">
+  <img src="http://invidget.switchblade.xyz/eGnrPqEH7U" />
+</a>
+
 ## Table of contents
 
 - [Installation](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide)
