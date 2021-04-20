@@ -12,6 +12,7 @@ const config = {
   jwtSecret: process.env.JWT_SECRET || "bongo super cat",
   env: process.env.PROFILE || "production",
   allowIframes: false, // true or false
+  secureCookie: false, // ONLY SET TO `true` if your site uses `https://`!
 };
 
 export default config;

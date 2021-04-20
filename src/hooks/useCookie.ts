@@ -14,6 +14,7 @@ export function useCookie(
     httpOnly: true,
     path: "/",
     sameSite: config.allowIframes === true ? "none" : "lax",
+    secure: config.secureCookie,
   };
 
   res.setHeader("Set-Cookie", serialize(name, token, options));

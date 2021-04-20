@@ -7,6 +7,7 @@ interface ServerConfig {
   jwtSecret: string;
   env: string;
   allowIframes: boolean;
+  secureCookie: boolean;
 }
 
 /**
@@ -34,7 +35,8 @@ try {
     databaseName: conf.default.databaseName || defaultDatabaseName,
     jwtSecret: conf.default.jwtSecret || defaultSecret,
     env: conf.default.env || defaultProfile,
-    allowIframes: conf.default.allowIframes ?? false,
+    allowIframes: conf.default?.allowIframes ?? false,
+    secureCookie: conf.default?.secureCookie ?? false,
   };
 } catch (e) {
   config = {
@@ -46,6 +48,7 @@ try {
     jwtSecret: process.env.JWT_SECRET || defaultSecret,
     env: process.env.PROFILE || defaultProfile,
     allowIframes: process.env.ALLOW_IFRAMES === "true" ?? false,
+    secureCookie: process.env.SECURE_COOKIE === "true" ?? false,
   };
 }
 
