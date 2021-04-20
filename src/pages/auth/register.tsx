@@ -5,15 +5,23 @@ import Link from "next/link";
 import lang from "../../language.json";
 import { register } from "@actions/auth/AuthActions";
 import { Seo } from "@components/Seo";
+import { GetServerSideProps } from "next";
+import { initializeStore } from "@state/useStore";
+import { getCadInfo } from "@actions/global/GlobalActions";
+import { Nullable, State } from "types/State";
+import { Cad } from "types/Cad";
+import { RequestData } from "@lib/utils";
 
 interface Props {
-  register: (data: { username: string; password: string; password2: string }) => Promise<boolean>;
+  cadInfo: Nullable<Cad>;
+  register: (data: RequestData) => Promise<boolean>;
 }
 
-const RegisterPage = ({ register }: Props) => {
+const RegisterPage = ({ register, cadInfo }: Props) => {
   const [username, setUsername] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [password2, setPassword2] = React.useState<string>("");
+  const [registrationCode, setCode] = React.useState("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const router = useRouter();
 
@@ -25,6 +33,7 @@ const RegisterPage = ({ register }: Props) => {
       username,
       password,
       password2,
+      registration_code: registrationCode,
     });
 
     if (success === true) {
@@ -78,6 +87,22 @@ const RegisterPage = ({ register }: Props) => {
           className="form-control"
         />
       </div>
+
+      {cadInfo?.registration_code ? (
+        <div className="mb-3">
+          <label className="form-label" htmlFor="registration_code">
+            {lang.admin.registration_code}
+          </label>
+          <input
+            type="password"
+            value={registrationCode}
+            onChange={(e) => setCode(e.target.value)}
+            id="registration_code"
+            className="form-control"
+          />
+        </div>
+      ) : null}
+
       <div className="mb-3">
         <Link href="/auth/login">
           <a>{lang.auth.login}</a>
@@ -96,4 +121,15 @@ const RegisterPage = ({ register }: Props) => {
   );
 };
 
-export default connect(null, { register })(RegisterPage);
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const store = initializeStore();
+  await getCadInfo(req.headers)(store.dispatch);
+
+  return { props: { initialReduxState: store.getState() } };
+};
+
+const mapToProps = (state: State) => ({
+  cadInfo: state.global.cadInfo,
+});
+
+export default connect(mapToProps, { register })(RegisterPage);

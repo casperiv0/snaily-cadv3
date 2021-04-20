@@ -27,7 +27,7 @@ export interface IExpungementRequests {
 }
 
 export interface IMembers {
-  type: "GET_MEMBERS";
+  type: "GET_MEMBERS" | "ACCEPT_MEMBER" | "DECLINE_MEMBER";
   members: User[];
 }
 

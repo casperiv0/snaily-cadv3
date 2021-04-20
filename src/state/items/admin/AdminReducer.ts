@@ -47,6 +47,8 @@ export function AdminReducer(state = initState, action: Actions): State["admin"]
         expungementRequests: action.expungementRequests,
       };
     }
+    case "DECLINE_MEMBER":
+    case "ACCEPT_MEMBER":
     case "GET_MEMBERS": {
       return {
         ...state,

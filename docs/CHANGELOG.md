@@ -4,6 +4,7 @@
 
 ## 2.0.3
 
+- New: custom registration code (something like invite codes) ([#156](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/156))
 - New: admins can delete incidents
 - New: added new features to disable
 - New: added citizen images in /citizen page
