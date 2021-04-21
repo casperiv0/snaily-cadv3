@@ -1,3 +1,4 @@
+import { parse } from "cookie";
 import { NextApiResponse } from "next";
 import fetch from "node-fetch";
 import { IRequest } from "types/IRequest";
@@ -141,4 +142,17 @@ export async function logoutActiveUnits(userId: string | undefined): Promise<voi
   );
 
   (global as any)?.io?.sockets?.emit?.("UPDATE_ACTIVE_UNITS");
+}
+
+export async function getActiveOfficer(req: IRequest) {
+  const id =
+    parse(`${req.headers["session"]}`)?.["active-officer"] ||
+    parse(`${req.headers["cookie"]}`)?.["active-officer"];
+
+  const [officer] = await processQuery<Officer>(
+    "SELECT * FROM `officers` WHERE `user_id` = ? AND `id` = ?",
+    [req.userId, id],
+  );
+
+  return officer;
 }

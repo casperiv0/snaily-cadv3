@@ -37,7 +37,7 @@ const RegisterPage = ({ register, cadInfo }: Props) => {
     });
 
     if (success === true) {
-      router.push("/");
+      router.push("/citizen");
     }
 
     setLoading(false);

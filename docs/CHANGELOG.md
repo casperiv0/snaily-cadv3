@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.4
+
+- New: able to see who created bolos/warrants
+- Minor: redirect to `/citizen` instead of `/` on login
+
 ## 2.0.3
 
 - New: custom registration code (something like invite codes) ([#156](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/156))

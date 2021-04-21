@@ -118,7 +118,7 @@ const NavbarC = ({ isAuth, cadInfo, user }: Props) => {
   return (
     <nav id="navbar" className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
       <div className="container-fluid">
-        <Link href="/">
+        <Link href="/citizen">
           <a className="navbar-brand">{cadInfo?.cad_name ? cadInfo?.cad_name : "Home"}</a>
         </Link>
         <button
