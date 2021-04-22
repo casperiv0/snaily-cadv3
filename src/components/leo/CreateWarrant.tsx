@@ -9,7 +9,7 @@ import { Warrant } from "types/Record";
 
 interface Props {
   activeOfficer: Nullable<Officer>;
-  createWarrant: (data: Omit<Warrant, "id">) => Promise<boolean>;
+  createWarrant: (data: Omit<Warrant, "id" | "officer_name">) => Promise<boolean>;
 }
 
 const CreateWarrantC: React.FC<Props> = ({ createWarrant, activeOfficer }) => {

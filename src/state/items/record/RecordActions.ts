@@ -5,7 +5,7 @@ import { IRecord } from "./RecordTypes";
 import lang from "src/language.json";
 import { Search } from "@actions/officer/OfficerTypes";
 
-export const createWarrant = (data: Omit<Warrant, "id">) => async (
+export const createWarrant = (data: Omit<Warrant, "id" | "officer_name">) => async (
   dispatch: Dispatch<IRecord>,
 ): Promise<boolean> => {
   try {
