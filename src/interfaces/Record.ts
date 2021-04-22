@@ -14,6 +14,7 @@ export interface Warrant {
   name: string;
   reason: string;
   status: string;
+  officer_name: string;
 }
 
 export interface Ticket extends Base {

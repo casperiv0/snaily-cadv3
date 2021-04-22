@@ -54,14 +54,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const id = v4();
         await processQuery(
           "INSERT INTO `warrants` (`id`, `name`, `citizen_id`, `reason`, `status`, `officer_name`) VALUES (?, ?, ?, ?, ?, ?)",
-          [
-            id,
-            name,
-            citizen.id,
-            reason,
-            status,
-            `${officer?.officer_dept} - ${officer?.callsign} ${officer?.officer_name}`,
-          ],
+          [id, name, citizen.id, reason, status, `${officer?.callsign} ${officer?.officer_name}`],
         );
 
         return res.json({ status: "success" });

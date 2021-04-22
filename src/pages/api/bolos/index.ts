@@ -52,7 +52,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         const officer = await getActiveOfficer(req);
         await processQuery(
-          "INSERT INTO `bolos` (`id`, `type`, `description`, `name`, `color`, `plate`, `officer_name`) VALUES (?, ?, ?, ?, ?, ?, ,)",
+          "INSERT INTO `bolos` (`id`, `type`, `description`, `name`, `color`, `plate`, `officer_name`) VALUES (?, ?, ?, ?, ?, ?, ?)",
           [
             id,
             type,
@@ -60,7 +60,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             name,
             color,
             plate,
-            `${officer?.officer_dept} - ${officer?.callsign} ${officer?.officer_name}`,
+            `${officer?.callsign} ${officer?.officer_name}`,
           ],
         );
 
