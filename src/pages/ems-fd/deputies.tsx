@@ -12,6 +12,7 @@ import { ModalIds } from "types/ModalIds";
 import { CreateDeputyModal } from "@components/modals/ems-fd/CreateDeputyModal";
 import { State } from "types/State";
 import { Seo } from "@components/Seo";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   deputies: Deputy[];
@@ -19,6 +20,8 @@ interface Props {
 }
 
 const MyDeputies = ({ deputies, deleteEmsFdDeputy }: Props) => {
+  useClientPerms("ems_fd");
+
   return (
     <Layout>
       <Seo title={lang.ems_fd.my_ems_fd} />

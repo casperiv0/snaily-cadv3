@@ -4,7 +4,8 @@ import { createTruckLog } from "@actions/truck-logs/TruckLogActions";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
 import { modal, RequestData } from "@lib/utils";
-import lang from "../../../language.json";
+import lang from "src/language.json";
+import { useModalOpen } from "@hooks/useModalOpen";
 
 interface Props {
   createTruckLog: (date: RequestData) => Promise<boolean>;
@@ -16,6 +17,7 @@ const CreateTruckLogModalC: React.FC<Props> = ({ createTruckLog }) => {
   const [coDriver, setCoDriver] = React.useState<string>("");
   const [startTime, setStartTime] = React.useState<string>("");
   const [plate, setPlate] = React.useState<string>("");
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.CreateTruckLog);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -48,6 +50,7 @@ const CreateTruckLogModalC: React.FC<Props> = ({ createTruckLog }) => {
               {lang.truck_logs.enter_trucker_name}
             </label>
             <input
+              ref={ref}
               type="text"
               id="name"
               value={name}

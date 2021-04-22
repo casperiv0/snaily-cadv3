@@ -17,6 +17,8 @@ import {
 } from "./AdminTypes";
 import lang from "src/language.json";
 import { IIncidents } from "@actions/officer/OfficerTypes";
+import { socket } from "@hooks/useSocket";
+import { SocketEvents } from "types/Socket";
 
 export const get10Codes = (headers?: any) => async (dispatch: Dispatch<I10Codes>) => {
   try {
@@ -311,6 +313,7 @@ export const updateUnitById = (id: string, data: RequestData) => async (
       type: "UPDATE_UNIT_BY_ID",
     });
 
+    socket.emit(SocketEvents.UpdateActiveUnits);
     return notify.success(lang.admin.updated_unit);
   } catch (e) {
     const error = getErrorFromResponse(e);

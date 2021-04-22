@@ -1,14 +1,10 @@
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 import { logger } from "@lib/logger";
 import { SocketEvents } from "types/Socket";
 
-let socket = {} as Socket;
-
-if (!socket?.id) {
-  socket = io("/", {
-    withCredentials: true,
-  });
-}
+const socket = io("/", {
+  withCredentials: true,
+});
 const CHECK_CONN_INTERVAL = 8_000; /* 8 seconds interval */
 
 socket?.on("connect", () => {

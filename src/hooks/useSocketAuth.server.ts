@@ -35,8 +35,6 @@ export async function useSocketAuth(cookie: string): Promise<string> {
 
     return Promise.resolve("Authorized");
   } catch (e) {
-    console.log(e);
-
     return Promise.reject({
       error: "invalid token (Not Authenticated)",
       invalid_token: true,

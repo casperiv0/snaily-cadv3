@@ -4,6 +4,28 @@ import { CallTypes, CreateCall, GetCalls } from "./CallTypes";
 import { socket } from "@hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 
+function updateCalls(type: CallTypes) {
+  switch (type) {
+    case "911": {
+      socket.emit(SocketEvents.Update911Calls);
+      socket.emit(SocketEvents.New911Call);
+      break;
+    }
+    case "tow": {
+      socket.emit(SocketEvents.UpdateTowCalls);
+      break;
+    }
+
+    case "taxi": {
+      socket.emit(SocketEvents.UpdateTaxiCalls);
+      break;
+    }
+    default: {
+      break;
+    }
+  }
+}
+
 export const createCall = (type: CallTypes, data: RequestData) => async (
   dispatch: Dispatch<CreateCall>,
 ): Promise<boolean> => {
@@ -15,7 +37,7 @@ export const createCall = (type: CallTypes, data: RequestData) => async (
       calls: res.data.calls,
     });
 
-    socket.emit(SocketEvents.Update911Calls);
+    updateCalls(type);
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
@@ -50,7 +72,7 @@ export const endCall = (type: CallTypes, id: string) => async (dispatch: Dispatc
       calls: res.data.calls,
     });
 
-    socket.emit(SocketEvents.Update911Calls);
+    updateCalls(type);
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);

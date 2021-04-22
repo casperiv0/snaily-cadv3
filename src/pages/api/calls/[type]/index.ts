@@ -105,6 +105,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
                 type,
               ],
             );
+
             (global as any)?.io?.socket?.emit?.(SocketEvents.New911Call);
             (global as any)?.io?.socket?.emit?.(SocketEvents.Update911Calls);
             break;

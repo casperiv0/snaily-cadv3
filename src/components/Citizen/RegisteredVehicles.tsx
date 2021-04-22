@@ -30,7 +30,7 @@ const RegisteredVehicles: React.FC<Props> = ({
     if (!citizenId) return;
     updateVehicleById(citizenId, vehicle.id, {
       ...vehicle,
-      in_status: "Reported stolen",
+      status: "Reported stolen",
     });
   }
 

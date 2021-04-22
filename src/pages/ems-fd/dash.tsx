@@ -25,6 +25,7 @@ import { verifyAuth } from "@actions/auth/AuthActions";
 import { getActiveEmsFd } from "@actions/ems-fd/EmsFdActions";
 import { Cad } from "types/Cad";
 import { useDashTime } from "@hooks/useDashTime";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   aop: Nullable<string>;
@@ -38,6 +39,7 @@ const EmsFdDash: React.FC<Props> = (props) => {
   const router = useRouter();
   const time = useDashTime();
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
+  useClientPerms("ems_fd");
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);

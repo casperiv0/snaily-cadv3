@@ -13,6 +13,7 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { Item, Span } from "@components/Item";
 import { Seo } from "@components/Seo";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   officers: Officer[];
@@ -20,6 +21,8 @@ interface Props {
 }
 
 const OfficerLogsPage: React.FC<Props> = ({ officers, logs }) => {
+  useClientPerms("leo");
+
   return (
     <Layout classes="mt-5">
       <Seo title="My officer logs" />

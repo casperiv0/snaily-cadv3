@@ -64,8 +64,6 @@ const Active911CallsC: React.FC<Props> = ({
     };
   }, [getCalls, router]);
 
-  console.log(disabled);
-
   return (
     <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
       <li className="bg-secondary border-secondary list-group-item sticky-top text-white">

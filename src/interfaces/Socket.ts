@@ -2,7 +2,6 @@ export enum SocketEvents {
   CheckConnection = "CHECK_CONNECTION",
   ConnectionError = "connection_error",
   ConnectionSuccess = "connection_success",
-  Update911Call = "UPDATE_911_CALL",
   Update911Calls = "UPDATE_911_CALLS",
   New911Call = "NEW_911_CALL",
   UpdateBolos = "UPDATE_BOLOS",

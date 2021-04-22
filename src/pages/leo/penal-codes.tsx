@@ -13,6 +13,7 @@ import { getPenalCodes } from "@actions/admin/AdminActions";
 import { PenalCode } from "types/PenalCode";
 import { useObserver } from "@hooks/useObserver";
 import { GetServerSideProps } from "next";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   penalCodes: PenalCode[];
@@ -21,6 +22,7 @@ interface Props {
 const MyOfficersPage: React.FC<Props> = ({ penalCodes }) => {
   const [filtered, setFiltered] = React.useState<PenalCode[]>(penalCodes);
   const { ref, length } = useObserver<PenalCode>(penalCodes);
+  useClientPerms("leo");
 
   React.useEffect(() => {
     setFiltered(penalCodes);

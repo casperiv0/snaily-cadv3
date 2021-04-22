@@ -10,6 +10,10 @@
 - Minor: fixed small bug in live map
 - Minor: added timer to EMS-FD dashboard (wasn't added back for some reason)
 - Minor: fixed bug with `Assign self to call`
+- Minor: fixed a bug where the socket doesn't always update
+- Minor: fixed a bug where you couldn't transfer a vehicle to another owner
+- Minor: fixed a bug where 911 calls wouldn't update via the sockets
+- Minor: fixed other minor bugs
 
 ## 2.0.3
 

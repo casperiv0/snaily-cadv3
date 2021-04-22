@@ -178,7 +178,7 @@ export const createOfficer = (data: Partial<Officer>) => async (dispatch: Dispat
       officers: res.data.officers,
     });
 
-    return notify.success(lang.officers.create_officer_success);
+    return notify.success(`${lang.officers.create_officer_success} ${data.officer_name}`);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);
