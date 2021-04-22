@@ -11,6 +11,7 @@ export interface Call {
   hidden: Perm;
   type: string;
 
+  pos: any;
   events?: CallEvent[];
 }
 

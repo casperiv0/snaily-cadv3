@@ -50,7 +50,7 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
-  updateLine("ALTER TABLE `warrant` ADD `officer_name` varchar(255) DEFAULT NULL AFTER `status`;");
+  updateLine("ALTER TABLE `warrants` ADD `officer_name` varchar(255) DEFAULT NULL AFTER `status`;");
   updateLine("ALTER TABLE `bolos` ADD `officer_name` varchar(255) DEFAULT NULL AFTER `plate`;");
   updateLine(
     "ALTER TABLE `cad_info` ADD `registration_code` varchar(255) DEFAULT NULL AFTER `plate_length`;",

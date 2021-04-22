@@ -6,6 +6,7 @@
 
 - New: able to see who created bolos/warrants
 - Minor: redirect to `/citizen` instead of `/` on login
+- Minor: fixed small bug in live map
 
 ## 2.0.3
 
