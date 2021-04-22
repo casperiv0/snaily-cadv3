@@ -22,7 +22,6 @@ import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 interface Props {
   genders: Value[];
   ethnicities: Value[];
-  legalStatuses: Value[];
   citizen: Nullable<Citizen>;
 
   getValuesByPath: (path: ValuePaths) => void;
@@ -32,7 +31,6 @@ interface Props {
 const CreateCitizenPage = ({
   genders,
   ethnicities,
-  legalStatuses,
   getValuesByPath,
   updateCitizen,
   citizen,
@@ -47,10 +45,6 @@ const CreateCitizenPage = ({
   const [address, setAddress] = React.useState<string>("");
   const [height, setHeight] = React.useState<string>("");
   const [weight, setWeight] = React.useState<string>("");
-  const [dmv, setDmv] = React.useState<SelectValue | null>(null);
-  const [pilotsLicense, setPilotsLicense] = React.useState<SelectValue | null>(null);
-  const [firearmsLicense, setFirearmsLicense] = React.useState<SelectValue | null>(null);
-  const [ccw, setCcw] = React.useState<SelectValue | null>(null);
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const router = useRouter();
@@ -66,10 +60,7 @@ const CreateCitizenPage = ({
       setAddress(citizen?.address!);
       setHeight(citizen?.height!);
       setWeight(citizen?.weight!);
-      setDmv({ label: citizen?.dmv, value: citizen?.dmv });
-      setFirearmsLicense({ label: citizen?.fire_license, value: citizen?.fire_license });
-      setPilotsLicense({ label: citizen?.pilot_license, value: citizen?.pilot_license });
-      setCcw({ label: citizen?.ccw, value: citizen?.ccw });
+
       setPhoneNumber(citizen?.phone_nr || "");
     }
   }, [citizen]);
@@ -77,7 +68,6 @@ const CreateCitizenPage = ({
   React.useEffect(() => {
     getValuesByPath("ethnicities");
     getValuesByPath("genders");
-    getValuesByPath("legal-statuses");
   }, [getValuesByPath]);
 
   const fields: Field[] = [
@@ -160,45 +150,6 @@ const CreateCitizenPage = ({
     },
   ];
 
-  const licenseFields: Field[] = [
-    {
-      type: "text",
-      value: (dmv as unknown) as string,
-      onChange: (e) => setDmv(e),
-      id: "dmv",
-      label: lang.citizen.drivers_license,
-      select: true,
-      data: legalStatuses,
-    },
-    {
-      type: "text",
-      value: (firearmsLicense as unknown) as string,
-      onChange: (e) => setFirearmsLicense(e),
-      id: "firearmsLicense",
-      label: lang.citizen.firearms_license,
-      select: true,
-      data: legalStatuses,
-    },
-    {
-      type: "text",
-      value: (pilotsLicense as unknown) as string,
-      onChange: (e) => setPilotsLicense(e),
-      id: "pilotsLicense",
-      label: lang.citizen.pilot_license,
-      select: true,
-      data: legalStatuses,
-    },
-    {
-      type: "text",
-      value: (ccw as unknown) as string,
-      onChange: (e) => setCcw(e),
-      id: "ccw",
-      label: lang.citizen.ccw,
-      select: true,
-      data: legalStatuses,
-    },
-  ];
-
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!citizen) return;
@@ -215,10 +166,6 @@ const CreateCitizenPage = ({
       address,
       height,
       weight,
-      dmv: dmv?.value,
-      pilot_license: pilotsLicense?.value,
-      fire_license: firearmsLicense?.value,
-      ccw: ccw?.value,
       phone_nr: phoneNumber,
     });
 
@@ -246,11 +193,37 @@ const CreateCitizenPage = ({
           <label className="form-label" htmlFor="image">
             {lang.global.image}
           </label>
-          <input
-            onChange={(e) => setImage(e.target.files![0])}
-            type="file"
-            className="form-control bg-dark border-dark text-light"
-          />
+
+          <div style={{ display: "flex" }}>
+            <div style={{ width: "90%" }}>
+              <input
+                onChange={(e) => setImage(e.target.files![0])}
+                type="file"
+                className="form-control bg-dark border-dark text-light"
+              />
+            </div>
+
+            <div style={{ width: "16%" }}>
+              {image === "delete" ? (
+                <button
+                  type="button"
+                  onClick={() => setImage(null)}
+                  className="btn btn-success ms-3"
+                  style={{ width: "84%" }}
+                >
+                  {lang.global.revert}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setImage("delete")}
+                  className="btn btn-danger ms-3"
+                >
+                  {lang.citizen.remove_image}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
         {fields.map((field: Field, idx: number) => {
@@ -285,30 +258,6 @@ const CreateCitizenPage = ({
           );
         })}
 
-        <div className="row">
-          {licenseFields.map((field: Field, idx: number) => {
-            return (
-              <div key={idx} id={`${idx}`} className="mb-3 col-md-3">
-                <label className="form-label" htmlFor={field.id}>
-                  {field.label}
-                </label>
-
-                <Select
-                  isMulti={false}
-                  theme="dark"
-                  closeMenuOnSelect
-                  isClearable={false}
-                  onChange={field.onChange}
-                  options={field.data?.map((item: Value) => ({
-                    label: item.name,
-                    value: item.name,
-                  }))}
-                />
-              </div>
-            );
-          })}
-        </div>
-
         <div className="mb-3 float-end">
           <Link href="/citizen">
             <a className="btn btn-danger">{lang.global.cancel}</a>
@@ -335,7 +284,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 const mapToProps = (state: State) => ({
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
-  legalStatuses: state.values["legal-statuses"],
   citizen: state.citizen.citizen,
 });
 

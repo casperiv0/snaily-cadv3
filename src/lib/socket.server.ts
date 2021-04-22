@@ -41,12 +41,12 @@ export async function socketHandler(socket: Socket, server: Server) {
   });
 
   socket.on(SocketEvents.CheckConnection, (value: boolean) => {
+    if (value === true) {
+      server.sockets.emit("CHECK_CONNECTION", true);
+    }
+
     if (config.env === "dev") {
       logger.log("SOCKET_EVENT", "Checking connections...");
-
-      if (value === true) {
-        server.sockets.emit(SocketEvents.CheckConnection, true);
-      }
     }
   });
 

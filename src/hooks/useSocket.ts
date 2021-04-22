@@ -9,7 +9,7 @@ if (!socket?.id) {
     withCredentials: true,
   });
 }
-const INTERVAL_1_MIN = 60_000; /* 1 minute interval */
+const CHECK_CONN_INTERVAL = 8_000; /* 8 seconds interval */
 
 socket?.on("connect", () => {
   socket?.emit("CHECK_FOR_VERSION");
@@ -30,6 +30,6 @@ socket?.on(SocketEvents.ConnectionError, (error) => {
 
 setInterval(() => {
   socket.emit(SocketEvents.CheckConnection, true);
-}, INTERVAL_1_MIN);
+}, CHECK_CONN_INTERVAL);
 
 export { socket };

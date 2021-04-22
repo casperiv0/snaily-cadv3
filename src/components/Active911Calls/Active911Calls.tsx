@@ -6,7 +6,7 @@ import { State } from "types/State";
 import { endCall, getCalls } from "@actions/calls/CallActions";
 import { update911Call } from "@actions/dispatch/DispatchActions";
 import { socket } from "@hooks/useSocket";
-import { playSound } from "@lib/utils";
+import { isUnitAlreadyAssigned, playSound } from "@lib/utils";
 import { Officer } from "types/Officer";
 import { Deputy } from "types/Deputy";
 import { SocketEvents } from "types/Socket";
@@ -33,11 +33,11 @@ const Active911CallsC: React.FC<Props> = ({
   const router = useRouter();
   const disabled = React.useMemo(() => {
     if (router.pathname === "/ems-fd/dash") {
-      return !activeDeputy;
+      return activeDeputy;
     } else if (router.pathname === "/leo/dash") {
-      return !activeOfficer;
+      return activeOfficer;
     } else {
-      return true;
+      return null;
     }
   }, [router.pathname, activeOfficer, activeDeputy]);
 
@@ -63,6 +63,8 @@ const Active911CallsC: React.FC<Props> = ({
       sound.stop();
     };
   }, [getCalls, router]);
+
+  console.log(disabled);
 
   return (
     <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
@@ -108,7 +110,7 @@ const Active911CallsC: React.FC<Props> = ({
                   </td>
                   <td>
                     <button
-                      disabled={disabled}
+                      disabled={!disabled}
                       title={disabled ? "Go on-duty first!" : ""}
                       onClick={() => {
                         endCall("911", call.id);
@@ -118,23 +120,28 @@ const Active911CallsC: React.FC<Props> = ({
                       {lang.dispatch.mark_code_4}
                     </button>
                     <button
-                      disabled={disabled}
-                      title={disabled ? "Go on-duty first!" : ""}
+                      disabled={!disabled}
+                      title={!disabled ? "Go on-duty first!" : ""}
                       onClick={() => {
-                        if (!activeOfficer || !activeDeputy) return;
+                        if (!disabled) return;
 
-                        if (call.assigned_unit.find((u) => u.value === activeOfficer.id)) {
+                        const isAssigned = isUnitAlreadyAssigned(disabled.id, [call]);
+
+                        if (isAssigned) {
                           return update911Call(
                             call.id,
                             {
                               ...call,
                               assigned_unit: call.assigned_unit.filter(
-                                (v) => v.value !== activeOfficer.id,
+                                (v) => v.value !== disabled?.id,
                               ),
                             },
                             false,
                           );
                         } else {
+                          const name =
+                            "officer_name" in disabled ? disabled.officer_name : disabled.name;
+
                           update911Call(
                             call.id,
                             {
@@ -142,8 +149,8 @@ const Active911CallsC: React.FC<Props> = ({
                               assigned_unit: [
                                 ...call.assigned_unit,
                                 {
-                                  label: `${activeOfficer?.callsign} ${activeOfficer?.officer_name}`,
-                                  value: activeOfficer?.id,
+                                  label: `${disabled?.callsign} ${name}`,
+                                  value: disabled?.id!,
                                 },
                               ],
                             },
@@ -153,7 +160,7 @@ const Active911CallsC: React.FC<Props> = ({
                       }}
                       className="btn btn-success mx-2"
                     >
-                      {call.assigned_unit.find((u) => u.value === activeOfficer?.id)
+                      {call.assigned_unit.find((u) => u.value === disabled?.id)
                         ? lang.dispatch.unassign_from_call
                         : lang.dispatch.assign_self_to_call}
                     </button>

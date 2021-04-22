@@ -138,6 +138,7 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
                 >
                   <div className="d-flex align-items-center">
                     <img
+                      draggable={false}
                       src={`/citizen-images/${citizen.image_id}`}
                       style={{ width: "60px", height: "60px" }}
                       className="object-fit-center rounded-circle"

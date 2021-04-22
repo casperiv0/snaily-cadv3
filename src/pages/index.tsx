@@ -10,12 +10,21 @@ import lang from "../language.json";
 import { State } from "types/State";
 import { Seo } from "@components/Seo";
 import { getCadInfo } from "@actions/global/GlobalActions";
+import { useRouter } from "next/router";
 interface Props {
   isAuth: boolean;
   user: User | null;
 }
 
 const IndexPage = ({ isAuth, user }: Props) => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (isAuth === true) {
+      router.push("/citizen");
+    }
+  }, [router, isAuth]);
+
   return (
     <Layout>
       <Seo />

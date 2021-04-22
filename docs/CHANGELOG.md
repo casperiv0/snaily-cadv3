@@ -4,9 +4,12 @@
 
 ## 2.0.4
 
+- New: able to remove citizen image
 - New: able to see who created bolos/warrants
 - Minor: redirect to `/citizen` instead of `/` on login
 - Minor: fixed small bug in live map
+- Minor: added timer to EMS-FD dashboard (wasn't added back for some reason)
+- Minor: fixed bug with `Assign self to call`
 
 ## 2.0.3
 
