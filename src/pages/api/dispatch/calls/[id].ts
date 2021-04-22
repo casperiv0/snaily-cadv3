@@ -52,7 +52,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         try {
           position = JSON.parse(`${(call as any).pos}`);
         } catch {
-          position = { x: null, y: null, z: null };
+          position = { lat: 0, lng: 0 };
         }
 
         if (assigned_unit.length > 0) {

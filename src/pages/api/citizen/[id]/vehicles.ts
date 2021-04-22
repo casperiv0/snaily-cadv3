@@ -142,7 +142,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         if (!status || !color || !req.query.vehicleId) {
           return res.status(400).json({
-            error: formatRequired(["status", "color", "vehicleId"], req.body),
+            error: formatRequired(["status", "color"], req.body),
             status: "error",
           });
         }

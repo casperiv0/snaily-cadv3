@@ -4,6 +4,8 @@ import { Dispatch } from "react";
 import { Call } from "types/Call";
 import { UpdateCall } from "../calls/CallTypes";
 import lang from "src/language.json";
+import { socket } from "@hooks/useSocket";
+import { SocketEvents } from "types/Socket";
 
 export const addCallEvent = (callId: string, text: string) => async (dispatch: Dispatch<any>) => {
   try {
@@ -13,6 +15,7 @@ export const addCallEvent = (callId: string, text: string) => async (dispatch: D
       type: "ADD_CALL_EVENT",
     });
 
+    socket.emit(SocketEvents.Update911Calls);
     return notify.success(lang.dispatch.added_event);
   } catch (e) {
     const error = getErrorFromResponse(e);
@@ -35,6 +38,7 @@ export const update911Call = (callId: string, data: Partial<Call>, shouldNotify 
       notify.success(lang.dispatch.updated_call);
     }
 
+    socket.emit(SocketEvents.Update911Calls);
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);

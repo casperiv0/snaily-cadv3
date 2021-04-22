@@ -12,7 +12,7 @@ const Forbidden = () => {
         <h1>403</h1>
         <p>Forbidden. You are not allowed to view the requested page</p>
 
-        <Link href="/">
+        <Link href="/citizen">
           <a className="btn btn-dark p-2 px-4 fs-5 mt-2">Return Home</a>
         </Link>
       </div>

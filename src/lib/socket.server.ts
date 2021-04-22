@@ -41,12 +41,12 @@ export async function socketHandler(socket: Socket, server: Server) {
   });
 
   socket.on(SocketEvents.CheckConnection, (value: boolean) => {
+    if (value === true) {
+      server.sockets.emit("CHECK_CONNECTION", true);
+    }
+
     if (config.env === "dev") {
       logger.log("SOCKET_EVENT", "Checking connections...");
-
-      if (value === true) {
-        server.sockets.emit(SocketEvents.CheckConnection, true);
-      }
     }
   });
 
@@ -71,11 +71,11 @@ export async function socketHandler(socket: Socket, server: Server) {
     }
   });
 
-  socket.on(SocketEvents.Update911Call, () => {
-    server.sockets.emit(SocketEvents.Update911Call);
+  socket.on(SocketEvents.Update911Calls, () => {
+    server.sockets.emit(SocketEvents.Update911Calls);
 
     if (config.env === "dev") {
-      logger.log("SOCKET_EVENT", SocketEvents.Update911Call);
+      logger.log("SOCKET_EVENT", SocketEvents.Update911Calls);
     }
   });
 

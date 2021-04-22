@@ -48,6 +48,7 @@ const ProbablyNotInTheTranslateFile = {
     manage: "Manage",
     none_set: "None set",
     no_options: "No options",
+    revert: "Revert",
   },
   court: {
     house: "San Andreas Courthouse",
@@ -110,6 +111,7 @@ const ProbablyNotInTheTranslateFile = {
     updated_licenses: "Successfully updated licenses",
     deleted_medical_record: "Successfully deleted medical record",
     transfer_vehicle_success: "Successfully transferred vehicle",
+    remove_image: "Remove image",
   },
   officers: {
     ...file.officers,

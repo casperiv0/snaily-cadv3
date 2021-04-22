@@ -530,6 +530,13 @@ const NameSearchModalC: React.FC<Props> = ({
                                 {warrant.status}
                               </Item>
 
+                              {"officer_name" in warrant ? (
+                                <Item id="officer_name">
+                                  <Span>{lang.dispatch.officer_name}: </Span>
+                                  {warrant.officer_name}
+                                </Item>
+                              ) : null}
+
                               <button
                                 type="button"
                                 onClick={deleteRecord(warrant.id, "warrant", warrant.name)}

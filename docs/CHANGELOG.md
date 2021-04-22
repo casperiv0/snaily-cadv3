@@ -2,6 +2,20 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.4
+
+- New: able to remove citizen image
+- New: able to see who created bolos/warrants
+- Minor: redirect to `/citizen` instead of `/` on login
+- Minor: fixed small bug in live map
+- Minor: added timer to EMS-FD dashboard (wasn't added back for some reason)
+- Minor: fixed bug with `Assign self to call`
+- Minor: fixed a bug where the socket doesn't always update
+- Minor: fixed a bug where you couldn't transfer a vehicle to another owner
+- Minor: fixed a bug where 911 calls wouldn't update via the sockets
+- Minor: fixed a bug where you could not `Report vehicle as stolen`
+- Minor: fixed other minor bugs
+
 ## 2.0.3
 
 - New: custom registration code (something like invite codes) ([#156](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/156))

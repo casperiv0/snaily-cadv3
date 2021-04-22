@@ -5,10 +5,8 @@ import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired, getActiveOfficer } from "@lib/utils.server";
 import { v4 } from "uuid";
-import { parse } from "cookie";
-import { Officer } from "types/Officer";
 import { OfficerIncident } from "types/OfficerIncident";
 
 export const formatIncidents = (incidents: OfficerIncident[]) => {
@@ -92,13 +90,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const officerId =
-          parse(`${req.headers["session"]}`)?.["active-officer"] ||
-          parse(`${req.headers["cookie"]}`)?.["active-officer"];
-
-        const [officer] = await processQuery<Officer>("SELECT * FROM `officers` WHERE `id` = ?", [
-          officerId,
-        ]);
+        const officer = await getActiveOfficer(req);
 
         if (!officer) {
           return res.status(401).json({

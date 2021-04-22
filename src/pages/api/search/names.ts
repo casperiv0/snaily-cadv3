@@ -4,7 +4,6 @@ import { AnError } from "@lib/consts";
 import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
-import { usePermission } from "@hooks/usePermission";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -16,14 +15,6 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     });
   }
 
-  try {
-    await usePermission(req, ["dispatch", "leo", "ems_fd"]);
-  } catch (e) {
-    return res.status(e?.code ?? 401).json({
-      status: "error",
-      error: e,
-    });
-  }
   switch (req.method) {
     case "GET": {
       try {

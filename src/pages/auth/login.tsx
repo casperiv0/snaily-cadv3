@@ -26,7 +26,7 @@ const LoginPage = ({ login }: Props) => {
     });
 
     if (success === true) {
-      router.push("/");
+      router.push("/citizen");
     }
 
     setLoading(false);

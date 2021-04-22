@@ -5,4 +5,5 @@ export interface Bolo {
   plate: string;
   name: string;
   color: string;
+  officer_name: string;
 }

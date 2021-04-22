@@ -8,12 +8,15 @@ import Head from "next/head";
 
 import dynamic from "next/dynamic";
 import { Seo } from "@components/Seo";
+import { useClientPerms } from "@hooks/useClientPerms";
 const Map = dynamic(() => import("@components/dispatch/map/Map"), {
   ssr: false,
   loading: () => <p>loading map..</p>,
 });
 
 const MapPage = () => {
+  useClientPerms("dispatch");
+
   return (
     <>
       <Head>

@@ -6,7 +6,7 @@ import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired, getActiveOfficer } from "@lib/utils.server";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -30,6 +30,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     case "POST": {
       try {
         const { name, status, reason } = req.body;
+        const officer = await getActiveOfficer(req);
 
         if (!name || !status || !reason) {
           return res.status(400).json({
@@ -52,8 +53,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         const id = v4();
         await processQuery(
-          "INSERT INTO `warrants` (`id`, `name`, `citizen_id`, `reason`, `status`) VALUES (?, ?, ?, ?, ?)",
-          [id, name, citizen.id, reason, status],
+          "INSERT INTO `warrants` (`id`, `name`, `citizen_id`, `reason`, `status`, `officer_name`) VALUES (?, ?, ?, ?, ?, ?)",
+          [id, name, citizen.id, reason, status, `${officer?.callsign} ${officer?.officer_name}`],
         );
 
         return res.json({ status: "success" });

@@ -39,6 +39,7 @@ import { Layout } from "@components/Layout";
 import { SelectOfficerModal } from "@components/modals/leo/SelectOfficerModal";
 import { Seo } from "@components/Seo";
 import { useDashTime } from "@hooks/useDashTime";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   aop: Nullable<string>;
@@ -58,6 +59,7 @@ const LeoDash: React.FC<Props> = (props) => {
   const [panic, setPanic] = React.useState<Officer | null>(null);
   const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100 ?? "0");
   const time = useDashTime();
+  useClientPerms("leo");
 
   React.useEffect(() => {
     setSignal100(props.cadInfo?.signal_100 ?? "0");

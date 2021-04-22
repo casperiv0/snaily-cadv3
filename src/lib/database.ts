@@ -50,6 +50,8 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine("ALTER TABLE `warrants` ADD `officer_name` text DEFAULT NULL AFTER `status`;");
+  updateLine("ALTER TABLE `bolos` ADD `officer_name` text DEFAULT NULL AFTER `plate`;");
   updateLine(
     "ALTER TABLE `cad_info` ADD `registration_code` varchar(255) DEFAULT NULL AFTER `plate_length`;",
   );
@@ -80,13 +82,6 @@ async function updateDb() {
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);
 
-  updateLine(`
-  CREATE TABLE \`seo_tags\` (
-    \`title\` varchar(255) DEFAULT 'SnailyCAD',
-    \`description\` text DEFAULT 'A free, fast, simple and secure open source CAD/MDT',
-    \`site_name\` varchar(255) DEFAULT NULL
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
   updateLine(`
   CREATE TABLE \`seo_tags\` (
     \`title\` varchar(255) DEFAULT 'SnailyCAD',
@@ -163,7 +158,7 @@ CREATE TABLE \`call_events\` (
     --
     -- Table structure for table \`notifications\`
     --
-    
+
     CREATE TABLE \`notifications\` (
       \`id\` varchar(255) NOT NULL,
       \`title\` varchar(255) NOT NULL,

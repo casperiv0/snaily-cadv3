@@ -24,6 +24,8 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getActiveEmsFd } from "@actions/ems-fd/EmsFdActions";
 import { Cad } from "types/Cad";
+import { useDashTime } from "@hooks/useDashTime";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   aop: Nullable<string>;
@@ -35,7 +37,9 @@ interface Props {
 const EmsFdDash: React.FC<Props> = (props) => {
   const { get10Codes } = props;
   const router = useRouter();
+  const time = useDashTime();
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
+  useClientPerms("ems_fd");
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
@@ -74,10 +78,12 @@ const EmsFdDash: React.FC<Props> = (props) => {
       <Seo title={lang.ems_fd.ems_dash} />
 
       <div className="card bg-dark mb-4">
-        <div className="card-header">
+        <div className="card-header d-flex justify-content-between">
           <h4>
             {lang.global.utility_panel} {props.cadInfo?.show_aop === "1" ? `- AOP: ${aop}` : null}
           </h4>
+
+          <span>{time}</span>
         </div>
 
         <div className="card-body row gap-2 px-4">

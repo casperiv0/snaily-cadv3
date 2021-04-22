@@ -60,12 +60,9 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           address,
           height,
           weight,
-          dmv,
-          pilot_license,
-          fire_license,
-          ccw,
           phone_nr,
         } = req.body;
+        const deleteImage = req.body?.image === "delete";
 
         if (
           !full_name ||
@@ -100,14 +97,18 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const file = req.files?.image ? req.files.image : null;
         const index = req.files?.image && file?.name.indexOf(".");
 
-        if (file && !SupportedFileTypes.includes(String(file.mimetype))) {
+        if (!deleteImage && file && !SupportedFileTypes.includes(String(file.mimetype))) {
           return res.json({
             status: "error",
             error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
           });
         }
 
-        const imageId = file ? `${v4()}${file.name.slice(index)}` : "default.svg";
+        let imageId = "default.svg";
+        if (!deleteImage && file) {
+          imageId = `${v4()}${file.name.slice(index)}`;
+        }
+
         const [citizen] = await processQuery<Citizen>(
           "SELECT * FROM `citizens` WHERE `id` = ? AND `user_id` = ?",
           [req.query.id, req.userId],
@@ -121,7 +122,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         }
 
         const query =
-          "UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ?, `phone_nr` = ? WHERE `id` = ?";
+          "UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `phone_nr` = ? WHERE `id` = ?";
 
         await processQuery(query, [
           birth /* birth */,
@@ -132,15 +133,18 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           address /* address */,
           height /* height */,
           weight /* weight */,
-          dmv /* dmv */,
-          fire_license /* fire_license */,
-          pilot_license /* pilot_license */,
-          ccw /* ccw */,
           phone_nr /* phone number */,
           req.query.id /* id */,
         ]);
 
-        if (file) {
+        if (deleteImage === true) {
+          await processQuery("UPDATE `citizens` SET `image_id` = ? WHERE `id` = ?", [
+            "default.svg",
+            req.query.id,
+          ]);
+        }
+
+        if (!deleteImage && file) {
           await processQuery("UPDATE `citizens` SET `image_id` = ? WHERE `id` = ?", [
             imageId,
             req.query.id,

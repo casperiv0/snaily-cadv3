@@ -14,6 +14,7 @@ import { initializeStore } from "@state/useStore";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getValuesByPath } from "@actions/values/ValuesActions";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   officers: Officer[];
@@ -21,6 +22,8 @@ interface Props {
 }
 
 const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer }) => {
+  useClientPerms("leo");
+
   return (
     <Layout classes="mt-5">
       <Seo title="My officers" />

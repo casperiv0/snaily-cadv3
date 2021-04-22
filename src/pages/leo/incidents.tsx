@@ -16,6 +16,7 @@ import { CreateIncidentModal } from "@components/modals/leo/CreateIncidentModal"
 import { Item, Span } from "@components/Item";
 import { Perm } from "types/Perm";
 import { useSearch } from "@hooks/useSearch";
+import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
   incidents: OfficerIncident[];
@@ -23,6 +24,7 @@ interface Props {
 
 const MyOfficersPage: React.FC<Props> = ({ incidents }) => {
   const { search, onChange, filtered } = useSearch<OfficerIncident>("case_number", incidents);
+  useClientPerms("leo");
 
   const value = React.useCallback((value: Perm) => {
     return value === "1" ? lang.global.yes : lang.global.no;

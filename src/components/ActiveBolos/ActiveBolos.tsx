@@ -49,24 +49,32 @@ const ActiveBolosC: React.FC<Props> = ({ bolos, getBolos, deleteBolo }) => {
                 >
                   <div className="d-flex">
                     {++idx} | &nbsp;
-                    {bolo.type === "person" ? (
-                      <Item id="description">
-                        {bolo.description} <br />
-                        <Span>{lang.global.name}: </Span>
-                        {bolo.name}
-                      </Item>
-                    ) : bolo.type === "vehicle" ? (
-                      <p>
-                        {bolo.description} <br />
-                        <Span>{lang.global.plate}: </Span>
-                        {bolo.plate}
-                        <br />
-                        <Span>{lang.global.color}: </Span>
-                        {bolo.color}
-                      </p>
-                    ) : (
-                      <p>{bolo.description}</p>
-                    )}
+                    <div>
+                      {bolo.type === "person" ? (
+                        <Item id="description">
+                          {bolo.description} <br />
+                          <Span>{lang.global.name}: </Span>
+                          {bolo.name}
+                        </Item>
+                      ) : bolo.type === "vehicle" ? (
+                        <p>
+                          {bolo.description} <br />
+                          <Span>{lang.global.plate}: </Span>
+                          {bolo.plate}
+                          <br />
+                          <Span>{lang.global.color}: </Span>
+                          {bolo.color}
+                        </p>
+                      ) : (
+                        <p>{bolo.description}</p>
+                      )}
+                      {"officer_name" in bolo ? (
+                        <Item>
+                          <Span>{lang.dispatch.officer_name}: </Span>
+                          {bolo.officer_name}
+                        </Item>
+                      ) : null}
+                    </div>
                   </div>
                   <div>
                     <button className="btn btn-danger mx-1" onClick={() => deleteBolo(bolo.id)}>

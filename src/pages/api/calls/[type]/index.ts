@@ -80,17 +80,33 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "POST": {
       try {
-        const { description = "N/A", caller, location, type = "1" } = req.body;
+        const { description = "N/A", caller, location, type = "1", coords: coordsArr } = req.body;
         const id = v4();
 
         switch (req.query.type) {
           case "911": {
+            const coords = {
+              x: coordsArr?.[0] || 0,
+              y: coordsArr?.[1] || 0,
+              z: coordsArr?.[2] || 0,
+            };
+
             await processQuery(
-              `INSERT INTO \`${dbPath(
-                `${req.query.type}`,
-              )}\` (\`id\`, \`description\`, \`name\`, \`location\`, \`type\`) VALUES (?, ?, ?, ?, ?)`,
-              [id, description, caller, location, type],
+              "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `pos`, `hidden`, `type`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+              [
+                id,
+                description,
+                caller || "Unknown",
+                location || "Unknown",
+                "Not assigned",
+                "[]",
+                JSON.stringify(coords),
+                coordsArr ? "0" : "1",
+                type,
+              ],
             );
+
+            (global as any)?.io?.socket?.emit?.(SocketEvents.New911Call);
             (global as any)?.io?.socket?.emit?.(SocketEvents.Update911Calls);
             break;
           }

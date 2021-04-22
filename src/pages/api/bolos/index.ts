@@ -4,7 +4,7 @@ import { AnError } from "@lib/consts";
 import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired, getActiveOfficer } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
 import { v4 } from "uuid";
 
@@ -50,9 +50,18 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
+        const officer = await getActiveOfficer(req);
         await processQuery(
-          "INSERT INTO `bolos` (`id`, `type`, `description`, `name`, `color`, `plate`) VALUES (?, ?, ?, ?, ?, ?)",
-          [id, type, description, name, color, plate],
+          "INSERT INTO `bolos` (`id`, `type`, `description`, `name`, `color`, `plate`, `officer_name`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+          [
+            id,
+            type,
+            description,
+            name,
+            color,
+            plate,
+            `${officer?.callsign} ${officer?.officer_name}`,
+          ],
         );
 
         const bolos = await processQuery("SELECT * FROM `bolos`");

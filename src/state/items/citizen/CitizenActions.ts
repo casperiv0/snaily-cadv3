@@ -242,8 +242,10 @@ export const updateCitizen = (id: string, data: Partial<Citizen>) => async (
   try {
     const fd = new FormData();
 
-    if (data.image) {
+    if (typeof data.image !== "string" && data.image) {
       fd.append("image", data.image, data.image?.name);
+    } else {
+      fd.append("image", data.image);
     }
 
     fd.append("full_name", data.full_name!);

@@ -72,6 +72,7 @@ const Update911Call: React.FC<Props> = ({
     closeModal();
 
     update911Call(call.id, {
+      pos: call.pos,
       location,
       description,
       assigned_unit: assignedUnits,

@@ -1,15 +1,11 @@
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 import { logger } from "@lib/logger";
 import { SocketEvents } from "types/Socket";
 
-let socket = {} as Socket;
-
-if (!socket?.id) {
-  socket = io("/", {
-    withCredentials: true,
-  });
-}
-const INTERVAL_1_MIN = 60_000; /* 1 minute interval */
+const socket = io("/", {
+  withCredentials: true,
+});
+const CHECK_CONN_INTERVAL = 8_000; /* 8 seconds interval */
 
 socket?.on("connect", () => {
   socket?.emit("CHECK_FOR_VERSION");
@@ -30,6 +26,6 @@ socket?.on(SocketEvents.ConnectionError, (error) => {
 
 setInterval(() => {
   socket.emit(SocketEvents.CheckConnection, true);
-}, INTERVAL_1_MIN);
+}, CHECK_CONN_INTERVAL);
 
 export { socket };

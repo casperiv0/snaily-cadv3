@@ -21,7 +21,7 @@ export function useSearch<T = object>(key: keyof T, items: T[]) {
 
   return {
     search,
-    onChange,
     filtered,
+    onChange,
   };
 }
