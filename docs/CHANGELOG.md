@@ -13,6 +13,7 @@
 - Minor: fixed a bug where the socket doesn't always update
 - Minor: fixed a bug where you couldn't transfer a vehicle to another owner
 - Minor: fixed a bug where 911 calls wouldn't update via the sockets
+- Minor: fixed a bug where you could not `Report vehicle as stolen`
 - Minor: fixed other minor bugs
 
 ## 2.0.3
