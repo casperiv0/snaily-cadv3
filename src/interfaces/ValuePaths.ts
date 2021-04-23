@@ -3,6 +3,7 @@ export type ValuePaths =
   | "ethnicities"
   | "departments"
   | "legal-statuses"
+  | "cad-licenses"
   | "vehicles"
   | "weapons"
   | "call-types";

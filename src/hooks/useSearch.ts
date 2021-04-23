@@ -5,7 +5,7 @@ export function useSearch<T = object>(key: keyof T, items: T[]) {
   const [filtered, setFiltered] = React.useState<T[]>(items);
 
   React.useEffect(() => {
-    setFiltered(items);
+    setFiltered(items ?? []);
   }, [items]);
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {

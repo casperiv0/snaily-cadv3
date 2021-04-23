@@ -46,6 +46,8 @@ export const createCall = (type: CallTypes, data: RequestData, shouldNotify = fa
           : type === "taxi"
           ? lang.taxi.created_call
           : lang.tow.created_call;
+
+      notify.success(msg);
     }
     return true;
   } catch (e) {

@@ -78,6 +78,7 @@ export interface State {
   values: {
     genders: Value[];
     "legal-statuses": Value[];
+    "cad-licenses": Value[];
     "call-types": Value[];
     ethnicities: Value[];
     weapons: Value[];

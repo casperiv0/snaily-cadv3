@@ -53,7 +53,7 @@ export interface IMedicalRecords {
 
 export interface GetUserCompanies {
   type: "GET_USER_COMPANIES";
-  companies: Company[];
+  companies: (Citizen & { company: Company })[];
 }
 
 export type Actions =

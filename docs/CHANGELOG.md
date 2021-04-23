@@ -4,6 +4,7 @@
 
 ## 2.0.5
 
+- New: split `Legal statuses` into: `Legal statuses` (citizen) & `CAD Licenses` (vehicles/weapons/..) - admins will need to add these values to `CAD licenses`!
 - Minor: added notification when creating a call
 - Minor: fixed 404 error with Call Events
 - Minor: fixed minor bug in values management

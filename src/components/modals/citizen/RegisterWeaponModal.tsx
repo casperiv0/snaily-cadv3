@@ -15,7 +15,7 @@ import { ValuePaths } from "types/ValuePaths";
 
 interface Props {
   weapons: Value[];
-  legalStatuses: Value[];
+  cadLicenses: Value[];
   owners: Citizen[];
   citizen: Citizen | null;
 
@@ -25,7 +25,7 @@ interface Props {
 
 const RegisterWeaponModalC: React.FC<Props> = ({
   weapons,
-  legalStatuses,
+  cadLicenses,
   owners,
   citizen,
   getValuesByPath,
@@ -48,7 +48,7 @@ const RegisterWeaponModalC: React.FC<Props> = ({
     getValuesByPath("weapons");
 
     if (router.pathname === "/citizen") {
-      getValuesByPath("legal-statuses");
+      getValuesByPath("cad-licenses");
       setCitizenId(null);
     }
   }, [getValuesByPath, router]);
@@ -126,7 +126,7 @@ const RegisterWeaponModalC: React.FC<Props> = ({
               isMulti={false}
               isClearable={false}
               onChange={(v) => setStatus(v.value)}
-              options={legalStatuses.map((status) => ({
+              options={cadLicenses.map((status) => ({
                 value: status.name,
                 label: status.name,
               }))}
@@ -163,7 +163,7 @@ const mapToProps = (state: State) => ({
   owners: state.citizen.citizens,
   citizen: state.citizen.citizen,
   weapons: state.values.weapons,
-  legalStatuses: state.values["legal-statuses"],
+  cadLicenses: state.values["cad-licenses"],
 });
 
 export const RegisterWeaponModal = connect(mapToProps, {

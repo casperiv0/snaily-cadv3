@@ -36,6 +36,7 @@ const paths: string[] = [
   "ethnicities",
   "genders",
   "legal-statuses",
+  "cad-licenses",
   "vehicles",
   "weapons",
   "call-types",

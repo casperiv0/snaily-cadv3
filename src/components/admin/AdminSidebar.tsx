@@ -173,6 +173,15 @@ const AdminSidebarC: React.FC<Props> = ({ user }) => {
                 {lang.admin.values["legal-statuses"].index}
               </a>
             </Link>
+            <Link href="/admin/values/cad-licenses">
+              <a
+                className={`admin-link text-decoration-none p-2 rounded  ${isActive(
+                  "/values/cad-licenses",
+                )}`}
+              >
+                {lang.admin.values["cad-licenses"].index}
+              </a>
+            </Link>
             <Link href="/admin/values/vehicles">
               <a
                 className={`admin-link text-decoration-none p-2 rounded  ${isActive(

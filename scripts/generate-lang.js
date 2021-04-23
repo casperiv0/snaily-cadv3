@@ -182,6 +182,7 @@ const ProbablyNotInTheTranslateFile = {
     updated_unit: "Successfully updated unit",
     updated_member: "Successfully updated member",
     registration_code: "Registration code",
+    cad_licenses: "CAD Licenses",
   },
   codes: {
     code: "Code",
@@ -291,6 +292,19 @@ if (!file.admin.values["call-types"]) {
     deleted: "Successfully deleted call type",
     updated: "Successfully updated call type",
     added: "Successfully added call type",
+  };
+}
+
+if (!file.admin.values["cad-licenses"]) {
+  file.admin.values["cad-licenses"] = {
+    index: "CAD Licenses",
+    add: "Add license type",
+    manage: "Manage CAD licenses",
+    name: "Enter license type",
+    none: "There are licenses found",
+    deleted: "Successfully deleted license",
+    updated: "Successfully updated license",
+    added: "Successfully added license",
   };
 }
 

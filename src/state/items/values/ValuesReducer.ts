@@ -5,6 +5,7 @@ const initState: State["values"] = {
   genders: [],
   "legal-statuses": [],
   "call-types": [],
+  "cad-licenses": [],
   ethnicities: [],
   departments: [],
   weapons: [],
