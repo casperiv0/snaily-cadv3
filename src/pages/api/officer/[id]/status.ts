@@ -60,7 +60,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         }
 
         if (user?.dispatch === "0" && user?.leo === "1" && officer.user_id !== req.userId) {
-          return res.json({
+          return res.status(400).json({
             error: "This officer is not associated with your account.",
             status: "error",
           });

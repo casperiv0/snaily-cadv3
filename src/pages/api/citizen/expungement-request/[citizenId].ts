@@ -28,7 +28,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         if (!citizen) {
-          return res.json({
+          return res.status(404).json({
             error: "That citizen was not found",
             status: "error",
           });

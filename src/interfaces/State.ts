@@ -57,7 +57,9 @@ export interface State {
     vehicles: Vehicle[];
     weapons: Weapon[];
     medicalRecords: MedicalRecord[];
-    companies: Company[];
+    companies: (Citizen & {
+      company: Company;
+    })[];
   };
   calls: {
     calls: Call[];

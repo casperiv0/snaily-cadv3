@@ -44,7 +44,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         if (!citizen) {
-          return res.json({
+          return res.status(404).json({
             error: "Citizen was not found",
             status: "error",
           });
@@ -56,7 +56,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
 
         if (medicalRecords.length <= 0) {
-          return res.json({
+          return res.status(400).json({
             status: "error",
             error: "Citizen doesn't have any medical-records",
           });

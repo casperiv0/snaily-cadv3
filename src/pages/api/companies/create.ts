@@ -24,7 +24,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       const { name, address, whitelist, owner_id } = req.body;
 
       if (!name || !address || !whitelist || !owner_id) {
-        return res.json({
+        return res.status(400).json({
           error: formatRequired(["name", "address", "whitelist", "owner_id"], req.body),
           status: "error",
         });
@@ -35,7 +35,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       );
 
       if (exists) {
-        return res.json({
+        return res.status(400).json({
           error: "Name is already in use",
           status: "error",
         });

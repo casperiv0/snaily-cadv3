@@ -49,14 +49,14 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const imageId = file ? `${v4()}${file.name.slice(index)}` : "";
 
         if (file && !SupportedFileTypes.includes(file.mimetype)) {
-          return res.json({
+          return res.status(400).json({
             status: "error",
             error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
           });
         }
 
         if (!title || !body) {
-          return res.json({
+          return res.status(400).json({
             error: formatRequired(["title", "body"], req.body),
           });
         }

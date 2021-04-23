@@ -50,7 +50,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
             tempPassword: randomString,
           });
         } else {
-          return res.json({
+          return res.status(403).json({
             status: "error",
             error: "Forbidden",
           });

@@ -21,14 +21,18 @@ import { Company } from "types/Company";
 
 interface Props {
   citizen: Nullable<Citizen>;
+  employees: Citizen[];
   error: Nullable<string>;
   company: Nullable<Company>;
 }
 
-const ManageCompanyPage: React.FC<Props> = ({ company, citizen, error }) => {
+const ManageCompanyPage: React.FC<Props> = ({ employees, company, citizen, error }) => {
   const router = useRouter();
   const citizenId = `${citizen?.id}`;
   const companyId = `${company?.id}`;
+  const pending: Citizen[] = React.useMemo(() => {
+    return employees.filter((em) => em.b_status === "pending");
+  }, [employees]);
 
   React.useEffect(() => {
     if (citizen?.id && !["owner", "manager"].includes(String(citizen.rank))) {
@@ -87,6 +91,8 @@ const ManageCompanyPage: React.FC<Props> = ({ company, citizen, error }) => {
             aria-selected="false"
           >
             {lang.citizen.company.pending}
+
+            <span className="mx-2 badge bg-primary">{pending.length}</span>
           </a>
         </li>
         {citizen?.rank === "owner" ? (
@@ -129,7 +135,7 @@ const ManageCompanyPage: React.FC<Props> = ({ company, citizen, error }) => {
           role="tabpanel"
           aria-labelledby="contact-tab"
         >
-          <PendingTab citizenId={citizenId} companyId={companyId} />
+          <PendingTab employees={pending} citizenId={citizenId} companyId={companyId} />
         </div>
         {citizen?.rank === "owner" ? (
           <div
@@ -160,6 +166,7 @@ const mapToProps = (state: State) => ({
   company: state.companies.company ?? null,
   citizen: state.citizen.citizen ?? null,
   error: state.companies.error,
+  employees: state.companies.employees,
 });
 
 export default connect(mapToProps)(ManageCompanyPage);

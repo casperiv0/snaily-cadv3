@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Citizen } from "types/Citizen";
-import { State } from "types/State";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import lang from "src/language.json";
 import { updateEmployeeStatus } from "@actions/companies/CompanyActions";
@@ -24,24 +23,20 @@ const PendingTabC: React.FC<Props> = ({
   citizenId,
   updateEmployeeStatus,
 }) => {
-  const pending: Citizen[] = React.useMemo(() => {
-    return employees.filter((em) => em.b_status === "pending");
-  }, [employees]);
-
   function handleAccept(id: string) {
-    updateEmployeeStatus(id, companyId, citizenId, "ACCEPT");
+    updateEmployeeStatus(companyId, citizenId, id, "ACCEPT");
   }
 
   function handleDecline(id: string) {
-    updateEmployeeStatus(id, companyId, citizenId, "DECLINE");
+    updateEmployeeStatus(companyId, citizenId, id, "DECLINE");
   }
 
   return (
     <ul className="list-group mt-2">
-      {!pending[0] ? (
+      {!employees[0] ? (
         <AlertMessage message={{ msg: lang.citizen.company.no_cit_pen, type: "warning" }} />
       ) : (
-        pending.map((employee: Citizen, idx: number) => {
+        employees.map((employee: Citizen, idx: number) => {
           return (
             <li
               key={idx}
@@ -77,8 +72,4 @@ const PendingTabC: React.FC<Props> = ({
   );
 };
 
-const mapToProps = (state: State) => ({
-  employees: state.companies.employees,
-});
-
-export const PendingTab = connect(mapToProps, { updateEmployeeStatus })(PendingTabC);
+export const PendingTab = connect(null, { updateEmployeeStatus })(PendingTabC);

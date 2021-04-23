@@ -64,12 +64,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
       }
 
       if (previous.rank === "owner" && rank?.toLowerCase() !== "owner") {
-        return res.json({
+        return res.status(400).json({
           error: "Cannot change the owner's rank",
           status: "error",
         });
       } else if (previous.rank !== "owner" && rank?.toLowerCase() === "owner") {
-        return res.json({
+        return res.status(400).json({
           error: "Rank cannot be set to `owner`",
           status: "error",
         });

@@ -89,7 +89,7 @@ const CreateBoloModalC: React.FC<Props> = ({ createBolo }) => {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              id="bolo_description"
+              id="create_bolo_description"
               rows={5}
               className="form-control bg-secondary border-secondary text-light"
             ></textarea>

@@ -54,14 +54,14 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
 
         if (!bleet) {
-          return res.json({
+          return res.status(404).json({
             error: "Bleet was not found",
             status: "error",
           });
         }
 
         if (bleet.user_id !== req.userId) {
-          return res.json({
+          return res.status(403).json({
             error: "Forbidden",
             status: "error",
           });
@@ -70,7 +70,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const { title, body } = req.body;
 
         if (!title || !body) {
-          return res.json({
+          return res.status(400).json({
             error: formatRequired(["title", "body"], req.body),
             status: "error",
           });
@@ -110,7 +110,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         if (!bleet) {
-          return res.json({ status: "error", error: "Bleet was not found" });
+          return res.status(404).json({ status: "error", error: "Bleet was not found" });
         }
 
         if (RanksArr.includes(rank) || bleet.user_id === req.userId) {
@@ -118,7 +118,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
           return res.json({ status: "success" });
         } else {
-          return res.json({ error: "Forbidden", status: "error" });
+          return res.status(403).json({ error: "Forbidden", status: "error" });
         }
       } catch (e) {
         logger.error("DELETE_CITIZEN", e);

@@ -4,12 +4,15 @@
 
 ## 2.0.5
 
+- Minor: added notification when creating a call
 - Minor: fixed 404 error with Call Events
 - Minor: fixed minor bug in values management
 - Minor: fixed a wrong title for CreateBleetModal
 - Minor: fixed a bug with invalid permissions for creating LEO incidents
 - Minor: fixed bug with permission errors
 - Minor: fixed a bug with disabling/enabling features
+- Minor: added missing status codes for several routes
+- Minor: fixed bug not showing joined companies in `/citizen/manage-companies`
 
 ## 2.0.4
 

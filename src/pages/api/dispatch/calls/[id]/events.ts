@@ -37,7 +37,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         if (!call) {
-          return res.json({
+          return res.status(404).json({
             error: "That call was not found",
             status: "error",
           });

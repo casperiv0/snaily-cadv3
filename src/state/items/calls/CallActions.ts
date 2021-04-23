@@ -3,6 +3,7 @@ import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/u
 import { CallTypes, CreateCall, GetCalls } from "./CallTypes";
 import { socket } from "@hooks/useSocket";
 import { SocketEvents } from "types/Socket";
+import lang from "src/language.json";
 
 function updateCalls(type: CallTypes) {
   switch (type) {
@@ -26,7 +27,7 @@ function updateCalls(type: CallTypes) {
   }
 }
 
-export const createCall = (type: CallTypes, data: RequestData) => async (
+export const createCall = (type: CallTypes, data: RequestData, shouldNotify = false) => async (
   dispatch: Dispatch<CreateCall>,
 ): Promise<boolean> => {
   try {
@@ -38,6 +39,14 @@ export const createCall = (type: CallTypes, data: RequestData) => async (
     });
 
     updateCalls(type);
+    if (shouldNotify) {
+      const msg =
+        type === "911"
+          ? lang.citizen.call_created
+          : type === "taxi"
+          ? lang.taxi.created_call
+          : lang.tow.created_call;
+    }
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);

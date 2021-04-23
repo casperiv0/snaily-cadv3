@@ -37,10 +37,10 @@ export const joinCompany = (data: RequestData) => async (dispatch: Dispatch<Join
       type: "JOIN_COMPANY",
     });
 
-    return `/company/${res.data.citizenId}/${res.data.companyId}`;
+    return `/company/${res.data.companyId}/${res.data.citizenId}`;
   } catch (e) {
     const error = getErrorFromResponse(e);
-    return notify.error(error);
+    return notify.warn(error);
   }
 };
 
@@ -52,10 +52,10 @@ export const createCompany = (data: RequestData) => async (dispatch: Dispatch<Cr
       type: "CREATE_COMPANY",
     });
 
-    return `/company/${res.data.citizenId}/${res.data.companyId}`;
+    return `/company/${res.data.companyId}/${res.data.citizenId}`;
   } catch (e) {
     const error = getErrorFromResponse(e);
-    return notify.error(error);
+    return notify.warn(error);
   }
 };
 

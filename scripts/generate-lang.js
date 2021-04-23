@@ -70,6 +70,7 @@ const ProbablyNotInTheTranslateFile = {
     active_calls: "Active taxi calls",
     create_taxi_call: "Create taxi call",
     taxi_service: "Call taxi service",
+    created_call: "Successfully created taxi call",
   },
   truck_logs: {
     ...file.truck_logs,
@@ -81,6 +82,10 @@ const ProbablyNotInTheTranslateFile = {
     declare_dead: "Declare dead",
     declare_alive: "Declare alive",
     deleted_ems_fd: "Successfully deleted EMS/FD member",
+  },
+  tow: {
+    ...file.tow,
+    created_call: "Successfully created tow call",
   },
   account: {
     owner_cannot_delete_account: "The owner is not able to delete their account.",

@@ -38,14 +38,14 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       ]);
 
       if (!citizen) {
-        return res.json({
+        return res.status(404).json({
           error: "Citizen was not found",
           status: "error",
         });
       }
 
       if (!company) {
-        return res.json({
+        return res.status(404).json({
           error: "Company was not found",
           status: "error",
         });
@@ -65,6 +65,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           `/company/${company.citizen_id}/${company.id}/manage#pending_citizens`,
           req.userId,
         );
+
+        return res.status(401).json({
+          error:
+            "This citizen is still pending access for this company. You'll be able to view it once you have been accepted!",
+          status: "error",
+        });
       }
 
       return res.json({
