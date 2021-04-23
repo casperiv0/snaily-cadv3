@@ -19,7 +19,7 @@ import { Company } from "types/Company";
 interface Props {
   owners: Citizen[];
   vehicles: Value[];
-  legalStatuses: Value[];
+  cadLicenses: Value[];
   companies: Company[];
   cadInfo: Nullable<Cad>;
   citizen: Nullable<Citizen>;
@@ -32,7 +32,7 @@ interface Props {
 const RegisterVehicleModalC: React.FC<Props> = ({
   owners,
   vehicles,
-  legalStatuses,
+  cadLicenses,
   companies,
   cadInfo,
   citizen,
@@ -177,7 +177,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
               isMulti={false}
               isClearable={false}
               onChange={(v) => setStatus(v.value)}
-              options={legalStatuses.map((status) => ({
+              options={cadLicenses.map((status) => ({
                 value: status.name,
                 label: status.name,
               }))}
@@ -220,7 +220,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   owners: state.citizen.citizens,
   vehicles: state.values.vehicles,
-  legalStatuses: state.values["legal-statuses"],
+  cadLicenses: state.values["cad-licenses"],
   companies: state.companies.companies,
   cadInfo: state.global.cadInfo,
   citizen: state.citizen.citizen,
