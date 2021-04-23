@@ -9,6 +9,7 @@
 - Minor: fixed a wrong title for CreateBleetModal
 - Minor: fixed a bug with invalid permissions for creating LEO incidents
 - Minor: fixed bug with permission errors
+- Minor: fixed a bug with disabling/enabling features
 
 ## 2.0.4
 

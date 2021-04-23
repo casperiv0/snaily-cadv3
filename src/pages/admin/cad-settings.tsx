@@ -84,6 +84,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
 
     await updateCadSettings({
       ...cadInfo,
+      aop: cadInfo.AOP,
       show_aop: showAop,
       features,
     });
