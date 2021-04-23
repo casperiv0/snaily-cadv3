@@ -77,7 +77,7 @@ const CitizenInfoPage = ({ citizen, cadInfo, deleteCitizenById }: Props) => {
           <img
             alt={citizen.image_id}
             className="rounded-circle object-fit-center"
-            src={`/citizen-images/${citizen.image_id}`}
+            src={`/static/citizen-images/${citizen.image_id}`}
             style={{ width: "100px", height: "100px" }}
           />
 

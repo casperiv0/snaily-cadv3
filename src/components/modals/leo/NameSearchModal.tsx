@@ -2,7 +2,6 @@ import * as React from "react";
 import format from "date-fns/format";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { Modal } from "@components/Modal/Modal";
 import lang from "../../../language.json";
 import { State } from "types/State";
@@ -136,13 +135,11 @@ const NameSearchModalC: React.FC<Props> = ({
 
                   <div className="list-group" id="general_info">
                     <div id="image_id">
-                      <Image
-                        objectFit="cover"
-                        layout="fixed"
-                        width="100px"
-                        height="100px"
-                        src={`/citizen-images/${search.citizen.image_id}`}
+                      <img
+                        alt={search.citizen.image_id}
                         className="object-fit-center rounded-circle mb-1"
+                        src={`/static/citizen-images/${search.citizen.image_id}`}
+                        style={{ width: "100px", height: "100px" }}
                       />
                     </div>
 
