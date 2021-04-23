@@ -6,7 +6,8 @@ import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
 import { Call } from "types/Call";
-import { mapCalls } from "../../calls/[type]";
+import { mapCalls } from "../../../calls/[type]";
+import { SocketEvents } from "types/Socket";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -72,8 +73,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           position = pos;
         }
 
-        (global as any)?.io?.sockets?.emit?.("UPDATE_ACTIVE_UNITS");
-        // io.sockets.emit("UPDATE_ACTIVE_UNITS");
+        (global as any)?.io?.sockets?.emit?.(SocketEvents.UpdateActiveUnits);
+
         await processQuery(
           "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ?, `pos` = ?, `hidden` = ?, `type` = ? WHERE `id` = ?",
           [

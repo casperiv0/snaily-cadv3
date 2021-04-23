@@ -3,6 +3,7 @@ import { NextApiResponse } from "next";
 import fetch from "node-fetch";
 import { IRequest } from "types/IRequest";
 import { Officer, OfficerLog } from "types/Officer";
+import { SocketEvents } from "types/Socket";
 import { WebHook, WebHookData } from "types/Webhook";
 import { v4 } from "uuid";
 import { processQuery } from "./database";
@@ -141,7 +142,7 @@ export async function logoutActiveUnits(userId: string | undefined): Promise<voi
       }),
   );
 
-  (global as any)?.io?.sockets?.emit?.("UPDATE_ACTIVE_UNITS");
+  (global as any)?.io?.sockets?.emit?.(SocketEvents.UpdateActiveUnits);
 }
 
 export async function getActiveOfficer(req: IRequest) {
