@@ -3,7 +3,7 @@ import { NextApiResponse } from "next";
 import fetch from "node-fetch";
 import { IRequest } from "types/IRequest";
 import { Officer, OfficerLog } from "types/Officer";
-import { SocketEvents } from "types/Socket";
+import { SocketEvents } from "../interfaces/Socket";
 import { WebHook, WebHookData } from "types/Webhook";
 import { v4 } from "uuid";
 import { processQuery } from "./database";

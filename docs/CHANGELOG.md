@@ -6,6 +6,9 @@
 
 - Minor: fixed 404 error with Call Events
 - Minor: fixed minor bug in values management
+- Minor: fixed a wrong title for CreateBleetModal
+- Minor: fixed a bug with invalid permissions for creating LEO incidents
+- Minor: fixed bug with permission errors
 
 ## 2.0.4
 
