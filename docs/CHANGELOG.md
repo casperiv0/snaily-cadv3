@@ -2,6 +2,19 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.5
+
+- New: split `Legal statuses` into: `Legal statuses` (citizen) & `CAD Licenses` (vehicles/weapons/..) - admins will need to add these values to `CAD licenses`!
+- Minor: added notification when creating a call
+- Minor: fixed 404 error with Call Events
+- Minor: fixed minor bug in values management
+- Minor: fixed a wrong title for CreateBleetModal
+- Minor: fixed a bug with invalid permissions for creating LEO incidents
+- Minor: fixed bug with permission errors
+- Minor: fixed a bug with disabling/enabling features
+- Minor: added missing status codes for several routes
+- Minor: fixed bug not showing joined companies in `/citizen/manage-companies`
+
 ## 2.0.4
 
 - New: able to remove citizen image

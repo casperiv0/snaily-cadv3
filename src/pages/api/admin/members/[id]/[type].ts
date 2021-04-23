@@ -98,7 +98,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
             break;
           }
           default: {
-            return res.json({ error: "Invalid path", status: "error" });
+            return res.status(400).json({ error: "Invalid path", status: "error" });
           }
         }
 

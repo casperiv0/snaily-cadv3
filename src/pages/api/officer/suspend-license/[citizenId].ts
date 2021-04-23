@@ -57,7 +57,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             break;
           }
           default: {
-            return res.json({
+            return res.status(400).json({
               error: "Invalid type",
               status: "error",
             });

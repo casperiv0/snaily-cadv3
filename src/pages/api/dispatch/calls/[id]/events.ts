@@ -1,11 +1,12 @@
 import { NextApiResponse } from "next";
+import { v4 } from "uuid";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
 import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
-import { formatRequired } from "@lib/utils.server";
+import { SocketEvents } from "types/Socket";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -18,53 +19,42 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   try {
-    await usePermission(req, ["ems_fd"]);
+    await usePermission(req, ["dispatch"]);
   } catch (e) {
     return res.status(e?.code ?? 401).json({
       status: "error",
       error: e,
     });
   }
+
   switch (req.method) {
     case "POST": {
       try {
-        const { name } = req.body;
+        const { text } = req.body;
 
-        if (!name) {
-          return res.status(400).json({
-            error: formatRequired(["name"], req.body),
-            status: "error",
-          });
-        }
-
-        const [
-          citizen,
-        ] = await processQuery("SELECT `dead`, `dead_on` FROM `citizens` WHERE `full_name` = ?", [
-          name,
+        const [call] = await processQuery("SELECT * FROM `911calls` WHERE `id` = ?", [
+          req.query.id,
         ]);
 
-        if (!citizen) {
+        if (!call) {
           return res.status(404).json({
-            error: "Citizen was not found",
+            error: "That call was not found",
             status: "error",
           });
         }
 
-        const medicalRecords = await processQuery(
-          "SELECT * FROM `medical_records` WHERE `name` = ?",
-          [name],
+        await processQuery(
+          "INSERT INTO `call_events` (`id`, `call_id`, `text`, `date`) VALUES (?, ?, ?, ?)",
+          [v4(), req.query.id, text, Date.now()],
         );
 
-        if (medicalRecords.length <= 0) {
-          return res.status(400).json({
-            status: "error",
-            error: "Citizen doesn't have any medical-records",
-          });
-        }
+        (global as any)?.io?.sockets?.emit?.(SocketEvents.Update911Calls);
 
-        return res.json({ status: "success", medicalRecords, citizen });
+        return res.json({
+          status: "success",
+        });
       } catch (e) {
-        logger.error("search_medical_records", e);
+        logger.error("add_call_event", e);
         return res.status(500).json(AnError);
       }
     }

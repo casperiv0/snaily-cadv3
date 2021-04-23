@@ -85,7 +85,7 @@ const EditBoloModalC: React.FC<Props> = ({ bolo, updateBoloById }) => {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              id="bolo_description"
+              id="edit_bolo_description"
               rows={5}
               className="form-control bg-secondary border-secondary text-light"
             ></textarea>

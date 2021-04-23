@@ -43,7 +43,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         if (!citizen) {
-          return res.json({
+          return res.status(404).json({
             error: "citizen was not found",
             status: "error",
           });
@@ -67,7 +67,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             break;
           }
           default: {
-            return res.json({
+            return res.status(400).json({
               error: "Invalid type",
               status: "error",
             });

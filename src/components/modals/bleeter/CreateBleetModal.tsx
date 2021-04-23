@@ -39,13 +39,13 @@ const CreateBleetModalC: React.FC<Props> = ({ createBleet }) => {
         <div className="modal-body">
           <div className="mb-3">
             <label className="form-label" htmlFor="title">
-              {lang.bleeter.bleet_title}
+              {lang.global.image}
             </label>
             <input
               type="file"
               id="image"
               className="form-control bg-secondary border-secondary text-light"
-              onChange={(e) => setImage(e.target.files![0])}
+              onChange={(e) => setImage(e.target?.files?.[0])}
             />
           </div>
 

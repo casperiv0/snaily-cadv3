@@ -15,14 +15,14 @@ import { ValuePaths } from "types/ValuePaths";
 
 interface Props {
   citizen: Citizen | null;
-  legalStatuses: Value[];
+  cadLicenses: Value[];
   getValuesByPath: (path: ValuePaths) => void;
   updateLicenses: (id: string, data: RequestData) => Promise<boolean>;
 }
 
 const EditLicensesModalC: React.FC<Props> = ({
   citizen,
-  legalStatuses,
+  cadLicenses,
   getValuesByPath,
   updateLicenses,
 }) => {
@@ -44,7 +44,7 @@ const EditLicensesModalC: React.FC<Props> = ({
       onChange: (e) => setDmv(e.value),
       value: isSuspended(dmv) ? lang.officers.suspended : dmv,
       select: true,
-      data: legalStatuses,
+      data: cadLicenses,
       selectLabel: citizen?.dmv,
     },
     {
@@ -54,7 +54,7 @@ const EditLicensesModalC: React.FC<Props> = ({
       onChange: (e) => setFireArms(e.value),
       value: isSuspended(fireArms) ? lang.officers.suspended : fireArms,
       select: true,
-      data: legalStatuses,
+      data: cadLicenses,
       selectLabel: citizen?.fire_license,
     },
     {
@@ -64,7 +64,7 @@ const EditLicensesModalC: React.FC<Props> = ({
       onChange: (e) => setPilot(e.value),
       value: isSuspended(pilot) ? lang.officers.suspended : pilot,
       select: true,
-      data: legalStatuses,
+      data: cadLicenses,
       selectLabel: citizen?.dmv,
     },
     {
@@ -74,13 +74,13 @@ const EditLicensesModalC: React.FC<Props> = ({
       onChange: (e) => setCcw(e.value),
       value: isSuspended(ccw) ? lang.officers.suspended : ccw,
       select: true,
-      data: legalStatuses,
+      data: cadLicenses,
       selectLabel: citizen?.dmv,
     },
   ];
 
   React.useEffect(() => {
-    getValuesByPath("legal-statuses");
+    getValuesByPath("cad-licenses");
   }, [getValuesByPath]);
 
   React.useEffect(() => {
@@ -128,7 +128,7 @@ const EditLicensesModalC: React.FC<Props> = ({
                   isMulti={false}
                   value={{ value: field.value, label: field.value }}
                   onChange={field.onChange}
-                  options={legalStatuses.map((status) => ({
+                  options={cadLicenses.map((status) => ({
                     value: status.name,
                     label: status.name,
                   }))}
@@ -153,7 +153,7 @@ const EditLicensesModalC: React.FC<Props> = ({
 
 const mapToProps = (state: State) => ({
   citizen: state.citizen.citizen,
-  legalStatuses: state.values["legal-statuses"],
+  cadLicenses: state.values["cad-licenses"],
 });
 
 export const EditLicensesModal = connect(mapToProps, {

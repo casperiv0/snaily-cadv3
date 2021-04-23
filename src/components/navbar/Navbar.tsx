@@ -92,6 +92,8 @@ const NavbarC = ({ isAuth, cadInfo, user }: Props) => {
   }, []);
 
   React.useEffect(() => {
+    console.clear();
+
     if (cadInfo?.version) {
       logger.log(
         "VERSION",

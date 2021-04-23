@@ -39,11 +39,11 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       );
 
       if (!citizen) {
-        return res.json({ error: "Citizen does not exist", status: "error" });
+        return res.status(404).json({ error: "Citizen does not exist", status: "error" });
       }
 
       if (!vehicle) {
-        return res.json({ error: "Vehicle does not exist", status: "error" });
+        return res.status(404).json({ error: "Vehicle does not exist", status: "error" });
       }
 
       await processQuery(

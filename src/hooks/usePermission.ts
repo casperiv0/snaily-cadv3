@@ -1,6 +1,6 @@
 import { IRequest } from "../interfaces/IRequest";
 import { User } from "types/User";
-import { AnError, RanksArr, Ranks } from "@lib/consts";
+import { AnError, Ranks } from "@lib/consts";
 import { processQuery } from "../lib/database";
 import { logger } from "../lib/logger";
 import { Perm } from "types/Perm";
@@ -25,21 +25,21 @@ export const usePermission = async (req: IRequest, perms: Permissions[]): Promis
       [req.userId],
     );
 
-    const userPerms: UserPermsArr = [
-      user!.rank,
-      user!.leo,
-      user!.ems_fd,
-      user!.dispatch,
-      user!.tow,
-      user!.supervisor,
-    ];
-
     if (!user) {
       return Promise.reject({
         code: 401,
         msg: "user was not found",
       });
     }
+
+    const userPerms: UserPermsArr = [
+      user.rank,
+      user.leo,
+      user.ems_fd,
+      user.dispatch,
+      user.tow,
+      user.supervisor,
+    ];
 
     let invalid = true;
     const invalidPerms: Permissions[] = [];
@@ -90,14 +90,32 @@ export const usePermission = async (req: IRequest, perms: Permissions[]): Promis
           }
           break;
         }
-        default: {
-          // 0 = rank | defaults to 'default'
-          if (!RanksArr.includes(user.rank)) {
-            invalid = true;
+        case "owner": {
+          if (userPerms[0] !== Ranks.Owner) {
+            invalidPerms.push("owner");
           } else {
             invalid = false;
           }
           break;
+        }
+        case "admin": {
+          if (userPerms[0] !== Ranks.Admin) {
+            invalidPerms.push("admin");
+          } else {
+            invalid = false;
+          }
+          break;
+        }
+        case "moderator": {
+          if (userPerms[0] !== Ranks.Mod) {
+            invalidPerms.push("moderator");
+          } else {
+            invalid = false;
+          }
+          break;
+        }
+        default: {
+          logger.error("USE_PERMISSIONS", "invalid permission provided");
         }
       }
     });

@@ -70,7 +70,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
 
         if (existingPlate?.id) {
-          return res.json({
+          return res.status(400).json({
             error: "Plate is already in use",
             status: "error",
           });
@@ -83,21 +83,21 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           );
 
           if (!company) {
-            return res.json({
+            return res.status(404).json({
               error: "That company was not found",
               status: "error",
             });
           }
 
           if (citizen.business_id !== company.id) {
-            return res.json({
+            return res.status(403).json({
               error: "You are not working at that company!",
               status: "error",
             });
           }
 
           if (citizen.vehicle_reg === "0") {
-            return res.json({
+            return res.status(403).json({
               error: "You are not allowed to register vehicles for this company",
               status: "error",
             });
@@ -166,21 +166,21 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           );
 
           if (!company) {
-            return res.json({
+            return res.status(404).json({
               error: "That company was not found",
               status: "error",
             });
           }
 
           if (citizen.business_id !== company.id) {
-            return res.json({
+            return res.status(403).json({
               error: "You are not working at that company!",
               status: "error",
             });
           }
 
           if (citizen.vehicle_reg === "0") {
-            return res.json({
+            return res.status(403).json({
               error: "You are not allowed to register vehicles for this company",
               status: "error",
             });

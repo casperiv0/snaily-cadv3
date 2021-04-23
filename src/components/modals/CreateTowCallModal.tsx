@@ -9,7 +9,7 @@ import { CallTypes } from "@actions/calls/CallTypes";
 import { useModalOpen } from "@hooks/useModalOpen";
 
 interface Props {
-  createCall: (type: CallTypes, data: RequestData) => Promise<boolean>;
+  createCall: (type: CallTypes, data: RequestData, shouldNotify?: boolean) => Promise<boolean>;
 }
 
 const CreateTowCallModalC: React.FC<Props> = ({ createCall }) => {
@@ -21,11 +21,15 @@ const CreateTowCallModalC: React.FC<Props> = ({ createCall }) => {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const success = await createCall("tow", {
-      description,
-      location,
-      caller,
-    });
+    const success = await createCall(
+      "tow",
+      {
+        description,
+        location,
+        caller,
+      },
+      true,
+    );
 
     if (success === true) {
       modal(ModalIds.CallTow)?.hide();

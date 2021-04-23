@@ -50,6 +50,14 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine(`
+  CREATE TABLE \`cad_licenses\` (
+    \`id\` varchar(255) NOT NULL,
+    \`name\` varchar(255) NOT NULL,
+    \`defaults\` varchar(255) NOT NULL DEFAULT '0',
+    PRIMARY KEY (\`id\`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
+
   updateLine("ALTER TABLE `warrants` ADD `officer_name` text DEFAULT NULL AFTER `status`;");
   updateLine("ALTER TABLE `bolos` ADD `officer_name` text DEFAULT NULL AFTER `plate`;");
   updateLine(

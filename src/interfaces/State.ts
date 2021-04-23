@@ -57,7 +57,9 @@ export interface State {
     vehicles: Vehicle[];
     weapons: Weapon[];
     medicalRecords: MedicalRecord[];
-    companies: Company[];
+    companies: (Citizen & {
+      company: Company;
+    })[];
   };
   calls: {
     calls: Call[];
@@ -76,6 +78,7 @@ export interface State {
   values: {
     genders: Value[];
     "legal-statuses": Value[];
+    "cad-licenses": Value[];
     "call-types": Value[];
     ethnicities: Value[];
     weapons: Value[];

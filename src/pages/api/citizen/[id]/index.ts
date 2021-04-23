@@ -98,7 +98,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const index = req.files?.image && file?.name.indexOf(".");
 
         if (!deleteImage && file && !SupportedFileTypes.includes(String(file.mimetype))) {
-          return res.json({
+          return res.status(400).json({
             status: "error",
             error: `Image type is not supported, supported: ${SupportedFileTypes.join(", ")}`,
           });
@@ -115,7 +115,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
 
         if (!citizen) {
-          return res.json({
+          return res.status(404).json({
             error: "Citizen was not found",
             status: "error",
           });

@@ -94,7 +94,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       const { name, whitelisted, address } = req.body;
 
       if (!name || !whitelisted || !address) {
-        return res.json({
+        return res.status(400).json({
           error: formatRequired(["name", "whitelisted", "address"], req.body),
           status: "error",
         });
@@ -146,7 +146,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const existing = await processQuery("SELECT * FROM `businesses` WHERE `name` = ?", [name]);
 
         if (existing[0]) {
-          return res.json({
+          return res.status(400).json({
             error: "Name is already in use",
             status: "error",
           });
@@ -173,14 +173,14 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
       if (!RanksArr.includes(user?.rank ?? "user")) {
         if (!citizen) {
-          return res.json({
+          return res.status(404).json({
             error: "Citizen was not found",
             status: "error",
           });
         }
 
         if (citizen.rank !== "owner") {
-          return res.json({
+          return res.status(403).json({
             error: "Forbidden",
             status: "error",
           });

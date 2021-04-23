@@ -118,7 +118,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       );
 
       if (citizen) {
-        return res.json({
+        return res.status(400).json({
           status: "error",
           error: "Name is already in use!",
         });
@@ -167,7 +167,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
       return res.json({
         citizenId: id,
-        status: "error",
+        status: "success",
       });
     }
     default: {

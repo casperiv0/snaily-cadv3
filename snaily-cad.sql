@@ -169,13 +169,22 @@ CREATE TABLE `call_events` (
 
 -- --------------------------------------------------------
 
--- --------------------------------------------------------
-
 --
 -- Table structure for table `call_types`
 --
 
 CREATE TABLE `call_types` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `defaults` varchar(255) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `cad_licenses`
+--
+
+CREATE TABLE `cad_licenses` (
   `id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `defaults` varchar(255) NOT NULL DEFAULT '0',

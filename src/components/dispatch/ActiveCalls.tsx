@@ -101,7 +101,7 @@ const ActiveCallsC: React.FC<Props> = ({ calls, getCalls }) => {
         )}
       </ul>
 
-      <Update911Call call={tempCall} />
+      <Update911Call call={calls.find((c) => c.id === tempCall?.id) ?? null} />
     </>
   );
 };

@@ -24,7 +24,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const [cad] = await processQuery<Cad>("SELECT `steam_api_key` FROM `cad_info`");
 
         if (!cad?.steam_api_key) {
-          return res.json({
+          return res.status(400).json({
             error: "CAD-Owner: Please add your steam API key in the CAD-settings",
             status: "error",
           });
@@ -39,7 +39,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const json = await steamRes.json();
 
         if (!userSteamId) {
-          return res.json({
+          return res.status(400).json({
             error: "Invalid SteamID",
             status: "error",
           });
@@ -52,7 +52,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         );
 
         if (existingUser?.id !== req.userId && existingUser?.id) {
-          return res.json({
+          return res.status(400).json({
             error: "Another account is already connected with this Steam account.",
             status: "error",
           });

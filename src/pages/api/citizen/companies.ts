@@ -3,6 +3,7 @@ import useAuth from "@hooks/useAuth";
 import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { Company } from "types/Company";
+import { Citizen } from "types/Citizen";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;
@@ -18,26 +19,28 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
   switch (method) {
     case "GET": {
-      const companies = await processQuery<Company>(
-        "SELECT * FROM `businesses` WHERE `user_id` = ?",
-        [req.userId],
-      );
+      const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
+        req.userId,
+      ]);
 
       const parsed = async () => {
         const arr: Company[] = [];
 
         await Promise.all(
-          companies.map(async (company) => {
-            const [
-              citizen,
-            ] = await processQuery(
-              "SELECT `id`, `full_name`, `rank` FROM `citizens` WHERE `id` = ?",
-              [company?.citizen_id],
-            );
+          citizens
+            .filter((c) => c?.business_id)
+            .map(async (citizen) => {
+              const [company] = await processQuery<Company>(
+                "SELECT * FROM `businesses` WHERE `id` = ?",
+                [citizen?.business_id],
+              );
 
-            (company as any).citizen = citizen;
-            arr.push(company!);
-          }),
+              if (company) {
+                (citizen as any).company = company;
+
+                arr.push(citizen as any);
+              }
+            }),
         );
 
         return arr;

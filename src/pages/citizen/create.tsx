@@ -22,6 +22,7 @@ interface Props {
   genders: Value[];
   ethnicities: Value[];
   legalStatuses: Value[];
+  cadLicenses: Value[];
   getValuesByPath: (path: ValuePaths) => void;
   createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
 }
@@ -30,6 +31,7 @@ const CreateCitizenPage = ({
   genders,
   ethnicities,
   legalStatuses,
+  cadLicenses,
   getValuesByPath,
   createCitizen,
 }: Props) => {
@@ -55,6 +57,7 @@ const CreateCitizenPage = ({
     getValuesByPath("ethnicities");
     getValuesByPath("genders");
     getValuesByPath("legal-statuses");
+    getValuesByPath("cad-licenses");
   }, [getValuesByPath]);
 
   const fields: Field[] = [
@@ -301,6 +304,7 @@ const mapToProps = (state: State) => ({
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   legalStatuses: state.values["legal-statuses"],
+  cadLicenses: state.values["cad-licenses"],
 });
 
 export default connect(mapToProps, {

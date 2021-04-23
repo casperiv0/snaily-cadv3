@@ -24,7 +24,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const [cad] = await processQuery<Cad>("SELECT `steam_api_key` from `cad_info`");
 
         if (!cad?.steam_api_key) {
-          return res.json({
+          return res.status(400).json({
             error: "CAD-Owner: Please add your steam API key in the CAD-settings",
             status: "error",
           });

@@ -27,7 +27,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       const { rank, posts, can_reg_veh } = req.body;
 
       if (type === "UPDATE" && (!rank || !posts || !can_reg_veh)) {
-        return res.json({
+        return res.status(400).json({
           error: formatRequired(["rank", "posts", "can_reg_veh"], req.body),
           status: "error",
         });
@@ -85,7 +85,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       }
 
       if (!["owner", "manager"].includes(citizen.rank)) {
-        return res.json({
+        return res.status(401).json({
           error: "Forbidden, You need to be manager or up",
           status: "error",
         });
@@ -94,7 +94,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       switch (type) {
         case "UPDATE": {
           if (rank.toLowerCase() === "owner") {
-            return res.json({
+            return res.status(400).json({
               error: "Cannot set rank to `owner`",
               status: "error",
             });
@@ -127,7 +127,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           );
           break;
         default: {
-          return res.json({
+          return res.status(400).json({
             error: "invalid type",
             status: "error",
           });

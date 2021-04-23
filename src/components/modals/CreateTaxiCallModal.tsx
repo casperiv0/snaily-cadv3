@@ -9,7 +9,7 @@ import { CallTypes } from "@actions/calls/CallTypes";
 import { useModalOpen } from "@hooks/useModalOpen";
 
 interface Props {
-  createCall: (type: CallTypes, data: RequestData) => void;
+  createCall: (type: CallTypes, data: RequestData, shouldNotify?: boolean) => void;
 }
 
 const CreateTaxiCallModalC: React.FC<Props> = ({ createCall }) => {
@@ -21,11 +21,15 @@ const CreateTaxiCallModalC: React.FC<Props> = ({ createCall }) => {
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    createCall("taxi", {
-      description,
-      location,
-      caller,
-    });
+    createCall(
+      "taxi",
+      {
+        description,
+        location,
+        caller,
+      },
+      true,
+    );
 
     modal(ModalIds.CallTaxi)?.hide();
     setDescription("");

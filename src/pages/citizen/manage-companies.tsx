@@ -15,12 +15,15 @@ import { getUserCitizens, getUserCompanies } from "@actions/citizen/CitizenActio
 import { JoinCompanyModal } from "@components/company/JoinCompanyModal";
 import { CreateCompanyModal } from "@components/company/CreateCompanyModal";
 import { State } from "types/State";
-import { Company } from "types/Company";
 import { Item, Span } from "@components/Item";
+import { Citizen } from "types/Citizen";
+import { Company } from "types/Company";
 
 interface Props {
   message: string;
-  companies: Company[];
+  companies: (Citizen & {
+    company: Company;
+  })[];
 }
 
 const ManageCompaniesPage: React.FC<Props> = ({ message, companies }) => {
@@ -49,28 +52,31 @@ const ManageCompaniesPage: React.FC<Props> = ({ message, companies }) => {
       <div className="mt-3">
         <h3>Your citizens companies</h3>
         <ul className="list-group mt-1">
-          {companies.map((company) => {
+          {companies.map((citizen) => {
             return (
               <li
-                key={company.id}
+                key={citizen.id}
                 className="list-group-item d-flex justify-content-between bg-dark border-secondary text-light"
               >
                 <div>
                   <Item>
-                    <Span>Company: </Span> {company.name}
+                    <Span>{lang.citizen.company.name}: </Span> {citizen.company.name}
                   </Item>
                   <Item>
-                    <Span>Citizen:</Span> {(company as any).citizen?.full_name}
+                    <Span>{lang.citizen.citizen}:</Span> {citizen.full_name}
+                  </Item>
+                  <Item>
+                    <Span>{lang.global.rank}:</Span> {citizen.rank}
                   </Item>
                 </div>
 
                 <div className="d-flex flex-column">
-                  <Link href={`/company/${company.id}/${company.citizen_id}`}>
+                  <Link href={`/company/${citizen.company.id}/${citizen.id}`}>
                     <a className="btn btn-primary">View company</a>
                   </Link>
-                  {company.citizen_id === (company as any).citizen?.id &&
-                  ["owner", "manager"].includes((company as any).citizen?.rank) ? (
-                    <Link href={`/company/${company.id}/${company.citizen_id}/manage`}>
+                  {citizen.company.citizen_id === citizen?.id &&
+                  ["owner", "manager"].includes(citizen.rank) ? (
+                    <Link href={`/company/${citizen.company.id}/${citizen.id}/manage`}>
                       <a className="btn btn-primary mt-1">Manage company</a>
                     </Link>
                   ) : null}

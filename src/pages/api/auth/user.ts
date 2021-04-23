@@ -49,7 +49,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
       const [user] = await processQuery<User>("SELECT * FROM `users` WHERE `id` = ?", [req.userId]);
 
       if (!user) {
-        return res.json({ error: "User was not found", status: "error" });
+        return res.status(404).json({ error: "User was not found", status: "error" });
       }
 
       if (newPassword !== newPassword2) {
@@ -58,7 +58,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
       const isCorrect = compareSync(oldPassword, user.password);
       if (!isCorrect) {
-        return res.json({ error: "Old Password does not match!" });
+        return res.status(404).json({ error: "Old Password does not match!" });
       }
 
       const hash = hashSync(newPassword);
@@ -72,7 +72,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
       ]);
 
       if (user?.rank === "owner") {
-        return res.json({
+        return res.status(400).json({
           error: "The owner is not able to delete their account!",
           status: "error",
         });

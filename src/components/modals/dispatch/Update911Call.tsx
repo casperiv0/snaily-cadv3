@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Modal } from "@components/Modal/Modal";
-import lang from "../../../language.json";
+import lang from "src/language.json";
 import { Call, Unit } from "types/Call";
+import format from "date-fns/format";
 import { connect } from "react-redux";
 import { endCall } from "@actions/calls/CallActions";
 import { addCallEvent, update911Call } from "@actions/dispatch/DispatchActions";
@@ -211,12 +212,11 @@ const Update911Call: React.FC<Props> = ({
                   ?.sort((a, b) => Number(b.date) - Number(a.date))
                   .map((event) => {
                     const date = new Date(Number(event.date));
-                    const HOUR = date.getUTCHours();
-                    const MINUTES = date.getUTCMinutes();
+                    const date2 = format(date, "HH:MM");
 
                     return (
                       <p style={{ margin: "0 0" }} key={event.id}>
-                        [UTC - {HOUR}:{MINUTES}] - {event.text}
+                        [UTC - {date2}] - {event.text}
                       </p>
                     );
                   })
