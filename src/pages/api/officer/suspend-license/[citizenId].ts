@@ -28,17 +28,18 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "PUT": {
       try {
-        const { type } = req.body;
+        const { type, licenseType } = req.body;
 
-        if (!type) {
+        if (!type || !licenseType) {
           return res.status(400).json({
-            error: formatRequired(["type"], req.body),
+            error: formatRequired(["type", "licenseType"], req.body),
             status: "error",
           });
         }
 
+        const dbType = type === "suspend" ? "1" : "2";
         let sql = "UPDATE `citizens` SET ";
-        switch (type) {
+        switch (licenseType) {
           case "dmv": {
             sql += "`dmv` = ?";
             break;
@@ -64,7 +65,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           }
         }
 
-        await processQuery(sql + "WHERE `id` = ?", ["1", req.query.citizenId]);
+        await processQuery(sql + "WHERE `id` = ?", [dbType, req.query.citizenId]);
 
         return res.json({ status: "success" });
       } catch (e) {

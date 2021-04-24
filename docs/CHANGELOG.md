@@ -4,7 +4,10 @@
 
 ## 2.0.6
 
+- New: able to revoke licenses
 - Major: fixed image uploads not showing/loading for citizen/bleeter
+- Minor: fixed bug: `registration_code doesn't have a default value`
+- Minor: fixed bug: `show_aop doesn't have a default value`
 
 ## 2.0.5
 

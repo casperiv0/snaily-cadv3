@@ -20,6 +20,7 @@ const EditValueModalC: React.FC<Props> = (props) => {
   const path = props.path;
   const { updateValueById } = props;
   const [value, setValue] = React.useState<string>("");
+  const [loading, setLoading] = React.useState(false);
   const ref = useModalOpen<HTMLInputElement>(ModalIds.EditValue);
 
   React.useEffect(() => {
@@ -31,12 +32,15 @@ const EditValueModalC: React.FC<Props> = (props) => {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!props.value) return;
+    setLoading(true);
 
     const updated = await updateValueById(path, props.value?.id, { name: value });
 
     if (updated === true) {
       modal(ModalIds.EditValue)?.hide();
     }
+
+    setLoading(false);
   }
 
   if (props.value !== null && !props.value) {
@@ -70,8 +74,8 @@ const EditValueModalC: React.FC<Props> = (props) => {
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
-          <button className="btn btn-primary ms-2" type="submit">
-            {lang.global.update}
+          <button disabled={loading} className="btn btn-primary ms-2" type="submit">
+            {loading ? `${lang.global.loading}..` : lang.global.update}
           </button>
         </div>
       </form>
