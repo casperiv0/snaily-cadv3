@@ -13,6 +13,7 @@ import { CreateDeputyModal } from "@components/modals/ems-fd/CreateDeputyModal";
 import { State } from "types/State";
 import { Seo } from "@components/Seo";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { useOpenModal } from "@hooks/useOpenModal";
 
 interface Props {
   deputies: Deputy[];
@@ -21,6 +22,7 @@ interface Props {
 
 const MyDeputies = ({ deputies, deleteEmsFdDeputy }: Props) => {
   useClientPerms("ems_fd");
+  useOpenModal();
 
   return (
     <Layout>

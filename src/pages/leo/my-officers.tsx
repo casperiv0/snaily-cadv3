@@ -15,6 +15,7 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getValuesByPath } from "@actions/values/ValuesActions";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { useOpenModal } from "@hooks/useOpenModal";
 
 interface Props {
   officers: Officer[];
@@ -23,6 +24,7 @@ interface Props {
 
 const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer }) => {
   useClientPerms("leo");
+  useOpenModal();
 
   return (
     <Layout classes="mt-5">
