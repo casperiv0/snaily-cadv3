@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Link from "next/link";
 import { State } from "types/State";
 import { User } from "types/User";
-import lang from "../../language.json";
+import lang from "src/language.json";
 
 const styles: React.CSSProperties = {
   width: "300px",
@@ -37,11 +37,60 @@ interface Props {
 
 const ranks = ["owner", "admin", "moderator"];
 
+interface Page {
+  name: string;
+  href: string;
+  allowed: (user: User) => boolean;
+}
+
+const pages: Page[] = [
+  {
+    name: lang.admin.member_management,
+    href: "/admin/manage/members",
+    allowed: (user) => ranks.includes(user.rank!),
+  },
+  {
+    name: lang.admin.citizen_management,
+    href: "/admin/manage/citizens",
+    allowed: (user) => ranks.includes(user.rank!),
+  },
+  {
+    name: lang.admin.company_management,
+    href: "/admin/manage/companies",
+    allowed: (user) => ranks.includes(user.rank!),
+  },
+  {
+    name: lang.officers.incidents,
+    href: "/admin/manage/incidents",
+    allowed: (user) => ranks.includes(user.rank!),
+  },
+  {
+    name: lang.admin.supervisor_panel,
+    href: "/admin/manage/units",
+    allowed: (user) => ranks.includes(user.rank) || user.supervisor === "1",
+  },
+  {
+    name: lang.codes.codes_10,
+    href: "/admin/manage/10-codes",
+    allowed: (user) => ranks.includes(user.rank) || user.supervisor === "1",
+  },
+  {
+    name: lang.codes.penal_codes,
+    href: "/admin/manage/penal-codes",
+    allowed: (user) => ranks.includes(user.rank) || user.supervisor === "1",
+  },
+  {
+    name: lang.admin.cad_settings.cad_settings,
+    href: "/admin/cad-settings",
+    allowed: (user) => user.rank === "owner",
+  },
+];
+
 const AdminSidebarC: React.FC<Props> = ({ user }) => {
   const location = useRouter();
 
   function isActive(path: string): string {
-    return `/admin${path}` === location.asPath ? "active" : "";
+    return path === location.asPath ? "active" : "";
   }
 
   return (
@@ -51,85 +100,22 @@ const AdminSidebarC: React.FC<Props> = ({ user }) => {
           <header>
             <h3>{lang.admin.management}</h3>
           </header>
-          {ranks.includes(user?.rank!) ? (
-            <>
-              <Link href="/admin/manage/members">
-                <a
-                  className={`text-decoration-none p-2 rounded admin-link ${isActive(
-                    "/manage/members",
-                  )}`}
-                >
-                  {lang.admin.member_management}
-                </a>
-              </Link>
-              <Link href="/admin/manage/citizens">
-                <a
-                  className={`text-decoration-none p-2 rounded admin-link ${isActive(
-                    "/manage/citizens",
-                  )}`}
-                >
-                  {lang.admin.citizen_management}
-                </a>
-              </Link>
-              <Link href="/admin/manage/companies">
-                <a
-                  className={`text-decoration-none p-2 rounded admin-link ${isActive(
-                    "/manage/companies",
-                  )} `}
-                >
-                  {lang.admin.company_management}
-                </a>
-              </Link>
-              <Link href="/admin/manage/incidents">
-                <a
-                  className={`text-decoration-none p-2 rounded admin-link ${isActive(
-                    "/manage/incidents",
-                  )} `}
-                >
-                  {lang.officers.incidents}
-                </a>
-              </Link>
-            </>
-          ) : null}
 
-          <Link href="/admin/manage/units">
-            <a
-              className={`text-decoration-none p-2 rounded admin-link ${isActive(
-                "/manage/units",
-              )} `}
-            >
-              {lang.admin.supervisor_panel}
-            </a>
-          </Link>
-          <Link href="/admin/manage/10-codes">
-            <a
-              className={`text-decoration-none p-2 rounded admin-link ${isActive(
-                "/manage/10-codes",
-              )} `}
-            >
-              {lang.codes.codes_10}
-            </a>
-          </Link>
-          <Link href="/admin/manage/penal-codes">
-            <a
-              className={`text-decoration-none p-2 rounded admin-link ${isActive(
-                "/manage/penal-codes",
-              )} `}
-            >
-              {lang.codes.penal_codes}
-            </a>
-          </Link>
-          {user?.rank === "owner" ? (
-            <Link href="/admin/cad-settings">
-              <a
-                className={`text-decoration-none p-2 rounded admin-link ${isActive(
-                  "/cad-settings",
-                )}`}
-              >
-                {lang.admin.cad_settings.cad_settings}
-              </a>
-            </Link>
-          ) : null}
+          {pages.map((page, idx) => {
+            if (page.allowed(user ?? ({} as User))) {
+              return (
+                <Link key={idx} href={page.href}>
+                  <a
+                    className={`text-decoration-none p-2 rounded admin-link ${isActive(page.href)}`}
+                  >
+                    {page.name}
+                  </a>
+                </Link>
+              );
+            } else {
+              return null;
+            }
+          })}
         </div>
 
         {ranks.includes(user?.rank!) ? (

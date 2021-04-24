@@ -107,7 +107,7 @@ const RegisterPage = ({ register, cadInfo }: Props) => {
         <Link href="/auth/login">
           <a>{lang.auth.login}</a>
         </Link>
-        <button type="submit" className="btn btn-primary float-end w-100 mt-2">
+        <button disabled={loading} type="submit" className="btn btn-primary float-end w-100 mt-2">
           {loading ? (
             <div className="spinner-border text-light" role="status">
               <span className="visually-hidden">{lang.global.loading}...</span>
