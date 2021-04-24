@@ -1,7 +1,6 @@
 /* eslint-disable promise/always-return */
 import cookieParser from "cookie-parser";
 import { Server as SocketServer } from "socket.io";
-// import { Server as HttpServer } from "http";
 import next from "next";
 import config from "./lib/config.server";
 import { socketHandler, wrap } from "./lib/socket.server";
