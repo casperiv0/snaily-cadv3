@@ -12,8 +12,22 @@ import { User } from "src/interfaces/User";
 
 async function createCADAndReturn(username: string) {
   await processQuery(
-    "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `live_map_url`, `plate_length`, `signal_100`, `steam_api_key`, `features`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [username, "Change me", "Change me", "0", "0", "", "", 8, "0", "", JSON.stringify(features)],
+    "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `live_map_url`, `plate_length`, `signal_100`, `steam_api_key`, `features`, `registration_code`, `show_aop`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      username,
+      "Change me",
+      "Change me",
+      "0",
+      "0",
+      "",
+      "",
+      8,
+      "0",
+      "",
+      JSON.stringify(features),
+      "",
+      "1",
+    ],
   );
 
   return (await processQuery<Cad>("SELECT * FROM `cad_info`"))[0];

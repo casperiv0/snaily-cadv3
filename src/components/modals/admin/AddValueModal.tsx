@@ -16,10 +16,12 @@ interface Props {
 const AddValueModal: React.FC<Props> = ({ addValue }) => {
   const path = useRouter().query.path as string;
   const [value, setValue] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(false);
   const ref = useModalOpen<HTMLInputElement>(ModalIds.AddValue);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
 
     const added = await addValue(path, {
       name: value,
@@ -29,6 +31,8 @@ const AddValueModal: React.FC<Props> = ({ addValue }) => {
       setValue("");
       modal(ModalIds.AddValue)?.hide();
     }
+
+    setLoading(false);
   }
 
   return (
@@ -54,8 +58,8 @@ const AddValueModal: React.FC<Props> = ({ addValue }) => {
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.close}
           </button>
-          <button className="btn btn-primary ms-2" type="submit">
-            {lang.admin.values[path].add}
+          <button disabled={loading} className="btn btn-primary ms-2" type="submit">
+            {loading ? `${lang.global.loading}..` : lang.admin.values[path].add}
           </button>
         </div>
       </form>

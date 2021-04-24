@@ -30,4 +30,4 @@ export const SupportedFileTypes = ["image/png", "image/gif", "image/jpeg", "imag
 export const SaveUserQueryData =
   "`id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `supervisor`";
 
-export const features = ["bleeter", "tow", "taxi", "courthouse", "truck-logs"];
+export const features = ["bleeter", "tow", "taxi", "courthouse", "truck-logs", "company"];

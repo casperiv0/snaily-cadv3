@@ -201,19 +201,26 @@ export const searchNames = () => async (dispatch: Dispatch<SearchNames>) => {
   }
 };
 
-export const suspendLicense = (type: string, citizenId: string) => async (
-  dispatch: Dispatch<{ type: "SUSPEND_LICENSE" }>,
-) => {
+export const suspendLicense = (
+  licenseType: string,
+  type: "revoke" | "suspend",
+  citizenId: string,
+) => async (dispatch: Dispatch<{ type: "SUSPEND_LICENSE" }>) => {
   try {
     await handleRequest(`/officer/suspend-license/${citizenId}`, "PUT", {
       type,
+      licenseType,
     });
 
     dispatch({
       type: "SUSPEND_LICENSE",
     });
 
-    return notify.success(lang.officers.suspend_license_success);
+    const msg =
+      type === "suspend"
+        ? lang.officers.suspend_license_success
+        : lang.officers.revoke_license_success;
+    return notify.success(msg);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

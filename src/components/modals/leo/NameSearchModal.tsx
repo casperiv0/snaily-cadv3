@@ -2,7 +2,6 @@ import * as React from "react";
 import format from "date-fns/format";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { Modal } from "@components/Modal/Modal";
 import lang from "../../../language.json";
 import { State } from "types/State";
@@ -35,7 +34,7 @@ interface Props {
   nameSearch: (name: string) => Promise<boolean>;
   saveNote: (citizenId: string, note: string) => void;
   searchNames: () => void;
-  suspendLicense: (type: string, citizenId: string) => void;
+  suspendLicense: (licenseType: string, type: "revoke" | "suspend", citizenId: string) => void;
   deleteRecordById: (id: string, type: string, citizenId: string) => void;
 }
 
@@ -53,9 +52,15 @@ const NameSearchModalC: React.FC<Props> = ({
   const [loading, setLoading] = React.useState(false);
 
   const router = useRouter();
-  const isSuspended = React.useCallback(
+  const isSuspendedOrRevoked = React.useCallback(
     (type: string) => {
-      return search?.citizen?.[type] === "1";
+      if (search.citizen?.[type] === "1") {
+        return lang.officers.suspended;
+      } else if (search.citizen?.[type] === "2") {
+        return lang.officers.revoked;
+      } else {
+        return null;
+      }
     },
     [search?.citizen],
   );
@@ -85,8 +90,8 @@ const NameSearchModalC: React.FC<Props> = ({
     search.citizen?.id && saveNote(search.citizen.id, note);
   }
 
-  const handleSuspend = (type: string) => () => {
-    suspendLicense(type, search?.citizen?.id);
+  const handleSuspend = (licenseType: string, type: "revoke" | "suspend") => () => {
+    suspendLicense(licenseType, type, search?.citizen?.id);
   };
 
   const deleteRecord = (id: string, type: string, citizenId: string) => () => {
@@ -136,13 +141,11 @@ const NameSearchModalC: React.FC<Props> = ({
 
                   <div className="list-group" id="general_info">
                     <div id="image_id">
-                      <Image
-                        objectFit="cover"
-                        layout="fixed"
-                        width="100px"
-                        height="100px"
-                        src={`/citizen-images/${search.citizen.image_id}`}
+                      <img
+                        alt={search.citizen.image_id}
                         className="object-fit-center rounded-circle mb-1"
+                        src={`/static/citizen-images/${search.citizen.image_id}`}
+                        style={{ width: "100px", height: "100px" }}
                       />
                     </div>
 
@@ -199,17 +202,22 @@ const NameSearchModalC: React.FC<Props> = ({
                   <div className="list-group" id="licenses">
                     <Item id="dmv">
                       <Span>{lang.citizen.license.dmv}: </Span>
-                      {isSuspended("dmv") ? (
-                        lang.officers.suspended
-                      ) : (
+                      {isSuspendedOrRevoked("dmv") ?? (
                         <>
                           {search.citizen.dmv}{" "}
                           <button
-                            onClick={handleSuspend("dmv")}
+                            onClick={handleSuspend("dmv", "suspend")}
                             type="button"
                             className="suspend-btn link-primary"
                           >
                             {lang.officers.suspend_license}
+                          </button>
+                          <button
+                            onClick={handleSuspend("dmv", "revoke")}
+                            type="button"
+                            className="suspend-btn link-primary ms-2"
+                          >
+                            {lang.officers.revoke_license}
                           </button>
                         </>
                       )}
@@ -217,17 +225,22 @@ const NameSearchModalC: React.FC<Props> = ({
 
                     <Item id="fire_license">
                       <Span>{lang.citizen.license.firearms}: </Span>
-                      {isSuspended("fire_license") ? (
-                        lang.officers.suspended
-                      ) : (
+                      {isSuspendedOrRevoked("fire_license") ?? (
                         <>
                           {search.citizen.fire_license}{" "}
                           <button
-                            onClick={handleSuspend("fire_license")}
+                            onClick={handleSuspend("fire_license", "suspend")}
                             type="button"
                             className="suspend-btn link-primary"
                           >
                             {lang.officers.suspend_license}
+                          </button>
+                          <button
+                            onClick={handleSuspend("fire_license", "revoke")}
+                            type="button"
+                            className="suspend-btn link-primary ms-2"
+                          >
+                            {lang.officers.revoke_license}
                           </button>
                         </>
                       )}
@@ -235,17 +248,22 @@ const NameSearchModalC: React.FC<Props> = ({
 
                     <Item id="pilot_license">
                       <Span>{lang.citizen.license.pilot}: </Span>
-                      {isSuspended("pilot_license") ? (
-                        lang.officers.suspended
-                      ) : (
+                      {isSuspendedOrRevoked("pilot_license") ?? (
                         <>
                           {search.citizen.pilot_license}{" "}
                           <button
-                            onClick={handleSuspend("pilot_license")}
+                            onClick={handleSuspend("pilot_license", "suspend")}
                             type="button"
                             className="suspend-btn link-primary"
                           >
                             {lang.officers.suspend_license}
+                          </button>
+                          <button
+                            onClick={handleSuspend("pilot_license", "revoke")}
+                            type="button"
+                            className="suspend-btn link-primary ms-2"
+                          >
+                            {lang.officers.revoke_license}
                           </button>
                         </>
                       )}
@@ -253,17 +271,22 @@ const NameSearchModalC: React.FC<Props> = ({
 
                     <Item id="ccw">
                       <Span>{lang.citizen.license.ccw}: </Span>
-                      {isSuspended("ccw") ? (
-                        lang.officers.suspended
-                      ) : (
+                      {isSuspendedOrRevoked("ccw") ?? (
                         <>
                           {search.citizen.ccw}{" "}
                           <button
-                            onClick={handleSuspend("ccw")}
+                            onClick={handleSuspend("ccw", "suspend")}
                             type="button"
                             className="suspend-btn link-primary"
                           >
                             {lang.officers.suspend_license}
+                          </button>
+                          <button
+                            onClick={handleSuspend("ccw", "revoke")}
+                            type="button"
+                            className="suspend-btn link-primary ms-2"
+                          >
+                            {lang.officers.revoke_license}
                           </button>
                         </>
                       )}

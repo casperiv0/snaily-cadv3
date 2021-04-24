@@ -64,6 +64,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
+        if (["1", "2"].includes(citizen.dmv)) {
+          return res.status(400).json({
+            error:
+              "Your license is revoked or suspended! Please update your licenses before continuing",
+          });
+        }
+
         const [existingPlate] = await processQuery<Vehicle>(
           "SELECT `plate` from `registered_cars` WHERE `plate` = ?",
           [parsedPlate?.toUpperCase()],

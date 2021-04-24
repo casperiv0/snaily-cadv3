@@ -1,7 +1,6 @@
 import * as React from "react";
 import Markdown from "react-markdown";
 import { connect } from "react-redux";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Layout } from "@components/Layout";
@@ -83,13 +82,11 @@ const BleetPage: React.FC<Props> = ({ bleet, user, deleteBleet }) => {
       </div>
 
       {bleet?.image_id !== "" ? (
-        <Image
-          objectFit="cover"
-          width="100vw"
-          height="250px"
-          className="mt-3"
-          src={`/static/bleeter-images/${bleet?.image_id}`}
+        <img
           alt="bleet-image"
+          className="object-fit-center"
+          src={`/static/bleeter-images/${bleet.image_id}`}
+          style={{ width: "100%", height: "350px" }}
         />
       ) : null}
 
