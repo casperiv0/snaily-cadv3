@@ -152,6 +152,7 @@ const ProbablyNotInTheTranslateFile = {
     injuries_fatalities: "Injuries or Fatalities",
     firearms_involved: "Firearm(s) Involved",
     deleted_incident: "Successfully deleted incident",
+    officer_linked_to_citizen: "Officer linked to citizen?",
   },
   admin: {
     ...file.admin,

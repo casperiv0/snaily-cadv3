@@ -4,6 +4,7 @@
 
 ## 2.0.7
 
+- New: link officer with citizen
 - Minor: improvements to GlobalSearch (`CTRL + K` to open)
 
 ## 2.0.6

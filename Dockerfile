@@ -6,7 +6,7 @@ COPY . /build
 
 WORKDIR /build
 
-RUN npm run docker-build
+RUN npm run build
 
 #
 
@@ -14,8 +14,7 @@ FROM node:${IMAGE_VER}
 
 RUN apk add --update --no-cache curl
 
-COPY --from=build /build/client/ /app/client
-COPY --from=build /build/server/ /app/server
+COPY --from=build /build /app
 COPY package.json package-lock.json /app/
 
 WORKDIR /app

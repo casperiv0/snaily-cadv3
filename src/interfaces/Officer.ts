@@ -9,6 +9,11 @@ export interface Officer {
   status2: string;
   callsign: string;
   rank: string;
+  citizen_id: string;
+
+  citizen: {
+    full_name: string;
+  };
 }
 
 export interface OfficerLog {
