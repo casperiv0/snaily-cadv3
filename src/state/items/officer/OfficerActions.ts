@@ -1,5 +1,5 @@
 import { socket } from "@hooks/useSocket";
-import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
 import { Officer } from "types/Officer";
 import { SocketEvents } from "types/Socket";
@@ -169,7 +169,7 @@ export const deleteOfficer = (id: string) => async (dispatch: Dispatch<IOfficers
   }
 };
 
-export const createOfficer = (data: Partial<Officer>) => async (dispatch: Dispatch<IOfficers>) => {
+export const createOfficer = (data: RequestData) => async (dispatch: Dispatch<IOfficers>) => {
   try {
     const res = await handleRequest("/officer", "POST", data);
 
@@ -178,7 +178,7 @@ export const createOfficer = (data: Partial<Officer>) => async (dispatch: Dispat
       officers: res.data.officers,
     });
 
-    return notify.success(`${lang.officers.create_officer_success} ${data.officer_name}`);
+    return notify.success(`${lang.officers.create_officer_success} ${data.name}`);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

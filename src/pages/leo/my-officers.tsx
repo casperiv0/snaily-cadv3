@@ -15,6 +15,8 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getValuesByPath } from "@actions/values/ValuesActions";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { useOpenModal } from "@hooks/useOpenModal";
+import { Item, Span } from "@components/Item";
 
 interface Props {
   officers: Officer[];
@@ -23,6 +25,7 @@ interface Props {
 
 const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer }) => {
   useClientPerms("leo");
+  useOpenModal();
 
   return (
     <Layout classes="mt-5">
@@ -58,10 +61,26 @@ const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer }) => {
                 id={`${idx}`}
                 className="list-group-item bg-dark border-secondary d-flex justify-content-between text-white"
               >
-                <p>
-                  {++idx} | {officer.callsign || "None"} | {officer.officer_dept} |{" "}
-                  {officer.officer_name}
-                </p>
+                <div>
+                  <Item>
+                    <Span>{lang.dispatch.officer_name}: </Span>
+                    {officer.officer_name}
+                  </Item>
+                  <Item>
+                    <Span>{lang.officers.callsign}: </Span>
+                    {officer.callsign}
+                  </Item>
+                  <Item>
+                    <Span>{lang.dispatch.officer_dept}: </Span>
+                    {officer.officer_dept}
+                  </Item>
+                  {officer?.citizen_id ? (
+                    <Item>
+                      <Span>{lang.citizen.citizen}: </Span>
+                      {officer.citizen.full_name}
+                    </Item>
+                  ) : null}
+                </div>
                 <div>
                   <button onClick={() => deleteOfficer(officer.id)} className="btn btn-danger">
                     {lang.global.delete}

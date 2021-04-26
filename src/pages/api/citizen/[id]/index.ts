@@ -8,6 +8,7 @@ import { logger } from "@lib/logger";
 import { AnError, SupportedFileTypes } from "@lib/consts";
 import { formatRequired, runMiddleware } from "@lib/utils.server";
 import { Citizen } from "types/Citizen";
+import { parseCitizens } from "..";
 
 export const config = {
   api: {
@@ -31,15 +32,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (method) {
     case "GET": {
       try {
-        const [
-          citizen,
-        ] = await processQuery("SELECT * FROM `citizens` WHERE `id` = ? AND `user_id` = ?", [
-          query.id,
-          req.userId,
-        ]);
+        const [citizen] = await processQuery<Citizen>(
+          "SELECT * FROM `citizens` WHERE `id` = ? AND `user_id` = ?",
+          [query.id, req.userId],
+        );
 
         return res.json({
-          citizen,
+          citizen: await (await parseCitizens([citizen]))[0],
           status: "success",
         });
       } catch (e) {

@@ -2,6 +2,13 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.7
+
+- New: link officer with citizen
+- Minor: finally move avatar icon in nav to the right
+- Minor: improvements to GlobalSearch (`CTRL + K` to open)
+- Minor: fixed small typos
+
 ## 2.0.6
 
 - New: able to revoke licenses

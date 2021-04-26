@@ -58,6 +58,7 @@ async function updateDb() {
     PRIMARY KEY (\`id\`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
 
+  updateLine("ALTER TABLE `officers` ADD `citizen_id` varchar(255) DEFAULT NULL AFTER `status`;");
   updateLine("ALTER TABLE `warrants` ADD `officer_name` text DEFAULT NULL AFTER `status`;");
   updateLine("ALTER TABLE `bolos` ADD `officer_name` text DEFAULT NULL AFTER `plate`;");
   updateLine(

@@ -124,7 +124,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
               {
                 title: "Status Change",
                 type: "rich",
-                description: `Officer ** ${updatedOfficer?.officer_dept} - ${updatedOfficer?.callsign} ${updatedOfficer?.officer_name}** has changed their status to ${status2}`,
+                description: `Officer **${updatedOfficer?.callsign} ${updatedOfficer?.officer_name}** of the ${updatedOfficer?.officer_dept} department has changed their status to ${status2}`,
                 fields: [
                   {
                     name: "ON/OFF duty",

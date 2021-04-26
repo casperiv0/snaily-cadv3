@@ -138,6 +138,13 @@ const CitizenInfoPage = ({ citizen, cadInfo, deleteCitizenById }: Props) => {
                 )}
               </Item>
             ) : null}
+
+            {citizen.officer?.officer_name ? (
+              <Item id="officer">
+                <Span>{lang.global.officer}: </Span>
+                {`${citizen.officer.callsign} ${citizen.officer.officer_name}`}
+              </Item>
+            ) : null}
           </div>
         </div>
       </div>

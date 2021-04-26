@@ -8,17 +8,38 @@ import { modal } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { Modal } from "@components/Modal/Modal";
 import lang from "src/language.json";
+import { getUserCitizens } from "@actions/citizen/CitizenActions";
+import { Citizen } from "types/Citizen";
 
 interface Props {
   departments: Department[];
+  citizens: Citizen[];
   createOfficer: (data: Record<string, unknown>) => Promise<boolean>;
+  getUserCitizens: () => void;
 }
 
-const CreateOfficerModalC: React.FC<Props> = ({ departments, createOfficer }) => {
+const CreateOfficerModalC: React.FC<Props> = ({
+  citizens,
+  departments,
+  createOfficer,
+  getUserCitizens,
+}) => {
   const [officerName, setOfficerName] = React.useState<string>("");
   const [officerDept, setOfficerDept] = React.useState<SelectValue | null>(null);
   const [callSign, setCallSign] = React.useState<string>("");
   const [loading, setLoading] = React.useState(false);
+  const [showLinked, setLinked] = React.useState(false);
+  const [citizenId, setCitizenId] = React.useState<SelectValue | null>(null);
+
+  React.useEffect(() => {
+    getUserCitizens();
+  }, [getUserCitizens]);
+
+  React.useEffect(() => {
+    if (showLinked === false) {
+      setCitizenId(null);
+    }
+  }, [showLinked]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,6 +49,7 @@ const CreateOfficerModalC: React.FC<Props> = ({ departments, createOfficer }) =>
       name: officerName,
       department: officerDept?.value,
       callsign: callSign,
+      citizen_id: citizenId?.value,
     });
 
     if (created === true) {
@@ -82,6 +104,37 @@ const CreateOfficerModalC: React.FC<Props> = ({ departments, createOfficer }) =>
               options={departments.map((dep) => ({ value: dep.name, label: dep.name }))}
             />
           </div>
+          <div className="mb-3">
+            <div className="form-check">
+              <input
+                checked={showLinked}
+                onChange={() => setLinked((v) => !v)}
+                className="form-check-input"
+                type="checkbox"
+                id="injuries"
+              />
+              <label className="form-check-label" htmlFor="injuries">
+                {lang.officers.officer_linked_to_citizen}
+              </label>
+            </div>
+
+            {showLinked === true ? (
+              <div>
+                <label className="form-label">{lang.citizen.company.select_cit}</label>
+
+                <Select
+                  isClearable={false}
+                  value={citizenId}
+                  isMulti={false}
+                  onChange={(v) => setCitizenId(v)}
+                  options={citizens.map((citizen) => ({
+                    value: citizen.id,
+                    label: citizen.full_name,
+                  }))}
+                />
+              </div>
+            ) : null}
+          </div>
         </div>
 
         <div className="modal-footer">
@@ -99,8 +152,10 @@ const CreateOfficerModalC: React.FC<Props> = ({ departments, createOfficer }) =>
 
 const mapToProps = (state: State) => ({
   departments: state.values.departments,
+  citizens: state.citizen.citizens,
 });
 
 export const CreateOfficerModal = connect(mapToProps, {
   createOfficer,
+  getUserCitizens,
 })(CreateOfficerModalC);

@@ -18,6 +18,7 @@ import { State } from "types/State";
 import { Item, Span } from "@components/Item";
 import { Citizen } from "types/Citizen";
 import { Company } from "types/Company";
+import { useOpenModal } from "@hooks/useOpenModal";
 
 interface Props {
   message: string;
@@ -27,6 +28,8 @@ interface Props {
 }
 
 const ManageCompaniesPage: React.FC<Props> = ({ message, companies }) => {
+  useOpenModal();
+
   return (
     <Layout>
       <Seo title="Manage companies" />

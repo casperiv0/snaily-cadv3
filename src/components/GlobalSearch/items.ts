@@ -1,3 +1,4 @@
+import { ModalIds } from "types/ModalIds";
 import { Nullable } from "types/State";
 import { User } from "types/User";
 
@@ -13,7 +14,7 @@ export const Items: Item[] = [
   {
     query: ["officer", "create officer", "create an officer", "emergency"],
     title: "Create a new officer",
-    href: "/leo/officers",
+    href: `/leo/my-officers?modal=${ModalIds.CreateOfficer}`,
     show: (user) => user?.leo === "1",
   },
   {
@@ -25,7 +26,7 @@ export const Items: Item[] = [
   {
     query: ["create ems fd", "fire department", "emergency"],
     title: "Create a new EMS/FD Deputy",
-    href: "/ems-fd/deputies",
+    href: `/ems-fd/deputies?modal=${ModalIds.CreateEmsFd}`,
     show: (user) => user?.ems_fd === "1",
   },
   {
@@ -49,31 +50,31 @@ export const Items: Item[] = [
   {
     query: ["citizen", "truck logs", "create truck log"],
     title: "Create a new truck log",
-    href: "/truck-logs/create",
+    href: `/truck-logs/create?modal=${ModalIds.CreateTruckLog}`,
     show: () => true,
   },
   {
     query: ["citizen", "vehicle", "register vehicle"],
     title: "Register a new vehicle",
-    href: "/vehicles/register",
+    href: `/citizen?modal=${ModalIds.RegisterVehicle}`,
     show: () => true,
   },
   {
     query: ["citizen", "weapon", "register weapon"],
     title: "Register a new weapon",
-    href: "/weapons/register",
+    href: `/citizen?modal=${ModalIds.RegisterWeapon}`,
     show: () => true,
   },
   {
     query: ["citizen", "company", "join company"],
     title: "Join a company",
-    href: "/citizen/manage-companies",
+    href: `/citizen/manage-companies?modal=${ModalIds.JoinCompany}`,
     show: () => true,
   },
   {
     query: ["citizen", "company", "create company"],
     title: "Create a new company",
-    href: "/citizen/manage-companies",
+    href: `/citizen/manage-companies?modal=${ModalIds.CreateCompany}`,
     show: () => true,
   },
   {
@@ -91,7 +92,7 @@ export const Items: Item[] = [
   {
     query: ["account", "logout"],
     title: "Logout of my account",
-    href: "/logout",
+    href: "/auth/logout",
     show: () => true,
   },
   {
@@ -124,5 +125,11 @@ export const Items: Item[] = [
     href: "/admin/manage/units",
     show: (user) =>
       ["admin", "moderator", "owner"].includes(`${user?.rank}`) || user?.supervisor === "1",
+  },
+  {
+    query: ["bleeter", "create bleet", "bleets"],
+    title: "Create a bleet",
+    href: `/bleeter?modal=${ModalIds.CreateBleet}`,
+    show: () => true,
   },
 ];

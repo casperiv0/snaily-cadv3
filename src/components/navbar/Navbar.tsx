@@ -135,44 +135,52 @@ const NavbarC = ({ isAuth, cadInfo, user }: Props) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="nav-items">
-          <ul className="navbar-nav w-100">
-            {paths.map((path: Path, idx: number) => {
-              if (!path.enabled(cadInfo)) return null;
+          <div className="navbar-nav w-100">
+            <ul className="navbar-nav w-100">
+              {paths.map((path: Path, idx: number) => {
+                if (!path.enabled(cadInfo)) return null;
 
-              if (!["admin", "owner", "moderator"].includes(`${user?.rank}`) && !path.show(user)) {
-                return null;
-              }
+                if (
+                  !["admin", "owner", "moderator"].includes(`${user?.rank}`) &&
+                  !path.show(user)
+                ) {
+                  return null;
+                }
 
-              return (
-                <li id={path.name} key={idx} className="nav-item">
-                  <Link href={path.href}>
-                    <a
-                      onClick={() => isActive() && ref.current?.click()}
-                      className={"nav-link active text-light"}
-                    >
-                      {path.name}
-                    </a>
-                  </Link>
+                return (
+                  <li id={path.name} key={idx} className="nav-item">
+                    <Link href={path.href}>
+                      <a
+                        onClick={() => isActive() && ref.current?.click()}
+                        className={"nav-link active text-light"}
+                      >
+                        {path.name}
+                      </a>
+                    </Link>
+                  </li>
+                );
+              })}
+              {(user && ["admin", "owner", "moderator"].includes(user?.rank)) ||
+              user?.supervisor === "1" ? (
+                <li id="admin" key={paths.length + 1} className="nav-item">
+                  {["admin", "owner", "moderator"].includes(user.rank) ? (
+                    <Link href="/admin">
+                      <a className="nav-link active text-light">{lang.nav.admin}</a>
+                    </Link>
+                  ) : (
+                    <Link href="/admin/manage/units">
+                      <a className="nav-link active text-light">{lang.nav.leo_management}</a>
+                    </Link>
+                  )}
                 </li>
-              );
-            })}
-            {(user && ["admin", "owner", "moderator"].includes(user?.rank)) ||
-            user?.supervisor === "1" ? (
-              <li id="admin" key={paths.length + 1} className="nav-item">
-                {["admin", "owner", "moderator"].includes(user.rank) ? (
-                  <Link href="/admin">
-                    <a className="nav-link active text-light">{lang.nav.admin}</a>
-                  </Link>
-                ) : (
-                  <Link href="/admin/manage/units">
-                    <a className="nav-link active text-light">{lang.nav.leo_management}</a>
-                  </Link>
-                )}
-              </li>
-            ) : null}
+              ) : null}
+            </ul>
             <NavbarDropdown isAuth={isAuth} />
-            {/* <div className="nc-container">
+          </div>
+
+          {/* <div className="nc-container">
               <button
                 onClick={() => setShowNotis((v) => !v)}
                 className="btn btn-secondary mx-1"
@@ -188,7 +196,6 @@ const NavbarC = ({ isAuth, cadInfo, user }: Props) => {
                 <NotificationsCenter closeNotifications={() => setShowNotis(false)} />
               ) : null}
             </div> */}
-          </ul>
         </div>
       </div>
     </nav>

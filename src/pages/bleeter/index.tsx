@@ -14,12 +14,15 @@ import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import lang from "src/language.json";
 import { Seo } from "@components/Seo";
+import { useOpenModal } from "@hooks/useOpenModal";
 
 interface Props {
   bleets: Bleet[];
 }
 
 const BleetPage: React.FC<Props> = ({ bleets }) => {
+  useOpenModal();
+
   return (
     <Layout>
       <Seo title={lang.nav.bleeter} />
