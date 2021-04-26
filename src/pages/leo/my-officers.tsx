@@ -74,10 +74,10 @@ const MyOfficersPage: React.FC<Props> = ({ officers, deleteOfficer }) => {
                     <Span>{lang.dispatch.officer_dept}: </Span>
                     {officer.officer_dept}
                   </Item>
-                  {officer?.citizen_id ? (
+                  {officer?.citizen_id && officer.citizen ? (
                     <Item>
                       <Span>{lang.citizen.citizen}: </Span>
-                      {officer.citizen.full_name}
+                      {officer.citizen?.full_name}
                     </Item>
                   ) : null}
                 </div>

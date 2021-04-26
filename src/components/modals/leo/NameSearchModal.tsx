@@ -193,6 +193,13 @@ const NameSearchModalC: React.FC<Props> = ({
                       <Span>{lang.citizen.employer}: </Span>
                       {search.citizen.business}
                     </Item>
+
+                    {search?.citizen?.officer?.callsign ? (
+                      <Item id="officer">
+                        <Span>{lang.global.officer}: </Span>
+                        {`${search?.citizen.officer.callsign} ${search?.citizen.officer.officer_name}`}
+                      </Item>
+                    ) : null}
                   </div>
                 </div>
 

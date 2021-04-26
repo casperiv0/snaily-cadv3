@@ -7,6 +7,7 @@ import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
 import { Officer } from "types/Officer";
 import { useCookie } from "@hooks/useCookie";
+import { parseOfficers } from "..";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -47,11 +48,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
         useCookie(res, "", "active-officer", new Date(Date.now()));
 
-        const officers = await processQuery("SELECT * FROM `officers` WHERE `user_id` = ?", [
-          req.userId,
-        ]);
+        const officers = await processQuery<Officer>(
+          "SELECT * FROM `officers` WHERE `user_id` = ?",
+          [req.userId],
+        );
 
-        return res.json({ status: "success", officers });
+        return res.json({ status: "success", officers: await parseOfficers(officers) });
       } catch (e) {
         logger.error("delete_officer", e);
 
