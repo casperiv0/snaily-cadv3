@@ -5,7 +5,9 @@
 ## 2.0.7
 
 - New: link officer with citizen
+- Minor: finally move avatar icon in nav to the right
 - Minor: improvements to GlobalSearch (`CTRL + K` to open)
+- Minor: fixed small typos
 
 ## 2.0.6
 

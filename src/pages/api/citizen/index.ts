@@ -9,6 +9,31 @@ import { SupportedFileTypes } from "@lib/consts";
 import { Citizen } from "types/Citizen";
 import { v4 } from "uuid";
 import { logger } from "@lib/logger";
+import { Officer } from "types/Officer";
+
+export async function parseCitizens(citizens: (Citizen | undefined)[]) {
+  const arr: Citizen[] = [];
+
+  await Promise.all(
+    citizens.map(async (citizen) => {
+      const [officer] = await processQuery<Officer>(
+        "SELECT * FROM `officers` WHERE `citizen_id` = ?",
+        [citizen?.id],
+      );
+
+      if (officer && citizen) {
+        citizen.officer = {
+          officer_name: officer.officer_name,
+          callsign: officer.callsign,
+        };
+      }
+
+      return arr.push(citizen!);
+    }),
+  );
+
+  return arr;
+}
 
 export const config = {
   api: {
@@ -31,12 +56,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
   switch (method) {
     case "GET": {
-      const citizens = await processQuery("SELECT * FROM `citizens` WHERE `user_id` = ?", [
+      const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
         req.userId,
       ]);
 
       return res.json({
-        citizens,
+        citizens: await parseCitizens(citizens),
         status: "success",
       });
     }

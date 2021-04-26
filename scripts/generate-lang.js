@@ -49,6 +49,7 @@ const ProbablyNotInTheTranslateFile = {
     none_set: "None set",
     no_options: "No options",
     revert: "Revert",
+    officer: "Officer",
   },
   court: {
     house: "San Andreas Courthouse",
@@ -305,11 +306,15 @@ if (!file.admin.values["cad-licenses"]) {
     add: "Add license type",
     manage: "Manage CAD licenses",
     name: "Enter license type",
-    none: "There are licenses found",
+    none: "There are no licenses found",
     deleted: "Successfully deleted license",
     updated: "Successfully updated license",
     added: "Successfully added license",
   };
+}
+
+if (file.admin.values["cad-licenses"].none === "There are licenses found") {
+  file.admin.values["cad-licenses"].none = "There were no licenses found";
 }
 
 if (fileHasChanged === true) {

@@ -29,6 +29,11 @@ export interface Citizen {
   dead: Perm;
   dead_on: string;
 
+  officer?: {
+    officer_name: string;
+    callsign: string;
+  };
+
   user?: {
     username: string;
   };
