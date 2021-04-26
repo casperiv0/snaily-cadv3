@@ -97,6 +97,12 @@ const SupervisorPanelPage: React.FC<Props> = ({ officers, ems_fd }) => {
                         <Span>{lang.dispatch.status}: </Span>
                         {unit.status2}
                       </Item>
+                      {"citizen" in unit ? (
+                        <Item id="citizen">
+                          <Span>{lang.citizen.citizen}: </Span>
+                          {unit.citizen.full_name}
+                        </Item>
+                      ) : null}
                     </div>
                   </div>
 
