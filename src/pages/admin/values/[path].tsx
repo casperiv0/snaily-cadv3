@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
+import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import { Layout } from "@components/Layout";
 import { Nullable, State } from "types/State";
@@ -21,7 +22,6 @@ import { EditValueModal } from "@components/modals/admin/EditValueModal";
 import AddValueModal from "@components/modals/admin/AddValueModal";
 import { RanksArr } from "@lib/consts";
 import { User } from "types/User";
-import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   values: any;

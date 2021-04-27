@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Dev-CasperTheGhost/snaily-cadv3#readme",
   "dependencies": {
+    "@casper124578/useful": "^0.0.5",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.0.2",

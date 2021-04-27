@@ -2,7 +2,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { modal } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
-import { usePortal } from "@hooks/usePortal";
+import { usePortal } from "@casper124578/useful/hooks/usePortal";
 
 interface Props {
   id: ModalIds;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Modal: React.FC<Props> = ({ id, size, title, children }) => {
-  const portal = usePortal(id);
+  const portal = usePortal(`Modal_Portal_${id}`);
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {

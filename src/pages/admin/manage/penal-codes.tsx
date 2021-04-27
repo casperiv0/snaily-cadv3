@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import * as React from "react";
 import { connect } from "react-redux";
+import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { getPenalCodes, deletePenalCode } from "@actions/admin/AdminActions";
 import { AdminLayout } from "@components/admin/AdminLayout";
 import { State } from "types/State";
@@ -17,7 +18,6 @@ import lang from "src/language.json";
 import { Seo } from "@components/Seo";
 import { Span } from "@components/Item";
 import { useClientPerms } from "@hooks/useClientPerms";
-import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   codes: PenalCode[];
