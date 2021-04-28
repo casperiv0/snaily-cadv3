@@ -7,7 +7,9 @@ class Logger {
 
   error(type: string, error: Error | string) {
     console.error(
-      `[${type.toUpperCase()}][${this.now}]: ${typeof error === "string" ? error : error.stack}`,
+      `[${type.toUpperCase()}][${this.now}]: ${
+        typeof error === "string" ? error : error?.stack || error
+      }`,
     );
   }
 

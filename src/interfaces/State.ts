@@ -10,6 +10,7 @@ import { Company, CompanyPost } from "./Company";
 import { Deputy } from "./Deputy";
 import { ExpungementRequest } from "./ExpungementRequest";
 import { MedicalRecord } from "./MedicalRecord";
+import { Mugshot } from "./Mugshot";
 import { Officer, OfficerLog } from "./Officer";
 import { OfficerIncident } from "./OfficerIncident";
 import { PenalCode } from "./PenalCode";
@@ -112,6 +113,7 @@ export interface State {
     activeOfficer: Nullable<Officer>;
     names: Name[];
     incidents: OfficerIncident[];
+    mugshots: Mugshot[];
   };
   ems_fd: {
     activeDeputy: Nullable<Deputy>;

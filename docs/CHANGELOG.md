@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.8
+
+- New: able to upload mugshots
+- Minor: minor code changes
+
 ## 2.0.7
 
 - New: link officer with citizen

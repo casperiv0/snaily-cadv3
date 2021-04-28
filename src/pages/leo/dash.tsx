@@ -11,6 +11,7 @@ import { getActiveOfficer, searchNames } from "@actions/officer/OfficerActions";
 import { getPenalCodes } from "@actions/admin/AdminActions";
 import { initializeStore } from "@state/useStore";
 
+import { UploadMugshotsModal } from "@components/modals/leo/UploadMugshotsModal";
 import { Active911Calls } from "@components/Active911Calls/Active911Calls";
 import { Nullable, State } from "types/State";
 import lang from "../../language.json";
@@ -40,6 +41,7 @@ import { SelectOfficerModal } from "@components/modals/leo/SelectOfficerModal";
 import { Seo } from "@components/Seo";
 import { useDashTime } from "@hooks/useDashTime";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { MugshotsModal } from "@components/modals/leo/MugshotsModal";
 
 interface Props {
   aop: Nullable<string>;
@@ -174,6 +176,8 @@ const LeoDash: React.FC<Props> = (props) => {
       <CreateWrittenWarningModal />
       <CreateArrestReportModal />
       <CreateTicketModal />
+      <UploadMugshotsModal />
+      <MugshotsModal />
     </Layout>
   );
 };

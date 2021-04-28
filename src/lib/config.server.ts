@@ -8,7 +8,6 @@ interface ServerConfig {
   env: string;
   allowIframes: boolean;
   secureCookie: boolean;
-  cookieUrl: string | null;
 }
 
 /**
@@ -38,7 +37,6 @@ try {
     env: conf.default.env || defaultProfile,
     allowIframes: conf.default?.allowIframes ?? false,
     secureCookie: conf.default?.secureCookie ?? false,
-    cookieUrl: conf.default.cookieUrl || null,
   };
 } catch (e) {
   config = {
@@ -51,7 +49,6 @@ try {
     env: process.env.PROFILE || defaultProfile,
     allowIframes: process.env.ALLOW_IFRAMES === "true" ?? false,
     secureCookie: process.env.SECURE_COOKIE === "true" ?? false,
-    cookieUrl: process.env.COOKIE_URL! || null,
   };
 }
 

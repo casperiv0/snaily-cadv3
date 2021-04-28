@@ -1,5 +1,6 @@
 import { NextApiResponse } from "next";
 import { v4 } from "uuid";
+import fs from "fs";
 import fileUpload from "express-fileupload";
 import useAuth from "@hooks/useAuth";
 import { processQuery } from "@lib/database";
@@ -137,6 +138,10 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         if (deleteImage === true) {
+          fs.unlink(`./public/citizen-images/${citizen.image_id}`, () => {
+            null;
+          });
+
           await processQuery("UPDATE `citizens` SET `image_id` = ? WHERE `id` = ?", [
             "default.svg",
             req.query.id,
@@ -149,6 +154,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             req.query.id,
           ]);
 
+          // Delete the old image
+          fs.unlink(`./public/citizen-images/${citizen.image_id}`, () => {
+            null;
+          });
+
+          // add the new image
           file.mv("./public/citizen-images/" + imageId, (err: string) => {
             if (err) {
               logger.error("MOVE_CITIZEN_IMAGE", err);

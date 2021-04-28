@@ -11,6 +11,7 @@ import {
   GetOfficerLogs,
   IIncidents,
   GetAllOfficers,
+  GetCitizenMugshots,
 } from "./OfficerTypes";
 import lang from "src/language.json";
 import { OfficerIncident } from "types/OfficerIncident";
@@ -292,6 +293,72 @@ export const createIncident = (data: Partial<OfficerIncident>) => async (
     });
 
     return notify.success(lang.officers.created_incident);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const uploadFiles = (files: FileList, citizenId: string) => async (
+  dispatch: Dispatch<any>,
+) => {
+  try {
+    const fd = new FormData();
+
+    [...files].map((file, idx) => {
+      fd.append(`file${idx}`, file, file.name);
+    });
+
+    await handleRequest(
+      `/officer/mugshots?citizen_id=${citizenId}`,
+      "POST",
+      (fd as unknown) as RequestData,
+    );
+
+    dispatch({
+      type: "UPLOAD_MUGSHOT",
+    });
+
+    return notify.success(lang.officers.created_incident);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const deleteMugshot = (citizenId: string, shotId: string, imageId: string) => async (
+  dispatch: Dispatch<GetCitizenMugshots>,
+) => {
+  try {
+    const res = await handleRequest(
+      `/officer/mugshots/${shotId}?citizen_id=${citizenId}&image_id=${imageId}`,
+      "DELETE",
+    );
+
+    dispatch({
+      type: "GET_CITIZEN_MUGSHOTS",
+      mugshots: res.data.mugshots,
+    });
+
+    return notify.success(lang.officers.delete_mugshot_success);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const getMugshots = (citizenId: string) => async (
+  dispatch: Dispatch<GetCitizenMugshots>,
+) => {
+  try {
+    const res = await handleRequest(`/officer/mugshots?citizen_id=${citizenId}`);
+
+    dispatch({
+      type: "GET_CITIZEN_MUGSHOTS",
+      mugshots: res.data.mugshots,
+    });
+
+    return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

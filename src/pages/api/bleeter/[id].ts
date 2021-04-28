@@ -1,4 +1,5 @@
 import { NextApiResponse } from "next";
+import fs from "fs";
 import useAuth from "@hooks/useAuth";
 import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
@@ -115,6 +116,11 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         if (RanksArr.includes(rank) || bleet.user_id === req.userId) {
           await processQuery("DELETE FROM `bleets` WHERE `bleets`.`id` = ?", [req.query.id]);
+
+          // Delete the old image
+          fs.unlink(`./public/bleeter-images/${bleet.image_id}`, (e) => {
+            null;
+          });
 
           return res.json({ status: "success" });
         } else {

@@ -1,4 +1,4 @@
-# builds 
+# builds
 dist
 build
 .next
@@ -16,8 +16,9 @@ src/config.ts
 
 public/citizen-images/*
 public/bleeter-images/*
+public/mugshots/*
 !public/bleeter-images/.gitkeep
-!public/citizen-images/.gitkeep
+!public/mugshots/.gitkeep
 !public/citizen-images/default.svg
 
 .DS_Store

@@ -154,6 +154,12 @@ const ProbablyNotInTheTranslateFile = {
     firearms_involved: "Firearm(s) Involved",
     deleted_incident: "Successfully deleted incident",
     officer_linked_to_citizen: "Officer linked to citizen?",
+    select_mugshot_files: "Select mugshot files",
+    upload_mugshots: "Upload mugshots",
+    mugshots: "Mugshots",
+    delete_current_mugshot: "Delete current mugshot",
+    delete_mugshot_success: "Successfully deleted mugshot",
+    no_mugshots: "This citizen doesn't have any mugshots",
   },
   admin: {
     ...file.admin,
