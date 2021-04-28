@@ -7,6 +7,7 @@ import { IRequest } from "types/IRequest";
 import { formatRequired } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
 import { Citizen } from "types/Citizen";
+import { parseCitizens } from "../citizen";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -37,9 +38,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             status: "error",
           });
         }
-        const [citizen] = await processQuery<Citizen>(
-          "SELECT * FROM `citizens` WHERE `full_name` = ?",
-          [name],
+        const [citizen] = await parseCitizens(
+          await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `full_name` = ?", [name]),
         );
         const citizenId = citizen?.id ?? "not_found";
 
