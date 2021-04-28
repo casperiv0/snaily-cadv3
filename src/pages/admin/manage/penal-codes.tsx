@@ -80,6 +80,12 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, deletePenalCode }) => {
                         </>
                       </Item>
                     ) : null}
+                    {code?.fine_amount ? (
+                      <Item>
+                        <Span>{lang.codes.fine_amount2}: </Span>
+                        <>{code.fine_amount}</>
+                      </Item>
+                    ) : null}
                     <div style={{ marginTop: "0" }}>
                       <Span>{lang.global.description}: </Span>
                       <p style={{ maxWidth: "600px" }}>{code.des}</p>

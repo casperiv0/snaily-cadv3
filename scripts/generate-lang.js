@@ -223,6 +223,8 @@ const ProbablyNotInTheTranslateFile = {
     jail_time: "Jail time in seconds (Optional)",
     jail_time2: "Jail time",
     seconds: "Seconds",
+    fine_amount: "Fine amount (Optional)",
+    fine_amount2: "Fine Amount",
   },
   dispatch: {
     ...file.dispatch,

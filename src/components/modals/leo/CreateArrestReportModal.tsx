@@ -9,7 +9,7 @@ import { Officer } from "types/Officer";
 import { Select, SelectValue } from "@components/Select/Select";
 import { PenalCode } from "types/PenalCode";
 import { ModalIds } from "types/ModalIds";
-import { getTotalJailTime, modal } from "@lib/utils";
+import { getTotalJailTimeAndFineAmount, modal } from "@lib/utils";
 import { ArrestReport } from "types/Record";
 import { Name } from "@actions/officer/OfficerTypes";
 import { Item, Span } from "@components/Item";
@@ -35,12 +35,12 @@ const CreateArrestReportModalC: React.FC<Props> = ({
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const totalJailTime = React.useMemo(() => {
+  const { fineAmount, jailTime } = React.useMemo(() => {
     const codes = charges.map(
       (c) => penalCodes.find((v) => v.title === c.value) ?? ({} as PenalCode),
     );
 
-    return getTotalJailTime(codes);
+    return getTotalJailTimeAndFineAmount(codes);
   }, [charges, penalCodes]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -137,10 +137,17 @@ const CreateArrestReportModalC: React.FC<Props> = ({
         </div>
 
         <div className="modal-footer">
-          {totalJailTime ? (
+          {jailTime ? (
+            <Item className="mx-0">
+              <>
+                <Span>{lang.codes.jail_time2}: </Span> {jailTime} {lang.codes.seconds}
+              </>
+            </Item>
+          ) : null}
+          {fineAmount ? (
             <Item className="mx-5">
               <>
-                <Span>{lang.codes.jail_time2}: </Span> {totalJailTime} {lang.codes.seconds}
+                <Span>{lang.codes.fine_amount2}: </Span> {fineAmount}
               </>
             </Item>
           ) : null}

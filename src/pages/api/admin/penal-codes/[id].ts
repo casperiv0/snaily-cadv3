@@ -37,7 +37,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "PUT": {
       try {
-        const { title, des, jail_time } = req.body;
+        const { title, des, jail_time, fine_amount } = req.body;
 
         if (!title || !des) {
           return res.status(400).json({
@@ -47,8 +47,8 @@ export default async function (req: IRequest, res: NextApiResponse) {
         }
 
         await processQuery(
-          "UPDATE `penal_codes` SET `title` = ?, `des` = ?, `jail_time` = ? WHERE `id` = ?",
-          [title, des, jail_time, req.query.id],
+          "UPDATE `penal_codes` SET `title` = ?, `des` = ?, `jail_time` = ?, `fine_amount` = ? WHERE `id` = ?",
+          [title, des, jail_time, fine_amount, req.query.id],
         );
 
         const updated = await processQuery("SELECT * FROM `penal_codes`");

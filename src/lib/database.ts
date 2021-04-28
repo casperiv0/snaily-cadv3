@@ -51,6 +51,7 @@ async function updateLine(sql: string) {
 
 async function updateDb() {
   updateLine("ALTER TABLE `officers` ADD `suspended` varchar(255) DEFAULT '0' AFTER `status`;");
+  updateLine("ALTER TABLE `penal_codes` ADD `fine_amount` varchar(255) DEFAULT NULL AFTER `des`;");
   updateLine("ALTER TABLE `penal_codes` ADD `jail_time` varchar(255) DEFAULT NULL AFTER `des`;");
   updateLine(`
   CREATE TABLE \`mugshots\` (

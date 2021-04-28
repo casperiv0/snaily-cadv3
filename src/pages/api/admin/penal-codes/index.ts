@@ -52,7 +52,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
     }
     case "POST": {
       try {
-        const { title, des, jail_time } = req.body;
+        const { title, des, jail_time, fine_amount } = req.body;
 
         if (!title || !des) {
           return res.status(400).json({
@@ -62,8 +62,8 @@ export default async function (req: IRequest, res: NextApiResponse) {
         }
 
         await processQuery(
-          "INSERT INTO `penal_codes` (`id`, `title`, `des`, `jail_time`) VALUES (?, ?, ?, ?)",
-          [v4(), title, des, jail_time],
+          "INSERT INTO `penal_codes` (`id`, `title`, `des`, `jail_time`, `fine_amount`) VALUES (?, ?, ?, ?, ?)",
+          [v4(), title, des, jail_time, fine_amount],
         );
 
         const updated = await processQuery("SELECT * FROM `penal_codes`");

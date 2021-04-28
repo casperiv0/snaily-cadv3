@@ -7,6 +7,7 @@
 - New: able to suspend an officer
 - New: able to upload mugshots
 - New: added `Jail time` to penal codes
+- New: added `Fine Amount` to penal codes
 - Minor: minor code changes
 
 ## 2.0.7

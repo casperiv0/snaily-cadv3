@@ -122,6 +122,16 @@ export function isUnitAlreadyAssigned(unitId: string, calls: Call[]) {
   return unitIds.includes(unitId);
 }
 
-export function getTotalJailTime(codes: PenalCode[]) {
-  return codes.filter((v) => v.jail_time).reduce((ac, cv) => ac + Number(cv.jail_time), 0);
+export function getTotalJailTimeAndFineAmount(codes: PenalCode[]) {
+  const jailTime = codes
+    .filter((v) => v.jail_time)
+    .reduce((ac, cv) => ac + Number(cv.jail_time), 0);
+  const fineAmount = codes
+    .filter((v) => v.fine_amount)
+    .reduce((ac, cv) => ac + Number(cv.fine_amount), 0);
+
+  return {
+    fineAmount,
+    jailTime,
+  };
 }

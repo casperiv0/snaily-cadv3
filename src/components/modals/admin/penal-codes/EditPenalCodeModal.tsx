@@ -16,8 +16,9 @@ interface Props {
 const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState<string>("");
-  const ref = useModalOpen<HTMLInputElement>(ModalIds.EditPenalCode);
+  const [fineAmount, setFineAmount] = React.useState("");
   const [jailTime, setJailTime] = React.useState("");
+  const ref = useModalOpen<HTMLInputElement>(ModalIds.EditPenalCode);
 
   React.useEffect(() => {
     if (!code) return;
@@ -25,6 +26,7 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
     setTitle(code?.title);
     setDes(code?.des);
     setJailTime(code.jail_time ?? "");
+    setFineAmount(code.fine_amount ?? "");
   }, [code]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -35,6 +37,7 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
       title,
       des,
       jail_time: jailTime,
+      fine_amount: fineAmount,
     });
 
     if (updated === true) {
@@ -67,6 +70,18 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
               id="add_jail_time"
               value={jailTime}
               onChange={(e) => setJailTime(e.currentTarget.value)}
+              className="form-control bg-secondary border-secondary text-light"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="fine_amount">
+              {lang.codes.fine_amount}
+            </label>
+            <input
+              type="number"
+              id="fine_amount"
+              value={fineAmount}
+              onChange={(e) => setFineAmount(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>
