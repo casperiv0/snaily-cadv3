@@ -16,6 +16,8 @@ interface Props {
 const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState<string>("");
+  const [fineAmount, setFineAmount] = React.useState("");
+  const [jailTime, setJailTime] = React.useState("");
   const ref = useModalOpen<HTMLInputElement>(ModalIds.EditPenalCode);
 
   React.useEffect(() => {
@@ -23,6 +25,8 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
 
     setTitle(code?.title);
     setDes(code?.des);
+    setJailTime(code.jail_time ?? "");
+    setFineAmount(code.fine_amount ?? "");
   }, [code]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -32,6 +36,8 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
     const updated = await updatePenalCode(code?.id, {
       title,
       des,
+      jail_time: jailTime,
+      fine_amount: fineAmount,
     });
 
     if (updated === true) {
@@ -52,6 +58,30 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}
+              className="form-control bg-secondary border-secondary text-light"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="code">
+              {lang.codes.jail_time}
+            </label>
+            <input
+              type="number"
+              id="add_jail_time"
+              value={jailTime}
+              onChange={(e) => setJailTime(e.currentTarget.value)}
+              className="form-control bg-secondary border-secondary text-light"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="fine_amount">
+              {lang.codes.fine_amount}
+            </label>
+            <input
+              type="number"
+              id="fine_amount"
+              value={fineAmount}
+              onChange={(e) => setFineAmount(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>

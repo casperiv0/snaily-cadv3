@@ -32,6 +32,8 @@ import { getCalls } from "@actions/calls/CallActions";
 import { getActiveUnits } from "@actions/dispatch/DispatchActions";
 import { useDashTime } from "@hooks/useDashTime";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { UploadMugshotsModal } from "@components/modals/leo/UploadMugshotsModal";
+import { MugshotsModal } from "@components/modals/leo/MugshotsModal";
 
 interface Props {
   aop: Nullable<string>;
@@ -129,6 +131,8 @@ const DispatchDash: React.FC<Props> = (props) => {
       <WeaponSearchModal />
       <CreateBoloModal />
       <Create911Modal />
+      <UploadMugshotsModal />
+      <MugshotsModal />
     </Layout>
   );
 };

@@ -2,16 +2,17 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { modal } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
-import { usePortal } from "@hooks/usePortal";
+import { usePortal } from "@casper124578/useful/hooks/usePortal";
 
 interface Props {
   id: ModalIds;
   title: string;
   size?: "sm" | "lg" | "xl";
+  styles?: React.CSSProperties;
 }
 
-export const Modal: React.FC<Props> = ({ id, size, title, children }) => {
-  const portal = usePortal(id);
+export const Modal: React.FC<Props> = ({ styles, id, size, title, children }) => {
+  const portal = usePortal(`Modal_Portal_${id}`);
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -26,6 +27,7 @@ export const Modal: React.FC<Props> = ({ id, size, title, children }) => {
           tabIndex={-1}
           aria-labelledby={`${id}-label`}
           aria-hidden="true"
+          style={styles}
         >
           <div className={`modal-dialog modal-${size} modal-dialog-centered`}>
             <div className="modal-content bg-dark border-dark">

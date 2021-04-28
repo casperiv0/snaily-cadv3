@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import * as React from "react";
 import { connect } from "react-redux";
+import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { getPenalCodes, deletePenalCode } from "@actions/admin/AdminActions";
 import { AdminLayout } from "@components/admin/AdminLayout";
 import { State } from "types/State";
@@ -15,9 +16,8 @@ import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import lang from "src/language.json";
 import { Seo } from "@components/Seo";
-import { Span } from "@components/Item";
+import { Item, Span } from "@components/Item";
 import { useClientPerms } from "@hooks/useClientPerms";
-import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   codes: PenalCode[];
@@ -72,6 +72,20 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, deletePenalCode }) => {
                         {++idx} | {code.title}
                       </p>
                     </div>
+                    {code?.jail_time ? (
+                      <Item>
+                        <Span>{lang.codes.jail_time2}: </Span>
+                        <>
+                          {code.jail_time} {lang.codes.seconds}
+                        </>
+                      </Item>
+                    ) : null}
+                    {code?.fine_amount ? (
+                      <Item>
+                        <Span>{lang.codes.fine_amount2}: </Span>
+                        <>{code.fine_amount}</>
+                      </Item>
+                    ) : null}
                     <div style={{ marginTop: "0" }}>
                       <Span>{lang.global.description}: </Span>
                       <p style={{ maxWidth: "600px" }}>{code.des}</p>

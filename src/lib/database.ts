@@ -50,6 +50,21 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine("ALTER TABLE `officers` ADD `suspended` varchar(255) DEFAULT '0' AFTER `status`;");
+  updateLine("ALTER TABLE `penal_codes` ADD `fine_amount` varchar(255) DEFAULT NULL AFTER `des`;");
+  updateLine("ALTER TABLE `penal_codes` ADD `jail_time` varchar(255) DEFAULT NULL AFTER `des`;");
+  updateLine(`
+  CREATE TABLE \`mugshots\` (
+    \`id\` varchar(255) NOT NULL,
+    \`citizen_id\` varchar(255) NOT NULL,
+    \`data\` text NOT NULL DEFAULT '[]',
+    \`officer_name\` varchar(255) NOT NULL,
+    \`full_date\` text NOT NULL,
+    \`officer_id\` varchar(255) NOT NULL,
+    PRIMARY KEY (\`id\`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `);
+
   updateLine(`
   CREATE TABLE \`cad_licenses\` (
     \`id\` varchar(255) NOT NULL,

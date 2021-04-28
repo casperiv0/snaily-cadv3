@@ -15,6 +15,8 @@ interface Props {
 const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState("");
+  const [jailTime, setJailTime] = React.useState("");
+  const [fineAmount, setFineAmount] = React.useState("");
   const ref = useModalOpen<HTMLInputElement>(ModalIds.CreatePenalCode);
 
   async function onSubmit(e: React.FormEvent) {
@@ -23,11 +25,15 @@ const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
     const added = await addPenalCode({
       title,
       des,
+      jail_time: jailTime,
+      fine_amount: fineAmount,
     });
 
     if (added === true) {
       setTitle("");
       setDes("");
+      setJailTime("");
+      setFineAmount("");
       modal(ModalIds.CreatePenalCode)?.hide();
     }
   }
@@ -45,6 +51,29 @@ const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}
+              className="form-control bg-secondary border-secondary text-light"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="add_jail_time">
+              {lang.codes.jail_time}
+            </label>
+            <input
+              id="add_jail_time"
+              value={jailTime}
+              onChange={(e) => setJailTime(e.currentTarget.value)}
+              className="form-control bg-secondary border-secondary text-light"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="fine_amount">
+              {lang.codes.fine_amount}
+            </label>
+            <input
+              type="number"
+              id="fine_amount"
+              value={fineAmount}
+              onChange={(e) => setFineAmount(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>

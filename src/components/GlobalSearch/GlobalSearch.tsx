@@ -2,11 +2,11 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import Link from "next/link";
+import { usePortal } from "@casper124578/useful/hooks/usePortal";
 import { Options, useHotkeys } from "react-hotkeys-hook";
 import { Items } from "./items";
 import { Nullable, State } from "types/State";
 import { User } from "types/User";
-import { usePortal } from "@hooks/usePortal";
 import { useModalOpen } from "@hooks/useModalOpen";
 import { ModalIds } from "types/ModalIds";
 
@@ -24,7 +24,7 @@ const GlobalSearchC: React.FC<Props> = ({ user }) => {
   const [search, setSearch] = React.useState("");
 
   const inputRef = useModalOpen<HTMLInputElement>("globalSearch" as ModalIds);
-  const ref = usePortal("GlobalSearch");
+  const ref = usePortal("React_Portal_GlobalSearch");
   const filteredItems = React.useMemo(() => {
     return Items.filter((item) => item.query.join(" ").includes(search.toLowerCase()));
   }, [search]);

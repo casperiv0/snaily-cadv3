@@ -2,6 +2,14 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.8
+
+- New: able to suspend an officer
+- New: able to upload mugshots
+- New: added `Jail time` to penal codes
+- New: added `Fine Amount` to penal codes
+- Minor: minor code changes
+
 ## 2.0.7
 
 - New: link officer with citizen

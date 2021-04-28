@@ -17,9 +17,5 @@ export function useCookie(
     secure: config.secureCookie,
   };
 
-  if (config.cookieUrl) {
-    options.domain = config.cookieUrl;
-  }
-
   res.setHeader("Set-Cookie", serialize(name, token, options));
 }

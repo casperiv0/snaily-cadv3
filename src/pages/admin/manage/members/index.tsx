@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { getMembers } from "@actions/admin/AdminActions";
 import { AdminLayout } from "@components/admin/AdminLayout";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
@@ -14,7 +15,6 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { Seo } from "@components/Seo";
 import lang from "src/language.json";
 import { useClientPerms } from "@hooks/useClientPerms";
-import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   members: User[];

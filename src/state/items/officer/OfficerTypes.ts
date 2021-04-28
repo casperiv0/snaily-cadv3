@@ -1,3 +1,4 @@
+import { Mugshot } from "types/Mugshot";
 import { Officer, OfficerLog } from "types/Officer";
 import { OfficerIncident } from "types/OfficerIncident";
 
@@ -42,6 +43,11 @@ export interface IIncidents {
   incidents: OfficerIncident[];
 }
 
+export interface GetCitizenMugshots {
+  type: "GET_CITIZEN_MUGSHOTS";
+  mugshots: Mugshot[];
+}
+
 export type Actions =
   | Search
   | IOfficer
@@ -49,4 +55,5 @@ export type Actions =
   | SearchNames
   | GetOfficerLogs
   | IIncidents
-  | GetAllOfficers;
+  | GetAllOfficers
+  | GetCitizenMugshots;

@@ -6,5 +6,6 @@ export interface IRequest extends NextApiRequest {
   parsedPath: string;
   files?: {
     image?: UploadedFile;
+    [key: string]: UploadedFile | undefined;
   };
 }

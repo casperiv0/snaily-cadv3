@@ -200,6 +200,15 @@ const NameSearchModalC: React.FC<Props> = ({
                         {`${search?.citizen.officer.callsign} ${search?.citizen.officer.officer_name}`}
                       </Item>
                     ) : null}
+
+                    <button
+                      type="button"
+                      className="btn btn-primary col-md-5 mt-3"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#${ModalIds.Mugshots}`}
+                    >
+                      Manage mugshots
+                    </button>
                   </div>
                 </div>
 

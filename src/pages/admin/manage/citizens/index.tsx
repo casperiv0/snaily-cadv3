@@ -1,9 +1,10 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { AdminLayout } from "@components/admin/AdminLayout";
 import { Citizen } from "types/Citizen";
 import lang from "src/language.json";
 import { State } from "types/State";
-import { connect } from "react-redux";
 import { getCitizens, getAllExpungementRequests } from "@actions/admin/AdminActions";
 import { Seo } from "@components/Seo";
 import { GetServerSideProps } from "next";
@@ -14,7 +15,6 @@ import { AllCitizensTab } from "@components/admin/AllCitizens";
 import { ExpungementRequest } from "types/ExpungementRequest";
 import { ExpungementRequestsTab } from "@components/admin/ExpungementRequestsTab";
 import { useClientPerms } from "@hooks/useClientPerms";
-import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   requests: ExpungementRequest[];

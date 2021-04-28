@@ -359,6 +359,20 @@ CREATE TABLE `medical_records` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+--
+-- Table structure for table `mugshots`
+--
+
+CREATE TABLE `mugshots` (
+    `id` varchar(255) NOT NULL,
+    `citizen_id` varchar(255) NOT NULL,
+    `data` text NOT NULL DEFAULT '[]',
+    `officer_name` varchar(255) NOT NULL,
+    `full_date` text NOT NULL,
+    `officer_id` varchar(255) NOT NULL,
+    PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `notifications`

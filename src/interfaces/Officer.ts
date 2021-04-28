@@ -10,6 +10,7 @@ export interface Officer {
   callsign: string;
   rank: string;
   citizen_id: string;
+  suspended: Perm;
 
   citizen: {
     full_name: string;

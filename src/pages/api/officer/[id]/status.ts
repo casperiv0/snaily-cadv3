@@ -41,7 +41,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           [req.userId],
         );
         const [officer] = await processQuery<Officer>(
-          "SELECT `id`, `user_id` FROM `officers` WHERE `id` = ?",
+          "SELECT `id`, `user_id`, `suspended` FROM `officers` WHERE `id` = ?",
           [req.query.id],
         );
 
@@ -77,6 +77,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const [code] = await processQuery<Code10>("SELECT * FROM `10_codes` WHERE `code` = ?", [
           status2,
         ]);
+
+        if (code?.should_do !== "set_off_duty" && officer?.suspended === "1") {
+          return res.status(403).json({
+            error: "This officer is currently suspended",
+            status: "error",
+          });
+        }
 
         const [officerLog] = await processQuery<OfficerLog>(
           "SELECT * FROM `officer_logs` WHERE `officer_id` = ? AND `active` = ?",

@@ -1,10 +1,11 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { AdminLayout } from "../../../components/admin/AdminLayout";
 import lang from "src/language.json";
 import { State } from "types/State";
 import { Company } from "types/Company";
 import { AlertMessage } from "../../../components/AlertMessage/AlertMessage";
-import { connect } from "react-redux";
 import { deleteCompanyById, getCompanies } from "@actions/companies/CompanyActions";
 import { GetServerSideProps } from "next";
 import { initializeStore } from "@state/useStore";
@@ -13,7 +14,6 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { Seo } from "@components/Seo";
 import { Item, Span } from "@components/Item";
 import { useClientPerms } from "@hooks/useClientPerms";
-import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   companies: Company[];

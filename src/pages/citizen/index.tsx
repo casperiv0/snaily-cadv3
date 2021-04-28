@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import Link from "next/link";
 import * as React from "react";
+import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getUserCitizens } from "@actions/citizen/CitizenActions";
 import { initializeStore } from "@state/useStore";
@@ -22,7 +23,6 @@ import { Create911Modal } from "@components/modals/Create911Modal";
 import { socket } from "@hooks/useSocket";
 import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponModal";
 import { RegisterVehicleModal } from "@components/modals/citizen/RegisterVehicleModal";
-import { useSearch } from "@hooks/useSearch";
 
 interface Props {
   citizens: Citizen[];

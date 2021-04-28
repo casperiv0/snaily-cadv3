@@ -1,6 +1,7 @@
 import Link from "next/link";
 import * as React from "react";
 import { connect } from "react-redux";
+import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { Layout } from "@components/Layout";
 import { State } from "types/State";
 import lang from "src/language.json";
@@ -15,7 +16,6 @@ import { OfficerIncident } from "types/OfficerIncident";
 import { CreateIncidentModal } from "@components/modals/leo/CreateIncidentModal";
 import { Item, Span } from "@components/Item";
 import { Perm } from "types/Perm";
-import { useSearch } from "@hooks/useSearch";
 import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {

@@ -5,7 +5,7 @@ import { AdminLayout } from "@components/admin/AdminLayout";
 import lang from "../../../../language.json";
 import { State } from "types/State";
 import { AlertMessage } from "../../../../components/AlertMessage/AlertMessage";
-import { getAllUnits } from "@actions/admin/AdminActions";
+import { getAllUnits, suspendOfficer } from "@actions/admin/AdminActions";
 import { Officer } from "types/Officer";
 import { Deputy } from "types/Deputy";
 import { Seo } from "@components/Seo";
@@ -15,13 +15,15 @@ import { initializeStore } from "@state/useStore";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { Perm } from "types/Perm";
 
 interface Props {
   officers: Officer[];
   ems_fd: Deputy[];
+  suspendOfficer: (officerId: string, type: Perm) => void;
 }
 
-const SupervisorPanelPage: React.FC<Props> = ({ officers, ems_fd }) => {
+const SupervisorPanelPage: React.FC<Props> = ({ officers, ems_fd, suspendOfficer }) => {
   const [filter, setFilter] = React.useState<string>("");
   const [filtered, setFiltered] = React.useState<(Officer | Deputy)[]>(officers);
   useClientPerms("supervisor");
@@ -110,6 +112,16 @@ const SupervisorPanelPage: React.FC<Props> = ({ officers, ems_fd }) => {
                     <Link href={`/admin/manage/units/${unit.id}`}>
                       <a className="btn btn-success">{lang.global.manage}</a>
                     </Link>
+                    {"suspended" in unit ? (
+                      <button
+                        onClick={() => suspendOfficer(unit.id, unit.suspended === "1" ? "0" : "1")}
+                        className={
+                          unit.suspended === "1" ? "btn btn-success ms-2" : "btn btn-danger ms-2"
+                        }
+                      >
+                        {unit.suspended === "1" ? lang.officers.revoke : lang.officers.suspend}
+                      </button>
+                    ) : null}
                   </div>
                 </li>
               );
@@ -135,4 +147,4 @@ const mapToProps = (state: State) => ({
   ems_fd: state.admin.ems_fd,
 });
 
-export default connect(mapToProps, { getAllUnits })(SupervisorPanelPage);
+export default connect(mapToProps, { getAllUnits, suspendOfficer })(SupervisorPanelPage);
