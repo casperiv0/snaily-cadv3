@@ -160,6 +160,8 @@ const ProbablyNotInTheTranslateFile = {
     delete_current_mugshot: "Delete current mugshot",
     delete_mugshot_success: "Successfully deleted mugshot",
     no_mugshots: "This citizen doesn't have any mugshots",
+    suspend: "Suspend",
+    revoke: "Revoke",
   },
   admin: {
     ...file.admin,
@@ -218,6 +220,9 @@ const ProbablyNotInTheTranslateFile = {
     updated_10_code: "Successfully updated 10 code",
     success_penal_code: "Successfully added penal code",
     updated_penal_code: "Successfully updated 10 code",
+    jail_time: "Jail time in seconds (Optional)",
+    jail_time2: "Jail time",
+    seconds: "Seconds",
   },
   dispatch: {
     ...file.dispatch,

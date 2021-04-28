@@ -9,9 +9,10 @@ import { Officer } from "types/Officer";
 import { Select, SelectValue } from "@components/Select/Select";
 import { PenalCode } from "types/PenalCode";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
+import { getTotalJailTime, modal } from "@lib/utils";
 import { ArrestReport } from "types/Record";
 import { Name } from "@actions/officer/OfficerTypes";
+import { Item, Span } from "@components/Item";
 
 interface Props {
   officer: Officer | null;
@@ -30,10 +31,17 @@ const CreateArrestReportModalC: React.FC<Props> = ({
   creatArrestReport,
 }) => {
   const [name, setName] = React.useState<SelectValue | null>(null);
-  const [charges, setCharges] = React.useState([]);
+  const [charges, setCharges] = React.useState<SelectValue[]>([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const totalJailTime = React.useMemo(() => {
+    const codes = charges.map(
+      (c) => penalCodes.find((v) => v.title === c.value) ?? ({} as PenalCode),
+    );
+
+    return getTotalJailTime(codes);
+  }, [charges, penalCodes]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -129,6 +137,13 @@ const CreateArrestReportModalC: React.FC<Props> = ({
         </div>
 
         <div className="modal-footer">
+          {totalJailTime ? (
+            <Item className="mx-5">
+              <>
+                <Span>{lang.codes.jail_time2}: </Span> {totalJailTime} {lang.codes.seconds}
+              </>
+            </Item>
+          ) : null}
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>

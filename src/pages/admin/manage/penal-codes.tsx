@@ -16,7 +16,7 @@ import { verifyAuth } from "@actions/auth/AuthActions";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import lang from "src/language.json";
 import { Seo } from "@components/Seo";
-import { Span } from "@components/Item";
+import { Item, Span } from "@components/Item";
 import { useClientPerms } from "@hooks/useClientPerms";
 
 interface Props {
@@ -72,6 +72,14 @@ const PenalCodesManagement: React.FC<Props> = ({ codes, deletePenalCode }) => {
                         {++idx} | {code.title}
                       </p>
                     </div>
+                    {code?.jail_time ? (
+                      <Item>
+                        <Span>{lang.codes.jail_time2}: </Span>
+                        <>
+                          {code.jail_time} {lang.codes.seconds}
+                        </>
+                      </Item>
+                    ) : null}
                     <div style={{ marginTop: "0" }}>
                       <Span>{lang.global.description}: </Span>
                       <p style={{ maxWidth: "600px" }}>{code.des}</p>

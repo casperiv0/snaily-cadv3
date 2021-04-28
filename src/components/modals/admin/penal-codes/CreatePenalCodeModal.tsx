@@ -15,6 +15,7 @@ interface Props {
 const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState("");
+  const [jailTime, setJailTime] = React.useState("");
   const ref = useModalOpen<HTMLInputElement>(ModalIds.CreatePenalCode);
 
   async function onSubmit(e: React.FormEvent) {
@@ -23,11 +24,13 @@ const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
     const added = await addPenalCode({
       title,
       des,
+      jail_time: jailTime,
     });
 
     if (added === true) {
       setTitle("");
       setDes("");
+      setJailTime("");
       modal(ModalIds.CreatePenalCode)?.hide();
     }
   }
@@ -45,6 +48,17 @@ const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}
+              className="form-control bg-secondary border-secondary text-light"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="code">
+              {lang.codes.jail_time}
+            </label>
+            <input
+              id="add_jail_time"
+              value={jailTime}
+              onChange={(e) => setJailTime(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>

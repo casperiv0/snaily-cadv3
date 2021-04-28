@@ -24,8 +24,6 @@ const MugshotsModalC: React.FC<Props> = ({ search, mugshots, getMugshots, delete
     return d.length === 0;
   };
 
-  console.log(noShots());
-
   React.useEffect(() => {
     if (!search) return;
     if (search?.type !== "name") return;

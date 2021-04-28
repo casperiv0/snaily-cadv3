@@ -17,12 +17,14 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
   const [title, setTitle] = React.useState("");
   const [des, setDes] = React.useState<string>("");
   const ref = useModalOpen<HTMLInputElement>(ModalIds.EditPenalCode);
+  const [jailTime, setJailTime] = React.useState("");
 
   React.useEffect(() => {
     if (!code) return;
 
     setTitle(code?.title);
     setDes(code?.des);
+    setJailTime(code.jail_time ?? "");
   }, [code]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -32,6 +34,7 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
     const updated = await updatePenalCode(code?.id, {
       title,
       des,
+      jail_time: jailTime,
     });
 
     if (updated === true) {
@@ -52,6 +55,18 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}
+              className="form-control bg-secondary border-secondary text-light"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="code">
+              {lang.codes.jail_time}
+            </label>
+            <input
+              type="number"
+              id="add_jail_time"
+              value={jailTime}
+              onChange={(e) => setJailTime(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>

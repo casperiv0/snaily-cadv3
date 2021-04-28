@@ -19,6 +19,7 @@ import lang from "src/language.json";
 import { IIncidents } from "@actions/officer/OfficerTypes";
 import { socket } from "@hooks/useSocket";
 import { SocketEvents } from "types/Socket";
+import { Perm } from "types/Perm";
 
 export const get10Codes = (headers?: any) => async (dispatch: Dispatch<I10Codes>) => {
   try {
@@ -421,6 +422,25 @@ export const deleteIncident = (id: string) => async (dispatch: Dispatch<IInciden
     });
 
     return notify.success(lang.officers.deleted_incident);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const suspendOfficer = (officerId: string, type: Perm) => async (
+  dispatch: Dispatch<IUnits>,
+) => {
+  try {
+    const res = await handleRequest(`/admin/units/${officerId}/suspend?type=${type}`, "PUT");
+
+    dispatch({
+      type: "GET_ALL_UNITS",
+      officers: res.data.officers,
+      ems_fd: res.data.ems_fd,
+    });
+
+    return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

@@ -4,7 +4,9 @@
 
 ## 2.0.8
 
+- New: able to suspend an officer
 - New: able to upload mugshots
+- New: added `Jail time` to penal codes
 - Minor: minor code changes
 
 ## 2.0.7

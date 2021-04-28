@@ -3,6 +3,7 @@ import { toast, ToastOptions } from "react-toastify";
 import { Call } from "types/Call";
 import { Code10 } from "types/Code10";
 import { ModalIds } from "types/ModalIds";
+import { PenalCode } from "types/PenalCode";
 
 export type RequestData = Record<string, unknown>;
 export type AllowedMethods = "PATCH" | "PUT" | "DELETE" | "OPTIONS" | "GET" | "POST";
@@ -119,4 +120,8 @@ export function isUnitAlreadyAssigned(unitId: string, calls: Call[]) {
   const unitIds = calls.flatMap((call) => call.assigned_unit.map((v) => v.value));
 
   return unitIds.includes(unitId);
+}
+
+export function getTotalJailTime(codes: PenalCode[]) {
+  return codes.filter((v) => v.jail_time).reduce((ac, cv) => ac + Number(cv.jail_time), 0);
 }
