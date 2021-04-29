@@ -213,6 +213,63 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
     }
+    case "DELETE": {
+      try {
+        const vehicleId = req.query.vehicleId;
+
+        if (!vehicleId) {
+          return res.status(400).json({
+            error: "vehicleId must be provided.",
+            status: "error",
+          });
+        }
+
+        const [vehicle] = await processQuery<Vehicle>(
+          "SELECT `citizen_id` FROM `registered_cars` WHERE `id` = ?",
+          [vehicleId],
+        );
+
+        if (!vehicle) {
+          return res.status(404).json({
+            error: "vehicle was not found",
+            status: "error",
+          });
+        }
+
+        const [citizen] = await processQuery<Citizen>(
+          "SELECT `full_name`, `id` FROM `citizens` WHERE `user_id` = ? AND `id` = ?",
+          [req.userId, req.query.id],
+        );
+
+        if (!citizen) {
+          return res.status(404).json({
+            error: "Citizen was not found",
+            status: "error",
+          });
+        }
+
+        if (vehicle.citizen_id !== citizen?.id) {
+          return res.status(403).json({
+            error: "This vehicle is not linked with the provided citizen",
+            status: "error",
+          });
+        }
+
+        await processQuery("DELETE FROM `registered_cars` WHERE `id` = ?", [vehicleId]);
+
+        const updated = await processQuery(
+          "SELECT * FROM `registered_cars` WHERE `citizen_id` = ? AND `user_id` = ?",
+          [req.query.id, req.userId],
+        );
+        return res.json({ status: "success", vehicles: updated });
+      } catch (e) {
+        logger.error("UPDATE_VEHICLE", e);
+
+        return res.status(500).json({
+          error: AnError,
+        });
+      }
+    }
     default: {
       return res.status(405).json({
         error: "Method not allowed",

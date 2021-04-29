@@ -7,6 +7,10 @@
 - New: able to specify time for `Jail time` (use `<amount> hours`, `<amount> minutes`, `<amount> seconds`, `<amount> milliseconds`)
 - Minor: Updated dependencies
 
+## 2.0.8-patch1
+
+- Fix: fixed bug where a citizen could not delete a registered vehicle
+
 ## 2.0.8
 
 - New: able to suspend an officer

@@ -112,6 +112,8 @@ export const deleteVehicleById = (citizenId: string, id: string) => async (
       type: "DELETE_VEHICLE_BY_ID",
       vehicles: res.data.vehicles,
     });
+
+    return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.error(error);
