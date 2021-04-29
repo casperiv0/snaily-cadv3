@@ -2,6 +2,10 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.8-patch1
+
+- Fix: fixed bug where a citizen could not delete a registered vehicle
+
 ## 2.0.8
 
 - New: able to suspend an officer
