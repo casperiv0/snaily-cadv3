@@ -4,12 +4,13 @@ import { CallTypes, CreateCall, GetCalls } from "./CallTypes";
 import { socket } from "@hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 import lang from "src/language.json";
+import { Call } from "types/Call";
 
-function updateCalls(type: CallTypes) {
+function updateCalls(type: CallTypes, callData: Call) {
   switch (type) {
     case "911": {
       socket.emit(SocketEvents.Update911Calls);
-      socket.emit(SocketEvents.New911Call);
+      socket.emit(SocketEvents.New911Call, callData);
       break;
     }
     case "tow": {
@@ -38,7 +39,7 @@ export const createCall = (type: CallTypes, data: RequestData, shouldNotify = fa
       calls: res.data.calls,
     });
 
-    updateCalls(type);
+    updateCalls(type, (data as unknown) as Call);
     if (shouldNotify) {
       const msg =
         type === "911"
