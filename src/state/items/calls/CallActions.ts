@@ -6,7 +6,7 @@ import { SocketEvents } from "types/Socket";
 import lang from "src/language.json";
 import { Call } from "types/Call";
 
-function updateCalls(type: CallTypes, callData: Call) {
+function updateCalls(type: CallTypes, callData: Call | null) {
   switch (type) {
     case "911": {
       socket.emit(SocketEvents.Update911Calls);
@@ -84,7 +84,7 @@ export const endCall = (type: CallTypes, id: string) => async (dispatch: Dispatc
       calls: res.data.calls,
     });
 
-    updateCalls(type);
+    updateCalls(type, null);
     return true;
   } catch (e) {
     const error = getErrorFromResponse(e);
