@@ -122,6 +122,7 @@ export async function socketHandler(socket: Socket, server: Server) {
   socket.on(
     SocketEvents.New911Call,
     async (callData: { description: string; caller: string; location: string }) => {
+      if (!callData) return;
       server.sockets.emit(SocketEvents.New911Call, callData);
 
       if (cadInfo?.webhook_url) {
