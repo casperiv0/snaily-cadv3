@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.9
+
+- New: able to specify time for `Jail time` (use `<amount> hours`, `<amount> minutes`, `<amount> seconds`, `<amount> milliseconds`)
+- Minor: Updated dependencies
+
 ## 2.0.8
 
 - New: able to suspend an officer

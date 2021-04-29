@@ -1,8 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import ms from "ms";
 import { addPenalCode } from "@actions/admin/AdminActions";
 import { PenalCode } from "types/PenalCode";
-import { modal } from "@lib/utils";
+import { modal, notify } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { Modal } from "@components/Modal/Modal";
 import { useModalOpen } from "../../../../hooks/useModalOpen";
@@ -22,10 +23,17 @@ const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    const isValidMs = ms(jailTime);
+    if (!isValidMs) {
+      return notify.warn(
+        "Invalid jail time! Please use `hours`, `minutes`,  `seconds`, `milliseconds`",
+      );
+    }
+
     const added = await addPenalCode({
       title,
       des,
-      jail_time: jailTime,
+      jail_time: `${isValidMs / 1000}`,
       fine_amount: fineAmount,
     });
 
