@@ -4,8 +4,10 @@
 
 ## 2.0.9
 
+- New: set a citizen as `Dangerous`
 - New: able to specify time for `Jail time` (use `<amount> hours`, `<amount> minutes`, `<amount> seconds`, `<amount> milliseconds`)
 - Minor: Updated dependencies
+- Minor: added missing translation keys
 
 ## 2.0.8-patch1
 
