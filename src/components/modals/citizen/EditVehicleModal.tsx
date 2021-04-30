@@ -15,7 +15,7 @@ import { Vehicle } from "types/Vehicle";
 
 interface Props {
   vehicle: Nullable<Vehicle>;
-  legalStatuses: Value[];
+  cadLicenses: Value[];
   companies: Company[];
   cadInfo: Nullable<Cad>;
   citizen: Nullable<Citizen>;
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const EditVehicleModalC: React.FC<Props> = ({
-  legalStatuses,
+  cadLicenses,
   companies,
   cadInfo,
   vehicle: tempVehicle,
@@ -121,7 +121,7 @@ const EditVehicleModalC: React.FC<Props> = ({
               isMulti={false}
               isClearable={false}
               onChange={(v) => setStatus(v.value)}
-              options={legalStatuses.map((status) => ({
+              options={cadLicenses.map((status) => ({
                 value: status.name,
                 label: status.name,
               }))}
@@ -162,7 +162,7 @@ const EditVehicleModalC: React.FC<Props> = ({
 };
 
 const mapToProps = (state: State) => ({
-  legalStatuses: state.values["legal-statuses"],
+  cadLicenses: state.values["cad-licenses"],
   companies: state.companies.companies,
   cadInfo: state.global.cadInfo,
   citizen: state.citizen.citizen ?? null,
