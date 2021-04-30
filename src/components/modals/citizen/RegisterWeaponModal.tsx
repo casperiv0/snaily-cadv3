@@ -71,9 +71,12 @@ const RegisterWeaponModalC: React.FC<Props> = ({
     if (success === true) {
       modal(ModalIds.RegisterWeapon)?.hide();
       setWeapon("");
-      setCitizenId(null);
       setStatus("");
       setSerial("");
+
+      if (router.pathname === "/citizen") {
+        setCitizenId(null);
+      }
     }
 
     setLoading(false);

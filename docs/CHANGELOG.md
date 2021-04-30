@@ -6,7 +6,9 @@
 
 - New: set a citizen as `Dangerous`
 - New: able to specify time for `Jail time` (use `<amount> hours`, `<amount> minutes`, `<amount> seconds`, `<amount> milliseconds`)
+- Minor: fixed a bug in `RegisterWeaponModal`
 - Minor: Updated dependencies
+- Minor: small code improvements
 - Minor: added missing translation keys
 
 ## 2.0.8-patch1

@@ -259,7 +259,7 @@ const CreateCitizenPage = ({
         })}
 
         <div className="mb-3 float-end">
-          <Link href="/citizen">
+          <Link href={`/citizen/${citizen.id}`}>
             <a className="btn btn-danger">{lang.global.cancel}</a>
           </Link>
 
