@@ -155,7 +155,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         }
 
         const [citizen] = await processQuery<Citizen>(
-          "SELECT `full_name` FROM `citizens` WHERE `user_id` = ? AND `id` = ?",
+          "SELECT `full_name`, `business_id` FROM `citizens` WHERE `user_id` = ? AND `id` = ?",
           [req.userId, req.query.id],
         );
 
