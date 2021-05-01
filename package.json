@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
-    "@types/bootstrap": "^5.0.12",
+    "@types/bootstrap": "^5.0.13",
     "@types/cookie": "^0.4.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/dompurify": "^2.2.1",
