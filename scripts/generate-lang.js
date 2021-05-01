@@ -262,6 +262,7 @@ const ProbablyNotInTheTranslateFile = {
     ...file.nav,
     courthouse: "Courthouse",
     leo_management: "LEO Management",
+    taxi: "Taxi",
   },
   bolos: {
     ...file.bolos,
