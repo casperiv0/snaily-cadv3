@@ -1,10 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import ms from "ms";
 import { updatePenalCode } from "@actions/admin/AdminActions";
 import { PenalCode } from "types/PenalCode";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
+import { modal, notify } from "@lib/utils";
 import { useModalOpen } from "@hooks/useModalOpen";
 import lang from "src/language.json";
 
@@ -33,10 +34,17 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
     e.preventDefault();
     if (!code) return;
 
+    const isValidMs = ms(jailTime);
+    if (!isValidMs) {
+      return notify.warn(
+        "Invalid jail time! Please use `hours`, `minutes`,  `seconds`, `milliseconds`",
+      );
+    }
+
     const updated = await updatePenalCode(code?.id, {
       title,
       des,
-      jail_time: jailTime,
+      jail_time: `${isValidMs / 1000}`,
       fine_amount: fineAmount,
     });
 
@@ -66,7 +74,7 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
               {lang.codes.jail_time}
             </label>
             <input
-              type="number"
+              type="text"
               id="add_jail_time"
               value={jailTime}
               onChange={(e) => setJailTime(e.currentTarget.value)}

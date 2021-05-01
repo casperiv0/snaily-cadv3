@@ -118,6 +118,7 @@ const ProbablyNotInTheTranslateFile = {
     deleted_medical_record: "Successfully deleted medical record",
     transfer_vehicle_success: "Successfully transferred vehicle",
     remove_image: "Remove image",
+    dangerous_subject: "DANGEROUS SUBJECT",
   },
   officers: {
     ...file.officers,
@@ -157,11 +158,15 @@ const ProbablyNotInTheTranslateFile = {
     select_mugshot_files: "Select mugshot files",
     upload_mugshots: "Upload mugshots",
     mugshots: "Mugshots",
+    manage_mugshots: "Manage mugshots",
     delete_current_mugshot: "Delete current mugshot",
     delete_mugshot_success: "Successfully deleted mugshot",
     no_mugshots: "This citizen doesn't have any mugshots",
     suspend: "Suspend",
     revoke: "Revoke",
+    citizen_danger: "Dangerous citizen",
+    safe_citizen: "Safe citizen",
+    set_danger_type: "Successfully set danger type",
   },
   admin: {
     ...file.admin,

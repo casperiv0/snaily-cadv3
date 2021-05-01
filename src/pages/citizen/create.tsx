@@ -21,7 +21,6 @@ import { verifyAuth } from "@actions/auth/AuthActions";
 interface Props {
   genders: Value[];
   ethnicities: Value[];
-  legalStatuses: Value[];
   cadLicenses: Value[];
   getValuesByPath: (path: ValuePaths) => void;
   createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
@@ -30,7 +29,6 @@ interface Props {
 const CreateCitizenPage = ({
   genders,
   ethnicities,
-  legalStatuses,
   cadLicenses,
   getValuesByPath,
   createCitizen,
@@ -56,7 +54,6 @@ const CreateCitizenPage = ({
   React.useEffect(() => {
     getValuesByPath("ethnicities");
     getValuesByPath("genders");
-    getValuesByPath("legal-statuses");
     getValuesByPath("cad-licenses");
   }, [getValuesByPath]);
 
@@ -147,7 +144,7 @@ const CreateCitizenPage = ({
       id: "dmv",
       label: lang.citizen.drivers_license,
       select: true,
-      data: legalStatuses,
+      data: cadLicenses,
     },
     {
       type: "text",
@@ -156,7 +153,7 @@ const CreateCitizenPage = ({
       id: "firearmsLicense",
       label: lang.citizen.firearms_license,
       select: true,
-      data: legalStatuses,
+      data: cadLicenses,
     },
     {
       type: "text",
@@ -165,7 +162,7 @@ const CreateCitizenPage = ({
       id: "pilotsLicense",
       label: lang.citizen.pilot_license,
       select: true,
-      data: legalStatuses,
+      data: cadLicenses,
     },
     {
       type: "text",
@@ -174,7 +171,7 @@ const CreateCitizenPage = ({
       id: "ccw",
       label: lang.citizen.ccw,
       select: true,
-      data: legalStatuses,
+      data: cadLicenses,
     },
   ];
 
@@ -303,7 +300,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 const mapToProps = (state: State) => ({
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
-  legalStatuses: state.values["legal-statuses"],
   cadLicenses: state.values["cad-licenses"],
 });
 

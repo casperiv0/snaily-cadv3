@@ -28,6 +28,7 @@ export interface Citizen {
   phone_nr: string;
   dead: Perm;
   dead_on: string;
+  is_dangerous: Perm;
 
   officer?: {
     officer_name: string;

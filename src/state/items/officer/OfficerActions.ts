@@ -15,6 +15,7 @@ import {
 } from "./OfficerTypes";
 import lang from "src/language.json";
 import { OfficerIncident } from "types/OfficerIncident";
+import { Perm } from "types/Perm";
 
 export const weaponSearch = (serialNumber: string) => async (dispatch: Dispatch<Search>) => {
   try {
@@ -232,13 +233,30 @@ export const saveNote = (citizenId: string, note: string) => async (
   dispatch: Dispatch<{ type: "SAVE_NOTE" }>,
 ) => {
   try {
-    await handleRequest(`/officer/note/${citizenId}`, "PUT", { note });
+    await handleRequest(`/officer/citizen/${citizenId}/note`, "PUT", { note });
 
     dispatch({
       type: "SAVE_NOTE",
     });
 
     return notify.success(lang.officers.added_note);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const setCitizenDanger = (type: Perm, citizenId: string) => async (
+  dispatch: Dispatch<{ type: "SET_DANGER_TYPE" }>,
+) => {
+  try {
+    await handleRequest(`/officer/citizen/${citizenId}/danger`, "PUT", { type });
+
+    dispatch({
+      type: "SET_DANGER_TYPE",
+    });
+
+    return notify.success(lang.officers.set_danger_type);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

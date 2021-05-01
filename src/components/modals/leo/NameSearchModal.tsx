@@ -9,13 +9,20 @@ import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import { Citizen } from "types/Citizen";
 import { Weapon } from "types/Weapon";
 import { Vehicle } from "types/Vehicle";
-import { nameSearch, saveNote, searchNames, suspendLicense } from "@actions/officer/OfficerActions";
+import {
+  nameSearch,
+  saveNote,
+  searchNames,
+  suspendLicense,
+  setCitizenDanger,
+} from "@actions/officer/OfficerActions";
 import { deleteRecordById } from "@actions/record/RecordActions";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "types/Record";
 import { Select, SelectValue } from "@components/Select/Select";
 import { ModalIds } from "types/ModalIds";
 import { Item, Span } from "@components/Item";
 import { Name } from "@actions/officer/OfficerTypes";
+import { Perm } from "types/Perm";
 
 interface NameSearch {
   type: "name";
@@ -36,6 +43,7 @@ interface Props {
   searchNames: () => void;
   suspendLicense: (licenseType: string, type: "revoke" | "suspend", citizenId: string) => void;
   deleteRecordById: (id: string, type: string, citizenId: string) => void;
+  setCitizenDanger: (type: Perm, citizenId: string) => void;
 }
 
 const NameSearchModalC: React.FC<Props> = ({
@@ -46,6 +54,7 @@ const NameSearchModalC: React.FC<Props> = ({
   searchNames,
   suspendLicense,
   deleteRecordById,
+  setCitizenDanger,
 }) => {
   const [name, setName] = React.useState<SelectValue | null>(null);
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
@@ -98,12 +107,20 @@ const NameSearchModalC: React.FC<Props> = ({
     deleteRecordById(id, type, citizenId);
   };
 
+  function handleDangerous() {
+    const type = search.citizen.is_dangerous === "1" ? "0" : "1";
+    setCitizenDanger(type, search.citizen.id);
+  }
+
   return (
     <Modal title={lang.global.name_search} size="lg" id={ModalIds.NameSearch}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           {showResults && search?.warrants[0] ? (
             <AlertMessage message={{ msg: lang.record.has_warrant, type: "warning" }} />
+          ) : null}
+          {showResults && search?.citizen.is_dangerous === "1" ? (
+            <AlertMessage message={{ msg: lang.citizen.dangerous_subject, type: "danger" }} />
           ) : null}
           {showResults && search.citizen.dead === "1" ? (
             <AlertMessage
@@ -201,14 +218,28 @@ const NameSearchModalC: React.FC<Props> = ({
                       </Item>
                     ) : null}
 
-                    <button
-                      type="button"
-                      className="btn btn-primary col-md-5 mt-3"
-                      data-bs-toggle="modal"
-                      data-bs-target={`#${ModalIds.Mugshots}`}
-                    >
-                      Manage mugshots
-                    </button>
+                    <div className="d-flex gap-2">
+                      <button
+                        type="button"
+                        className="btn btn-primary col-md-5 mt-3"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#${ModalIds.Mugshots}`}
+                      >
+                        {lang.officers.manage_mugshots}
+                      </button>
+                      {console.log(search.citizen.is_dangerous)}
+                      <button
+                        onClick={handleDangerous}
+                        type="button"
+                        className={`btn  col-md-5 mt-3 ${
+                          search.citizen?.is_dangerous === "1" ? "btn-success" : "btn-danger"
+                        } `}
+                      >
+                        {search.citizen?.is_dangerous === "1"
+                          ? lang.officers.safe_citizen
+                          : lang.officers.citizen_danger}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -737,4 +768,5 @@ export const NameSearchModal = connect(mapToProps, {
   searchNames,
   suspendLicense,
   deleteRecordById,
+  setCitizenDanger,
 })(NameSearchModalC);
