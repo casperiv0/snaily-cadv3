@@ -22,7 +22,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2021,
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint", "promise", "prettier", "json"],
@@ -31,7 +31,7 @@
     "semi": ["error", "always"],
     "no-multi-spaces": ["error"],
     "eqeqeq": ["warn", "always"],
-    "no-unused-vars": ["error"],
+    "no-unused-vars": "off",
     "no-duplicate-case": ["error"],
     "no-extra-semi": ["error"],
     "no-unreachable": ["error"],
@@ -41,6 +41,8 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "react/display-name": "off",
     "prettier/prettier": [
       "warn",
       {
@@ -49,14 +51,6 @@
     ]
   },
   "overrides": [
-    {
-      "files": ["**/*.tsx", "**/*.ts"],
-      "rules": {
-        "no-unused-vars": "off",
-        "react/prop-types": "off",
-        "react/display-name": "off"
-      }
-    },
     {
       "files": ["./src/pages/api/**/*.ts", "./src/lib/socket.server.ts"],
       "rules": {
