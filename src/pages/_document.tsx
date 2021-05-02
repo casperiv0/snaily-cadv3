@@ -14,9 +14,11 @@ class SnailyCAD extends Document {
           <meta property="og:image" content="/favicon.png" />
           <link rel="preconnect" href="https://code.jquery.com" />
           <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-          <link rel="preload" href="/fonts/Assistant-Regular" as="font" type="font/ttf" />
-          <link rel="preload" href="/fonts/Assistant-Medium" as="font" type="font/ttf" />
-          <link rel="preload" href="/fonts/Assistant-Bold" as="font" type="font/ttf" />
+          <link rel="preload" href="https://code.jquery.com" />
+          <link rel="preload" href="https://cdn.jsdelivr.net" />
+          <link rel="preload" href="/fonts/Assistant-Regular.ttf" as="font" type="font/ttf" />
+          <link rel="preload" href="/fonts/Assistant-Medium.ttf" as="font" type="font/ttf" />
+          <link rel="preload" href="/fonts/Assistant-Bold.ttf" as="font" type="font/ttf" />
           <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
             rel="stylesheet"

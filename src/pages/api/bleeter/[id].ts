@@ -118,7 +118,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           await processQuery("DELETE FROM `bleets` WHERE `bleets`.`id` = ?", [req.query.id]);
 
           // Delete the old image
-          fs.unlink(`./public/bleeter-images/${bleet.image_id}`, (e) => {
+          fs.unlink(`./public/bleeter-images/${bleet.image_id}`, () => {
             null;
           });
 

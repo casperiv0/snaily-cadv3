@@ -3,7 +3,7 @@ import lang from "src/language.json";
 
 export const NavbarDropdown: React.FC<{ isAuth: boolean }> = ({ isAuth }) => {
   return (
-    <li className="dropdown dropstart float-end">
+    <div className="dropdown dropstart float-end">
       <button
         className="btn btn-secondary"
         type="button"
@@ -43,6 +43,6 @@ export const NavbarDropdown: React.FC<{ isAuth: boolean }> = ({ isAuth }) => {
           </>
         )}
       </ul>
-    </li>
+    </div>
   );
 };

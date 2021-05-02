@@ -58,6 +58,10 @@
         "react-hooks/exhaustive-deps": "off",
         "react/react-in-jsx-scope": "off"
       }
+    },
+    {
+      "files": ["./scripts/**/*.js"],
+      "parser": "babel-eslint"
     }
   ],
   "settings": {

@@ -101,6 +101,7 @@ const AccountPage = ({ user, unLinkSteam }: Props) => {
           ) : (
             <a href="/api/auth/steam" className="d-block mt-2">
               <Image
+                alt="Sign in trough Steam"
                 width="180"
                 height="35"
                 src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png"

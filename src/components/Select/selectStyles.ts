@@ -106,7 +106,7 @@ export const SelectStyles = (
     ...base,
     color: "#fff",
   }),
-  container: (base, state) => ({
+  container: (base) => ({
     ...base,
     borderColor: "none",
     ":hover": {

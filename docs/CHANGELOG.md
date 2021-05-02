@@ -4,6 +4,7 @@
 
 ## 2.0.10
 
+- Major: improve accessibility and performance
 - Minor: load fonts locally, this should increase font loading performance
 - Minor: minor code changes
 

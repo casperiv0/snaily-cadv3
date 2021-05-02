@@ -137,11 +137,12 @@ const RegisterWeaponModalC: React.FC<Props> = ({
           </div>
 
           <div className="mb-3">
-            <label className="form-label" htmlFor="status">
+            <label className="form-label" htmlFor="weapon_custom_serial">
               {lang.citizen.weapon_custom_serial}
             </label>
 
             <input
+              id="weapon_custom_serial"
               value={serial.toUpperCase()}
               onChange={(e) => setSerial(e.target.value?.toUpperCase())}
               className="bg-secondary border-secondary form-control text-light"

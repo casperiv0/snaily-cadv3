@@ -78,7 +78,7 @@ const EditVehicleModalC: React.FC<Props> = ({
             </label>
             <input
               type="text"
-              id="plate"
+              id="edit_plate"
               defaultValue={plate.toUpperCase()}
               className="form-control bg-secondary border-secondary text-light cursor-not-allowed"
               disabled
@@ -90,7 +90,7 @@ const EditVehicleModalC: React.FC<Props> = ({
             </label>
             <input
               type="text"
-              id="color"
+              id="edit_color"
               value={color}
               onChange={(e) => setColor(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
@@ -102,7 +102,7 @@ const EditVehicleModalC: React.FC<Props> = ({
             </label>
             <input
               type="text"
-              id="vehicle"
+              id="edit_vehicle"
               value={vehicle}
               onChange={(e) => setVehicle(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
@@ -117,7 +117,7 @@ const EditVehicleModalC: React.FC<Props> = ({
 
             <Select
               value={{ label: status, value: status }}
-              id="vehicle_status"
+              id="edit_vehicle_status"
               isMulti={false}
               isClearable={false}
               onChange={(v) => setStatus(v.value)}
@@ -135,7 +135,7 @@ const EditVehicleModalC: React.FC<Props> = ({
               </label>
 
               <Select
-                id="vehicle_company"
+                id="edit_vehicle_company"
                 isMulti={false}
                 isClearable
                 onChange={(v) => setCompanyId(v?.value)}
