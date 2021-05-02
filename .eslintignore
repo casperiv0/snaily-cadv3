@@ -5,3 +5,4 @@ public
 **/*.json
 dist
 .next
+scripts
