@@ -24,19 +24,21 @@ const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
     e.preventDefault();
 
     let isValidMs: string | number = "";
-    if (jailTime) {
+    if (jailTime && !Number(jailTime)) {
       isValidMs = ms(jailTime);
       if (!isValidMs) {
         return notify.warn(
           "Invalid jail time! Please use `hours`, `minutes`,  `seconds`, `milliseconds`",
         );
       }
+    } else {
+      isValidMs = jailTime;
     }
 
     const added = await addPenalCode({
       title,
       des,
-      jail_time: typeof isValidMs === "number" ? `${isValidMs / 1000}` : "",
+      jail_time: typeof isValidMs === "number" ? `${isValidMs / 1000}` : isValidMs,
       fine_amount: fineAmount,
     });
 

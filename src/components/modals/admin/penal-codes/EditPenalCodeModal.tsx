@@ -35,19 +35,21 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
     if (!code) return;
 
     let isValidMs: string | number = "";
-    if (jailTime) {
+    if (jailTime && !Number(jailTime)) {
       isValidMs = ms(jailTime);
       if (!isValidMs) {
         return notify.warn(
           "Invalid jail time! Please use `hours`, `minutes`,  `seconds`, `milliseconds`",
         );
       }
+    } else {
+      isValidMs = jailTime;
     }
 
     const updated = await updatePenalCode(code?.id, {
       title,
       des,
-      jail_time: typeof isValidMs === "number" ? `${isValidMs / 1000}` : "",
+      jail_time: typeof isValidMs === "number" ? `${isValidMs / 1000}` : isValidMs,
       fine_amount: fineAmount,
     });
 
