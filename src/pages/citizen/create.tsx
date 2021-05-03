@@ -3,7 +3,7 @@ import { Layout } from "../../components/Layout";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import lang from "../../language.json";
 import { Value } from "types/Value";
 import { Citizen } from "types/Citizen";
@@ -17,11 +17,13 @@ import { GetServerSideProps } from "next";
 import { initializeStore } from "@state/useStore";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
+import { Cad } from "types/Cad";
 
 interface Props {
   genders: Value[];
   ethnicities: Value[];
   cadLicenses: Value[];
+  cadInfo: Nullable<Cad>;
   getValuesByPath: (path: ValuePaths) => void;
   createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
 }
@@ -30,6 +32,7 @@ const CreateCitizenPage = ({
   genders,
   ethnicities,
   cadLicenses,
+  cadInfo,
   getValuesByPath,
   createCitizen,
 }: Props) => {
@@ -124,14 +127,14 @@ const CreateCitizenPage = ({
       type: "text",
       value: height,
       onChange: (e) => setHeight(e.target.value),
-      label: lang.citizen.height,
+      label: `${lang.citizen.height} (${cadInfo?.height_prefix ?? "cm"})`,
       id: "height",
     },
     {
       type: "text",
       value: weight,
       onChange: (e) => setWeight(e.target.value),
-      label: lang.citizen.weight,
+      label: `${lang.citizen.weight} (${cadInfo?.weight_prefix ?? "kg"})`,
       id: "weight",
     },
   ];
@@ -300,6 +303,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 const mapToProps = (state: State) => ({
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
+  cadInfo: state.global.cadInfo,
   cadLicenses: state.values["cad-licenses"],
 });
 

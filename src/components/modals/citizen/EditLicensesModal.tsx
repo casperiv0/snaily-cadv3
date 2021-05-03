@@ -39,7 +39,7 @@ const EditLicensesModalC: React.FC<Props> = ({
   const fields: Field[] = [
     {
       type: "text",
-      id: "dmv",
+      id: "edit_license_dmv",
       label: lang.citizen.drivers_license,
       onChange: (e) => setDmv(e.value),
       value: isSuspended(dmv) ? lang.officers.suspended : dmv,
@@ -49,7 +49,7 @@ const EditLicensesModalC: React.FC<Props> = ({
     },
     {
       type: "text",
-      id: "firearms_license",
+      id: "edit_license_firearms_license",
       label: lang.citizen.firearms_license,
       onChange: (e) => setFireArms(e.value),
       value: isSuspended(fireArms) ? lang.officers.suspended : fireArms,
@@ -59,7 +59,7 @@ const EditLicensesModalC: React.FC<Props> = ({
     },
     {
       type: "text",
-      id: "pilot_license",
+      id: "edit_license_pilot_license",
       label: lang.citizen.pilot_license,
       onChange: (e) => setPilot(e.value),
       value: isSuspended(pilot) ? lang.officers.suspended : pilot,
@@ -69,7 +69,7 @@ const EditLicensesModalC: React.FC<Props> = ({
     },
     {
       type: "text",
-      id: "ccw",
+      id: "edit_license_ccw",
       label: lang.citizen.ccw,
       onChange: (e) => setCcw(e.value),
       value: isSuspended(ccw) ? lang.officers.suspended : ccw,

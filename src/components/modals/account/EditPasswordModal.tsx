@@ -32,12 +32,12 @@ const EditPasswordModalC: React.FC<Props> = ({ updatePassword }) => {
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="old_password">
+            <label className="form-label" htmlFor="current-password">
               {lang.auth.enter_old_password}
             </label>
             <input
               ref={ref}
-              id="old_password"
+              id="current-password"
               type="password"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
@@ -45,11 +45,11 @@ const EditPasswordModalC: React.FC<Props> = ({ updatePassword }) => {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="new_password">
+            <label className="form-label" htmlFor="new-password">
               {lang.auth.enter_password}
             </label>
             <input
-              id="new_password"
+              id="new-password"
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
@@ -57,11 +57,11 @@ const EditPasswordModalC: React.FC<Props> = ({ updatePassword }) => {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="confirm_password">
+            <label className="form-label" htmlFor="confirm-password">
               {lang.auth.confirm_password}
             </label>
             <input
-              id="confirm_password"
+              id="confirm-password"
               type="password"
               value={newPassword2}
               onChange={(e) => setNewPassword2(e.target.value)}

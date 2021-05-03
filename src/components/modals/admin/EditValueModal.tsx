@@ -56,12 +56,12 @@ const EditValueModalC: React.FC<Props> = (props) => {
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="name">
+            <label className="form-label" htmlFor="edit_value_name">
               {lang.admin.values[path].name}
             </label>
             <input
               ref={ref}
-              id="name"
+              id="edit_value_name"
               value={value}
               onChange={(e) => setValue(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"

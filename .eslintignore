@@ -1,8 +1,8 @@
 node_modules
 build
 public
-scripts
 .github
 **/*.json
 dist
 .next
+scripts

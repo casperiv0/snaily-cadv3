@@ -3,11 +3,12 @@
     "target": "es5",
     "module": "commonjs",
     "outDir": "./dist",
-    "removeComments": true ,
+    "removeComments": true,
     "strict": true,
-    "noUnusedLocals": true ,
+    "noUnusedLocals": true,
     "noFallthroughCasesInSwitch": true,
     "downlevelIteration": true,
+    "noUnusedParameters": true,
     "baseUrl": ".",
     "paths": {
       "@lib/*": ["./src/lib/*"],
@@ -22,11 +23,9 @@
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "strictBindCallApply": true,
+    "strictNullChecks": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "noEmit": true,
     "moduleResolution": "node",
@@ -36,12 +35,6 @@
   "ts-node": {
     "transpileOnly": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
-  "exclude": [
-    "config.example.ts",
-    "node_modules"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["config.example.ts", "node_modules"]
 }

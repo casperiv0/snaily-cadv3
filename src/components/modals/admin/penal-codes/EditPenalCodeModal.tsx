@@ -58,48 +58,48 @@ const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="code">
+            <label className="form-label" htmlFor="edit_penal_code_title">
               {lang.global.title}
             </label>
             <input
               ref={ref}
-              id="title"
+              id="edit_penal_code_title"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="code">
+            <label className="form-label" htmlFor="edit_penal_code_add_jail_time">
               {lang.codes.jail_time}
             </label>
             <input
               type="text"
-              id="add_jail_time"
+              id="edit_penal_code_add_jail_time"
               value={jailTime}
               onChange={(e) => setJailTime(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="fine_amount">
+            <label className="form-label" htmlFor="edit_penal_code_fine_amount">
               {lang.codes.fine_amount}
             </label>
             <input
               type="number"
-              id="fine_amount"
+              id="edit_penal_code_fine_amount"
               value={fineAmount}
               onChange={(e) => setFineAmount(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="code">
+            <label className="form-label" htmlFor="edit_penal_code_des">
               {lang.global.description}
             </label>
             <textarea
               rows={10}
-              id="des"
+              id="edit_penal_code_des"
               value={des}
               onChange={(e) => setDes(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"

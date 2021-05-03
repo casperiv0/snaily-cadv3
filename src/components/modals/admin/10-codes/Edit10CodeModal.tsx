@@ -81,12 +81,12 @@ const Edit10CodeModalC: React.FC<Props> = ({ update10Code, code: data, codes }) 
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           <div className="mb-3">
-            <label className="form-label" htmlFor="code">
+            <label className="form-label" htmlFor="edit_10_code">
               {lang.codes.code}
             </label>
             <input
               ref={ref}
-              id="code"
+              id="edit_10_code"
               value={code}
               onChange={(e) => setCode(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"

@@ -5,7 +5,7 @@ services:
     restart: always
     ports:
       - "3030:3030"
-    environment: 
+    environment:
       DB_HOST: "${DB_HOST}"
       DB_NAME: "${DB_NAME}"
       DB_PASSWORD: "${DB_PASSWORD}"
@@ -25,7 +25,7 @@ services:
     restart: always
     ports:
       - "8080:80"
-    environment: 
+    environment:
       PMA_HOST: "${DB_HOST}"
       PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
@@ -40,7 +40,7 @@ services:
     restart: always
     ports:
       - "3306:3306"
-    environment: 
+    environment:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
     healthcheck:

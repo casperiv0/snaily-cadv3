@@ -76,7 +76,7 @@ export const paths: Path[] = [
   },
   {
     href: "/taxi",
-    name: "Taxi",
+    name: lang.nav.taxi,
     show: () => true,
     enabled: (cad) => cad?.features.includes("taxi") ?? true,
   },

@@ -301,7 +301,7 @@ const ManageMember: React.FC<Props> = ({
       <div style={{ marginTop: "5rem", width: "100%" }}>
         <div className="card bg-dark border-dark">
           <div className="card-header">
-            <h5 className="card-title">{lang.admin.ban_hammer}</h5>
+            <h1 className="card-title h5">{lang.admin.ban_hammer}</h1>
           </div>
 
           <form onSubmit={handleBan} className="card-body">
@@ -341,7 +341,7 @@ const ManageMember: React.FC<Props> = ({
       <div style={{ marginTop: "2rem", width: "100%" }}>
         <div className="card bg-dark border-dark">
           <div className="card-header">
-            <h5 className="card-title">{lang.admin.danger_zone}</h5>
+            <h1 className="card-title h5">{lang.admin.danger_zone}</h1>
           </div>
 
           <div className="card-body">

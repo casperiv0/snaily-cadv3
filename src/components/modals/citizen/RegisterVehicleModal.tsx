@@ -105,7 +105,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
             </label>
             <input
               type="text"
-              id="plate"
+              id="register_plate"
               value={plate.toUpperCase()}
               onChange={(e) => setPlate(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
@@ -119,7 +119,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
             </label>
             <input
               type="text"
-              id="color"
+              id="register_color"
               value={color}
               onChange={(e) => setColor(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
@@ -131,13 +131,13 @@ const RegisterVehicleModalC: React.FC<Props> = ({
             </label>
             <input
               type="text"
-              id="vehicle"
+              id="register_vehicle"
               value={vehicle}
               onChange={(e) => setVehicle(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
               list="vehicles"
             />
-            <datalist id="vehicles">
+            <datalist id="register_vehicles">
               {vehicles
                 .sort((a, b) => Number(a?.defaults) - Number(b?.defaults))
                 .map((vehicle: Value, idx: number) => {
@@ -157,7 +157,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
             <Select
               disabled={location.pathname !== "/citizen" && !!citizen}
               value={citizenId}
-              id="owner"
+              id="register_owner"
               isMulti={false}
               isClearable={false}
               onChange={setCitizenId}
@@ -173,7 +173,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
             </label>
 
             <Select
-              id="vehicle_status"
+              id="register_vehicle_status"
               isMulti={false}
               isClearable={false}
               onChange={(v) => setStatus(v.value)}
@@ -191,7 +191,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
               </label>
 
               <Select
-                id="vehicle_company"
+                id="register_vehicle_company"
                 isMulti={false}
                 isClearable
                 onChange={(v) => setCompanyId(v?.value)}
