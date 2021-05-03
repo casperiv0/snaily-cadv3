@@ -1,6 +1,6 @@
 {
   "name": "snaily-cadv3",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "An open source Computer Aided Dispatch (CAD) for FiveM, this is a web based integration for communities who love police roleplaying and dispatching. ",
   "main": "index.js",
   "scripts": {
