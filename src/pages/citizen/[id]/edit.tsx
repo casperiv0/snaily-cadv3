@@ -18,11 +18,13 @@ import { initializeStore } from "@state/useStore";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { Cad } from "types/Cad";
 
 interface Props {
   genders: Value[];
   ethnicities: Value[];
   citizen: Nullable<Citizen>;
+  cadInfo: Nullable<Cad>;
 
   getValuesByPath: (path: ValuePaths) => void;
   updateCitizen: (id: string, data: Partial<Citizen>) => Promise<boolean | string>;
@@ -31,9 +33,10 @@ interface Props {
 const CreateCitizenPage = ({
   genders,
   ethnicities,
+  cadInfo,
+  citizen,
   getValuesByPath,
   updateCitizen,
-  citizen,
 }: Props) => {
   const [image, setImage] = React.useState<any>(null);
   const [name, setName] = React.useState<string>("");
@@ -138,14 +141,14 @@ const CreateCitizenPage = ({
       type: "text",
       value: height,
       onChange: (e) => setHeight(e.target.value),
-      label: lang.citizen.height,
+      label: `${lang.citizen.height} (${cadInfo?.height_prefix ?? "cm"})`,
       id: "height",
     },
     {
       type: "text",
       value: weight,
       onChange: (e) => setWeight(e.target.value),
-      label: lang.citizen.weight,
+      label: `${lang.citizen.weight} (${cadInfo?.weight_prefix ?? "kg"})`,
       id: "weight",
     },
   ];
@@ -285,6 +288,7 @@ const mapToProps = (state: State) => ({
   genders: state.values.genders,
   ethnicities: state.values.ethnicities,
   citizen: state.citizen.citizen,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps, {

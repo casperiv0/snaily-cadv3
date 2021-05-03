@@ -51,6 +51,12 @@ async function updateLine(sql: string) {
 
 async function updateDb() {
   updateLine(
+    "ALTER TABLE `cad_info` ADD `height_prefix` varchar(255) DEFAULT 'cm' AFTER `whitelisted`;",
+  );
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `weight_prefix` varchar(255) DEFAULT 'kg' AFTER `whitelisted`;",
+  );
+  updateLine(
     "ALTER TABLE `citizens` ADD `is_dangerous` varchar(255) DEFAULT '0' AFTER `b_status`;",
   );
   updateLine("ALTER TABLE `officers` ADD `suspended` varchar(255) DEFAULT '0' AFTER `status`;");

@@ -201,6 +201,8 @@ const ProbablyNotInTheTranslateFile = {
     updated_member: "Successfully updated member",
     registration_code: "Registration code",
     cad_licenses: "CAD Licenses",
+    weight_prefix: "Weight prefix",
+    height_prefix: "Height prefix",
   },
   codes: {
     code: "Code",

@@ -37,6 +37,8 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
   const [showAop, setShowAop] = React.useState("");
   const [showRegCode, setShowRegCode] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [heightPrefix, setHeightPrefix] = React.useState("");
+  const [weightPrefix, setWeightPrefix] = React.useState("");
 
   React.useEffect(() => {
     if (cadInfo?.id) {
@@ -52,6 +54,8 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       setMaxCitizens(cadInfo.max_citizens ?? "unlimited");
       setShowAop(cadInfo.show_aop);
       setRegCode(cadInfo.registration_code);
+      setHeightPrefix(cadInfo.height_prefix ?? "");
+      setWeightPrefix(cadInfo.weight_prefix ?? "");
     }
   }, [cadInfo]);
 
@@ -72,6 +76,8 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       max_citizens: maxCitizens,
       show_aop: showAop,
       registration_code: registrationCode,
+      weight_prefix: weightPrefix,
+      height_prefix: heightPrefix,
     });
 
     setLoading(false);
@@ -303,6 +309,33 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
                 </button>
               </div>
             </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="weight_prefix">
+                {lang.admin.weight_prefix}
+              </label>
+              <input
+                type="text"
+                className="form-control bg-secondary border-dark text-light"
+                id="weight_prefix"
+                value={weightPrefix}
+                onChange={(e) => setWeightPrefix(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="height_prefix">
+                {lang.admin.height_prefix}
+              </label>
+              <input
+                type="text"
+                className="form-control bg-secondary border-dark text-light"
+                id="height_prefix"
+                value={heightPrefix}
+                onChange={(e) => setHeightPrefix(e.target.value)}
+              />
+            </div>
+
             <div className="mb-3">
               <button disabled={loading} className="btn btn-primary col" type="submit">
                 {loading ? `${lang.global.loading}..` : lang.admin.save}

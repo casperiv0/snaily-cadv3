@@ -4,6 +4,7 @@
 
 ## 2.0.10
 
+- New: set a custom weight & height prefix (cm, kg, pounds, feet, inches, ..)
 - Major: improve accessibility and performance
 - Minor: load fonts locally, this should increase font loading performance
 - Minor: minor code changes

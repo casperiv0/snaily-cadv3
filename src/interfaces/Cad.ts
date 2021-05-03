@@ -16,6 +16,8 @@ export interface Cad {
   max_citizens: string;
   show_aop: Perm;
   registration_code: string;
+  weight_prefix: string;
+  height_prefix: string;
 
   version: {
     version: string;

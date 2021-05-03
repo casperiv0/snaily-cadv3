@@ -75,6 +75,8 @@ export default async function (req: IRequest, res: NextApiResponse) {
           max_citizens,
           show_aop,
           registration_code = null,
+          weight_prefix,
+          height_prefix,
         } = req.body;
 
         if (!cad_name && !aop && !tow_whitelisted && !whitelisted) {
@@ -85,7 +87,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         }
 
         await processQuery(
-          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?, `show_aop` = ?, `registration_code` = ?",
+          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?, `show_aop` = ?, `registration_code` = ?, `weight_prefix` = ?, `height_prefix` = ?",
           [
             cad_name,
             aop,
@@ -99,6 +101,8 @@ export default async function (req: IRequest, res: NextApiResponse) {
             max_citizens,
             show_aop,
             registration_code,
+            weight_prefix,
+            height_prefix,
           ],
         );
 
