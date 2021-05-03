@@ -43,7 +43,7 @@ const TowDashPage = ({ calls, endCall, ...rest }: Props) => {
       <Seo title={lang.tow.tow_dashboard} />
 
       <h3>
-        {lang.tow.tow_dashboard} - AOP: {aop}
+        {lang.tow.tow_dashboard} {props.cadInfo?.show_aop === "1" ? `- AOP: ${aop}` : null}
       </h3>
 
       <ul className="list-group">
