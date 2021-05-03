@@ -121,7 +121,7 @@
         "no_logs": "You don't have any truck logs!",
         "enter_trucker_name": "Enter Trucker Name",
         "enter_co_driver": "Enter Co-Driver Name",
-        "enter_starting_time": "Enter tarting time",
+        "enter_starting_time": "Enter starting time",
         "enter_vehicle_plate": "Enter vehicle plate",
         "create_truck_log": "Create Truck Log",
         "created_truck_log": "Successfully created truck log",
