@@ -11,6 +11,9 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+// this is important. Keep!
+process.env.NEXT_PUBLIC_SECURE_COOKIES = `${config.secureCookie}`;
+
 app
   .prepare()
   .then(() => {

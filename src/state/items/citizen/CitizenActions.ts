@@ -18,10 +18,7 @@ import { MedicalRecord } from "types/MedicalRecord";
 
 export const getUserCitizens = (headers?: any) => async (dispatch: Dispatch<GetUserCitizens>) => {
   try {
-    const res = await handleRequest("/citizen/", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/citizen/", "GET", headers);
 
     dispatch({
       type: "GET_USER_CITIZENS",
@@ -36,10 +33,7 @@ export const getCitizenById = (id: string, headers?: any) => async (
   dispatch: Dispatch<GetCitizenById>,
 ) => {
   try {
-    const res = await handleRequest(`/citizen/${id}`, "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(`/citizen/${id}`, "GET", headers);
 
     dispatch({
       type: "GET_CITIZEN_BY_ID",
@@ -54,10 +48,7 @@ export const getCitizenWeapons = (citizenId: string, headers?: any) => async (
   dispatch: Dispatch<ICitizenWeapons>,
 ) => {
   try {
-    const res = await handleRequest(`/citizen/${citizenId}/weapons`, "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(`/citizen/${citizenId}/weapons`, "GET", headers);
 
     dispatch({
       type: "GET_CITIZEN_WEAPONS",
@@ -88,10 +79,7 @@ export const getCitizenVehicles = (citizenId: string, headers?: any) => async (
   dispatch: Dispatch<ICitizenVehicles>,
 ) => {
   try {
-    const res = await handleRequest(`/citizen/${citizenId}/vehicles`, "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(`/citizen/${citizenId}/vehicles`, "GET", headers);
 
     dispatch({
       type: "GET_CITIZEN_VEHICLES",
@@ -298,10 +286,7 @@ export const getMedicalRecords = (citizenId: string, headers?: any) => async (
   dispatch: Dispatch<IMedicalRecords>,
 ) => {
   try {
-    const res = await handleRequest(`/citizen/${citizenId}/medical-records`, "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(`/citizen/${citizenId}/medical-records`, "GET", headers);
 
     dispatch({
       type: "GET_MEDICAL_RECORDS",
@@ -355,10 +340,7 @@ export const deleteMedicalRecord = (citizenId: string, recordId: string) => asyn
 
 export const getUserCompanies = (headers?: any) => async (dispatch: Dispatch<GetUserCompanies>) => {
   try {
-    const res = await handleRequest("/citizen/companies", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/citizen/companies", "GET", headers);
 
     dispatch({
       type: "GET_USER_COMPANIES",

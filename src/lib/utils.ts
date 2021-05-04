@@ -11,14 +11,10 @@ export type AllowedMethods = "PATCH" | "PUT" | "DELETE" | "OPTIONS" | "GET" | "P
 export function handleRequest(
   path: string,
   method: AllowedMethods = "GET",
-  data:
-    | RequestData
-    | {
-        cookie: string;
-        url: string;
-      } = {},
+  data: RequestData | any = {},
 ) {
-  const url = data?.url ? `http://${data?.url}/` : "/";
+  const protocol = process.env?.NEXT_PUBLIC_SECURE_COOKIES === "true" ? "https://" : "http://";
+  const url = data?.url ? `${protocol}${data?.url}/` : "/";
 
   return axios({
     url: `${url}api${path}`,

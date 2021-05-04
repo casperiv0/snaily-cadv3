@@ -9,10 +9,7 @@ export const getValuesByPath = (path: ValuePaths, headers?: any) => async (
   dispatch: Dispatch<IValues>,
 ) => {
   try {
-    const res = await handleRequest(`/values/${path}`, "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(`/values/${path}`, "GET", headers);
 
     dispatch({
       type: "GET_VALUES",

@@ -44,10 +44,7 @@ export const register = (data: RequestData) => async (dispatch: Dispatch<Authent
 
 export const verifyAuth = (headers?: any) => async (dispatch: Dispatch<VerifyAuth>) => {
   try {
-    const res = await handleRequest("/auth/user", "POST", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/auth/user", "POST", headers);
 
     dispatch({
       type: "VERIFY_AUTH",

@@ -4,10 +4,7 @@ import { CreateTruckLog, GetTruckLogs, DeleteTruckLog } from "./TruckLogTypes";
 
 export const getTruckLogs = (headers?: any) => async (dispatch: Dispatch<GetTruckLogs>) => {
   try {
-    const res = await handleRequest("/truck-logs", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/truck-logs", "GET", headers);
 
     dispatch({
       type: "GET_TRUCK_LOGS",

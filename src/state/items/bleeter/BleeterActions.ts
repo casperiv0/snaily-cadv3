@@ -5,10 +5,7 @@ import lang from "src/language.json";
 
 export const getBleets = (headers?: any) => async (dispatch: Dispatch<IBleeter>) => {
   try {
-    const res = await handleRequest("/bleeter", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/bleeter", "GET", headers);
 
     dispatch({
       type: "GET_BLEETS",
@@ -23,10 +20,7 @@ export const getBleetById = (id: string, headers?: any) => async (
   dispatch: Dispatch<GetBleetById>,
 ) => {
   try {
-    const res = await handleRequest(`/bleeter/${id}`, "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(`/bleeter/${id}`, "GET", headers);
 
     dispatch({
       type: "GET_BLEET_BY_ID",
