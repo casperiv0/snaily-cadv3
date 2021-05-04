@@ -2,6 +2,12 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.11
+
+- Minor: fixed bug where it would show all players on live map
+- Minor: updated issue templates
+- Minor: updated dependencies
+
 ## 2.0.10
 
 - New: set a custom weight & height prefix (cm, kg, pounds, feet, inches, ..)

@@ -578,14 +578,14 @@ class MapClass extends Component<Props, MapState> {
             return marker.payload?.player?.identifier === player.identifier;
           });
 
-          let member: Partial<User> | null | undefined = null;
-          if (!this.state?.showAllPlayers) {
-            member = this.props?.steamIds?.find(
-              (m) => `steam:${m.steam_id}` === player?.identifier,
-            );
+          type Member = Partial<User> | null | undefined;
+          const member: Member = this.props?.steamIds?.find(
+            (m) => `steam:${m.steam_id}` === player?.identifier,
+          );
 
-            if (!member) return;
-            if (member.leo === "0" || member.ems_fd === "0") return;
+          if (!this.state.showAllPlayers && !member) return;
+          if (!this.state.showAllPlayers && (member?.leo === "0" || member?.ems_fd === "0")) {
+            return;
           }
 
           player.ems_fd = member?.ems_fd === "1";
@@ -680,7 +680,9 @@ class MapClass extends Component<Props, MapState> {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prev, newP) {
+    console.log(prev, newP);
+
     if (this.props?.calls) {
       this.handleCalls();
     }
@@ -730,7 +732,7 @@ class MapClass extends Component<Props, MapState> {
             <button
               onClick={() => {
                 if (this.state.showAllPlayers === true) {
-                  //   window.location.reload();
+                  window.location.reload();
                 }
 
                 this.setState({
