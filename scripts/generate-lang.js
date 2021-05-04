@@ -338,6 +338,10 @@ if (file.admin.values["cad-licenses"].none === "There are licenses found") {
   file.admin.values["cad-licenses"].none = "There were no licenses found";
 }
 
+if (file.truck_logs.enter_starting_time === "Enter tarting time") {
+  file.truck_logs.enter_starting_time = "Enter starting time";
+}
+
 if (fileHasChanged === true) {
   console.log("[TRANSLATION]: Some keys were not found in the language file, adding them now...");
 }
