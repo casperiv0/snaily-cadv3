@@ -13,7 +13,12 @@ export function handleRequest(
   method: AllowedMethods = "GET",
   data: RequestData | any = {},
 ) {
-  const protocol = process.env?.NEXT_PUBLIC_SECURE_COOKIES === "true" ? "https://" : "http://";
+  const protocol =
+    data?.url &&
+    typeof process !== "undefined" &&
+    process.env?.NEXT_PUBLIC_SECURE_COOKIES === "true"
+      ? "https://"
+      : "http://";
   const url = data?.url ? `${protocol}${data?.url}/` : "/";
 
   return axios({
