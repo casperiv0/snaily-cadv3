@@ -138,9 +138,10 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         if (deleteImage === true) {
-          fs.unlink(`./public/citizen-images/${citizen.image_id}`, () => {
-            null;
-          });
+          imageId !== "default.svg" &&
+            fs.unlink(`./public/citizen-images/${citizen.image_id}`, () => {
+              null;
+            });
 
           await processQuery("UPDATE `citizens` SET `image_id` = ? WHERE `id` = ?", [
             "default.svg",
@@ -155,9 +156,10 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           ]);
 
           // Delete the old image
-          fs.unlink(`./public/citizen-images/${citizen.image_id}`, () => {
-            null;
-          });
+          imageId !== "default.svg" &&
+            fs.unlink(`./public/citizen-images/${citizen.image_id}`, () => {
+              null;
+            });
 
           // add the new image
           file.mv("./public/citizen-images/" + imageId, (err: string) => {
