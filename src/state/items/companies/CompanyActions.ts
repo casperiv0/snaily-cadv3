@@ -12,10 +12,7 @@ import lang from "src/language.json";
 
 export const getCompanies = (headers?: any) => async (dispatch: Dispatch<GetCompanies>) => {
   try {
-    const res = await handleRequest("/companies", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/companies", "GET", headers);
 
     dispatch({
       type: "GET_COMPANIES",
@@ -81,10 +78,7 @@ export const getCompanyById = (id: string, citizenId: string, headers?: any) => 
   dispatch: Dispatch<GetCompanyById>,
 ) => {
   try {
-    const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "GET", headers);
 
     dispatch({
       type: "GET_COMPANY_BY_ID",

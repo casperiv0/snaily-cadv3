@@ -9,10 +9,7 @@ import lang from "src/language.json";
 
 export const getEmsFdDeputies = (headers?: any) => async (dispatch: Dispatch<IEmsFd>) => {
   try {
-    const res = await handleRequest("/ems-fd", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/ems-fd", "GET", headers);
 
     dispatch({
       type: "GET_DEPUTIES",
@@ -25,10 +22,7 @@ export const getEmsFdDeputies = (headers?: any) => async (dispatch: Dispatch<IEm
 
 export const getActiveEmsFd = (headers?: any) => async (dispatch: Dispatch<GetActiveDeputy>) => {
   try {
-    const res = await handleRequest("/ems-fd/active-deputy", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/ems-fd/active-deputy", "GET", headers);
 
     dispatch({
       type: "GET_ACTIVE_DEPUTY",

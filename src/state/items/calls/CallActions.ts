@@ -61,10 +61,7 @@ export const getCalls = (type: CallTypes, headers?: any) => async (
   dispatch: Dispatch<GetCalls>,
 ) => {
   try {
-    const res = await handleRequest(`/calls/${type}`, "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest(`/calls/${type}`, "GET", headers);
 
     dispatch({
       type: "GET_CALLS",

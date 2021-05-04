@@ -45,10 +45,7 @@ export const getExpungementRequests = (headers?: any) => async (
   dispatch: Dispatch<GetExpungementRequests>,
 ) => {
   try {
-    const res = await handleRequest("/citizen/expungement-request", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/citizen/expungement-request", "GET", headers);
 
     dispatch({
       type: "GET_EXPUNGEMENT_REQUESTS",

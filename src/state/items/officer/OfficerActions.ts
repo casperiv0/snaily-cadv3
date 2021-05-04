@@ -70,10 +70,7 @@ export const plateSearch = (plate: string) => async (dispatch: Dispatch<Search>)
 
 export const getActiveOfficer = (headers?: any) => async (dispatch: Dispatch<IOfficer>) => {
   try {
-    const res = await handleRequest("/officer/active-officer", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/officer/active-officer", "GET", headers);
 
     dispatch({
       type: "GET_ACTIVE_OFFICER",
@@ -119,10 +116,7 @@ export const setStatus = (officer: Pick<Officer, "status" | "status2" | "id">) =
 
 export const getMyOfficers = (headers?: any) => async (dispatch: Dispatch<IOfficers>) => {
   try {
-    const res = await handleRequest("/officer", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/officer", "GET", headers);
 
     dispatch({
       type: "GET_MY_OFFICERS",
@@ -138,10 +132,7 @@ export const getMyOfficers = (headers?: any) => async (dispatch: Dispatch<IOffic
 
 export const getMyOfficerLogs = (headers?: any) => async (dispatch: Dispatch<GetOfficerLogs>) => {
   try {
-    const res = await handleRequest("/officer/logs", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/officer/logs", "GET", headers);
 
     dispatch({
       type: "GET_MY_OFFICER_LOGS",
@@ -265,10 +256,7 @@ export const setCitizenDanger = (type: Perm, citizenId: string) => async (
 
 export const getAllOfficers = (headers?: any) => async (dispatch: Dispatch<GetAllOfficers>) => {
   try {
-    const res = await handleRequest("/officer/all", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/officer/all", "GET", headers);
 
     dispatch({
       type: "GET_ALL_OFFICERS",
@@ -283,10 +271,7 @@ export const getAllOfficers = (headers?: any) => async (dispatch: Dispatch<GetAl
 
 export const getIncidents = (headers?: any) => async (dispatch: Dispatch<IIncidents>) => {
   try {
-    const res = await handleRequest("/officer/incidents", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/officer/incidents", "GET", headers);
 
     dispatch({
       type: "GET_INCIDENTS",

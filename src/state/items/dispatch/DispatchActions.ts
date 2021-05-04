@@ -64,10 +64,7 @@ export const addressSearch = (address: string) => async (dispatch: Dispatch<Addr
 
 export const getActiveUnits = (headers?: any) => async (dispatch: Dispatch<GetActiveUnits>) => {
   try {
-    const res = await handleRequest("/dispatch/units", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/dispatch/units", "GET", headers);
 
     dispatch({
       type: "GET_ACTIVE_UNITS",
@@ -84,10 +81,7 @@ export const getActiveUnits = (headers?: any) => async (dispatch: Dispatch<GetAc
 
 export const getSteamIds = (headers?: any) => async (dispatch: Dispatch<GetSteamIds>) => {
   try {
-    const res = await handleRequest("/dispatch/steam_ids", "GET", {
-      cookie: headers?.cookie,
-      url: headers?.host,
-    });
+    const res = await handleRequest("/dispatch/steam_ids", "GET", headers);
 
     dispatch({
       type: "GET_STEAM_IDS",
