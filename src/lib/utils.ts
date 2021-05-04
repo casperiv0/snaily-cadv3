@@ -14,12 +14,12 @@ export function handleRequest(
   data: RequestData | any = {},
 ) {
   const protocol =
-    data?.url &&
+    data?.host &&
     typeof process !== "undefined" &&
     process.env?.NEXT_PUBLIC_SECURE_COOKIES === "true"
       ? "https://"
       : "http://";
-  const url = data?.url ? `${protocol}${data?.url}/` : "/";
+  const url = data?.host ? `${protocol}${data?.host}/` : "/";
 
   return axios({
     url: `${url}api${path}`,
