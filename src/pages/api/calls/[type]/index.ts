@@ -106,12 +106,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
               ],
             );
 
-            (global as any)?.io?.socket?.emit?.(SocketEvents.New911Call, {
+            global?.io?.sockets?.emit?.(SocketEvents.New911Call, {
               description,
               caller,
               location,
             });
-            (global as any)?.io?.socket?.emit?.(SocketEvents.Update911Calls);
+            global?.io?.sockets?.emit?.(SocketEvents.Update911Calls);
             break;
           }
           case "tow": {
@@ -119,7 +119,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
               "INSERT INTO `tow_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
               [id, description, caller, location],
             );
-            (global as any)?.io?.socket?.emit?.(SocketEvents.UpdateTowCalls);
+            global?.io?.sockets?.emit?.(SocketEvents.UpdateTowCalls);
             break;
           }
           case "taxi": {
@@ -127,7 +127,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
               "INSERT INTO `taxi_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
               [id, description, caller, location],
             );
-            (global as any)?.io?.socket?.emit?.(SocketEvents.UpdateTaxiCalls);
+            global?.io?.sockets?.emit?.(SocketEvents.UpdateTaxiCalls);
             break;
           }
           default: {

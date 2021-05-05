@@ -142,7 +142,7 @@ export async function logoutActiveUnits(userId: string | undefined): Promise<voi
       }),
   );
 
-  (global as any)?.io?.sockets?.emit?.(SocketEvents.UpdateActiveUnits);
+  global?.io?.sockets?.emit?.(SocketEvents.UpdateActiveUnits);
 }
 
 export async function getActiveOfficer(req: IRequest) {

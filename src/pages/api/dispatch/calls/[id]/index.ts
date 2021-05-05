@@ -73,7 +73,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           position = pos;
         }
 
-        (global as any)?.io?.sockets?.emit?.(SocketEvents.UpdateActiveUnits);
+        global?.io?.sockets?.emit?.(SocketEvents.UpdateActiveUnits);
 
         await processQuery(
           "UPDATE `911calls` SET `location` = ?, `description` = ?, `assigned_unit` = ?, `status` = ?, `pos` = ?, `hidden` = ?, `type` = ? WHERE `id` = ?",
