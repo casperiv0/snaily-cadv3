@@ -11,6 +11,14 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+declare global {
+  namespace NodeJS {
+    interface Global {
+      io: SocketServer | undefined;
+    }
+  }
+}
+
 // this is important. Keep!
 process.env.NEXT_PUBLIC_SECURE_COOKIES = `${config.secureCookie}`;
 
@@ -31,6 +39,6 @@ app
     socketServer.use(wrap(cookieParser()));
     socketServer.on("connection", (s) => socketHandler(s, socketServer));
 
-    (global as any).io = socketServer;
+    global.io = socketServer;
   })
   .catch(console.error);

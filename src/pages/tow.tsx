@@ -15,14 +15,16 @@ import lang from "../language.json";
 import { Call } from "types/Call";
 import { NotepadModal } from "@components/modals/NotepadModal";
 import { CallTypes } from "@actions/calls/CallTypes";
+import { Cad } from "types/Cad";
 
 interface Props {
   calls: Call[];
   aop: Nullable<string>;
+  cadInfo: Nullable<Cad>;
   endCall: (type: CallTypes, id: string) => void;
 }
 
-const TowDashPage = ({ calls, endCall, ...rest }: Props) => {
+const TowDashPage = ({ calls, cadInfo, endCall, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
 
   React.useEffect(() => {
@@ -43,7 +45,7 @@ const TowDashPage = ({ calls, endCall, ...rest }: Props) => {
       <Seo title={lang.tow.tow_dashboard} />
 
       <h3>
-        {lang.tow.tow_dashboard} - AOP: {aop}
+        {lang.tow.tow_dashboard} {cadInfo?.show_aop === "1" ? `- AOP: ${aop}` : null}
       </h3>
 
       <ul className="list-group">
@@ -111,6 +113,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 const mapToProps = (state: State) => ({
   calls: state.calls.calls,
   aop: state.global.aop,
+  cadInfo: state.global.cadInfo,
 });
 
 export default connect(mapToProps, { endCall })(TowDashPage);

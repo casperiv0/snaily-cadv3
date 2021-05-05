@@ -48,7 +48,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           [v4(), req.query.id, text, Date.now()],
         );
 
-        (global as any)?.io?.sockets?.emit?.(SocketEvents.Update911Calls);
+        global?.io?.sockets?.emit?.(SocketEvents.Update911Calls);
 
         return res.json({
           status: "success",
