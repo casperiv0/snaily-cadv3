@@ -9,7 +9,7 @@ import { Officer } from "types/Officer";
 import { Select, SelectValue } from "@components/Select/Select";
 import { PenalCode } from "types/PenalCode";
 import { ModalIds } from "types/ModalIds";
-import { getTotalJailTimeAndFineAmount, modal } from "@lib/utils";
+import { getPenalCodesFromSelectValues, getTotalJailTimeAndFineAmount, modal } from "@lib/utils";
 import { ArrestReport } from "types/Record";
 import { Name } from "@actions/officer/OfficerTypes";
 import { Item, Span } from "@components/Item";
@@ -35,13 +35,10 @@ const CreateArrestReportModalC: React.FC<Props> = ({
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const { fineAmount, jailTime } = React.useMemo(() => {
-    const codes = charges.map(
-      (c) => penalCodes.find((v) => v.title === c.value) ?? ({} as PenalCode),
-    );
 
-    return getTotalJailTimeAndFineAmount(codes);
-  }, [charges, penalCodes]);
+  const { fineAmount, jailTime } = getTotalJailTimeAndFineAmount(
+    getPenalCodesFromSelectValues(charges, penalCodes),
+  );
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();

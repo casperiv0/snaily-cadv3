@@ -95,5 +95,12 @@
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": false,
+    "printWidth": 100,
+    "tabWidth": 2
   }
 }

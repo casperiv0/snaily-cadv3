@@ -10,7 +10,7 @@ try {
   file = fs.writeFileSync("./src/language.json");
 }
 
-console.log("[TRANSLATION]: Checking language file...");
+console.info("[TRANSLATION]: Checking language file...");
 
 /**
  *! DO NOT TRANSLATE THESE LINES!
@@ -343,9 +343,9 @@ if (file.truck_logs.enter_starting_time === "Enter tarting time") {
 }
 
 if (fileHasChanged === true) {
-  console.log("[TRANSLATION]: Some keys were not found in the language file, adding them now...");
+  console.info("[TRANSLATION]: Some keys were not found in the language file, adding them now...");
 }
 
 fs.writeFileSync(path.resolve("./src/language.json"), JSON.stringify(file, null, 4));
 
-console.log("[TRANSLATION]: Successfully checked translation file.");
+console.info("[TRANSLATION]: Successfully checked translation file.");

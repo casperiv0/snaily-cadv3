@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.0.12
+
+- New: see fine amount for CreateTicketModal
+- New: see fine amount/jail time in NameSearch
+
 ## 2.0.11
 
 - Minor: fixed bug where it would show all players on live map

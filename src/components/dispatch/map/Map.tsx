@@ -680,9 +680,7 @@ class MapClass extends Component<Props, MapState> {
     });
   }
 
-  componentDidUpdate(prev, newP) {
-    console.log(prev, newP);
-
+  componentDidUpdate() {
     if (this.props?.calls) {
       this.handleCalls();
     }

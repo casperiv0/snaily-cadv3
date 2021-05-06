@@ -9,8 +9,9 @@ import { Officer } from "types/Officer";
 import { PenalCode } from "types/PenalCode";
 import { Select, SelectValue } from "@components/Select/Select";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
+import { getPenalCodesFromSelectValues, getTotalJailTimeAndFineAmount, modal } from "@lib/utils";
 import { Name } from "@actions/officer/OfficerTypes";
+import { Item, Span } from "@components/Item";
 
 interface Props {
   officer: Officer | null;
@@ -28,10 +29,14 @@ interface Props {
 
 const CreateTicketModalC: React.FC<Props> = ({ officer, penalCodes, names, createTicket }) => {
   const [name, setName] = React.useState<SelectValue | null>(null);
-  const [violations, setViolations] = React.useState([]);
+  const [violations, setViolations] = React.useState<SelectValue[]>([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
+  const { fineAmount } = getTotalJailTimeAndFineAmount(
+    getPenalCodesFromSelectValues(violations, penalCodes),
+  );
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -128,6 +133,13 @@ const CreateTicketModalC: React.FC<Props> = ({ officer, penalCodes, names, creat
         </div>
 
         <div className="modal-footer">
+          {fineAmount ? (
+            <Item className="mx-5">
+              <>
+                <Span>{lang.codes.fine_amount2}: </Span> {fineAmount}
+              </>
+            </Item>
+          ) : null}
           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
             {lang.global.cancel}
           </button>

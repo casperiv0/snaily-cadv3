@@ -45,7 +45,7 @@ async function updateLine(sql: string) {
     const saveCodes = ["ER_TABLE_EXISTS_ERROR", "ER_DUP_FIELDNAME", "ER_CANT_DROP_FIELD_OR_KEY"];
     if (saveCodes.includes(e.code)) return;
 
-    console.log(e);
+    console.error(e);
   }
 }
 
