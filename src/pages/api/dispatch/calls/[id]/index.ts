@@ -8,6 +8,7 @@ import { usePermission } from "@hooks/usePermission";
 import { Call } from "types/Call";
 import { mapCalls } from "../../../calls/[type]";
 import { SocketEvents } from "types/Socket";
+import { Cad } from "types/Cad";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -47,6 +48,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         const [call] = await processQuery<Call>("SELECT `pos` FROM `911calls` WHERE `id` = ?", [
           req.query.id,
         ]);
+        const [cadInfo] = await processQuery<Cad>("SELECT `assigned_status` FROM `cad_info`");
 
         let position = {};
 
@@ -61,7 +63,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
           assigned_unit?.forEach(async (unit: { value: string; label: string }) => {
             await processQuery("UPDATE `officers` SET `status2` = ? WHERE `id` = ?", [
-              "10-97",
+              cadInfo?.assigned_status ?? "10-97",
               unit.value,
             ]);
           });

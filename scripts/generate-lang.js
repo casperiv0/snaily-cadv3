@@ -119,6 +119,7 @@ const ProbablyNotInTheTranslateFile = {
     transfer_vehicle_success: "Successfully transferred vehicle",
     remove_image: "Remove image",
     dangerous_subject: "DANGEROUS SUBJECT",
+    create_officer: "Create officer for this citizen",
   },
   officers: {
     ...file.officers,
@@ -203,6 +204,8 @@ const ProbablyNotInTheTranslateFile = {
     cad_licenses: "CAD Licenses",
     weight_prefix: "Weight prefix",
     height_prefix: "Height prefix",
+    assigned_status:
+      "Assigned to call status (when an officer is assigned to a call will set this status.)",
   },
   codes: {
     code: "Code",

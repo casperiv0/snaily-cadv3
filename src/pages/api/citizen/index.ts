@@ -85,6 +85,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         fire_license,
         ccw,
         phone_nr,
+        ...body
       } = req.body;
 
       if (
@@ -108,7 +109,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
               "hair_color",
               "eye_color",
               "address",
-              "heigh",
+              "height",
               "weight",
             ],
             req.body,
@@ -151,6 +152,31 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
       const imageId = file ? `${v4()}${file.name.slice(index)}` : "default.svg";
       const id = v4();
+
+      if (body.create_officer === "true") {
+        if (!body.department || !body.callsign) {
+          return res.status(400).json({
+            status: "error",
+            error: formatRequired(["department", "callsign"], req.body),
+          });
+        }
+
+        await processQuery(
+          "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`,`rank`,`citizen_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            v4(),
+            full_name,
+            body.department,
+            body.callsign,
+            req.userId,
+            "off-duty",
+            "",
+            "officer",
+            id,
+          ],
+        );
+      }
+
       const query =
         "INSERT INTO `citizens` (`id`, `full_name`, `user_id`, `birth`, `gender`, `ethnicity`, `hair_color`, `eye_color`, `address`, `height`, `weight`, `dmv`, `fire_license`, `pilot_license`, `ccw`, `business`, `business_id`, `rank`, `vehicle_reg`, `posts`, `image_id`, `b_status`, `note`, `phone_nr`, `dead`, `dead_on`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 

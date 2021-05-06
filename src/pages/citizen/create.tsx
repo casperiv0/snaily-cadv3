@@ -10,7 +10,7 @@ import { Citizen } from "types/Citizen";
 import { Field } from "types/Field";
 import { createCitizen } from "@actions/citizen/CitizenActions";
 import { getValuesByPath } from "@actions/values/ValuesActions";
-import { Select } from "@components/Select/Select";
+import { Select, SelectValue } from "@components/Select/Select";
 import { ValuePaths } from "types/ValuePaths";
 import { Seo } from "@components/Seo";
 import { GetServerSideProps } from "next";
@@ -18,12 +18,15 @@ import { initializeStore } from "@state/useStore";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { Cad } from "types/Cad";
+import { User } from "types/User";
 
 interface Props {
   genders: Value[];
   ethnicities: Value[];
   cadLicenses: Value[];
+  user: Nullable<User>;
   cadInfo: Nullable<Cad>;
+  departments: Value[];
   getValuesByPath: (path: ValuePaths) => void;
   createCitizen: (data: Partial<Citizen>) => Promise<boolean | string>;
 }
@@ -33,6 +36,8 @@ const CreateCitizenPage = ({
   ethnicities,
   cadLicenses,
   cadInfo,
+  user,
+  departments,
   getValuesByPath,
   createCitizen,
 }: Props) => {
@@ -52,6 +57,9 @@ const CreateCitizenPage = ({
   const [ccw, setCcw] = React.useState<string>("");
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [createOfficer, setCreateOfficer] = React.useState(false);
+  const [officerDept, setOfficerDept] = React.useState<Nullable<SelectValue>>(null);
+  const [callSign, setCallSign] = React.useState<string>("");
   const router = useRouter();
 
   React.useEffect(() => {
@@ -198,6 +206,9 @@ const CreateCitizenPage = ({
       fire_license: firearmsLicense,
       ccw,
       phone_nr: phoneNumber,
+      create_officer: createOfficer,
+      callsign: callSign,
+      department: officerDept?.value,
     });
 
     if (typeof created === "string") {
@@ -254,6 +265,55 @@ const CreateCitizenPage = ({
           );
         })}
 
+        {user?.leo === "1" ? (
+          <>
+            <div className="form-check mb-3">
+              <input
+                checked={createOfficer}
+                onChange={() => setCreateOfficer((v) => !v)}
+                className="form-check-input"
+                type="checkbox"
+                id="create-officer"
+              />
+              <label className="form-check-label" htmlFor="create-officer">
+                {lang.citizen.create_officer}
+              </label>
+            </div>
+
+            {createOfficer ? (
+              <>
+                <div className="mb-3">
+                  <label className="form-label" htmlFor="officerName">
+                    {lang.officers.callsign}
+                  </label>
+                  <input
+                    className="form-control bg-dark border-dark text-light"
+                    type="text"
+                    id="callsign"
+                    value={callSign}
+                    onChange={(e) => setCallSign(e.target.value)}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label" htmlFor="officerDept">
+                    {lang.officers.select_department}
+                  </label>
+
+                  <Select
+                    theme="dark"
+                    isClearable={false}
+                    value={officerDept}
+                    isMulti={false}
+                    onChange={(v) => setOfficerDept(v)}
+                    options={departments.map((dep) => ({ value: dep.name, label: dep.name }))}
+                  />
+                </div>
+              </>
+            ) : null}
+          </>
+        ) : null}
+
         <div className="row">
           {licenseFields.map((field: Field, idx: number) => {
             return (
@@ -296,6 +356,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const store = initializeStore();
   await getCadInfo(req.headers)(store.dispatch);
   await verifyAuth(req.headers)(store.dispatch);
+  await getValuesByPath("departments", req.headers)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };
@@ -305,6 +366,8 @@ const mapToProps = (state: State) => ({
   ethnicities: state.values.ethnicities,
   cadInfo: state.global.cadInfo,
   cadLicenses: state.values["cad-licenses"],
+  user: state.auth.user,
+  departments: state.values.departments,
 });
 
 export default connect(mapToProps, {

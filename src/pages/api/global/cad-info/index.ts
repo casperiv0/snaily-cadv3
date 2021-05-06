@@ -5,7 +5,6 @@ import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { Cad } from "types/Cad";
-import { checkVersion } from "@lib/version.server";
 import pkg from "../../../../../package.json";
 import { User } from "types/User";
 import { formatRequired } from "@lib/utils.server";
@@ -29,7 +28,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [
           req.userId,
         ]);
-        const updatedVersion = await checkVersion(false);
+
         const code =
           user?.rank === "owner" ? cad?.registration_code ?? "" : !!cad?.registration_code;
 
@@ -39,7 +38,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
             registration_code: code,
             seo: seoTags,
             features: parseFeatures(cad!),
-            version: { version: pkg.version, updatedVersion },
+            version: { version: pkg.version, updatedVersion: global.CAD_VERSION },
           },
           status: "success",
         });

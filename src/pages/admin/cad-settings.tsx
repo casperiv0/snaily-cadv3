@@ -39,6 +39,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
   const [loading, setLoading] = React.useState(false);
   const [heightPrefix, setHeightPrefix] = React.useState("");
   const [weightPrefix, setWeightPrefix] = React.useState("");
+  const [assignedStatus, setAssignedStatus] = React.useState("");
 
   React.useEffect(() => {
     if (cadInfo?.id) {
@@ -56,6 +57,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       setRegCode(cadInfo.registration_code);
       setHeightPrefix(cadInfo.height_prefix ?? "");
       setWeightPrefix(cadInfo.weight_prefix ?? "");
+      setAssignedStatus(cadInfo.assigned_status ?? "10-97");
     }
   }, [cadInfo]);
 
@@ -78,6 +80,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       registration_code: registrationCode,
       weight_prefix: weightPrefix,
       height_prefix: heightPrefix,
+      assigned_status: assignedStatus,
     });
 
     setLoading(false);
@@ -333,6 +336,19 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
                 id="height_prefix"
                 value={heightPrefix}
                 onChange={(e) => setHeightPrefix(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="assigned_status">
+                {lang.admin.assigned_status}
+              </label>
+              <input
+                type="text"
+                className="form-control bg-secondary border-dark text-light"
+                id="assigned_status"
+                value={assignedStatus}
+                onChange={(e) => setAssignedStatus(e.target.value)}
               />
             </div>
 
