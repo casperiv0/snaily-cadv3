@@ -206,6 +206,7 @@ const ProbablyNotInTheTranslateFile = {
     height_prefix: "Height prefix",
     assigned_status:
       "Assigned to call status (when an officer is assigned to a call will set this status.)",
+    on_duty_status: "On-duty code (This will be the code to go on-duty. Default: 10-8)",
   },
   codes: {
     code: "Code",

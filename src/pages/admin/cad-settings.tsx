@@ -40,6 +40,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
   const [heightPrefix, setHeightPrefix] = React.useState("");
   const [weightPrefix, setWeightPrefix] = React.useState("");
   const [assignedStatus, setAssignedStatus] = React.useState("");
+  const [onDutyCode, setOnDutyCode] = React.useState("");
 
   React.useEffect(() => {
     if (cadInfo?.id) {
@@ -58,6 +59,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       setHeightPrefix(cadInfo.height_prefix ?? "");
       setWeightPrefix(cadInfo.weight_prefix ?? "");
       setAssignedStatus(cadInfo.assigned_status ?? "10-97");
+      setOnDutyCode(cadInfo.on_duty_status ?? "10-8");
     }
   }, [cadInfo]);
 
@@ -81,6 +83,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       weight_prefix: weightPrefix,
       height_prefix: heightPrefix,
       assigned_status: assignedStatus,
+      on_duty_status: onDutyCode,
     });
 
     setLoading(false);
@@ -349,6 +352,19 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
                 id="assigned_status"
                 value={assignedStatus}
                 onChange={(e) => setAssignedStatus(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="on_duty_status">
+                {lang.admin.on_duty_status}
+              </label>
+              <input
+                type="text"
+                className="form-control bg-secondary border-dark text-light"
+                id="on_duty_status"
+                value={onDutyCode}
+                onChange={(e) => setOnDutyCode(e.target.value)}
               />
             </div>
 

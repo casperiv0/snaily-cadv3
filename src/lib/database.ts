@@ -51,6 +51,9 @@ async function updateLine(sql: string) {
 
 async function updateDb() {
   updateLine(
+    "ALTER TABLE `cad_info` ADD `on_duty_status` varchar(255) DEFAULT '10-8' AFTER `whitelisted`;",
+  );
+  updateLine(
     "ALTER TABLE `cad_info` ADD `assigned_status` varchar(255) DEFAULT '10-97' AFTER `whitelisted`;",
   );
   updateLine(

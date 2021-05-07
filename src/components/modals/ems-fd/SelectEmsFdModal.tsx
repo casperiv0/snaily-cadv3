@@ -1,21 +1,28 @@
 import * as React from "react";
 import { Modal } from "@components/Modal/Modal";
 import lang from "src/language.json";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { connect } from "react-redux";
 import { getEmsFdDeputies, setEmsStatus } from "@actions/ems-fd/EmsFdActions";
 import { Deputy } from "types/Deputy";
 import { Select, SelectValue } from "@components/Select/Select";
 import { modal, notify } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
+import { Cad } from "types/Cad";
 
 interface Props {
   deputies: Deputy[];
+  cadInfo: Nullable<Cad>;
   getEmsFdDeputies: () => void;
   setEmsStatus: (deputy: Pick<Deputy, "status" | "status2" | "id">) => Promise<boolean>;
 }
 
-const SelectEmsFdModalC: React.FC<Props> = ({ deputies, getEmsFdDeputies, setEmsStatus }) => {
+const SelectEmsFdModalC: React.FC<Props> = ({
+  cadInfo,
+  deputies,
+  getEmsFdDeputies,
+  setEmsStatus,
+}) => {
   const [selected, setSelected] = React.useState<SelectValue | null>(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -34,7 +41,7 @@ const SelectEmsFdModalC: React.FC<Props> = ({ deputies, getEmsFdDeputies, setEms
     await setEmsStatus({
       id: selected?.value,
       status: "on-duty",
-      status2: "10-8",
+      status2: cadInfo?.on_duty_status ?? "10-8",
     });
 
     modal(ModalIds.SelectEmsFd)?.hide();
@@ -80,6 +87,7 @@ const SelectEmsFdModalC: React.FC<Props> = ({ deputies, getEmsFdDeputies, setEms
 
 const mapToProps = (state: State) => ({
   deputies: state.ems_fd.deputies,
+  cadInfo: state.global.cadInfo,
 });
 
 export const SelectEmsFdModal = connect(mapToProps, { getEmsFdDeputies, setEmsStatus })(

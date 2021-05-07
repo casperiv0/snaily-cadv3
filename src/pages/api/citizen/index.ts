@@ -70,34 +70,18 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       const index = req.files?.image && file?.name.indexOf(".");
       const [cadInfo] = await processQuery<Cad>("SELECT * FROM `cad_info`");
 
-      const {
-        full_name,
-        gender,
-        ethnicity,
-        birth,
-        hair_color,
-        eye_color,
-        address,
-        height,
-        weight,
-        dmv,
-        pilot_license,
-        fire_license,
-        ccw,
-        phone_nr,
-        ...body
-      } = req.body;
+      const body = req.body;
 
       if (
-        !full_name ||
-        !gender ||
-        !ethnicity ||
-        !birth ||
-        !hair_color ||
-        !eye_color ||
-        !address ||
-        !height ||
-        !weight
+        !body.full_name ||
+        !body.gender ||
+        !body.ethnicity ||
+        !body.birth ||
+        !body.hair_color ||
+        !body.eye_color ||
+        !body.address ||
+        !body.height ||
+        !body.weight
       ) {
         return res.status(400).json({
           error: formatRequired(
@@ -140,7 +124,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
       const [citizen] = await processQuery<Citizen>(
         "SELECT * FROM `citizens` WHERE `full_name` = ?",
-        [full_name],
+        [body.full_name],
       );
 
       if (citizen) {
@@ -165,7 +149,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`,`rank`,`citizen_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             v4(),
-            full_name,
+            body.full_name,
             body.department,
             body.callsign,
             req.userId,
@@ -182,20 +166,20 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
       await processQuery(query, [
         id /* Id */,
-        full_name /* full name */,
+        body.full_name /* full name */,
         req.userId /* user_id */,
-        birth /* birth */,
-        gender /* gender */,
-        ethnicity /* ethnicity */,
-        hair_color /* hair_color */,
-        eye_color /* eye_color */,
-        address /* address */,
-        height /* height */,
-        weight /* weight */,
-        dmv /* dmv */,
-        fire_license /* fire_license */,
-        pilot_license /* pilot_license */,
-        ccw /* ccw */,
+        body.birth /* birth */,
+        body.gender /* gender */,
+        body.ethnicity /* ethnicity */,
+        body.hair_color /* hair_color */,
+        body.eye_color /* eye_color */,
+        body.address /* address */,
+        body.height /* height */,
+        body.weight /* weight */,
+        body.dmv /* dmv */,
+        body.fire_license /* fire_license */,
+        body.pilot_license /* pilot_license */,
+        body.ccw /* ccw */,
         "none" /* business */,
         "" /* business_id */,
         "none" /* rank */,
@@ -204,7 +188,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         imageId /* image_id */,
         "" /* b_status */,
         "" /* note */,
-        phone_nr || "" /* phone_nr */,
+        body.phone_nr || "" /* phone_nr */,
         "0",
         "",
       ]);

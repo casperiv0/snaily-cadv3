@@ -8,6 +8,7 @@
 - New: see fine amount/jail time in NameSearch
 - New: directly create an officer linked to citizen via CreateCitizen
 - New: set a custom `assigned-to-call` status (default: `10-97`)
+- New: set a custom `on-duty-code` status. (default: `10-8`)
 
 ## 2.0.11
 
