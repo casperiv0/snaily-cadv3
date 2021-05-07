@@ -10,6 +10,7 @@ import { Citizen } from "types/Citizen";
 import { v4 } from "uuid";
 import { logger } from "@lib/logger";
 import { Officer } from "types/Officer";
+import { Perm } from "types/Perm";
 
 export async function parseCitizens(citizens: (Citizen | undefined)[]) {
   const arr: Citizen[] = [];
@@ -134,10 +135,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
 
+      const [user] = await processQuery<{ leo: Perm }>("SELECT `leo` FROM `users` WHERE `id` = ?", [
+        req.userId,
+      ]);
       const imageId = file ? `${v4()}${file.name.slice(index)}` : "default.svg";
       const id = v4();
 
-      if (body.create_officer === "true") {
+      if (body.create_officer === "true" && user?.leo === "1") {
         if (!body.department || !body.callsign) {
           return res.status(400).json({
             status: "error",
