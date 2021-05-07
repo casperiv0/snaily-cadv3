@@ -29,7 +29,7 @@ const CreateWrittenWarningModalC: React.FC<Props> = ({
   names,
   createWrittenWarning,
 }) => {
-  const [name, setName] = React.useState<SelectValue | null>(null);
+  const [name, setName] = React.useState<Nullable<SelectValue>>(null);
   const [infractions, setInfractions] = React.useState([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");

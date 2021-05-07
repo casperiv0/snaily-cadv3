@@ -8,10 +8,11 @@ import { ModalIds } from "types/ModalIds";
 import { modal, notify } from "@lib/utils";
 import { useModalOpen } from "@hooks/useModalOpen";
 import lang from "src/language.json";
+import { Nullable } from "types/State";
 
 interface Props {
   updatePenalCode: (id: string, data: Partial<PenalCode>) => Promise<boolean>;
-  code: PenalCode | null;
+  code: Nullable<PenalCode>;
 }
 
 const EditPenalCodeC: React.FC<Props> = ({ updatePenalCode, code }) => {

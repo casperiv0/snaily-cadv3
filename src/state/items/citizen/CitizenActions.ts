@@ -211,6 +211,9 @@ export const createCitizen = (data: Partial<Citizen>) => async (
     fd.append("fire_license", data.fire_license!);
     fd.append("ccw", data.ccw!);
     fd.append("phone_nr", data.phone_nr!);
+    fd.append("create_officer", `${data.create_officer}`);
+    fd.append("department", `${data.department}`);
+    fd.append("callsign", `${data.callsign}`);
 
     const res = await handleRequest("/citizen", "POST", (fd as unknown) as RequestData);
 

@@ -42,11 +42,11 @@ export default async function (req: IRequest, res: NextApiResponse) {
       }
     }
     case "PUT": {
-      const { rank, leo, dispatch, emsFd, tow, supervisor, steam_id, edit_passwords } = req.body;
+      const body = req.body;
 
-      if (!rank || !leo || !dispatch || !emsFd || !supervisor) {
+      if (!body.rank || !body.leo || !body.dispatch || !body.emsFd || !body.supervisor) {
         return res.status(400).json({
-          error: formatRequired(["rank", "leo", "dispatch", "emsFd", "supervisor"], req.query),
+          error: formatRequired(["rank", "leo", "dispatch", "emsFd", "supervisor"], req.body),
           status: "error",
         });
       }
@@ -63,12 +63,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
         });
       }
 
-      if (previous.rank === "owner" && rank?.toLowerCase() !== "owner") {
+      if (previous.rank === "owner" && body.rank?.toLowerCase() !== "owner") {
         return res.status(400).json({
           error: "Cannot change the owner's rank",
           status: "error",
         });
-      } else if (previous.rank !== "owner" && rank?.toLowerCase() === "owner") {
+      } else if (previous.rank !== "owner" && body.rank?.toLowerCase() === "owner") {
         return res.status(400).json({
           error: "Rank cannot be set to `owner`",
           status: "error",
@@ -78,14 +78,14 @@ export default async function (req: IRequest, res: NextApiResponse) {
       await processQuery(
         "UPDATE `users` SET `rank` = ?, `leo` = ?, `dispatch` = ?, `ems_fd` = ?, `tow` = ?, `supervisor` = ?, `steam_id` = ?, `edit_passwords` = ? WHERE `id` = ?",
         [
-          rank,
-          leo ?? previous,
-          dispatch,
-          emsFd,
-          tow,
-          supervisor,
-          steam_id ?? previous[0].steam_id,
-          ["admin", "owner"].includes(rank) ? edit_passwords : "0",
+          body.rank,
+          body.leo ?? previous,
+          body.dispatch,
+          body.emsFd,
+          body.tow,
+          body.supervisor,
+          body.steam_id ?? previous[0].steam_id,
+          ["admin", "owner"].includes(body.rank) ? body.edit_passwords : "0",
           req.query.id,
         ],
       );

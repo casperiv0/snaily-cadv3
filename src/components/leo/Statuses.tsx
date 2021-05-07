@@ -10,10 +10,12 @@ import { filterCodes } from "@lib/utils";
 import { socket } from "@hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 import { ModalIds } from "types/ModalIds";
+import { Cad } from "types/Cad";
 
 interface Props {
   statuses: Code10[];
   activeOfficer: Nullable<Officer>;
+  cadInfo: Nullable<Cad>;
   getActiveOfficer: (headers?: any) => void;
   setStatus: (officer: Pick<Officer, "id" | "status" | "status2">) => void;
   get10Codes: () => void;
@@ -22,6 +24,7 @@ interface Props {
 const StatusesC: React.FC<Props> = ({
   statuses,
   activeOfficer,
+  cadInfo,
   getActiveOfficer,
   setStatus,
   get10Codes,
@@ -66,15 +69,15 @@ const StatusesC: React.FC<Props> = ({
       {activeOfficer ? (
         <button
           className={
-            activeOfficer?.status2 === "10-8"
+            activeOfficer?.status2 === (cadInfo?.on_duty_status ?? "10-8")
               ? "btn btn-primary col-sm-1"
               : "btn btn-secondary col-sm-1"
           }
           type="button"
           onClick={updateStatus}
-          value="10-8"
+          value={cadInfo?.on_duty_status ?? "10-8"}
         >
-          10-8
+          {cadInfo?.on_duty_status ?? "10-8"}
         </button>
       ) : (
         <button
@@ -83,7 +86,7 @@ const StatusesC: React.FC<Props> = ({
           data-bs-target={`#${ModalIds.SelectOfficer}`}
           className="btn btn-secondary col-sm-1"
         >
-          10-8
+          {cadInfo?.on_duty_status ?? "10-8"}
         </button>
       )}
 
@@ -132,6 +135,7 @@ const StatusesC: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   statuses: state.admin.codes,
   activeOfficer: state.officers.activeOfficer,
+  cadInfo: state.global.cadInfo,
 });
 
 const Memoized = React.memo(StatusesC);

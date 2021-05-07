@@ -10,7 +10,7 @@ try {
   file = fs.writeFileSync("./src/language.json");
 }
 
-console.log("[TRANSLATION]: Checking language file...");
+console.info("[TRANSLATION]: Checking language file...");
 
 /**
  *! DO NOT TRANSLATE THESE LINES!
@@ -119,6 +119,7 @@ const ProbablyNotInTheTranslateFile = {
     transfer_vehicle_success: "Successfully transferred vehicle",
     remove_image: "Remove image",
     dangerous_subject: "DANGEROUS SUBJECT",
+    create_officer: "Create officer for this citizen",
   },
   officers: {
     ...file.officers,
@@ -203,6 +204,9 @@ const ProbablyNotInTheTranslateFile = {
     cad_licenses: "CAD Licenses",
     weight_prefix: "Weight prefix",
     height_prefix: "Height prefix",
+    assigned_status:
+      "Assigned to call status (when an officer is assigned to a call will set this status.)",
+    on_duty_status: "On-duty code (This will be the code to go on-duty. Default: 10-8)",
   },
   codes: {
     code: "Code",
@@ -343,9 +347,9 @@ if (file.truck_logs.enter_starting_time === "Enter tarting time") {
 }
 
 if (fileHasChanged === true) {
-  console.log("[TRANSLATION]: Some keys were not found in the language file, adding them now...");
+  console.info("[TRANSLATION]: Some keys were not found in the language file, adding them now...");
 }
 
 fs.writeFileSync(path.resolve("./src/language.json"), JSON.stringify(file, null, 4));
 
-console.log("[TRANSLATION]: Successfully checked translation file.");
+console.info("[TRANSLATION]: Successfully checked translation file.");

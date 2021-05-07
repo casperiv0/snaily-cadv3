@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import format from "date-fns/format";
 import { AdminLayout } from "@components/admin/AdminLayout";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { getUnitById, updateUnitById, get10Codes } from "@actions/admin/AdminActions";
 import { getValuesByPath } from "@actions/values/ValuesActions";
 import { Officer, OfficerLog } from "types/Officer";
@@ -43,7 +43,7 @@ const ManageOfficerPage: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const id = `${router.query.id}`;
-  const [department, setDepartment] = React.useState<SelectValue | null>(null);
+  const [department, setDepartment] = React.useState<Nullable<SelectValue>>(null);
   const [callSign, setCallSign] = React.useState<string>("");
   const [rank, setRank] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>(unit?.status ?? "");

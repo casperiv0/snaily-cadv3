@@ -9,16 +9,24 @@ import { SocketEvents } from "types/Socket";
 import { filterCodes } from "@lib/utils";
 import { socket } from "@hooks/useSocket";
 import { ModalIds } from "types/ModalIds";
+import { Cad } from "types/Cad";
 
 interface Props {
   activeDeputy: Nullable<Deputy>;
   statuses: Code10[];
+  cadInfo: Nullable<Cad>;
 
   setEmsStatus: (deputy: Pick<Deputy, "id" | "status" | "status2">) => void;
   getActiveEmsFd: () => void;
 }
 
-const StatusesC: React.FC<Props> = ({ activeDeputy, setEmsStatus, getActiveEmsFd, statuses }) => {
+const StatusesC: React.FC<Props> = ({
+  activeDeputy,
+  cadInfo,
+  statuses,
+  setEmsStatus,
+  getActiveEmsFd,
+}) => {
   const isDisabled = React.useMemo(() => {
     if (!activeDeputy?.id) return true;
     if (activeDeputy.status === "off-duty") return true;
@@ -55,15 +63,15 @@ const StatusesC: React.FC<Props> = ({ activeDeputy, setEmsStatus, getActiveEmsFd
       {activeDeputy ? (
         <button
           className={
-            activeDeputy?.status2 === "10-8"
+            activeDeputy?.status2 === (cadInfo?.on_duty_status ?? "10-8")
               ? "btn btn-primary col-sm-1"
               : "btn btn-secondary col-sm-1"
           }
           type="button"
           onClick={updateStatus}
-          value="10-8"
+          value={cadInfo?.on_duty_status ?? "10-8"}
         >
-          10-8
+          {cadInfo?.on_duty_status ?? "10-8"}
         </button>
       ) : (
         <button
@@ -72,7 +80,7 @@ const StatusesC: React.FC<Props> = ({ activeDeputy, setEmsStatus, getActiveEmsFd
           data-bs-target={`#${ModalIds.SelectEmsFd}`}
           className="btn btn-secondary col-sm-1"
         >
-          10-8
+          {cadInfo?.on_duty_status ?? "10-8"}
         </button>
       )}
       {statuses.length <= 0 ? (
@@ -120,6 +128,7 @@ const StatusesC: React.FC<Props> = ({ activeDeputy, setEmsStatus, getActiveEmsFd
 const mapToProps = (state: State) => ({
   statuses: state.admin.codes,
   activeDeputy: state.ems_fd.activeDeputy,
+  cadInfo: state.global.cadInfo,
 });
 
 const Memoized = React.memo(StatusesC);

@@ -6,6 +6,7 @@ import { createBolo } from "@actions/bolos/BoloActions";
 import { Select, SelectValue } from "@components/Select/Select";
 import { modal, RequestData } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
+import { Nullable } from "types/State";
 
 interface Props {
   createBolo: (data: RequestData) => Promise<boolean>;
@@ -13,7 +14,7 @@ interface Props {
 
 const CreateBoloModalC: React.FC<Props> = ({ createBolo }) => {
   const [loading, setLoading] = React.useState(false);
-  const [type, setType] = React.useState<SelectValue | null>({
+  const [type, setType] = React.useState<Nullable<SelectValue>>({
     label: lang.global.person,
     value: "person",
   });

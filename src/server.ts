@@ -6,6 +6,7 @@ import config from "./lib/config.server";
 import { socketHandler, wrap } from "./lib/socket.server";
 import { logger } from "./lib/logger";
 import express from "express";
+import { checkVersion } from "./lib/version.server";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -14,6 +15,7 @@ const handle = app.getRequestHandler();
 declare global {
   namespace NodeJS {
     interface Global {
+      CAD_VERSION: string;
       io: SocketServer | undefined;
     }
   }
@@ -24,7 +26,7 @@ process.env.NEXT_PUBLIC_SECURE_COOKIES = `${config.secureCookie}`;
 
 app
   .prepare()
-  .then(() => {
+  .then(async () => {
     const httpServer = express();
 
     httpServer.use("/static", express.static("public"));
@@ -38,6 +40,12 @@ app
 
     socketServer.use(wrap(cookieParser()));
     socketServer.on("connection", (s) => socketHandler(s, socketServer));
+    // eslint-disable-next-line promise/no-nesting
+    const version = await checkVersion(true).catch(() => null);
+
+    if (version) {
+      global.CAD_VERSION = version;
+    }
 
     global.io = socketServer;
   })

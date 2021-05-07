@@ -45,11 +45,17 @@ async function updateLine(sql: string) {
     const saveCodes = ["ER_TABLE_EXISTS_ERROR", "ER_DUP_FIELDNAME", "ER_CANT_DROP_FIELD_OR_KEY"];
     if (saveCodes.includes(e.code)) return;
 
-    console.log(e);
+    console.error(e);
   }
 }
 
 async function updateDb() {
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `on_duty_status` varchar(255) DEFAULT '10-8' AFTER `whitelisted`;",
+  );
+  updateLine(
+    "ALTER TABLE `cad_info` ADD `assigned_status` varchar(255) DEFAULT '10-97' AFTER `whitelisted`;",
+  );
   updateLine(
     "ALTER TABLE `cad_info` ADD `height_prefix` varchar(255) DEFAULT 'cm' AFTER `whitelisted`;",
   );

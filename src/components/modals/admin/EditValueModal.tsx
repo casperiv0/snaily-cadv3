@@ -9,9 +9,10 @@ import { ModalIds } from "types/ModalIds";
 import { modal } from "@lib/utils";
 import { useModalOpen } from "@hooks/useModalOpen";
 import lang from "src/language.json";
+import { Nullable } from "types/State";
 
 interface Props {
-  value: Value | null;
+  value: Nullable<Value>;
   path: string;
   updateValueById: (path: string, id: string, data: Partial<Value>) => Promise<boolean>;
 }

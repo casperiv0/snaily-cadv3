@@ -5,7 +5,6 @@ import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { Cad } from "types/Cad";
-import { checkVersion } from "@lib/version.server";
 import pkg from "../../../../../package.json";
 import { User } from "types/User";
 import { formatRequired } from "@lib/utils.server";
@@ -29,7 +28,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [
           req.userId,
         ]);
-        const updatedVersion = await checkVersion(false);
+
         const code =
           user?.rank === "owner" ? cad?.registration_code ?? "" : !!cad?.registration_code;
 
@@ -39,7 +38,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
             registration_code: code,
             seo: seoTags,
             features: parseFeatures(cad!),
-            version: { version: pkg.version, updatedVersion },
+            version: { version: pkg.version, updatedVersion: global.CAD_VERSION },
           },
           status: "success",
         });
@@ -62,24 +61,9 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const {
-          cad_name,
-          aop,
-          tow_whitelisted,
-          whitelisted,
-          webhook_url,
-          plate_length = 8,
-          live_map_url,
-          steam_api_key,
-          features,
-          max_citizens,
-          show_aop,
-          registration_code = null,
-          weight_prefix,
-          height_prefix,
-        } = req.body;
+        const body = req.body;
 
-        if (!cad_name && !aop && !tow_whitelisted && !whitelisted) {
+        if (!body.cad_name && !body.aop && !body.tow_whitelisted && !body.whitelisted) {
           return res.json({
             error: formatRequired(["cad_name", "aop", "tow_whitelisted", "whitelisted"], req.body),
             status: "error",
@@ -87,22 +71,24 @@ export default async function (req: IRequest, res: NextApiResponse) {
         }
 
         await processQuery(
-          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?, `show_aop` = ?, `registration_code` = ?, `weight_prefix` = ?, `height_prefix` = ?",
+          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?, `show_aop` = ?, `registration_code` = ?, `weight_prefix` = ?, `height_prefix` = ?, `assigned_status` = ?, `on_duty_status` = ?",
           [
-            cad_name,
-            aop,
-            tow_whitelisted,
-            whitelisted,
-            webhook_url,
-            plate_length,
-            live_map_url,
-            steam_api_key,
-            JSON.stringify(features) || JSON.stringify("[]"),
-            max_citizens,
-            show_aop,
-            registration_code,
-            weight_prefix,
-            height_prefix,
+            body.cad_name,
+            body.aop,
+            body.tow_whitelisted,
+            body.whitelisted,
+            body.webhook_url,
+            body.plate_length,
+            body.live_map_url,
+            body.steam_api_key,
+            JSON.stringify(body.features) || JSON.stringify("[]"),
+            body.max_citizens,
+            body.show_aop,
+            body.registration_code,
+            body.weight_prefix,
+            body.height_prefix,
+            body.assigned_status,
+            body.on_duty_status,
           ],
         );
 

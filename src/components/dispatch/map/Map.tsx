@@ -71,7 +71,7 @@ interface MapState {
   PopupStore: IPopup[];
   blips: Blip[][];
   PlayerMarkers: L.Layer;
-  map: L.Map | null;
+  map: Nullable<L.Map>;
   ran: boolean;
   blipsShown: boolean;
   showAllPlayers: boolean;
@@ -79,8 +79,8 @@ interface MapState {
 }
 
 class MapClass extends Component<Props, MapState> {
-  CADSocket: Socket | null;
-  MAPSocket: WebSocket | null;
+  CADSocket: Nullable<Socket>;
+  MAPSocket: Nullable<WebSocket>;
 
   constructor(props: Props) {
     super(props);
@@ -680,9 +680,7 @@ class MapClass extends Component<Props, MapState> {
     });
   }
 
-  componentDidUpdate(prev, newP) {
-    console.log(prev, newP);
-
+  componentDidUpdate() {
     if (this.props?.calls) {
       this.handleCalls();
     }

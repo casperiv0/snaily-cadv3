@@ -2,6 +2,10 @@ import { Perm } from "./Perm";
 
 export interface Citizen {
   image: any;
+  create_officer?: boolean;
+  callsign?: string;
+  department?: string;
+
   id: string;
   user_id: string;
   full_name: string;

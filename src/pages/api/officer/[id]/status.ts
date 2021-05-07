@@ -72,7 +72,6 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         );
 
         const [cadInfo] = await processQuery<Cad>("SELECT * FROM `cad_info`");
-        const webhook = cadInfo?.webhook_url && (await getWebhookData(cadInfo?.webhook_url));
 
         const [code] = await processQuery<Code10>("SELECT * FROM `10_codes` WHERE `code` = ?", [
           status2,
@@ -123,30 +122,9 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           useCookie(res, updatedOfficer?.id ?? "", "active-officer");
         }
 
-        webhook &&
-          postWebhook(webhook, {
-            username: webhook.name,
-            avatar_url: webhook.avatar,
-            embeds: [
-              {
-                title: "Status Change",
-                type: "rich",
-                description: `Officer **${updatedOfficer?.callsign} ${updatedOfficer?.officer_name}** of the ${updatedOfficer?.officer_dept} department has changed their status to ${status2}`,
-                fields: [
-                  {
-                    name: "ON/OFF duty",
-                    value: updatedOfficer?.status ?? "",
-                    inline: true,
-                  },
-                  {
-                    name: "Status",
-                    value: updatedOfficer?.status2 ?? "",
-                    inline: true,
-                  },
-                ],
-              },
-            ],
-          });
+        if (cadInfo?.webhook_url) {
+          sendWebhook(cadInfo.webhook_url!, status2, updatedOfficer);
+        }
 
         return res.json({ status: "success", officer: updatedOfficer });
       } catch (e) {
@@ -162,4 +140,33 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       });
     }
   }
+}
+
+async function sendWebhook(url: string, status2: string, officer: Officer | undefined) {
+  const webhook = url && (await getWebhookData(url));
+  if (!webhook) return;
+
+  postWebhook(webhook, {
+    username: webhook.name,
+    avatar_url: webhook.avatar,
+    embeds: [
+      {
+        title: "Status Change",
+        type: "rich",
+        description: `Officer **${officer?.callsign} ${officer?.officer_name}** of the ${officer?.officer_dept} department has changed their status to ${status2}`,
+        fields: [
+          {
+            name: "ON/OFF duty",
+            value: officer?.status ?? "",
+            inline: true,
+          },
+          {
+            name: "Status",
+            value: officer?.status2 ?? "",
+            inline: true,
+          },
+        ],
+      },
+    ],
+  });
 }

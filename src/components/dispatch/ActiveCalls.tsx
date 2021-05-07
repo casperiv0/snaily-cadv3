@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Call } from "types/Call";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import lang from "../../language.json";
 import Update911Call from "../modals/dispatch/Update911Call";
 import { getCalls } from "@actions/calls/CallActions";
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const ActiveCallsC: React.FC<Props> = ({ calls, getCalls }) => {
-  const [tempCall, setTempCall] = React.useState<Call | null>(null);
+  const [tempCall, setTempCall] = React.useState<Nullable<Call>>(null);
 
   React.useEffect(() => {
     getCalls("911");

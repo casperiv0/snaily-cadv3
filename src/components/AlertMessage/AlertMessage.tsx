@@ -1,9 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Message } from "types/Message";
+import { Nullable } from "types/State";
 
 interface Props {
-  message: Message | null;
+  message: Nullable<Message>;
   dismissible?: boolean;
 }
 

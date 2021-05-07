@@ -14,7 +14,7 @@ interface Props {
 
 const CreateWarrantC: React.FC<Props> = ({ createWarrant, activeOfficer }) => {
   const [name, setName] = React.useState<string>("");
-  const [status, setStatus] = React.useState<SelectValue | null>({
+  const [status, setStatus] = React.useState<Nullable<SelectValue>>({
     label: lang.record.active,
     value: "active",
   });

@@ -18,6 +18,8 @@ export interface Cad {
   registration_code: string;
   weight_prefix: string;
   height_prefix: string;
+  assigned_status: string;
+  on_duty_status: string;
 
   version: {
     version: string;

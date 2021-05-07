@@ -3,20 +3,22 @@ import { connect } from "react-redux";
 import { Modal } from "@components/Modal/Modal";
 import lang from "../../../language.json";
 import { Officer } from "types/Officer";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { getMyOfficers, setStatus } from "@actions/officer/OfficerActions";
 import { Select, SelectValue } from "@components/Select/Select";
 import { modal, notify } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
+import { Cad } from "types/Cad";
 
 interface Props {
   officers: Officer[];
+  cadInfo: Nullable<Cad>;
   getMyOfficers: () => void;
   setStatus: (officer: Pick<Officer, "status" | "status2" | "id">) => void;
 }
 
-const SelectOfficerModalC: React.FC<Props> = ({ officers, getMyOfficers, setStatus }) => {
-  const [selected, setSelected] = React.useState<SelectValue | null>(null);
+const SelectOfficerModalC: React.FC<Props> = ({ cadInfo, officers, getMyOfficers, setStatus }) => {
+  const [selected, setSelected] = React.useState<Nullable<SelectValue>>(null);
 
   React.useEffect(() => {
     getMyOfficers();
@@ -35,7 +37,7 @@ const SelectOfficerModalC: React.FC<Props> = ({ officers, getMyOfficers, setStat
     setStatus({
       id: selected?.value,
       status: "on-duty",
-      status2: "10-8",
+      status2: cadInfo?.on_duty_status ?? "10-8",
     });
 
     closeModal();
@@ -80,6 +82,7 @@ const SelectOfficerModalC: React.FC<Props> = ({ officers, getMyOfficers, setStat
 
 const mapToProps = (state: State) => ({
   officers: state.officers.officers,
+  cadInfo: state.global.cadInfo,
 });
 
 export const SelectOfficerModal = connect(mapToProps, { getMyOfficers, setStatus })(

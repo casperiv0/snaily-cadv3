@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { Modal } from "@components/Modal/Modal";
 import lang from "../../../language.json";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import { Citizen } from "types/Citizen";
 import { Weapon } from "types/Weapon";
@@ -23,6 +23,8 @@ import { ModalIds } from "types/ModalIds";
 import { Item, Span } from "@components/Item";
 import { Name } from "@actions/officer/OfficerTypes";
 import { Perm } from "types/Perm";
+import { PenalCode } from "types/PenalCode";
+import { getPenalCodesFromSelectValues, getTotalJailTimeAndFineAmount } from "@lib/utils";
 
 interface NameSearch {
   type: "name";
@@ -38,6 +40,7 @@ interface NameSearch {
 interface Props {
   search: NameSearch;
   names: Name[];
+  penalCodes: PenalCode[];
   nameSearch: (name: string) => Promise<boolean>;
   saveNote: (citizenId: string, note: string) => void;
   searchNames: () => void;
@@ -49,6 +52,7 @@ interface Props {
 const NameSearchModalC: React.FC<Props> = ({
   search,
   names,
+  penalCodes,
   nameSearch,
   saveNote,
   searchNames,
@@ -56,7 +60,7 @@ const NameSearchModalC: React.FC<Props> = ({
   deleteRecordById,
   setCitizenDanger,
 }) => {
-  const [name, setName] = React.useState<SelectValue | null>(null);
+  const [name, setName] = React.useState<Nullable<SelectValue>>(null);
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const [loading, setLoading] = React.useState(false);
 
@@ -227,7 +231,6 @@ const NameSearchModalC: React.FC<Props> = ({
                       >
                         {lang.officers.manage_mugshots}
                       </button>
-                      {console.log(search.citizen.is_dangerous)}
                       <button
                         onClick={handleDangerous}
                         type="button"
@@ -462,6 +465,13 @@ const NameSearchModalC: React.FC<Props> = ({
                         </li>
                       ) : (
                         search.tickets.map((ticket: Ticket, idx: number) => {
+                          const { fineAmount } = getTotalJailTimeAndFineAmount(
+                            getPenalCodesFromSelectValues(
+                              ticket.violations.split(", "),
+                              penalCodes,
+                            ),
+                          );
+
                           return (
                             <li
                               className="list-group-item border-dark text-dark position-relative"
@@ -493,6 +503,11 @@ const NameSearchModalC: React.FC<Props> = ({
                                 {ticket.notes}
                               </Item>
 
+                              <Item id="amount">
+                                <Span>{lang.codes.fine_amount2}: </Span>
+                                {fineAmount}
+                              </Item>
+
                               <button
                                 type="button"
                                 onClick={deleteRecord(ticket.id, "ticket", ticket.citizen_id)}
@@ -521,6 +536,10 @@ const NameSearchModalC: React.FC<Props> = ({
                         </li>
                       ) : (
                         search.arrestReports.map((report: ArrestReport, idx: number) => {
+                          const { fineAmount, jailTime } = getTotalJailTimeAndFineAmount(
+                            getPenalCodesFromSelectValues(report.charges.split(", "), penalCodes),
+                          );
+
                           return (
                             <li
                               className="list-group-item border-dark text-dark position-relative"
@@ -550,6 +569,16 @@ const NameSearchModalC: React.FC<Props> = ({
                               <Item id="notes">
                                 <Span>{lang.global.notes}: </Span>
                                 {report.notes}
+                              </Item>
+
+                              <Item id="amount">
+                                <Span>{lang.codes.fine_amount2}: </Span>
+                                {fineAmount}
+                              </Item>
+
+                              <Item id="jailTime">
+                                <Span>{lang.codes.jail_time2}: </Span>
+                                {jailTime} {lang.codes.seconds}
                               </Item>
 
                               <button
@@ -760,6 +789,7 @@ const NameSearchModalC: React.FC<Props> = ({
 const mapToProps = (state: State) => ({
   search: state.officers.search,
   names: state.officers.names,
+  penalCodes: state.admin.penalCodes,
 });
 
 export const NameSearchModal = connect(mapToProps, {

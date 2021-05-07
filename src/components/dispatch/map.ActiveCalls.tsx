@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Call } from "types/Call";
 import Update911Call from "../modals/dispatch/Update911Call";
 import { endCall, getCalls } from "@actions/calls/CallActions";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { socket } from "@hooks/useSocket";
 import { playSound } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
@@ -18,7 +18,7 @@ interface CallItemProps {
   endCall: (type: CallTypes, id: string) => void;
   setMarker: (call: Call, type: "remove" | "place") => void;
   hasMarker: (id: string) => boolean;
-  setTempCall: React.Dispatch<React.SetStateAction<Call | null>>;
+  setTempCall: React.Dispatch<React.SetStateAction<Nullable<Call>>>;
 }
 
 const CallItem: React.FC<CallItemProps> = ({
@@ -123,7 +123,7 @@ interface Props {
 }
 
 const Active911MapCalls: React.FC<Props> = ({ calls, getCalls, endCall, setMarker, hasMarker }) => {
-  const [tempCall, setTempCall] = React.useState<Call | null>(null);
+  const [tempCall, setTempCall] = React.useState<Nullable<Call>>(null);
 
   React.useEffect(() => {
     const sound = playSound("/sounds/new-call.mp3");

@@ -11,8 +11,7 @@ import { IError } from "src/interfaces/IError";
 
 async function useAuth(req: IRequest): Promise<IError> {
   const token =
-    req.cookies["snaily-cad-session"] ||
-    parse(`${req.headers.session}` ?? "")?.["snaily-cad-session"];
+    req.cookies["snaily-cad-session"] || parse(`${req.headers.session}`)?.["snaily-cad-session"];
 
   const secret = config.jwtSecret;
 

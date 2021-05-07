@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import lang from "../../../language.json";
 import { Field } from "types/Field";
 import { Modal } from "@components/Modal/Modal";
@@ -9,13 +9,13 @@ import { Officer } from "types/Officer";
 import { Select, SelectValue } from "@components/Select/Select";
 import { PenalCode } from "types/PenalCode";
 import { ModalIds } from "types/ModalIds";
-import { getTotalJailTimeAndFineAmount, modal } from "@lib/utils";
+import { getPenalCodesFromSelectValues, getTotalJailTimeAndFineAmount, modal } from "@lib/utils";
 import { ArrestReport } from "types/Record";
 import { Name } from "@actions/officer/OfficerTypes";
 import { Item, Span } from "@components/Item";
 
 interface Props {
-  officer: Officer | null;
+  officer: Nullable<Officer>;
   penalCodes: PenalCode[];
   names: Name[];
 
@@ -30,18 +30,15 @@ const CreateArrestReportModalC: React.FC<Props> = ({
   names,
   creatArrestReport,
 }) => {
-  const [name, setName] = React.useState<SelectValue | null>(null);
+  const [name, setName] = React.useState<Nullable<SelectValue>>(null);
   const [charges, setCharges] = React.useState<SelectValue[]>([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const { fineAmount, jailTime } = React.useMemo(() => {
-    const codes = charges.map(
-      (c) => penalCodes.find((v) => v.title === c.value) ?? ({} as PenalCode),
-    );
 
-    return getTotalJailTimeAndFineAmount(codes);
-  }, [charges, penalCodes]);
+  const { fineAmount, jailTime } = getTotalJailTimeAndFineAmount(
+    getPenalCodesFromSelectValues(charges, penalCodes),
+  );
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
