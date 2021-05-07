@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { Modal } from "@components/Modal/Modal";
 import lang from "../../../language.json";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { AlertMessage } from "@components/AlertMessage/AlertMessage";
 import { Citizen } from "types/Citizen";
 import { Weapon } from "types/Weapon";
@@ -60,7 +60,7 @@ const NameSearchModalC: React.FC<Props> = ({
   deleteRecordById,
   setCitizenDanger,
 }) => {
-  const [name, setName] = React.useState<SelectValue | null>(null);
+  const [name, setName] = React.useState<Nullable<SelectValue>>(null);
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const [loading, setLoading] = React.useState(false);
 

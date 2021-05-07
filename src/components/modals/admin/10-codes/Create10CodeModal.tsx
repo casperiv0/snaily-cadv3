@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { add10Code } from "@actions/admin/AdminActions";
 import { Select, SelectValue } from "@components/Select/Select";
 import { Code10 } from "types/Code10";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
 import { modal } from "@lib/utils";
@@ -55,9 +55,9 @@ interface Props {
 const Create10CodeModalC: React.FC<Props> = ({ codesLength, add10Code }) => {
   const [code, setCode] = React.useState<string>("");
   const [whatPages, setWhatPages] = React.useState([]);
-  const [color, setColor] = React.useState<SelectValue | null>(null);
-  const [shouldDo, setShouldDo] = React.useState<SelectValue | null>(null);
-  const [position, setPosition] = React.useState<SelectValue | null>(null);
+  const [color, setColor] = React.useState<Nullable<SelectValue>>(null);
+  const [shouldDo, setShouldDo] = React.useState<Nullable<SelectValue>>(null);
+  const [position, setPosition] = React.useState<Nullable<SelectValue>>(null);
   const ref = useModalOpen<HTMLInputElement>(ModalIds.Create10Code);
 
   const length = React.useCallback(() => {

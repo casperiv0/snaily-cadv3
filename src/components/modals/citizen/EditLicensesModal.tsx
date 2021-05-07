@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Citizen } from "types/Citizen";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import lang from "../../../language.json";
 import { Value } from "types/Value";
 import { Field } from "types/Field";
@@ -14,7 +14,7 @@ import { updateLicenses } from "@actions/citizen/CitizenActions";
 import { ValuePaths } from "types/ValuePaths";
 
 interface Props {
-  citizen: Citizen | null;
+  citizen: Nullable<Citizen>;
   cadLicenses: Value[];
   getValuesByPath: (path: ValuePaths) => void;
   updateLicenses: (id: string, data: RequestData) => Promise<boolean>;

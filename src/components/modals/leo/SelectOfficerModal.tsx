@@ -18,7 +18,7 @@ interface Props {
 }
 
 const SelectOfficerModalC: React.FC<Props> = ({ cadInfo, officers, getMyOfficers, setStatus }) => {
-  const [selected, setSelected] = React.useState<SelectValue | null>(null);
+  const [selected, setSelected] = React.useState<Nullable<SelectValue>>(null);
 
   React.useEffect(() => {
     getMyOfficers();

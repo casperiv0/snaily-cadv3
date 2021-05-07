@@ -23,7 +23,7 @@ const SelectEmsFdModalC: React.FC<Props> = ({
   getEmsFdDeputies,
   setEmsStatus,
 }) => {
-  const [selected, setSelected] = React.useState<SelectValue | null>(null);
+  const [selected, setSelected] = React.useState<Nullable<SelectValue>>(null);
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {

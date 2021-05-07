@@ -8,7 +8,7 @@ import { endCall } from "@actions/calls/CallActions";
 import { addCallEvent, update911Call } from "@actions/dispatch/DispatchActions";
 import { getValuesByPath } from "@actions/values/ValuesActions";
 import { Officer } from "types/Officer";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { Deputy } from "types/Deputy";
 import { Select, SelectValue } from "@components/Select/Select";
 import { Value } from "types/Value";
@@ -18,7 +18,7 @@ import { ValuePaths } from "types/ValuePaths";
 import { CallTypes } from "@actions/calls/CallTypes";
 
 interface Props {
-  call: Call | null;
+  call: Nullable<Call>;
   officers: Officer[];
   ems_fd: Deputy[];
   callTypes: Value[];
@@ -40,7 +40,7 @@ const Update911Call: React.FC<Props> = ({
 }) => {
   const [location, setLocation] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
-  const [type, setType] = React.useState<SelectValue | null>(null);
+  const [type, setType] = React.useState<Nullable<SelectValue>>(null);
   const [assignedUnits, setAssignedUnits] = React.useState<Unit[]>([]);
 
   const [eventText, setEventText] = React.useState<string>("");

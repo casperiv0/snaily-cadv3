@@ -4,7 +4,7 @@ import { Modal } from "@components/Modal/Modal";
 import lang from "src/language.json";
 import { Citizen } from "types/Citizen";
 import { Company } from "types/Company";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { joinCompany } from "@actions/companies/CompanyActions";
 import { Select, SelectValue } from "@components/Select/Select";
 import { ModalIds } from "types/ModalIds";
@@ -18,8 +18,8 @@ interface Props {
 }
 
 const JoinCompanyModalC: React.FC<Props> = ({ citizens, companies, joinCompany }) => {
-  const [citizenId, setCitizenId] = React.useState<SelectValue | null>(null);
-  const [companyId, setCompanyId] = React.useState<SelectValue | null>(null);
+  const [citizenId, setCitizenId] = React.useState<Nullable<SelectValue>>(null);
+  const [companyId, setCompanyId] = React.useState<Nullable<SelectValue>>(null);
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 

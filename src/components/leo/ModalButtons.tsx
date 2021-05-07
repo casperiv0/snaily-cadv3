@@ -7,6 +7,7 @@ import { SocketEvents } from "types/Socket";
 import { ModalIds } from "types/ModalIds";
 import Link from "next/link";
 import { RanksArr } from "@lib/consts";
+import { Nullable } from "types/State";
 
 export interface MButton {
   name: string;
@@ -49,8 +50,8 @@ const modalButtons: MButton[] = [
 ];
 
 interface Props {
-  activeOfficer: Officer | null;
-  user: User | null;
+  activeOfficer: Nullable<Officer>;
+  user: Nullable<User>;
 }
 
 export const ModalButtons: React.FC<Props> = ({ user, activeOfficer }) => {

@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { Call } from "types/Call";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { endCall, getCalls } from "@actions/calls/CallActions";
 import { update911Call } from "@actions/dispatch/DispatchActions";
 import { socket } from "@hooks/useSocket";
@@ -15,8 +15,8 @@ import lang from "src/language.json";
 
 interface Props {
   calls: Call[];
-  activeOfficer: Officer | null;
-  activeDeputy: Deputy | null;
+  activeOfficer: Nullable<Officer>;
+  activeDeputy: Nullable<Deputy>;
   getCalls: (type: CallTypes, headers?: any) => void;
   endCall: (type: CallTypes, id: string) => void;
   update911Call: (id: string, call: Call, notify?: boolean) => void;

@@ -5,13 +5,14 @@ import { AlertMessage } from "../AlertMessage/AlertMessage";
 import { DeleteCitizenModal } from "../modals/admin/DeleteCitizenModal";
 import lang from "src/language.json";
 import { Item, Span } from "@components/Item";
+import { Nullable } from "types/State";
 
 interface Props {
   citizens: Citizen[];
 }
 
 export const AllCitizensTab: React.FC<Props> = ({ citizens }) => {
-  const [tempCitizen, setTempCitizen] = React.useState<Partial<Citizen> | null>(null);
+  const [tempCitizen, setTempCitizen] = React.useState<Nullable<Partial<Citizen>>>(null);
 
   return (
     <>

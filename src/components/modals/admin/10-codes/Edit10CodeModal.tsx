@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { update10Code } from "@actions/admin/AdminActions";
 import { Select } from "@components/Select/Select";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { Code10 } from "types/Code10";
 import {
   colorOptions,
@@ -17,7 +17,7 @@ import lang from "src/language.json";
 
 interface Props {
   update10Code: (id: string, data: Partial<Code10>) => Promise<boolean>;
-  code: Code10 | null;
+  code: Nullable<Code10>;
   codes: Code10[];
 }
 

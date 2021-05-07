@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Modal } from "@components/Modal/Modal";
 import lang from "src/language.json";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { Citizen } from "types/Citizen";
 import { createCompany } from "@actions/companies/CompanyActions";
 import { Select, SelectValue } from "@components/Select/Select";
@@ -19,7 +19,7 @@ const CreateCompanyModalC: React.FC<Props> = ({ citizens, createCompany }) => {
   const [address, setAddress] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
   const [whitelist, setWhitelist] = React.useState<string>("no");
-  const [ownerId, setOwnerId] = React.useState<SelectValue | null>(null);
+  const [ownerId, setOwnerId] = React.useState<Nullable<SelectValue>>(null);
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 

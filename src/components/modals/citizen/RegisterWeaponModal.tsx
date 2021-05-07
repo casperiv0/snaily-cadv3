@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { Value } from "types/Value";
 import lang from "../../../language.json";
 import { Citizen } from "types/Citizen";
@@ -17,7 +17,7 @@ interface Props {
   weapons: Value[];
   cadLicenses: Value[];
   owners: Citizen[];
-  citizen: Citizen | null;
+  citizen: Nullable<Citizen>;
 
   getValuesByPath: (path: ValuePaths) => void;
   registerWeapon: (data: RequestData) => Promise<boolean>;
@@ -32,7 +32,7 @@ const RegisterWeaponModalC: React.FC<Props> = ({
   registerWeapon,
 }) => {
   const [weapon, setWeapon] = React.useState<string>("");
-  const [citizenId, setCitizenId] = React.useState<SelectValue | null>(null);
+  const [citizenId, setCitizenId] = React.useState<Nullable<SelectValue>>(null);
   const [status, setStatus] = React.useState<string>("");
   const [serial, setSerial] = React.useState<string>("");
   const [loading, setLoading] = React.useState(false);

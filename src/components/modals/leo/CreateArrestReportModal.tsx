@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import lang from "../../../language.json";
 import { Field } from "types/Field";
 import { Modal } from "@components/Modal/Modal";
@@ -15,7 +15,7 @@ import { Name } from "@actions/officer/OfficerTypes";
 import { Item, Span } from "@components/Item";
 
 interface Props {
-  officer: Officer | null;
+  officer: Nullable<Officer>;
   penalCodes: PenalCode[];
   names: Name[];
 
@@ -30,7 +30,7 @@ const CreateArrestReportModalC: React.FC<Props> = ({
   names,
   creatArrestReport,
 }) => {
-  const [name, setName] = React.useState<SelectValue | null>(null);
+  const [name, setName] = React.useState<Nullable<SelectValue>>(null);
   const [charges, setCharges] = React.useState<SelectValue[]>([]);
   const [postal, setPostal] = React.useState("");
   const [notes, setNotes] = React.useState("");

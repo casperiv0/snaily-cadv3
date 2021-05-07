@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { User } from "types/User";
 import lang from "src/language.json";
 
@@ -32,7 +32,7 @@ const item: React.CSSProperties = {
 };
 
 interface Props {
-  user: User | null;
+  user: Nullable<User>;
 }
 
 const ranks = ["owner", "admin", "moderator"];

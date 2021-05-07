@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { State } from "types/State";
+import { Nullable, State } from "types/State";
 import { Department } from "types/Department";
 import { createOfficer } from "@actions/officer/OfficerActions";
 import { Select, SelectValue } from "@components/Select/Select";
@@ -25,11 +25,11 @@ const CreateOfficerModalC: React.FC<Props> = ({
   getUserCitizens,
 }) => {
   const [officerName, setOfficerName] = React.useState<string>("");
-  const [officerDept, setOfficerDept] = React.useState<SelectValue | null>(null);
+  const [officerDept, setOfficerDept] = React.useState<Nullable<SelectValue>>(null);
   const [callSign, setCallSign] = React.useState<string>("");
   const [loading, setLoading] = React.useState(false);
   const [showLinked, setLinked] = React.useState(false);
-  const [citizenId, setCitizenId] = React.useState<SelectValue | null>(null);
+  const [citizenId, setCitizenId] = React.useState<Nullable<SelectValue>>(null);
 
   React.useEffect(() => {
     getUserCitizens();
