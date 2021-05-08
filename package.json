@@ -4,11 +4,11 @@
   "description": "An open source Computer Aided Dispatch (CAD) for FiveM, this is a web based integration for communities who love police roleplaying and dispatching. ",
   "main": "index.js",
   "scripts": {
-    "start": "npm run translation:generate && npm run build && cross-env NODE_ENV=production node dist/server.js",
+    "start": "npm run translation:generate && npm run build && cross-env NODE_ENV=production node dist/src/server.js",
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
     "auto-install": "node ./scripts/install.js",
-    "docker-start": "cross-env NODE_ENV=production node dist/server.js",
+    "docker-start": "cross-env NODE_ENV=production node dist/src/server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",
