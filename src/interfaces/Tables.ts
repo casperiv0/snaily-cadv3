@@ -26,6 +26,7 @@ export type Tables =
   | "registered_weapons"
   | "tow_calls"
   | "taxi_calls"
+  | "truck_logs"
   | "users"
   | "vehicles"
   | "warrants"

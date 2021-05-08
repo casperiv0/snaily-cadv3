@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { formatRequired } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
+import { Bolo } from "types/Bolo";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -28,9 +28,9 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "DELETE": {
       try {
-        await processQuery("DELETE FROM `bolos` WHERE `id` = ?", [req.query.id]);
+        await global.connection.query<Bolo>().delete("bolos").where("id", `${req.query.id}`).exec();
 
-        const bolos = await processQuery("SELECT * FROM `bolos`");
+        const bolos = await global.connection.query<Bolo>().select("*").from("bolos").exec();
         return res.json({ bolos, status: "success" });
       } catch (e) {
         logger.error("delete_bolo", e);
@@ -49,10 +49,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const [bolo] = await processQuery<{ id: string }>(
-          "SELECT `id` FROM `bolos` WHERE `id` = ?",
-          [req.query.id],
-        );
+        const [bolo] = await global.connection
+          .query<{ id: string }>()
+          .select("id")
+          .from("bolos")
+          .where("id", `${req.query.id}`)
+          .exec();
 
         if (!bolo) {
           return res.status(400).json({
@@ -61,12 +63,19 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery(
-          "UPDATE `bolos` SET `type` = ?, `description` = ?, `name` = ?, `color` = ?, `plate` = ? WHERE `id` = ?",
-          [type, description, name, color, plate, bolo.id],
-        );
+        await global.connection
+          .query<Bolo>()
+          .update("bolos", {
+            type,
+            description,
+            name,
+            color,
+            plate,
+          })
+          .where("id", bolo.id)
+          .exec();
 
-        const bolos = await processQuery("SELECT * FROM `bolos`");
+        const bolos = await global.connection.query<Bolo>().select("*").from("bolos").exec();
         return res.json({ status: "success", bolos });
       } catch (e) {
         logger.error("update_bolo", e);

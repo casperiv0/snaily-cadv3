@@ -1,9 +1,9 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
+import { TruckLog } from "types/TruckLog";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -18,14 +18,20 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "DELETE": {
       try {
-        await processQuery("DELETE FROM `truck_logs` WHERE `id` = ? AND `user_id` = ?", [
-          req.query.id,
-          req.userId,
-        ]);
+        await global.connection
+          .query<TruckLog>()
+          .delete("truck_logs")
+          .where("id", `${req.query.id}`)
+          .and("user_id", req.userId)
+          .exec();
 
-        const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [
-          req.userId,
-        ]);
+        const logs = await global.connection
+          .query<TruckLog>()
+          .select("*")
+          .from("truck_logs")
+          .where("user_id", req.userId)
+          .exec();
+
         return res.json({ status: "success", logs });
       } catch (e) {
         logger.error("cad-info", e);

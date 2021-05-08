@@ -58,6 +58,7 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine("ALTER TABLE `bleets` DROP `pinned`;");
   updateLine(
     "ALTER TABLE `leo_incidents` ADD `gsr` varchar(255) NOT NULL AFTER `firearms_involved`;",
   );

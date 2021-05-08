@@ -1,12 +1,12 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { formatRequired, getActiveOfficer } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
 import { v4 } from "uuid";
+import { Bolo } from "types/Bolo";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -29,7 +29,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const bolos = await processQuery("SELECT * FROM `bolos`");
+        const bolos = await global.connection.query<Bolo>().select("*").from("bolos").exec();
 
         return res.json({ bolos, status: "success" });
       } catch (e) {
@@ -51,20 +51,21 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         }
 
         const officer = await getActiveOfficer(req);
-        await processQuery(
-          "INSERT INTO `bolos` (`id`, `type`, `description`, `name`, `color`, `plate`, `officer_name`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-          [
+
+        await global.connection
+          .query<Bolo>()
+          .insert("bolos", {
             id,
             type,
             description,
             name,
             color,
             plate,
-            `${officer?.callsign} ${officer?.officer_name}`,
-          ],
-        );
+            officer_name: `${officer?.callsign} ${officer?.officer_name}`,
+          })
+          .exec();
 
-        const bolos = await processQuery("SELECT * FROM `bolos`");
+        const bolos = await global.connection.query<Bolo>().select("*").from("bolos").exec();
         return res.json({ status: "success", bolos });
       } catch (e) {
         logger.error("create_bolo", e);

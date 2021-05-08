@@ -1,12 +1,12 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { usePermission } from "@hooks/usePermission";
 import { useValidPath } from "@hooks/useValidPath";
 import { formatRequired } from "@lib/utils.server";
+import { Value } from "types/Value";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -39,12 +39,15 @@ export default async function (req: IRequest, res: NextApiResponse) {
             .json({ error: formatRequired(["name"], req.body), status: "error" });
         }
 
-        await processQuery(`UPDATE \`${parsedPath}\` SET \`name\` = ? WHERE \`id\` = ?`, [
-          name,
-          req.query.id,
-        ]);
+        await global.connection
+          .query<Value>()
+          .update(parsedPath, {
+            name,
+          })
+          .where("id", `${req.query.id}`)
+          .exec();
 
-        const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+        const updated = await global.connection.query<Value>().select("*").from(parsedPath).exec();
         return res.json({ status: "success", values: updated });
       } catch (e) {
         logger.error("update_value", e);
@@ -56,9 +59,13 @@ export default async function (req: IRequest, res: NextApiResponse) {
       try {
         const parsedPath = req.parsedPath;
 
-        await processQuery(`DELETE FROM \`${parsedPath}\` WHERE \`id\` = ?`, [req.query.id]);
+        await global.connection
+          .query<Value>()
+          .delete(parsedPath)
+          .where("id", `${req.query.id}`)
+          .exec();
 
-        const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+        const updated = await global.connection.query<Value>().select("*").from(parsedPath).exec();
         return res.json({ status: "success", values: updated });
       } catch (e) {
         logger.error("delete_value", e);

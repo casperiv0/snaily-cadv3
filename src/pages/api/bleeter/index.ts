@@ -2,11 +2,11 @@ import { NextApiResponse } from "next";
 import { v4 } from "uuid";
 import fileUpload from "express-fileupload";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { logger } from "@lib/logger";
 import { AnError, SupportedFileTypes } from "@lib/consts";
 import { formatRequired, runMiddleware } from "@lib/utils.server";
+import { Bleet } from "types/Bleet";
 
 export const config = {
   api: {
@@ -30,7 +30,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (method) {
     case "GET": {
       try {
-        const bleets = await processQuery("SELECT * FROM `bleets` ORDER BY `id` DESC");
+        const bleets = await global.connection
+          .query<Bleet>()
+          .select("*")
+          .from("bleets")
+          .order("id", "DESC")
+          .exec();
 
         return res.json({ bleets, status: "success" });
       } catch (e) {
@@ -63,16 +68,30 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         const id = v4();
 
-        await processQuery(
-          "INSERT INTO `bleets` (`id`, `title`, `body`, `user_id`, `uploaded_at`, `image_id`, `pinned`, `likes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-          [id, title, body, user_id, uploadedAt, imageId, false, 0],
-        );
+        await global.connection
+          .query<Bleet>()
+          .insert("bleets", {
+            id,
+            title,
+            body,
+            user_id,
+            uploaded_at: uploadedAt,
+            image_id: imageId,
+            likes: "0",
+          })
+          .exec();
 
         if (file) {
           file.mv(`./public/bleeter-images/${imageId}`);
         }
 
-        const bleets = await processQuery("SELECT * FROM `bleets` ORDER BY `id` DESC");
+        const bleets = await global.connection
+          .query<Bleet>()
+          .select("*")
+          .from("bleets")
+          .order("id", "DESC")
+          .exec();
+
         return res.json({ status: "success", bleets });
       } catch (e) {
         logger.error("create_bleet", e);

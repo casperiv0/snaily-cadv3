@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { v4 } from "uuid";
 import { formatRequired } from "@lib/utils.server";
+import { TruckLog } from "types/TruckLog";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -20,9 +20,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [
-          req.userId,
-        ]);
+        const logs = await global.connection
+          .query<TruckLog>()
+          .select("*")
+          .from("truck_logs")
+          .where("user_id", req.userId)
+          .exec();
 
         return res.json({ status: "success", logs });
       } catch (e) {
@@ -42,14 +45,25 @@ export default async function (req: IRequest, res: NextApiResponse) {
         });
       }
 
-      await processQuery(
-        "INSERT INTO `truck_logs` (`id`, `name`, `timestamp`, `co_driver`, `start_time`, `plate`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [id, name, date, co_driver ?? "None", start_time, plate, req.userId],
-      );
+      await global.connection
+        .query<TruckLog>()
+        .insert("truck_logs", {
+          id,
+          name,
+          timestamp: date,
+          co_driver: co_driver ?? "None",
+          start_time,
+          plate,
+          user_id: req.userId,
+        })
+        .exec();
 
-      const logs = await processQuery("SELECT * FROM `truck_logs` WHERE `user_id` = ?", [
-        req.userId,
-      ]);
+      const logs = await global.connection
+        .query<TruckLog>()
+        .select("*")
+        .from("truck_logs")
+        .where("user_id", req.userId)
+        .exec();
 
       return res.json({ status: "success", logs });
     }
