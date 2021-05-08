@@ -1,6 +1,5 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { Company } from "types/Company";
 import { Citizen } from "types/Citizen";
@@ -19,9 +18,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
   switch (method) {
     case "GET": {
-      const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
-        req.userId,
-      ]);
+      const citizens = await global.connection
+        .query<Citizen>()
+        .select("*")
+        .from("citizens")
+        .where("user_id", req.userId)
+        .exec();
 
       const parsed = async () => {
         const arr: Company[] = [];
@@ -30,10 +32,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           citizens
             .filter((c) => c?.business_id)
             .map(async (citizen) => {
-              const [company] = await processQuery<Company>(
-                "SELECT * FROM `businesses` WHERE `id` = ?",
-                [citizen?.business_id],
-              );
+              const [company] = await global.connection
+                .query<Company>()
+                .select("*")
+                .from("businesses")
+                .where("id", citizen.business_id)
+                .exec();
 
               if (company) {
                 (citizen as any).company = company;

@@ -2,7 +2,6 @@ import { v4 } from "uuid";
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { Call } from "types/Call";
 import { IRequest } from "types/IRequest";
@@ -34,11 +33,13 @@ export async function mapCalls(calls: Call[]) {
 
     await Promise.all(
       calls.map(async (call) => {
-        const events = await processQuery("SELECT * FROM `call_events` WHERE `call_id` = ?", [
-          call.id,
-        ]);
+        const events = await global.connection
+          .query()
+          .select("*")
+          .from("call_events")
+          .where("call_id", call.id)
+          .exec();
 
-        // @ts-expect-error please ignore the line below.
         call.events = events;
 
         arr.push(call);
@@ -66,7 +67,11 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const calls = await processQuery<Call>(`SELECT * FROM \`${dbPath(`${req.query.type}`)}\``);
+        const calls = await global.connection
+          .query<Call>()
+          .select("*")
+          .from(dbPath(`${req.query.type}`))
+          .exec();
 
         return res.json({
           calls: req.query.type === "911" ? await mapCalls(calls as Call[]) : calls,
@@ -91,20 +96,20 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
               z: coordsArr?.[2] || 0,
             };
 
-            await processQuery(
-              "INSERT INTO `911calls` (`id`, `description`, `name`, `location`, `status`, `assigned_unit`, `pos`, `hidden`, `type`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-              [
+            await global.connection
+              .query<Call>()
+              .insert("911calls", {
                 id,
                 description,
-                caller || "Unknown",
-                location || "Unknown",
-                "Not assigned",
-                "[]",
-                JSON.stringify(coords),
-                coordsArr ? "0" : "1",
+                name: caller || "Unknown",
+                location: location || "Unknown",
+                status: "Not Assigned",
+                assigned_unit: "[]" as any,
+                pos: JSON.stringify(coords),
+                hidden: coordsArr ? "0" : "1",
                 type,
-              ],
-            );
+              })
+              .exec();
 
             global?.io?.sockets?.emit?.(SocketEvents.New911Call, {
               description,
@@ -115,18 +120,30 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             break;
           }
           case "tow": {
-            await processQuery(
-              "INSERT INTO `tow_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
-              [id, description, caller, location],
-            );
+            await global.connection
+              .query<Call>()
+              .insert("tow_calls", {
+                id,
+                description,
+                name: caller || "Unknown",
+                location: location || "Unknown",
+              })
+              .exec();
+
             global?.io?.sockets?.emit?.(SocketEvents.UpdateTowCalls);
             break;
           }
           case "taxi": {
-            await processQuery(
-              "INSERT INTO `taxi_calls` (`id`, `description`, `name`, `location`) VALUES (?, ?, ?, ?)",
-              [id, description, caller, location],
-            );
+            await global.connection
+              .query<Call>()
+              .insert("taxi_calls", {
+                id,
+                description,
+                name: caller || "Unknown",
+                location: location || "Unknown",
+              })
+              .exec();
+
             global?.io?.sockets?.emit?.(SocketEvents.UpdateTaxiCalls);
             break;
           }
@@ -138,7 +155,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           }
         }
 
-        const calls = await processQuery<Call>(`SELECT * FROM \`${dbPath(`${req.query.type}`)}\``);
+        const calls = await global.connection
+          .query<Call>()
+          .select("*")
+          .from(dbPath(`${req.query.type}`))
+          .exec();
+
         return res.json({
           calls: req.query.type === "911" ? await mapCalls(calls as Call[]) : calls,
           status: "success",

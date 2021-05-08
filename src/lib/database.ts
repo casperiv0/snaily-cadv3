@@ -1,5 +1,5 @@
-import { ConnectionConfig } from "mysql";
-import { createConnection, Connection } from "@casper124578/mysql.ts";
+import { createConnection, Connection, ConnectionConfig } from "@casper124578/mysql.ts";
+import { Tables } from "../interfaces/Tables";
 import config from "./config.server";
 import { logger } from "./logger";
 
@@ -12,8 +12,8 @@ const options: ConnectionConfig = {
   timeout: 0,
 };
 
-async function connect(): Promise<Connection> {
-  const conn = await createConnection(options);
+async function connect(): Promise<Connection<Tables>> {
+  const conn = await createConnection<Tables>(options);
 
   global.connection = conn;
 
