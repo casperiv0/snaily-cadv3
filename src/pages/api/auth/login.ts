@@ -23,7 +23,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
         const [user] = await global.connection
           .query<User>()
-          .select("rank")
+          .select(["id", "rank", "password"])
           .from("users")
           .where("username", username)
           .exec();

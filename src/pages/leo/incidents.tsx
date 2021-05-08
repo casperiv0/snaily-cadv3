@@ -81,7 +81,7 @@ const MyOfficersPage: React.FC<Props> = ({ incidents }) => {
                   <Item>
                     <Span>{lang.officers.involved_officers}: </Span>
                     {typeof incident.involved_officers !== "string" &&
-                      incident.involved_officers.map((v) => v).join(", ")}
+                      (incident.involved_officers.map((v) => v).join(", ") || lang.global.none_set)}
                   </Item>
                   <Item>
                     <Span>{lang.officers.firearms_involved}: </Span>
@@ -94,6 +94,10 @@ const MyOfficersPage: React.FC<Props> = ({ incidents }) => {
                   <Item>
                     <Span>{lang.officers.arrests_made}: </Span>
                     {value(incident.arrests_made)}
+                  </Item>
+                  <Item>
+                    <Span>{lang.officers.gsr}: </Span>
+                    {value(incident.gsr)}
                   </Item>
                   <Item>
                     <Span>{lang.truck_logs.date}: </Span>

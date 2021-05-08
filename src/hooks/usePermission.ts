@@ -1,7 +1,6 @@
 import { IRequest } from "../interfaces/IRequest";
 import { User } from "types/User";
 import { AnError, Ranks } from "@lib/consts";
-import { processQuery } from "../lib/database";
 import { logger } from "../lib/logger";
 import { Perm } from "types/Perm";
 import { IError } from "types/IError";
@@ -20,10 +19,12 @@ type Permissions =
 
 export const usePermission = async (req: IRequest, perms: Permissions[]): Promise<IError> => {
   try {
-    const [user] = await processQuery<User>(
-      "SELECT `rank`, `leo`, `dispatch`, `tow`, `ems_fd`, `supervisor` FROM `users` WHERE `id` = ?",
-      [req.userId],
-    );
+    const [user] = await global.connection
+      .query<User>()
+      .select(["rank", "leo", "dispatch", "tow", "ems_fd", "supervisor"])
+      .from("users")
+      .where("id", req.userId)
+      .exec();
 
     if (!user) {
       return Promise.reject({

@@ -29,6 +29,8 @@ const CreateMedicalRecordModalC: React.FC<Props> = ({ citizenId, createMedicalRe
     });
 
     if (created === true) {
+      setType("Allergy");
+      setShortInfo("");
       modal(ModalIds.CreateMedicalCreate)?.hide();
     }
 

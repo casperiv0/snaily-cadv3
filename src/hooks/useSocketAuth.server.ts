@@ -1,4 +1,3 @@
-import { processQuery } from "../lib/database";
 import jwt from "jsonwebtoken";
 import config from "../lib/config.server";
 import { User } from "../interfaces/User";
@@ -17,10 +16,12 @@ export async function useSocketAuth(cookie: string): Promise<string> {
 
   try {
     const vToken = jwt.verify(cookie, secret.toString()) as User;
-    const [user] = await processQuery<User>(
-      "SELECT `id`, `username`, `whitelist_status` FROM `users` WHERE `id` = ?",
-      [vToken.id],
-    );
+    const [user] = await global.connection
+      .query<User>()
+      .select(["id", "whitelist_status", "banned"])
+      .from("users")
+      .where("id", vToken.id)
+      .exec();
 
     if (!user) {
       return Promise.reject({ error: "user was not found", status: "error" });

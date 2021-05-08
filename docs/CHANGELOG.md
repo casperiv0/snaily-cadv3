@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.1.1
+
+- New: GSR option for LEO incidents
+- Minor: refactor SQL queries to use [`@casper124578/mysql.ts`](https://github.com/dev-caspertheghost/mysql.ts)
+
 ## 2.1.0
 
 - New: see fine amount for CreateTicketModal

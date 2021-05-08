@@ -6,6 +6,7 @@ export interface MedicalRecord {
   short_info: string;
   name: string;
   citizen_id: string;
+  user_id: string;
 
   citizen?: {
     dead: Citizen["dead"];

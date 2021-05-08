@@ -12,4 +12,6 @@ export interface OfficerIncident {
   firearms_involved: Perm;
   arrests_made: Perm;
   injuries: Perm;
+  gsr: Perm;
+  officer_id: string;
 }

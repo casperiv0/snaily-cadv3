@@ -59,6 +59,9 @@ async function updateLine(sql: string) {
 
 async function updateDb() {
   updateLine(
+    "ALTER TABLE `leo_incidents` ADD `gsr` varchar(255) NOT NULL AFTER `firearms_involved`;",
+  );
+  updateLine(
     "ALTER TABLE `cad_info` ADD `on_duty_status` varchar(255) DEFAULT '10-8' AFTER `whitelisted`;",
   );
   updateLine(
