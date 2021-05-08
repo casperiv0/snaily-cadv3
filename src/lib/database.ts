@@ -1,4 +1,5 @@
-import mysql, { Connection, ConnectionConfig } from "promise-mysql";
+import { ConnectionConfig } from "mysql";
+import { createConnection, Connection } from "@casper124578/mysql.ts";
 import config from "./config.server";
 import { logger } from "./logger";
 
@@ -12,19 +13,26 @@ const options: ConnectionConfig = {
 };
 
 async function connect(): Promise<Connection> {
-  return await mysql.createConnection(options);
+  const conn = await createConnection(options);
+
+  global.connection = conn;
+
+  return conn;
 }
+connect();
 
 export async function processQuery<T = unknown>(
   query: string,
   data?: unknown[],
 ): Promise<(T | undefined)[]> {
-  const connection = await connect();
+  if (!global.connection) {
+    await connect();
+  }
 
   try {
-    return connection.query(query, data);
+    return global.connection.query().raw(query, data).exec();
   } finally {
-    connection && connection.end();
+    // connection?.end();
   }
 }
 

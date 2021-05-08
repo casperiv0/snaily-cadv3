@@ -7,6 +7,7 @@ import { socketHandler, wrap } from "./lib/socket.server";
 import { logger } from "./lib/logger";
 import express from "express";
 import { checkVersion } from "./lib/version.server";
+import { Connection } from "@casper124578/mysql.ts";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -17,6 +18,7 @@ declare global {
     interface Global {
       CAD_VERSION: string;
       io: SocketServer | undefined;
+      connection: Connection;
     }
   }
 }
