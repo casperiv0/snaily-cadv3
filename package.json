@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",
-    "translation:generate": "node scripts/generate-lang.js"
+    "translation:generate": "node scripts/generate-lang.js",
+    "build:tsc": "tsc --noEmit && tsc --p tsconfig.server.json --noEmit"
   },
   "repository": {
     "type": "git",
