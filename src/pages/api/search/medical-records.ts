@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "@hooks/usePermission";
 import { formatRequired } from "@lib/utils.server";
+import { Citizen } from "types/Citizen";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -37,11 +37,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const [
-          citizen,
-        ] = await processQuery("SELECT `dead`, `dead_on` FROM `citizens` WHERE `full_name` = ?", [
-          name,
-        ]);
+        const [citizen] = await global.connection
+          .query<Citizen>()
+          .select(["dead", "dead_on"])
+          .from("citizens")
+          .where("full_name", name)
+          .exec();
 
         if (!citizen) {
           return res.status(404).json({
@@ -50,10 +51,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const medicalRecords = await processQuery(
-          "SELECT * FROM `medical_records` WHERE `name` = ?",
-          [name],
-        );
+        const medicalRecords = await global.connection
+          .query()
+          .select("*")
+          .from("medical_records")
+          .where("name", name)
+          .exec();
 
         if (medicalRecords.length <= 0) {
           return res.status(400).json({

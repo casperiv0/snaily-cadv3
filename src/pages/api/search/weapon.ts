@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { formatRequired } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
+import { Weapon } from "types/Weapon";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -37,11 +37,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const [
-          weapon,
-        ] = await processQuery("SELECT * FROM `registered_weapons` WHERE `serial_number` = ?", [
-          serialNumber,
-        ]);
+        const [weapon] = await global.connection
+          .query<Weapon>()
+          .select("*")
+          .from("registered_weapons")
+          .where("serial_number", serialNumber)
+          .exec();
 
         return res.json({ weapon: weapon ?? {}, status: "success" });
       } catch (e) {
