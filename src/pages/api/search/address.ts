@@ -39,9 +39,9 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         const results = await global.connection
           .query<Citizen>()
-          .raw("SELECT `full_name`, `address`, `id` FROM `citizens` WHERE `address` LIKE ?", [
-            `%${address}%`,
-          ])
+          .select(["full_name", "address", "id"])
+          .from("citizens")
+          .whereLike("address", `%${address}%`)
           .exec();
 
         return res.json({ results, status: "success" });
