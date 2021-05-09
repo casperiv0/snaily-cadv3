@@ -5,6 +5,7 @@
 ## 2.1.1
 
 - New: GSR option for LEO incidents
+- Minor: improvements to name search layout
 - Minor: refactor SQL queries to use [`@casper124578/mysql.ts`](https://github.com/dev-caspertheghost/mysql.ts)
 
 ## 2.1.0
