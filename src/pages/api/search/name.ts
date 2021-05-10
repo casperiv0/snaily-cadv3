@@ -1,13 +1,17 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { formatRequired } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
 import { Citizen } from "types/Citizen";
 import { parseCitizens } from "../citizen";
+import { Tables } from "types/Tables";
+
+async function selectAllFrom(table: Tables, citizenId: string) {
+  return global.connection.query().select("*").from(table).where("citizen_id", citizenId);
+}
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -38,18 +42,25 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             status: "error",
           });
         }
+
         const [citizen] = await parseCitizens(
-          await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `full_name` = ?", [name]),
+          await global.connection
+            .query<Citizen>()
+            .select("*")
+            .from("citizens")
+            .where("full_name", name)
+            .exec(),
         );
+
         const citizenId = citizen?.id ?? "not_found";
 
         const [vehicles, weapons, warnings, arrestReports, tickets, warrants] = await Promise.all([
-          processQuery("SELECT * FROM `registered_cars` WHERE `citizen_id` = ?", [citizenId]),
-          processQuery("SELECT * FROM `registered_weapons` WHERE `citizen_id` = ?", [citizenId]),
-          processQuery("SELECT * FROM `written_warnings` WHERE `citizen_id` = ?", [citizenId]),
-          processQuery("SELECT * FROM `arrest_reports` WHERE `citizen_id` = ?", [citizenId]),
-          processQuery("SELECT * FROM `leo_tickets` WHERE `citizen_id` = ?", [citizenId]),
-          processQuery("SELECT * FROM `warrants` WHERE `citizen_id` = ?", [citizenId]),
+          selectAllFrom("registered_cars", citizenId),
+          selectAllFrom("registered_weapons", citizenId),
+          selectAllFrom("written_warnings", citizenId),
+          selectAllFrom("arrest_reports", citizenId),
+          selectAllFrom("leo_tickets", citizenId),
+          selectAllFrom("warrants", citizenId),
         ]);
 
         return res.json({

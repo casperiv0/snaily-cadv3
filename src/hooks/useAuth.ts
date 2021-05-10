@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { processQuery } from "../lib/database";
 import config from "../lib/config.server";
 import { IRequest } from "types/IRequest";
 import { User } from "types/User";
@@ -21,9 +20,12 @@ async function useAuth(req: IRequest): Promise<IError> {
 
   try {
     const vToken = jwt.verify(token as string, secret) as { id: string };
-    const [user] = await processQuery<User>("SELECT `id`  FROM `users` WHERE `id` = ?", [
-      vToken.id,
-    ]);
+    const [user] = await global.connection
+      .query<User>()
+      .select(["id", "whitelist_status", "banned"])
+      .from("users")
+      .where("id", vToken.id)
+      .exec();
 
     if (!user) {
       return Promise.reject({

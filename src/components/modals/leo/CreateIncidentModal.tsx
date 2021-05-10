@@ -24,6 +24,7 @@ const CreateIncidentModalC: React.FC<Props> = ({ createIncident, officers }) => 
   const [arrestsMade, setArrestsMade] = React.useState(false);
   const [injuries, setInjuries] = React.useState(false);
   const [firearms, setFireArms] = React.useState(false);
+  const [gsr, setGsr] = React.useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -37,6 +38,7 @@ const CreateIncidentModalC: React.FC<Props> = ({ createIncident, officers }) => 
       arrests_made: arrestsMade === true ? "1" : "0",
       injuries: injuries === true ? "1" : "0",
       firearms_involved: firearms === true ? "1" : "0",
+      gsr: gsr === true ? "1" : "0",
     });
 
     if (created === true) {
@@ -50,6 +52,7 @@ const CreateIncidentModalC: React.FC<Props> = ({ createIncident, officers }) => 
       setArrestsMade(false);
       setInjuries(false);
       setFireArms(false);
+      setGsr(false);
     }
 
     setLoading(false);
@@ -148,6 +151,19 @@ const CreateIncidentModalC: React.FC<Props> = ({ createIncident, officers }) => 
             />
             <label className="form-check-label" htmlFor="firearms_involved">
               {lang.officers.firearms_involved}
+            </label>
+          </div>
+
+          <div className="form-check">
+            <input
+              checked={gsr}
+              onChange={() => setGsr((v) => !v)}
+              className="form-check-input"
+              type="checkbox"
+              id="gsr"
+            />
+            <label className="form-check-label" htmlFor="gsr">
+              {lang.officers.gsr}
             </label>
           </div>
         </div>

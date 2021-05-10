@@ -2,7 +2,6 @@ import { NextApiResponse } from "next";
 import fileUpload from "express-fileupload";
 import { formatRequired, runMiddleware } from "@lib/utils.server";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { Cad } from "types/Cad";
 import { SupportedFileTypes } from "@lib/consts";
@@ -10,17 +9,19 @@ import { Citizen } from "types/Citizen";
 import { v4 } from "uuid";
 import { logger } from "@lib/logger";
 import { Officer } from "types/Officer";
-import { Perm } from "types/Perm";
+import { User } from "types/User";
 
 export async function parseCitizens(citizens: (Citizen | undefined)[]) {
   const arr: Citizen[] = [];
 
   await Promise.all(
     citizens.map(async (citizen) => {
-      const [officer] = await processQuery<Officer>(
-        "SELECT * FROM `officers` WHERE `citizen_id` = ?",
-        [citizen?.id],
-      );
+      const [officer] = await global.connection
+        .query<Officer>()
+        .select("*")
+        .from("officers")
+        .where("citizen_id", citizen?.id!)
+        .exec();
 
       if (officer && citizen) {
         citizen.officer = {
@@ -57,9 +58,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
   switch (method) {
     case "GET": {
-      const citizens = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
-        req.userId,
-      ]);
+      const citizens = await global.connection
+        .query<Citizen>()
+        .select("*")
+        .from("citizens")
+        .where("user_id", req.userId)
+        .exec();
 
       return res.json({
         citizens: await parseCitizens(citizens),
@@ -69,7 +73,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     case "POST": {
       const file = req.files?.image ? req.files.image : null;
       const index = req.files?.image && file?.name.indexOf(".");
-      const [cadInfo] = await processQuery<Cad>("SELECT * FROM `cad_info`");
+      const [cadInfo] = await global.connection.query<Cad>().select("*").from("cad_info").exec();
 
       const body = req.body;
 
@@ -104,9 +108,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       }
 
       if (cadInfo?.max_citizens !== "unlimited") {
-        const length = await processQuery("SELECT `id` FROM `citizens` WHERE `user_id` = ?", [
-          req.userId,
-        ]);
+        const length = await global.connection
+          .query()
+          .select("id")
+          .from("citizens")
+          .where("user_id", req.userId)
+          .exec();
 
         if (length.length > parseInt(cadInfo?.max_citizens ?? "0")) {
           return res.status(400).json({
@@ -123,10 +130,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
 
-      const [citizen] = await processQuery<Citizen>(
-        "SELECT * FROM `citizens` WHERE `full_name` = ?",
-        [body.full_name],
-      );
+      const [citizen] = await global.connection
+        .query<Citizen>()
+        .select("*")
+        .from("citizens")
+        .where("full_name", body.full_name)
+        .exec();
 
       if (citizen) {
         return res.status(400).json({
@@ -135,9 +144,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
 
-      const [user] = await processQuery<{ leo: Perm }>("SELECT `leo` FROM `users` WHERE `id` = ?", [
-        req.userId,
-      ]);
+      const [user] = await global.connection
+        .query<User>()
+        .select("leo")
+        .from("users")
+        .where("id", req.userId)
+        .exec();
+
       const imageId = file ? `${v4()}${file.name.slice(index)}` : "default.svg";
       const id = v4();
 
@@ -149,53 +162,55 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery(
-          "INSERT INTO `officers` (`id`, `officer_name`,`officer_dept`,`callsign`,`user_id`,`status`,`status2`,`rank`,`citizen_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          [
-            v4(),
-            body.full_name,
-            body.department,
-            body.callsign,
-            req.userId,
-            "off-duty",
-            "",
-            "officer",
-            id,
-          ],
-        );
+        await global.connection
+          .query<Officer>()
+          .insert("officers", {
+            id: v4(),
+            officer_name: body.full_name,
+            officer_dept: body.department,
+            callsign: body.callsign,
+            user_id: req.userId,
+            status: "off-duty",
+            status2: "",
+            rank: "officer",
+            suspended: "0",
+            citizen_id: id,
+          })
+          .exec();
       }
 
-      const query =
-        "INSERT INTO `citizens` (`id`, `full_name`, `user_id`, `birth`, `gender`, `ethnicity`, `hair_color`, `eye_color`, `address`, `height`, `weight`, `dmv`, `fire_license`, `pilot_license`, `ccw`, `business`, `business_id`, `rank`, `vehicle_reg`, `posts`, `image_id`, `b_status`, `note`, `phone_nr`, `dead`, `dead_on`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-      await processQuery(query, [
-        id /* Id */,
-        body.full_name /* full name */,
-        req.userId /* user_id */,
-        body.birth /* birth */,
-        body.gender /* gender */,
-        body.ethnicity /* ethnicity */,
-        body.hair_color /* hair_color */,
-        body.eye_color /* eye_color */,
-        body.address /* address */,
-        body.height /* height */,
-        body.weight /* weight */,
-        body.dmv /* dmv */,
-        body.fire_license /* fire_license */,
-        body.pilot_license /* pilot_license */,
-        body.ccw /* ccw */,
-        "none" /* business */,
-        "" /* business_id */,
-        "none" /* rank */,
-        true /* vehicle_reg */,
-        true /* posts */,
-        imageId /* image_id */,
-        "" /* b_status */,
-        "" /* note */,
-        body.phone_nr || "" /* phone_nr */,
-        "0",
-        "",
-      ]);
+      await global.connection
+        .query<Citizen>()
+        .insert("citizens", {
+          id,
+          full_name: body.full_name,
+          user_id: req.userId,
+          birth: body.birth,
+          gender: body.gender,
+          ethnicity: body.ethnicity,
+          hair_color: body.hair_color,
+          eye_color: body.eye_color,
+          height: body.height,
+          weight: body.weight,
+          dmv: body.dmv,
+          fire_license: body.fire_license,
+          pilot_license: body.pilot_license,
+          ccw: body.ccw,
+          business_id: "",
+          business: "none",
+          rank: "",
+          vehicle_reg: "1",
+          posts: "1",
+          image_id: imageId,
+          b_status: "",
+          note: "",
+          phone_nr: body.phone_nr,
+          dead: "0",
+          dead_on: "",
+          address: body.address,
+          is_dangerous: "0",
+        })
+        .exec();
 
       file?.name &&
         file.mv("./public/citizen-images/" + imageId, (err: string) => {

@@ -23,28 +23,28 @@ export const addCallEvent = (callId: string, text: string) => async (dispatch: D
   }
 };
 
-export const update911Call = (callId: string, data: Partial<Call>, shouldNotify = true) => async (
-  dispatch: Dispatch<UpdateCall>,
-) => {
-  try {
-    const res = await handleRequest(`/dispatch/calls/${callId}`, "PUT", data);
+export const update911Call =
+  (callId: string, data: Partial<Call>, shouldNotify = true) =>
+  async (dispatch: Dispatch<UpdateCall>) => {
+    try {
+      const res = await handleRequest(`/dispatch/calls/${callId}`, "PUT", data);
 
-    dispatch({
-      type: "UPDATE_CALL",
-      calls: res.data.calls,
-    });
+      dispatch({
+        type: "UPDATE_CALL",
+        calls: res.data.calls,
+      });
 
-    if (shouldNotify) {
-      notify.success(lang.dispatch.updated_call);
+      if (shouldNotify) {
+        notify.success(lang.dispatch.updated_call);
+      }
+
+      socket.emit(SocketEvents.Update911Calls);
+      return true;
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
     }
-
-    socket.emit(SocketEvents.Update911Calls);
-    return true;
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+  };
 
 export const addressSearch = (address: string) => async (dispatch: Dispatch<AddressSearch>) => {
   try {

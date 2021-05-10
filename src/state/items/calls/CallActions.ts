@@ -28,49 +28,48 @@ function updateCalls(type: CallTypes, callData: Call | null) {
   }
 }
 
-export const createCall = (type: CallTypes, data: RequestData, shouldNotify = false) => async (
-  dispatch: Dispatch<CreateCall>,
-): Promise<boolean> => {
-  try {
-    const res = await handleRequest(`/calls/${type}`, "POST", data);
+export const createCall =
+  (type: CallTypes, data: RequestData, shouldNotify = false) =>
+  async (dispatch: Dispatch<CreateCall>): Promise<boolean> => {
+    try {
+      const res = await handleRequest(`/calls/${type}`, "POST", data);
 
-    dispatch({
-      type: "CREATE_CALL",
-      calls: res.data.calls,
-    });
+      dispatch({
+        type: "CREATE_CALL",
+        calls: res.data.calls,
+      });
 
-    updateCalls(type, (data as unknown) as Call);
-    if (shouldNotify) {
-      const msg =
-        type === "911"
-          ? lang.citizen.call_created
-          : type === "taxi"
-          ? lang.taxi.created_call
-          : lang.tow.created_call;
+      updateCalls(type, data as unknown as Call);
+      if (shouldNotify) {
+        const msg =
+          type === "911"
+            ? lang.citizen.call_created
+            : type === "taxi"
+            ? lang.taxi.created_call
+            : lang.tow.created_call;
 
-      notify.success(msg);
+        notify.success(msg);
+      }
+      return true;
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
     }
-    return true;
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+  };
 
-export const getCalls = (type: CallTypes, headers?: any) => async (
-  dispatch: Dispatch<GetCalls>,
-) => {
-  try {
-    const res = await handleRequest(`/calls/${type}`, "GET", headers);
+export const getCalls =
+  (type: CallTypes, headers?: any) => async (dispatch: Dispatch<GetCalls>) => {
+    try {
+      const res = await handleRequest(`/calls/${type}`, "GET", headers);
 
-    dispatch({
-      type: "GET_CALLS",
-      calls: res.data.calls,
-    });
-  } catch (e) {
-    return false;
-  }
-};
+      dispatch({
+        type: "GET_CALLS",
+        calls: res.data.calls,
+      });
+    } catch (e) {
+      return false;
+    }
+  };
 
 export const endCall = (type: CallTypes, id: string) => async (dispatch: Dispatch<GetCalls>) => {
   try {

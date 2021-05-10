@@ -1,6 +1,5 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { AnError } from "@lib/consts";
 import { formatRequired } from "@lib/utils.server";
@@ -21,9 +20,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (method) {
     case "GET": {
       try {
-        const requests = await processQuery("SELECT * FROM `court_requests` WHERE `user_id` = ?", [
-          req.userId,
-        ]);
+        const requests = await global.connection
+          .query()
+          .select("*")
+          .from("court_requests")
+          .where("user_id", req.userId)
+          .exec();
 
         return res.json({
           status: "success",
@@ -52,10 +54,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const [citizen] = await processQuery<Citizen>(
-          "SELECT * FROM `citizens` WHERE `full_name` = ?",
-          [name],
-        );
+        const [citizen] = await global.connection
+          .query<Citizen>()
+          .select("*")
+          .from("citizens")
+          .where("full_name", name)
+          .exec();
 
         if (!citizen) {
           return res.status(404).json({
@@ -73,16 +77,26 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
         const citizenId = citizen?.id ?? "not_found";
 
-        const arrestReports = await processQuery(
-          "SELECT * FROM `arrest_reports` WHERE `citizen_id` = ?",
-          [citizenId],
-        );
-        const tickets = await processQuery("SELECT * FROM `leo_tickets` WHERE `citizen_id` = ?", [
-          citizenId,
-        ]);
-        const warrants = await processQuery("SELECT * FROM `warrants` WHERE `citizen_id` = ?", [
-          citizenId,
-        ]);
+        const arrestReports = await global.connection
+          .query()
+          .select("*")
+          .from("arrest_reports")
+          .where("citizen_id", citizenId)
+          .exec();
+
+        const tickets = await global.connection
+          .query()
+          .select("*")
+          .from("leo_tickets")
+          .where("citizen_id", citizenId)
+          .exec();
+
+        const warrants = await global.connection
+          .query()
+          .select("*")
+          .from("warrants")
+          .where("citizen_id", citizenId)
+          .exec();
 
         return res.json({ status: "success", tickets, warrants, arrestReports, citizenId });
       } catch (e) {

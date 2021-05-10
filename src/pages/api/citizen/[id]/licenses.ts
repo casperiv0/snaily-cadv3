@@ -1,10 +1,10 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { formatRequired } from "@lib/utils.server";
 import { logger } from "@lib/logger";
 import { AnError } from "@lib/consts";
+import { Citizen } from "types/Citizen";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;
@@ -30,14 +30,24 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery(
-          "UPDATE `citizens` SET `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ? WHERE `id` = ?",
-          [dmv, fire_license, pilot_license, ccw, req.query.id],
-        );
+        await global.connection
+          .query<Citizen>()
+          .update("citizens", {
+            dmv,
+            fire_license,
+            pilot_license,
+            ccw,
+          })
+          .where("id", `${req.query.id}`)
+          .exec();
 
-        const [updated] = await processQuery("SELECT * FROM `citizens` WHERE `id` = ?", [
-          req.query.id,
-        ]);
+        const [updated] = await global.connection
+          .query<Citizen>()
+          .select("*")
+          .from("citizens")
+          .where("id", `${req.query.id}`)
+          .exec();
+
         return res.json({ status: "success", citizen: updated });
       } catch (e) {
         logger.error("REGISTER_VEHICLE", e);

@@ -1,7 +1,8 @@
 {
     "watch": [
         "server.ts",
-        "socket.server.ts"
+        "socket.server.ts",
+        "database.ts"
     ],
     "exec": "ts-node --project tsconfig.server.json src/server.ts",
     "ext": "js ts"

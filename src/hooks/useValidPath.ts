@@ -11,6 +11,16 @@ const paths: string[] = [
   "call-types",
 ];
 
+export type ParsedPath =
+  | "departments"
+  | "ethnicities"
+  | "genders"
+  | "legal_statuses"
+  | "cad_licenses"
+  | "vehicles"
+  | "weapons"
+  | "call_types";
+
 export function useValidPath(req: IRequest): Promise<string> {
   const path = req.query.path;
 
@@ -18,7 +28,7 @@ export function useValidPath(req: IRequest): Promise<string> {
     return Promise.reject("invalid path");
   }
 
-  const parsedPath = (path as string).replace("-", "_");
+  const parsedPath = (path as string).replace("-", "_") as ParsedPath;
   req.parsedPath = parsedPath;
 
   return Promise.resolve("success");

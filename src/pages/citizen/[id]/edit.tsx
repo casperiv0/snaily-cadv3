@@ -84,7 +84,7 @@ const CreateCitizenPage = ({
     },
     {
       type: "text",
-      value: (gender as unknown) as string,
+      value: gender as unknown as string,
       onChange: (e) => setGender(e),
       label: lang.citizen.gender,
       selectLabel: lang.citizen.select_gender,
@@ -94,7 +94,7 @@ const CreateCitizenPage = ({
     },
     {
       type: "text",
-      value: (ethnicity as unknown) as string,
+      value: ethnicity as unknown as string,
       onChange: (e) => setEthnicity(e),
       label: lang.citizen.ethnicity,
       selectLabel: lang.citizen.select_ethnicity,
@@ -241,7 +241,7 @@ const CreateCitizenPage = ({
                   theme="dark"
                   closeMenuOnSelect
                   isClearable={false}
-                  value={(field.value as unknown) as SelectValue}
+                  value={field.value as unknown as SelectValue}
                   onChange={field.onChange}
                   options={field.data?.map((item: Value) => ({
                     label: item.name,

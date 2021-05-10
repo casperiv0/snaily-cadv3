@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { formatRequired } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
+import { Citizen } from "types/Citizen";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -37,10 +37,12 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const results = await processQuery(
-          "SELECT `full_name`, `address`, `id` FROM `citizens` WHERE `address` LIKE ?",
-          [`%${address}%`],
-        );
+        const results = await global.connection
+          .query<Citizen>()
+          .select(["full_name", "address", "id"])
+          .from("citizens")
+          .whereLike("address", `%${address}%`)
+          .exec();
 
         return res.json({ results, status: "success" });
       } catch (e) {

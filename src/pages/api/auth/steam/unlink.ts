@@ -1,9 +1,9 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
+import { User } from "types/User";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -18,7 +18,13 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "DELETE": {
       try {
-        await processQuery("UPDATE `users` SET `steam_id` = ? WHERE `id` = ?", ["", req.userId]);
+        await global.connection
+          .query<User>()
+          .update("users", {
+            steam_id: "",
+          })
+          .where("id", req.userId)
+          .exec();
 
         return res.json({
           status: "success",

@@ -65,61 +65,60 @@ export const deleteEmsFdDeputy = (id: string) => async (dispatch: Dispatch<IEmsF
   }
 };
 
-export const setEmsStatus = (deputy: Pick<Deputy, "status" | "status2" | "id">) => async (
-  dispatch: Dispatch<SetEmsFdStatus>,
-) => {
-  try {
-    const res = await handleRequest(`/ems-fd/${deputy.id}/status`, "PUT", deputy);
+export const setEmsStatus =
+  (deputy: Pick<Deputy, "status" | "status2" | "id">) =>
+  async (dispatch: Dispatch<SetEmsFdStatus>) => {
+    try {
+      const res = await handleRequest(`/ems-fd/${deputy.id}/status`, "PUT", deputy);
 
-    dispatch({
-      type: "SET_EMS_FD_STATUS",
-      deputy: res.data.deputy,
-    });
+      dispatch({
+        type: "SET_EMS_FD_STATUS",
+        deputy: res.data.deputy,
+      });
 
-    socket.emit(SocketEvents.UpdateActiveUnits);
+      socket.emit(SocketEvents.UpdateActiveUnits);
 
-    return notify.success(`Successfully updated status to ${deputy.status2}`, {
-      autoClose: 2000,
-    });
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+      return notify.success(`Successfully updated status to ${deputy.status2}`, {
+        autoClose: 2000,
+      });
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
+    }
+  };
 
-export const searchMedicalRecord = (name: string) => async (
-  dispatch: Dispatch<SearchMedicalRecords>,
-) => {
-  try {
-    const res = await handleRequest("/search/medical-records", "POST", { name });
+export const searchMedicalRecord =
+  (name: string) => async (dispatch: Dispatch<SearchMedicalRecords>) => {
+    try {
+      const res = await handleRequest("/search/medical-records", "POST", { name });
 
-    dispatch({
-      type: "SEARCH_MEDICAL_RECORDS",
-      medicalRecords: res.data.medicalRecords?.map((record: MedicalRecord) => {
-        record.citizen = res.data.citizen;
+      dispatch({
+        type: "SEARCH_MEDICAL_RECORDS",
+        medicalRecords: res.data.medicalRecords?.map((record: MedicalRecord) => {
+          record.citizen = res.data.citizen;
 
-        return record;
-      }),
-    });
+          return record;
+        }),
+      });
 
-    return true;
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+      return true;
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
+    }
+  };
 
-export const declareDeadOrAlive = (citizenId: string, type: "alive" | "dead") => async (
-  dispatch: Dispatch<{ type: "DECLARE_DEAD_OR_ALIVE" }>,
-) => {
-  try {
-    await handleRequest(`/ems-fd/declare?citizenId=${citizenId}&type=${type}`, "PUT");
+export const declareDeadOrAlive =
+  (citizenId: string, type: "alive" | "dead") =>
+  async (dispatch: Dispatch<{ type: "DECLARE_DEAD_OR_ALIVE" }>) => {
+    try {
+      await handleRequest(`/ems-fd/declare?citizenId=${citizenId}&type=${type}`, "PUT");
 
-    dispatch({ type: "DECLARE_DEAD_OR_ALIVE" });
+      dispatch({ type: "DECLARE_DEAD_OR_ALIVE" });
 
-    return notify.success(`Successfully declared ${type}`);
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+      return notify.success(`Successfully declared ${type}`);
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
+    }
+  };

@@ -81,7 +81,6 @@ CREATE TABLE `bleets` (
   `user_id` varchar(255) NOT NULL,
   `uploaded_at` varchar(255) NOT NULL,
   `image_id` text NOT NULL,
-  `pinned` varchar(255) NOT NULL,
   `likes` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

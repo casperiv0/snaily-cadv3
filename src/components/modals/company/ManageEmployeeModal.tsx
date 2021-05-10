@@ -8,7 +8,7 @@ import lang from "src/language.json";
 import { updateEmployeeStatus } from "@actions/companies/CompanyActions";
 import { Company } from "types/Company";
 import { Select } from "@components/Select/Select";
-import { RequestData } from "@lib/utils";
+import { modal, RequestData } from "@lib/utils";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
 
@@ -30,6 +30,7 @@ const ManageEmployeeModalC: React.FC<Props> = ({ company, employee, updateEmploy
   const [canRegVeh, setCanRegVeh] = React.useState("");
   const [canCreatePost, setCanCreatePost] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const [employeeOfTheMonth, setEmployeeOfTheMonth] = React.useState(false);
 
   const router = useRouter();
   const citizenId = `${router.query?.citizenId}`;
@@ -40,6 +41,7 @@ const ManageEmployeeModalC: React.FC<Props> = ({ company, employee, updateEmploy
       setRank(employee?.rank);
       setCanRegVeh(employee?.vehicle_reg);
       setCanCreatePost(employee?.posts);
+      setEmployeeOfTheMonth(employee.employee_of_the_month === "1");
     }
   }, [employee]);
 
@@ -47,11 +49,16 @@ const ManageEmployeeModalC: React.FC<Props> = ({ company, employee, updateEmploy
     e.preventDefault();
     setLoading(true);
 
-    await updateEmployeeStatus(companyId, citizenId, employee?.id!, "UPDATE", {
+    const success = await updateEmployeeStatus(companyId, citizenId, employee?.id!, "UPDATE", {
       rank,
       can_reg_veh: canRegVeh,
       posts: canCreatePost,
+      employee_of_the_month: employeeOfTheMonth === true ? "1" : "0",
     });
+
+    if (success === true) {
+      modal(ModalIds.ManageEmployee)?.hide();
+    }
 
     setLoading(false);
   }
@@ -125,6 +132,19 @@ const ManageEmployeeModalC: React.FC<Props> = ({ company, employee, updateEmploy
                 { label: lang.global.no, value: "0" },
               ]}
             />
+          </div>
+
+          <div className="form-check">
+            <input
+              checked={employeeOfTheMonth}
+              onChange={() => setEmployeeOfTheMonth((v) => !v)}
+              className="form-check-input"
+              type="checkbox"
+              id="employee_of_the_month"
+            />
+            <label className="form-check-label" htmlFor="employee_of_the_month">
+              {lang.citizen.employee_of_the_month}
+            </label>
           </div>
         </div>
 

@@ -1,7 +1,6 @@
 import { NextApiResponse } from "next";
 import fs from "fs";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { logger } from "@lib/logger";
 import { AnError, RanksArr } from "@lib/consts";
@@ -24,14 +23,19 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (method) {
     case "GET": {
       try {
-        const [bleet] = await processQuery<Bleet>(
-          "SELECT * FROM `bleets` WHERE `bleets`.`id` = ?",
-          [req.query.id],
-        );
-        const [uploadedBy] = await processQuery<User>(
-          "SELECT `username` FROM `users` WHERE `id` = ?",
-          [bleet?.user_id],
-        );
+        const [bleet] = await global.connection
+          .query<Bleet>()
+          .select("*")
+          .from("bleets")
+          .where("id", `${req.query.id}`)
+          .exec();
+
+        const [uploadedBy] = await global.connection
+          .query<User>()
+          .select("username")
+          .from("users")
+          .where("id", bleet.user_id)
+          .exec();
 
         return res.json({
           status: "success",
@@ -45,14 +49,19 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "PUT": {
       try {
-        const [bleet] = await processQuery<Bleet>(
-          "SELECT * FROM `bleets` WHERE `bleets`.`id` = ?",
-          [req.query.id],
-        );
-        const [uploadedBy] = await processQuery<{ username: string }>(
-          "SELECT `username` FROM `users` WHERE `id` = ?",
-          [bleet?.user_id],
-        );
+        const [bleet] = await global.connection
+          .query<Bleet>()
+          .select("*")
+          .from("bleets")
+          .where("id", `${req.query.id}`)
+          .exec();
+
+        const [uploadedBy] = await global.connection
+          .query<User>()
+          .select("username")
+          .from("users")
+          .where("id", bleet.user_id)
+          .exec();
 
         if (!bleet) {
           return res.status(404).json({
@@ -77,16 +86,22 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery("UPDATE `bleets` SET `title` = ?, `body` = ? WHERE `bleets`.`id` = ?", [
-          title,
-          body,
-          req.query.id,
-        ]);
+        await global.connection
+          .query<Bleet>()
+          .update("bleets", {
+            title,
+            body,
+          })
+          .where("id", `${req.query.id}`)
+          .exec();
 
-        const [updated] = await processQuery<Bleet>(
-          "SELECT * FROM `bleets` WHERE `bleets`.`id` = ?",
-          [req.query.id],
-        );
+        const [updated] = await global.connection
+          .query<Bleet>()
+          .select("*")
+          .from("bleets")
+          .where("id", `${req.query.id}`)
+          .exec();
+
         return res.json({
           status: "success",
           bleet: {
@@ -102,20 +117,27 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "DELETE": {
       try {
-        const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [
-          req.userId,
-        ]);
+        const [user] = await global.connection
+          .query<User>()
+          .select("rank")
+          .from("users")
+          .where("id", req.userId)
+          .exec();
+
         const rank = user?.rank ?? "user";
-        const [bleet] = await processQuery<Bleet>("SELECT * FROM `bleets` WHERE `id` = ?", [
-          req.query.id,
-        ]);
+        const [bleet] = await global.connection
+          .query<Bleet>()
+          .select("*")
+          .from("bleets")
+          .where("id", `${req.query.id}`)
+          .exec();
 
         if (!bleet) {
           return res.status(404).json({ status: "error", error: "Bleet was not found" });
         }
 
         if (RanksArr.includes(rank) || bleet.user_id === req.userId) {
-          await processQuery("DELETE FROM `bleets` WHERE `bleets`.`id` = ?", [req.query.id]);
+          await global.connection.query().delete("bleets").where("id", `${req.query.id}`).exec();
 
           // Delete the old image
           fs.unlink(`./public/bleeter-images/${bleet.image_id}`, () => {

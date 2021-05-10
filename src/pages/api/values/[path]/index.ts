@@ -1,6 +1,5 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
@@ -8,6 +7,7 @@ import { usePermission } from "@hooks/usePermission";
 import { useValidPath } from "@hooks/useValidPath";
 import { v4 } from "uuid";
 import { formatRequired } from "@lib/utils.server";
+import { Value } from "types/Value";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -36,7 +36,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
       try {
         const parsedPath = req.parsedPath;
 
-        const values = await processQuery(`SELECT * FROM \`${parsedPath}\``);
+        const values = await global.connection.query<Value>().select("*").from(parsedPath).exec();
 
         return res.json({ values, status: "success" });
       } catch (e) {
@@ -57,13 +57,18 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery(
-          `INSERT INTO \`${parsedPath}\` (\`id\`, \`name\`, \`defaults\`) VALUES (?, ?, ?)`,
-          [v4(), name, "0"],
-        );
+        await global.connection
+          .query<Value>()
+          .insert(parsedPath, {
+            id: v4(),
+            name,
+            defaults: "0",
+          })
+          .exec();
 
-        const updated = await processQuery(`SELECT * FROM \`${parsedPath}\``);
-        return res.json({ status: "success", values: updated });
+        const values = await global.connection.query<Value>().select("*").from(parsedPath).exec();
+
+        return res.json({ status: "success", values });
       } catch (e) {
         logger.error("ADD_VALUE", e);
 

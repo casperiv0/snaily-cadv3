@@ -1,7 +1,6 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { Call } from "types/Call";
 import { IRequest } from "types/IRequest";
@@ -32,11 +31,18 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "DELETE": {
       try {
-        await processQuery(`DELETE FROM \`${dbPath(`${req.query.type}`)}\` WHERE \`id\` = ?`, [
-          req.query.id,
-        ]);
+        await global.connection
+          .query<Call>()
+          .delete(dbPath(`${req.query.type}`))
+          .where("id", `${req.query.id}`)
+          .exec();
 
-        const calls = await processQuery<Call>(`SELECT * FROM \`${dbPath(`${req.query.type}`)}\``);
+        const calls = await global.connection
+          .query<Call>()
+          .select("*")
+          .from(dbPath(`${req.query.type}`))
+          .exec();
+
         return res.json({
           calls: req.query.type === "911" ? await mapCalls(calls as Call[]) : calls,
           status: "success",

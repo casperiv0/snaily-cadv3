@@ -105,9 +105,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const members = await processQuery(
           "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `edit_passwords`  FROM `users`",
         );
-        const [
-          updated,
-        ] = await processQuery(
+        const [updated] = await processQuery(
           "SELECT `id`, `username`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `edit_passwords` FROM `users` WHERE `id` = ?",
           [req.query.id],
         );

@@ -24,7 +24,12 @@ import { Item, Span } from "@components/Item";
 import { Name } from "@actions/officer/OfficerTypes";
 import { Perm } from "types/Perm";
 import { PenalCode } from "types/PenalCode";
-import { getPenalCodesFromSelectValues, getTotalJailTimeAndFineAmount } from "@lib/utils";
+import {
+  getPenalCodesFromSelectValues,
+  getTotalJailTimeAndFineAmount,
+  isCadFeatureEnabled,
+} from "@lib/utils";
+import { Cad } from "types/Cad";
 
 interface NameSearch {
   type: "name";
@@ -41,6 +46,7 @@ interface Props {
   search: NameSearch;
   names: Name[];
   penalCodes: PenalCode[];
+  cadInfo: Nullable<Cad>;
   nameSearch: (name: string) => Promise<boolean>;
   saveNote: (citizenId: string, note: string) => void;
   searchNames: () => void;
@@ -53,6 +59,7 @@ const NameSearchModalC: React.FC<Props> = ({
   search,
   names,
   penalCodes,
+  cadInfo,
   nameSearch,
   saveNote,
   searchNames,
@@ -117,7 +124,7 @@ const NameSearchModalC: React.FC<Props> = ({
   }
 
   return (
-    <Modal title={lang.global.name_search} size="lg" id={ModalIds.NameSearch}>
+    <Modal title={lang.global.name_search} size="xl" id={ModalIds.NameSearch}>
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           {showResults && search?.warrants[0] ? (
@@ -158,98 +165,82 @@ const NameSearchModalC: React.FC<Props> = ({
             search?.citizen ? (
               <div className="mt-3 row">
                 <div className="col-md-6">
-                  <h5>{lang.admin.cad_settings.general_info}</h5>
+                  <h1 className="h3">{lang.admin.cad_settings.general_info}</h1>
 
-                  <div className="list-group" id="general_info">
-                    <div id="image_id">
-                      <img
-                        alt={search.citizen.image_id}
-                        className="object-fit-center rounded-circle mb-1"
-                        src={`/static/citizen-images/${search.citizen.image_id}`}
-                        style={{ width: "100px", height: "100px" }}
-                      />
+                  <div style={{ display: "flex" }} className="mt-3">
+                    <img
+                      alt={search.citizen.image_id}
+                      className="object-fit-center"
+                      src={`/static/citizen-images/${search.citizen.image_id}`}
+                      style={{ width: "120px", height: "120px" }}
+                    />
+
+                    <div className="ms-2">
+                      <Item id="full_name">
+                        <Span>{lang.citizen.full_name}: </Span>
+                        {search.citizen.full_name}
+                      </Item>
+                      <Item id="birth">
+                        <Span>{lang.citizen.date_of_birth}: </Span>
+                        {search.citizen.birth}
+                      </Item>
+                      <Item id="gender">
+                        <Span>{lang.citizen.gender}: </Span>
+                        {search.citizen.gender}
+                      </Item>
+                      <Item id="ethnicity">
+                        <Span>{lang.citizen.ethnicity}: </Span>
+                        {search.citizen.ethnicity}
+                      </Item>
+                      <Item id="hair_color">
+                        <Span>{lang.citizen.hair_color}: </Span>
+                        {search.citizen.hair_color}
+                      </Item>
+                      <Item id="phone_nr">
+                        <Span>{lang.citizen.phone_number}: </Span>
+                        {search.citizen.phone_nr || "None"}
+                      </Item>
                     </div>
 
-                    <Item id="full_name">
-                      <Span>{lang.citizen.full_name}: </Span>
-                      {search.citizen.full_name}
-                    </Item>
-
-                    <Item id="birth">
-                      <Span>{lang.citizen.date_of_birth}: </Span>
-                      {search.citizen.birth}
-                    </Item>
-
-                    <Item id="gender">
-                      <Span>{lang.citizen.gender}: </Span>
-                      {search.citizen.gender}
-                    </Item>
-
-                    <Item id="ethnicity">
-                      <Span>{lang.citizen.ethnicity}: </Span>
-                      {search.citizen.ethnicity}
-                    </Item>
-
-                    <Item id="hair_color">
-                      <Span>{lang.citizen.hair_color}: </Span>
-                      {search.citizen.hair_color}
-                    </Item>
-
-                    <Item id="eye_color">
-                      <Span>{lang.citizen.eye_color}: </Span>
-                      {search.citizen.eye_color}
-                    </Item>
-
-                    <Item id="address">
-                      <Span>{lang.citizen.address}: </Span>
-                      {search.citizen.address}
-                    </Item>
-
-                    <Item id="height_weight">
-                      <Span>{lang.citizen.hei_wei}: </Span>
-                      {search.citizen.height} / {search.citizen.weight}
-                    </Item>
-
-                    <Item id="employer">
-                      <Span>{lang.citizen.employer}: </Span>
-                      {search.citizen.business}
-                    </Item>
-
-                    {search?.citizen?.officer?.callsign ? (
-                      <Item id="officer">
-                        <Span>{lang.global.officer}: </Span>
-                        {`${search?.citizen.officer.callsign} ${search?.citizen.officer.officer_name}`}
+                    <div className="ms-4">
+                      <Item id="eye_color">
+                        <Span>{lang.citizen.eye_color}: </Span>
+                        {search.citizen.eye_color}
                       </Item>
-                    ) : null}
+                      <Item id="address">
+                        <Span>{lang.citizen.address}: </Span>
+                        {search.citizen.address}
+                      </Item>
+                      <Item id="height">
+                        <Span>{lang.citizen.height}: </Span>
+                        {search.citizen.height}
+                      </Item>
+                      <Item id="weight">
+                        <Span>{lang.citizen.weight}: </Span>
+                        {search.citizen.weight}
+                      </Item>
 
-                    <div className="d-flex gap-2">
-                      <button
-                        type="button"
-                        className="btn btn-primary col-md-5 mt-3"
-                        data-bs-toggle="modal"
-                        data-bs-target={`#${ModalIds.Mugshots}`}
-                      >
-                        {lang.officers.manage_mugshots}
-                      </button>
-                      <button
-                        onClick={handleDangerous}
-                        type="button"
-                        className={`btn  col-md-5 mt-3 ${
-                          search.citizen?.is_dangerous === "1" ? "btn-success" : "btn-danger"
-                        } `}
-                      >
-                        {search.citizen?.is_dangerous === "1"
-                          ? lang.officers.safe_citizen
-                          : lang.officers.citizen_danger}
-                      </button>
+                      {isCadFeatureEnabled(cadInfo?.features, "company") ? (
+                        <Item id="height">
+                          <Span>{lang.citizen.employer}: </Span>
+                          {search.citizen.business !== "none"
+                            ? search.citizen.business
+                            : lang.citizen.not_working}
+                        </Item>
+                      ) : null}
+
+                      {search.citizen.officer?.officer_name ? (
+                        <Item id="officer">
+                          <Span>{lang.global.officer}: </Span>
+                          {`${search.citizen.officer.callsign} ${search.citizen.officer.officer_name}`}
+                        </Item>
+                      ) : null}
                     </div>
                   </div>
-                </div>
 
-                <div className="col-md-6">
-                  <h5>{lang.citizen.licenses}</h5>
+                  <div className="mt-4">
+                    <h1 className="h3">{lang.citizen.licenses}</h1>
 
-                  <div className="list-group" id="licenses">
                     <Item id="dmv">
                       <Span>{lang.citizen.license.dmv}: </Span>
                       {isSuspendedOrRevoked("dmv") ?? (
@@ -341,7 +332,33 @@ const NameSearchModalC: React.FC<Props> = ({
                         </>
                       )}
                     </Item>
+                  </div>
 
+                  <div className="d-flex gap-2 mt-2 mb-2">
+                    <button
+                      type="button"
+                      className="btn btn-primary col-md-5 mt-3"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#${ModalIds.Mugshots}`}
+                    >
+                      {lang.officers.manage_mugshots}
+                    </button>
+                    <button
+                      onClick={handleDangerous}
+                      type="button"
+                      className={`btn  col-md-5 mt-3 ${
+                        search.citizen?.is_dangerous === "1" ? "btn-success" : "btn-danger"
+                      } `}
+                    >
+                      {search.citizen?.is_dangerous === "1"
+                        ? lang.officers.safe_citizen
+                        : lang.officers.citizen_danger}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="list-group" id="note">
                     <div className="mt-3" id="note">
                       <label style={{ fontSize: "1.2rem" }} htmlFor="note">
                         {lang.officers.add_note}
@@ -389,7 +406,7 @@ const NameSearchModalC: React.FC<Props> = ({
                   </button>
                 </div>
 
-                <div className="collapse mt-3" id="records">
+                <div className="collapse mt-3 show" id="records">
                   <div id="written_warnings">
                     <h5>
                       {lang.record.warnings} ({search.writtenWarnings.length})
@@ -790,6 +807,7 @@ const mapToProps = (state: State) => ({
   search: state.officers.search,
   names: state.officers.names,
   penalCodes: state.admin.penalCodes,
+  cadInfo: state.global.cadInfo,
 });
 
 export const NameSearchModal = connect(mapToProps, {

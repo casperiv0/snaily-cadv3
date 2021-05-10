@@ -24,9 +24,9 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       const citizenId = req.query.citizenId;
       const employeeId = req.query.employeeId;
       const type = req.query.type;
-      const { rank, posts, can_reg_veh } = req.body;
+      const body = req.body;
 
-      if (type === "UPDATE" && (!rank || !posts || !can_reg_veh)) {
+      if (type === "UPDATE" && (!body.rank || !body.posts || !body.can_reg_veh)) {
         return res.status(400).json({
           error: formatRequired(["rank", "posts", "can_reg_veh"], req.body),
           status: "error",
@@ -93,17 +93,23 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
       switch (type) {
         case "UPDATE": {
-          if (rank.toLowerCase() === "owner") {
+          if (body.rank.toLowerCase() === "owner") {
             return res.status(400).json({
               error: "Cannot set rank to `owner`",
               status: "error",
             });
           }
 
-          await processQuery(
-            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ? WHERE `id` = ?",
-            [rank, can_reg_veh, posts, employeeId],
-          );
+          await global.connection
+            .query<Citizen>()
+            .update("citizens", {
+              rank: body.rank,
+              vehicle_reg: body.can_reg_veh,
+              posts: body.posts,
+              employee_of_the_month: body.employee_of_the_month,
+            })
+            .where("id", `${employeeId}`)
+            .exec();
 
           break;
         }

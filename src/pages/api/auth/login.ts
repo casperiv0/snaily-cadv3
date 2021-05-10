@@ -3,7 +3,6 @@ import { NextApiResponse } from "next";
 import { useCookie } from "@hooks/useCookie";
 import useToken from "@hooks/useToken";
 import { Whitelist, AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { Cad } from "src/interfaces/Cad";
 import { IRequest } from "src/interfaces/IRequest";
@@ -22,10 +21,14 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const [user] = await processQuery<User>("SELECT * FROM `users` WHERE `username` = ?", [
-          username,
-        ]);
-        const [cadInfo] = await processQuery<Cad>("SELECT * FROM `cad_info`");
+        const [user] = await global.connection
+          .query<User>()
+          .select(["id", "rank", "password"])
+          .from("users")
+          .where("username", username)
+          .exec();
+
+        const [cadInfo] = await global.connection.query<Cad>().select("*").from("cad_info").exec();
 
         if (!user) {
           return res.status(400).json({

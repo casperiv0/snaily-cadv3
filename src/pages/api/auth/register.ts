@@ -4,33 +4,32 @@ import { v4 as uuid } from "uuid";
 import { useCookie } from "@hooks/useCookie";
 import useToken from "@hooks/useToken";
 import { AnError, Ranks, Auth, features } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { Cad } from "src/interfaces/Cad";
 import { IRequest } from "src/interfaces/IRequest";
-import { User } from "src/interfaces/User";
+import { User } from "types/User";
 
 async function createCADAndReturn(username: string) {
-  await processQuery(
-    "INSERT INTO `cad_info` (`owner`, `cad_name`, `AOP`, `tow_whitelisted`, `whitelisted`, `webhook_url`, `live_map_url`, `plate_length`, `signal_100`, `steam_api_key`, `features`, `registration_code`, `show_aop`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [
-      username,
-      "Change me",
-      "Change me",
-      "0",
-      "0",
-      "",
-      "",
-      8,
-      "0",
-      "",
-      JSON.stringify(features),
-      "",
-      "1",
-    ],
-  );
+  await global.connection
+    .query<Cad>()
+    .insert("cad_info", {
+      owner: username,
+      cad_name: "Change me",
+      AOP: "Change me",
+      tow_whitelisted: "0",
+      whitelisted: "0",
+      webhook_url: "",
+      live_map_url: "",
+      plate_length: 8,
+      signal_100: "0",
+      steam_api_key: "",
+      features: JSON.stringify(features) as any,
+      registration_code: "",
+      show_aop: "1",
+    })
+    .exec();
 
-  return (await processQuery<Cad>("SELECT * FROM `cad_info`"))[0];
+  return (await global.connection.query<Cad>().select("*").from("cad_info").exec())[0];
 }
 
 export default async function (req: IRequest, res: NextApiResponse) {
@@ -50,9 +49,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
           return res.status(400).json({ status: "error", error: "Passwords do not match" });
         }
 
-        const [user] = await processQuery<User>("SELECT * FROM `users` WHERE `username` = ?", [
-          username,
-        ]);
+        const [user] = await global.connection
+          .query()
+          .select("*")
+          .from("users")
+          .where("username", username)
+          .exec();
 
         if (user) {
           return res.status(400).json({
@@ -61,11 +63,11 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const users = await processQuery<User>("SELECT `username` FROM `users`");
+        const users = await global.connection.query().select("username").from("users").exec();
         const accountLevel = users.length <= 0 ? Ranks.Owner : Ranks.User;
 
         const cad =
-          (await processQuery<Cad>("SELECT * FROM `cad_info`"))[0] ??
+          (await global.connection.query<Cad>().select("*").from("cad_info").limit(1).exec())[0] ??
           (await createCADAndReturn(username));
 
         if (cad?.registration_code) {
@@ -90,26 +92,26 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const perm = accountLevel === Ranks.Owner ? "1" : "0";
 
         // create the user
-        await processQuery(
-          "INSERT INTO `users` (`id`, `username`, `password`, `rank`, `leo`, `supervisor`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`, `steam_id`, `avatar_url`, `edit_passwords`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          [
-            id /* id */,
-            username /* username */,
-            hash /* password */,
-            accountLevel /* rank */,
-            perm /* leo access */,
-            perm /* supervisor access */,
-            perm /* ems_fd access */,
-            perm /* dispatch access */,
-            towAccess /* tow access */,
-            "0" /* banned */,
-            "" /* ban_reason */,
-            whitelistStatus /* whitelist_status */,
-            "" /* steam_id */,
-            "" /* avatar_url */,
-            perm /* edit_passwords */,
-          ],
-        );
+        await global.connection
+          .query<User>()
+          .insert("users", {
+            id,
+            username,
+            password: hash,
+            rank: accountLevel,
+            leo: perm,
+            supervisor: perm,
+            ems_fd: perm,
+            dispatch: perm,
+            tow: towAccess,
+            banned: "0",
+            ban_reason: "",
+            whitelist_status: whitelistStatus,
+            steam_id: "",
+            avatar_url: "",
+            edit_passwords: perm,
+          })
+          .exec();
 
         if (cad?.whitelisted === "1") {
           return res.status(401).json({

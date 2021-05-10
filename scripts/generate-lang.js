@@ -120,6 +120,9 @@ const ProbablyNotInTheTranslateFile = {
     remove_image: "Remove image",
     dangerous_subject: "DANGEROUS SUBJECT",
     create_officer: "Create officer for this citizen",
+    employee_of_the_month: "Employee of the month",
+    employees_of_the_month: "Employees of the month",
+    no_employees_of_the_month: "There are no employees of the month yet.",
   },
   officers: {
     ...file.officers,
@@ -168,6 +171,7 @@ const ProbablyNotInTheTranslateFile = {
     citizen_danger: "Dangerous citizen",
     safe_citizen: "Safe citizen",
     set_danger_type: "Successfully set danger type",
+    gsr: "GSR",
   },
   admin: {
     ...file.admin,

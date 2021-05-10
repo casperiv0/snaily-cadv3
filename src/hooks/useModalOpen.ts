@@ -6,7 +6,7 @@ export function useModalOpen<T = Element>(id: ModalIds) {
   const ref = React.useRef<T>(null);
 
   React.useEffect(() => {
-    const el = document.getElementById((id as unknown) as string);
+    const el = document.getElementById(id as unknown as string);
 
     const handler = () => {
       // @ts-expect-error ignore line below

@@ -1,12 +1,12 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { formatRequired } from "@lib/utils.server";
 import { logger } from "@lib/logger";
 import { AnError } from "@lib/consts";
 import { Citizen } from "types/Citizen";
+import { MedicalRecord } from "types/MedicalRecord";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;
@@ -22,10 +22,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
 
   switch (method) {
     case "GET": {
-      const medicalRecords = await processQuery(
-        "SELECT * FROM `medical_records` WHERE `citizen_id` = ? AND `user_id` = ?",
-        [req.query.id, req.userId],
-      );
+      const medicalRecords = await global.connection
+        .query<MedicalRecord>()
+        .select("*")
+        .from("medical_records")
+        .where("citizen_id", `${req.query.id}`)
+        .and("user_id", req.userId)
+        .exec();
 
       return res.json({ medicalRecords, status: "success" });
     }
@@ -40,10 +43,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       }
 
       const id = v4();
-      const [citizen] = await processQuery<Citizen>(
-        "SELECT `full_name` FROM `citizens` WHERE `id` = ? AND `user_id` = ?",
-        [req.query.id, req.userId],
-      );
+      const [citizen] = await global.connection
+        .query<Citizen>()
+        .select("full_name")
+        .from("citizens")
+        .where("id", `${req.query.id}`)
+        .and("user_id", req.userId)
+        .exec();
 
       if (!citizen) {
         return res.status(404).json({
@@ -52,15 +58,26 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
 
-      await processQuery(
-        "INSERT INTO `medical_records` (`id`, `type`, `short_info`, `name`, `citizen_id`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",
-        [id, type, shortInfo, citizen?.full_name, req.query.id, req.userId],
-      );
+      await global.connection
+        .query<MedicalRecord>()
+        .insert("medical_records", {
+          id,
+          type,
+          short_info: shortInfo,
+          name: citizen.full_name,
+          citizen_id: `${req.query.id}`,
+          user_id: req.userId,
+        })
+        .exec();
 
-      const updated = await processQuery(
-        "SELECT * FROM `medical_records` WHERE `citizen_id` = ? AND `user_id` = ?",
-        [req.query.id, req.userId],
-      );
+      const updated = await global.connection
+        .query<MedicalRecord>()
+        .select("*")
+        .from("medical_records")
+        .where("citizen_id", `${req.query.id}`)
+        .and("user_id", req.userId)
+        .exec();
+
       return res.json({ status: "success", medicalRecords: updated });
     }
     case "DELETE": {
@@ -72,15 +89,20 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery("DELETE FROM `medical_records` WHERE `id` = ? AND `citizen_id` = ?", [
-          req.query.recordId,
-          req.query.id,
-        ]);
+        await global.connection
+          .query<MedicalRecord>()
+          .delete("medical_records")
+          .where("id", `${req.query.recordId}`)
+          .and("citizen_id", `${req.query.id}`)
+          .exec();
 
-        const medicalRecords = await processQuery(
-          "SELECT * FROM `medical_records` WHERE `citizen_id` = ? AND `user_id` = ?",
-          [req.query.id, req.userId],
-        );
+        const medicalRecords = await global.connection
+          .query<MedicalRecord>()
+          .select("*")
+          .from("medical_records")
+          .where("citizen_id", `${req.query.id}`)
+          .and("user_id", req.userId)
+          .exec();
 
         return res.json({ medicalRecords, status: "success" });
       } catch (e) {

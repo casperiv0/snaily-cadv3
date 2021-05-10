@@ -13,6 +13,7 @@ const config = {
   env: process.env.PROFILE || "production",
   allowIframes: false, // true or false
   secureCookie: false, // ONLY SET TO `true` if your site uses `https://`!
+  databasePort: 3306,
 };
 
 export default config;

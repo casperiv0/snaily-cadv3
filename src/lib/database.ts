@@ -1,4 +1,5 @@
-import mysql, { Connection, ConnectionConfig } from "promise-mysql";
+import { createConnection, Connection, ConnectionConfig } from "@casper124578/mysql.ts";
+import { Tables } from "../interfaces/Tables";
 import config from "./config.server";
 import { logger } from "./logger";
 
@@ -8,23 +9,31 @@ const options: ConnectionConfig = {
   user: config.user,
   password: config.password,
   database: config.databaseName,
+  port: config.databasePort,
   timeout: 0,
 };
 
-async function connect(): Promise<Connection> {
-  return await mysql.createConnection(options);
+async function connect(): Promise<Connection<Tables>> {
+  const conn = await createConnection<Tables>(options);
+
+  global.connection = conn;
+
+  return conn;
 }
+connect();
 
 export async function processQuery<T = unknown>(
   query: string,
   data?: unknown[],
 ): Promise<(T | undefined)[]> {
-  const connection = await connect();
+  if (!global.connection) {
+    await connect();
+  }
 
   try {
-    return connection.query(query, data);
+    return global.connection.query().raw(query, data).exec();
   } finally {
-    connection && connection.end();
+    // connection?.end();
   }
 }
 
@@ -50,6 +59,13 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine(
+    "ALTER TABLE `citizens` ADD `employee_of_the_month` varchar(255) NOT NULL AFTER `b_status`;",
+  );
+  updateLine("ALTER TABLE `bleets` DROP `pinned`;");
+  updateLine(
+    "ALTER TABLE `leo_incidents` ADD `gsr` varchar(255) NOT NULL AFTER `firearms_involved`;",
+  );
   updateLine(
     "ALTER TABLE `cad_info` ADD `on_duty_status` varchar(255) DEFAULT '10-8' AFTER `whitelisted`;",
   );

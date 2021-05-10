@@ -1,6 +1,5 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
@@ -21,7 +20,11 @@ export default async function (req: IRequest, res: NextApiResponse) {
       try {
         const host = req.headers["host"];
         const callbackUrl = `http://${host}/api/auth/steam/callback?next=http://${host}/account?auth=success`;
-        const [cad] = await processQuery<Cad>("SELECT `steam_api_key` from `cad_info`");
+        const [cad] = await global.connection
+          .query<Cad>()
+          .select("steam_api_key")
+          .from("cad_info")
+          .exec();
 
         if (!cad?.steam_api_key) {
           return res.status(400).json({

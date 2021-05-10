@@ -1,7 +1,6 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 
@@ -18,13 +17,14 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const found = await processQuery<{ full_name: string }>(
-          "SELECT `id`, `full_name` FROM `citizens`",
-          [],
-        );
+        const names = await global.connection
+          .query()
+          .select(["id", "full_name"])
+          .from("citizens")
+          .exec();
 
         return res.json({
-          names: found,
+          names,
           status: "success",
         });
       } catch (e) {

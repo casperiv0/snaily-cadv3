@@ -33,6 +33,7 @@ export interface Citizen {
   dead: Perm;
   dead_on: string;
   is_dangerous: Perm;
+  employee_of_the_month: Perm;
 
   officer?: {
     officer_name: string;

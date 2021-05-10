@@ -1,11 +1,12 @@
 import { NextApiResponse } from "next";
-import { SaveUserQueryData, AnError } from "@lib/consts";
+import { AnError, SaveUserDataArr } from "@lib/consts";
 import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
 import { User } from "types/User";
 import { compareSync, hashSync } from "bcryptjs";
+import { Citizen } from "types/Citizen";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -20,11 +21,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "POST": {
       try {
-        const [
-          user,
-        ] = await processQuery(`SELECT ${SaveUserQueryData} FROM \`users\` WHERE \`id\` = ?`, [
-          req.userId,
-        ]);
+        const [user] = await global.connection
+          .query()
+          .select(SaveUserDataArr)
+          .from("users")
+          .where("id", req.userId)
+          .exec();
 
         return res.json({
           user,
@@ -46,7 +48,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
         });
       }
 
-      const [user] = await processQuery<User>("SELECT * FROM `users` WHERE `id` = ?", [req.userId]);
+      const [user] = await global.connection
+        .query()
+        .select("id")
+        .from("users")
+        .where("id", req.userId)
+        .exec();
 
       if (!user) {
         return res.status(404).json({ error: "User was not found", status: "error" });
@@ -67,9 +74,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
       return res.json({ status: "success" });
     }
     case "DELETE": {
-      const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [
-        req.userId,
-      ]);
+      const [user] = await global.connection
+        .query<User>()
+        .select("rank")
+        .from("users")
+        .where("id", req.userId)
+        .exec();
 
       if (user?.rank === "owner") {
         return res.status(400).json({
@@ -78,9 +88,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
         });
       }
 
-      const citizens = await processQuery<any>("SELECT * FROM `citizens` WHERE `user_id` = ?", [
-        req.userId,
-      ]);
+      const citizens = await global.connection
+        .query<Citizen>()
+        .select("*")
+        .from("citizens")
+        .where("user_id", req.userId)
+        .exec();
 
       await Promise.all(
         citizens.map(async (citizen) => {

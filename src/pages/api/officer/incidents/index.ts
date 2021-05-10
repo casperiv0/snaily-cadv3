@@ -56,23 +56,15 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "POST": {
       try {
-        const {
-          full_date,
-          narrative,
-          involved_officers,
-          location,
-          arrests_made,
-          firearms_involved,
-          injuries,
-        } = req.body as OfficerIncident;
+        const body = req.body as OfficerIncident;
 
         if (
-          !full_date ||
-          !narrative ||
-          !location ||
-          !arrests_made ||
-          !firearms_involved ||
-          !injuries
+          !body.full_date ||
+          !body.narrative ||
+          !body.location ||
+          !body.arrests_made ||
+          !body.firearms_involved ||
+          !body.injuries
         ) {
           return res.status(400).json({
             error: formatRequired(
@@ -99,25 +91,26 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const total = await processQuery("SELECT * FROM `leo_incidents`");
+        const total = await global.connection.query().select("id").from("leo_incidents").exec();
 
-        await processQuery(
-          "INSERT INTO `leo_incidents` (`id`, `full_date`, `narrative`, `involved_officers`, `location`, `officer_name`, `officer_dept`, `case_number`, `officer_id`, `firearms_involved`, `arrests_made`, `injuries`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          [
-            v4(),
-            full_date,
-            narrative,
-            JSON.stringify(involved_officers),
-            location,
-            `${officer.callsign} ${officer.officer_name}`,
-            officer.officer_dept,
-            total.length + 1,
-            officer.id,
-            arrests_made,
-            firearms_involved,
-            injuries,
-          ],
-        );
+        await global.connection
+          .query<OfficerIncident>()
+          .insert("leo_incidents", {
+            id: v4(),
+            full_date: body.full_date,
+            narrative: body.narrative,
+            involved_officers: JSON.stringify(body.involved_officers),
+            location: body.location,
+            officer_name: `${officer.callsign} ${officer.officer_name}`,
+            officer_dept: officer.officer_dept,
+            case_number: (total.length + 1).toString(),
+            firearms_involved: body.firearms_involved,
+            arrests_made: body.arrests_made,
+            injuries: body.injuries,
+            gsr: body.gsr,
+            officer_id: officer.id,
+          })
+          .exec();
 
         const incidents = await processQuery<OfficerIncident>("SELECT * FROM `leo_incidents`");
         return res.json({

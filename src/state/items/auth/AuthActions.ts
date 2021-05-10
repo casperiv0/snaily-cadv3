@@ -4,25 +4,24 @@ import { ModalIds } from "types/ModalIds";
 import { Authenticate, UnlinkSteam, UpdatePassword, VerifyAuth } from "./AuthTypes";
 import lang from "src/language.json";
 
-export const login = (data: { username: string; password: string }) => async (
-  dispatch: Dispatch<Authenticate>,
-) => {
-  try {
-    const res = await handleRequest("/auth/login", "POST", data);
+export const login =
+  (data: { username: string; password: string }) => async (dispatch: Dispatch<Authenticate>) => {
+    try {
+      const res = await handleRequest("/auth/login", "POST", data);
 
-    dispatch({
-      type: "AUTHENTICATE",
-      user: res.data.user,
-      isAuth: !!res.data.user,
-    });
-    return true;
-  } catch (e) {
-    const error = getErrorFromResponse(e);
+      dispatch({
+        type: "AUTHENTICATE",
+        user: res.data.user,
+        isAuth: !!res.data.user,
+      });
+      return true;
+    } catch (e) {
+      const error = getErrorFromResponse(e);
 
-    notify.warn(error);
-    return false;
-  }
-};
+      notify.warn(error);
+      return false;
+    }
+  };
 
 export const register = (data: RequestData) => async (dispatch: Dispatch<Authenticate>) => {
   try {

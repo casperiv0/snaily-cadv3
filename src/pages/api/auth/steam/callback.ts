@@ -1,7 +1,6 @@
 import { NextApiResponse } from "next";
 import BN from "bignumber.js";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
@@ -21,7 +20,11 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const [cad] = await processQuery<Cad>("SELECT `steam_api_key` FROM `cad_info`");
+        const [cad] = await global.connection
+          .query<Cad>()
+          .select("steam_api_key")
+          .from("cad_info")
+          .exec();
 
         if (!cad?.steam_api_key) {
           return res.status(400).json({
@@ -46,10 +49,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
         }
 
         const userSteamHex = new BN(userSteamId);
-        const [existingUser] = await processQuery<User>(
-          "SELECT `id` FROM `users` WHERE `steam_id` = ?",
-          [userSteamHex.toString(16)],
-        );
+        const [existingUser] = await global.connection
+          .query<User>()
+          .select("id")
+          .from("users")
+          .where("steam_id", userSteamHex.toString(16))
+          .exec();
 
         if (existingUser?.id !== req.userId && existingUser?.id) {
           return res.status(400).json({
@@ -58,11 +63,14 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery("UPDATE `users` SET `steam_id` = ?, `avatar_url` = ? WHERE `id` =  ?", [
-          userSteamHex.toString(16),
-          json.response.players?.[0]?.avatar,
-          req.userId,
-        ]);
+        await global.connection
+          .query<User>()
+          .update("users", {
+            steam_id: userSteamHex.toString(16),
+            avatar_url: json.response.players?.[0]?.avatar,
+          })
+          .where("id", req.userId)
+          .exec();
 
         const nextURL = req.query?.["next"];
 

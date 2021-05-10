@@ -19,6 +19,7 @@ import { getCompanyById } from "@actions/companies/CompanyActions";
 import { ModalIds } from "types/ModalIds";
 import { Span } from "@components/Item";
 import { Seo } from "@components/Seo";
+import { EmployeesList } from "@components/company/EmployeesList";
 
 interface Props {
   company: Nullable<Company>;
@@ -52,43 +53,51 @@ const CompanyPage: React.FC<Props> = ({ citizen, company, posts, returnError }) 
   return (
     <Layout>
       <Seo title={company?.id ? `${lang.citizen.viewing_company}: ${company.name}` : "Company"} />
-      <div className="d-flex justify-content-between">
-        <h3>{company?.name}</h3>
-        <div>
-          {ranks.includes(citizen?.rank!) || citizen?.posts === "1" ? (
-            <button
-              className="btn btn-primary me-2"
-              data-bs-toggle="modal"
-              data-bs-target={`#${ModalIds.CreateCompanyPost}`}
-            >
-              {lang.citizen.company.create_a_post}
-            </button>
-          ) : null}
+      <div className="d-flex">
+        <div style={{ marginRight: "2rem" }} className="col-md-8">
+          <div className="d-flex justify-content-between">
+            <h3>{company?.name}</h3>
+            <div>
+              {ranks.includes(citizen?.rank!) || citizen?.posts === "1" ? (
+                <button
+                  className="btn btn-primary me-2"
+                  data-bs-toggle="modal"
+                  data-bs-target={`#${ModalIds.CreateCompanyPost}`}
+                >
+                  {lang.citizen.company.create_a_post}
+                </button>
+              ) : null}
 
-          {citizen?.rank === "manager" || citizen?.rank === "owner" ? (
-            <Link href={`/company/${companyId}/${citizenId}/manage`}>
-              <a className="btn btn-secondary">{lang.citizen.company.manage_company}</a>
-            </Link>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="mt-3">
-        {posts.map((post: CompanyPost, idx: number) => {
-          return (
-            <div key={idx} id={`${idx}`} className="card bg-dark border-secondary mb-2">
-              <div className="card-header">{post.title}</div>
-
-              <div className="card-body">{post.description}</div>
-
-              <div className="card-footer">
-                <Span>{lang.citizen.company.uploaded_at}: </Span>
-                {format(+post.uploaded_at, "yyyy-MM-dd")} |{" "}
-                <Span>{lang.citizen.company.uploaded_by}: </Span> {post.uploaded_by}
-              </div>
+              {citizen?.rank === "manager" || citizen?.rank === "owner" ? (
+                <Link href={`/company/${companyId}/${citizenId}/manage`}>
+                  <a className="btn btn-secondary">{lang.citizen.company.manage_company}</a>
+                </Link>
+              ) : null}
             </div>
-          );
-        })}
+          </div>
+
+          <div className="mt-3">
+            {posts.map((post: CompanyPost, idx: number) => {
+              return (
+                <div key={idx} id={`${idx}`} className="card bg-dark border-secondary mb-2">
+                  <div className="card-header">{post.title}</div>
+
+                  <div className="card-body">{post.description}</div>
+
+                  <div className="card-footer">
+                    <Span>{lang.citizen.company.uploaded_at}: </Span>
+                    {format(+post.uploaded_at, "yyyy-MM-dd")} |{" "}
+                    <Span>{lang.citizen.company.uploaded_by}: </Span> {post.uploaded_by}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <aside className="col-md-3">
+          <EmployeesList />
+        </aside>
       </div>
 
       <CreatePostModal citizenId={`${citizenId}`} companyId={`${companyId}`} />

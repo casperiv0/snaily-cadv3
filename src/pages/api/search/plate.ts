@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "types/IRequest";
 import { formatRequired } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
+import { Vehicle } from "types/Vehicle";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -37,12 +37,13 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const [
-          result,
-        ] = await processQuery(
-          "SELECT * FROM `registered_cars` WHERE `plate` = ? OR `vin_number` = ?",
-          [plate, plate],
-        );
+        const [result] = await global.connection
+          .query<Vehicle>()
+          .select("*")
+          .from("registered_cars")
+          .where("plate", plate)
+          .or("vin_number", plate)
+          .exec();
 
         return res.json({ vehicle: result ?? {}, status: "success" });
       } catch (e) {
