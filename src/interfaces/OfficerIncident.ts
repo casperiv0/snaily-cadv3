@@ -14,4 +14,5 @@ export interface OfficerIncident {
   injuries: Perm;
   gsr: Perm;
   officer_id: string;
+  gang_affiliation: Perm;
 }

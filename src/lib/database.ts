@@ -60,6 +60,9 @@ async function updateLine(sql: string) {
 
 async function updateDb() {
   updateLine(
+    "ALTER TABLE `leo_incidents` ADD `gang_affiliation` varchar(255) NOT NULL AFTER `firearms_involved`;",
+  );
+  updateLine(
     "ALTER TABLE `citizens` ADD `employee_of_the_month` varchar(255) NOT NULL AFTER `b_status`;",
   );
   updateLine("ALTER TABLE `bleets` DROP `pinned`;");

@@ -172,6 +172,7 @@ const ProbablyNotInTheTranslateFile = {
     safe_citizen: "Safe citizen",
     set_danger_type: "Successfully set danger type",
     gsr: "GSR",
+    gang_affiliation: "Gang Affiliation"
   },
   admin: {
     ...file.admin,
