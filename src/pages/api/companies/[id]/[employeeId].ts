@@ -100,10 +100,16 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             });
           }
 
-          await processQuery(
-            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ?, `employee_of_the_month` = ? WHERE `id` = ?",
-            [body.rank, body.can_reg_veh, body.posts, body.employee_of_the_month, body.employeeId],
-          );
+          await global.connection
+            .query<Citizen>()
+            .update("citizens", {
+              rank: body.rank,
+              vehicle_reg: body.can_reg_veh,
+              posts: body.posts,
+              employee_of_the_month: body.employee_of_the_month,
+            })
+            .where("id", `${employeeId}`)
+            .exec();
 
           break;
         }

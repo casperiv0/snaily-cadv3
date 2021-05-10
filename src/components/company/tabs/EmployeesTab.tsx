@@ -67,6 +67,11 @@ const EmployeesTabC: React.FC<Props> = ({
                     <Span>{lang.dispatch.status}: </Span>
                     {employee.b_status}
                   </Item>
+
+                  <Item id="employee_of_the_month">
+                    <Span>{lang.citizen.employee_of_the_month}: </Span>
+                    {employee.employee_of_the_month}
+                  </Item>
                 </div>
               </div>
               <div>
