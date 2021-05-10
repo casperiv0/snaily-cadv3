@@ -16,38 +16,36 @@ export const getBleets = (headers?: any) => async (dispatch: Dispatch<IBleeter>)
   }
 };
 
-export const getBleetById = (id: string, headers?: any) => async (
-  dispatch: Dispatch<GetBleetById>,
-) => {
-  try {
-    const res = await handleRequest(`/bleeter/${id}`, "GET", headers);
+export const getBleetById =
+  (id: string, headers?: any) => async (dispatch: Dispatch<GetBleetById>) => {
+    try {
+      const res = await handleRequest(`/bleeter/${id}`, "GET", headers);
 
-    dispatch({
-      type: "GET_BLEET_BY_ID",
-      bleet: res.data.bleet ?? null,
-    });
-  } catch (e) {
-    return false;
-  }
-};
+      dispatch({
+        type: "GET_BLEET_BY_ID",
+        bleet: res.data.bleet ?? null,
+      });
+    } catch (e) {
+      return false;
+    }
+  };
 
-export const updateBleet = (id: string, data: RequestData) => async (
-  dispatch: Dispatch<UpdateBleetById>,
-) => {
-  try {
-    const res = await handleRequest(`/bleeter/${id}`, "PUT", data);
+export const updateBleet =
+  (id: string, data: RequestData) => async (dispatch: Dispatch<UpdateBleetById>) => {
+    try {
+      const res = await handleRequest(`/bleeter/${id}`, "PUT", data);
 
-    dispatch({
-      type: "UPDATE_BLEET_BY_ID",
-      bleet: res.data.bleet,
-    });
+      dispatch({
+        type: "UPDATE_BLEET_BY_ID",
+        bleet: res.data.bleet,
+      });
 
-    return notify.success(lang.bleeter.update_bleet_success);
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+      return notify.success(lang.bleeter.update_bleet_success);
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
+    }
+  };
 
 export const deleteBleet = (id: string) => async (dispatch: Dispatch<any>) => {
   try {
@@ -64,28 +62,27 @@ export const deleteBleet = (id: string) => async (dispatch: Dispatch<any>) => {
   }
 };
 
-export const createBleet = (data: { title: string; body: string; image: any }) => async (
-  dispatch: Dispatch<IBleeter>,
-) => {
-  try {
-    const fd = new FormData();
+export const createBleet =
+  (data: { title: string; body: string; image: any }) => async (dispatch: Dispatch<IBleeter>) => {
+    try {
+      const fd = new FormData();
 
-    if (data.image) {
-      fd.append("image", data.image, data.image?.name);
+      if (data.image) {
+        fd.append("image", data.image, data.image?.name);
+      }
+      fd.append("title", data.title);
+      fd.append("body", data.body);
+
+      const res = await handleRequest("/bleeter", "POST", fd as unknown as RequestData);
+
+      dispatch({
+        type: "CREATE_BLEET",
+        bleets: res.data.bleets,
+      });
+
+      return true;
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.error(error);
     }
-    fd.append("title", data.title);
-    fd.append("body", data.body);
-
-    const res = await handleRequest("/bleeter", "POST", (fd as unknown) as RequestData);
-
-    dispatch({
-      type: "CREATE_BLEET",
-      bleets: res.data.bleets,
-    });
-
-    return true;
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.error(error);
-  }
-};
+  };

@@ -34,11 +34,10 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
           await Promise.all(
             requests.map(async (request: any) => {
-              const [
-                citizen,
-              ] = await processQuery("SELECT `full_name` FROM `citizens` WHERE `id` = ?", [
-                request.citizen_id,
-              ]);
+              const [citizen] = await processQuery(
+                "SELECT `full_name` FROM `citizens` WHERE `id` = ?",
+                [request.citizen_id],
+              );
               const [user] = await processQuery("SELECT `username` FROM `users` WHERE `id` = ?", [
                 request.user_id,
               ]);

@@ -8,6 +8,7 @@ interface ServerConfig {
   env: string;
   allowIframes: boolean;
   secureCookie: boolean;
+  databasePort: number;
 }
 
 /**
@@ -37,6 +38,7 @@ try {
     env: conf.default.env || defaultProfile,
     allowIframes: conf.default?.allowIframes ?? false,
     secureCookie: conf.default?.secureCookie ?? false,
+    databasePort: conf.default?.databasePort ?? 3306,
   };
 } catch (e) {
   config = {
@@ -49,6 +51,7 @@ try {
     env: process.env.PROFILE || defaultProfile,
     allowIframes: process.env.ALLOW_IFRAMES === "true" ?? false,
     secureCookie: process.env.SECURE_COOKIE === "true" ?? false,
+    databasePort: parseInt(process.env.DB_PORT!) ?? 3306,
   };
 }
 

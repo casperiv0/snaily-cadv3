@@ -79,11 +79,10 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         }
 
         if (citizen_id) {
-          const [
-            existing,
-          ] = await processQuery("SELECT `id` FROM `officers` WHERE `citizen_id` = ?", [
-            citizen_id,
-          ]);
+          const [existing] = await processQuery(
+            "SELECT `id` FROM `officers` WHERE `citizen_id` = ?",
+            [citizen_id],
+          );
 
           if (existing) {
             return res.status(400).json({

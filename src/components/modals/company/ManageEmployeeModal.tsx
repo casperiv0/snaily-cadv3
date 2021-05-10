@@ -30,6 +30,7 @@ const ManageEmployeeModalC: React.FC<Props> = ({ company, employee, updateEmploy
   const [canRegVeh, setCanRegVeh] = React.useState("");
   const [canCreatePost, setCanCreatePost] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const [employeeOfTheMonth, setEmployeeOfTheMonth] = React.useState(false);
 
   const router = useRouter();
   const citizenId = `${router.query?.citizenId}`;
@@ -40,6 +41,7 @@ const ManageEmployeeModalC: React.FC<Props> = ({ company, employee, updateEmploy
       setRank(employee?.rank);
       setCanRegVeh(employee?.vehicle_reg);
       setCanCreatePost(employee?.posts);
+      setEmployeeOfTheMonth(employee.employee_of_the_month === "1");
     }
   }, [employee]);
 
@@ -51,6 +53,7 @@ const ManageEmployeeModalC: React.FC<Props> = ({ company, employee, updateEmploy
       rank,
       can_reg_veh: canRegVeh,
       posts: canCreatePost,
+      employee_of_the_month: employeeOfTheMonth,
     });
 
     setLoading(false);
@@ -126,6 +129,19 @@ const ManageEmployeeModalC: React.FC<Props> = ({ company, employee, updateEmploy
               ]}
             />
           </div>
+        </div>
+
+        <div className="form-check">
+          <input
+            checked={employeeOfTheMonth}
+            onChange={() => setEmployeeOfTheMonth((v) => !v)}
+            className="form-check-input"
+            type="checkbox"
+            id="employee_of_the_month"
+          />
+          <label className="form-check-label" htmlFor="employee_of_the_month">
+            {lang.citizen.employee_of_the_month}
+          </label>
         </div>
 
         <div className="modal-footer">

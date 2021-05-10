@@ -9,6 +9,7 @@ const options: ConnectionConfig = {
   user: config.user,
   password: config.password,
   database: config.databaseName,
+  port: config.databasePort,
   timeout: 0,
 };
 
@@ -58,6 +59,9 @@ async function updateLine(sql: string) {
 }
 
 async function updateDb() {
+  updateLine(
+    "ALTER TABLE `citizens` ADD `employee_of_the_month` varchar(255) NOT NULL AFTER `b_status`;",
+  );
   updateLine("ALTER TABLE `bleets` DROP `pinned`;");
   updateLine(
     "ALTER TABLE `leo_incidents` ADD `gsr` varchar(255) NOT NULL AFTER `firearms_involved`;",

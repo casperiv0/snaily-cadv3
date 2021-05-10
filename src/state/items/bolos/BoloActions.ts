@@ -60,22 +60,21 @@ export const createBolo = (data: RequestData) => async (dispatch: Dispatch<IBolo
   }
 };
 
-export const updateBoloById = (id: string, data: RequestData) => async (
-  dispatch: Dispatch<IBolos>,
-) => {
-  try {
-    const res = await handleRequest(`/bolos/${id}`, "PUT", data);
+export const updateBoloById =
+  (id: string, data: RequestData) => async (dispatch: Dispatch<IBolos>) => {
+    try {
+      const res = await handleRequest(`/bolos/${id}`, "PUT", data);
 
-    dispatch({
-      type: "UPDATE_BOLOS",
-      bolos: res.data.bolos,
-    });
-    socket.emit(SocketEvents.UpdateBolos);
-    modal(ModalIds.EditBolo)?.hide();
+      dispatch({
+        type: "UPDATE_BOLOS",
+        bolos: res.data.bolos,
+      });
+      socket.emit(SocketEvents.UpdateBolos);
+      modal(ModalIds.EditBolo)?.hide();
 
-    return notify.success(lang.bolos.updated_bolo);
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.error(error);
-  }
-};
+      return notify.success(lang.bolos.updated_bolo);
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.error(error);
+    }
+  };

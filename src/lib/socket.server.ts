@@ -10,12 +10,10 @@ import { Cad } from "../interfaces/Cad";
 import { getWebhookData, postWebhook } from "./utils.server";
 import { SocketEvents } from "../interfaces/Socket";
 
-export const wrap = (middleware: any) => (
-  socket: Socket,
-  next: (err?: ExtendedError | undefined) => void,
-) => {
-  return middleware(socket.request, {}, next);
-};
+export const wrap =
+  (middleware: any) => (socket: Socket, next: (err?: ExtendedError | undefined) => void) => {
+    return middleware(socket.request, {}, next);
+  };
 
 export async function socketHandler(socket: Socket, server: Server) {
   // @ts-expect-error ignore the line below

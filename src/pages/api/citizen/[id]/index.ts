@@ -178,12 +178,10 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     }
     case "DELETE": {
       try {
-        const [
-          citizen,
-        ] = await processQuery("SELECT * FROM `citizens` WHERE `id` = ? AND `user_id` = ?", [
-          query.id,
-          req.userId,
-        ]);
+        const [citizen] = await processQuery(
+          "SELECT * FROM `citizens` WHERE `id` = ? AND `user_id` = ?",
+          [query.id, req.userId],
+        );
 
         if (!citizen) {
           return res.status(404).json({

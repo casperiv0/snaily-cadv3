@@ -120,6 +120,7 @@ const ProbablyNotInTheTranslateFile = {
     remove_image: "Remove image",
     dangerous_subject: "DANGEROUS SUBJECT",
     create_officer: "Create officer for this citizen",
+    employee_of_the_month: "Employee of the month",
   },
   officers: {
     ...file.officers,

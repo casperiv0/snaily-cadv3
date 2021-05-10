@@ -56,102 +56,106 @@ export const createCompany = (data: RequestData) => async (dispatch: Dispatch<Cr
   }
 };
 
-export const deleteCompanyById = (id: string, citizenId?: string) => async (
-  dispatch: Dispatch<GetCompanies>,
-) => {
-  try {
-    const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "DELETE");
+export const deleteCompanyById =
+  (id: string, citizenId?: string) => async (dispatch: Dispatch<GetCompanies>) => {
+    try {
+      const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "DELETE");
 
-    dispatch({
-      type: "DELETE_COMPANY_BY_ID",
-      companies: res.data.companies,
-    });
+      dispatch({
+        type: "DELETE_COMPANY_BY_ID",
+        companies: res.data.companies,
+      });
 
-    return notify.success(lang.admin.company.delete_success);
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.error(error);
-  }
-};
+      return notify.success(lang.admin.company.delete_success);
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.error(error);
+    }
+  };
 
-export const getCompanyById = (id: string, citizenId: string, headers?: any) => async (
-  dispatch: Dispatch<GetCompanyById>,
-) => {
-  try {
-    const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "GET", headers);
+export const getCompanyById =
+  (id: string, citizenId: string, headers?: any) => async (dispatch: Dispatch<GetCompanyById>) => {
+    try {
+      const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "GET", headers);
 
-    dispatch({
-      type: "GET_COMPANY_BY_ID",
-      company: res.data.company,
-      employees: res.data.employees,
-      posts: res.data.posts,
-      vehicles: res.data.vehicles,
-    });
+      dispatch({
+        type: "GET_COMPANY_BY_ID",
+        company: res.data.company,
+        employees: res.data.employees,
+        posts: res.data.posts,
+        vehicles: res.data.vehicles,
+      });
 
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
 
-export const createCompanyPost = (id: string, citizenId: string, data: RequestData) => async (
-  dispatch: Dispatch<CreateCompanyPost>,
-) => {
-  try {
-    const res = await handleRequest(`/companies/${id}/posts?citizenId=${citizenId}`, "POST", data);
+export const createCompanyPost =
+  (id: string, citizenId: string, data: RequestData) =>
+  async (dispatch: Dispatch<CreateCompanyPost>) => {
+    try {
+      const res = await handleRequest(
+        `/companies/${id}/posts?citizenId=${citizenId}`,
+        "POST",
+        data,
+      );
 
-    dispatch({
-      type: "CREATE_COMPANY_POST",
-      posts: res.data.posts,
-    });
+      dispatch({
+        type: "CREATE_COMPANY_POST",
+        posts: res.data.posts,
+      });
 
-    return true;
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+      return true;
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
+    }
+  };
 
-export const updateCompany = (id: string, citizenId: string, data: RequestData) => async (
-  dispatch: Dispatch<CreateCompanyPost>,
-) => {
-  try {
-    const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "PUT", data);
+export const updateCompany =
+  (id: string, citizenId: string, data: RequestData) =>
+  async (dispatch: Dispatch<CreateCompanyPost>) => {
+    try {
+      const res = await handleRequest(`/companies/${id}?citizenId=${citizenId}`, "PUT", data);
 
-    dispatch({
-      type: "CREATE_COMPANY_POST",
-      posts: res.data.posts,
-    });
+      dispatch({
+        type: "CREATE_COMPANY_POST",
+        posts: res.data.posts,
+      });
 
-    return notify.success(lang.citizen.company.updated_company);
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+      return notify.success(lang.citizen.company.updated_company);
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
+    }
+  };
 
-export const updateEmployeeStatus = (
-  companyId: string,
-  citizenId: string,
-  employeeId: string,
-  type: "ACCEPT" | "DECLINE" | "FIRE" | "UPDATE",
-  data?: RequestData,
-) => async (dispatch: Dispatch<DeclineOrAcceptEmployee>) => {
-  try {
-    const res = await handleRequest(
-      `/companies/${companyId}/${employeeId}?citizenId=${citizenId}&type=${type}`,
-      "PUT",
-      data,
-    );
+export const updateEmployeeStatus =
+  (
+    companyId: string,
+    citizenId: string,
+    employeeId: string,
+    type: "ACCEPT" | "DECLINE" | "FIRE" | "UPDATE",
+    data?: RequestData,
+  ) =>
+  async (dispatch: Dispatch<DeclineOrAcceptEmployee>) => {
+    try {
+      const res = await handleRequest(
+        `/companies/${companyId}/${employeeId}?citizenId=${citizenId}&type=${type}`,
+        "PUT",
+        data,
+      );
 
-    dispatch({
-      type: "ACCEPT_OR_DECLINE_EMPLOYEE",
-      employees: res.data.employees,
-    });
+      dispatch({
+        type: "ACCEPT_OR_DECLINE_EMPLOYEE",
+        employees: res.data.employees,
+      });
 
-    return true;
-  } catch (e) {
-    const error = getErrorFromResponse(e);
-    return notify.warn(error);
-  }
-};
+      return true;
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.warn(error);
+    }
+  };
