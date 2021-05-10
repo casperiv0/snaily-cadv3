@@ -121,6 +121,8 @@ const ProbablyNotInTheTranslateFile = {
     dangerous_subject: "DANGEROUS SUBJECT",
     create_officer: "Create officer for this citizen",
     employee_of_the_month: "Employee of the month",
+    employees_of_the_month: "Employees of the month",
+    no_employees_of_the_month: "There are no employees of the month yet.",
   },
   officers: {
     ...file.officers,

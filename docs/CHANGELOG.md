@@ -7,6 +7,7 @@
 - New: GSR option for LEO incidents
 - New: add `Employee of the month` option for Manage employees
 - New: specify custom port in config file
+- New: Add `Employees list` to company page
 - Minor: improvements to name search layout
 - Minor: refactor SQL queries to use [`@casper124578/mysql.ts`](https://github.com/dev-caspertheghost/mysql.ts)
 

@@ -8,7 +8,7 @@ interface ServerConfig {
   env: string;
   allowIframes: boolean;
   secureCookie: boolean;
-  databasePort: number;
+  databasePort?: number;
 }
 
 /**
@@ -28,6 +28,7 @@ let config: ServerConfig;
 
 try {
   const conf = require("../config");
+
   config = {
     port: conf.default.port || defaultPort,
     host: conf.default.host || defaultHost,
@@ -38,7 +39,7 @@ try {
     env: conf.default.env || defaultProfile,
     allowIframes: conf.default?.allowIframes ?? false,
     secureCookie: conf.default?.secureCookie ?? false,
-    databasePort: conf.default?.databasePort ?? 3306,
+    databasePort: conf.default?.databasePort,
   };
 } catch (e) {
   config = {
@@ -51,7 +52,7 @@ try {
     env: process.env.PROFILE || defaultProfile,
     allowIframes: process.env.ALLOW_IFRAMES === "true" ?? false,
     secureCookie: process.env.SECURE_COOKIE === "true" ?? false,
-    databasePort: parseInt(process.env.DB_PORT!) ?? 3306,
+    databasePort: parseInt(process.env.DB_PORT!),
   };
 }
 
