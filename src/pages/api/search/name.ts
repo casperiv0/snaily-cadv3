@@ -10,7 +10,7 @@ import { parseCitizens } from "../citizen";
 import { Tables } from "types/Tables";
 
 async function selectAllFrom(table: Tables, citizenId: string) {
-  return global.connection.query().select("*").from(table).where("citizen_id", citizenId);
+  return global.connection.query().select("*").from(table).where("citizen_id", citizenId).exec();
 }
 
 export default async function handler(req: IRequest, res: NextApiResponse) {

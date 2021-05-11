@@ -124,7 +124,11 @@ const NameSearchModalC: React.FC<Props> = ({
   }
 
   return (
-    <Modal title={lang.global.name_search} size="xl" id={ModalIds.NameSearch}>
+    <Modal
+      title={lang.global.name_search}
+      size={showResults ? "xl" : "lg"}
+      id={ModalIds.NameSearch}
+    >
       <form onSubmit={onSubmit}>
         <div className="modal-body">
           {showResults && search?.warrants[0] ? (

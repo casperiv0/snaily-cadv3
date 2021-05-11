@@ -5,6 +5,7 @@
 ## 2.2.2
 
 - New: add gang affiliation option for CreateOfficerIncident modal
+- Major: fixed error when using name search
 
 ## 2.1.1
 
