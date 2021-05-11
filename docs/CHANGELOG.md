@@ -2,7 +2,7 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
-## 2.2.2
+## 2.1.2
 
 - New: add gang affiliation option for CreateOfficerIncident modal
 - Major: fixed error when using name search
