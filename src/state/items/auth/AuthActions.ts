@@ -1,7 +1,7 @@
 import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from "@lib/utils";
 import { Dispatch } from "react";
 import { ModalIds } from "types/ModalIds";
-import { Authenticate, UnlinkSteam, UpdatePassword, VerifyAuth } from "./AuthTypes";
+import { Authenticate, UnlinkSteam, UpdatePassword, UpdateUsername, VerifyAuth } from "./AuthTypes";
 import lang from "src/language.json";
 
 export const login =
@@ -75,7 +75,7 @@ export const deleteAccount = () => async (dispatch: Dispatch<Authenticate>) => {
 
 export const updatePassword = (data: RequestData) => async (dispatch: Dispatch<UpdatePassword>) => {
   try {
-    await handleRequest("/auth/user", "PUT", data);
+    await handleRequest("/auth/user/password", "PUT", data);
 
     dispatch({
       type: "UPDATE_PASSWORD",
@@ -83,6 +83,23 @@ export const updatePassword = (data: RequestData) => async (dispatch: Dispatch<U
 
     modal(ModalIds.EditPassword)?.hide();
     notify.success(lang.auth.updated_password);
+  } catch (e) {
+    const error = getErrorFromResponse(e);
+    return notify.warn(error);
+  }
+};
+
+export const updateUsername = (data: RequestData) => async (dispatch: Dispatch<UpdateUsername>) => {
+  try {
+    const res = await handleRequest("/auth/user/username", "PUT", data);
+
+    dispatch({
+      type: "UPDATE_USERNAME",
+      user: res.data.user,
+    });
+
+    modal(ModalIds.EditUsername)?.hide();
+    notify.success(lang.auth.updated_username);
   } catch (e) {
     const error = getErrorFromResponse(e);
     return notify.warn(error);

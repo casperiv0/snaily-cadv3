@@ -46,4 +46,5 @@ export enum ModalIds {
   TransferVehicle = "transferVehicleModal",
   UploadMugShots = "uploadMugshotsModal",
   Mugshots = "mugshotsModal",
+  EditUsername = "editUsername",
 }

@@ -5,6 +5,7 @@ import { compareSync } from "bcryptjs";
 import { User } from "types/User";
 import { formatRequired } from "@lib/utils.server";
 import { Cad } from "types/Cad";
+import { SaveUserDataArr } from "@lib/consts";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {
@@ -19,7 +20,11 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "PUT": {
       const { newUsername, passwordConfirm } = req.body;
-      const [cad] = await global.connection.query<Cad>().select("change_usernames").exec();
+      const [cad] = await global.connection
+        .query<Cad>()
+        .select("change_usernames")
+        .from("cad_info")
+        .exec();
 
       if (cad.change_usernames === "0") {
         return res.status(400).json({
@@ -46,8 +51,22 @@ export default async function (req: IRequest, res: NextApiResponse) {
         return res.status(404).json({ error: "User was not found", status: "error" });
       }
 
-      if (newUsername?.toLowerCase() === user.username) {
+      if (newUsername?.toLowerCase() === user.username.toLowerCase()) {
         return res.status(400).json({ error: "Username must not be the same", status: "error" });
+      }
+
+      const [existing] = await global.connection
+        .query<User>()
+        .select("id")
+        .from("users")
+        .where("username", newUsername)
+        .exec();
+
+      if (existing?.id) {
+        return res.status(400).json({
+          error: "Username is already in use",
+          status: "error",
+        });
       }
 
       const isCorrect = compareSync(passwordConfirm, user.password);
@@ -63,7 +82,14 @@ export default async function (req: IRequest, res: NextApiResponse) {
         .where("id", req.userId)
         .exec();
 
-      return res.json({ status: "success" });
+      const [updated] = await global.connection
+        .query<User>()
+        .select(SaveUserDataArr as unknown as keyof User)
+        .from("users")
+        .where("id", req.userId)
+        .exec();
+
+      return res.json({ user: updated, status: "success" });
     }
     default: {
       return res.status(405).json({

@@ -27,6 +27,12 @@ export function AuthReducer(state = initState, action: Actions): State["auth"] {
           : null,
       };
     }
+    case "UPDATE_USERNAME": {
+      return {
+        ...state,
+        user: action.user ?? null,
+      };
+    }
     default: {
       return {
         ...state,

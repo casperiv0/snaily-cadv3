@@ -41,6 +41,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
   const [weightPrefix, setWeightPrefix] = React.useState("");
   const [assignedStatus, setAssignedStatus] = React.useState("");
   const [onDutyCode, setOnDutyCode] = React.useState("");
+  const [changeUsernames, setChangeUsernames] = React.useState(false);
 
   React.useEffect(() => {
     if (cadInfo?.id) {
@@ -60,6 +61,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       setWeightPrefix(cadInfo.weight_prefix ?? "");
       setAssignedStatus(cadInfo.assigned_status ?? "10-97");
       setOnDutyCode(cadInfo.on_duty_status ?? "10-8");
+      setChangeUsernames(cadInfo.change_usernames === "1");
     }
   }, [cadInfo]);
 
@@ -98,6 +100,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       ...cadInfo,
       aop: cadInfo.AOP,
       show_aop: showAop,
+      change_usernames: changeUsernames === true ? "1" : "0",
       features,
     });
 
@@ -383,6 +386,21 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
         </div>
 
         <div className="card-body">
+          <div className="mb-3">
+            <div className="form-check form-switch">
+              <input
+                onChange={() => setChangeUsernames((v) => !v)}
+                checked={changeUsernames}
+                className="form-check-input"
+                type="checkbox"
+                id="change-username"
+              />
+              <label className="form-check-label" htmlFor="change-username">
+                Allow username changing
+              </label>
+            </div>
+            When enabled, this will allow users to change their username
+          </div>
           <div className="mb-3">
             <div className="form-check form-switch">
               <input

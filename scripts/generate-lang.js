@@ -27,8 +27,11 @@ const ProbablyNotInTheTranslateFile = {
     error_username: "Could not get username",
     error_citizen: "Could not get citizen name",
     connected_steam: "Successfully connected with Steam",
-    unlinked_steam: "Successfuly unlinked Steam",
+    unlinked_steam: "Successfully unlinked Steam",
     updated_password: "Successfully updated your password",
+    updated_username: "Successfully updated your username",
+    new_username: "Enter new username",
+    edit_username: "Edit username",
   },
   global: {
     ...file.global,
@@ -172,7 +175,7 @@ const ProbablyNotInTheTranslateFile = {
     safe_citizen: "Safe citizen",
     set_danger_type: "Successfully set danger type",
     gsr: "GSR",
-    gang_affiliation: "Gang Affiliation"
+    gang_affiliation: "Gang Affiliation",
   },
   admin: {
     ...file.admin,
