@@ -209,6 +209,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           dead_on: "",
           address: body.address,
           is_dangerous: "0",
+          employee_of_the_month: "0",
         })
         .exec();
 
