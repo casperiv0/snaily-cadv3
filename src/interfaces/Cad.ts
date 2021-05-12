@@ -20,6 +20,7 @@ export interface Cad {
   height_prefix: string;
   assigned_status: string;
   on_duty_status: string;
+  change_usernames: Perm;
 
   version: {
     version: string;

@@ -60,6 +60,9 @@ async function updateLine(sql: string) {
 
 async function updateDb() {
   updateLine(
+    "ALTER TABLE `cad_info` ADD `change_usernames` varchar(255) DEFAULT '0' AFTER `whitelisted`;",
+  );
+  updateLine(
     "ALTER TABLE `leo_incidents` ADD `gang_affiliation` varchar(255) NOT NULL AFTER `firearms_involved`;",
   );
   updateLine(

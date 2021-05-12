@@ -2,6 +2,11 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.1.3
+
+- New: able to change username (this is can be disabled in the cad-settings. Default is `disabled`)
+- Minor: fixed a bug when changing password
+
 ## 2.1.2
 
 - New: add gang affiliation option for CreateOfficerIncident modal
