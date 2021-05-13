@@ -1,11 +1,10 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { Citizen } from "types/Citizen";
 import { Whitelist } from "@lib/consts";
-import { Company } from "types/Company";
+import { Company, CompanyPost } from "types/Company";
 import { formatRequired } from "@lib/utils.server";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
@@ -40,12 +39,19 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
 
-      const [citizen] = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `id` = ?", [
-        citizenId,
-      ]);
-      const [company] = await processQuery<Company>("SELECT * FROM `businesses` WHERE `id` = ?", [
-        companyId,
-      ]);
+      const [citizen] = await global.connection
+        .query<Citizen>()
+        .select("*")
+        .from("citizens")
+        .where("id", `${citizenId}`)
+        .exec();
+
+      const [company] = await global.connection
+        .query<Company>()
+        .select("*")
+        .from("businesses")
+        .where("id", `${companyId}`)
+        .exec();
 
       if (!citizen) {
         return res.status(404).json({
@@ -85,27 +91,30 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       const postId = v4();
       const uploadedAt = Date.now();
 
-      await processQuery(
-        "INSERT INTO `posts` (`id`, `business_id`, `title`, `description`, `citizen_id`, `uploaded_at`, `uploaded_by`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ",
-        [
-          postId,
-          companyId,
+      await global.connection
+        .query<CompanyPost>()
+        .insert("posts", {
+          id: postId,
+          business_id: `${companyId}`,
           title,
           description,
-          citizen.id,
-          uploadedAt,
-          citizen.full_name,
-          req.userId,
-        ],
-      );
+          citizen_id: citizen.id,
+          uploaded_at: `${uploadedAt}`,
+          uploaded_by: citizen.full_name,
+          user_id: req.userId,
+        })
+        .exec();
 
-      const updated = await processQuery(
-        "SELECT * FROM `posts` WHERE `business_id` = ? ORDER BY `uploaded_at` DESC",
-        [companyId],
-      );
+      const updatedPosts = await global.connection
+        .query<CompanyPost>()
+        .select("*")
+        .from("posts")
+        .where("business_id", `${companyId}`)
+        .order("uploaded_at", "DESC")
+        .exec();
 
       return res.json({
-        posts: updated,
+        posts: updatedPosts,
         status: "success",
       });
     }
