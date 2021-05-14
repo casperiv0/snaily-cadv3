@@ -52,7 +52,7 @@ const UploadMugshotsModalC: React.FC<Props> = ({ search, uploadFiles, getMugshot
 
             <input
               type="file"
-              className="form-control form-control-file bg-secondary border-secondary text-light"
+              className="form-control bg-secondary border-secondary text-light"
               multiple
               onChange={(e) => setFiles(e.target.files)}
             />

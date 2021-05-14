@@ -58,7 +58,7 @@ const SelectEmsFdModalC: React.FC<Props> = ({
             </label>
 
             {!deputies[0] ? (
-              <p className="font-weight-bold">{lang.ems_fd.no_dept}</p>
+              <p className="fw-bold">{lang.ems_fd.no_dept}</p>
             ) : (
               <Select
                 isMulti={false}

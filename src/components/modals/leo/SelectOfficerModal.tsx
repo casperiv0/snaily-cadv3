@@ -53,7 +53,7 @@ const SelectOfficerModalC: React.FC<Props> = ({ cadInfo, officers, getMyOfficers
             </label>
 
             {!officers[0] ? (
-              <p className="font-weight-bold">You do not have any officers!</p>
+              <p className="fw-bold">You do not have any officers!</p>
             ) : (
               <Select
                 isMulti={false}
