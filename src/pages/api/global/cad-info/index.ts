@@ -24,7 +24,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
     case "POST": {
       try {
         const [cad] = await processQuery<Cad>("SELECT * FROM `cad_info`");
-        const [seoTags] = await processQuery<object>("SELECT * FROM `seo_tags`");
+        const [seoTags] = await processQuery("SELECT * FROM `seo_tags`");
         const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [
           req.userId,
         ]);
@@ -93,7 +93,29 @@ export default async function (req: IRequest, res: NextApiResponse) {
           })
           .exec();
 
+        const [seoTags] = await processQuery("SELECT * FROM `seo_tags`");
+
+        if (!seoTags) {
+          await global.connection
+            .query<Cad["seo"]>()
+            .insert("seo_tags", {
+              title: body.cad_name,
+              description: body.seo_description,
+            })
+            .exec();
+        } else {
+          await global.connection
+            .query<Cad["seo"]>()
+            .update("seo_tags", {
+              title: body.cad_name,
+              description: body.seo_description,
+            })
+            .exec();
+        }
+
         const [updated] = await processQuery<Cad>("SELECT * FROM `cad_info`");
+        const [updatedSeo] = await global.connection.query().select("*").from("seo_tags").exec();
+
         const updatedFeatures = parseFeatures(updated!);
         const code =
           user?.rank === "owner" ? updated?.registration_code ?? "" : !!updated?.registration_code;
@@ -102,6 +124,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           status: "success",
           cad: {
             ...updated,
+            seo: updatedSeo,
             registration_code: code,
             features: updatedFeatures,
           },

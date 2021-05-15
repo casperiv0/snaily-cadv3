@@ -7,8 +7,8 @@ import lang from "src/language.json";
 
 export const getCadInfo = (headers?: any) => async (dispatch: Dispatch<GetCadInfo>) => {
   try {
-    const cadInfoRes = await handleRequest("/global/cad-info", "POST", headers).catch(() => null);
     const featuresRes = await handleRequest("/global/cad-info/features", "GET", headers);
+    const cadInfoRes = await handleRequest("/global/cad-info", "POST", headers).catch(() => null);
 
     dispatch({
       type: "GET_CAD_INFO",

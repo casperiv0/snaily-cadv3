@@ -1,6 +1,5 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import { Cad } from "types/Cad";
@@ -20,27 +19,33 @@ export function parseFeatures(cad: Cad): string[] {
 }
 
 export default async function (req: IRequest, res: NextApiResponse) {
-  try {
-    await useAuth(req);
-  } catch (e) {
-    null;
-  }
+  await useAuth(req).catch(console.error);
 
   switch (req.method) {
     case "GET": {
       try {
-        const [user] = await processQuery<User>("SELECT `rank` FROM `users` WHERE `id` = ?", [
-          req.userId,
-        ]);
-        const [cad] = await processQuery<Cad>(
-          "SELECT `features`, `registration_code` FROM `cad_info`",
-        );
+        const [user] = await global.connection
+          .query<User>()
+          .select("rank")
+          .from("users")
+          .where("id", req.userId)
+          .exec();
+
+        const [cad] = await global.connection
+          .query<Cad>()
+          .select(["features", "registration_code"])
+          .from("cad_info")
+          .exec();
+
+        const [seo] = await global.connection.query().select("*").from("seo_tags").exec();
+
         const features = parseFeatures(cad!);
 
         const code =
           user?.rank === "owner" ? cad?.registration_code ?? "" : !!cad?.registration_code;
 
         return res.json({
+          seo,
           registration_code: code,
           features,
           status: "success",

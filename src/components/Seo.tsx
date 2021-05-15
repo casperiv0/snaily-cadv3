@@ -14,9 +14,9 @@ export const Seo: React.FC<Props> = (props) => {
   const cad = useSelector((s: State) => s.global.cadInfo);
 
   const defaults: Props = {
-    title: (cad as any)?.seo?.title ?? "SnailyCAD",
-    description: (cad as any)?.seo?.description ?? "SnailyCAD - Free, fast and open source CAD/MDT",
-    url: (cad as any)?.seo?.url,
+    title: cad?.seo?.title ?? "SnailyCAD",
+    description: cad?.seo?.description ?? "SnailyCAD - Free, fast and open source CAD/MDT",
+    url: cad?.seo?.site_name ?? "",
   };
 
   const tags = {
@@ -24,6 +24,8 @@ export const Seo: React.FC<Props> = (props) => {
     ...props,
     title: props.title ? props.title + ` - ${cad?.cad_name ?? "SnailyCAD"}` : defaults.title,
   };
+
+  console.log(cad);
 
   // TODO: make seo endpoint public
 
@@ -38,8 +40,12 @@ export const Seo: React.FC<Props> = (props) => {
       <meta property="og:description" content={tags.description} />
       <meta name="twitter:description" content={tags.description} />
 
-      <link rel="canonical" href={tags.url} />
-      <meta property="og:url" content={tags.url} />
+      {tags.url ? (
+        <>
+          <link rel="canonical" href={tags.url} />
+          <meta property="og:url" content={tags.url} />
+        </>
+      ) : null}
     </Head>
   );
 };

@@ -42,6 +42,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
   const [assignedStatus, setAssignedStatus] = React.useState("");
   const [onDutyCode, setOnDutyCode] = React.useState("");
   const [changeUsernames, setChangeUsernames] = React.useState(false);
+  const [cadDesc, setCadDesc] = React.useState("");
 
   React.useEffect(() => {
     if (cadInfo?.id) {
@@ -62,6 +63,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       setAssignedStatus(cadInfo.assigned_status ?? "10-97");
       setOnDutyCode(cadInfo.on_duty_status ?? "10-8");
       setChangeUsernames(cadInfo.change_usernames === "1");
+      setCadDesc(cadInfo.seo?.description ?? "A free, fast, simple and secure open source CAD/MDT");
     }
   }, [cadInfo]);
 
@@ -86,6 +88,7 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
       height_prefix: heightPrefix,
       assigned_status: assignedStatus,
       on_duty_status: onDutyCode,
+      seo_description: cadDesc,
     });
 
     setLoading(false);
@@ -355,6 +358,19 @@ const AdminPage = ({ user, cadInfo, updateCadSettings }: Props) => {
                 id="assigned_status"
                 value={assignedStatus}
                 onChange={(e) => setAssignedStatus(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="cad_desc">
+                {lang.admin.cad_desc}
+              </label>
+              <input
+                type="text"
+                className="form-control bg-secondary border-dark text-light"
+                id="cad_desc"
+                value={cadDesc}
+                onChange={(e) => setCadDesc(e.target.value)}
               />
             </div>
 

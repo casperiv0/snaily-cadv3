@@ -22,6 +22,12 @@ export interface Cad {
   on_duty_status: string;
   change_usernames: Perm;
 
+  seo?: {
+    title: string;
+    description: string;
+    site_name: string | null;
+  };
+
   version: {
     version: string;
     updatedVersion: string;
