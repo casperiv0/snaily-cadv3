@@ -34,4 +34,4 @@ export type Tables =
   | "written_warnings"
   | "10_codes"
   | "penal_codes"
-  | "";
+  | "posts";

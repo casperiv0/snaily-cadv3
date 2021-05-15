@@ -1,6 +1,5 @@
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
@@ -10,7 +9,11 @@ import { formatRequired } from "@lib/utils.server";
 
 export function parse10Codes(codes: Code10[]): Code10[] {
   return codes.map((code) => {
-    code.what_pages = JSON.parse(`${code.what_pages}`);
+    try {
+      code.what_pages = JSON.parse(`${code.what_pages}`);
+    } catch {
+      code.what_pages = [];
+    }
 
     return code;
   });
@@ -37,9 +40,15 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "PUT": {
       try {
-        const { code, what_pages, color, should_do, position } = req.body;
+        const body = req.body as Code10;
 
-        if (!code || what_pages?.length <= 0 || !color || !should_do || !position) {
+        if (
+          !body.code ||
+          body.what_pages?.length <= 0 ||
+          !body.color ||
+          !body.should_do ||
+          !body.position
+        ) {
           return res.status(400).json({
             error: formatRequired(
               ["code", "what_pages", "color", "should_do", "position"],
@@ -49,15 +58,23 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery(
-          "UPDATE `10_codes` SET `code` = ?, `color` = ?, `what_pages` = ?, `should_do` = ?, `position` = ? WHERE `id` = ?",
-          [code, color, JSON.stringify(what_pages), should_do, position, req.query.id],
-        );
+        await global.connection
+          .query<Code10>()
+          .update("10_codes", {
+            code: body.code,
+            what_pages: JSON.stringify(body.what_pages) as any,
+            color: body.color,
+            should_do: body.should_do,
+            position: body.position,
+          })
+          .where("id", `${req.query.id}`)
+          .exec();
 
-        const codes = await processQuery<Code10>("SELECT * FROM `10_codes`");
+        const codes = await global.connection.query<Code10>().select("*").from("10_codes").exec();
+
         return res.json({
           status: "success",
-          codes: parse10Codes(codes as Code10[]),
+          codes: parse10Codes(codes),
         });
       } catch (e) {
         logger.error("update_10_code", e);
@@ -67,12 +84,17 @@ export default async function (req: IRequest, res: NextApiResponse) {
     }
     case "DELETE": {
       try {
-        await processQuery("DELETE FROM `10_codes` WHERE `id` = ?", [req.query.id]);
+        await global.connection
+          .query<Code10>()
+          .delete("10_codes")
+          .where("id", `${req.query.id}`)
+          .exec();
 
-        const codes = await processQuery<Code10>("SELECT * FROM `10_codes`");
+        const codes = await global.connection.query<Code10>().select("*").from("10_codes").exec();
+
         return res.json({
           status: "success",
-          codes: parse10Codes(codes as Code10[]),
+          codes: parse10Codes(codes),
         });
       } catch (e) {
         logger.error("delete_10_code", e);

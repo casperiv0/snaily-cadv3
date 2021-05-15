@@ -1,7 +1,6 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
 import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
 import useAuth from "@hooks/useAuth";
@@ -38,11 +37,11 @@ export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
       try {
-        const codes = await processQuery<Code10>("SELECT * FROM `10_codes`");
+        const codes = await global.connection.query<Code10>().select("*").from("10_codes").exec();
 
         return res.json({
           status: "success",
-          codes: parse10Codes(codes as Code10[]),
+          codes: parse10Codes(codes),
         });
       } catch (e) {
         logger.error("get_10_Codes", e);
@@ -52,9 +51,15 @@ export default async function (req: IRequest, res: NextApiResponse) {
     }
     case "POST": {
       try {
-        const { code, what_pages, color, should_do, position } = req.body;
+        const body = req.body as Code10;
 
-        if (!code || what_pages?.length <= 0 || !color || !should_do || !position) {
+        if (
+          !body.code ||
+          body.what_pages?.length <= 0 ||
+          !body.color ||
+          !body.should_do ||
+          !body.position
+        ) {
           return res.status(400).json({
             error: formatRequired(
               ["code", "what_pages", "color", "should_do", "position"],
@@ -64,7 +69,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const [exists] = await processQuery("SELECT * FROM `10_codes` WHERE `code` = ?", [code]);
+        const [exists] = await global.connection
+          .query<Code10>()
+          .select("*")
+          .from("10_codes")
+          .where("code", body.code)
+          .exec();
 
         if (exists) {
           return res.status(400).json({
@@ -73,15 +83,23 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery(
-          "INSERT INTO `10_codes` (`id`, `code`, `color`, `what_pages`, `should_do`, `position`) VALUES (?, ?, ?, ?, ?, ?)",
-          [v4(), code, color, JSON.stringify(what_pages), should_do, position],
-        );
+        await global.connection
+          .query<Code10>()
+          .insert("10_codes", {
+            id: v4(),
+            code: body.code,
+            color: body.color,
+            what_pages: JSON.stringify(body.what_pages) as any,
+            should_do: body.should_do,
+            position: body.position,
+          })
+          .exec();
 
-        const codes = await processQuery<Code10>("SELECT * FROM `10_codes`");
+        const codes = await global.connection.query<Code10>().select("*").from("10_codes").exec();
+
         return res.json({
           status: "success",
-          codes: parse10Codes(codes as Code10[]),
+          codes: parse10Codes(codes),
         });
       } catch (e) {
         logger.error("add_10_Codes", e);

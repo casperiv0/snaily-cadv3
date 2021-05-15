@@ -70,27 +70,28 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery(
-          "UPDATE `cad_info` SET `cad_name` = ?, `AOP` = ?, `tow_whitelisted` = ?, `whitelisted` = ?, `webhook_url`= ?, `plate_length` = ?, `live_map_url` = ?, `steam_api_key` = ?, `features` = ?, `max_citizens` = ?, `show_aop` = ?, `registration_code` = ?, `weight_prefix` = ?, `height_prefix` = ?, `assigned_status` = ?, `on_duty_status` = ?",
-          [
-            body.cad_name,
-            body.aop,
-            body.tow_whitelisted,
-            body.whitelisted,
-            body.webhook_url,
-            body.plate_length,
-            body.live_map_url,
-            body.steam_api_key,
-            JSON.stringify(body.features) || JSON.stringify("[]"),
-            body.max_citizens,
-            body.show_aop,
-            body.registration_code,
-            body.weight_prefix,
-            body.height_prefix,
-            body.assigned_status,
-            body.on_duty_status,
-          ],
-        );
+        await global.connection
+          .query<Cad>()
+          .update("cad_info", {
+            cad_name: body.cad_name,
+            AOP: body.aop,
+            tow_whitelisted: body.tow_whitelisted,
+            whitelisted: body.whitelisted,
+            webhook_url: body.webhook_url,
+            plate_length: body.plate_length,
+            live_map_url: body.live_map_url,
+            steam_api_key: body.steam_api_key,
+            features: JSON.stringify(body.features) || (JSON.stringify("[]") as any),
+            max_citizens: body.max_citizens,
+            show_aop: body.show_aop,
+            registration_code: body.registration_code,
+            weight_prefix: body.weight_prefix,
+            height_prefix: body.height_prefix,
+            assigned_status: body.assigned_status,
+            on_duty_status: body.on_duty_status,
+            change_usernames: body.change_usernames,
+          })
+          .exec();
 
         const [updated] = await processQuery<Cad>("SELECT * FROM `cad_info`");
         const updatedFeatures = parseFeatures(updated!);

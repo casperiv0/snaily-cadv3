@@ -1,6 +1,5 @@
 import { NextApiResponse } from "next";
 import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
 import { IRequest } from "types/IRequest";
 import { Citizen } from "types/Citizen";
 import { Company } from "types/Company";
@@ -40,15 +39,26 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         });
       }
 
-      const [citizen] = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `id` = ?", [
-        citizenId,
-      ]);
-      const [company] = await processQuery<Company>("SELECT * FROM `businesses` WHERE `id` = ?", [
-        companyId,
-      ]);
-      const [employee] = await processQuery<Citizen>("SELECT * FROM `citizens` WHERE `id` = ?", [
-        employeeId,
-      ]);
+      const [citizen] = await global.connection
+        .query<Citizen>()
+        .select("*")
+        .from("citizens")
+        .where("id", `${citizenId}`)
+        .exec();
+
+      const [company] = await global.connection
+        .query<Company>()
+        .select("*")
+        .from("businesses")
+        .where("id", `${companyId}`)
+        .exec();
+
+      const [employee] = await global.connection
+        .query<Citizen>()
+        .select("*")
+        .from("citizens")
+        .where("id", `${employeeId}`)
+        .exec();
 
       if (!citizen) {
         return res.status(404).json({
@@ -114,23 +124,48 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           break;
         }
         case "FIRE": {
-          await processQuery(
-            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ?, business = ?, `business_id` = ?  WHERE `id` = ?",
-            ["", "1", "1", "none", "", employeeId],
-          );
+          await global.connection
+            .query<Citizen>()
+            .update("citizens", {
+              rank: "",
+              posts: "1",
+              vehicle_reg: "1",
+              business: "none",
+              business_id: "",
+              b_status: "",
+            })
+            .where("id", `${employeeId}`)
+            .exec();
+
           break;
         }
         case "ACCEPT":
-          await processQuery(
-            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ?, `b_status` = ?  WHERE `id` = ?",
-            ["employee", "1", "1", "accepted", employeeId],
-          );
+          await global.connection
+            .query<Citizen>()
+            .update("citizens", {
+              rank: "employee",
+              posts: "1",
+              b_status: "accepted",
+              vehicle_reg: "1",
+            })
+            .where("id", `${employeeId}`)
+            .exec();
+
           break;
         case "DECLINE":
-          await processQuery(
-            "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ?, `b_status` = ?, business = ?, `business_id` = ?  WHERE `id` = ?",
-            ["", "1", "1", "declined", "none", "", employeeId],
-          );
+          await global.connection
+            .query<Citizen>()
+            .update("citizens", {
+              rank: "",
+              posts: "1",
+              vehicle_reg: "1",
+              business: "none",
+              business_id: "",
+              b_status: "declined",
+            })
+            .where("id", `${employeeId}`)
+            .exec();
+
           break;
         default: {
           return res.status(400).json({
@@ -140,9 +175,11 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         }
       }
 
-      const employees = await processQuery("SELECT * FROM `citizens` WHERE `business_id` = ?", [
-        companyId,
-      ]);
+      const employees = await global.connection
+        .query<Citizen>()
+        .select("*")
+        .where("business_id", `${companyId}`)
+        .exec();
 
       return res.json({
         status: "success",

@@ -16,6 +16,7 @@ import { EditPasswordModal } from "@components/modals/account/EditPasswordModal"
 import { DeleteAccountModal } from "@components/modals/account/DeleteAccountModal";
 import { Seo } from "@components/Seo";
 import { notify } from "@lib/utils";
+import { EditUsernameModal } from "@components/modals/account/EditUsernameModal";
 
 interface Props {
   user: Nullable<User>;
@@ -48,6 +49,13 @@ const AccountPage = ({ user, unLinkSteam }: Props) => {
               className="btn btn-primary me-2"
             >
               {lang.auth.account.edit_password}
+            </button>
+            <button
+              data-bs-toggle="modal"
+              data-bs-target={`#${ModalIds.EditUsername}`}
+              className="btn btn-primary me-2"
+            >
+              {lang.auth.edit_username}
             </button>
             {user?.rank === "owner" ? (
               <p>{lang.account.owner_cannot_delete_account}</p>
@@ -140,6 +148,7 @@ const AccountPage = ({ user, unLinkSteam }: Props) => {
 
       <EditPasswordModal />
       <DeleteAccountModal />
+      <EditUsernameModal />
     </Layout>
   );
 };
