@@ -4,6 +4,7 @@
 
 ## 2.1.3
 
+- New: set custom CAD description (for embed)
 - New: able to change username (this is can be disabled in the cad-settings. Default is `disabled`)
 - Minor: fixed a bug when changing password
 - Minor: updated bootstrap version
