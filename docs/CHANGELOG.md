@@ -6,6 +6,7 @@
 
 - New: able to change username (this is can be disabled in the cad-settings. Default is `disabled`)
 - Minor: fixed a bug when changing password
+- Minor: updated bootstrap version
 
 ## 2.1.2
 
