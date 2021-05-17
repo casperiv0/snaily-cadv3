@@ -11,6 +11,7 @@
     "plugin:promise/recommended",
     "plugin:json/recommended",
     "plugin:promise/recommended",
+    "@casper124578/eslint-config",
     "prettier"
   ],
   "globals": {
@@ -27,17 +28,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "promise", "prettier", "json"],
   "rules": {
-    "quotes": ["error", "double"],
-    "semi": ["error", "always"],
-    "no-multi-spaces": ["error"],
-    "eqeqeq": ["warn", "always"],
-    "no-unused-vars": "off",
-    "no-duplicate-case": ["error"],
-    "no-extra-semi": ["error"],
-    "no-unreachable": ["error"],
-    "default-case": ["warn"],
-    "default-case-last": ["error"],
-    "no-useless-catch": ["warn"],
+    "no-undef": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/react-in-jsx-scope": "off",

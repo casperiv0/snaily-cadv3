@@ -155,7 +155,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             req.query.id,
           ]);
 
-          // Delete the old image
+          // delete the old image
           imageId !== "default.svg" &&
             fs.unlink(`./public/citizen-images/${citizen.image_id}`, () => {
               null;

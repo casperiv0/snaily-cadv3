@@ -139,7 +139,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         if (RanksArr.includes(rank) || bleet.user_id === req.userId) {
           await global.connection.query().delete("bleets").where("id", `${req.query.id}`).exec();
 
-          // Delete the old image
+          // delete the old image
           fs.unlink(`./public/bleeter-images/${bleet.image_id}`, () => {
             null;
           });

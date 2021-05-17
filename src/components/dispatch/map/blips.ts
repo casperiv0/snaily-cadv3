@@ -37,7 +37,7 @@ export const blipTypes: any = {
   ComedyClub: { id: 102 },
   Dart: {},
   Fib: { id: 106, x: 9 },
-  Bank: { id: 108, x: 11 }, // These are generally "banks". Original: DollarSign
+  Bank: { id: 108, x: 11 }, // these are generally "banks". Original: DollarSign
   Golf: {},
   AmmuNation: {},
   Exile: { id: 112 },

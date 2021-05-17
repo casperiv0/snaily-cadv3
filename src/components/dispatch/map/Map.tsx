@@ -8,7 +8,7 @@ import "leaflet.markercluster";
 import { v4 as uuid } from "uuid";
 import { Socket } from "socket.io-client";
 
-import { getActiveUnits, getSteamIds } from "@actions/dispatch/DispatchActions";
+import { getActiveUnits, getSteamIds, update911Call } from "@actions/dispatch/DispatchActions";
 
 import lang from "src/language.json";
 
@@ -37,13 +37,12 @@ import { Create911Modal } from "@components/modals/Create911Modal";
 import { Nullable, State } from "types/State";
 import { Cad } from "types/Cad";
 import { Call } from "types/Call";
-import { update911Call } from "@actions/dispatch/DispatchActions";
 import { CallInfoHTML, PlayerInfoHTML, BlipInfoHTML } from "@components/dispatch/map/html";
 import { User } from "types/User";
 import { blipTypes } from "@components/dispatch/map/blips";
 import { notify } from "@lib/utils";
 import { ModalIds } from "types/ModalIds";
-/* MOST CODE IN THIS FILE IS FROM TGRHavoc/live_map-interface, SPECIAL THANKS TO HIM FOR MAKING THIS! */
+/* most code in this file is from TGRHavoc/live_map-interface, special thanks to him for making this! */
 
 /*
  ? Search for:
@@ -107,7 +106,9 @@ class MapClass extends Component<Props, MapState> {
   }
 
   async handleMapSocket() {
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => {
+      setTimeout(resolve, 500);
+    });
 
     this.setState({
       loading: false,
@@ -400,7 +401,7 @@ class MapClass extends Component<Props, MapState> {
       J(".blip-button-a").on("click", (e) => {
         const element = $(e.currentTarget);
 
-        // Toggle blip
+        // toggle blip
         element.addClass("blip-enabled");
 
         this.showBlips();
@@ -497,7 +498,9 @@ class MapClass extends Component<Props, MapState> {
 
   async handleCalls() {
     if (!this.state.map) return;
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => {
+      setTimeout(resolve, 500);
+    });
 
     this.props.calls.forEach((call) => {
       //? REMOVE_CALL_FROM_MAP
@@ -527,10 +530,10 @@ class MapClass extends Component<Props, MapState> {
         const target = e.target;
         const latLng: LatLng = (target as any)._latlng;
 
-        // Send data to in-game to create blip on map
-        // TODO: convert latLng back to x, y,z
+        // send data to in-game to create blip on map
+        // tODO: convert latLng back to x, y,z
         // socket?.send(
-        //   JSON.stringify({
+        //   jSON.stringify({
         //     type: "update911Call",
         //     call: call,
         //   }),
@@ -657,7 +660,7 @@ class MapClass extends Component<Props, MapState> {
         break;
       }
       default: {
-        return;
+        break;
       }
     }
   }
@@ -667,7 +670,7 @@ class MapClass extends Component<Props, MapState> {
     this.handleCADSocket();
     this.initMap();
 
-    // Get all values from backend
+    // get all values from backend
     !this.state.ran && this.props?.getActiveUnits();
     !this.state.ran && this.props?.getSteamIds();
 

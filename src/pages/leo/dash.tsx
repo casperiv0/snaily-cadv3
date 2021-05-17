@@ -108,7 +108,7 @@ const LeoDash: React.FC<Props> = (props) => {
     const unitsHandler = (unitIds: string[]) => {
       if (router.pathname !== "/leo/dash") return;
       if (props.activeOfficer && unitIds.includes(props.activeOfficer?.id)) {
-        /* If the officer is already assigned to a call, don't notify them. */
+        /* if the officer is already assigned to a call, don't notify them. */
         const alreadyAssigned = isUnitAlreadyAssigned(props.activeOfficer.id, props.calls);
         if (alreadyAssigned) return;
 

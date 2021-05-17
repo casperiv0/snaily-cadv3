@@ -42,7 +42,7 @@ export interface State {
       | null
       | ((Officer | Deputy) & {
           /**
-           * Only available when gotten from admin & when an officer
+           * only available when gotten from admin & when an officer
            */
           logs?: OfficerLog[];
         });

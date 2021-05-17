@@ -9,7 +9,7 @@ export interface Item {
   show: (user: Nullable<User>) => boolean;
 }
 
-// This list will be updated along new releases
+// this list will be updated along new releases
 export const Items: Item[] = [
   {
     query: ["officer", "create officer", "create an officer", "emergency"],

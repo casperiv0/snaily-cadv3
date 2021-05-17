@@ -49,7 +49,7 @@ export async function mapCalls(calls: Call[]) {
     return arr;
   };
 
-  return await callsWithEvents();
+  return callsWithEvents();
 }
 
 export default async function handler(req: IRequest, res: NextApiResponse) {

@@ -15,25 +15,21 @@ export function useClientPerms(permission: Permissions) {
       case "leo":
         if (user?.leo === "0") {
           router.push("/403");
-          return;
         }
         break;
       case "dispatch":
         if (user?.dispatch === "0") {
           router.push("/403");
-          return;
         }
         break;
       case "tow":
         if (user?.tow === "0") {
           router.push("/403");
-          return;
         }
         break;
       case "ems_fd":
         if (user?.ems_fd === "0") {
           router.push("/403");
-          return;
         }
         break;
       case "supervisor":
@@ -41,14 +37,12 @@ export function useClientPerms(permission: Permissions) {
 
         if (!RanksArr.includes(`${user?.rank}`)) {
           router.push("/403");
-          return;
         }
         break;
 
       case "admin":
         if (!RanksArr.includes(`${user?.rank}`)) {
           router.push("/403");
-          return;
         }
         break;
       default:

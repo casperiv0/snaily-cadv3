@@ -142,7 +142,7 @@ const NameSearchModalC: React.FC<Props> = ({
               message={{
                 msg: `${lang.officers.citizen_dead} ${format(
                   Number(search.citizen.dead_on),
-                  /* EG: 1st Jan 2020  */
+                  /* eG: 1st Jan 2020  */
                   "MMMM do yyyy",
                 )}`,
                 type: "warning",
@@ -674,7 +674,7 @@ const NameSearchModalC: React.FC<Props> = ({
                 </div>
 
                 <div className="collapse mt-3" id="registered">
-                  {/* Vehicles */}
+                  {/* vehicles */}
                   <div id="vehicles">
                     <h5>
                       {lang.citizen.vehicle.reged_vehicle} ({search.vehicles.length})
