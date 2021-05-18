@@ -19,7 +19,7 @@ socket?.on(SocketEvents.ConnectionError, (error) => {
   if (error.status === "error") {
     logger.error("SOCKET", `Disconnected from socket. Error: ${error.error}`);
 
-    // Disconnect from socket if user is not authenticated
+    // disconnect from socket if user is not authenticated
     socket.close();
   }
 });

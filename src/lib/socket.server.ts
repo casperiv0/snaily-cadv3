@@ -19,7 +19,7 @@ export async function socketHandler(socket: Socket, server: Server) {
   // @ts-expect-error ignore the line below
   const token = socket?.request?.cookies?.["snaily-cad-session"];
 
-  // Check if the user is authenticated and exits in the database, if not close the connection
+  // check if the user is authenticated and exits in the database, if not close the connection
   try {
     await useSocketAuth(token);
     socket.emit("connection_success", "Successfully connected to socket");
@@ -114,6 +114,14 @@ export async function socketHandler(socket: Socket, server: Server) {
 
     if (config.env === "dev") {
       logger.log("SOCKET_EVENT", SocketEvents.PanicButton);
+    }
+  });
+
+  socket.on(SocketEvents.UpdateNameSearchNames, () => {
+    server.sockets.emit(SocketEvents.UpdateNameSearchNames);
+
+    if (config.env === "dev") {
+      logger.log("SOCKET_EVENT", SocketEvents.UpdateNameSearchNames);
     }
   });
 

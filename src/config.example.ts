@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 // @ts-nocheck
 
-// You can find more information about what everything is here:
+// you can find more information about what everything is here:
 // https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Config-file
 const config = {
   port: Number(process.env.PORT) || 3030,
@@ -12,7 +12,7 @@ const config = {
   jwtSecret: process.env.JWT_SECRET || "bongo super cat",
   env: process.env.PROFILE || "production",
   allowIframes: false, // true or false
-  secureCookie: false, // ONLY SET TO `true` if your site uses `https://`!
+  secureCookie: false, // oNLY SET TO `true` if your site uses `https://`!
   databasePort: 3306,
 };
 

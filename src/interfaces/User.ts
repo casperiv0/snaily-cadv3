@@ -18,7 +18,7 @@ export interface User {
   avatar_url: string;
 
   /**
-   * Only available for /api/auth/login!
+   * only available for /api/auth/login!
    */
   password: string;
 }

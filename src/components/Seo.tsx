@@ -25,7 +25,7 @@ export const Seo: React.FC<Props> = (props) => {
     title: props.title ? props.title + ` - ${cad?.cad_name ?? "SnailyCAD"}` : defaults.title,
   };
 
-  // TODO: make seo endpoint public
+  // tODO: make seo endpoint public
 
   return (
     <Head>

@@ -31,7 +31,7 @@ const ActiveUnitsC: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => 
 
   return (
     <>
-      {/* Active officers */}
+      {/* active officers */}
       <ul className="list-group overflow-auto" style={{ maxHeight: "25rem" }}>
         <li className="list-group-item bg-secondary border-secondary sticky-top text-white">
           <h5>{lang.global.active_officers}</h5>
@@ -79,7 +79,7 @@ const ActiveUnitsC: React.FC<Props> = ({ officers, ems_fd, getActiveUnits }) => 
         )}
       </ul>
 
-      {/* Active EMS/FD */}
+      {/* active EMS/FD */}
       <ul className="list-group overflow-auto mt-0" style={{ maxHeight: "25rem" }}>
         <li className="list-group-item bg-secondary border-secondary sticky-top text-white">
           <h6>{lang.global.active_ems_fd}</h6>

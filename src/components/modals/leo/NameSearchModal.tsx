@@ -30,6 +30,8 @@ import {
   isCadFeatureEnabled,
 } from "@lib/utils";
 import { Cad } from "types/Cad";
+import { socket } from "@hooks/useSocket";
+import { SocketEvents } from "types/Socket";
 
 interface NameSearch {
   type: "name";
@@ -71,6 +73,23 @@ const NameSearchModalC: React.FC<Props> = ({
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const [loading, setLoading] = React.useState(false);
 
+  React.useEffect(() => {
+    const handler = () => {
+      searchNames();
+    };
+
+    socket.on(SocketEvents.UpdateNameSearchNames, handler);
+
+    return () => {
+      socket.off(SocketEvents.UpdateNameSearchNames, handler);
+    };
+  }, [searchNames]);
+
+  React.useEffect(() => {
+    setNote(search?.citizen?.note || "");
+    searchNames();
+  }, [search?.citizen, name, searchNames]);
+
   const router = useRouter();
   const isSuspendedOrRevoked = React.useCallback(
     (type: string) => {
@@ -90,11 +109,6 @@ const NameSearchModalC: React.FC<Props> = ({
       ? false
       : search !== null && search?.type === "name";
   }, [name, search]);
-
-  React.useEffect(() => {
-    setNote(search?.citizen?.note || "");
-    searchNames();
-  }, [search?.citizen, name, searchNames]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -142,7 +156,7 @@ const NameSearchModalC: React.FC<Props> = ({
               message={{
                 msg: `${lang.officers.citizen_dead} ${format(
                   Number(search.citizen.dead_on),
-                  /* EG: 1st Jan 2020  */
+                  /* eG: 1st Jan 2020  */
                   "MMMM do yyyy",
                 )}`,
                 type: "warning",
@@ -674,7 +688,7 @@ const NameSearchModalC: React.FC<Props> = ({
                 </div>
 
                 <div className="collapse mt-3" id="registered">
-                  {/* Vehicles */}
+                  {/* vehicles */}
                   <div id="vehicles">
                     <h5>
                       {lang.citizen.vehicle.reged_vehicle} ({search.vehicles.length})
