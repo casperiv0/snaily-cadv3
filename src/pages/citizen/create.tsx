@@ -191,7 +191,7 @@ const CreateCitizenPage = ({
     setLoading(true);
 
     const created = await createCitizen({
-      image: image,
+      image,
       full_name: name,
       gender,
       ethnicity,

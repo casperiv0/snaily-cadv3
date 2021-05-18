@@ -97,9 +97,8 @@ const NameSearchModalC: React.FC<Props> = ({
         return lang.officers.suspended;
       } else if (search.citizen?.[type] === "2") {
         return lang.officers.revoked;
-      } else {
-        return null;
       }
+      return null;
     },
     [search?.citizen],
   );
@@ -168,7 +167,7 @@ const NameSearchModalC: React.FC<Props> = ({
               {lang.global.name}
             </label>
             <Select
-              closeMenuOnSelect={true}
+              closeMenuOnSelect
               isMulti={false}
               value={name}
               onChange={(v: any) => setName(v)}
@@ -387,7 +386,7 @@ const NameSearchModalC: React.FC<Props> = ({
                         onChange={(e) => setNote(e.currentTarget.value)}
                         className="form-control bg-secondary border-secondary text-light"
                         rows={5}
-                      ></textarea>
+                      />
                       <button
                         form="none"
                         type="button"

@@ -112,9 +112,9 @@ const AdminSidebarC: React.FC<Props> = ({ user }) => {
                   </a>
                 </Link>
               );
-            } else {
-              return null;
             }
+
+            return null;
           })}
         </div>
 

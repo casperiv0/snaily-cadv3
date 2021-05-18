@@ -88,7 +88,7 @@ const MugshotsModalC: React.FC<Props> = ({ search, mugshots, getMugshots, delete
               data-bs-slide="prev"
               onClick={() => setIndex((p) => p - 1)}
             >
-              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="carousel-control-prev-icon" aria-hidden="true" />
               <span className="visually-hidden">Previous</span>
             </button>
             <button
@@ -98,7 +98,7 @@ const MugshotsModalC: React.FC<Props> = ({ search, mugshots, getMugshots, delete
               data-bs-slide="next"
               onClick={() => setIndex((p) => p + 1)}
             >
-              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="carousel-control-next-icon" aria-hidden="true" />
               <span className="visually-hidden">Next</span>
             </button>
           </div>

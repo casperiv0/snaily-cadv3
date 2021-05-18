@@ -57,6 +57,6 @@ export const Select: React.FC<Props> = ({
       placeholder={lang.global.select}
       noOptionsMessage={() => lang.global.no_options}
       isDisabled={disabled}
-    ></ReactSelect>
+    />
   );
 };

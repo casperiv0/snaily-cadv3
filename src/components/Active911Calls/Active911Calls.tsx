@@ -36,9 +36,9 @@ const Active911CallsC: React.FC<Props> = ({
       return activeDeputy;
     } else if (router.pathname === "/leo/dash") {
       return activeOfficer;
-    } else {
-      return null;
     }
+
+    return null;
   }, [router.pathname, activeOfficer, activeDeputy]);
 
   React.useEffect(() => {
@@ -136,25 +136,25 @@ const Active911CallsC: React.FC<Props> = ({
                             },
                             false,
                           );
-                        } else {
-                          const name =
-                            "officer_name" in disabled ? disabled.officer_name : disabled.name;
-
-                          update911Call(
-                            call.id,
-                            {
-                              ...call,
-                              assigned_unit: [
-                                ...call.assigned_unit,
-                                {
-                                  label: `${disabled?.callsign} ${name}`,
-                                  value: disabled?.id!,
-                                },
-                              ],
-                            },
-                            false,
-                          );
                         }
+
+                        const name =
+                          "officer_name" in disabled ? disabled.officer_name : disabled.name;
+
+                        update911Call(
+                          call.id,
+                          {
+                            ...call,
+                            assigned_unit: [
+                              ...call.assigned_unit,
+                              {
+                                label: `${disabled?.callsign} ${name}`,
+                                value: disabled?.id!,
+                              },
+                            ],
+                          },
+                          false,
+                        );
                       }}
                       className="btn btn-success mx-2"
                     >

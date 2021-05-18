@@ -56,7 +56,7 @@ const CreateTowCallModalC: React.FC<Props> = ({ createCall }) => {
               onChange={(e) => setDescription(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
               required
-            ></textarea>
+            />
           </div>
 
           <div className="row">

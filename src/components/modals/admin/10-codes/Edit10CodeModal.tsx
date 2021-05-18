@@ -65,7 +65,7 @@ const Edit10CodeModalC: React.FC<Props> = ({ update10Code, code: data, codes }) 
     const updated = await update10Code(data?.id, {
       code,
       what_pages: whatPages,
-      color: color,
+      color,
       should_do: shouldDo,
       //   @ts-expect-error ignore
       position: `${position}`,

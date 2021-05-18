@@ -65,7 +65,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           }
         }
 
-        await processQuery(sql + "WHERE `id` = ?", [dbType, req.query.citizenId]);
+        await processQuery(`${sql}WHERE \`id\` = ?`, [dbType, req.query.citizenId]);
 
         return res.json({ status: "success" });
       } catch (e) {

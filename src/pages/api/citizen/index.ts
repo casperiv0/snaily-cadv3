@@ -215,7 +215,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         .exec();
 
       file?.name &&
-        file.mv("./public/citizen-images/" + imageId, (err: string) => {
+        file.mv(`./public/citizen-images/${imageId}`, (err: string) => {
           if (err) {
             logger.error("MOVE_CITIZEN_IMAGE", err);
           }

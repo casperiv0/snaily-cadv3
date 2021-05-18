@@ -92,7 +92,7 @@ const CreateArrestReportModalC: React.FC<Props> = ({
               {lang.record.enter_full_name}
             </label>
             <Select
-              closeMenuOnSelect={true}
+              closeMenuOnSelect
               isMulti={false}
               value={name}
               onChange={(v) => setName(v)}

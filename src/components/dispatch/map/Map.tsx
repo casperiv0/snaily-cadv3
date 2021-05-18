@@ -180,7 +180,7 @@ class MapClass extends Component<Props, MapState> {
     map.addLayer(this.state.PlayerMarkers);
 
     this.setState({
-      map: map,
+      map,
     });
   }
 
@@ -319,7 +319,7 @@ class MapClass extends Component<Props, MapState> {
     blips[blip.type].push(blip);
 
     this.setState({
-      blips: blips,
+      blips,
     });
   }
 
@@ -488,9 +488,8 @@ class MapClass extends Component<Props, MapState> {
         MarkerStore: prev.MarkerStore.filter((marker) => {
           if (marker.payload.call) {
             return marker.payload.call.id !== id;
-          } else {
-            return true;
           }
+          return true;
         }),
       };
     });
@@ -503,13 +502,13 @@ class MapClass extends Component<Props, MapState> {
     });
 
     this.props.calls.forEach((call) => {
-      //? REMOVE_CALL_FROM_MAP
+      // ? REMOVE_CALL_FROM_MAP
       const m = this.state.MarkerStore.some((marker) => marker.payload?.call?.id === call.id);
 
       if (m) return;
       if (call.hidden === "1") return;
 
-      //? CREATE_CALL_MARKER
+      // ? CREATE_CALL_MARKER
       const marker = this.createMarker(
         true,
         {
@@ -525,7 +524,7 @@ class MapClass extends Component<Props, MapState> {
       );
       if (!marker) return;
 
-      //? UPDATE_CALL_POSITION
+      // ? UPDATE_CALL_POSITION
       marker.on("moveend", async (e) => {
         const target = e.target;
         const latLng: LatLng = (target as any)._latlng;
@@ -625,7 +624,7 @@ class MapClass extends Component<Props, MapState> {
                 pos: player.pos,
                 title: player.name,
                 isPlayer: true,
-                player: player,
+                player,
                 id: uuid(),
               },
               player?.name,
@@ -677,7 +676,7 @@ class MapClass extends Component<Props, MapState> {
     this.handleCalls();
     this.initBlips();
 
-    //? REMOVE_911_CALL_FROM_MAP
+    // ? REMOVE_911_CALL_FROM_MAP
     this.CADSocket?.on("END_911_CALL", (callId: string) => {
       this.remove911Call(callId);
     });
@@ -710,7 +709,7 @@ class MapClass extends Component<Props, MapState> {
 
     return (
       <>
-        <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }}></div>
+        <div id="map" style={{ zIndex: 1, height: "calc(100vh - 58px)", width: "100vw" }} />
 
         <div className="map-blips-container">
           <button

@@ -106,15 +106,14 @@ export function playSound(src: string) {
 }
 
 export function filterCodes(codes: Code10[]) {
-  return codes.sort(function (a, b) {
+  return codes.sort((a, b) => {
     if (a.position && b.position) {
       return a.position - b.position;
-    } else {
-      b.position = 0;
-      a.position = 0;
-
-      return a.position - b.position;
     }
+    b.position = 0;
+    a.position = 0;
+
+    return a.position - b.position;
   });
 }
 

@@ -21,7 +21,7 @@ export const NavbarDropdown: React.FC<{ isAuth: boolean }> = ({ isAuth }) => {
                 <a className="dropdown-item">{lang.auth.account.account}</a>
               </Link>
             </li>
-            <li className="dropdown-divider bg-dark border-secondary"></li>
+            <li className="dropdown-divider bg-dark border-secondary" />
             <li>
               <Link href="/auth/logout">
                 <a className="dropdown-item">{lang.auth.logout}</a>

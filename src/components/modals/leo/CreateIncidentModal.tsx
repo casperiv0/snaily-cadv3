@@ -86,7 +86,7 @@ const CreateIncidentModalC: React.FC<Props> = ({ createIncident, officers }) => 
               value={narrative}
               onChange={(e) => setNarrative(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
-            ></textarea>
+            />
           </div>
 
           <div className="mb-3">

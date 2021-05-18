@@ -159,7 +159,7 @@ const CreateCitizenPage = ({
     setLoading(true);
 
     const updated = await updateCitizen(citizen?.id, {
-      image: image,
+      image,
       full_name: name,
       gender: gender?.value,
       ethnicity: ethnicity?.value,

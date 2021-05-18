@@ -49,12 +49,11 @@ export default async function (req: IRequest, res: NextApiResponse) {
             status: "success",
             tempPassword: randomString,
           });
-        } else {
-          return res.status(403).json({
-            status: "error",
-            error: "Forbidden",
-          });
         }
+        return res.status(403).json({
+          status: "error",
+          error: "Forbidden",
+        });
       } catch (e) {
         logger.error("get_temp_password", e);
 

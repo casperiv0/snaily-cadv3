@@ -47,7 +47,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           req.query.id,
         ]);
 
-        return res.json({ status: "success", unit: unit, logs });
+        return res.json({ status: "success", unit, logs });
       } catch (e) {
         logger.error("get_unit_by_id", e);
 

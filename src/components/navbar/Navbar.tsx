@@ -133,7 +133,7 @@ const NavbarC = ({ isAuth, cadInfo, user }: Props) => {
           aria-label="Toggle navigation"
           ref={ref}
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" />
         </button>
 
         <div className="collapse navbar-collapse" id="nav-items">

@@ -10,7 +10,7 @@ export function useCookie(
   expires: Date = new Date(Date.now() + Auth.CookieExpires),
 ) {
   const options: CookieSerializeOptions = {
-    expires: expires,
+    expires,
     httpOnly: true,
     path: "/",
     sameSite: config.allowIframes === true ? "none" : "lax",

@@ -34,7 +34,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           [req.query.id],
         );
 
-        return res.json({ status: "success", member: member });
+        return res.json({ status: "success", member });
       } catch (e) {
         logger.error("get_members", e);
 
