@@ -10,6 +10,7 @@ import { AnError, SupportedFileTypes } from "@lib/consts";
 import { formatRequired, runMiddleware } from "@lib/utils.server";
 import { Citizen } from "types/Citizen";
 import { parseCitizens } from "..";
+import { SocketEvents } from "types/Socket";
 
 export const config = {
   api: {
@@ -168,6 +169,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             }
           });
         }
+
+        global.io?.sockets.emit(SocketEvents.UpdateNameSearchNames);
 
         return res.json({ status: "success", citizenId: req.query.id });
       } catch (e) {

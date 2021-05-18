@@ -10,6 +10,7 @@ import { v4 } from "uuid";
 import { logger } from "@lib/logger";
 import { Officer } from "types/Officer";
 import { User } from "types/User";
+import { SocketEvents } from "types/Socket";
 
 export async function parseCitizens(citizens: (Citizen | undefined)[]) {
   const arr: Citizen[] = [];
@@ -219,6 +220,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             logger.error("MOVE_CITIZEN_IMAGE", err);
           }
         });
+
+      global.io?.sockets.emit(SocketEvents.UpdateNameSearchNames);
 
       return res.json({
         citizenId: id,

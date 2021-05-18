@@ -19,7 +19,11 @@ export function parseFeatures(cad: Cad): string[] {
 }
 
 export default async function (req: IRequest, res: NextApiResponse) {
-  await useAuth(req).catch(console.error);
+  try {
+    await useAuth(req);
+  } catch {
+    null;
+  }
 
   switch (req.method) {
     case "GET": {

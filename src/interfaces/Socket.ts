@@ -12,4 +12,5 @@ export enum SocketEvents {
   UpdateAssignedUnits = "UPDATE_ASSIGNED_UNITS",
   UpdateTaxiCalls = "UPDATE_TAXI_CALLS",
   UpdateTowCalls = "UPDATE_TOW_CALLS",
+  UpdateNameSearchNames = "UPDATE_NAME_SEARCH_NAMES",
 }

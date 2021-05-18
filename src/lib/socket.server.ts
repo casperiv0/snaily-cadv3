@@ -117,6 +117,14 @@ export async function socketHandler(socket: Socket, server: Server) {
     }
   });
 
+  socket.on(SocketEvents.UpdateNameSearchNames, () => {
+    server.sockets.emit(SocketEvents.UpdateNameSearchNames);
+
+    if (config.env === "dev") {
+      logger.log("SOCKET_EVENT", SocketEvents.UpdateNameSearchNames);
+    }
+  });
+
   socket.on(
     SocketEvents.New911Call,
     async (callData: { description: string; caller: string; location: string }) => {

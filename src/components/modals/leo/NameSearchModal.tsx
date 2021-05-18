@@ -30,6 +30,8 @@ import {
   isCadFeatureEnabled,
 } from "@lib/utils";
 import { Cad } from "types/Cad";
+import { socket } from "@hooks/useSocket";
+import { SocketEvents } from "types/Socket";
 
 interface NameSearch {
   type: "name";
@@ -71,6 +73,23 @@ const NameSearchModalC: React.FC<Props> = ({
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const [loading, setLoading] = React.useState(false);
 
+  React.useEffect(() => {
+    const handler = () => {
+      searchNames();
+    };
+
+    socket.on(SocketEvents.UpdateNameSearchNames, handler);
+
+    return () => {
+      socket.off(SocketEvents.UpdateNameSearchNames, handler);
+    };
+  }, [searchNames]);
+
+  React.useEffect(() => {
+    setNote(search?.citizen?.note || "");
+    searchNames();
+  }, [search?.citizen, name, searchNames]);
+
   const router = useRouter();
   const isSuspendedOrRevoked = React.useCallback(
     (type: string) => {
@@ -90,11 +109,6 @@ const NameSearchModalC: React.FC<Props> = ({
       ? false
       : search !== null && search?.type === "name";
   }, [name, search]);
-
-  React.useEffect(() => {
-    setNote(search?.citizen?.note || "");
-    searchNames();
-  }, [search?.citizen, name, searchNames]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
