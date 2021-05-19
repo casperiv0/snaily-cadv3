@@ -94,17 +94,20 @@ const ManageMember: React.FC<Props> = ({
 
   function handleBan(e: React.FormEvent) {
     e.preventDefault();
+    if (!member) return;
 
     setBanReason("");
-    banUnbanMember(member?.id!, "ban", banReason);
+    banUnbanMember(member?.id, "ban", banReason);
   }
 
   function handleUnban() {
-    banUnbanMember(member?.id!, "unban");
+    if (!member) return;
+    banUnbanMember(member?.id, "unban");
   }
 
   async function handleRemove() {
-    const deleted = await removeUser(member?.id!);
+    if (!member) return;
+    const deleted = await removeUser(member?.id);
 
     if (deleted === true) {
       router.push("/admin/manage/members");
@@ -357,10 +360,10 @@ const ManageMember: React.FC<Props> = ({
                   {lang.admin.remove_user}
                 </button>
 
-                {["owner", "admin"].includes(authenticatedUser?.rank!) ? (
+                {["owner", "admin"].includes((authenticatedUser?.rank ?? null)!) ? (
                   <>
                     <button
-                      onClick={() => getTempPassword(member?.id!)}
+                      onClick={() => getTempPassword((member?.id ?? null)!)}
                       className="btn btn-danger mx-2"
                     >
                       {lang.admin.give_temp_password}

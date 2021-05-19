@@ -52,7 +52,7 @@ export function runMiddleware(req: IRequest, res: NextApiResponse, fn: any) {
   });
 }
 
-export function generateString(length: number, extraChars: string = "") {
+export function generateString(length: number, extraChars = "") {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let result = "";
   const allChars = chars + extraChars;
