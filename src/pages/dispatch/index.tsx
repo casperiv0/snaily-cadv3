@@ -34,18 +34,34 @@ import { useDashTime } from "@hooks/useDashTime";
 import { useClientPerms } from "@hooks/useClientPerms";
 import { UploadMugshotsModal } from "@components/modals/leo/UploadMugshotsModal";
 import { MugshotsModal } from "@components/modals/leo/MugshotsModal";
+import { searchNames } from "@actions/officer/OfficerActions";
 
 interface Props {
   aop: Nullable<string>;
   cadInfo: Nullable<Cad>;
+
+  searchNames: () => void;
 }
 
 const DispatchDash: React.FC<Props> = (props) => {
+  const { searchNames } = props;
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   const [panic, setPanic] = React.useState<Officer | null>(null);
   const [signal100, setSignal100] = React.useState<Perm>(props.cadInfo?.signal_100 ?? "0");
   const time = useDashTime();
   useClientPerms("dispatch");
+
+  React.useEffect(() => {
+    const handler = () => {
+      searchNames();
+    };
+
+    socket.on(SocketEvents.UpdateNameSearchNames, handler);
+
+    return () => {
+      socket.off(SocketEvents.UpdateNameSearchNames, handler);
+    };
+  }, [searchNames]);
 
   React.useEffect(() => {
     setSignal100(props.cadInfo?.signal_100 ?? "0");
@@ -153,4 +169,4 @@ const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
 });
 
-export default connect(mapToProps)(React.memo(DispatchDash));
+export default connect(mapToProps, { searchNames })(React.memo(DispatchDash));

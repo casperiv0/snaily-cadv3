@@ -64,6 +64,18 @@ const LeoDash: React.FC<Props> = (props) => {
   useClientPerms("leo");
 
   React.useEffect(() => {
+    const handler = () => {
+      searchNames();
+    };
+
+    socket.on(SocketEvents.UpdateNameSearchNames, handler);
+
+    return () => {
+      socket.off(SocketEvents.UpdateNameSearchNames, handler);
+    };
+  }, [searchNames]);
+
+  React.useEffect(() => {
     setSignal100(props.cadInfo?.signal_100 ?? "0");
   }, [props.cadInfo]);
 

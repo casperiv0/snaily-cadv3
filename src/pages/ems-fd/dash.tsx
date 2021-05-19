@@ -26,20 +26,35 @@ import { getActiveEmsFd } from "@actions/ems-fd/EmsFdActions";
 import { Cad } from "types/Cad";
 import { useDashTime } from "@hooks/useDashTime";
 import { useClientPerms } from "@hooks/useClientPerms";
+import { searchNames } from "@actions/officer/OfficerActions";
 
 interface Props {
   aop: Nullable<string>;
   activeDeputy: Nullable<Deputy>;
   cadInfo: Nullable<Cad>;
+
+  searchNames: () => void;
   get10Codes: () => void;
 }
 
 const EmsFdDash: React.FC<Props> = (props) => {
-  const { get10Codes } = props;
+  const { get10Codes, searchNames } = props;
   const router = useRouter();
   const time = useDashTime();
   const [aop, setAop] = React.useState<string>(props?.aop ?? "");
   useClientPerms("ems_fd");
+
+  React.useEffect(() => {
+    const handler = () => {
+      searchNames();
+    };
+
+    socket.on(SocketEvents.UpdateNameSearchNames, handler);
+
+    return () => {
+      socket.off(SocketEvents.UpdateNameSearchNames, handler);
+    };
+  }, [searchNames]);
 
   React.useEffect(() => {
     const handler = (newAop: string) => setAop(newAop);
@@ -151,4 +166,4 @@ const mapToProps = (state: State) => ({
   activeDeputy: state.ems_fd.activeDeputy ?? null,
 });
 
-export default connect(mapToProps, { get10Codes })(EmsFdDash);
+export default connect(mapToProps, { get10Codes, searchNames })(EmsFdDash);
