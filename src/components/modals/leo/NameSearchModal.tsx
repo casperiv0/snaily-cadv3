@@ -30,8 +30,6 @@ import {
   isCadFeatureEnabled,
 } from "@lib/utils";
 import { Cad } from "types/Cad";
-import { socket } from "@hooks/useSocket";
-import { SocketEvents } from "types/Socket";
 
 interface NameSearch {
   type: "name";
@@ -72,18 +70,6 @@ const NameSearchModalC: React.FC<Props> = ({
   const [name, setName] = React.useState<Nullable<SelectValue>>(null);
   const [note, setNote] = React.useState((search && search?.citizen?.note) || "");
   const [loading, setLoading] = React.useState(false);
-
-  React.useEffect(() => {
-    const handler = () => {
-      searchNames();
-    };
-
-    socket.on(SocketEvents.UpdateNameSearchNames, handler);
-
-    return () => {
-      socket.off(SocketEvents.UpdateNameSearchNames, handler);
-    };
-  }, [searchNames]);
 
   React.useEffect(() => {
     setNote(search?.citizen?.note || "");
