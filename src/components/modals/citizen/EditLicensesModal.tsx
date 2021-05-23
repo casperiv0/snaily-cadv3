@@ -30,6 +30,7 @@ const EditLicensesModalC: React.FC<Props> = ({
   const [fireArms, setFireArms] = React.useState("");
   const [pilot, setPilot] = React.useState("");
   const [ccw, setCcw] = React.useState("");
+  const [cdl, setCdl] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
   const isSuspended = React.useCallback((type: string) => {
@@ -77,6 +78,16 @@ const EditLicensesModalC: React.FC<Props> = ({
       data: cadLicenses,
       selectLabel: citizen?.dmv,
     },
+    {
+      type: "text",
+      id: "edit_license_cdl",
+      label: lang.citizen.cdl_license,
+      onChange: (e) => setCdl(e.value),
+      value: isSuspended(cdl) ? lang.officers.suspended : cdl,
+      select: true,
+      data: cadLicenses,
+      selectLabel: citizen?.cdl_license,
+    },
   ];
 
   React.useEffect(() => {
@@ -89,6 +100,7 @@ const EditLicensesModalC: React.FC<Props> = ({
       setFireArms(citizen?.fire_license);
       setPilot(citizen?.pilot_license);
       setCcw(citizen?.ccw);
+      setCdl(citizen.cdl_license);
     }
   }, [citizen]);
 
@@ -102,6 +114,7 @@ const EditLicensesModalC: React.FC<Props> = ({
       fire_license: fireArms,
       pilot_license: pilot,
       ccw,
+      cdl_license: cdl,
     });
 
     if (updated === true) {

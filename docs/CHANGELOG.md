@@ -2,6 +2,10 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.1.4
+
+- New: add CDL license
+
 ## 2.1.3-patch1
 
 - Fix: update NameSearch names list when a new citizen was created or when a citizen was edited.

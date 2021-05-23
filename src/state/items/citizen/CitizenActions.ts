@@ -204,6 +204,7 @@ export const createCitizen =
       fd.append("create_officer", `${data.create_officer}`);
       fd.append("department", `${data.department}`);
       fd.append("callsign", `${data.callsign}`);
+      fd.append("cdl_license", `${data.cdl_license}`);
 
       const res = await handleRequest("/citizen", "POST", fd as unknown as RequestData);
 

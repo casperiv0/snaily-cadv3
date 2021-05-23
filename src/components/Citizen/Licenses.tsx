@@ -49,6 +49,10 @@ export const LicenseCard: React.FC<Props> = ({ citizen }) => {
           <Span>{lang.citizen.license.ccw}: </Span>
           {isSuspended("ccw") ? lang.officers.suspended : citizen.ccw}
         </Item>
+        <Item id="cdl">
+          <Span>{lang.citizen.cdl_license}: </Span>
+          {isSuspended("cdl_license") ? lang.officers.suspended : citizen.cdl_license}
+        </Item>
       </div>
     </div>
   );

@@ -57,6 +57,10 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             sql += "`fire_license` = ?";
             break;
           }
+          case "cdl_license": {
+            sql += "`cdl_license` = ?";
+            break;
+          }
           default: {
             return res.status(400).json({
               error: "Invalid type",

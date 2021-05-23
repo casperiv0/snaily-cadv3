@@ -211,6 +211,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           address: body.address,
           is_dangerous: "0",
           employee_of_the_month: "0",
+          cdl_license: body.cdl_license,
         })
         .exec();
 

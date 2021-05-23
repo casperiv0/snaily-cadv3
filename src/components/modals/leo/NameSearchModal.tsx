@@ -241,7 +241,7 @@ const NameSearchModalC: React.FC<Props> = ({
                     </div>
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-4 w-100">
                     <h1 className="h3">{lang.citizen.licenses}</h1>
 
                     <Item id="dmv">
@@ -327,6 +327,29 @@ const NameSearchModalC: React.FC<Props> = ({
                           </button>
                           <button
                             onClick={handleSuspend("ccw", "revoke")}
+                            type="button"
+                            className="suspend-btn link-primary ms-2"
+                          >
+                            {lang.officers.revoke_license}
+                          </button>
+                        </>
+                      )}
+                    </Item>
+
+                    <Item id="cdl">
+                      <Span>{lang.citizen.cdl_license}: </Span>
+                      {isSuspendedOrRevoked("cdl_license") ?? (
+                        <>
+                          {search.citizen.cdl_license}{" "}
+                          <button
+                            onClick={handleSuspend("cdl_license", "suspend")}
+                            type="button"
+                            className="suspend-btn link-primary"
+                          >
+                            {lang.officers.suspend_license}
+                          </button>
+                          <button
+                            onClick={handleSuspend("cdl_license", "revoke")}
                             type="button"
                             className="suspend-btn link-primary ms-2"
                           >
