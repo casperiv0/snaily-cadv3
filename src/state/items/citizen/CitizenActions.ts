@@ -187,23 +187,24 @@ export const createCitizen =
         fd.append("image", data.image, data.image?.name);
       }
 
-      fd.append("full_name", data.full_name!);
-      fd.append("gender", data.gender!);
-      fd.append("ethnicity", data.ethnicity!);
-      fd.append("birth", data.birth!);
-      fd.append("hair_color", data.hair_color!);
-      fd.append("eye_color", data.eye_color!);
-      fd.append("address", data.address!);
-      fd.append("height", data.height!);
-      fd.append("weight", data.weight!);
-      fd.append("dmv", data.dmv!);
-      fd.append("pilot_license", data.pilot_license!);
-      fd.append("fire_license", data.fire_license!);
-      fd.append("ccw", data.ccw!);
-      fd.append("phone_nr", data.phone_nr!);
+      fd.append("full_name", data.full_name as string);
+      fd.append("gender", data.gender as string);
+      fd.append("ethnicity", data.ethnicity as string);
+      fd.append("birth", data.birth as string);
+      fd.append("hair_color", data.hair_color as string);
+      fd.append("eye_color", data.eye_color as string);
+      fd.append("address", data.address as string);
+      fd.append("height", data.height as string);
+      fd.append("weight", data.weight as string);
+      fd.append("dmv", data.dmv as string);
+      fd.append("pilot_license", data.pilot_license as string);
+      fd.append("fire_license", data.fire_license as string);
+      fd.append("ccw", data.ccw as string);
+      fd.append("phone_nr", data.phone_nr as string);
       fd.append("create_officer", `${data.create_officer}`);
       fd.append("department", `${data.department}`);
       fd.append("callsign", `${data.callsign}`);
+      fd.append("cdl_license", `${data.cdl_license}`);
 
       const res = await handleRequest("/citizen", "POST", fd as unknown as RequestData);
 
@@ -231,20 +232,20 @@ export const updateCitizen =
         fd.append("image", data.image);
       }
 
-      fd.append("full_name", data.full_name!);
-      fd.append("gender", data.gender!);
-      fd.append("ethnicity", data.ethnicity!);
-      fd.append("birth", data.birth!);
-      fd.append("hair_color", data.hair_color!);
-      fd.append("eye_color", data.eye_color!);
-      fd.append("address", data.address!);
-      fd.append("height", data.height!);
-      fd.append("weight", data.weight!);
-      fd.append("dmv", data.dmv!);
-      fd.append("pilot_license", data.pilot_license!);
-      fd.append("fire_license", data.fire_license!);
-      fd.append("ccw", data.ccw!);
-      fd.append("phone_nr", data.phone_nr!);
+      fd.append("full_name", data.full_name as string);
+      fd.append("gender", data.gender as string);
+      fd.append("ethnicity", data.ethnicity as string);
+      fd.append("birth", data.birth as string);
+      fd.append("hair_color", data.hair_color as string);
+      fd.append("eye_color", data.eye_color as string);
+      fd.append("address", data.address as string);
+      fd.append("height", data.height as string);
+      fd.append("weight", data.weight as string);
+      fd.append("dmv", data.dmv as string);
+      fd.append("pilot_license", data.pilot_license as string);
+      fd.append("fire_license", data.fire_license as string);
+      fd.append("ccw", data.ccw as string);
+      fd.append("phone_nr", data.phone_nr as string);
 
       await handleRequest(`/citizen/${id}`, "PUT", fd as unknown as RequestData);
 

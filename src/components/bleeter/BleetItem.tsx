@@ -18,14 +18,14 @@ export const BleetItem: React.FC<Props> = ({ bleet, idx }) => {
     >
       <div className="card-header d-flex justify-content-between">
         {bleet.title}
-        <Link href={"/bleeter/" + bleet.id}>
+        <Link href={`/bleeter/${bleet.id}`}>
           <a className="btn btn-primary">{lang.bleeter.view_bleet}</a>
         </Link>
       </div>
 
       <div className="card-body">
         {bleet.body?.length > 120
-          ? bleet.body?.split("").slice(0, 120).join("") + "..."
+          ? `${bleet.body?.split("").slice(0, 120).join("")}...`
           : bleet.body}
       </div>
     </div>

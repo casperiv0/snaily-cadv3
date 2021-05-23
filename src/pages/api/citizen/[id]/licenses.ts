@@ -21,11 +21,21 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (method) {
     case "PUT": {
       try {
+        const body = req.body as Partial<Citizen>;
         const { dmv, fire_license, pilot_license, ccw } = req.body;
 
-        if (!dmv || !fire_license || !pilot_license || !ccw) {
+        if (
+          !body.dmv ||
+          !body.fire_license ||
+          !body.pilot_license ||
+          !body.ccw ||
+          !body.cdl_license
+        ) {
           return res.status(400).json({
-            error: formatRequired(["dmv", "fire_licenses", "pilot_license", "ccw"], req.body),
+            error: formatRequired(
+              ["dmv", "fire_licenses", "pilot_license", "ccw", "cdl_license"],
+              req.body,
+            ),
             status: "error",
           });
         }
@@ -37,6 +47,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             fire_license,
             pilot_license,
             ccw,
+            cdl_license: body.cdl_license,
           })
           .where("id", `${req.query.id}`)
           .exec();

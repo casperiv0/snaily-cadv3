@@ -93,7 +93,7 @@ const CreateBoloModalC: React.FC<Props> = ({ createBolo }) => {
               id="create_bolo_description"
               rows={5}
               className="form-control bg-secondary border-secondary text-light"
-            ></textarea>
+            />
           </div>
 
           {type?.value === "person" ? (

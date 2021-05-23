@@ -79,7 +79,7 @@ const AddMedicalRecord: React.FC<Props> = ({ names, searchNames, createMedicalRe
             <label className="form-label">{lang.record.enter_name}</label>
             <Select
               options={names.map((name) => ({ label: name.full_name, value: name.id }))}
-              closeMenuOnSelect={true}
+              closeMenuOnSelect
               isMulti={false}
               onChange={(v) => setCitizenId(v.value)}
             />
@@ -90,7 +90,7 @@ const AddMedicalRecord: React.FC<Props> = ({ names, searchNames, createMedicalRe
               className="form-control bg-secondary border-secondary text-light"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
+            />
           </div>
         </div>
 

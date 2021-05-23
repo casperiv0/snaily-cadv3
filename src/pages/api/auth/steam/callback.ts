@@ -76,12 +76,11 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
         if (nextURL && typeof nextURL === "string") {
           return res.redirect(301, nextURL);
-        } else {
-          return res.json({
-            status: "success",
-            message: "You can now return to the CAD",
-          });
         }
+        return res.json({
+          status: "success",
+          message: "You can now return to the CAD",
+        });
       } catch (e) {
         logger.error("STEAM_CALLBACK", e);
 

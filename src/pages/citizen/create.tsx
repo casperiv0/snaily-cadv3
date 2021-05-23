@@ -52,6 +52,7 @@ const CreateCitizenPage = ({
   const [height, setHeight] = React.useState<string>("");
   const [weight, setWeight] = React.useState<string>("");
   const [dmv, setDmv] = React.useState<string>("");
+  const [cdl, setCdl] = React.useState<string>("");
   const [pilotsLicense, setPilotsLicense] = React.useState<string>("");
   const [firearmsLicense, setFirearmsLicense] = React.useState<string>("");
   const [ccw, setCcw] = React.useState<string>("");
@@ -184,6 +185,15 @@ const CreateCitizenPage = ({
       select: true,
       data: cadLicenses,
     },
+    {
+      type: "text",
+      value: cdl,
+      onChange: (e) => setCdl(e?.value),
+      id: "cdl",
+      label: lang.citizen.cdl_license,
+      select: true,
+      data: cadLicenses,
+    },
   ];
 
   async function onSubmit(e: React.FormEvent) {
@@ -191,7 +201,7 @@ const CreateCitizenPage = ({
     setLoading(true);
 
     const created = await createCitizen({
-      image: image,
+      image,
       full_name: name,
       gender,
       ethnicity,
@@ -202,6 +212,7 @@ const CreateCitizenPage = ({
       height,
       weight,
       dmv,
+      cdl_license: cdl,
       pilot_license: pilotsLicense,
       fire_license: firearmsLicense,
       ccw,

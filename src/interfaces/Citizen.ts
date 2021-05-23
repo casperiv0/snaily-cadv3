@@ -21,6 +21,7 @@ export interface Citizen {
   fire_license: string;
   pilot_license: string;
   ccw: string;
+  cdl_license: string;
   business: string;
   business_id: string;
   rank: "owner" | "manager" | "employee" | "";

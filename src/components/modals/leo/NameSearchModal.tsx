@@ -83,9 +83,8 @@ const NameSearchModalC: React.FC<Props> = ({
         return lang.officers.suspended;
       } else if (search.citizen?.[type] === "2") {
         return lang.officers.revoked;
-      } else {
-        return null;
       }
+      return null;
     },
     [search?.citizen],
   );
@@ -154,7 +153,7 @@ const NameSearchModalC: React.FC<Props> = ({
               {lang.global.name}
             </label>
             <Select
-              closeMenuOnSelect={true}
+              closeMenuOnSelect
               isMulti={false}
               value={name}
               onChange={(v: any) => setName(v)}
@@ -242,7 +241,7 @@ const NameSearchModalC: React.FC<Props> = ({
                     </div>
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-4 w-100">
                     <h1 className="h3">{lang.citizen.licenses}</h1>
 
                     <Item id="dmv">
@@ -336,6 +335,29 @@ const NameSearchModalC: React.FC<Props> = ({
                         </>
                       )}
                     </Item>
+
+                    <Item id="cdl">
+                      <Span>{lang.citizen.cdl_license}: </Span>
+                      {isSuspendedOrRevoked("cdl_license") ?? (
+                        <>
+                          {search.citizen.cdl_license}{" "}
+                          <button
+                            onClick={handleSuspend("cdl_license", "suspend")}
+                            type="button"
+                            className="suspend-btn link-primary"
+                          >
+                            {lang.officers.suspend_license}
+                          </button>
+                          <button
+                            onClick={handleSuspend("cdl_license", "revoke")}
+                            type="button"
+                            className="suspend-btn link-primary ms-2"
+                          >
+                            {lang.officers.revoke_license}
+                          </button>
+                        </>
+                      )}
+                    </Item>
                   </div>
 
                   <div className="d-flex gap-2 mt-2 mb-2">
@@ -373,7 +395,7 @@ const NameSearchModalC: React.FC<Props> = ({
                         onChange={(e) => setNote(e.currentTarget.value)}
                         className="form-control bg-secondary border-secondary text-light"
                         rows={5}
-                      ></textarea>
+                      />
                       <button
                         form="none"
                         type="button"

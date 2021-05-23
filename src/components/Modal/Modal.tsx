@@ -39,7 +39,7 @@ export const Modal: React.FC<Props> = ({ styles, id, size, title, children }) =>
                   aria-label="Close"
                   className="btn-close btn-close-white"
                   onClick={() => modal(id)?.hide()}
-                ></button>
+                />
               </div>
 
               {children}

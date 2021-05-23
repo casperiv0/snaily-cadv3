@@ -100,7 +100,7 @@ const CreatePenalCodeModalC: React.FC<Props> = ({ addPenalCode }) => {
               value={des}
               onChange={(e) => setDes(e.currentTarget.value)}
               className="form-control bg-secondary border-secondary text-light"
-            ></textarea>
+            />
           </div>
         </div>
 

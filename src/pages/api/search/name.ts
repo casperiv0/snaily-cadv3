@@ -64,7 +64,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         ]);
 
         return res.json({
-          citizen: citizen,
+          citizen,
           writtenWarnings: warnings,
           vehicles,
           weapons,

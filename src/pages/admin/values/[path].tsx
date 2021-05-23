@@ -53,9 +53,7 @@ const Values: React.FC<Props> = ({
   const router = useRouter();
   const path = `${router.query.path}` as ValuePaths;
   const { filtered, onChange, search } = useSearch<Value>("name", values[path]);
-  const { ref, length } = useObserver<Value>(
-    values[path]?.sort((a: Value, _b: Value) => a?.defaults === "1"),
-  );
+  const { ref, length } = useObserver<Value>(values[path]?.sort((a: Value) => a?.defaults === "1"));
 
   React.useEffect(() => {
     if (!RanksArr.includes(user?.rank ?? "user")) {

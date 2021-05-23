@@ -69,7 +69,7 @@ const Create911ModalC = ({ callTypes, getValuesByPath, createCall }: Props) => {
               onChange={(e) => setDescription(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
               required
-            ></textarea>
+            />
           </div>
 
           <div className="row">

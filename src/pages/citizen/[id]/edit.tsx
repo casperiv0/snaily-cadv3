@@ -54,15 +54,15 @@ const CreateCitizenPage = ({
 
   React.useEffect(() => {
     if (citizen !== null) {
-      setName(citizen?.full_name!);
-      setGender({ label: citizen?.gender, value: citizen?.gender });
-      setEthnicity({ label: citizen?.ethnicity, value: citizen?.ethnicity });
-      setBirth(citizen?.birth!);
-      setHairColor(citizen?.hair_color!);
-      setEyeColor(citizen?.eye_color!);
-      setAddress(citizen?.address!);
-      setHeight(citizen?.height!);
-      setWeight(citizen?.weight!);
+      setName(citizen.full_name);
+      setGender({ label: citizen.gender, value: citizen.gender });
+      setEthnicity({ label: citizen.ethnicity, value: citizen.ethnicity });
+      setBirth(citizen.birth);
+      setHairColor(citizen.hair_color);
+      setEyeColor(citizen.eye_color);
+      setAddress(citizen.address);
+      setHeight(citizen.height);
+      setWeight(citizen.weight);
 
       setPhoneNumber(citizen?.phone_nr || "");
     }
@@ -159,7 +159,7 @@ const CreateCitizenPage = ({
     setLoading(true);
 
     const updated = await updateCitizen(citizen?.id, {
-      image: image,
+      image,
       full_name: name,
       gender: gender?.value,
       ethnicity: ethnicity?.value,
@@ -200,7 +200,7 @@ const CreateCitizenPage = ({
           <div style={{ display: "flex" }}>
             <div style={{ width: "90%" }}>
               <input
-                onChange={(e) => setImage(e.target.files![0])}
+                onChange={(e) => setImage(e.target.files?.[0])}
                 type="file"
                 className="form-control bg-dark border-dark text-light"
               />

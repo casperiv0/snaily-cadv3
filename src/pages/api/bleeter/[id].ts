@@ -145,9 +145,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
 
           return res.json({ status: "success" });
-        } else {
-          return res.status(403).json({ error: "Forbidden", status: "error" });
         }
+        return res.status(403).json({ error: "Forbidden", status: "error" });
       } catch (e) {
         logger.error("DELETE_CITIZEN", e);
 

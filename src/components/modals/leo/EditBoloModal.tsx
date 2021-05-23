@@ -88,7 +88,7 @@ const EditBoloModalC: React.FC<Props> = ({ bolo, updateBoloById }) => {
               id="edit_bolo_description"
               rows={5}
               className="form-control bg-secondary border-secondary text-light"
-            ></textarea>
+            />
           </div>
 
           {type?.value === "person" ? (

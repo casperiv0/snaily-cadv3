@@ -23,7 +23,7 @@ const CreateDeputyModalC: React.FC<Props> = ({ createEmsFdDeputy }) => {
 
     const created = await createEmsFdDeputy({
       name,
-      callsign: callsign,
+      callsign,
     });
 
     if (created) {

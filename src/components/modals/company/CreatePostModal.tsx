@@ -64,7 +64,7 @@ const CreatePostModalC: React.FC<Props> = ({ createCompanyPost, companyId, citiz
               onChange={(e) => setDescription(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
               required
-            ></textarea>
+            />
           </div>
         </div>
 

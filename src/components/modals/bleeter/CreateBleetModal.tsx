@@ -73,7 +73,7 @@ const CreateBleetModalC: React.FC<Props> = ({ createBleet }) => {
               rows={10}
               style={{ resize: "vertical" }}
               onChange={(e) => setBody(e.target.value)}
-            ></textarea>
+            />
           </div>
         </div>
 

@@ -81,7 +81,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       );
 
       return res.json({
-        company: company,
+        company,
         posts,
         employees,
         vehicles,

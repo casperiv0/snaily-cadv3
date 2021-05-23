@@ -22,7 +22,7 @@ export const Seo: React.FC<Props> = (props) => {
   const tags = {
     ...defaults,
     ...props,
-    title: props.title ? props.title + ` - ${cad?.cad_name ?? "SnailyCAD"}` : defaults.title,
+    title: props.title ? `${props.title} - ${cad?.cad_name ?? "SnailyCAD"}` : defaults.title,
   };
 
   // tODO: make seo endpoint public

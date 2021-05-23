@@ -80,7 +80,7 @@ const CreateMedicalRecordModalC: React.FC<Props> = ({ citizenId, createMedicalRe
               onChange={(e) => setShortInfo(e.target.value)}
               className="form-control bg-secondary border-secondary text-light"
               style={{ resize: "vertical" }}
-            ></textarea>
+            />
           </div>
         </div>
 

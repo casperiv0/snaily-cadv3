@@ -71,7 +71,7 @@ const EditBleetModalC: React.FC<Props> = ({ bleet, updateBleet }) => {
               onChange={(e) => setBody(e.target.value)}
               rows={10}
               style={{ resize: "vertical" }}
-            ></textarea>
+            />
           </div>
         </div>
 

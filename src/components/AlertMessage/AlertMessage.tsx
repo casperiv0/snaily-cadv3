@@ -17,7 +17,7 @@ const AlertMessageC: React.FC<Props> = ({ message }) => {
 };
 
 export const DismissAlertBtn: React.FC<{ onClick: any }> = ({ onClick }) => {
-  return <button type="button" className="btn-close" aria-label="Close" onClick={onClick}></button>;
+  return <button type="button" className="btn-close" aria-label="Close" onClick={onClick} />;
 };
 
 export const AlertMessage = connect(null)(AlertMessageC);

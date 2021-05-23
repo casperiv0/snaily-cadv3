@@ -66,7 +66,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@casper124578/eslint-config": "^0.0.3",
+    "@casper124578/eslint-config": "^0.0.8",
+    "@casper124578/eslint-config-react": "^0.0.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/bootstrap": "^5.0.13",
     "@types/cookie": "^0.4.0",
@@ -83,15 +84,9 @@
     "@types/react-dom": "^17.0.3",
     "@types/react-select": "^4.0.15",
     "@types/uuid": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^4.22.1",
-    "@typescript-eslint/parser": "^4.22.1",
     "eslint": "^7.26.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-json": "^3.0.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-react": "^7.23.2",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.3.0",
     "symbol-observable": "^4.0.0",
     "typescript": "^4.2.4"

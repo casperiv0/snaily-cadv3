@@ -33,7 +33,7 @@ export const NotepadModal: React.FC = () => {
           rows={15}
           value={note}
           onChange={(e) => setNote(e.target.value)}
-        ></textarea>
+        />
       </div>
 
       <div className="modal-footer">
