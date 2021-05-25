@@ -53,7 +53,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         // replace "0" with "O"
         const parsedPlate = plate.replace(/[oO]/g, "0");
         const [citizen] = await processQuery<Citizen>(
-          "SELECT `full_name` FROM `citizens` WHERE `user_id` = ? AND `id` = ?",
+          "SELECT * FROM `citizens` WHERE `user_id` = ? AND `id` = ?",
           [req.userId, req.query.id],
         );
 
