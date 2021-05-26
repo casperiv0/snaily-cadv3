@@ -61,7 +61,7 @@ const EditUsernameModalC: React.FC<Props> = ({ updateUsername }) => {
             {lang.global.cancel}
           </button>
           <button type="submit" className="btn btn-primary">
-            {lang.auth.update_password}
+            {lang.auth.update_username}
           </button>
         </div>
       </form>
