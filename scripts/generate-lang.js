@@ -32,7 +32,6 @@ const ProbablyNotInTheTranslateFile = {
     updated_username: "Successfully updated your username",
     new_username: "Enter new username",
     edit_username: "Edit username",
-    update_username: "Update Username",
   },
   global: {
     ...file.global,
