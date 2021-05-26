@@ -109,6 +109,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             injuries: body.injuries,
             gsr: body.gsr,
             officer_id: officer.id,
+            gang_affiliation: body.gang_affiliation,
           })
           .exec();
 
