@@ -28,15 +28,15 @@ const ExpungementRequestsTabC: React.FC<Props> = ({ requests, acceptOrDeclineReq
                 <div>
                   <p>
                     {lang.record.warrants}:{" "}
-                    {request.warrants.map((war) => war.label).join(", ") || "N/A"}
+                    {request.warrants?.map((war) => war.label).join(", ") || "N/A"}
                   </p>
                   <p>
                     {lang.record.arr_rep}:{" "}
-                    {request.arrestReports.map((arr) => arr.label).join(", ") || "N/A"}
+                    {request.arrestReports?.map((arr) => arr.label).join(", ") || "N/A"}
                   </p>
                   <p>
                     {lang.record.tickets}:{" "}
-                    {request.tickets.map((ticket) => ticket.label).join(", ") || "N/A"}
+                    {request.tickets?.map((ticket) => ticket.label).join(", ") || "N/A"}
                   </p>
 
                   <Item id="username">

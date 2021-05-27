@@ -4,7 +4,7 @@ import { Modal } from "@components/Modal/Modal";
 import { searchCitizen, requestExpungement } from "@actions/court/CourtActions";
 import { CourtResult } from "@actions/court/CourtTypes";
 import { Nullable, State } from "types/State";
-import { Select, SelectValue } from "@components/Select/Select";
+import { Select } from "@components/Select/Select";
 import { ModalIds } from "types/ModalIds";
 import lang from "src/language.json";
 import { RequestData } from "@lib/utils";
@@ -21,9 +21,9 @@ const RequestExpungementModalC: React.FC<Props> = ({
   requestExpungement,
 }) => {
   const [name, setName] = React.useState("");
-  const [tickets, setTickets] = React.useState<SelectValue | null>(null);
-  const [arrReports, setArrReports] = React.useState<SelectValue | null>(null);
-  const [warrants, setWarrants] = React.useState<SelectValue | null>(null);
+  const [tickets, setTickets] = React.useState([]);
+  const [arrReports, setArrReports] = React.useState([]);
+  const [warrants, setWarrants] = React.useState([]);
   const [reason, setReason] = React.useState("");
   const [disabled, setDisabled] = React.useState(true);
   const [searching, setSearching] = React.useState(false);
@@ -56,9 +56,9 @@ const RequestExpungementModalC: React.FC<Props> = ({
     });
 
     if (success) {
-      setTickets(null);
-      setArrReports(null);
-      setWarrants(null);
+      setTickets([]);
+      setArrReports([]);
+      setWarrants([]);
       setName("");
       setReason("");
     }
