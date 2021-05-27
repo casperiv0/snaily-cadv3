@@ -20,7 +20,14 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   switch (method) {
     case "POST": {
       try {
-        const { warrants, arrest_reports, tickets } = req.body;
+        const { warrants, arrest_reports, tickets, reason } = req.body;
+
+        if (!reason) {
+          return res.status(400).json({
+            error: "Please fill in all fields",
+            status: "error",
+          });
+        }
 
         const [citizen] = await global.connection
           .query<Citizen>()
@@ -45,6 +52,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             tickets: JSON.stringify(tickets),
             citizen_id: req.query.citizenId,
             user_id: req.userId,
+            reason,
           })
           .exec();
 

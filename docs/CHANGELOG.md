@@ -2,6 +2,15 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.1.5
+
+- New: able to add a reason to the expungement requests
+- Fix: fixed a bug where it would not show the correct `on_duty_status`
+- Fix: fixed a bug where you could not register a vehicle to a company
+- Fix: fixed a bug when creating a officer incident report
+- Fix: fixed a typo in the update username modal (Thanks @NotARacc)
+- Minor: show custom select box for registering a vehicle.
+
 ## 2.1.4
 
 - New: add CDL license

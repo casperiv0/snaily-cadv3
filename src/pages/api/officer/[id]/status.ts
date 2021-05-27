@@ -89,7 +89,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           [req.query.id, "1"],
         );
 
-        if (status2 === "10-8") {
+        if (status2 === cadInfo?.on_duty_status) {
           if (!officerLog) {
             await processQuery(
               "INSERT INTO `officer_logs` (`id`, `officer_id`, `started_at`, `ended_at`, `active`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)",

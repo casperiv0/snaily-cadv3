@@ -4,6 +4,7 @@ export interface ExpungementRequest {
   warrants: SelectValue[];
   arrestReports: SelectValue[];
   tickets: SelectValue[];
+  reason: string;
   id?: string;
   user_id?: string;
   citizenId?: string;

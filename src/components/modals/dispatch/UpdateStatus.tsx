@@ -12,11 +12,14 @@ import { ModalIds } from "types/ModalIds";
 import { Officer } from "types/Officer";
 import { setEmsStatus } from "@actions/ems-fd/EmsFdActions";
 import { Deputy } from "types/Deputy";
+import { Cad } from "types/Cad";
 
 interface Props {
   type: "ems-fd" | "officers";
   data: { id: string; status: string; status2: string } | null;
   statuses: Code10[];
+  cadInfo: Nullable<Cad>;
+
   setStatus: (officer: Pick<Officer, "status" | "status2" | "id">) => Promise<boolean>;
   setEmsStatus: (deputy: Pick<Deputy, "status" | "status2" | "id">) => Promise<boolean>;
   get10Codes: () => void;
@@ -95,7 +98,10 @@ const UpdateStatusModalC: React.FC<Props> = (props) => {
               value={status2}
               isMulti={false}
               onChange={setStatus2}
-              options={filterCodes([{ code: "10-8" } as any, ...props.statuses]).map((stat) => {
+              options={filterCodes([
+                { code: props.cadInfo?.on_duty_status } as any,
+                ...props.statuses,
+              ]).map((stat) => {
                 return {
                   label: stat.code,
                   value: stat.code,
@@ -121,6 +127,7 @@ const UpdateStatusModalC: React.FC<Props> = (props) => {
 
 const mapToProps = (state: State) => ({
   statuses: state.admin.codes,
+  cadInfo: state.global.cadInfo,
 });
 
 export const UpdateStatusModal = connect(mapToProps, {

@@ -4,7 +4,7 @@ import { Modal } from "@components/Modal/Modal";
 import { searchCitizen, requestExpungement } from "@actions/court/CourtActions";
 import { CourtResult } from "@actions/court/CourtTypes";
 import { Nullable, State } from "types/State";
-import { Select } from "@components/Select/Select";
+import { Select, SelectValue } from "@components/Select/Select";
 import { ModalIds } from "types/ModalIds";
 import lang from "src/language.json";
 import { RequestData } from "@lib/utils";
@@ -21,9 +21,10 @@ const RequestExpungementModalC: React.FC<Props> = ({
   requestExpungement,
 }) => {
   const [name, setName] = React.useState("");
-  const [tickets, setTickets] = React.useState([]);
-  const [arrReports, setArrReports] = React.useState([]);
-  const [warrants, setWarrants] = React.useState([]);
+  const [tickets, setTickets] = React.useState<SelectValue | null>(null);
+  const [arrReports, setArrReports] = React.useState<SelectValue | null>(null);
+  const [warrants, setWarrants] = React.useState<SelectValue | null>(null);
+  const [reason, setReason] = React.useState("");
   const [disabled, setDisabled] = React.useState(true);
   const [searching, setSearching] = React.useState(false);
 
@@ -47,16 +48,20 @@ const RequestExpungementModalC: React.FC<Props> = ({
   async function onRequestSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    await requestExpungement(courtResult?.citizenId!, {
+    const success = await requestExpungement(courtResult?.citizenId!, {
       tickets,
       arrest_reports: arrReports,
       warrants,
+      reason,
     });
 
-    setTickets([]);
-    setArrReports([]);
-    setWarrants([]);
-    setName("");
+    if (success) {
+      setTickets(null);
+      setArrReports(null);
+      setWarrants(null);
+      setName("");
+      setReason("");
+    }
   }
 
   return (
@@ -92,63 +97,77 @@ const RequestExpungementModalC: React.FC<Props> = ({
 
         <form id="request-form" className="mt-5" onSubmit={onRequestSubmit}>
           {courtResult !== null && (
-            <div className="row">
-              <div className="col-md-4 mb-3">
-                <h5>{lang.record.warrants}</h5>
+            <>
+              <div className="row">
+                <div className="col-md-4 mb-3">
+                  <h5>{lang.record.warrants}</h5>
 
-                {courtResult.warrants.length <= 0 ? (
-                  <p>{lang.court.no_warrants}</p>
-                ) : (
-                  <Select
-                    onChange={(v: any) => setWarrants(v)}
-                    options={courtResult.warrants.map((warrant) => {
-                      return {
-                        value: warrant.id,
-                        label: warrant.reason,
-                      };
-                    })}
-                  />
-                )}
-              </div>
-              <div className="col-md-4 mb-3">
-                <h5>{lang.record.arr_rep}</h5>
+                  {courtResult.warrants.length <= 0 ? (
+                    <p>{lang.court.no_warrants}</p>
+                  ) : (
+                    <Select
+                      onChange={(v: any) => setWarrants(v)}
+                      options={courtResult.warrants.map((warrant) => {
+                        return {
+                          value: warrant.id,
+                          label: warrant.reason,
+                        };
+                      })}
+                    />
+                  )}
+                </div>
+                <div className="col-md-4 mb-3">
+                  <h5>{lang.record.arr_rep}</h5>
 
-                {courtResult.arrestReports.length <= 0 ? (
-                  <p>{lang.court.no_arr_reports}</p>
-                ) : (
-                  <Select
-                    onChange={(v: any) => setArrReports(v)}
-                    options={courtResult.arrestReports.map((arr) => {
-                      return {
-                        value: arr.id,
-                        label: `${arr.charges} (${new Date(
-                          Number(arr.date),
-                        ).toLocaleDateString()})`,
-                      };
-                    })}
-                  />
-                )}
-              </div>
-              <div className="col-md-4 mb-3">
-                <h5>{lang.record.tickets}</h5>
+                  {courtResult.arrestReports.length <= 0 ? (
+                    <p>{lang.court.no_arr_reports}</p>
+                  ) : (
+                    <Select
+                      onChange={(v: any) => setArrReports(v)}
+                      options={courtResult.arrestReports.map((arr) => {
+                        return {
+                          value: arr.id,
+                          label: `${arr.charges} (${new Date(
+                            Number(arr.date),
+                          ).toLocaleDateString()})`,
+                        };
+                      })}
+                    />
+                  )}
+                </div>
+                <div className="col-md-4 mb-3">
+                  <h5>{lang.record.tickets}</h5>
 
-                {courtResult.tickets.length <= 0 ? (
-                  <p>{lang.court.no_tickets}</p>
-                ) : (
-                  <Select
-                    onChange={(v: any) => setTickets(v)}
-                    options={courtResult.tickets.map((ticket) => {
-                      return {
-                        value: ticket.id,
-                        label: `${ticket.violations} (${new Date(
-                          Number(ticket.date),
-                        ).toLocaleDateString()})`,
-                      };
-                    })}
-                  />
-                )}
+                  {courtResult.tickets.length <= 0 ? (
+                    <p>{lang.court.no_tickets}</p>
+                  ) : (
+                    <Select
+                      onChange={(v: any) => setTickets(v)}
+                      options={courtResult.tickets.map((ticket) => {
+                        return {
+                          value: ticket.id,
+                          label: `${ticket.violations} (${new Date(
+                            Number(ticket.date),
+                          ).toLocaleDateString()})`,
+                        };
+                      })}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
+
+              <div>
+                <label htmlFor="reason" className="form-label">
+                  {lang.admin.reason}
+                </label>
+                <textarea
+                  id="reason"
+                  className="form-control mt-2 bg-secondary border-secondary text-light"
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                />
+              </div>
+            </>
           )}
         </form>
       </div>
