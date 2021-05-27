@@ -87,7 +87,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const updated = await processQuery("SELECT * FROM `court_requests`");
         return res.json({
           status: "success",
-          requests: updated.map((request: any) => {
+          expungementRequests: updated.map((request: any) => {
             request.warrants = JSON.parse(request.warrants);
             request.arrestReports = JSON.parse(request.arrest_reports);
             request.tickets = JSON.parse(request.tickets);

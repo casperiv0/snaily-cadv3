@@ -18,7 +18,7 @@ const ExpungementRequestsTabC: React.FC<Props> = ({ requests, acceptOrDeclineReq
         <AlertMessage message={{ msg: lang.admin.no_expungement_requests, type: "warning" }} />
       ) : (
         <ul className="list-group">
-          {requests.map((request: ExpungementRequest, idx: number) => {
+          {requests?.map((request: ExpungementRequest, idx: number) => {
             return (
               <li
                 key={idx}

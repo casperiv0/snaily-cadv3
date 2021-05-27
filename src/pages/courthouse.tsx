@@ -37,7 +37,7 @@ const CourthousePage: React.FC<Props> = ({ requests }) => {
         </div>
       </div>
 
-      {requests.length <= 0 ? (
+      {requests?.length <= 0 ? (
         <p>{lang.court.no_requests}</p>
       ) : (
         <table className="table table-dark">
@@ -54,21 +54,9 @@ const CourthousePage: React.FC<Props> = ({ requests }) => {
               return (
                 <tr key={idx}>
                   <th scope="row">{++idx}</th>
-                  <td>
-                    {req.warrants.length > 0
-                      ? req.warrants.map((war) => war.label).join(", ")
-                      : "N/A"}
-                  </td>
-                  <td>
-                    {req.arrestReports.length > 0
-                      ? req.arrestReports.map((war) => war.label).join(", ")
-                      : "N/A"}
-                  </td>
-                  <td>
-                    {req.tickets.length > 0
-                      ? req.tickets.map((war) => war.label).join(", ")
-                      : "N/A"}
-                  </td>
+                  <td>{req.warrants?.map((war) => war.label).join(", ") || "N/A"}</td>
+                  <td>{req.arrestReports?.map((war) => war.label).join(", ") || "N/A"}</td>
+                  <td>{req.tickets?.map((war) => war.label).join(", ") || "N/A"}</td>
                 </tr>
               );
             })}
