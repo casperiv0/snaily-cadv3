@@ -4,7 +4,7 @@
 
 ## 2.1.5
 
-- New: able to add a comment to the expungement requests
+- New: able to add a reason to the expungement requests
 - Fix: fixed a bug where it would not show the correct `on_duty_status`
 - Fix: fixed a bug where you could not register a vehicle to a company
 - Fix: fixed a bug when creating a officer incident report

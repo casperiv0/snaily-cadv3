@@ -48,6 +48,13 @@ const ExpungementRequestsTabC: React.FC<Props> = ({ requests, acceptOrDeclineReq
                     <Span>{lang.auth.citizen_name}: </Span>
                     {request?.citizen?.full_name ?? lang.auth.error_citizen}
                   </Item>
+
+                  {request.reason ? (
+                    <Item id="reason">
+                      <Span>{lang.admin.reason}: </Span>
+                      {request?.reason}
+                    </Item>
+                  ) : null}
                 </div>
 
                 <div>

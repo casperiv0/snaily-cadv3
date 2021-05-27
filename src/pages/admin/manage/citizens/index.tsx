@@ -62,7 +62,7 @@ const ManageCitizensPage: React.FC<Props> = ({ citizens, requests }) => {
               aria-selected="false"
             >
               {lang.court.requests}
-              <span className="badge bg-primary ms-2">{requests.length}</span>
+              <span className="badge bg-primary ms-2">{requests?.length ?? 0}</span>
             </a>
           </li>
         </ul>

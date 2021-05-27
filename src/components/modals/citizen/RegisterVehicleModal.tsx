@@ -133,6 +133,9 @@ const RegisterVehicleModalC: React.FC<Props> = ({
             <Select
               theme="light"
               value={vehicle}
+              isMulti={false}
+              isClearable={false}
+              closeMenuOnSelect
               onChange={(v) => setVehicle(v)}
               options={vehicles
                 .sort((a, b) => Number(a?.defaults) - Number(b?.defaults))
