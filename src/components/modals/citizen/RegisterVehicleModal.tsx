@@ -43,7 +43,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
   const [plate, setPlate] = React.useState("");
   const [status, setStatus] = React.useState("");
   const [color, setColor] = React.useState("");
-  const [vehicle, setVehicle] = React.useState("");
+  const [vehicle, setVehicle] = React.useState<SelectValue | null>(null);
   const [citizenId, setCitizenId] = React.useState<Nullable<SelectValue>>(null);
   const [companyId, setCompanyId] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -76,7 +76,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
       plate,
       status,
       color,
-      vehicle,
+      vehicle: vehicle?.value,
       citizenId: citizenId?.value,
       companyId,
     });
@@ -85,7 +85,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
       setPlate("");
       setStatus("");
       setColor("");
-      setVehicle("");
+      setVehicle(null);
       setCitizenId(null);
       setCompanyId("");
 
@@ -129,25 +129,18 @@ const RegisterVehicleModalC: React.FC<Props> = ({
             <label className="form-label" htmlFor="vehicle">
               {lang.citizen.vehicle.enter_vehicle}
             </label>
-            <input
-              type="text"
-              id="register_vehicle"
+
+            <Select
+              theme="light"
               value={vehicle}
-              onChange={(e) => setVehicle(e.target.value)}
-              className="form-control bg-secondary border-secondary text-light"
-              list="vehicles"
-            />
-            <datalist id="register_vehicles">
-              {vehicles
+              onChange={(v) => setVehicle(v)}
+              options={vehicles
                 .sort((a, b) => Number(a?.defaults) - Number(b?.defaults))
-                .map((vehicle: Value, idx: number) => {
-                  return (
-                    <option value={vehicle.name} key={idx} id={`${idx}`}>
-                      {vehicle.name}
-                    </option>
-                  );
-                })}
-            </datalist>
+                .map((ve) => ({
+                  label: ve.name,
+                  value: ve.name,
+                }))}
+            />
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="owner">
