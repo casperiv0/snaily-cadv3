@@ -79,7 +79,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
       plate,
       status,
       color,
-      vehicle: vehicle?.value === "1" ? customVehicle : vehicle?.value,
+      vehicle: vehicle?.value === lang.global.other ? customVehicle : vehicle?.value,
       citizenId: citizenId?.value,
       companyId,
     });
