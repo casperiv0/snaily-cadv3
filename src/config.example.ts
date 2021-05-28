@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 // @ts-nocheck
 
 // you can find more information about what everything is here:

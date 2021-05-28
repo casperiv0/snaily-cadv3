@@ -2,18 +2,16 @@
   "name": "snaily-cadv3",
   "version": "2.1.5",
   "description": "An open source Computer Aided Dispatch (CAD) for FiveM, this is a web based integration for communities who love police roleplaying and dispatching. ",
-  "main": "index.js",
   "scripts": {
     "start": "npm run translation:generate && npm run build && cross-env NODE_ENV=production node dist/src/server.js",
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
     "auto-install": "node ./scripts/install.js",
     "docker-start": "cross-env NODE_ENV=production node dist/src/server.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prettier": "prettier --check .",
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx",
+    "lint:fix": "eslint . --fix  --ext .ts,.js,.tsx,.jsx",
     "translation:generate": "node scripts/generate-lang.js",
-    "build:tsc": "tsc --noEmit && tsc --p tsconfig.server.json --noEmit",
+    "test:tsc": "tsc --noEmit && tsc --p tsconfig.server.json --noEmit",
     "format:quick": "pretty-quick --staged --pattern \"**/*.{js,jsx,ts,tsx,md,css,json}\"",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,css,json}\" ",
     "prepare": "husky install"
@@ -22,8 +20,10 @@
     "type": "git",
     "url": "git+https://github.com/Dev-CasperTheGhost/snaily-cadv3.git"
   },
-  "keywords": [],
-  "author": "Dev-CasperTheGhost",
+  "author": {
+    "name": "Dev-CasperTheGhost",
+    "url": "https://caspertheghost.me"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues"
@@ -70,6 +70,7 @@
   },
   "devDependencies": {
     "@casper124578/eslint-config": "^0.0.8",
+    "@casper124578/eslint-config-next": "^0.0.1",
     "@casper124578/eslint-config-react": "^0.0.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/bootstrap": "^5.0.13",
