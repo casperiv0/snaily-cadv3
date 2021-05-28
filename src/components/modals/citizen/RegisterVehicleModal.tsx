@@ -44,10 +44,13 @@ const RegisterVehicleModalC: React.FC<Props> = ({
   const [status, setStatus] = React.useState("");
   const [color, setColor] = React.useState("");
   const [vehicle, setVehicle] = React.useState<SelectValue | null>(null);
+  const [customVehicle, setCustomVehicle] = React.useState("");
   const [citizenId, setCitizenId] = React.useState<Nullable<SelectValue>>(null);
   const [companyId, setCompanyId] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const location = useRouter();
+
+  const allVehicles = [{ defaults: 1, name: lang.global.other, value: "1" }, ...vehicles];
 
   React.useEffect(() => {
     getValuesByPath("vehicles");
@@ -76,7 +79,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
       plate,
       status,
       color,
-      vehicle: vehicle?.value,
+      vehicle: vehicle?.value === "1" ? customVehicle : vehicle?.value,
       citizenId: citizenId?.value,
       companyId,
     });
@@ -88,6 +91,7 @@ const RegisterVehicleModalC: React.FC<Props> = ({
       setVehicle(null);
       setCitizenId(null);
       setCompanyId("");
+      setCustomVehicle("");
 
       modal(ModalIds.RegisterVehicle)?.hide();
     }
@@ -137,13 +141,22 @@ const RegisterVehicleModalC: React.FC<Props> = ({
               isClearable={false}
               closeMenuOnSelect
               onChange={(v) => setVehicle(v)}
-              options={vehicles
+              options={allVehicles
                 .sort((a, b) => Number(a?.defaults) - Number(b?.defaults))
                 .map((ve) => ({
                   label: ve.name,
                   value: ve.name,
                 }))}
             />
+
+            {vehicle?.value === lang.global.other ? (
+              <input
+                value={customVehicle}
+                onChange={(e) => setCustomVehicle(e.target.value)}
+                className="form-control bg-secondary border-secondary text-light mt-2"
+                placeholder={lang.citizen.other_vehicle ?? "Enter custom vehicle"}
+              />
+            ) : null}
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="owner">
