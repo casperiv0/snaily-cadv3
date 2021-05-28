@@ -13,7 +13,10 @@
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",
     "translation:generate": "node scripts/generate-lang.js",
-    "build:tsc": "tsc --noEmit && tsc --p tsconfig.server.json --noEmit"
+    "build:tsc": "tsc --noEmit && tsc --p tsconfig.server.json --noEmit",
+    "format:quick": "pretty-quick --staged --pattern \"**/*.{js,jsx,ts,tsx,md,css,json}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,css,json}\" ",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -85,9 +88,11 @@
     "@types/react-select": "^4.0.15",
     "@types/uuid": "^8.3.0",
     "eslint": "^7.26.0",
-    "eslint-plugin-prettier": "^3.4.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
     "prettier": "^2.3.0",
+    "pretty-quick": "^3.1.0",
     "symbol-observable": "^4.0.0",
     "typescript": "^4.2.4"
   },
