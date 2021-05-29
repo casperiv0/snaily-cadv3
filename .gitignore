@@ -29,3 +29,6 @@ public/mugshots/*
 .vscode
 
 data.json
+
+.husky/_
+.husky/.gitignore
