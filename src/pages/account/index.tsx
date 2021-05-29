@@ -57,6 +57,7 @@ const AccountPage = ({ user, unLinkSteam }: Props) => {
             >
               {lang.auth.edit_username}
             </button>
+
             {user?.rank === "owner" ? (
               <p>{lang.account.owner_cannot_delete_account}</p>
             ) : (

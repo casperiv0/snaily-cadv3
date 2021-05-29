@@ -2,8 +2,8 @@ import * as React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { Provider as ReduxProvider } from "react-redux";
-import { Router } from "next/router";
-import { ToastContainer } from "react-toastify";
+import Router from "next/router";
+import dynamic from "next/dynamic";
 import "react-toastify/dist/ReactToastify.css";
 import Bootstrap from "bootstrap";
 import { useStore } from "src/state/useStore";
@@ -11,6 +11,10 @@ import "../styles/global.css";
 import "../styles/fonts.css";
 import { Navbar } from "src/components/navbar/Navbar";
 import { GlobalSearch } from "@components/GlobalSearch/GlobalSearch";
+
+const ToastContainer: any = dynamic(
+  () => import("react-toastify").then((m) => m.ToastContainer) as any,
+);
 
 declare global {
   interface Window {

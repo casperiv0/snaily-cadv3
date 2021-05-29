@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import Link from "next/link";
 import * as React from "react";
+import dynamic from "next/dynamic";
 import { useSearch } from "@casper124578/useful/hooks/useSearch";
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getUserCitizens } from "@actions/citizen/CitizenActions";
@@ -17,12 +18,24 @@ import { isCadFeatureEnabled } from "@lib/utils";
 import { Cad } from "types/Cad";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";
-import { CreateTaxiCallModal } from "@components/modals/CreateTaxiCallModal";
-import { CreateTowCallModal } from "@components/modals/CreateTowCallModal";
-import { Create911Modal } from "@components/modals/Create911Modal";
 import { socket } from "@hooks/useSocket";
-import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponModal";
-import { RegisterVehicleModal } from "@components/modals/citizen/RegisterVehicleModal";
+
+const RegisterWeaponModal = dynamic(
+  async () => (await import("@components/modals/citizen/RegisterWeaponModal")).RegisterWeaponModal,
+);
+const RegisterVehicleModal = dynamic(
+  async () =>
+    (await import("@components/modals/citizen/RegisterVehicleModal")).RegisterVehicleModal,
+);
+const Create911Modal = dynamic(
+  async () => (await import("@components/modals/Create911Modal")).Create911Modal,
+);
+const CreateTowCallModal = dynamic(
+  async () => (await import("@components/modals/CreateTowCallModal")).CreateTowCallModal,
+);
+const CreateTaxiCallModal = dynamic(
+  async () => (await import("@components/modals/CreateTaxiCallModal")).CreateTaxiCallModal,
+);
 
 interface Props {
   citizens: Citizen[];

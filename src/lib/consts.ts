@@ -8,10 +8,10 @@ export const Auth = {
 
 export const RanksArr = ["owner", "admin", "moderator"];
 export enum Ranks {
-  User = "user",
   Owner = "owner",
-  Mod = "moderator",
   Admin = "admin",
+  Mod = "moderator",
+  User = "user",
 }
 
 export enum Whitelist {

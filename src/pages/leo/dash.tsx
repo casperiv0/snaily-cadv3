@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { connect } from "react-redux";
 import * as React from "react";
+import dynamic from "next/dynamic";
 
 import { verifyAuth } from "@actions/auth/AuthActions";
 import { getBolos } from "@actions/bolos/BoloActions";
@@ -10,8 +11,6 @@ import { getCadInfo } from "@actions/global/GlobalActions";
 import { getActiveOfficer, searchNames } from "@actions/officer/OfficerActions";
 import { getPenalCodes } from "@actions/admin/AdminActions";
 import { initializeStore } from "@state/useStore";
-
-import { UploadMugshotsModal } from "@components/modals/leo/UploadMugshotsModal";
 import { Active911Calls } from "@components/Active911Calls/Active911Calls";
 import { Nullable, State } from "types/State";
 import lang from "../../language.json";
@@ -20,14 +19,6 @@ import { Statuses } from "@components/leo/Statuses";
 import { ActiveBolos } from "@components/ActiveBolos/ActiveBolos";
 import { CreateWarrant } from "@components/leo/CreateWarrant";
 import { socket } from "@hooks/useSocket";
-import { NotepadModal } from "../../components/modals/NotepadModal";
-import { CreateBoloModal } from "@components/modals/leo/CreateBoloModal";
-import { PlateSearchModal } from "@components/modals/leo/PlateSearchModal";
-import { NameSearchModal } from "@components/modals/leo/NameSearchModal";
-import { WeaponSearchModal } from "@components/modals/leo/WeaponSearchModal";
-import { CreateWrittenWarningModal } from "@components/modals/leo/CreateWrittenWarningModal";
-import { CreateArrestReportModal } from "@components/modals/leo/CreateArrestReportModal";
-import { CreateTicketModal } from "@components/modals/leo/CreateTicketModal";
 import { Officer } from "types/Officer";
 import { isUnitAlreadyAssigned, notify, playSound } from "@lib/utils";
 import { User } from "types/User";
@@ -37,11 +28,45 @@ import { SocketEvents } from "types/Socket";
 import { Call } from "types/Call";
 import { Perm } from "types/Perm";
 import { Layout } from "@components/Layout";
-import { SelectOfficerModal } from "@components/modals/leo/SelectOfficerModal";
 import { Seo } from "@components/Seo";
 import { useDashTime } from "@hooks/useDashTime";
 import { useClientPerms } from "@hooks/useClientPerms";
-import { MugshotsModal } from "@components/modals/leo/MugshotsModal";
+
+const MugshotsModal = dynamic(
+  async () => (await import("@components/modals/leo/MugshotsModal")).MugshotsModal,
+);
+const NotepadModal = dynamic(
+  async () => (await import("@components/modals/NotepadModal")).NotepadModal,
+);
+const CreateBoloModal = dynamic(
+  async () => (await import("@components/modals/leo/CreateBoloModal")).CreateBoloModal,
+);
+const PlateSearchModal = dynamic(
+  async () => (await import("@components/modals/leo/PlateSearchModal")).PlateSearchModal,
+);
+const NameSearchModal = dynamic(
+  async () => (await import("@components/modals/leo/NameSearchModal")).NameSearchModal,
+);
+const WeaponSearchModal = dynamic(
+  async () => (await import("@components/modals/leo/WeaponSearchModal")).WeaponSearchModal,
+);
+const CreateWrittenWarningModal = dynamic(
+  async () =>
+    (await import("@components/modals/leo/CreateWrittenWarningModal")).CreateWrittenWarningModal,
+);
+const CreateArrestReportModal = dynamic(
+  async () =>
+    (await import("@components/modals/leo/CreateArrestReportModal")).CreateArrestReportModal,
+);
+const CreateTicketModal = dynamic(
+  async () => (await import("@components/modals/leo/CreateTicketModal")).CreateTicketModal,
+);
+const SelectOfficerModal = dynamic(
+  async () => (await import("@components/modals/leo/SelectOfficerModal")).SelectOfficerModal,
+);
+const UploadMugshotsModal = dynamic(
+  async () => (await import("@components/modals/leo/UploadMugshotsModal")).UploadMugshotsModal,
+);
 
 interface Props {
   aop: Nullable<string>;

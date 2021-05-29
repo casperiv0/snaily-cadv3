@@ -1,7 +1,14 @@
 /* eslint-disable */
+
 module.exports = {
   future: {
     webpack5: true,
+  },
+  experimental: {
+    turboMode: true,
+    workerThreads: true,
+    serialWebpackBuild: true,
+    gzipSize: true,
   },
   async redirects() {
     return [
