@@ -22,9 +22,10 @@ interface Props {
   aop: Nullable<string>;
   cadInfo: Nullable<Cad>;
   endCall: (type: CallTypes, id: string) => void;
+  getCalls: (type: CallTypes) => void;
 }
 
-const TowDashPage = ({ calls, cadInfo, endCall, ...rest }: Props) => {
+const TowDashPage = ({ calls, cadInfo, endCall, getCalls, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
 
   React.useEffect(() => {
@@ -38,7 +39,7 @@ const TowDashPage = ({ calls, cadInfo, endCall, ...rest }: Props) => {
       socket.off(SocketEvents.UpdateAop, handler);
       socket.off(SocketEvents.UpdateTowCalls, callHandler);
     };
-  }, []);
+  }, [getCalls]);
 
   return (
     <Layout>
@@ -116,4 +117,4 @@ const mapToProps = (state: State) => ({
   cadInfo: state.global.cadInfo,
 });
 
-export default connect(mapToProps, { endCall })(TowDashPage);
+export default connect(mapToProps, { getCalls, endCall })(TowDashPage);

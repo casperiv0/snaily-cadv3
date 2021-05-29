@@ -20,9 +20,10 @@ interface Props {
   calls: Call[];
   aop: Nullable<string>;
   endCall: (type: CallTypes, id: string) => void;
+  getCalls: (type: CallTypes) => void;
 }
 
-const TaxiDashPage = ({ calls, ...rest }: Props) => {
+const TaxiDashPage = ({ calls, getCalls, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
 
   React.useEffect(() => {
@@ -36,7 +37,7 @@ const TaxiDashPage = ({ calls, ...rest }: Props) => {
       socket.off(SocketEvents.UpdateAop, handler);
       socket.off(SocketEvents.UpdateTaxiCalls, callHandler);
     };
-  }, []);
+  }, [getCalls]);
 
   return (
     <Layout>
@@ -116,4 +117,4 @@ const mapToProps = (state: State) => ({
   aop: state.global.aop,
 });
 
-export default connect(mapToProps, { endCall })(TaxiDashPage);
+export default connect(mapToProps, { getCalls, endCall })(TaxiDashPage);
