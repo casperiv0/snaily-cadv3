@@ -1,12 +1,12 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-      "module": "commonjs",
-      "outDir": "dist",
-      "target": "es2017",
-      "isolatedModules": false,
-      "noEmit": false,
-      "allowUmdGlobalAccess": true,
-    },
-    "include": ["./src/server.ts", "*.server.ts", "./src/config.ts"]
-  }
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "dist",
+    "target": "es2017",
+    "isolatedModules": false,
+    "noEmit": false,
+    "allowUmdGlobalAccess": true
+  },
+  "include": ["./src/server.ts", "*.server.ts", "./src/config.ts"]
+}

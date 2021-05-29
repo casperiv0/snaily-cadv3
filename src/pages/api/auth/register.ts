@@ -71,11 +71,12 @@ export default async function (req: IRequest, res: NextApiResponse) {
           (await createCADAndReturn(username));
 
         if (cad?.registration_code) {
-          if (!registration_code)
+          if (!registration_code) {
             return res.status(400).json({
               error: "Please provide the registration code.",
               status: "error",
             });
+          }
 
           if (cad?.registration_code !== registration_code) {
             return res.status(400).json({

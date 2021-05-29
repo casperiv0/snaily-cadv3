@@ -4,3 +4,5 @@ public
 .github
 .next
 dist
+language.json
+.gitignore
