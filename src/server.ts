@@ -26,6 +26,7 @@ declare global {
 
 // this is important. Keep!
 process.env.NEXT_PUBLIC_SECURE_COOKIES = `${config.secureCookie}`;
+process.env.NEXT_PUBLIC_CUSTOM_HOST = `${config.customHostUrl}`;
 
 app
   .prepare()

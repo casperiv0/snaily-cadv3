@@ -9,6 +9,7 @@ interface ServerConfig {
   allowIframes: boolean;
   secureCookie: boolean;
   databasePort?: number;
+  customHostUrl?: string;
 }
 
 /**
@@ -40,6 +41,7 @@ try {
     allowIframes: conf.default?.allowIframes ?? false,
     secureCookie: conf.default?.secureCookie ?? false,
     databasePort: conf.default?.databasePort,
+    customHostUrl: conf.default?.customHostUrl,
   };
 } catch (e) {
   config = {
