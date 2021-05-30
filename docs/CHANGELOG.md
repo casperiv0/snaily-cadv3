@@ -2,6 +2,13 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.1.6
+
+- Fix: fixed bug where it would suspend all the officers
+- Fix: tow and taxi calls not auto refreshing
+- Minor: allow entering a custom vehicle again
+- Minor: other minor improvements
+
 ## 2.1.5
 
 - New: able to add a reason to the expungement requests
