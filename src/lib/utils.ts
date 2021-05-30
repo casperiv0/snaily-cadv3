@@ -14,7 +14,11 @@ export function handleRequest(
   method: AllowedMethods = "GET",
   data: RequestData | any = {},
 ) {
-  const host = process.env.NEXT_PUBLIC_CUSTOM_HOST || data?.host;
+  const host =
+    process?.env?.NEXT_PUBLIC_CUSTOM_HOST !== "undefined"
+      ? process.env.NEXT_PUBLIC_SECURE_COOKIES
+      : data?.host;
+
   const protocol =
     data?.host &&
     typeof process !== "undefined" &&
