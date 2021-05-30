@@ -56,7 +56,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
           });
         }
 
-        await processQuery("UPDATE `officers` SET `suspended` = ?", [type]);
+        await processQuery("UPDATE `officers` SET `suspended` = ? WHERE `id` = ?", [type, unitId]);
 
         const officers = await processQuery("SELECT * FROM `officers`");
         const ems_fd = await processQuery("SELECT * FROM `ems-fd`");
