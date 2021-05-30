@@ -1,4 +1,4 @@
 * @Dev-CasperTheGhost
 
-/docker-compose.yml @bound2 @henriots
-/Dockerfile @bound2 @henriots
+docker-compose.yml @bound2 @henriots
+Dockerfile @bound2 @henriots
