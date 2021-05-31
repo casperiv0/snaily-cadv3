@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 module.exports = {
+  reactStrictMode: true,
   future: {
     webpack5: true,
   },
