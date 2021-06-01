@@ -11,7 +11,7 @@ import { Connection } from "@casper124578/mysql.ts";
 import { Tables } from "./interfaces/Tables";
 
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
+const app = next({ dev, customServer: true });
 const handle = app.getRequestHandler();
 
 declare global {

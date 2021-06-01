@@ -30,11 +30,18 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           .where("id", `${req.query.id}`)
           .exec();
 
+        if (!bleet) {
+          return res.status(404).json({
+            error: "Bleet was not found",
+            status: "error",
+          });
+        }
+
         const [uploadedBy] = await global.connection
           .query<User>()
           .select("username")
           .from("users")
-          .where("id", bleet.user_id)
+          .where("id", bleet?.user_id)
           .exec();
 
         return res.json({
@@ -56,11 +63,18 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           .where("id", `${req.query.id}`)
           .exec();
 
+        if (!bleet) {
+          return res.status(404).json({
+            error: "Bleet was not found",
+            status: "error",
+          });
+        }
+
         const [uploadedBy] = await global.connection
           .query<User>()
           .select("username")
           .from("users")
-          .where("id", bleet.user_id)
+          .where("id", bleet?.user_id)
           .exec();
 
         if (!bleet) {

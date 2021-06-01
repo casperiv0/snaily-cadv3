@@ -7,8 +7,11 @@ import { usePermission } from "@hooks/usePermission";
 import { Code10 } from "types/Code10";
 import { formatRequired } from "@lib/utils.server";
 
-export function parse10Codes(codes: Code10[]): Code10[] {
+export function parse10Codes(codes: (Code10 | undefined)[]): Code10[] {
   return codes.map((code) => {
+    // somehow there was no code
+    if (!code) return {} as Code10;
+
     try {
       code.what_pages = JSON.parse(`${code.what_pages}`);
     } catch {

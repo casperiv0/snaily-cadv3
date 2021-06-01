@@ -36,7 +36,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
                 .query<Company>()
                 .select("*")
                 .from("businesses")
-                .where("id", citizen.business_id)
+                .where("id", citizen?.business_id!)
                 .exec();
 
               if (company) {
