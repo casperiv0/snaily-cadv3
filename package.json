@@ -71,7 +71,7 @@
   "devDependencies": {
     "@casper124578/eslint-config": "^0.0.13",
     "@casper124578/eslint-config-next": "^0.0.1",
-    "@casper124578/eslint-config-react": "^0.0.2",
+    "@casper124578/eslint-config-react": "^0.0.5",
     "@types/bcryptjs": "^2.4.2",
     "@types/bootstrap": "^5.0.15",
     "@types/cookie": "^0.4.0",
