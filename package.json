@@ -69,7 +69,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@casper124578/eslint-config": "^0.0.8",
+    "@casper124578/eslint-config": "^0.0.13",
     "@casper124578/eslint-config-next": "^0.0.1",
     "@casper124578/eslint-config-react": "^0.0.2",
     "@types/bcryptjs": "^2.4.2",
