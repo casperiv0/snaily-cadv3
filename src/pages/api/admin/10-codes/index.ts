@@ -7,14 +7,7 @@ import useAuth from "@hooks/useAuth";
 import { usePermission } from "@hooks/usePermission";
 import { Code10 } from "types/Code10";
 import { formatRequired } from "@lib/utils.server";
-
-export function parse10Codes(codes: Code10[]): Code10[] {
-  return codes.map((code) => {
-    code.what_pages = JSON.parse(`${code.what_pages}`);
-
-    return code;
-  });
-}
+import { parse10Codes } from "./[id]";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {

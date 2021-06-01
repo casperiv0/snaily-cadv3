@@ -97,6 +97,8 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
       await Promise.all(
         citizens.map(async (citizen) => {
+          if (!citizen) return [];
+
           await processQuery("DELETE FROM `arrest_reports` WHERE `citizen_id` = ?", [citizen.id]);
           await processQuery("DELETE FROM `businesses` WHERE `citizen_id` = ?", [citizen.id]);
           await processQuery("DELETE FROM `leo_tickets` WHERE `citizen_id` = ?", [citizen.id]);

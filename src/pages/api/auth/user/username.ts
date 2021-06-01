@@ -26,7 +26,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         .from("cad_info")
         .exec();
 
-      if (cad.change_usernames === "0") {
+      if (cad?.change_usernames === "0") {
         return res.status(400).json({
           error: "This CAD has change username disabled (this can be enabled in the cad-settings).",
           status: "error",
