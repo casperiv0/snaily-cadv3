@@ -2,6 +2,8 @@ ARG IMAGE_VER="14.16.0-alpine3.13"
 
 FROM node:${IMAGE_VER} as build
 
+RUN npm run translation:generate
+
 COPY . /build
 
 WORKDIR /build
