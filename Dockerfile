@@ -6,8 +6,6 @@ COPY . /build
 
 WORKDIR /build
 
-RUN npm run build
-
 #
 
 FROM node:${IMAGE_VER}
