@@ -5,10 +5,10 @@ class Logger {
     return format(Date.now(), "yyyy-MM-dd HH:mm:ss");
   }
 
-  error(type: string, error: Error | string) {
+  error(type: string, error: Error | unknown) {
     console.error(
       `[${type.toUpperCase()}][${this.now}]: ${
-        typeof error === "string" ? error : error?.stack || error
+        error instanceof Error ? error?.stack : error || error
       }`,
     );
   }

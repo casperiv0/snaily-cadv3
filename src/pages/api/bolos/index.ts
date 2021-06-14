@@ -7,6 +7,7 @@ import { formatRequired, getActiveOfficer } from "@lib/utils.server";
 import { usePermission } from "@hooks/usePermission";
 import { v4 } from "uuid";
 import { Bolo } from "types/Bolo";
+import { SocketEvents } from "types/Socket";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -30,8 +31,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
     case "GET": {
       try {
         const bolos = await global.connection.query<Bolo>().select("*").from("bolos").exec();
-
-        return res.json({ bolos, status: "success" });
+        return res.json({ status: "success", bolos });
       } catch (e) {
         logger.error("get_bolos", e);
 
@@ -64,6 +64,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             officer_name: `${officer?.callsign} ${officer?.officer_name}`,
           })
           .exec();
+
+        global.io?.sockets.emit(SocketEvents.UpdateBolos);
 
         const bolos = await global.connection.query<Bolo>().select("*").from("bolos").exec();
         return res.json({ status: "success", bolos });

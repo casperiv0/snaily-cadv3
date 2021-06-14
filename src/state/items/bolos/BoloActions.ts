@@ -8,14 +8,7 @@ import { ModalIds } from "types/ModalIds";
 
 export const getBolos = (headers?: any) => async (dispatch: Dispatch<IBolos>) => {
   try {
-    const res = await handleRequest(
-      "/bolos",
-      "GET",
-      headers && {
-        cookie: headers?.cookie,
-        url: headers?.host,
-      },
-    );
+    const res = await handleRequest("/bolos", "GET", headers);
 
     dispatch({
       type: "GET_BOLOS",
@@ -51,7 +44,6 @@ export const createBolo = (data: RequestData) => async (dispatch: Dispatch<IBolo
       type: "CREATE_BOLO",
       bolos: res.data.bolos,
     });
-    socket.emit(SocketEvents.UpdateBolos);
 
     return notify.success(lang.bolos.add_bolo);
   } catch (e) {
@@ -69,6 +61,7 @@ export const updateBoloById =
         type: "UPDATE_BOLOS",
         bolos: res.data.bolos,
       });
+
       socket.emit(SocketEvents.UpdateBolos);
       modal(ModalIds.EditBolo)?.hide();
 
