@@ -22,18 +22,30 @@ declare global {
   }
 }
 
-Router.events.on("routeChangeStart", () =>
-  document.getElementById("page-loader")?.classList.add("active"),
-);
-Router.events.on("routeChangeComplete", () =>
-  document.getElementById("page-loader")?.classList.remove("active"),
-);
-Router.events.on("routeChangeError", () =>
-  document.getElementById("page-loader")?.classList.remove("active"),
-);
-
 function App({ Component, pageProps }: AppProps) {
   const store = useStore(pageProps?.initialReduxState ?? pageProps);
+
+  React.useEffect(() => {
+    const el = document.getElementById("page-loader");
+
+    function startHandler() {
+      el?.classList.add("active");
+    }
+
+    function doneHandler() {
+      el?.classList.remove("active");
+    }
+
+    Router.events.on("routeChangeStart", startHandler);
+    Router.events.on("routeChangeComplete", doneHandler);
+    Router.events.on("routeChangeError", doneHandler);
+
+    return () => {
+      Router.events.off("routeChangeStart", startHandler);
+      Router.events.off("routeChangeComplete", doneHandler);
+      Router.events.off("routeChangeError", doneHandler);
+    };
+  }, []);
 
   return (
     <>

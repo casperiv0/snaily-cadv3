@@ -7,6 +7,7 @@ import { logger } from "@lib/logger";
 import { AnError } from "@lib/consts";
 import { Citizen } from "types/Citizen";
 import { MedicalRecord } from "types/MedicalRecord";
+import { User } from "types/User";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;
@@ -43,17 +44,30 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       }
 
       const id = v4();
+      const [user] = await global.connection
+        .query<User>()
+        .select(["ems_fd", "id"])
+        .from("users")
+        .where("id", req.userId)
+        .exec();
+
       const [citizen] = await global.connection
         .query<Citizen>()
-        .select("full_name")
+        .select(["full_name", "user_id"])
         .from("citizens")
         .where("id", `${req.query.id}`)
-        .and("user_id", req.userId)
         .exec();
 
       if (!citizen) {
         return res.status(404).json({
           error: "Citizen was not found",
+          status: "error",
+        });
+      }
+
+      if (user?.ems_fd === "0" && citizen.user_id !== user.id) {
+        return res.status(403).json({
+          error: "Unauthorized",
           status: "error",
         });
       }
