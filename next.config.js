@@ -2,9 +2,7 @@
 
 module.exports = {
   reactStrictMode: true,
-  future: {
-    webpack5: true,
-  },
+  webpack5: true,
   experimental: {
     turboMode: true,
     workerThreads: true,
