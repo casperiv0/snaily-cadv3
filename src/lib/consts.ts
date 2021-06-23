@@ -1,9 +1,6 @@
-import { genSaltSync } from "bcryptjs";
-
 export const Auth = {
   // 2 hours
   CookieExpires: 60 * 60 * 1000 * 2,
-  SaltRounds: genSaltSync(10),
 };
 
 export const RanksArr = ["owner", "admin", "moderator"];

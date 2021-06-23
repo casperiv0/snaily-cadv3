@@ -1,9 +1,9 @@
-import { hashSync } from "bcryptjs";
+import { genSaltSync, hashSync } from "bcryptjs";
 import { NextApiResponse } from "next";
 import { v4 as uuid } from "uuid";
 import { useCookie } from "@hooks/useCookie";
 import useToken from "@hooks/useToken";
-import { AnError, Ranks, Auth, features } from "@lib/consts";
+import { AnError, Ranks, features } from "@lib/consts";
 import { logger } from "@lib/logger";
 import { Cad } from "src/interfaces/Cad";
 import { IRequest } from "src/interfaces/IRequest";
@@ -89,7 +89,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         const whitelistStatus = cad?.whitelisted === "1" ? "pending" : "accepted";
         const towAccess = cad?.tow_whitelisted === "1" ? "0" : "1";
         const id = uuid();
-        const hash = hashSync(password, Auth.SaltRounds);
+        const hash = hashSync(password, genSaltSync(15));
         const perm = accountLevel === Ranks.Owner ? "1" : "0";
 
         // create the user
