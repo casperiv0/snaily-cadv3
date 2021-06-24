@@ -1,6 +1,6 @@
 import { NextApiResponse } from "next";
-import { hashSync } from "bcryptjs";
-import { AnError, Auth } from "@lib/consts";
+import { genSaltSync, hashSync } from "bcryptjs";
+import { AnError } from "@lib/consts";
 import { processQuery } from "@lib/database";
 import { logger } from "@lib/logger";
 import { IRequest } from "src/interfaces/IRequest";
@@ -38,7 +38,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
         if (user?.edit_passwords === "1" || ["admin", "owner"].includes(user?.rank ?? "user")) {
           const randomString = generateString(8, "#@&§è!çà-_$ù£=/?:");
 
-          const hash = hashSync(randomString, Auth.SaltRounds);
+          const hash = hashSync(randomString, genSaltSync(15));
 
           await processQuery("UPDATE `users` SET `password` = ? WHERE `id` = ?", [
             hash,
