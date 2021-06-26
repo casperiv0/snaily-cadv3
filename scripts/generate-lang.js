@@ -129,6 +129,9 @@ const ProbablyNotInTheTranslateFile = {
     no_employees_of_the_month: "There are no employees of the month yet.",
     cdl_license: "CDL license",
     other_vehicle: "Enter other vehicle",
+    allergy: "Allergy",
+    medication: "Medication",
+    health_problem: "Health Problem",
   },
   officers: {
     ...file.officers,
