@@ -14,7 +14,7 @@ interface Props {
 }
 
 const CreateMedicalRecordModalC: React.FC<Props> = ({ citizenId, createMedicalRecord }) => {
-  const [type, setType] = React.useState("Allergy");
+  const [type, setType] = React.useState(lang.citizen.medical.types.allergy);
   const [shortInfo, setShortInfo] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
@@ -29,7 +29,7 @@ const CreateMedicalRecordModalC: React.FC<Props> = ({ citizenId, createMedicalRe
     });
 
     if (created === true) {
-      setType("Allergy");
+      setType(lang.citizen.medical.types.allergy);
       setShortInfo("");
       modal(ModalIds.CreateMedicalCreate)?.hide();
     }
@@ -53,16 +53,16 @@ const CreateMedicalRecordModalC: React.FC<Props> = ({ citizenId, createMedicalRe
               isMulti={false}
               options={[
                 {
-                  label: "Allergy",
-                  value: "Allergy",
+                  label: lang.citizen.medical.types.allergy,
+                  value: lang.citizen.medical.types.allergy,
                 },
                 {
-                  label: "Medication",
-                  value: "Medication",
+                  label: lang.citizen.medical.types.medication,
+                  value: lang.citizen.medical.types.medication,
                 },
                 {
-                  label: "Health Problem",
-                  value: "Health Problem",
+                  label: lang.citizen.medical.types.health_problem,
+                  value: lang.citizen.medical.types.health_problem,
                 },
               ]}
             />

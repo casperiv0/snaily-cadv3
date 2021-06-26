@@ -544,7 +544,12 @@
             "desc": "Enter short description",
             "add_med": "Successfully added medical record",
             "type2": "Type",
-            "short_info": "Short information"
+            "short_info": "Short information",
+            "types":{
+                "allergy": "Allergy",
+                "medication": "Medication",
+                "health_problem": "Health Problem"
+            }
         },
         "vehicle": {
             "reged_vehicle": "Registered Vehicles",

@@ -61,16 +61,16 @@ const AddMedicalRecord: React.FC<Props> = ({ names, searchNames, createMedicalRe
               isMulti={false}
               options={[
                 {
-                  label: "Allergy",
-                  value: "Allergy",
+                  label: lang.citizen.medical.types.allergy,
+                  value: lang.citizen.medical.types.allergy,
                 },
                 {
-                  label: "Medication",
-                  value: "Medication",
+                  label: lang.citizen.medical.types.medication,
+                  value: lang.citizen.medical.types.medication,
                 },
                 {
-                  label: "Health Problem",
-                  value: "Health Problem",
+                  label: lang.citizen.medical.types.health_problem,
+                  value: lang.citizen.medical.types.health_problem,
                 },
               ]}
             />
