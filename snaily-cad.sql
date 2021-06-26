@@ -148,7 +148,7 @@ CREATE TABLE `cad_info` (
 
 CREATE TABLE `seo_tags` (
     `title` varchar(255) DEFAULT 'SnailyCAD',
-    `description` text DEFAULT 'A free, fast, simple and secure open source CAD/MDT',
+    `description` varchar(255) DEFAULT 'A free, fast, simple and secure open source CAD/MDT',
     `site_name` varchar(255) DEFAULT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -365,7 +365,7 @@ CREATE TABLE `medical_records` (
 CREATE TABLE `mugshots` (
     `id` varchar(255) NOT NULL,
     `citizen_id` varchar(255) NOT NULL,
-    `data` text NOT NULL DEFAULT '[]',
+    `data` text NOT NULL,
     `officer_name` varchar(255) NOT NULL,
     `full_date` text NOT NULL,
     `officer_id` varchar(255) NOT NULL,
