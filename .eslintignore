@@ -5,3 +5,4 @@ public
 dist
 .next
 scripts
+next-env.d.ts
