@@ -2,6 +2,15 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.1.10
+
+- Minor: bump dependencies
+
+## 2.1.9
+
+- Fix: minor issue in `snaily-cad.sql`
+- Fix: add missing translation keys
+
 ## 2.1.8
 
 - Fix: ems/fd cannot create medical records for citizens not linked to their account.
