@@ -24,7 +24,7 @@ interface Props {
   getCalls: (type: CallTypes) => void;
 }
 
-const TaxiDashPage = ({ calls, getCalls, ...rest }: Props) => {
+const TaxiDashPage = ({ calls, getCalls, updateCall, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
 
   React.useEffect(() => {
@@ -41,7 +41,7 @@ const TaxiDashPage = ({ calls, getCalls, ...rest }: Props) => {
   }, [getCalls]);
 
   function handleClaimCall(id: string) {
-    updateCall("tow", id, { claimed: "1" });
+    updateCall("taxi", id, { claimed: "1" });
   }
 
   return (
@@ -97,7 +97,7 @@ const TaxiDashPage = ({ calls, getCalls, ...rest }: Props) => {
                       <button
                         disabled={call.claimed === "1"}
                         onClick={() => handleClaimCall(call.id)}
-                        className="btn btn-success"
+                        className="btn btn-success mt-1"
                       >
                         {call.claimed === "1" ? lang.tow.claimed : lang.tow.claim_call}
                       </button>

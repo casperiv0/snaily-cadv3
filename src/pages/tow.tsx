@@ -26,7 +26,7 @@ interface Props {
   getCalls: (type: CallTypes) => void;
 }
 
-const TowDashPage = ({ calls, cadInfo, endCall, getCalls, ...rest }: Props) => {
+const TowDashPage = ({ calls, cadInfo, endCall, getCalls, updateCall, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
 
   React.useEffect(() => {
@@ -96,7 +96,7 @@ const TowDashPage = ({ calls, cadInfo, endCall, getCalls, ...rest }: Props) => {
                       <button
                         disabled={call.claimed === "1"}
                         onClick={() => handleClaimCall(call.id)}
-                        className="btn btn-success"
+                        className="btn btn-success mt-1"
                       >
                         {call.claimed === "1" ? lang.tow.claimed : lang.tow.claim_call}
                       </button>
