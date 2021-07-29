@@ -13,6 +13,11 @@ export interface Call {
 
   pos: any;
   events?: CallEvent[];
+
+  /**
+   * only available in tow/taxi calls
+   */
+  claimed: Perm;
 }
 
 export interface CallEvent {

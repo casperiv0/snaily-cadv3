@@ -91,6 +91,8 @@ const ProbablyNotInTheTranslateFile = {
   tow: {
     ...file.tow,
     created_call: "Successfully created tow call",
+    claim_call: "Claim job",
+    claimed: "Claimed",
   },
   account: {
     owner_cannot_delete_account: "The owner is not able to delete their account.",

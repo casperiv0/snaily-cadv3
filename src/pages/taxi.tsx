@@ -10,7 +10,7 @@ import { ModalIds } from "types/ModalIds";
 import { getCadInfo } from "@actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";
 import { socket } from "@hooks/useSocket";
-import { getCalls, endCall } from "@actions/calls/CallActions";
+import { getCalls, endCall, updateCall } from "@actions/calls/CallActions";
 import lang from "../language.json";
 import { Call } from "types/Call";
 import { NotepadModal } from "@components/modals/NotepadModal";
@@ -19,11 +19,12 @@ import { CallTypes } from "@actions/calls/CallTypes";
 interface Props {
   calls: Call[];
   aop: Nullable<string>;
+  updateCall: (type: CallTypes, id: string, data: Partial<Call>) => void;
   endCall: (type: CallTypes, id: string) => void;
   getCalls: (type: CallTypes) => void;
 }
 
-const TaxiDashPage = ({ calls, getCalls, ...rest }: Props) => {
+const TaxiDashPage = ({ calls, getCalls, updateCall, ...rest }: Props) => {
   const [aop, setAop] = React.useState(rest.aop);
 
   React.useEffect(() => {
@@ -38,6 +39,10 @@ const TaxiDashPage = ({ calls, getCalls, ...rest }: Props) => {
       socket.off(SocketEvents.UpdateTaxiCalls, callHandler);
     };
   }, [getCalls]);
+
+  function handleClaimCall(id: string) {
+    updateCall("taxi", id, { claimed: "1" });
+  }
 
   return (
     <Layout>
@@ -82,12 +87,19 @@ const TaxiDashPage = ({ calls, getCalls, ...rest }: Props) => {
                     <td>{call.location}</td>
                     <td>{call.name}</td>
                     <td>{call.description}</td>
-                    <td>
+                    <td style={{ display: "flex", flexDirection: "column" }}>
                       <button
                         onClick={() => rest.endCall("taxi", call.id)}
                         className="btn btn-success"
                       >
                         {lang.tow.end_call}
+                      </button>
+                      <button
+                        disabled={call.claimed === "1"}
+                        onClick={() => handleClaimCall(call.id)}
+                        className="btn btn-success mt-1"
+                      >
+                        {call.claimed === "1" ? lang.tow.claimed : lang.tow.claim_call}
                       </button>
                     </td>
                   </tr>
@@ -117,4 +129,4 @@ const mapToProps = (state: State) => ({
   aop: state.global.aop,
 });
 
-export default connect(mapToProps, { getCalls, endCall })(TaxiDashPage);
+export default connect(mapToProps, { getCalls, endCall, updateCall })(TaxiDashPage);
