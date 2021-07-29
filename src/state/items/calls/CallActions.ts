@@ -71,6 +71,24 @@ export const getCalls =
     }
   };
 
+export const updateCall =
+  (type: CallTypes, id: string, data: Partial<Call>) => async (dispatch: Dispatch<GetCalls>) => {
+    try {
+      const res = await handleRequest(`/calls/${type}/${id}`, "PUT", data);
+
+      dispatch({
+        type: "GET_CALLS",
+        calls: res.data.calls,
+      });
+
+      updateCalls(type, null);
+      return true;
+    } catch (e) {
+      const error = getErrorFromResponse(e);
+      return notify.error(error);
+    }
+  };
+
 export const endCall = (type: CallTypes, id: string) => async (dispatch: Dispatch<GetCalls>) => {
   try {
     const res = await handleRequest(`/calls/${type}/${id}`, "DELETE");

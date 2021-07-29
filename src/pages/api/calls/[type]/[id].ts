@@ -6,6 +6,7 @@ import { Call } from "types/Call";
 import { IRequest } from "types/IRequest";
 import { dbPath, mapCalls } from ".";
 import { usePermission } from "@hooks/usePermission";
+import { formatRequired } from "@lib/utils.server";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -29,12 +30,58 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
   }
 
   switch (req.method) {
+    case "PUT": {
+      try {
+        const tableName = dbPath(req.query.type.toString());
+        const body = req.body;
+
+        if (!body.claimed) {
+          return res.status(400).json({
+            error: formatRequired(["claimed"], body),
+          });
+        }
+
+        const call = await global.connection
+          .query<Call>()
+          .select("*")
+          .from(tableName)
+          .where("id", req.query.id.toString())
+          .exec();
+
+        if (!call) {
+          return res.status(404).json({
+            error: "Call was not found",
+            status: "error",
+          });
+        }
+
+        await global.connection
+          .query<Call>()
+          .update(tableName, { claimed: "1" })
+          .where("id", req.query.id.toString())
+          .exec();
+
+        const calls = await global.connection
+          .query<Call>()
+          .select("*")
+          .from(dbPath(req.query.type.toString()))
+          .exec();
+        return res.json({
+          calls: req.query.type === "911" ? await mapCalls(calls as Call[]) : calls,
+          status: "success",
+        });
+      } catch (e) {
+        logger.error("cad-info", e);
+
+        return res.status(500).json(AnError);
+      }
+    }
     case "DELETE": {
       try {
         await global.connection
           .query<Call>()
-          .delete(dbPath(`${req.query.type}`))
-          .where("id", `${req.query.id}`)
+          .delete(dbPath(req.query.type.toString()))
+          .where("id", req.query.id.toString())
           .exec();
 
         const calls = await global.connection
