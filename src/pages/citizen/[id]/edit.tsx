@@ -77,7 +77,7 @@ const CreateCitizenPage = ({
     {
       type: "text",
       value: name,
-      onChange: (e) => setName(e.target.value),
+      onChange: () => setName(name),
       label: lang.record.enter_full_name,
       id: "full_name",
       disabled: true,
@@ -255,6 +255,7 @@ const CreateCitizenPage = ({
                   className="form-control bg-dark border-dark text-light"
                   onChange={field.onChange}
                   type={field.type}
+                  disabled={field.disabled}
                 />
               )}
             </div>
