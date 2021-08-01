@@ -2,6 +2,16 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.1.12
+
+- Fix: make input field disabled for `full_name` on EditCitizen
+
+## 2.1.11
+
+- Fix: docker start
+- New: Able to claim Taxi & Tow calls
+- Minor: Bump dependencies
+
 ## 2.1.10
 
 - Minor: bump dependencies

@@ -1,6 +1,6 @@
 {
   "name": "snaily-cadv3",
-  "version": "2.1.11",
+  "version": "2.1.12",
   "description": "An open source Computer Aided Dispatch (CAD) for FiveM, this is a web based integration for communities who love police roleplaying and dispatching. ",
   "scripts": {
     "start": "npm run translation:generate && npm run build && cross-env NODE_ENV=production node dist/src/server.js",
@@ -31,7 +31,7 @@
   "homepage": "https://github.com/Dev-CasperTheGhost/snaily-cadv3#readme",
   "dependencies": {
     "@casper124578/mysql.ts": "^0.1.2",
-    "@casper124578/useful": "^0.0.13",
+    "@casper124578/useful": "^0.0.14",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.2.0",
@@ -57,7 +57,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hotkeys-hook": "^3.4.0",
-    "react-markdown": "^6.0.2",
+    "react-markdown": "^6.0.3",
     "react-redux": "^7.2.4",
     "react-select": "^4.3.1",
     "react-toastify": "^7.0.4",
@@ -69,9 +69,9 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@casper124578/eslint-config": "^0.0.15",
-    "@casper124578/eslint-config-next": "^0.0.4",
-    "@casper124578/eslint-config-react": "^0.0.5",
+    "@casper124578/eslint-config": "^0.0.16",
+    "@casper124578/eslint-config-next": "^0.0.5",
+    "@casper124578/eslint-config-react": "^0.0.6",
     "@types/bcryptjs": "^2.4.2",
     "@types/bootstrap": "^5.0.17",
     "@types/cookie": "^0.4.1",
@@ -88,7 +88,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/react-select": "^4.0.17",
     "@types/uuid": "^8.3.1",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^7.0.1",
