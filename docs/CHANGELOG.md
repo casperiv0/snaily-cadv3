@@ -2,6 +2,10 @@
 
 **If you need help updating/installing or have found any bugs, please join [our Discord server](https://discord.gg/eGnrPqEH7U) or open a [GitHub issue here](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/new/choose)**
 
+## 2.1.13
+
+- Minor: bump dependencies
+
 ## 2.1.12
 
 - Fix: make input field disabled for `full_name` on EditCitizen
