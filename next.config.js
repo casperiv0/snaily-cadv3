@@ -5,6 +5,7 @@ module.exports = {
   webpack5: true,
   experimental: {
     turboMode: true,
+    exmExternals: "loose",
   },
   async redirects() {
     return [

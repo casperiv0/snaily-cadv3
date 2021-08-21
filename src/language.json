@@ -168,7 +168,9 @@
         "active_tow_calls": "Active Tow Calls",
         "end_call": "End Call",
         "end_success": "Call successfully ended",
-        "created_call": "Successfully created tow call"
+        "created_call": "Successfully created tow call",
+        "claim_call": "Claim job",
+        "claimed": "Claimed"
     },
     "admin": {
         "management": "Management",
@@ -656,7 +658,10 @@
         "employees_of_the_month": "Employees of the month",
         "no_employees_of_the_month": "There are no employees of the month yet.",
         "cdl_license": "CDL license",
-        "other_vehicle": "Enter other vehicle"
+        "other_vehicle": "Enter other vehicle",
+        "allergy": "Allergy",
+        "medication": "Medication",
+        "health_problem": "Health Problem"
     },
     "calls": {
         "description": "Call Description",
