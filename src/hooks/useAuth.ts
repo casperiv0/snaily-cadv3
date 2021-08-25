@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
+import { parse } from "cookie";
 import config from "../lib/config.server";
 import { IRequest } from "types/IRequest";
 import { User } from "types/User";
 import { Whitelist } from "lib/consts";
-import { parse } from "cookie";
 
 import { logoutActiveUnits } from "lib/utils.server";
 import { IError } from "types/IError";
