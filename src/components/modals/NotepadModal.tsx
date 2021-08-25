@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "../../language.json";
 import { ModalIds } from "types/ModalIds";
-import { useModalOpen } from "@hooks/useModalOpen";
+import { useModalOpen } from "hooks/useModalOpen";
 
 export const NotepadModal: React.FC = () => {
   const [note, setNote] = React.useState<string>(String(""));

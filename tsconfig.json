@@ -1,23 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "ESNext",
     "outDir": "./dist",
+
     "removeComments": true,
     "strict": true,
     "noUnusedLocals": true,
     "noFallthroughCasesInSwitch": true,
     "downlevelIteration": true,
     "noUnusedParameters": true,
-    "baseUrl": ".",
-    "paths": {
-      "@lib/*": ["./src/lib/*"],
-      "@actions/*": ["./src/state/items/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "types/*": ["./src/interfaces/*"],
-      "@state/*": ["./src/state/*"],
-      "@components/*": ["./src/components/*"]
-    },
+
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -32,7 +25,17 @@
     "noEmit": true,
     "moduleResolution": "node",
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+
+    "baseUrl": ".",
+    "paths": {
+      "lib/*": ["./src/lib/*"],
+      "actions/*": ["./src/state/items/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "types/*": ["./src/types/*"],
+      "state/*": ["./src/state/*"],
+      "components/*": ["./src/components/*"]
+    }
   },
   "ts-node": {
     "transpileOnly": true

@@ -1,8 +1,8 @@
-import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from "lib/utils";
 import { Dispatch } from "react";
 import { IBolos } from "./BoloTypes";
 import lang from "src/language.json";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 import { ModalIds } from "types/ModalIds";
 

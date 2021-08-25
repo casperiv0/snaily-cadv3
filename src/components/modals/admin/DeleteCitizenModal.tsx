@@ -1,11 +1,11 @@
 import * as React from "react";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "../../../language.json";
-import { deleteCitizen } from "@actions/admin/AdminActions";
+import { deleteCitizen } from "actions/admin/AdminActions";
 import { connect } from "react-redux";
-import { modal } from "@lib/utils";
+import { modal } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
-import { Span } from "@components/Item";
+import { Span } from "components/Item";
 
 interface Props {
   name: string | undefined;

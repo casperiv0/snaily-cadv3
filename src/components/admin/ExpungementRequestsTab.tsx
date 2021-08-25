@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { AlertMessage } from "../AlertMessage/AlertMessage";
 import lang from "../../language.json";
 import { ExpungementRequest } from "types/ExpungementRequest";
-import { acceptOrDeclineRequest } from "@actions/admin/AdminActions";
-import { Item, Span } from "@components/Item";
+import { acceptOrDeclineRequest } from "actions/admin/AdminActions";
+import { Item, Span } from "components/Item";
 
 interface Props {
   requests: ExpungementRequest[];

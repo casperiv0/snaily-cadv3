@@ -1,16 +1,16 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "../../../language.json";
-import { setStatus } from "@actions/officer/OfficerActions";
+import { setStatus } from "actions/officer/OfficerActions";
 import { Code10 } from "types/Code10";
 import { Nullable, State } from "types/State";
-import { get10Codes } from "@actions/admin/AdminActions";
-import { Select, SelectValue } from "@components/Select/Select";
-import { filterCodes, modal } from "@lib/utils";
+import { get10Codes } from "actions/admin/AdminActions";
+import { Select, SelectValue } from "components/Select/Select";
+import { filterCodes, modal } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { Officer } from "types/Officer";
-import { setEmsStatus } from "@actions/ems-fd/EmsFdActions";
+import { setEmsStatus } from "actions/ems-fd/EmsFdActions";
 import { Deputy } from "types/Deputy";
 import { Cad } from "types/Cad";
 

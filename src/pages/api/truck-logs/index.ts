@@ -1,10 +1,10 @@
 import { NextApiResponse } from "next";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
 import { v4 } from "uuid";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired } from "lib/utils.server";
 import { TruckLog } from "types/TruckLog";
 
 export default async function (req: IRequest, res: NextApiResponse) {

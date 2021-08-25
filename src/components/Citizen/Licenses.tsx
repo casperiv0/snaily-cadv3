@@ -2,7 +2,7 @@ import * as React from "react";
 import { Citizen } from "types/Citizen";
 import lang from "../../language.json";
 import { ModalIds } from "types/ModalIds";
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 
 interface Props {
   citizen: Citizen;

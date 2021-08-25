@@ -1,5 +1,5 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
 import { Company } from "types/Company";
 import { Citizen } from "types/Citizen";

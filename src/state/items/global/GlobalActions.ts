@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "lib/utils";
 import { GetCadInfo, UpdateAop } from "./GlobalTypes";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 import lang from "src/language.json";
 

@@ -3,32 +3,32 @@ import * as React from "react";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { verifyAuth } from "@actions/auth/AuthActions";
+import { verifyAuth } from "actions/auth/AuthActions";
 import {
   deleteCitizenById,
   getCitizenById,
   getCitizenVehicles,
   getCitizenWeapons,
-} from "@actions/citizen/CitizenActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { initializeStore } from "@state/useStore";
+} from "actions/citizen/CitizenActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { initializeStore } from "state/useStore";
 import { Layout } from "src/components/Layout";
 import { Citizen } from "types/Citizen";
 import { Nullable, State } from "types/State";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import lang from "../../../language.json";
-import { Item, Span } from "@components/Item";
-import { isCadFeatureEnabled } from "@lib/utils";
+import { Item, Span } from "components/Item";
+import { isCadFeatureEnabled } from "lib/utils";
 import { Cad } from "types/Cad";
-import { Seo } from "@components/Seo";
-import { RegisteredWeapons } from "@components/Citizen/RegisteredWeapons";
-import RegisteredVehicles from "@components/Citizen/RegisteredVehicles";
-import { RegisterWeaponModal } from "@components/modals/citizen/RegisterWeaponModal";
-import { RegisterVehicleModal } from "@components/modals/citizen/RegisterVehicleModal";
-import { LicenseCard } from "@components/Citizen/Licenses";
-import { EditLicensesModal } from "@components/modals/citizen/EditLicensesModal";
-import { MedicalRecordsCard } from "@components/Citizen/MedicalRecords";
-import { CreateMedicalRecordModal } from "@components/modals/citizen/CreateMedicalRecordModal";
+import { Seo } from "components/Seo";
+import { RegisteredWeapons } from "components/Citizen/RegisteredWeapons";
+import RegisteredVehicles from "components/Citizen/RegisteredVehicles";
+import { RegisterWeaponModal } from "components/modals/citizen/RegisterWeaponModal";
+import { RegisterVehicleModal } from "components/modals/citizen/RegisterVehicleModal";
+import { LicenseCard } from "components/Citizen/Licenses";
+import { EditLicensesModal } from "components/modals/citizen/EditLicensesModal";
+import { MedicalRecordsCard } from "components/Citizen/MedicalRecords";
+import { CreateMedicalRecordModal } from "components/modals/citizen/CreateMedicalRecordModal";
 
 interface Props {
   citizen: Nullable<Citizen>;

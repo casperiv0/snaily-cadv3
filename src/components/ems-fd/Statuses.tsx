@@ -2,12 +2,12 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Nullable, State } from "types/State";
 import Link from "next/link";
-import { setEmsStatus, getActiveEmsFd } from "@actions/ems-fd/EmsFdActions";
+import { setEmsStatus, getActiveEmsFd } from "actions/ems-fd/EmsFdActions";
 import { Code10 } from "types/Code10";
 import { Deputy } from "types/Deputy";
 import { SocketEvents } from "types/Socket";
-import { filterCodes } from "@lib/utils";
-import { socket } from "@hooks/useSocket";
+import { filterCodes } from "lib/utils";
+import { socket } from "hooks/useSocket";
 import { ModalIds } from "types/ModalIds";
 import { Cad } from "types/Cad";
 

@@ -1,12 +1,12 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
+import useAuth from "hooks/useAuth";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
 import { Call } from "types/Call";
 import { IRequest } from "types/IRequest";
 import { dbPath, mapCalls } from ".";
-import { usePermission } from "@hooks/usePermission";
-import { formatRequired } from "@lib/utils.server";
+import { usePermission } from "hooks/usePermission";
+import { formatRequired } from "lib/utils.server";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {

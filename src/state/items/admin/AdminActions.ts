@@ -1,4 +1,4 @@
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "lib/utils";
 import { Dispatch } from "react";
 import { Code10 } from "types/Code10";
 import { ExpungementRequest } from "types/ExpungementRequest";
@@ -16,8 +16,8 @@ import {
   GetTempPassword,
 } from "./AdminTypes";
 import lang from "src/language.json";
-import { IIncidents } from "@actions/officer/OfficerTypes";
-import { socket } from "@hooks/useSocket";
+import { IIncidents } from "actions/officer/OfficerTypes";
+import { socket } from "hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 import { Perm } from "types/Perm";
 

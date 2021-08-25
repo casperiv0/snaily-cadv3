@@ -1,11 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "src/language.json";
-import { updateBoloById } from "@actions/bolos/BoloActions";
+import { updateBoloById } from "actions/bolos/BoloActions";
 import { ModalIds } from "types/ModalIds";
 import { Bolo } from "types/Bolo";
-import { Select, SelectValue } from "@components/Select/Select";
+import { Select, SelectValue } from "components/Select/Select";
 import { Nullable } from "types/State";
 
 const options = [

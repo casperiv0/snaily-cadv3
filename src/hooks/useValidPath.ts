@@ -1,4 +1,4 @@
-import { IRequest } from "src/interfaces/IRequest";
+import { IRequest } from "types/IRequest";
 
 const paths: string[] = [
   "departments",

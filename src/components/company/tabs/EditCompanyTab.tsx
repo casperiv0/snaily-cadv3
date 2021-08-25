@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { Company } from "types/Company";
 import { Nullable, State } from "types/State";
 import lang from "src/language.json";
-import { deleteCompanyById, updateCompany } from "@actions/companies/CompanyActions";
-import { Select, SelectValue } from "@components/Select/Select";
-import { RequestData } from "@lib/utils";
+import { deleteCompanyById, updateCompany } from "actions/companies/CompanyActions";
+import { Select, SelectValue } from "components/Select/Select";
+import { RequestData } from "lib/utils";
 import { useRouter } from "next/router";
 
 interface Props {

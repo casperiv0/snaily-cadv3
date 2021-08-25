@@ -3,17 +3,17 @@ import formatDistance from "date-fns/formatDistance";
 import { connect } from "react-redux";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
-import { Layout } from "@components/Layout";
+import { Layout } from "components/Layout";
 import { Officer, OfficerLog } from "types/Officer";
 import { State } from "types/State";
-import { getMyOfficers, getMyOfficerLogs } from "@actions/officer/OfficerActions";
+import { getMyOfficers, getMyOfficerLogs } from "actions/officer/OfficerActions";
 import lang from "../../language.json";
-import { initializeStore } from "@state/useStore";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { Item, Span } from "@components/Item";
-import { Seo } from "@components/Seo";
-import { useClientPerms } from "@hooks/useClientPerms";
+import { initializeStore } from "state/useStore";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { Item, Span } from "components/Item";
+import { Seo } from "components/Seo";
+import { useClientPerms } from "hooks/useClientPerms";
 
 interface Props {
   officers: Officer[];

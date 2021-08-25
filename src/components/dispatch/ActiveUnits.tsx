@@ -4,11 +4,11 @@ import { Officer } from "types/Officer";
 import { Deputy } from "types/Deputy";
 import { State } from "types/State";
 import lang from "src/language.json";
-import { UpdateStatusModal } from "@components/modals/dispatch/UpdateStatus";
-import { getActiveUnits } from "@actions/dispatch/DispatchActions";
+import { UpdateStatusModal } from "components/modals/dispatch/UpdateStatus";
+import { getActiveUnits } from "actions/dispatch/DispatchActions";
 import { ModalIds } from "types/ModalIds";
 import { SocketEvents } from "types/Socket";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 
 interface Props {
   officers: Officer[];

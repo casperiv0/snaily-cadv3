@@ -1,9 +1,9 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
-import { formatRequired } from "@lib/utils.server";
-import { logger } from "@lib/logger";
-import { AnError } from "@lib/consts";
+import { formatRequired } from "lib/utils.server";
+import { logger } from "lib/logger";
+import { AnError } from "lib/consts";
 import { Citizen } from "types/Citizen";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {

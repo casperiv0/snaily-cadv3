@@ -1,11 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import ms from "ms";
-import { addPenalCode } from "@actions/admin/AdminActions";
+import { addPenalCode } from "actions/admin/AdminActions";
 import { PenalCode } from "types/PenalCode";
-import { modal, notify } from "@lib/utils";
+import { modal, notify } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import { useModalOpen } from "../../../../hooks/useModalOpen";
 import lang from "src/language.json";
 

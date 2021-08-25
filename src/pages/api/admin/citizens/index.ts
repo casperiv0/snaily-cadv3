@@ -1,10 +1,10 @@
 import { NextApiResponse } from "next";
-import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
-import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
-import { usePermission } from "@hooks/usePermission";
+import { AnError } from "lib/consts";
+import { processQuery } from "lib/database";
+import { logger } from "lib/logger";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
+import { usePermission } from "hooks/usePermission";
 import { Citizen } from "types/Citizen";
 import { User } from "types/User";
 

@@ -1,19 +1,19 @@
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { connect } from "react-redux";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { initializeStore } from "@state/useStore";
-import { getEmsFdDeputies, deleteEmsFdDeputy } from "@actions/ems-fd/EmsFdActions";
-import { Layout } from "@components/Layout";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { initializeStore } from "state/useStore";
+import { getEmsFdDeputies, deleteEmsFdDeputy } from "actions/ems-fd/EmsFdActions";
+import { Layout } from "components/Layout";
 import { Deputy } from "types/Deputy";
 import lang from "src/language.json";
 import { ModalIds } from "types/ModalIds";
-import { CreateDeputyModal } from "@components/modals/ems-fd/CreateDeputyModal";
+import { CreateDeputyModal } from "components/modals/ems-fd/CreateDeputyModal";
 import { State } from "types/State";
-import { Seo } from "@components/Seo";
-import { useClientPerms } from "@hooks/useClientPerms";
-import { useOpenModal } from "@hooks/useOpenModal";
+import { Seo } from "components/Seo";
+import { useClientPerms } from "hooks/useClientPerms";
+import { useOpenModal } from "hooks/useOpenModal";
 
 interface Props {
   deputies: Deputy[];

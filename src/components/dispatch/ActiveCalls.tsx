@@ -4,12 +4,12 @@ import { Call } from "types/Call";
 import { Nullable, State } from "types/State";
 import lang from "../../language.json";
 import Update911Call from "../modals/dispatch/Update911Call";
-import { getCalls } from "@actions/calls/CallActions";
-import { playSound } from "@lib/utils";
+import { getCalls } from "actions/calls/CallActions";
+import { playSound } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { SocketEvents } from "types/Socket";
-import { socket } from "@hooks/useSocket";
-import { CallTypes } from "@actions/calls/CallTypes";
+import { socket } from "hooks/useSocket";
+import { CallTypes } from "actions/calls/CallTypes";
 
 interface Props {
   calls: Call[];

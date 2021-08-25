@@ -1,10 +1,10 @@
 import { GetActiveUnits, AddressSearch, GetSteamIds } from "./DispatchTypes";
-import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify } from "lib/utils";
 import { Dispatch } from "react";
 import { Call } from "types/Call";
 import { UpdateCall } from "../calls/CallTypes";
 import lang from "src/language.json";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 import { SocketEvents } from "types/Socket";
 
 export const addCallEvent = (callId: string, text: string) => async (dispatch: Dispatch<any>) => {

@@ -1,6 +1,6 @@
-import { IRequest } from "../interfaces/IRequest";
+import { IRequest } from "types/IRequest";
 import { User } from "types/User";
-import { AnError, Ranks } from "@lib/consts";
+import { AnError, Ranks } from "lib/consts";
 import { logger } from "../lib/logger";
 import { Perm } from "types/Perm";
 import { IError } from "types/IError";

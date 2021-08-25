@@ -1,9 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Citizen } from "types/Citizen";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import lang from "src/language.json";
-import { updateEmployeeStatus } from "@actions/companies/CompanyActions";
+import { updateEmployeeStatus } from "actions/companies/CompanyActions";
 
 interface Props {
   employees: Citizen[];

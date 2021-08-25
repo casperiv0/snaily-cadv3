@@ -8,11 +8,11 @@ import "leaflet.markercluster";
 import { v4 as uuid } from "uuid";
 import { Socket } from "socket.io-client";
 
-import { getActiveUnits, getSteamIds, update911Call } from "@actions/dispatch/DispatchActions";
+import { getActiveUnits, getSteamIds, update911Call } from "actions/dispatch/DispatchActions";
 
 import lang from "src/language.json";
 
-import { socket as CADSocket } from "@hooks/useSocket";
+import { socket as CADSocket } from "hooks/useSocket";
 import {
   Player,
   DataActions,
@@ -30,17 +30,17 @@ import {
   convertToMap,
   stringCoordToFloat,
   createCluster,
-} from "@components/dispatch/map/functions";
-import { ActiveMapCalls } from "@components/dispatch/map.ActiveCalls";
-import { ActiveMapUnits } from "@components/dispatch/map.ActiveUnits";
-import { Create911Modal } from "@components/modals/Create911Modal";
+} from "components/dispatch/map/functions";
+import { ActiveMapCalls } from "components/dispatch/map.ActiveCalls";
+import { ActiveMapUnits } from "components/dispatch/map.ActiveUnits";
+import { Create911Modal } from "components/modals/Create911Modal";
 import { Nullable, State } from "types/State";
 import { Cad } from "types/Cad";
 import { Call } from "types/Call";
-import { CallInfoHTML, PlayerInfoHTML, BlipInfoHTML } from "@components/dispatch/map/html";
+import { CallInfoHTML, PlayerInfoHTML, BlipInfoHTML } from "components/dispatch/map/html";
 import { User } from "types/User";
-import { blipTypes } from "@components/dispatch/map/blips";
-import { notify } from "@lib/utils";
+import { blipTypes } from "components/dispatch/map/blips";
+import { notify } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
 /* most code in this file is from TGRHavoc/live_map-interface, special thanks to him for making this! */
 

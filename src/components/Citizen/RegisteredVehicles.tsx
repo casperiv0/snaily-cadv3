@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { Nullable, State } from "types/State";
 import { Vehicle } from "types/Vehicle";
 import lang from "../../language.json";
-import { updateVehicleById, deleteVehicleById } from "@actions/citizen/CitizenActions";
+import { updateVehicleById, deleteVehicleById } from "actions/citizen/CitizenActions";
 import { ModalIds } from "types/ModalIds";
-import { Item, Span } from "@components/Item";
-import { RequestData } from "@lib/utils";
-import { EditVehicleModal } from "@components/modals/citizen/EditVehicleModal";
-import { TransferVehicleModal } from "@components/modals/citizen/TransferVehicleModal";
+import { Item, Span } from "components/Item";
+import { RequestData } from "lib/utils";
+import { EditVehicleModal } from "components/modals/citizen/EditVehicleModal";
+import { TransferVehicleModal } from "components/modals/citizen/TransferVehicleModal";
 
 interface Props {
   citizenId: Nullable<string>;

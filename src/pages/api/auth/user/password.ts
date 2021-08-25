@@ -1,7 +1,7 @@
 import { NextApiResponse } from "next";
-import { processQuery } from "@lib/database";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
+import { processQuery } from "lib/database";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
 import { compareSync, hashSync } from "bcryptjs";
 
 export default async function (req: IRequest, res: NextApiResponse) {

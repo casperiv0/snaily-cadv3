@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { RanksArr } from "@lib/consts";
+import { RanksArr } from "lib/consts";
 import { State } from "types/State";
 
 type Permissions = "moderator" | "leo" | "ems_fd" | "dispatch" | "tow" | "supervisor" | "admin";

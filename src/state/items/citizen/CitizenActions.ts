@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "lib/utils";
 import {
   GetCitizenById,
   ICitizenWeapons,

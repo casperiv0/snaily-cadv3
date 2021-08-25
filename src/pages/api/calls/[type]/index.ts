@@ -1,8 +1,8 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
+import useAuth from "hooks/useAuth";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
 import { Call } from "types/Call";
 import { IRequest } from "types/IRequest";
 import { SocketEvents } from "types/Socket";

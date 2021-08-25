@@ -1,10 +1,10 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
+import useAuth from "hooks/useAuth";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
 import { IRequest } from "types/IRequest";
-import { formatRequired, getActiveOfficer } from "@lib/utils.server";
-import { usePermission } from "@hooks/usePermission";
+import { formatRequired, getActiveOfficer } from "lib/utils.server";
+import { usePermission } from "hooks/usePermission";
 import { v4 } from "uuid";
 import { Bolo } from "types/Bolo";
 import { SocketEvents } from "types/Socket";

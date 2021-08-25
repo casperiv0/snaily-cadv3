@@ -1,6 +1,6 @@
 import { NextApiRequest } from "next";
 import { UploadedFile } from "express-fileupload";
-import { ParsedPath } from "@hooks/useValidPath";
+import { ParsedPath } from "hooks/useValidPath";
 
 export interface IRequest extends NextApiRequest {
   userId: string;

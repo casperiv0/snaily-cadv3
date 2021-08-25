@@ -1,9 +1,9 @@
 import { NextApiResponse } from "next";
-import { AnError, SaveUserDataArr } from "@lib/consts";
-import { processQuery } from "@lib/database";
-import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
+import { AnError, SaveUserDataArr } from "lib/consts";
+import { processQuery } from "lib/database";
+import { logger } from "lib/logger";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
 import { User } from "types/User";
 import { compareSync, hashSync } from "bcryptjs";
 import { Citizen } from "types/Citizen";

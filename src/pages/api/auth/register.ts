@@ -1,12 +1,12 @@
 import { genSaltSync, hashSync } from "bcryptjs";
 import { NextApiResponse } from "next";
 import { v4 as uuid } from "uuid";
-import { useCookie } from "@hooks/useCookie";
-import useToken from "@hooks/useToken";
-import { AnError, Ranks, features } from "@lib/consts";
-import { logger } from "@lib/logger";
-import { Cad } from "src/interfaces/Cad";
-import { IRequest } from "src/interfaces/IRequest";
+import { useCookie } from "hooks/useCookie";
+import useToken from "hooks/useToken";
+import { AnError, Ranks, features } from "lib/consts";
+import { logger } from "lib/logger";
+import { Cad } from "types/Cad";
+import { IRequest } from "types/IRequest";
 import { User } from "types/User";
 
 async function createCADAndReturn(username: string) {

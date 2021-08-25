@@ -1,8 +1,8 @@
 import * as React from "react";
 import lang from "../../../language.json";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import { connect } from "react-redux";
-import { deleteAccount } from "@actions/auth/AuthActions";
+import { deleteAccount } from "actions/auth/AuthActions";
 import { ModalIds } from "types/ModalIds";
 
 interface Props {

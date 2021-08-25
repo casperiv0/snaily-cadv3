@@ -1,12 +1,12 @@
 import { NextApiResponse } from "next";
 import fs from "fs";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
-import { logger } from "@lib/logger";
-import { AnError, RanksArr } from "@lib/consts";
+import { logger } from "lib/logger";
+import { AnError, RanksArr } from "lib/consts";
 import { Bleet } from "types/Bleet";
 import { User } from "types/User";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired } from "lib/utils.server";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;

@@ -1,12 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import ms from "ms";
-import { updatePenalCode } from "@actions/admin/AdminActions";
+import { updatePenalCode } from "actions/admin/AdminActions";
 import { PenalCode } from "types/PenalCode";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal, notify } from "@lib/utils";
-import { useModalOpen } from "@hooks/useModalOpen";
+import { modal, notify } from "lib/utils";
+import { useModalOpen } from "hooks/useModalOpen";
 import lang from "src/language.json";
 import { Nullable } from "types/State";
 

@@ -7,7 +7,7 @@ import { Options, useHotkeys } from "react-hotkeys-hook";
 import { Items } from "./items";
 import { Nullable, State } from "types/State";
 import { User } from "types/User";
-import { useModalOpen } from "@hooks/useModalOpen";
+import { useModalOpen } from "hooks/useModalOpen";
 import { ModalIds } from "types/ModalIds";
 
 interface Props {

@@ -1,4 +1,4 @@
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 import * as React from "react";
 import lang from "src/language.json";
 import { User } from "types/User";

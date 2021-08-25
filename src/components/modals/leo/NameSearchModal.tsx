@@ -2,10 +2,10 @@ import * as React from "react";
 import format from "date-fns/format";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "../../../language.json";
 import { Nullable, State } from "types/State";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import { Citizen } from "types/Citizen";
 import { Weapon } from "types/Weapon";
 import { Vehicle } from "types/Vehicle";
@@ -15,20 +15,20 @@ import {
   searchNames,
   suspendLicense,
   setCitizenDanger,
-} from "@actions/officer/OfficerActions";
-import { deleteRecordById } from "@actions/record/RecordActions";
+} from "actions/officer/OfficerActions";
+import { deleteRecordById } from "actions/record/RecordActions";
 import { Warrant, Ticket, ArrestReport, WrittenWarning } from "types/Record";
-import { Select, SelectValue } from "@components/Select/Select";
+import { Select, SelectValue } from "components/Select/Select";
 import { ModalIds } from "types/ModalIds";
-import { Item, Span } from "@components/Item";
-import { Name } from "@actions/officer/OfficerTypes";
+import { Item, Span } from "components/Item";
+import { Name } from "actions/officer/OfficerTypes";
 import { Perm } from "types/Perm";
 import { PenalCode } from "types/PenalCode";
 import {
   getPenalCodesFromSelectValues,
   getTotalJailTimeAndFineAmount,
   isCadFeatureEnabled,
-} from "@lib/utils";
+} from "lib/utils";
 import { Cad } from "types/Cad";
 
 interface NameSearch {

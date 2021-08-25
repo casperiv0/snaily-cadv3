@@ -1,4 +1,4 @@
-import { Ranks } from "@lib/consts";
+import { Ranks } from "lib/consts";
 import { Perm } from "./Perm";
 
 export interface User {

@@ -3,14 +3,14 @@ import * as React from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
 import lang from "../../language.json";
-import { register } from "@actions/auth/AuthActions";
-import { Seo } from "@components/Seo";
+import { register } from "actions/auth/AuthActions";
+import { Seo } from "components/Seo";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { getCadInfo } from "@actions/global/GlobalActions";
+import { initializeStore } from "state/useStore";
+import { getCadInfo } from "actions/global/GlobalActions";
 import { Nullable, State } from "types/State";
 import { Cad } from "types/Cad";
-import { RequestData } from "@lib/utils";
+import { RequestData } from "lib/utils";
 
 interface Props {
   cadInfo: Nullable<Cad>;

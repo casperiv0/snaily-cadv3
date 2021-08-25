@@ -1,4 +1,4 @@
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "lib/utils";
 import { Dispatch } from "react";
 import { CreateTruckLog, GetTruckLogs, DeleteTruckLog } from "./TruckLogTypes";
 

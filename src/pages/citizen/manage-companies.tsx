@@ -1,24 +1,24 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { Layout } from "@components/Layout";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { Layout } from "components/Layout";
 import lang from "src/language.json";
 import { ModalIds } from "types/ModalIds";
-import { initializeStore } from "@state/useStore";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { getCompanies } from "@actions/companies/CompanyActions";
+import { initializeStore } from "state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { getCompanies } from "actions/companies/CompanyActions";
 import { GetServerSideProps } from "next";
-import { Seo } from "@components/Seo";
-import { getUserCitizens, getUserCompanies } from "@actions/citizen/CitizenActions";
-import { JoinCompanyModal } from "@components/company/JoinCompanyModal";
-import { CreateCompanyModal } from "@components/company/CreateCompanyModal";
+import { Seo } from "components/Seo";
+import { getUserCitizens, getUserCompanies } from "actions/citizen/CitizenActions";
+import { JoinCompanyModal } from "components/company/JoinCompanyModal";
+import { CreateCompanyModal } from "components/company/CreateCompanyModal";
 import { State } from "types/State";
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 import { Citizen } from "types/Citizen";
 import { Company } from "types/Company";
-import { useOpenModal } from "@hooks/useOpenModal";
+import { useOpenModal } from "hooks/useOpenModal";
 
 interface Props {
   message: string;

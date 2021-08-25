@@ -1,11 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import lang from "../../../language.json";
-import { createCompanyPost } from "@actions/companies/CompanyActions";
-import { Modal } from "@components/Modal/Modal";
+import { createCompanyPost } from "actions/companies/CompanyActions";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
 import { useModalOpen } from "../../../hooks/useModalOpen";
-import { modal, RequestData } from "@lib/utils";
+import { modal, RequestData } from "lib/utils";
 
 interface Props {
   citizenId: string;

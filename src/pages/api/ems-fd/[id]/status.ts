@@ -1,13 +1,13 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
-import { logger } from "@lib/logger";
+import useAuth from "hooks/useAuth";
+import { AnError } from "lib/consts";
+import { processQuery } from "lib/database";
+import { logger } from "lib/logger";
 import { IRequest } from "types/IRequest";
-import { usePermission } from "@hooks/usePermission";
-import { formatRequired } from "@lib/utils.server";
+import { usePermission } from "hooks/usePermission";
+import { formatRequired } from "lib/utils.server";
 import { Code10 } from "types/Code10";
-import { useCookie } from "@hooks/useCookie";
+import { useCookie } from "hooks/useCookie";
 import { Deputy } from "types/Deputy";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {

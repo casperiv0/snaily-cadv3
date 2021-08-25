@@ -1,5 +1,5 @@
 import { createConnection, Connection, ConnectionConfig } from "@casper124578/mysql.ts";
-import { Tables } from "../interfaces/Tables";
+import { Tables } from "types/Tables";
 import config from "./config.server";
 import { logger } from "./logger";
 

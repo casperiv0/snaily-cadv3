@@ -1,10 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import lang from "../../language.json";
-import { createWarrant } from "@actions/record/RecordActions";
-import { Officer } from "../../interfaces/Officer";
-import { Nullable, State } from "../../interfaces/State";
-import { Select, SelectValue } from "@components/Select/Select";
+import { createWarrant } from "actions/record/RecordActions";
+import { Officer } from "types/Officer";
+import { Nullable, State } from "types/State";
+import { Select, SelectValue } from "components/Select/Select";
 import { Warrant } from "types/Record";
 
 interface Props {

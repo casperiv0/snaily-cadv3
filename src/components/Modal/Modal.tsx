@@ -1,6 +1,6 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
-import { modal } from "@lib/utils";
+import { modal } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { usePortal } from "@casper124578/useful/hooks/usePortal";
 

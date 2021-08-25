@@ -10,7 +10,7 @@ import { useStore } from "src/state/useStore";
 import "../styles/global.css";
 import "../styles/fonts.css";
 import { Navbar } from "src/components/navbar/Navbar";
-import { GlobalSearch } from "@components/GlobalSearch/GlobalSearch";
+import { GlobalSearch } from "components/GlobalSearch/GlobalSearch";
 
 const ToastContainer: any = dynamic(
   () => import("react-toastify").then((m) => m.ToastContainer) as any,

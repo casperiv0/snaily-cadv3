@@ -1,14 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import { State } from "types/State";
-import { searchNames } from "@actions/officer/OfficerActions";
-import { createMedicalRecord } from "@actions/citizen/CitizenActions";
-import { modal } from "@lib/utils";
+import { searchNames } from "actions/officer/OfficerActions";
+import { createMedicalRecord } from "actions/citizen/CitizenActions";
+import { modal } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
-import { Select } from "@components/Select/Select";
+import { Select } from "components/Select/Select";
 import lang from "src/language.json";
-import { Name } from "@actions/officer/OfficerTypes";
+import { Name } from "actions/officer/OfficerTypes";
 
 interface Props {
   names: Name[];

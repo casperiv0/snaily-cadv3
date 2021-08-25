@@ -1,11 +1,11 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
 import { Citizen } from "types/Citizen";
-import { Whitelist } from "@lib/consts";
+import { Whitelist } from "lib/consts";
 import { Company, CompanyPost } from "types/Company";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired } from "lib/utils.server";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;

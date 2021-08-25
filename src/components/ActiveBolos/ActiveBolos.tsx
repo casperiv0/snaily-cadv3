@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { Bolo } from "types/Bolo";
 import { Nullable, State } from "types/State";
 import lang from "../../language.json";
-import { getBolos, deleteBolo } from "@actions/bolos/BoloActions";
+import { getBolos, deleteBolo } from "actions/bolos/BoloActions";
 import { SocketEvents } from "types/Socket";
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 import { ModalIds } from "types/ModalIds";
-import { EditBoloModal } from "@components/modals/leo/EditBoloModal";
-import { socket } from "@hooks/useSocket";
+import { EditBoloModal } from "components/modals/leo/EditBoloModal";
+import { socket } from "hooks/useSocket";
 
 interface Props {
   bolos: Bolo[];

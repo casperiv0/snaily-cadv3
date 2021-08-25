@@ -1,15 +1,15 @@
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCalls } from "@actions/calls/CallActions";
-import { getActiveUnits } from "@actions/dispatch/DispatchActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { initializeStore } from "@state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCalls } from "actions/calls/CallActions";
+import { getActiveUnits } from "actions/dispatch/DispatchActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { initializeStore } from "state/useStore";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
 import dynamic from "next/dynamic";
-import { Seo } from "@components/Seo";
-import { useClientPerms } from "@hooks/useClientPerms";
-const Map = dynamic(() => import("@components/dispatch/map/Map"), {
+import { Seo } from "components/Seo";
+import { useClientPerms } from "hooks/useClientPerms";
+const Map = dynamic(() => import("components/dispatch/map/Map"), {
   ssr: false,
   loading: () => <p>loading map..</p>,
 });

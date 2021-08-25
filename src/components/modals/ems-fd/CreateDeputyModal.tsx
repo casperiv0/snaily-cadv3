@@ -1,11 +1,11 @@
 import * as React from "react";
 import lang from "src/language.json";
-import { createEmsFdDeputy } from "@actions/ems-fd/EmsFdActions";
+import { createEmsFdDeputy } from "actions/ems-fd/EmsFdActions";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal, RequestData } from "@lib/utils";
-import { useModalOpen } from "@hooks/useModalOpen";
+import { modal, RequestData } from "lib/utils";
+import { useModalOpen } from "hooks/useModalOpen";
 
 interface Props {
   createEmsFdDeputy: (data: RequestData) => Promise<boolean>;

@@ -1,11 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "../../../language.json";
 import { ModalIds } from "types/ModalIds";
-import { getMugshots, uploadFiles } from "@actions/officer/OfficerActions";
+import { getMugshots, uploadFiles } from "actions/officer/OfficerActions";
 import { State } from "types/State";
-import { modal } from "@lib/utils";
+import { modal } from "lib/utils";
 
 interface Props {
   search: any;

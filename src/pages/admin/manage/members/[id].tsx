@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { initializeStore } from "@state/useStore";
-import { AdminLayout } from "@components/admin/AdminLayout";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { Select } from "@components/Select/Select";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { initializeStore } from "state/useStore";
+import { AdminLayout } from "components/admin/AdminLayout";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { Select } from "components/Select/Select";
 import { Cad } from "types/Cad";
 import { Nullable, State } from "types/State";
 import { User } from "types/User";
@@ -19,11 +19,11 @@ import {
   banUnbanMember,
   removeUser,
   getTempPassword,
-} from "@actions/admin/AdminActions";
-import { Item, Span } from "@components/Item";
-import { Seo } from "@components/Seo";
-import { useClientPerms } from "@hooks/useClientPerms";
-import { RequestData } from "@lib/utils";
+} from "actions/admin/AdminActions";
+import { Item, Span } from "components/Item";
+import { Seo } from "components/Seo";
+import { useClientPerms } from "hooks/useClientPerms";
+import { RequestData } from "lib/utils";
 
 interface Props {
   member: Nullable<User>;

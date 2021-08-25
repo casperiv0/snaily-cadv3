@@ -3,14 +3,14 @@ import { Nullable, State } from "types/State";
 import { Vehicle } from "types/Vehicle";
 import lang from "../../../language.json";
 import { connect } from "react-redux";
-import { transferVehicle } from "@actions/citizen/CitizenActions";
-import { Select } from "@components/Select/Select";
-import { Modal } from "@components/Modal/Modal";
+import { transferVehicle } from "actions/citizen/CitizenActions";
+import { Select } from "components/Select/Select";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { RequestData } from "@lib/utils";
+import { RequestData } from "lib/utils";
 import { Cad } from "types/Cad";
-import { searchNames } from "@actions/officer/OfficerActions";
-import { Name } from "@actions/officer/OfficerTypes";
+import { searchNames } from "actions/officer/OfficerActions";
+import { Name } from "actions/officer/OfficerTypes";
 
 interface Props {
   vehicle: Nullable<Vehicle>;

@@ -1,13 +1,13 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
+import useAuth from "hooks/useAuth";
+import { processQuery } from "lib/database";
 import { IRequest } from "types/IRequest";
 import { Citizen } from "types/Citizen";
-import { RanksArr, Whitelist } from "@lib/consts";
+import { RanksArr, Whitelist } from "lib/consts";
 import { User } from "types/User";
 import { parseCompanies } from "..";
 import { Company } from "types/Company";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired } from "lib/utils.server";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method } = req;

@@ -4,7 +4,7 @@ import { Citizen } from "types/Citizen";
 import { AlertMessage } from "../AlertMessage/AlertMessage";
 import { DeleteCitizenModal } from "../modals/admin/DeleteCitizenModal";
 import lang from "src/language.json";
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 import { Nullable } from "types/State";
 
 interface Props {

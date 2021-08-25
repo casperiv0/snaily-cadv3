@@ -1,12 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import lang from "src/language.json";
-import { createMedicalRecord } from "@actions/citizen/CitizenActions";
-import { Select } from "@components/Select/Select";
+import { createMedicalRecord } from "actions/citizen/CitizenActions";
+import { Select } from "components/Select/Select";
 import { State } from "types/State";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
+import { modal } from "lib/utils";
 
 interface Props {
   citizenId: string | undefined;

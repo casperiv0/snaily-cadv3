@@ -4,11 +4,11 @@ import { Cad } from "types/Cad";
 import { Nullable, State } from "types/State";
 import { Perm } from "types/Perm";
 import lang from "../../language.json";
-import { playSound } from "@lib/utils";
+import { playSound } from "lib/utils";
 import { SocketEvents } from "types/Socket";
 import { ModalIds } from "types/ModalIds";
 import { MButton } from "../leo/ModalButtons";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 
 const modalButtons: MButton[] = [
   {

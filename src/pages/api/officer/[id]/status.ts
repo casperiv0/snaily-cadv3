@@ -1,17 +1,17 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
-import { logger } from "@lib/logger";
+import useAuth from "hooks/useAuth";
+import { AnError } from "lib/consts";
+import { processQuery } from "lib/database";
+import { logger } from "lib/logger";
 import { IRequest } from "types/IRequest";
-import { formatRequired, getWebhookData, postWebhook } from "@lib/utils.server";
-import { usePermission } from "@hooks/usePermission";
+import { formatRequired, getWebhookData, postWebhook } from "lib/utils.server";
+import { usePermission } from "hooks/usePermission";
 import { User } from "types/User";
 import { Officer, OfficerLog } from "types/Officer";
 import { Cad } from "types/Cad";
 import { Code10 } from "types/Code10";
-import { useCookie } from "@hooks/useCookie";
+import { useCookie } from "hooks/useCookie";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {

@@ -1,8 +1,8 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
-import { AnError } from "@lib/consts";
+import { AnError } from "lib/consts";
 import { Citizen } from "types/Citizen";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {

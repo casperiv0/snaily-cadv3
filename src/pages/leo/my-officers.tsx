@@ -1,22 +1,22 @@
 import Link from "next/link";
 import * as React from "react";
 import { connect } from "react-redux";
-import { Layout } from "@components/Layout";
+import { Layout } from "components/Layout";
 import { Officer } from "types/Officer";
 import { State } from "types/State";
 import lang from "src/language.json";
-import { getMyOfficers, deleteOfficer } from "@actions/officer/OfficerActions";
-import { CreateOfficerModal } from "@components/modals/leo/CreateOfficerModal";
+import { getMyOfficers, deleteOfficer } from "actions/officer/OfficerActions";
+import { CreateOfficerModal } from "components/modals/leo/CreateOfficerModal";
 import { ModalIds } from "types/ModalIds";
-import { Seo } from "@components/Seo";
+import { Seo } from "components/Seo";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getValuesByPath } from "@actions/values/ValuesActions";
-import { useClientPerms } from "@hooks/useClientPerms";
-import { useOpenModal } from "@hooks/useOpenModal";
-import { Item, Span } from "@components/Item";
+import { initializeStore } from "state/useStore";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getValuesByPath } from "actions/values/ValuesActions";
+import { useClientPerms } from "hooks/useClientPerms";
+import { useOpenModal } from "hooks/useOpenModal";
+import { Item, Span } from "components/Item";
 
 interface Props {
   officers: Officer[];

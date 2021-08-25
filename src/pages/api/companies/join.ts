@@ -1,9 +1,9 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
+import useAuth from "hooks/useAuth";
+import { processQuery } from "lib/database";
 import { IRequest } from "types/IRequest";
 import { Company } from "types/Company";
-import { createNotification, formatRequired } from "@lib/utils.server";
+import { createNotification, formatRequired } from "lib/utils.server";
 import { Citizen } from "types/Citizen";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {

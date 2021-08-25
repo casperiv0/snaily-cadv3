@@ -1,20 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
-import { AdminLayout } from "@components/admin/AdminLayout";
+import { AdminLayout } from "components/admin/AdminLayout";
 import lang from "../../../../language.json";
 import { State } from "types/State";
 import { AlertMessage } from "../../../../components/AlertMessage/AlertMessage";
-import { getAllUnits, suspendOfficer } from "@actions/admin/AdminActions";
+import { getAllUnits, suspendOfficer } from "actions/admin/AdminActions";
 import { Officer } from "types/Officer";
 import { Deputy } from "types/Deputy";
-import { Seo } from "@components/Seo";
-import { Item, Span } from "@components/Item";
+import { Seo } from "components/Seo";
+import { Item, Span } from "components/Item";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { useClientPerms } from "@hooks/useClientPerms";
+import { initializeStore } from "state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { useClientPerms } from "hooks/useClientPerms";
 import { Perm } from "types/Perm";
 
 interface Props {

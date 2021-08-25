@@ -1,18 +1,18 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { update10Code } from "@actions/admin/AdminActions";
-import { Select } from "@components/Select/Select";
+import { update10Code } from "actions/admin/AdminActions";
+import { Select } from "components/Select/Select";
 import { Nullable, State } from "types/State";
 import { Code10 } from "types/Code10";
 import {
   colorOptions,
   shouldDoOptions,
   options,
-} from "@components/modals/admin/10-codes/Create10CodeModal";
-import { modal } from "@lib/utils";
-import { Modal } from "@components/Modal/Modal";
+} from "components/modals/admin/10-codes/Create10CodeModal";
+import { modal } from "lib/utils";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { useModalOpen } from "@hooks/useModalOpen";
+import { useModalOpen } from "hooks/useModalOpen";
 import lang from "src/language.json";
 
 interface Props {

@@ -1,9 +1,9 @@
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "lib/utils";
 import { Dispatch } from "react";
 import { ArrestReport, Ticket, Warrant, WrittenWarning } from "types/Record";
 import { IRecord } from "./RecordTypes";
 import lang from "src/language.json";
-import { Search } from "@actions/officer/OfficerTypes";
+import { Search } from "actions/officer/OfficerTypes";
 
 export const createWarrant =
   (data: Omit<Warrant, "id" | "officer_name">) =>

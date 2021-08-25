@@ -1,20 +1,20 @@
 import { connect } from "react-redux";
 import * as React from "react";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { initializeStore } from "@state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { initializeStore } from "state/useStore";
 import { GetServerSideProps } from "next";
 import { Layout } from "src/components/Layout";
 import { Nullable, State } from "types/State";
-import { Seo } from "@components/Seo";
+import { Seo } from "components/Seo";
 import { ModalIds } from "types/ModalIds";
-import { getCadInfo } from "@actions/global/GlobalActions";
+import { getCadInfo } from "actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";
-import { socket } from "@hooks/useSocket";
-import { getCalls, endCall, updateCall } from "@actions/calls/CallActions";
+import { socket } from "hooks/useSocket";
+import { getCalls, endCall, updateCall } from "actions/calls/CallActions";
 import lang from "../language.json";
 import { Call } from "types/Call";
-import { NotepadModal } from "@components/modals/NotepadModal";
-import { CallTypes } from "@actions/calls/CallTypes";
+import { NotepadModal } from "components/modals/NotepadModal";
+import { CallTypes } from "actions/calls/CallTypes";
 
 interface Props {
   calls: Call[];

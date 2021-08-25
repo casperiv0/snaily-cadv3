@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
 import fs from "fs";
-import useAuth from "@hooks/useAuth";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
+import useAuth from "hooks/useAuth";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
 import { IRequest } from "types/IRequest";
-import { usePermission } from "@hooks/usePermission";
-import { processQuery } from "@lib/database";
+import { usePermission } from "hooks/usePermission";
+import { processQuery } from "lib/database";
 import { Mugshot } from "types/Mugshot";
 import { parseMugshots } from ".";
 

@@ -1,4 +1,4 @@
-import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, modal, notify, RequestData } from "lib/utils";
 import { Dispatch } from "react";
 import { ModalIds } from "types/ModalIds";
 import { Authenticate, UnlinkSteam, UpdatePassword, UpdateUsername, VerifyAuth } from "./AuthTypes";

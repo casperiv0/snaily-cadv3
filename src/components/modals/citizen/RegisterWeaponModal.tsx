@@ -5,12 +5,12 @@ import { Nullable, State } from "types/State";
 import { Value } from "types/Value";
 import lang from "../../../language.json";
 import { Citizen } from "types/Citizen";
-import { getValuesByPath } from "@actions/values/ValuesActions";
-import { registerWeapon } from "@actions/citizen/CitizenActions";
-import { Select, SelectValue } from "@components/Select/Select";
-import { Modal } from "@components/Modal/Modal";
+import { getValuesByPath } from "actions/values/ValuesActions";
+import { registerWeapon } from "actions/citizen/CitizenActions";
+import { Select, SelectValue } from "components/Select/Select";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal, notify, RequestData } from "@lib/utils";
+import { modal, notify, RequestData } from "lib/utils";
 import { ValuePaths } from "types/ValuePaths";
 
 interface Props {

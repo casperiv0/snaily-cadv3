@@ -1,5 +1,5 @@
-import { socket } from "@hooks/useSocket";
-import { getErrorFromResponse, handleRequest, notify, RequestData } from "@lib/utils";
+import { socket } from "hooks/useSocket";
+import { getErrorFromResponse, handleRequest, notify, RequestData } from "lib/utils";
 import { Dispatch } from "react";
 import { Deputy } from "types/Deputy";
 import { MedicalRecord } from "types/MedicalRecord";

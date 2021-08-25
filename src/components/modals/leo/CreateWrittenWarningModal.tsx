@@ -3,15 +3,15 @@ import { Nullable, State } from "types/State";
 import lang from "../../../language.json";
 import { Field } from "types/Field";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
-import { createWrittenWarning } from "@actions/record/RecordActions";
+import { Modal } from "components/Modal/Modal";
+import { createWrittenWarning } from "actions/record/RecordActions";
 import { Officer } from "types/Officer";
 import { PenalCode } from "types/PenalCode";
-import { Select, SelectValue } from "@components/Select/Select";
+import { Select, SelectValue } from "components/Select/Select";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
+import { modal } from "lib/utils";
 import { WrittenWarning } from "types/Record";
-import { Name } from "@actions/officer/OfficerTypes";
+import { Name } from "actions/officer/OfficerTypes";
 
 interface Props {
   officer: Nullable<Officer>;

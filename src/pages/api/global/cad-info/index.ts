@@ -1,13 +1,13 @@
 import { NextApiResponse } from "next";
-import { AnError } from "@lib/consts";
-import { processQuery } from "@lib/database";
-import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
+import { AnError } from "lib/consts";
+import { processQuery } from "lib/database";
+import { logger } from "lib/logger";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
 import { Cad } from "types/Cad";
 import pkg from "../../../../../package.json";
 import { User } from "types/User";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired } from "lib/utils.server";
 import { parseFeatures } from "./features";
 
 export default async function (req: IRequest, res: NextApiResponse) {

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Nullable, State } from "types/State";
 import lang from "src/language.json";
 import { MedicalRecord } from "types/MedicalRecord";
-import { getMedicalRecords, deleteMedicalRecord } from "@actions/citizen/CitizenActions";
+import { getMedicalRecords, deleteMedicalRecord } from "actions/citizen/CitizenActions";
 import { ModalIds } from "types/ModalIds";
 
 interface Props {

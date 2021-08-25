@@ -2,13 +2,13 @@ import * as React from "react";
 import { connect } from "react-redux";
 import lang from "src/language.json";
 import { Citizen } from "types/Citizen";
-import { Modal } from "@components/Modal/Modal";
-import { addressSearch } from "@actions/dispatch/DispatchActions";
+import { Modal } from "components/Modal/Modal";
+import { addressSearch } from "actions/dispatch/DispatchActions";
 import { State } from "types/State";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import { ModalIds } from "types/ModalIds";
 import { useModalOpen } from "../../../hooks/useModalOpen";
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 
 interface Props {
   search: Citizen[];

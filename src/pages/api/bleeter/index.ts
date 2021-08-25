@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
 import { v4 } from "uuid";
 import fileUpload from "express-fileupload";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
-import { logger } from "@lib/logger";
-import { AnError, SupportedFileTypes } from "@lib/consts";
-import { formatRequired, runMiddleware } from "@lib/utils.server";
+import { logger } from "lib/logger";
+import { AnError, SupportedFileTypes } from "lib/consts";
+import { formatRequired, runMiddleware } from "lib/utils.server";
 import { Bleet } from "types/Bleet";
 
 export const config = {

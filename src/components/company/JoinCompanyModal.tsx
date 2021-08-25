@@ -1,15 +1,15 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "src/language.json";
 import { Citizen } from "types/Citizen";
 import { Company } from "types/Company";
 import { Nullable, State } from "types/State";
-import { joinCompany } from "@actions/companies/CompanyActions";
-import { Select, SelectValue } from "@components/Select/Select";
+import { joinCompany } from "actions/companies/CompanyActions";
+import { Select, SelectValue } from "components/Select/Select";
 import { ModalIds } from "types/ModalIds";
 import { useRouter } from "next/router";
-import { RequestData } from "@lib/utils";
+import { RequestData } from "lib/utils";
 
 interface Props {
   citizens: Citizen[];

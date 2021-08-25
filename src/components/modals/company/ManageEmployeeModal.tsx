@@ -1,15 +1,15 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import { Citizen } from "types/Citizen";
 import { Nullable, State } from "types/State";
 import lang from "src/language.json";
-import { updateEmployeeStatus } from "@actions/companies/CompanyActions";
+import { updateEmployeeStatus } from "actions/companies/CompanyActions";
 import { Company } from "types/Company";
-import { Select } from "@components/Select/Select";
-import { modal, RequestData } from "@lib/utils";
-import { Modal } from "@components/Modal/Modal";
+import { Select } from "components/Select/Select";
+import { modal, RequestData } from "lib/utils";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
 
 interface Props {

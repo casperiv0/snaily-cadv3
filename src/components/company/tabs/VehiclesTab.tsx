@@ -2,9 +2,9 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { State } from "types/State";
 import { Vehicle } from "types/Vehicle";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import lang from "src/language.json";
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 
 interface Props {
   vehicles: Vehicle[];

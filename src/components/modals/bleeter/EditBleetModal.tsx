@@ -4,10 +4,10 @@ import { Nullable, State } from "types/State";
 import { Bleet } from "types/Bleet";
 import lang from "src/language.json";
 import { User } from "types/User";
-import { updateBleet } from "@actions/bleeter/BleeterActions";
+import { updateBleet } from "actions/bleeter/BleeterActions";
 import { ModalIds } from "types/ModalIds";
-import { Modal } from "@components/Modal/Modal";
-import { modal, RequestData } from "@lib/utils";
+import { Modal } from "components/Modal/Modal";
+import { modal, RequestData } from "lib/utils";
 
 interface Props {
   bleet: Nullable<Bleet>;

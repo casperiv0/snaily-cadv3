@@ -1,7 +1,7 @@
 import { NextApiResponse } from "next";
 import { serialize, CookieSerializeOptions } from "cookie";
-import { Auth } from "@lib/consts";
-import config from "@lib/config.server";
+import { Auth } from "lib/consts";
+import config from "lib/config.server";
 
 export function useCookie(
   res: NextApiResponse,

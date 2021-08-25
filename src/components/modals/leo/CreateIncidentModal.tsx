@@ -2,13 +2,13 @@ import * as React from "react";
 import { State } from "types/State";
 import lang from "../../../language.json";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
-import { createIncident } from "@actions/officer/OfficerActions";
+import { Modal } from "components/Modal/Modal";
+import { createIncident } from "actions/officer/OfficerActions";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
+import { modal } from "lib/utils";
 import { OfficerIncident } from "types/OfficerIncident";
 import { Officer } from "types/Officer";
-import { Select } from "@components/Select/Select";
+import { Select } from "components/Select/Select";
 
 interface Props {
   officers: Officer[];

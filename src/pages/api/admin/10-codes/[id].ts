@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
-import { usePermission } from "@hooks/usePermission";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
+import { usePermission } from "hooks/usePermission";
 import { Code10 } from "types/Code10";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired } from "lib/utils.server";
 
 export function parse10Codes(codes: (Code10 | undefined)[]): Code10[] {
   return codes.map((code) => {

@@ -1,13 +1,13 @@
 import * as React from "react";
-import { AdminLayout } from "@components/admin/AdminLayout";
+import { AdminLayout } from "components/admin/AdminLayout";
 import { connect } from "react-redux";
 import { Value } from "types/Value";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { updateValueById } from "@actions/values/ValuesActions";
-import { Modal } from "@components/Modal/Modal";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { updateValueById } from "actions/values/ValuesActions";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
-import { useModalOpen } from "@hooks/useModalOpen";
+import { modal } from "lib/utils";
+import { useModalOpen } from "hooks/useModalOpen";
 import lang from "src/language.json";
 import { Nullable } from "types/State";
 

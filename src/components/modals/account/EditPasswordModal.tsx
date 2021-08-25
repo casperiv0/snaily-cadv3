@@ -1,11 +1,11 @@
 import * as React from "react";
 import lang from "../../../language.json";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import { connect } from "react-redux";
-import { updatePassword } from "@actions/auth/AuthActions";
+import { updatePassword } from "actions/auth/AuthActions";
 import { ModalIds } from "types/ModalIds";
 import { useModalOpen } from "../../../hooks/useModalOpen";
-import { RequestData } from "@lib/utils";
+import { RequestData } from "lib/utils";
 
 interface Props {
   updatePassword: (data: RequestData) => void;

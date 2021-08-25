@@ -1,12 +1,12 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { processQuery } from "@lib/database";
+import useAuth from "hooks/useAuth";
+import { processQuery } from "lib/database";
 import { IRequest } from "types/IRequest";
-import { formatRequired, generateString } from "@lib/utils.server";
+import { formatRequired, generateString } from "lib/utils.server";
 import { Citizen } from "types/Citizen";
-import { logger } from "@lib/logger";
-import { AnError } from "@lib/consts";
+import { logger } from "lib/logger";
+import { AnError } from "lib/consts";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   const { method, query } = req;

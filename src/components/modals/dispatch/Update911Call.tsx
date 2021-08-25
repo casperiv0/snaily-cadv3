@@ -1,21 +1,21 @@
 import * as React from "react";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "src/language.json";
 import { Call, Unit } from "types/Call";
 import format from "date-fns/format";
 import { connect } from "react-redux";
-import { endCall } from "@actions/calls/CallActions";
-import { addCallEvent, update911Call } from "@actions/dispatch/DispatchActions";
-import { getValuesByPath } from "@actions/values/ValuesActions";
+import { endCall } from "actions/calls/CallActions";
+import { addCallEvent, update911Call } from "actions/dispatch/DispatchActions";
+import { getValuesByPath } from "actions/values/ValuesActions";
 import { Officer } from "types/Officer";
 import { Nullable, State } from "types/State";
 import { Deputy } from "types/Deputy";
-import { Select, SelectValue } from "@components/Select/Select";
+import { Select, SelectValue } from "components/Select/Select";
 import { Value } from "types/Value";
-import { modal } from "@lib/utils";
+import { modal } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { ValuePaths } from "types/ValuePaths";
-import { CallTypes } from "@actions/calls/CallTypes";
+import { CallTypes } from "actions/calls/CallTypes";
 
 interface Props {
   call: Nullable<Call>;

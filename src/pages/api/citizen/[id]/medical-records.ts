@@ -1,10 +1,10 @@
 import { v4 } from "uuid";
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
-import { formatRequired } from "@lib/utils.server";
-import { logger } from "@lib/logger";
-import { AnError } from "@lib/consts";
+import { formatRequired } from "lib/utils.server";
+import { logger } from "lib/logger";
+import { AnError } from "lib/consts";
 import { Citizen } from "types/Citizen";
 import { MedicalRecord } from "types/MedicalRecord";
 import { User } from "types/User";

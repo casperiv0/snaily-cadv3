@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "../lib/config.server";
-import { User } from "../interfaces/User";
+import { User } from "types/User";
 import { Whitelist } from "../lib/consts";
 
 export async function useSocketAuth(cookie: string): Promise<string> {

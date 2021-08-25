@@ -1,4 +1,4 @@
-import { getErrorFromResponse, handleRequest, notify } from "@lib/utils";
+import { getErrorFromResponse, handleRequest, notify } from "lib/utils";
 import { Dispatch } from "react";
 import { Value } from "types/Value";
 import { ValuePaths } from "types/ValuePaths";

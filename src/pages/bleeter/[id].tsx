@@ -3,20 +3,20 @@ import Markdown from "react-markdown";
 import { connect } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Layout } from "@components/Layout";
+import { Layout } from "components/Layout";
 import { Nullable, State } from "types/State";
-import { getBleetById, deleteBleet } from "@actions/bleeter/BleeterActions";
+import { getBleetById, deleteBleet } from "actions/bleeter/BleeterActions";
 import { Bleet } from "types/Bleet";
 import lang from "src/language.json";
 import { User } from "types/User";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { EditBleetModal } from "@components/modals/bleeter/EditBleetModal";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { EditBleetModal } from "components/modals/bleeter/EditBleetModal";
 import { ModalIds } from "types/ModalIds";
-import { Seo } from "@components/Seo";
+import { Seo } from "components/Seo";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { verifyAuth } from "@actions/auth/AuthActions";
+import { initializeStore } from "state/useStore";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { verifyAuth } from "actions/auth/AuthActions";
 
 interface Props {
   bleet: Nullable<Bleet>;

@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { Call } from "types/Call";
 import { Nullable, State } from "types/State";
-import { endCall, getCalls } from "@actions/calls/CallActions";
-import { update911Call } from "@actions/dispatch/DispatchActions";
-import { socket } from "@hooks/useSocket";
-import { isUnitAlreadyAssigned, playSound } from "@lib/utils";
+import { endCall, getCalls } from "actions/calls/CallActions";
+import { update911Call } from "actions/dispatch/DispatchActions";
+import { socket } from "hooks/useSocket";
+import { isUnitAlreadyAssigned, playSound } from "lib/utils";
 import { Officer } from "types/Officer";
 import { Deputy } from "types/Deputy";
 import { SocketEvents } from "types/Socket";
-import { CallTypes } from "@actions/calls/CallTypes";
+import { CallTypes } from "actions/calls/CallTypes";
 import lang from "src/language.json";
 
 interface Props {

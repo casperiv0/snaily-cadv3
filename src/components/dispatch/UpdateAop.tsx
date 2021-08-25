@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import lang from "src/language.json";
-import { updateAop } from "@actions/global/GlobalActions";
+import { updateAop } from "actions/global/GlobalActions";
 
 interface Props {
   updateAop: (aop: string) => Promise<boolean>;

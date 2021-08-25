@@ -1,7 +1,7 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired } from "lib/utils.server";
 import { Vehicle } from "types/Vehicle";
 import { Citizen } from "types/Citizen";
 

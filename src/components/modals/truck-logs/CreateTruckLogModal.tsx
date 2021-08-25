@@ -1,11 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { createTruckLog } from "@actions/truck-logs/TruckLogActions";
-import { Modal } from "@components/Modal/Modal";
+import { createTruckLog } from "actions/truck-logs/TruckLogActions";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal, RequestData } from "@lib/utils";
+import { modal, RequestData } from "lib/utils";
 import lang from "src/language.json";
-import { useModalOpen } from "@hooks/useModalOpen";
+import { useModalOpen } from "hooks/useModalOpen";
 
 interface Props {
   createTruckLog: (date: RequestData) => Promise<boolean>;

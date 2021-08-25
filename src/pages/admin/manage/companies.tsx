@@ -6,14 +6,14 @@ import lang from "src/language.json";
 import { State } from "types/State";
 import { Company } from "types/Company";
 import { AlertMessage } from "../../../components/AlertMessage/AlertMessage";
-import { deleteCompanyById, getCompanies } from "@actions/companies/CompanyActions";
+import { deleteCompanyById, getCompanies } from "actions/companies/CompanyActions";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { Seo } from "@components/Seo";
-import { Item, Span } from "@components/Item";
-import { useClientPerms } from "@hooks/useClientPerms";
+import { initializeStore } from "state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { Seo } from "components/Seo";
+import { Item, Span } from "components/Item";
+import { useClientPerms } from "hooks/useClientPerms";
 
 interface Props {
   companies: Company[];

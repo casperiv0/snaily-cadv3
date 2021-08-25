@@ -1,12 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "../../../language.json";
 import { Officer } from "types/Officer";
 import { Nullable, State } from "types/State";
-import { getMyOfficers, setStatus } from "@actions/officer/OfficerActions";
-import { Select, SelectValue } from "@components/Select/Select";
-import { modal, notify } from "@lib/utils";
+import { getMyOfficers, setStatus } from "actions/officer/OfficerActions";
+import { Select, SelectValue } from "components/Select/Select";
+import { modal, notify } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { Cad } from "types/Cad";
 

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { createBleet } from "@actions/bleeter/BleeterActions";
-import { Modal } from "@components/Modal/Modal";
+import { createBleet } from "actions/bleeter/BleeterActions";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
+import { modal } from "lib/utils";
 import lang from "src/language.json";
 
 interface Props {

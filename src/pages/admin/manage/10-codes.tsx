@@ -2,25 +2,25 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { GetServerSideProps } from "next";
 import { useSearch } from "@casper124578/useful/hooks/useSearch";
-import { get10Codes, delete10Code } from "@actions/admin/AdminActions";
-import { AdminLayout } from "@components/admin/AdminLayout";
+import { get10Codes, delete10Code } from "actions/admin/AdminActions";
+import { AdminLayout } from "components/admin/AdminLayout";
 import { Code10 } from "types/Code10";
 import { State } from "types/State";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import {
   Create10CodeModal,
   colorOptions,
   shouldDoOptions,
-} from "@components/modals/admin/10-codes/Create10CodeModal";
+} from "components/modals/admin/10-codes/Create10CodeModal";
 import { ModalIds } from "types/ModalIds";
-import { Edit10CodeModal } from "@components/modals/admin/10-codes/Edit10CodeModal";
+import { Edit10CodeModal } from "components/modals/admin/10-codes/Edit10CodeModal";
 import lang from "src/language.json";
-import { Item, Span } from "@components/Item";
-import { Seo } from "@components/Seo";
-import { initializeStore } from "@state/useStore";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { useClientPerms } from "@hooks/useClientPerms";
+import { Item, Span } from "components/Item";
+import { Seo } from "components/Seo";
+import { initializeStore } from "state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { useClientPerms } from "hooks/useClientPerms";
 
 interface Props {
   codes: Code10[];

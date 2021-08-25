@@ -3,38 +3,37 @@ import Link from "next/link";
 import * as React from "react";
 import dynamic from "next/dynamic";
 import { useSearch } from "@casper124578/useful/hooks/useSearch";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getUserCitizens } from "@actions/citizen/CitizenActions";
-import { initializeStore } from "@state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getUserCitizens } from "actions/citizen/CitizenActions";
+import { initializeStore } from "state/useStore";
 import { GetServerSideProps } from "next";
 import { Layout } from "src/components/Layout";
 import { Citizen } from "types/Citizen";
 import { Nullable, State } from "types/State";
 import lang from "src/language.json";
-import { Seo } from "@components/Seo";
+import { Seo } from "components/Seo";
 import { ModalIds } from "types/ModalIds";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { isCadFeatureEnabled } from "@lib/utils";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { isCadFeatureEnabled } from "lib/utils";
 import { Cad } from "types/Cad";
-import { getCadInfo } from "@actions/global/GlobalActions";
+import { getCadInfo } from "actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 
 const RegisterWeaponModal = dynamic(
-  async () => (await import("@components/modals/citizen/RegisterWeaponModal")).RegisterWeaponModal,
+  async () => (await import("components/modals/citizen/RegisterWeaponModal")).RegisterWeaponModal,
 );
 const RegisterVehicleModal = dynamic(
-  async () =>
-    (await import("@components/modals/citizen/RegisterVehicleModal")).RegisterVehicleModal,
+  async () => (await import("components/modals/citizen/RegisterVehicleModal")).RegisterVehicleModal,
 );
 const Create911Modal = dynamic(
-  async () => (await import("@components/modals/Create911Modal")).Create911Modal,
+  async () => (await import("components/modals/Create911Modal")).Create911Modal,
 );
 const CreateTowCallModal = dynamic(
-  async () => (await import("@components/modals/CreateTowCallModal")).CreateTowCallModal,
+  async () => (await import("components/modals/CreateTowCallModal")).CreateTowCallModal,
 );
 const CreateTaxiCallModal = dynamic(
-  async () => (await import("@components/modals/CreateTaxiCallModal")).CreateTaxiCallModal,
+  async () => (await import("components/modals/CreateTaxiCallModal")).CreateTaxiCallModal,
 );
 
 interface Props {

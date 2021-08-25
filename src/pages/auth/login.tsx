@@ -3,8 +3,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
 import lang from "../../language.json";
-import { login } from "@actions/auth/AuthActions";
-import { Seo } from "@components/Seo";
+import { login } from "actions/auth/AuthActions";
+import { Seo } from "components/Seo";
 
 interface Props {
   login: (data: { username: string; password: string }) => Promise<boolean>;

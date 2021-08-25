@@ -7,7 +7,7 @@ import lang from "src/language.json";
 import { User } from "types/User";
 import { Cad } from "types/Cad";
 import { NavbarDropdown } from "./NavbarDropdown";
-import { logger } from "@lib/logger";
+import { logger } from "lib/logger";
 
 interface Props {
   isAuth: boolean;

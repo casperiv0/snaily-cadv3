@@ -3,16 +3,16 @@ import { connect } from "react-redux";
 import { Nullable, State } from "types/State";
 import lang from "../../../language.json";
 import { Field } from "types/Field";
-import { Modal } from "@components/Modal/Modal";
-import { creatArrestReport } from "@actions/record/RecordActions";
+import { Modal } from "components/Modal/Modal";
+import { creatArrestReport } from "actions/record/RecordActions";
 import { Officer } from "types/Officer";
-import { Select, SelectValue } from "@components/Select/Select";
+import { Select, SelectValue } from "components/Select/Select";
 import { PenalCode } from "types/PenalCode";
 import { ModalIds } from "types/ModalIds";
-import { getPenalCodesFromSelectValues, getTotalJailTimeAndFineAmount, modal } from "@lib/utils";
+import { getPenalCodesFromSelectValues, getTotalJailTimeAndFineAmount, modal } from "lib/utils";
 import { ArrestReport } from "types/Record";
-import { Name } from "@actions/officer/OfficerTypes";
-import { Item, Span } from "@components/Item";
+import { Name } from "actions/officer/OfficerTypes";
+import { Item, Span } from "components/Item";
 
 interface Props {
   officer: Nullable<Officer>;

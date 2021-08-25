@@ -8,7 +8,7 @@ import { logger } from "./lib/logger";
 import express from "express";
 import { checkVersion } from "./lib/version.server";
 import { Connection } from "@casper124578/mysql.ts";
-import { Tables } from "./interfaces/Tables";
+import { Tables } from "types/Tables";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev, customServer: true });

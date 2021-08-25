@@ -3,15 +3,15 @@ import J from "jquery";
 import { connect } from "react-redux";
 import { Call } from "types/Call";
 import Update911Call from "../modals/dispatch/Update911Call";
-import { endCall, getCalls } from "@actions/calls/CallActions";
+import { endCall, getCalls } from "actions/calls/CallActions";
 import { Nullable, State } from "types/State";
-import { socket } from "@hooks/useSocket";
-import { playSound } from "@lib/utils";
+import { socket } from "hooks/useSocket";
+import { playSound } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
 import { SocketEvents } from "types/Socket";
 import lang from "src/language.json";
-import { Item, Span } from "@components/Item";
-import { CallTypes } from "@actions/calls/CallTypes";
+import { Item, Span } from "components/Item";
+import { CallTypes } from "actions/calls/CallTypes";
 
 interface CallItemProps {
   call: Call;

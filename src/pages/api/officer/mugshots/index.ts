@@ -1,13 +1,13 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 import fileUpload from "express-fileupload";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
 import { IRequest } from "types/IRequest";
-import { usePermission } from "@hooks/usePermission";
-import { getActiveOfficer, runMiddleware } from "@lib/utils.server";
+import { usePermission } from "hooks/usePermission";
+import { getActiveOfficer, runMiddleware } from "lib/utils.server";
 import { v4 } from "uuid";
-import { processQuery } from "@lib/database";
+import { processQuery } from "lib/database";
 import { Mugshot } from "types/Mugshot";
 
 export const config = {

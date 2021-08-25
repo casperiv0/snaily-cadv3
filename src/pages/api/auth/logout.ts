@@ -1,10 +1,10 @@
 import { NextApiResponse } from "next";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
-import { useCookie } from "@hooks/useCookie";
-import { logoutActiveUnits } from "@lib/utils.server";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
+import { useCookie } from "hooks/useCookie";
+import { logoutActiveUnits } from "lib/utils.server";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {

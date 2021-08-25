@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Layout } from "@components/Layout";
+import { Layout } from "components/Layout";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -8,16 +8,16 @@ import lang from "src/language.json";
 import { Value } from "types/Value";
 import { Citizen } from "types/Citizen";
 import { Field } from "types/Field";
-import { getCitizenById, updateCitizen } from "@actions/citizen/CitizenActions";
-import { getValuesByPath } from "@actions/values/ValuesActions";
-import { Select, SelectValue } from "@components/Select/Select";
+import { getCitizenById, updateCitizen } from "actions/citizen/CitizenActions";
+import { getValuesByPath } from "actions/values/ValuesActions";
+import { Select, SelectValue } from "components/Select/Select";
 import { ValuePaths } from "types/ValuePaths";
-import { Seo } from "@components/Seo";
+import { Seo } from "components/Seo";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { initializeStore } from "state/useStore";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import { Cad } from "types/Cad";
 
 interface Props {

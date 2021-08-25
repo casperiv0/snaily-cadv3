@@ -1,11 +1,11 @@
 import { NextApiResponse } from "next";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
 import { compareSync } from "bcryptjs";
 import { User } from "types/User";
-import { formatRequired } from "@lib/utils.server";
+import { formatRequired } from "lib/utils.server";
 import { Cad } from "types/Cad";
-import { SaveUserDataArr } from "@lib/consts";
+import { SaveUserDataArr } from "lib/consts";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   try {

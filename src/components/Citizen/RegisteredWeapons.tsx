@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import lang from "../../language.json";
 import { Nullable, State } from "types/State";
 import { Weapon } from "types/Weapon";
-import { deleteWeaponById } from "@actions/citizen/CitizenActions";
+import { deleteWeaponById } from "actions/citizen/CitizenActions";
 import { ModalIds } from "types/ModalIds";
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 
 interface Props {
   citizenId: Nullable<string>;

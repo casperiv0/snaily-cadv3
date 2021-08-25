@@ -1,9 +1,9 @@
 import * as React from "react";
 import J from "jquery";
 import { connect } from "react-redux";
-import { getActiveUnits } from "@actions/dispatch/DispatchActions";
+import { getActiveUnits } from "actions/dispatch/DispatchActions";
 import { State } from "types/State";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 import { Officer } from "types/Officer";
 import { Deputy } from "types/Deputy";
 import { UpdateStatusModal } from "../modals/dispatch/UpdateStatus";

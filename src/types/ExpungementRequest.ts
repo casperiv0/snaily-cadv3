@@ -1,4 +1,4 @@
-import { SelectValue } from "@components/Select/Select";
+import { SelectValue } from "components/Select/Select";
 
 export interface ExpungementRequest {
   warrants: SelectValue[];

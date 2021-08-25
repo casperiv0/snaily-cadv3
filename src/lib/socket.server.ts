@@ -4,11 +4,11 @@ import { ExtendedError } from "socket.io/dist/namespace";
 import { processQuery } from "./database";
 import { logger } from "./logger";
 import config from "./config.server";
-import { Perm } from "../interfaces/Perm";
-import { Officer } from "../interfaces/Officer";
-import { Cad } from "../interfaces/Cad";
+import { Perm } from "../types/Perm";
+import { Officer } from "../types/Officer";
+import { Cad } from "../types/Cad";
 import { getWebhookData, postWebhook } from "./utils.server";
-import { SocketEvents } from "../interfaces/Socket";
+import { SocketEvents } from "../types/Socket";
 
 export const wrap =
   (middleware: any) => (socket: Socket, next: (err?: ExtendedError | undefined) => void) => {

@@ -1,20 +1,20 @@
 import { connect } from "react-redux";
 import * as React from "react";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { initializeStore } from "@state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { initializeStore } from "state/useStore";
 import { GetServerSideProps } from "next";
 import { Layout } from "src/components/Layout";
 import { Nullable, State } from "types/State";
-import { Seo } from "@components/Seo";
+import { Seo } from "components/Seo";
 import { ModalIds } from "types/ModalIds";
-import { getCadInfo } from "@actions/global/GlobalActions";
+import { getCadInfo } from "actions/global/GlobalActions";
 import { SocketEvents } from "types/Socket";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 import lang from "../language.json";
 import { TruckLog } from "types/TruckLog";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { CreateTruckLogModal } from "@components/modals/truck-logs/CreateTruckLogModal";
-import { getTruckLogs, deleteTruckLog } from "@actions/truck-logs/TruckLogActions";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { CreateTruckLogModal } from "components/modals/truck-logs/CreateTruckLogModal";
+import { getTruckLogs, deleteTruckLog } from "actions/truck-logs/TruckLogActions";
 
 interface Props {
   aop: Nullable<string>;

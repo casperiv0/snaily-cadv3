@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
-import { searchCitizen, requestExpungement } from "@actions/court/CourtActions";
-import { CourtResult } from "@actions/court/CourtTypes";
+import { Modal } from "components/Modal/Modal";
+import { searchCitizen, requestExpungement } from "actions/court/CourtActions";
+import { CourtResult } from "actions/court/CourtTypes";
 import { Nullable, State } from "types/State";
-import { Select } from "@components/Select/Select";
+import { Select } from "components/Select/Select";
 import { ModalIds } from "types/ModalIds";
 import lang from "src/language.json";
-import { RequestData } from "@lib/utils";
+import { RequestData } from "lib/utils";
 
 interface Props {
   searchCitizen: (name: string) => Promise<boolean>;

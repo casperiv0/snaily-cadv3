@@ -1,14 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "../../../language.json";
 import { Vehicle } from "types/Vehicle";
 import { State } from "types/State";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { plateSearch } from "@actions/officer/OfficerActions";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { plateSearch } from "actions/officer/OfficerActions";
 import { ModalIds } from "types/ModalIds";
-import { useModalOpen } from "@hooks/useModalOpen";
-import { Item, Span } from "@components/Item";
+import { useModalOpen } from "hooks/useModalOpen";
+import { Item, Span } from "components/Item";
 
 export interface Search extends Vehicle {
   type: "plate";

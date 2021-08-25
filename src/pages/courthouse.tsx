@@ -1,17 +1,17 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { getExpungementRequests } from "@actions/court/CourtActions";
-import { Layout } from "@components/Layout";
+import { getExpungementRequests } from "actions/court/CourtActions";
+import { Layout } from "components/Layout";
 import { RequestExpungementModal } from "../components/modals/court/RequestExpungementModal";
 import { State } from "types/State";
 import { ModalIds } from "types/ModalIds";
 import lang from "src/language.json";
-import { Seo } from "@components/Seo";
+import { Seo } from "components/Seo";
 import { ExpungementRequest } from "types/ExpungementRequest";
-import { initializeStore } from "@state/useStore";
+import { initializeStore } from "state/useStore";
 import { GetServerSideProps } from "next";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { verifyAuth } from "@actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { verifyAuth } from "actions/auth/AuthActions";
 
 interface Props {
   requests: ExpungementRequest[];

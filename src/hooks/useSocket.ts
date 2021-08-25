@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { logger } from "@lib/logger";
+import { logger } from "lib/logger";
 import { SocketEvents } from "types/Socket";
 
 const socket = io("/", {

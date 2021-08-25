@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { User } from "types/User";
 import lang from "src/language.json";
-import { acceptOrDeclineUser } from "@actions/admin/AdminActions";
+import { acceptOrDeclineUser } from "actions/admin/AdminActions";
 import { AlertMessage } from "../AlertMessage/AlertMessage";
 
 interface Props {

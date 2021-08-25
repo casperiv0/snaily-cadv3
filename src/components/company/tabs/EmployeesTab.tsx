@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import { Citizen } from "types/Citizen";
 import { Nullable, State } from "types/State";
 import lang from "src/language.json";
-import { updateEmployeeStatus } from "@actions/companies/CompanyActions";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { Item, Span } from "@components/Item";
-import { ManageEmployeeModal } from "@components/modals/company/ManageEmployeeModal";
+import { updateEmployeeStatus } from "actions/companies/CompanyActions";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { Item, Span } from "components/Item";
+import { ManageEmployeeModal } from "components/modals/company/ManageEmployeeModal";
 import { ModalIds } from "types/ModalIds";
 
 interface Props {

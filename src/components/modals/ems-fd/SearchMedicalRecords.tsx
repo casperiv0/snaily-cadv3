@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "../../../language.json";
-import { searchMedicalRecord, declareDeadOrAlive } from "@actions/ems-fd/EmsFdActions";
-import { searchNames } from "@actions/officer/OfficerActions";
+import { searchMedicalRecord, declareDeadOrAlive } from "actions/ems-fd/EmsFdActions";
+import { searchNames } from "actions/officer/OfficerActions";
 import { connect } from "react-redux";
 import { State } from "types/State";
 import { MedicalRecord } from "types/MedicalRecord";
-import { Select } from "@components/Select/Select";
+import { Select } from "components/Select/Select";
 import { ModalIds } from "types/ModalIds";
-import { Name } from "@actions/officer/OfficerTypes";
+import { Name } from "actions/officer/OfficerTypes";
 
 interface Props {
   medicalRecords: MedicalRecord[];

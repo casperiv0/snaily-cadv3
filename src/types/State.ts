@@ -1,5 +1,5 @@
-import { CourtResult } from "@actions/court/CourtTypes";
-import { Name } from "@actions/officer/OfficerTypes";
+import { CourtResult } from "actions/court/CourtTypes";
+import { Name } from "actions/officer/OfficerTypes";
 import { Bleet } from "./Bleet";
 import { Bolo } from "./Bolo";
 import { Cad } from "./Cad";

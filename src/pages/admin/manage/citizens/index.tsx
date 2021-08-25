@@ -1,20 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { useSearch } from "@casper124578/useful/hooks/useSearch";
-import { AdminLayout } from "@components/admin/AdminLayout";
+import { AdminLayout } from "components/admin/AdminLayout";
 import { Citizen } from "types/Citizen";
 import lang from "src/language.json";
 import { State } from "types/State";
-import { getCitizens, getAllExpungementRequests } from "@actions/admin/AdminActions";
-import { Seo } from "@components/Seo";
+import { getCitizens, getAllExpungementRequests } from "actions/admin/AdminActions";
+import { Seo } from "components/Seo";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { AllCitizensTab } from "@components/admin/AllCitizens";
+import { initializeStore } from "state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { AllCitizensTab } from "components/admin/AllCitizens";
 import { ExpungementRequest } from "types/ExpungementRequest";
-import { ExpungementRequestsTab } from "@components/admin/ExpungementRequestsTab";
-import { useClientPerms } from "@hooks/useClientPerms";
+import { ExpungementRequestsTab } from "components/admin/ExpungementRequestsTab";
+import { useClientPerms } from "hooks/useClientPerms";
 
 interface Props {
   requests: ExpungementRequest[];

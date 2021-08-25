@@ -2,14 +2,14 @@ import { GetServerSideProps } from "next";
 import { connect } from "react-redux";
 import * as React from "react";
 import Link from "next/link";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { initializeStore } from "@state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { initializeStore } from "state/useStore";
 import { Layout } from "src/components/Layout";
 import { User } from "types/User";
 import lang from "../language.json";
 import { State } from "types/State";
-import { Seo } from "@components/Seo";
-import { getCadInfo } from "@actions/global/GlobalActions";
+import { Seo } from "components/Seo";
+import { getCadInfo } from "actions/global/GlobalActions";
 import { useRouter } from "next/router";
 interface Props {
   isAuth: boolean;

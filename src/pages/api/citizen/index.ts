@@ -1,13 +1,13 @@
 import { NextApiResponse } from "next";
 import fileUpload from "express-fileupload";
-import { formatRequired, runMiddleware } from "@lib/utils.server";
-import useAuth from "@hooks/useAuth";
+import { formatRequired, runMiddleware } from "lib/utils.server";
+import useAuth from "hooks/useAuth";
 import { IRequest } from "types/IRequest";
 import { Cad } from "types/Cad";
-import { SupportedFileTypes } from "@lib/consts";
+import { SupportedFileTypes } from "lib/consts";
 import { Citizen } from "types/Citizen";
 import { v4 } from "uuid";
-import { logger } from "@lib/logger";
+import { logger } from "lib/logger";
 import { Officer } from "types/Officer";
 import { User } from "types/User";
 import { SocketEvents } from "types/Socket";

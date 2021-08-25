@@ -1,10 +1,10 @@
 import { NextApiResponse } from "next";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
+import { IRequest } from "types/IRequest";
 import { Cad } from "types/Cad";
 import { User } from "types/User";
-import useAuth from "@hooks/useAuth";
+import useAuth from "hooks/useAuth";
 
 export function parseFeatures(cad: Cad): string[] {
   let features: string[];

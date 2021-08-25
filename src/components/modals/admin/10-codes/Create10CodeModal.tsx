@@ -1,13 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { add10Code } from "@actions/admin/AdminActions";
-import { Select, SelectValue } from "@components/Select/Select";
+import { add10Code } from "actions/admin/AdminActions";
+import { Select, SelectValue } from "components/Select/Select";
 import { Code10 } from "types/Code10";
 import { Nullable, State } from "types/State";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { modal } from "@lib/utils";
-import { useModalOpen } from "@hooks/useModalOpen";
+import { modal } from "lib/utils";
+import { useModalOpen } from "hooks/useModalOpen";
 import lang from "src/language.json";
 
 export const options = [

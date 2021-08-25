@@ -1,12 +1,12 @@
 import * as React from "react";
-import { socket } from "@hooks/useSocket";
+import { socket } from "hooks/useSocket";
 import { Officer } from "types/Officer";
 import lang from "src/language.json";
 import { User } from "types/User";
 import { SocketEvents } from "types/Socket";
 import { ModalIds } from "types/ModalIds";
 import Link from "next/link";
-import { RanksArr } from "@lib/consts";
+import { RanksArr } from "lib/consts";
 import { Nullable } from "types/State";
 
 export interface MButton {

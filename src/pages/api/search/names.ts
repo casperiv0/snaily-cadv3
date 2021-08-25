@@ -1,7 +1,7 @@
 import { NextApiResponse } from "next";
-import useAuth from "@hooks/useAuth";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
+import useAuth from "hooks/useAuth";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
 import { IRequest } from "types/IRequest";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {

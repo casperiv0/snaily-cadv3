@@ -1,14 +1,14 @@
 import * as React from "react";
 import lang from "../../../language.json";
 import { State } from "types/State";
-import { Modal } from "@components/Modal/Modal";
-import { weaponSearch } from "@actions/officer/OfficerActions";
+import { Modal } from "components/Modal/Modal";
+import { weaponSearch } from "actions/officer/OfficerActions";
 import { connect } from "react-redux";
 import { Weapon } from "types/Weapon";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import { ModalIds } from "types/ModalIds";
 import { useModalOpen } from "../../../hooks/useModalOpen";
-import { Item, Span } from "@components/Item";
+import { Item, Span } from "components/Item";
 
 interface Search extends Weapon {
   type: "weapon";

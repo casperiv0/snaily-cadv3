@@ -1,9 +1,9 @@
 import { NextApiResponse } from "next";
 import BN from "bignumber.js";
-import { AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
-import { IRequest } from "src/interfaces/IRequest";
-import useAuth from "@hooks/useAuth";
+import { AnError } from "lib/consts";
+import { logger } from "lib/logger";
+import { IRequest } from "types/IRequest";
+import useAuth from "hooks/useAuth";
 import { Cad } from "types/Cad";
 import { User } from "types/User";
 

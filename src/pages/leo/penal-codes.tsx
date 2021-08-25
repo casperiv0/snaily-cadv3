@@ -2,18 +2,18 @@ import Link from "next/link";
 import * as React from "react";
 import { connect } from "react-redux";
 import Markdown from "react-markdown";
-import { Layout } from "@components/Layout";
+import { Layout } from "components/Layout";
 import { State } from "types/State";
 import lang from "src/language.json";
-import { Seo } from "@components/Seo";
-import { initializeStore } from "@state/useStore";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getPenalCodes } from "@actions/admin/AdminActions";
+import { Seo } from "components/Seo";
+import { initializeStore } from "state/useStore";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getPenalCodes } from "actions/admin/AdminActions";
 import { PenalCode } from "types/PenalCode";
-import { useObserver } from "@hooks/useObserver";
+import { useObserver } from "hooks/useObserver";
 import { GetServerSideProps } from "next";
-import { useClientPerms } from "@hooks/useClientPerms";
+import { useClientPerms } from "hooks/useClientPerms";
 
 interface Props {
   penalCodes: PenalCode[];

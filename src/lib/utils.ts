@@ -1,4 +1,4 @@
-import { SelectValue } from "@components/Select/Select";
+import { SelectValue } from "components/Select/Select";
 import axios from "axios";
 import { toast, ToastOptions } from "react-toastify";
 import { Call } from "types/Call";

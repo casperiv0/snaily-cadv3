@@ -1,12 +1,12 @@
 import { compareSync } from "bcryptjs";
 import { NextApiResponse } from "next";
-import { useCookie } from "@hooks/useCookie";
-import useToken from "@hooks/useToken";
-import { Whitelist, AnError } from "@lib/consts";
-import { logger } from "@lib/logger";
-import { Cad } from "src/interfaces/Cad";
-import { IRequest } from "src/interfaces/IRequest";
-import { User } from "src/interfaces/User";
+import { useCookie } from "hooks/useCookie";
+import useToken from "hooks/useToken";
+import { Whitelist, AnError } from "lib/consts";
+import { logger } from "lib/logger";
+import { Cad } from "types/Cad";
+import { IRequest } from "types/IRequest";
+import { User } from "types/User";
 
 export default async function (req: IRequest, res: NextApiResponse) {
   switch (req.method) {

@@ -1,20 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { useSearch } from "@casper124578/useful/hooks/useSearch";
-import { getMembers } from "@actions/admin/AdminActions";
-import { AdminLayout } from "@components/admin/AdminLayout";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
+import { getMembers } from "actions/admin/AdminActions";
+import { AdminLayout } from "components/admin/AdminLayout";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
 import { State } from "types/State";
 import { User } from "types/User";
-import { AllMembersTab } from "@components/admin/AllMembers";
-import { PendingMembersTab } from "@components/admin/PendingMembers";
+import { AllMembersTab } from "components/admin/AllMembers";
+import { PendingMembersTab } from "components/admin/PendingMembers";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
-import { Seo } from "@components/Seo";
+import { initializeStore } from "state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
+import { Seo } from "components/Seo";
 import lang from "src/language.json";
-import { useClientPerms } from "@hooks/useClientPerms";
+import { useClientPerms } from "hooks/useClientPerms";
 
 interface Props {
   members: User[];

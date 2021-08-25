@@ -2,13 +2,13 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Nullable, State } from "types/State";
 import { Department } from "types/Department";
-import { createOfficer } from "@actions/officer/OfficerActions";
-import { Select, SelectValue } from "@components/Select/Select";
-import { modal } from "@lib/utils";
+import { createOfficer } from "actions/officer/OfficerActions";
+import { Select, SelectValue } from "components/Select/Select";
+import { modal } from "lib/utils";
 import { ModalIds } from "types/ModalIds";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "src/language.json";
-import { getUserCitizens } from "@actions/citizen/CitizenActions";
+import { getUserCitizens } from "actions/citizen/CitizenActions";
 import { Citizen } from "types/Citizen";
 
 interface Props {

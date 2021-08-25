@@ -1,13 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Modal } from "@components/Modal/Modal";
+import { Modal } from "components/Modal/Modal";
 import lang from "src/language.json";
 import { Nullable, State } from "types/State";
 import { Citizen } from "types/Citizen";
-import { createCompany } from "@actions/companies/CompanyActions";
-import { Select, SelectValue } from "@components/Select/Select";
+import { createCompany } from "actions/companies/CompanyActions";
+import { Select, SelectValue } from "components/Select/Select";
 import { ModalIds } from "types/ModalIds";
-import { RequestData } from "@lib/utils";
+import { RequestData } from "lib/utils";
 import { useRouter } from "next/router";
 
 interface Props {

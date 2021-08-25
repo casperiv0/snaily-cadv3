@@ -1,20 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Layout } from "@components/Layout";
+import { Layout } from "components/Layout";
 import { Bleet } from "types/Bleet";
 import { State } from "types/State";
-import { getBleets } from "@actions/bleeter/BleeterActions";
-import { BleetItem } from "@components/bleeter/BleetItem";
-import { AlertMessage } from "@components/AlertMessage/AlertMessage";
-import { CreateBleetModal } from "@components/modals/bleeter/CreateBleetModal";
+import { getBleets } from "actions/bleeter/BleeterActions";
+import { BleetItem } from "components/bleeter/BleetItem";
+import { AlertMessage } from "components/AlertMessage/AlertMessage";
+import { CreateBleetModal } from "components/modals/bleeter/CreateBleetModal";
 import { ModalIds } from "types/ModalIds";
 import { GetServerSideProps } from "next";
-import { initializeStore } from "@state/useStore";
-import { verifyAuth } from "@actions/auth/AuthActions";
-import { getCadInfo } from "@actions/global/GlobalActions";
+import { initializeStore } from "state/useStore";
+import { verifyAuth } from "actions/auth/AuthActions";
+import { getCadInfo } from "actions/global/GlobalActions";
 import lang from "src/language.json";
-import { Seo } from "@components/Seo";
-import { useOpenModal } from "@hooks/useOpenModal";
+import { Seo } from "components/Seo";
+import { useOpenModal } from "hooks/useOpenModal";
 
 interface Props {
   bleets: Bleet[];

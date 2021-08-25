@@ -1,10 +1,10 @@
-import { createCall } from "@actions/calls/CallActions";
-import { CallTypes } from "@actions/calls/CallTypes";
-import { getValuesByPath } from "@actions/values/ValuesActions";
-import { Modal } from "@components/Modal/Modal";
-import { Select, SelectValue } from "@components/Select/Select";
-import { useModalOpen } from "@hooks/useModalOpen";
-import { modal, RequestData } from "@lib/utils";
+import { createCall } from "actions/calls/CallActions";
+import { CallTypes } from "actions/calls/CallTypes";
+import { getValuesByPath } from "actions/values/ValuesActions";
+import { Modal } from "components/Modal/Modal";
+import { Select, SelectValue } from "components/Select/Select";
+import { useModalOpen } from "hooks/useModalOpen";
+import { modal, RequestData } from "lib/utils";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { connect } from "react-redux";

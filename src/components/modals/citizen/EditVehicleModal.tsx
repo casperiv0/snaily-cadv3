@@ -4,12 +4,12 @@ import { Nullable, State } from "types/State";
 import lang from "../../../language.json";
 import { Value } from "types/Value";
 import { Citizen } from "types/Citizen";
-import { updateVehicleById } from "@actions/citizen/CitizenActions";
+import { updateVehicleById } from "actions/citizen/CitizenActions";
 import { Cad } from "types/Cad";
-import { Select } from "@components/Select/Select";
-import { Modal } from "@components/Modal/Modal";
+import { Select } from "components/Select/Select";
+import { Modal } from "components/Modal/Modal";
 import { ModalIds } from "types/ModalIds";
-import { isCadFeatureEnabled, modal, RequestData } from "@lib/utils";
+import { isCadFeatureEnabled, modal, RequestData } from "lib/utils";
 import { Company } from "types/Company";
 import { Vehicle } from "types/Vehicle";
 
