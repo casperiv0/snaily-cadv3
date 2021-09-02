@@ -1,6 +1,12 @@
 /* eslint-disable */
 
+/**
+ * @type {import("next/dist/server/config-shared").NextConfig}
+ */
 module.exports = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   reactStrictMode: true,
   webpack5: true,
   experimental: {
