@@ -54,7 +54,6 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <ToastContainer
-        theme="dark"
         pauseOnFocusLoss={false}
         hideProgressBar
         limit={5}
