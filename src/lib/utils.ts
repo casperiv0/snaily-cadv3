@@ -45,7 +45,7 @@ export const notify = {
       style: {
         background: "#D1E7DD",
       },
-      className: "alert-success",
+      className: "alert-success text-dark",
       ...options,
     });
     return true;
@@ -55,7 +55,7 @@ export const notify = {
       style: {
         background: "#F8D7DA",
       },
-      className: "alert-danger",
+      className: "alert-danger text-dark",
       ...options,
     });
     return false;
@@ -65,7 +65,7 @@ export const notify = {
       style: {
         background: "#FFF3CD",
       },
-      className: "alert-warning",
+      className: "alert-warning text-dark",
       ...options,
     });
     return false;
