@@ -4,6 +4,8 @@
 
 ## 2.1.16
 
+- Fix: suspending or revoking license set to 2
+- Fix: Unable to transfer vehicles
 - Update dependencies
 - Update bootstrap
 
