@@ -1,4 +1,4 @@
-import { Styles, GroupTypeBase } from "react-select";
+import { GroupBase, StylesConfig } from "react-select";
 
 const DARK = "#212529";
 const LIGHT = "#3e464e";
@@ -9,7 +9,7 @@ function color(theme: string) {
 
 export const SelectStyles = (
   theme = LIGHT,
-): Partial<Styles<any, true, GroupTypeBase<any>>> | undefined => ({
+): StylesConfig<unknown, boolean, GroupBase<unknown>> => ({
   valueContainer: (base) => ({
     ...base,
     background: color(theme),

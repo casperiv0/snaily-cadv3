@@ -46,7 +46,7 @@ export const Select: React.FC<Props> = ({
       isSearchable
       isMulti={isMulti !== undefined ? isMulti : true}
       styles={SelectStyles(theme)}
-      onChange={onChange}
+      onChange={(newValue: any) => onChange(newValue)}
       options={options}
       defaultValue={defaultValue}
       closeMenuOnSelect={closeMenuOnSelect}

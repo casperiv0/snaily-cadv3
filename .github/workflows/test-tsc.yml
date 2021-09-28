@@ -22,4 +22,4 @@ jobs:
       - name: generate lang file
         run: npm run translation:generate
       - name: Run tsc
-        run: npm run test:tsc
+        run: npm run test-tsc
