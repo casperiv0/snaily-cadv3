@@ -6,6 +6,7 @@ import { logger } from "lib/logger";
 import { IRequest } from "types/IRequest";
 import { usePermission } from "hooks/usePermission";
 import { formatRequired } from "lib/utils.server";
+import lang from "src/language.json";
 
 export default async function handler(req: IRequest, res: NextApiResponse) {
   try {
@@ -37,7 +38,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           });
         }
 
-        const dbType = type === "suspend" ? "1" : "2";
+        const dbType = type === "suspend" ? lang.officers.suspended : lang.officers.revoked;
         let sql = "UPDATE `citizens` SET ";
         switch (licenseType) {
           case "dmv": {
