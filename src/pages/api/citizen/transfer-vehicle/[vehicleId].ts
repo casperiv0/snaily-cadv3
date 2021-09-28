@@ -56,8 +56,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
           plate,
           citizen_id: ownerId,
           owner: citizen.full_name,
-          id: `${req.query.vehicleId}`,
         })
+        .where("id", req.query.vehicleId.toString())
         .exec();
 
       return res.json({ status: "success" });

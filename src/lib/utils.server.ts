@@ -1,6 +1,5 @@
 import { parse } from "cookie";
 import { NextApiResponse } from "next";
-import fetch from "node-fetch";
 import { IRequest } from "types/IRequest";
 import { Officer, OfficerLog } from "types/Officer";
 import { SocketEvents } from "../types/Socket";

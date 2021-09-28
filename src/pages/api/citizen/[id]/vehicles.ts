@@ -51,7 +51,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         }
 
         // replace "0" with "O"
-        const parsedPlate = plate.replace(/[oO]/g, "0");
+        const parsedPlate = (plate as string).replace(/[oO]/g, "0");
         const [citizen] = await processQuery<Citizen>(
           "SELECT * FROM `citizens` WHERE `user_id` = ? AND `id` = ?",
           [req.userId, req.query.id],
@@ -122,7 +122,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
             vehicle,
             vin,
             status,
-            parsedPlate,
+            parsedPlate.toUpperCase(),
             color,
             req.userId,
             companyId ?? "",
