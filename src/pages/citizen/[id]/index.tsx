@@ -29,6 +29,8 @@ import { LicenseCard } from "components/Citizen/Licenses";
 import { EditLicensesModal } from "components/modals/citizen/EditLicensesModal";
 import { MedicalRecordsCard } from "components/Citizen/MedicalRecords";
 import { CreateMedicalRecordModal } from "components/modals/citizen/CreateMedicalRecordModal";
+import { CitizenImageModal } from "components/modals/citizen/CitizenImageModal";
+import { ModalIds } from "types/ModalIds";
 
 interface Props {
   citizen: Nullable<Citizen>;
@@ -75,10 +77,12 @@ const CitizenInfoPage = ({ citizen, cadInfo, deleteCitizenById }: Props) => {
 
         <div style={{ display: "flex" }} className="card-body">
           <img
+            data-bs-target={`#${ModalIds.CitizenImage}`}
+            data-bs-toggle="modal"
             alt={citizen.image_id}
             className="rounded-circle object-fit-center"
             src={`/static/citizen-images/${citizen.image_id}`}
-            style={{ width: "100px", height: "100px" }}
+            style={{ width: "100px", height: "100px", cursor: "pointer" }}
           />
 
           <div className="ms-4">
@@ -158,6 +162,7 @@ const CitizenInfoPage = ({ citizen, cadInfo, deleteCitizenById }: Props) => {
       <EditLicensesModal />
       <RegisterWeaponModal />
       <RegisterVehicleModal />
+      <CitizenImageModal citizen={citizen} />
     </Layout>
   );
 };

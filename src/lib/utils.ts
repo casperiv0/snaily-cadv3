@@ -77,7 +77,7 @@ export function getErrorFromResponse(e: any) {
 }
 
 export function modal(id: ModalIds) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined") return null;
   const el = document.getElementById(id);
   if (!el) {
     throw new Error("modal el could not be found");

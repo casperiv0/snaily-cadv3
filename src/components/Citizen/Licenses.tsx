@@ -9,12 +9,7 @@ interface Props {
 }
 
 export const LicenseCard: React.FC<Props> = ({ citizen }) => {
-  const isSuspended = React.useCallback(
-    (type: string) => {
-      return citizen?.[type] === "1";
-    },
-    [citizen],
-  );
+  const isSuspended = (type: string) => citizen?.[type] === "1";
 
   return (
     <div className="card bg-dark border-dark mt-1">
