@@ -6,6 +6,8 @@
 
 - Feat: allow opening enlarged image of citizen
 - Minor: remove redundent logout and account button on `/citizen`
+- Minor: improve error message
+- Fix: `text cannot have a default value` ([#251](https://github.com/Dev-CasperTheGhost/snaily-cadv3/issues/251))
 
 ## 2.1.16
 

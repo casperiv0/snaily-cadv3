@@ -103,7 +103,7 @@ async function updateDb() {
   CREATE TABLE \`mugshots\` (
     \`id\` varchar(255) NOT NULL,
     \`citizen_id\` varchar(255) NOT NULL,
-    \`data\` text NOT NULL DEFAULT '[]',
+    \`data\` text DEFAULT NULL,
     \`officer_name\` varchar(255) NOT NULL,
     \`full_date\` text NOT NULL,
     \`officer_id\` varchar(255) NOT NULL,
@@ -155,7 +155,7 @@ async function updateDb() {
   updateLine(`
   CREATE TABLE \`seo_tags\` (
     \`title\` varchar(255) DEFAULT 'SnailyCAD',
-    \`description\` text DEFAULT 'A free, fast, simple and secure open source CAD/MDT',
+    \`description\` text,
     \`site_name\` varchar(255) DEFAULT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);

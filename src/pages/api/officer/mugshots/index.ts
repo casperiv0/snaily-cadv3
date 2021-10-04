@@ -25,8 +25,10 @@ export async function parseMugshots(mugshots: (Mugshot | undefined)[]) {
         return;
       }
 
+      const data = shot.data ?? "[]";
+
       try {
-        shot.data = JSON.parse(`${shot.data}`);
+        shot.data = JSON.parse(`${data}`);
       } catch {
         shot.data = [];
       }
