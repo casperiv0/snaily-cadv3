@@ -1,5 +1,5 @@
 import { SelectValue } from "components/Select/Select";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { toast, ToastOptions } from "react-toastify";
 import { Call } from "types/Call";
 import { Code10 } from "types/Code10";
@@ -9,11 +9,11 @@ import { PenalCode } from "types/PenalCode";
 export type RequestData = Record<string, unknown>;
 export type AllowedMethods = "PATCH" | "PUT" | "DELETE" | "OPTIONS" | "GET" | "POST";
 
-export function handleRequest(
+export function handleRequest<TResponse = any>(
   path: string,
   method: AllowedMethods = "GET",
   data: RequestData | any = {},
-) {
+): Promise<AxiosResponse<TResponse>> {
   const host =
     process?.env?.NEXT_PUBLIC_CUSTOM_HOST !== "undefined"
       ? process.env.NEXT_PUBLIC_SECURE_COOKIES
