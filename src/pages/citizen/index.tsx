@@ -63,15 +63,6 @@ const CitizenPage = ({ citizens, cadInfo, ...rest }: Props) => {
         {lang.auth.welcome} {cadInfo?.show_aop === "1" ? ` - AOP: ${aop}` : null}
       </h3>
 
-      <div className="d-flex">
-        <Link href="/logout">
-          <a className="btn btn-danger col">{lang.auth.logout}</a>
-        </Link>
-        <Link href="/account">
-          <a className="ms-1 col btn btn-primary">{lang.auth.account.account}</a>
-        </Link>
-      </div>
-
       <div className="d-flex mt-1">
         <Link href="/citizen/create">
           <a className="col btn btn-primary">{lang.citizen.create_new_citizen}</a>

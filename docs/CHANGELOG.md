@@ -5,6 +5,7 @@
 ## 2.2.0
 
 - Feat: allow opening enlarged image of citizen
+- Minor: remove redundent logout and account button on `/citizen`
 
 ## 2.1.16
 

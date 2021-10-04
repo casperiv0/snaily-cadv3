@@ -30,9 +30,10 @@ export function formatRequired(required: string[], body: IRequest["body"]) {
 
   required.map((v) => {
     const item = body[v];
+    const prettyName = v.replace("_", " ").replace("-", " ");
 
     if (!item) {
-      arr.push(`\`${v}\``);
+      arr.push(`\`${prettyName}\``);
     }
   });
 
