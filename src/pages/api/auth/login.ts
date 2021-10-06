@@ -23,9 +23,7 @@ export default async function (req: IRequest, res: NextApiResponse) {
 
         const [user] = await global.connection
           .query<User>()
-          .select(["id", "rank", "password"])
-          .from("users")
-          .where("username", username)
+          .raw("SELECT id, rank, password FROM `users` WHERE `username` = ?", [username])
           .exec();
 
         const [cadInfo] = await global.connection.query<Cad>().select("*").from("cad_info").exec();
