@@ -1,51 +1,21 @@
 # SnailyCADv3
 
-[![Check ESlint](https://github.com/Dev-CasperTheGhost/snaily-cadv3/actions/workflows/lint.yml/badge.svg)](https://github.com/Dev-CasperTheGhost/snaily-cadv3/)
-![license](https://img.shields.io/github/license/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)
-![contributors](https://img.shields.io/github/contributors/dev-caspertheghost/snaily-cadv3?color=gr&style=flat-square)
-![stars](https://img.shields.io/github/stars/dev-caspertheghost/snaily-cadv3?style=flat-square&color=gr)
-![issues](https://img.shields.io/github/issues/dev-caspertheghost/snaily-cadv3?style=flat-square)
+### ⚠ Please Read ⚠
 
-💻 A free, fast, and real-time open source Computer Aided Dispatch (CAD) for FiveM.
+SnailyCADv3 is going in maintenace mode on `2021-11-01`. From then there will be no new features nor bug fixes.
+SnailyCADv3 will be archived on `2021-12-30`.
 
-This is a web based integration for communities who love police roleplaying and dispatching.
+### What's next?
 
-<a href="https://discord.gg/eGnrPqEH7U ">
-  <img src="http://invidget.switchblade.xyz/eGnrPqEH7U" />
-</a>
+**SnailyCADv4!**
 
-## Table of contents
+IMO, SnailyCADv3 was both _absolutly amazing_ and a _disaster_.
+There were many problems with installations and hosting setups.
+I'm creating v4 to ease some of this by creating better API's and writting better documentation.
 
-- [Installation](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide)
-  - [Requirements](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide#requirements)
-  - [Video Guides](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide#video-guides)
-  - [Written Guides](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide#written-guides)
-- [Troubleshooting](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Troubleshooting)
-- [Features](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/%E2%9C%A8-Features)
-- [Contributing](#contributing)
-- [Changelog](./docs/CHANGELOG.md)
-- [Bugs](#bugs)
-- [License](#license)
+You can [find SnailyCADv4 here](https://github.com/SnailyCAD/snaily-cadv4).
 
-## Installation
-
-**Installation guide has been moved to the [SnailyCAD wiki](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Installation-Guide)**
-
-## Troubleshooting
-
-**Troubleshooting guide has been moved to the [SnailyCAD wiki](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/Troubleshooting)**
-
-## Contributing
-
-[View CONTRIBUTING.md](./docs/CONTRIBUTING.md)
-
-## Bugs
-
-You can report any bug [here](https://github.com/dev-caspertheghost/snaily-cadv3/issues)
-
-## Features
-
-**Features list has been moved to the [SnailyCAD wiki](https://github.com/Dev-CasperTheGhost/snaily-cadv3/wiki/%E2%9C%A8-Features)**
+[SnailyCADv4 documentation can be found here](https://cad-docs.netlify.app)
 
 ## Supporting SnailyCAD
 
