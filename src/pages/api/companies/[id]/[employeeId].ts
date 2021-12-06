@@ -179,6 +179,7 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
         .query<Citizen>()
         .select("*")
         .where("business_id", `${companyId}`)
+        .from("citizens")
         .exec();
 
       return res.json({
