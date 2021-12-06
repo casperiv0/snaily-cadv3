@@ -178,8 +178,8 @@ export default async function handler(req: IRequest, res: NextApiResponse) {
       const employees = await global.connection
         .query<Citizen>()
         .select("*")
-        .where("business_id", `${companyId}`)
         .from("citizens")
+        .where("business_id", `${companyId}`)
         .exec();
 
       return res.json({
